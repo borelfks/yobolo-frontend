@@ -1,107 +1,69 @@
 {
-  "home": {
-    "hero": {
-      "line1": "Formez-vous, trouvez un expert,",
-      "line2": "développez",
-      "highlight": "votre carrière !",
-      "text": "Écoles professionnelles, consultants, métiers et opportunités d’emploi réunis sur une seule plateforme.",
-      "features": {
-        "verified": "Établissements vérifiés",
-        "experts": "Experts certifiés",
-        "opportunities": "Opportunités réelles"
-      }
+  "hero": {
+    "bienvenue": "Bienvenue sur Yibolo",
+    "ligneUne": "Votre avenir",
+    "ligneDeux": "commence",
+    "motFort": "ici !",
+    "accroche": "La plateforme qui vous connecte aux meilleures opportunités en matière de consultation, de formation, d’emploi et de financement.",
+    "slogan": "Plus d’opportunités, plus de réussite !"
+  },
+  "recherche": {
+    "libelleModule": "Où chercher",
+    "libelleChamp": "Ce que vous cherchez",
+    "exemple": "Rechercher un service, une formation, un emploi…",
+    "envoyer": "Rechercher",
+    "modules": {
+      "consultants": "Consultants",
+      "formations": "Formations",
+      "ecoles": "Écoles",
+      "offres": "Offres"
+    }
+  },
+  "services": {
+    "titre": "Nos services",
+    "consultation": {
+      "titre": "Consultation",
+      "accroche": "En ligne et en présentiel",
+      "texte": "Trouvez des experts consultants et bénéficiez de leurs conseils pour booster votre activité ou résoudre vos problématiques."
     },
-    "univers": {
-      "school": {
-        "title": "École",
-        "text": "Trouvez une formation qualifiante et reconnue"
-      },
-      "consultant": {
-        "title": "Consultant",
-        "text": "Consultez des experts par domaine"
-      },
-      "trades": {
-        "title": "Métiers",
-        "text": "Découvrez les métiers et les compétences clés"
-      },
-      "jobs": {
-        "title": "Emploi",
-        "text": "Accédez aux offres d’emploi, de stage et d’apprentissage"
-      }
+    "ecoles": {
+      "titre": "Écoles",
+      "accroche": "Formations de qualité",
+      "texte": "Trouvez les meilleures écoles et formations pour développer vos compétences et construire votre avenir."
     },
-    "search": {
-      "title": "Rechercher sur YIBOLO",
-      "location": {
-        "label": "Localisation",
-        "hint": "Région, ville, quartier"
-      },
-      "school": {
-        "label": "École",
-        "hint": "Tous les établissements",
-        "options": {
-          "ipes": "IPES",
-          "cfp": "CFP",
-          "drivingSchools": "Auto-écoles",
-          "others": "Autres"
-        }
-      },
-      "consultant": {
-        "label": "Consultant",
-        "hint": "Tous les domaines",
-        "options": {
-          "finance": "Finance & Fiscalité",
-          "hr": "RH & Management",
-          "legal": "Juridique",
-          "digital": "Digital & SI"
-        }
-      },
-      "trades": {
-        "label": "Métiers",
-        "hint": "Tous les métiers",
-        "options": {
-          "mechanic": "Mécanicien",
-          "accountant": "Comptable",
-          "nurse": "Infirmier",
-          "electrician": "Électricien"
-        }
-      },
-      "submit": "Rechercher"
+    "emplois": {
+      "titre": "Emplois",
+      "accroche": "Trouvez votre opportunité",
+      "texte": "Découvrez des offres d’emploi et rencontrez des entreprises qui recrutent."
     },
-    "reco": {
-      "title": "Nos recommandations",
-      "tabs": {
-        "ecoles": "Écoles",
-        "consultants": "Consultants",
-        "metiers": "Métiers",
-        "emplois": "Emplois"
-      },
-      "reviews_one": "({{n}} avis)",
-      "reviews_other": "({{n}} avis)",
-      "school": {
-        "badge": "École",
-        "chips": {
-          "accounting": "Comptabilité",
-          "hr": "RH",
-          "it": "Informatique"
-        }
-      },
-      "consultant": {
-        "badge": "Consultant",
-        "field": "Management & RH",
-        "available": "Disponible"
-      },
-      "trade": {
-        "badge": "Métier",
-        "title": "Mécanicien automobile",
-        "tasks": "Entretien • Diagnostic • Réparation",
-        "demand": "Forte demande"
-      },
-      "job": {
-        "badge": "Emploi",
-        "title": "Moniteur(trice) de conduite",
-        "contract": "CDI",
-        "new": "Nouveau"
-      }
+    "formation": {
+      "titre": "Formations",
+      "accroche": "En ligne, à votre rythme",
+      "texte": "Suivez des cours en ligne et développez de nouvelles compétences, où que vous soyez."
+    },
+    "bibliotheque": {
+      "titre": "Bibliothèque",
+      "accroche": "Lisez et apprenez",
+      "texte": "Parcourez des livres et des documents pour approfondir vos connaissances."
+    }
+  },
+  "arguments": {
+    "titre": "Pourquoi Yibolo",
+    "fiable": {
+      "titre": "Fiable",
+      "texte": "Des partenaires vérifiés"
+    },
+    "accessible": {
+      "titre": "Accessible",
+      "texte": "Partout, tout le temps"
+    },
+    "rapide": {
+      "titre": "Rapide",
+      "texte": "Des solutions efficaces"
+    },
+    "pourTous": {
+      "titre": "Pour tous",
+      "texte": "Particuliers et entreprises"
     }
   },
   "comingSoon": {
@@ -109,7 +71,11 @@
     "text": "Cette démonstration couvre l’univers École. L’espace {{space}} arrive dans une prochaine version.",
     "spaces": {
       "emploi": "Emploi",
-      "consultation": "Consultation"
+      "consultation": "Consultation",
+      "formations": "Formations",
+      "bibliotheque": "Bibliothèque",
+      "aide": "Aide et contact",
+      "conditions": "Conditions générales"
     },
     "explore": "Explorer les écoles"
   }

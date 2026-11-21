@@ -1,5 +1,6 @@
 import { lazy } from 'react'
 import { createBrowserRouter } from 'react-router'
+import { LandingLayout } from '@/app/layouts/LandingLayout'
 import { PublicLayout } from '@/app/layouts/PublicLayout'
 import { ProLayout } from '@/app/layouts/ProLayout'
 // Chargée d'emblée : elle sert d'écran de secours si une route plante.
@@ -57,10 +58,14 @@ export const router = createBrowserRouter([
     children: [
       { path: ROUTES.signIn, element: <Connexion /> },
       { path: ROUTES.signUp, element: <Inscription /> },
+      // La landing, copiée de yibolo-client : son propre cadre (en-tête flottant, pied de page).
+      {
+        element: <LandingLayout />,
+        children: [{ index: true, element: <Home /> }],
+      },
       {
         element: <PublicLayout />,
         children: [
-          { index: true, element: <Home /> },
           { path: ROUTES.schools, element: <EcolesHub /> },
           { path: ROUTES.favorites, element: <Favoris /> },
           { path: P.preRegistration, element: <Preinscription /> },
@@ -76,6 +81,10 @@ export const router = createBrowserRouter([
           { path: P.schoolType, element: <TypeListing /> },
           { path: ROUTES.consultation, element: <HorsPerimetre /> },
           { path: ROUTES.emploi, element: <HorsPerimetre /> },
+          { path: ROUTES.courses, element: <HorsPerimetre /> },
+          { path: ROUTES.library, element: <HorsPerimetre /> },
+          { path: ROUTES.help, element: <HorsPerimetre /> },
+          { path: ROUTES.terms, element: <HorsPerimetre /> },
           { path: '*', element: <NotFound /> },
         ],
       },

@@ -1,17 +1,31 @@
 import { useLocation } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { Briefcase, GraduationCap, UserRound } from 'lucide-react'
+import { BookOpen, Briefcase, FileText, GraduationCap, LifeBuoy, MonitorPlay, UserRound, type LucideIcon } from 'lucide-react'
 import { Button } from '@/shared/components/ui/Button'
 import { Card } from '@/shared/components/ui/Card'
 import { ROUTES } from '@/shared/utils/routes'
 
-/** Consultation et Emploi : présents dans la navigation, pas encore réalisés dans cette démo. */
+type Espace = 'consultation' | 'emploi' | 'formations' | 'bibliotheque' | 'aide' | 'conditions'
+
+/** Chaque page pas encore réalisée, avec son icône. */
+const ESPACES: { espace: Espace; adresse: string; icone: LucideIcon }[] = [
+  { espace: 'emploi', adresse: ROUTES.emploi, icone: Briefcase },
+  { espace: 'formations', adresse: ROUTES.courses, icone: MonitorPlay },
+  { espace: 'bibliotheque', adresse: ROUTES.library, icone: BookOpen },
+  { espace: 'aide', adresse: ROUTES.help, icone: LifeBuoy },
+  { espace: 'conditions', adresse: ROUTES.terms, icone: FileText },
+  { espace: 'consultation', adresse: ROUTES.consultation, icone: UserRound },
+]
+
+/**
+ * Consultation, Emploi, Formations, Bibliothèque, Aide, Conditions : présents
+ * dans la navigation ou sur la landing, pas encore réalisés dans cette démo.
+ */
 export function HorsPerimetre() {
   const { t } = useTranslation('landing')
   const { pathname } = useLocation()
-  const emploi = pathname.startsWith(ROUTES.emploi)
-  const space = t(emploi ? 'comingSoon.spaces.emploi' : 'comingSoon.spaces.consultation')
-  const Icon = emploi ? Briefcase : UserRound
+  const { espace, icone: Icon } = ESPACES.find((e) => pathname.startsWith(e.adresse)) ?? ESPACES[ESPACES.length - 1]!
+  const space = t(`comingSoon.spaces.${espace}`)
   return (
     <div className="mx-auto max-w-3xl px-4 py-16">
       <Card className="p-10 text-center">

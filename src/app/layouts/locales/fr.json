@@ -129,5 +129,20 @@
     "reload": "Recharger la page",
     "retry": "Réessayer",
     "backHome": "Retour à l’accueil"
+  },
+  "accueil": {
+    "entete": {
+      "seConnecter": "Se connecter",
+      "devise": "Apprendre · Évoluer · Réussir"
+    },
+    "piedDePage": {
+      "slogan": "Yibolo, plus qu’une plateforme, une opportunité pour tous !",
+      "copyright": "© 2026 Yibolo. Tous droits réservés.",
+      "groupeAide": "Aide et légal",
+      "liens": {
+        "aide": "Aide et contact",
+        "conditions": "Conditions générales"
+      }
+    }
   }
 }

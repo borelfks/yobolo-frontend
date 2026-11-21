@@ -129,5 +129,20 @@
     "reload": "Reload the page",
     "retry": "Try again",
     "backHome": "Back to home"
+  },
+  "accueil": {
+    "entete": {
+      "seConnecter": "Log in",
+      "devise": "Learn · Grow · Succeed"
+    },
+    "piedDePage": {
+      "slogan": "Yibolo, more than a platform: an opportunity for everyone!",
+      "copyright": "© 2026 Yibolo. All rights reserved.",
+      "groupeAide": "Help & legal",
+      "liens": {
+        "aide": "Help and contact",
+        "conditions": "Terms"
+      }
+    }
   }
 }

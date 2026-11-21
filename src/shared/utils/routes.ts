@@ -15,6 +15,12 @@ export const ROUTES = {
   home: '/',
   consultation: '/consultation',
   emploi: '/emploi',
+  /** Formations en ligne et bibliothèque (cartes de la landing) : pas encore réalisées. */
+  courses: '/formations',
+  library: '/bibliotheque',
+  /** Pied de page de la landing : pas encore réalisés. */
+  help: '/aide',
+  terms: '/conditions',
   favorites: '/favoris',
 
   // -- Univers École : IPES, CFP, Autres -------------------------------------

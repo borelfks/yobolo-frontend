@@ -1,107 +1,69 @@
 {
-  "home": {
-    "hero": {
-      "line1": "Train, find an expert,",
-      "line2": "grow",
-      "highlight": "your career!",
-      "text": "Vocational schools, consultants, trades and job opportunities brought together on a single platform.",
-      "features": {
-        "verified": "Verified institutions",
-        "experts": "Certified experts",
-        "opportunities": "Real opportunities"
-      }
+  "hero": {
+    "bienvenue": "Welcome to Yibolo",
+    "ligneUne": "Your future",
+    "ligneDeux": "starts",
+    "motFort": "here!",
+    "accroche": "The platform that connects you with the best opportunities in consulting, training, jobs and financing.",
+    "slogan": "More opportunities, more success!"
+  },
+  "recherche": {
+    "libelleModule": "Where to search",
+    "libelleChamp": "What you are looking for",
+    "exemple": "Search for a service, a course, a job…",
+    "envoyer": "Search",
+    "modules": {
+      "consultants": "Consultants",
+      "formations": "Courses",
+      "ecoles": "Schools",
+      "offres": "Jobs"
+    }
+  },
+  "services": {
+    "titre": "Our services",
+    "consultation": {
+      "titre": "Consulting",
+      "accroche": "Online and in person",
+      "texte": "Find expert consultants and get their advice to grow your business or solve your challenges."
     },
-    "univers": {
-      "school": {
-        "title": "School",
-        "text": "Find a recognised, qualifying programme"
-      },
-      "consultant": {
-        "title": "Consultant",
-        "text": "Consult experts by field"
-      },
-      "trades": {
-        "title": "Trades",
-        "text": "Discover trades and key skills"
-      },
-      "jobs": {
-        "title": "Jobs",
-        "text": "Access job, internship and apprenticeship offers"
-      }
+    "ecoles": {
+      "titre": "Schools",
+      "accroche": "Quality training",
+      "texte": "Find the best schools and courses to build your skills and shape your future."
     },
-    "search": {
-      "title": "Search YIBOLO",
-      "location": {
-        "label": "Location",
-        "hint": "Region, city, neighbourhood"
-      },
-      "school": {
-        "label": "School",
-        "hint": "All institutions",
-        "options": {
-          "ipes": "IPES",
-          "cfp": "CFP",
-          "drivingSchools": "Driving schools",
-          "others": "Others"
-        }
-      },
-      "consultant": {
-        "label": "Consultant",
-        "hint": "All fields",
-        "options": {
-          "finance": "Finance & Tax",
-          "hr": "HR & Management",
-          "legal": "Legal",
-          "digital": "Digital & IT"
-        }
-      },
-      "trades": {
-        "label": "Trades",
-        "hint": "All trades",
-        "options": {
-          "mechanic": "Mechanic",
-          "accountant": "Accountant",
-          "nurse": "Nurse",
-          "electrician": "Electrician"
-        }
-      },
-      "submit": "Search"
+    "emplois": {
+      "titre": "Jobs",
+      "accroche": "Find your opportunity",
+      "texte": "Discover job offers and meet companies that are hiring."
     },
-    "reco": {
-      "title": "Our recommendations",
-      "tabs": {
-        "ecoles": "Schools",
-        "consultants": "Consultants",
-        "metiers": "Trades",
-        "emplois": "Jobs"
-      },
-      "reviews_one": "({{n}} review)",
-      "reviews_other": "({{n}} reviews)",
-      "school": {
-        "badge": "School",
-        "chips": {
-          "accounting": "Accounting",
-          "hr": "HR",
-          "it": "IT"
-        }
-      },
-      "consultant": {
-        "badge": "Consultant",
-        "field": "Management & HR",
-        "available": "Available"
-      },
-      "trade": {
-        "badge": "Trade",
-        "title": "Car mechanic",
-        "tasks": "Servicing • Diagnosis • Repair",
-        "demand": "High demand"
-      },
-      "job": {
-        "badge": "Job",
-        "title": "Driving instructor",
-        "contract": "Permanent",
-        "new": "New"
-      }
+    "formation": {
+      "titre": "Courses",
+      "accroche": "Online, at your own pace",
+      "texte": "Take online courses and build new skills, wherever you are."
+    },
+    "bibliotheque": {
+      "titre": "Library",
+      "accroche": "Read and learn",
+      "texte": "Browse books and documents to deepen your knowledge."
+    }
+  },
+  "arguments": {
+    "titre": "Why Yibolo",
+    "fiable": {
+      "titre": "Reliable",
+      "texte": "Verified partners"
+    },
+    "accessible": {
+      "titre": "Accessible",
+      "texte": "Anywhere, any time"
+    },
+    "rapide": {
+      "titre": "Fast",
+      "texte": "Effective solutions"
+    },
+    "pourTous": {
+      "titre": "For everyone",
+      "texte": "Individuals and businesses"
     }
   },
   "comingSoon": {
@@ -109,7 +71,11 @@
     "text": "This demo covers the School area. The {{space}} area is coming in a future version.",
     "spaces": {
       "emploi": "Jobs",
-      "consultation": "Consulting"
+      "consultation": "Consulting",
+      "formations": "Courses",
+      "bibliotheque": "Library",
+      "aide": "Help and contact",
+      "conditions": "Terms"
     },
     "explore": "Explore schools"
   }

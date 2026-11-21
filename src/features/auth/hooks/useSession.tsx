@@ -15,8 +15,10 @@ const SessionContext = createContext<SessionValue | null>(null)
 
 export function SessionProvider({ children }: { children: ReactNode }) {
   const [role, setRole] = useState<Role | null>(() => {
+    // Première visite : compte Utilisateur. Après « Se déconnecter », on reste visiteur (null gardé).
     const r = load<Role | null>('role', 'utilisateur')
-    return r && r in demoAccounts ? r : 'utilisateur'
+    if (r === null) return null
+    return r in demoAccounts ? r : 'utilisateur'
   })
   const value: SessionValue = {
     account: role ? demoAccounts[role] : null,
