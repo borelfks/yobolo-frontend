@@ -1,0 +1,88 @@
+{
+  "donnerAvis": {
+    "crumbs": {
+      "ecole": "École",
+      "autoEcoles": "Auto-Écoles",
+      "avis": "Avis",
+      "donnerAvis": "Donner mon avis"
+    },
+    "types": {
+      "ipes": "IPES",
+      "cfp": "CFP",
+      "autres": "Autres"
+    },
+    "heroSubtitle": "Votre avis aide les futurs apprenants à choisir leur établissement.",
+    "title": "Donner mon avis",
+    "intro": "Partagez votre expérience de formation pour aider les futurs apprenants.",
+    "noteGlobale": "Votre note globale",
+    "etoiles_one": "{{count}} étoile",
+    "etoiles_other": "{{count}} étoiles",
+    "notes": {
+      "decevant": "Décevant",
+      "moyen": "Moyen",
+      "bien": "Bien",
+      "tresBien": "Très bien",
+      "excellent": "Excellent"
+    },
+    "criteresTitre": "Évaluez les points suivants",
+    "facultatif": "(facultatif)",
+    "criteres": {
+      "qualiteFormation": "Qualité de la formation",
+      "competenceMoniteurs": "Compétence des moniteurs",
+      "organisationPlanning": "Organisation & planning",
+      "infrastructuresVehicules": "Infrastructures & véhicules",
+      "accueilAccompagnement": "Accueil & accompagnement",
+      "qualiteEnseignements": "Qualité des enseignements",
+      "competenceEnseignants": "Compétence des enseignants",
+      "organisationAdministration": "Organisation & administration",
+      "infrastructuresEquipements": "Infrastructures & équipements",
+      "insertionPro": "Insertion professionnelle"
+    },
+    "commentaire": "Votre commentaire",
+    "placeholder": {
+      "autoEcole": "Décrivez brièvement votre expérience (ex. : qualité de la formation, moniteurs, organisation, véhicules, etc.).",
+      "ecole": "Décrivez brièvement votre expérience (ex. : qualité de la formation, enseignants, organisation, équipements, etc.)."
+    },
+    "confirm": {
+      "autoEcole": "Je confirme avoir suivi une formation dans cette auto-école.",
+      "ecole": "Je confirme avoir suivi une formation dans cet établissement."
+    },
+    "annuler": "Annuler",
+    "publier": "Publier mon avis",
+    "conseils": {
+      "titre": "Quelques conseils",
+      "honnete": "Soyez honnête et constructif.",
+      "aspects": "Évaluez les aspects les plus importants.",
+      "courtois": "Restez courtois et respectueux."
+    },
+    "verifie": {
+      "titre": "Avis vérifié",
+      "texte": "Votre avis sera marqué « Vérifié » après validation par YIBOLO (inscription ou formation confirmée)."
+    },
+    "toasts": {
+      "tropCourt": "Votre commentaire doit compter au moins 10 caractères.",
+      "confirmAutoEcole": "Confirmez avoir suivi une formation dans cette auto-école.",
+      "confirmEcole": "Confirmez avoir suivi une formation dans cet établissement.",
+      "merci": "Merci ! Votre avis sera publié après vérification par YIBOLO."
+    }
+  },
+  "blocks": {
+    "noteGlobale": "Note globale",
+    "basee_one": "Basée sur {{total}} avis vérifiés",
+    "basee_other": "Basée sur {{total}} avis vérifiés",
+    "pourcentage": "{{value}} %",
+    "donnerAvis": "Donner mon avis",
+    "avisVerifie": "Avis vérifié",
+    "roles": {
+      "etudiant": "Étudiant",
+      "etudiante": "Étudiante",
+      "ancienEtudiant": "Ancien étudiant",
+      "ancienneEtudiante": "Ancienne étudiante",
+      "entreprise": "Entreprise"
+    },
+    "toasts": {
+      "merciRetour": "Merci pour votre retour",
+      "chargement": "Chargement d’autres avis (démo)"
+    }
+  }
+}

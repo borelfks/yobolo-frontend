@@ -1,0 +1,646 @@
+{
+  "schoolTypes": {
+    "ipes": "IPES",
+    "cfp": "CFP",
+    "autoEcole": "Auto-école",
+    "autre": "Autre"
+  },
+  "types": {
+    "ipes": {
+      "court": "IPES",
+      "long": "Instituts Privés d’Enseignement Supérieur",
+      "pluriel": "IPES",
+      "searchItem": "un IPES"
+    },
+    "cfp": {
+      "court": "CFP",
+      "long": "Centres de Formation Professionnelle",
+      "pluriel": "CFP",
+      "searchItem": "un CFP"
+    },
+    "autres": {
+      "court": "Autres",
+      "long": "Autres établissements (langues, informatique, arts…)",
+      "pluriel": "établissements",
+      "searchItem": "un établissement"
+    }
+  },
+  "modes": {
+    "jour": "Jour",
+    "soir": "Soir",
+    "jourSoir": "Jour & Soir"
+  },
+  "modeLabels": {
+    "jour": "Cours du jour",
+    "soir": "Cours du soir",
+    "jourSoir": "Jour & Soir"
+  },
+  "blocks": {
+    "verified": "Établissement vérifié",
+    "search": "Rechercher",
+    "allHint": "Toutes",
+    "card": {
+      "reviews_one": "({{count}} avis)",
+      "reviews_other": "({{count}} avis)",
+      "seeTrainings": "Voir les formations",
+      "seeProfile": "Voir le profil"
+    },
+    "formationRow": {
+      "dayAndEvening": "Jour & soir",
+      "months_one": "{{count}} mois",
+      "months_other": "{{count}} mois",
+      "fees": "Frais de formation",
+      "perYear": "/ an",
+      "seeDetails": "Voir les détails"
+    },
+    "results": {
+      "sortBy": "Trier par :",
+      "sortByLabel": "Trier par",
+      "sort": {
+        "pertinence": "Pertinence",
+        "bestRated": "Mieux notés",
+        "feesAsc": "Frais croissants",
+        "newest": "Plus récents"
+      }
+    },
+    "resetFilters": "Réinitialiser les filtres",
+    "map": {
+      "opening": "Ouverture de la carte (démo)",
+      "see": "Voir sur la carte →"
+    }
+  },
+  "hub": {
+    "title": "Écoles & Centres de formation",
+    "subtitle": "Trouvez l’établissement adapté à votre projet de formation et de carrière.",
+    "features": {
+      "verified": "Établissements vérifiés",
+      "certified": "Formations certifiantes",
+      "everywhere": "Partout au Cameroun"
+    },
+    "tiles": {
+      "all": "Toutes les écoles",
+      "ipes": "IPES",
+      "cfp": "CFP",
+      "autoEcoles": "Auto-écoles",
+      "autres": "Autres"
+    },
+    "search": {
+      "title": "Rechercher une école",
+      "location": "Localisation",
+      "locationHint": "Région, ville, quartier",
+      "type": "Type d’école",
+      "typeHint": "IPES, CFP, Auto-école, Autre"
+    },
+    "found": "{{n}} établissements trouvés",
+    "total": "1 248",
+    "pagination": "Affichage de 1 à 12 sur 1 248 établissements"
+  },
+  "listing": {
+    "crumb": "École",
+    "tabs": {
+      "liste": "{{court}} ({{n}})",
+      "filieres": "Filières",
+      "diplomes": "Diplômes",
+      "regions": "Régions",
+      "villes": "Villes",
+      "frais": "Frais",
+      "cours": "Cours (Jour/Soir)"
+    },
+    "titles": {
+      "liste": {
+        "subtitle": "Formations professionnelles et diplômantes pour booster votre carrière."
+      },
+      "filieres": {
+        "title": "Filières des {{pluriel}}",
+        "subtitle": "Découvrez toutes les filières de formation proposées par les {{long}}."
+      },
+      "diplomes": {
+        "title": "Diplômes des {{pluriel}}",
+        "subtitle": "Explorez les formations par niveau de diplôme et trouvez le programme qui correspond à votre projet."
+      },
+      "regions": {
+        "title": "{{court}} par Région",
+        "subtitle": "Recherchez les {{pluriel}} et leurs formations dans toutes les régions du Cameroun."
+      },
+      "villes": {
+        "title": "{{court}} par Villes",
+        "subtitle": "Trouvez les {{pluriel}} et leurs formations dans toutes les villes du Cameroun."
+      },
+      "frais": {
+        "title": "Frais de formation ({{court}})",
+        "subtitle": "Comparez les coûts des formations dans les {{long}} du Cameroun."
+      },
+      "cours": {
+        "title": "{{court}} – Cours (Jour/Soir)",
+        "subtitle": "Trouvez les formations selon votre disponibilité : cours de jour, cours du soir ou les deux."
+      }
+    },
+    "search": {
+      "region": "Région",
+      "city": "Ville",
+      "field": "Filière",
+      "level": "Niveau / Diplôme",
+      "levelHint": "Tous",
+      "placeholderListe": "Rechercher {{item}}, une formation…",
+      "placeholder": "Rechercher {{item}}, une formation..."
+    },
+    "found": "{{n}} {{pluriel}} trouvés",
+    "liste": {
+      "empty": "Aucun établissement ne correspond à « {{q}} ».",
+      "pagination": "Affichage de 1 à {{shown}} sur {{total}}"
+    },
+    "filieres": {
+      "domains": "Domaines de formation",
+      "all": "Toutes les filières",
+      "searchPlaceholder": "Rechercher une filière (ex. : Comptabilité, Informatique, Santé...)",
+      "available": "{{n}} filières disponibles",
+      "sort": {
+        "popularity": "Popularité",
+        "name": "Nom",
+        "trainings": "Nombre de formations"
+      },
+      "cardMeta": "{{ecoles}} {{pluriel}} • {{formations}} formations"
+    },
+    "diplomes": {
+      "searchPlaceholder": "Rechercher un diplôme ou une formation...",
+      "level": "Niveau de diplôme",
+      "all": "Tous les diplômes",
+      "other": "Autre diplôme",
+      "available": "Diplômes disponibles ({{n}})",
+      "tileCount": "<b>{{n}}</b> formations",
+      "popular": "Formations populaires",
+      "seeAll": "Voir toutes les formations →"
+    },
+    "regions": {
+      "panel": "Régions du Cameroun (10)",
+      "all": "Toutes les régions",
+      "imageAlt": "Région {{name}}"
+    },
+    "villes": {
+      "panel": "Villes par Région",
+      "otherRegions": "Autres régions",
+      "title": "Villes – {{court}} ({{n}})",
+      "sort": {
+        "count": "Nombre d’{{court}}",
+        "name": "Nom"
+      },
+      "tileCount": "<b>{{n}}</b> {{court}}"
+    },
+    "formations": {
+      "searchPlaceholder": "Rechercher une formation, {{item}}...",
+      "filterFees": "Filtrer les frais",
+      "feeRange": "Tranche de frais (par an)",
+      "courseType": "Type de cours",
+      "courseMode": "Mode de cours",
+      "allCourses": "Tous les cours",
+      "day": "Cours de jour",
+      "evening": "Cours du soir",
+      "dayEvening": "Jour & soir",
+      "tranches": {
+        "lt250": "Moins de 250 000 FCFA",
+        "from250to500": "250 000 – 500 000 FCFA",
+        "from500to750": "500 000 – 750 000 FCFA",
+        "from750to1000": "750 000 – 1 000 000 FCFA",
+        "gt1000": "Plus de 1 000 000 FCFA"
+      },
+      "titleFrais": "Formations et frais ({{n}} résultats)",
+      "titleCours": "{{n}} formations disponibles",
+      "sort": {
+        "feesAsc": "Frais croissant",
+        "feesDesc": "Frais décroissant",
+        "pertinence": "Pertinence"
+      },
+      "empty": "Aucune formation dans cette sélection.",
+      "shown": "{{n}} formations affichées"
+    }
+  },
+  "shared": {
+    "school": "École",
+    "verified": "Établissement vérifié",
+    "ratingCount_one": "({{count}} avis)",
+    "ratingCount_other": "({{count}} avis)",
+    "preRegisterNow": "Préinscrire maintenant",
+    "inFavorites": "Dans vos favoris",
+    "addToFavorites": "Ajouter aux favoris",
+    "months_one": "{{count}} mois",
+    "months_other": "{{count}} mois",
+    "perYear": "/ an",
+    "sortBy": "Trier par :",
+    "sortByAria": "Trier par",
+    "types": {
+      "ipes": "IPES",
+      "cfp": "CFP",
+      "autres": "Autres"
+    },
+    "modes": {
+      "jour": "Jour",
+      "soir": "Soir",
+      "jourEtSoir": "Jour & Soir"
+    },
+    "modePills": {
+      "jour": "Cours de jour",
+      "soir": "Cours du soir",
+      "jourEtSoir": "Jour & Soir"
+    }
+  },
+  "ecoleProfil": {
+    "tabs": {
+      "apercu": "Aperçu",
+      "formations": "Formations ({{n}})",
+      "informations": "Informations",
+      "avis": "Avis ({{n}})",
+      "galerie": "Galerie"
+    },
+    "apercu": {
+      "videoToast": "Lecture de la vidéo de présentation (démo)",
+      "videoAlt": "Découvrir {{sigle}} en 1 minute",
+      "presentation": "Présentation",
+      "highlights": {
+        "professional": "Formations professionnalisantes",
+        "experts": "Encadrement par des experts",
+        "internships": "Stages et insertion professionnelle"
+      },
+      "keyInfo": "Informations clés",
+      "keys": {
+        "formations": "Formations",
+        "filieres": "Filières",
+        "diplomes": "Diplômes",
+        "cours": "Cours",
+        "localisation": "Localisation"
+      },
+      "mainFields": "Nos principales filières"
+    },
+    "formations": {
+      "about": "À propos de l’{{sigle}}",
+      "formationsCount_one": "{{count}} formations",
+      "formationsCount_other": "{{count}} formations",
+      "fieldsCount_one": "{{count}} filières",
+      "fieldsCount_other": "{{count}} filières",
+      "coursJourSoir": "Cours : Jour et Soir",
+      "mainFields": "Principales filières",
+      "ourTrainings": "Nos formations ({{n}})",
+      "sort": {
+        "pertinence": "Pertinence",
+        "fraisCroissants": "Frais croissants",
+        "duree": "Durée"
+      },
+      "searchPlaceholder": "Rechercher une formation...",
+      "filiere": "Filière",
+      "toutes": "Toutes",
+      "diplome": "Diplôme",
+      "tous": "Tous",
+      "cours": "Cours",
+      "fees": "Frais de formation",
+      "seeDetails": "Voir les détails"
+    },
+    "informations": {
+      "sections": {
+        "presentation": "Présentation",
+        "admission": "Conditions d’admission",
+        "frais": "Frais & paiements",
+        "calendrier": "Calendrier académique",
+        "contact": "Contact & localisation"
+      },
+      "presentationTitle": "Présentation de l’établissement",
+      "presentationText": "{{name}} est un établissement de formation supérieure agréé, dédié à la formation de professionnels compétents et immédiatement opérationnels sur le marché du travail.",
+      "tiles": {
+        "qualite1": "Formation",
+        "qualite2": "de qualité",
+        "enseignants1": "Enseignants",
+        "enseignants2": "expérimentés",
+        "stages1": "Stages &",
+        "stages2": "emploi"
+      },
+      "mission": "Notre mission",
+      "missionText": "Former des professionnels qualifiés, dotés de compétences pratiques et adaptées aux besoins des entreprises.",
+      "assets": "Nos atouts",
+      "assetsList": {
+        "a1": "Formations professionnalisantes et certifiantes",
+        "a2": "Encadrement par des experts du métier",
+        "a3": "Partenariats avec des entreprises",
+        "a4": "Accompagnement vers l’insertion professionnelle"
+      },
+      "general": "Informations générales",
+      "statut": "Statut",
+      "statutValue": "Établissement agréé",
+      "diplomes": "Diplômes",
+      "cours": "Cours",
+      "rentree": "Rentrée",
+      "contactTitle": "Contact & localisation",
+      "mapToast": "Ouverture de la carte (démo)",
+      "seeOnMap": "Voir sur la carte",
+      "rows": {
+        "niveau": "Niveau requis",
+        "niveauValue": "Baccalauréat (toutes séries) ou équivalent",
+        "selection": "Mode de sélection",
+        "selectionValue": "Étude du dossier et/ou entretien",
+        "periode": "Période de candidature",
+        "periodeValue": "01 juil. – 30 sept. 2026",
+        "pieces": "Pièces",
+        "piecesValue": "Diplôme, relevés de notes, CNI, 4 photos",
+        "fraisInscription": "Frais d’inscription",
+        "fraisInscriptionValue": "50 000 FCFA",
+        "fraisScolarite": "Frais de scolarité",
+        "fraisScolariteValue": "De 450 000 à 750 000 FCFA / an",
+        "modalites": "Modalités",
+        "modalitesValue": "1 fois (–5 %), 2 tranches ou mensuel",
+        "paiement": "Paiement",
+        "paiementValue": "Orange Money, MTN MoMo, Express Union",
+        "ouverture": "Ouverture des candidatures",
+        "ouvertureValue": "01 juillet 2026",
+        "cloture": "Clôture des candidatures",
+        "clotureValue": "30 septembre 2026",
+        "rentree": "Rentrée académique",
+        "examens": "Examens du 1er semestre",
+        "examensValue": "Février 2027",
+        "telephone": "Téléphone",
+        "email": "E-mail",
+        "adresse": "Adresse",
+        "horaires": "Horaires",
+        "horairesValue": "Lun – Sam · 08h – 18h"
+      }
+    },
+    "avis": {
+      "filters": {
+        "tous": "Tous ({{n}})",
+        "etudiants": "Étudiants ({{n}})",
+        "anciens": "Anciens étudiants ({{n}})",
+        "entreprises": "Entreprises ({{n}})"
+      },
+      "globalRating": "Note globale",
+      "percent": "{{n}} %",
+      "giveReview": "Donner mon avis",
+      "learnersReviews": "Avis des apprenants ({{n}})",
+      "sort": {
+        "recents": "Les plus récents",
+        "mieuxNotes": "Les mieux notés",
+        "utiles": "Les plus utiles"
+      },
+      "loadMoreToast": "Chargement d’autres avis (démo)",
+      "seeMore": "Voir plus d’avis ({{n}})",
+      "roles": {
+        "etudiant": "Étudiant",
+        "etudiante": "Étudiante",
+        "ancienEtudiant": "Ancien étudiant",
+        "ancienneEtudiante": "Ancienne étudiante",
+        "entreprise": "Entreprise"
+      }
+    },
+    "galerie": {
+      "title": "Galerie de l’établissement",
+      "intro": "Découvrez en images notre campus, nos infrastructures et la vie étudiante.",
+      "all": "Toutes les photos",
+      "albumToast": "Album « {{name}} » (démo)",
+      "videoToast": "Lecture de la vidéo de {{id}} (démo)",
+      "videoAlt": "Vidéo de présentation"
+    }
+  },
+  "formationDetail": {
+    "tabs": {
+      "details": "Détails",
+      "programme": "Programme",
+      "admission": "Conditions d’admission",
+      "frais": "Frais & paiement",
+      "debouches": "Débouchés"
+    },
+    "breadcrumbFormations": "Formations",
+    "badge": "Formation",
+    "aside": {
+      "contact": "Contacter l’établissement",
+      "nextIntake": "Prochaine rentrée"
+    },
+    "jobs": {
+      "comptable": "Comptable",
+      "assistantGestion": "Assistant(e) de gestion",
+      "gestionnaireTresorerie": "Gestionnaire de trésorerie",
+      "assistantControle": "Assistant(e) en contrôle de gestion",
+      "collaborateurCabinet": "Collaborateur en cabinet comptable"
+    },
+    "details": {
+      "diplome": "Diplôme",
+      "duree": "Durée",
+      "cours": "Cours",
+      "fees": "Frais de formation",
+      "presentationTitle": "Présentation de la formation",
+      "presentationText": "Le {{name}} forme des techniciens supérieurs capables de gérer la comptabilité, les opérations financières et le contrôle de gestion d’une organisation.",
+      "objectives": "Objectifs",
+      "objectivesList": {
+        "o1": "Tenir la comptabilité d’une organisation",
+        "o2": "Établir les états financiers",
+        "o3": "Assurer la gestion de la trésorerie",
+        "o4": "Contribuer au contrôle de gestion",
+        "o5": "Maîtriser les outils comptables et financiers (SAGE, Excel, etc.)"
+      },
+      "outcomes": "Débouchés professionnels"
+    },
+    "programme": {
+      "overview": "Aperçu du programme",
+      "overviewText": "Un programme professionnalisant qui allie comptabilité, gestion, finance et outils numériques, avec des mises en situation réelles en entreprise.",
+      "duree": "Durée",
+      "cours": "Cours",
+      "volume": "Volume horaire",
+      "volumeValue": "~ 1 200 h",
+      "stage": "Stage en entreprise",
+      "stageValue": "2 à 3 mois",
+      "detailed": "Programme détaillé",
+      "ordinalFirst": "ère",
+      "ordinalOther": "ème",
+      "yearLabel": "année ({{range}})",
+      "units_one": "{{count}} unités d’enseignement",
+      "units_other": "{{count}} unités d’enseignement",
+      "hours_one": "≈ {{count}} heures",
+      "hours_other": "≈ {{count}} heures"
+    },
+    "admission": {
+      "title": "Conditions d’admission",
+      "intro": "Les conditions ci-dessous s’appliquent à la formation {{name}}.",
+      "niveau": "Niveau requis",
+      "niveauValue": "Baccalauréat (toutes séries)",
+      "selection": "Mode de sélection",
+      "selectionValue": "Étude du dossier et/ou entretien",
+      "periode": "Période de candidature",
+      "periodeValue": "Du 01 juillet au 30 septembre 2026",
+      "documents": "Pièces à fournir",
+      "pieces": {
+        "bac": "Copie du baccalauréat",
+        "releves": "Relevés de notes du baccalauréat",
+        "cni": "Copie de la CNI ou acte de naissance",
+        "photo": "Photo d’identité récente"
+      },
+      "required": "Obligatoire",
+      "goodToKnow": "Bon à savoir",
+      "incomplete": "Les dossiers incomplets ne sont pas recevables."
+    },
+    "frais": {
+      "title": "Frais de la formation",
+      "inscription": "Frais d’inscription",
+      "scolarite": "Frais de scolarité",
+      "perYear": "(par an)",
+      "total": "Coût total de la formation",
+      "years_one": "({{count}} an)",
+      "years_other": "({{count}} ans)",
+      "payment": "Modalités de paiement",
+      "once": "Paiement en 1 fois",
+      "discount": "Remise de 5 %",
+      "twoInstalments": "Paiement en 2 tranches",
+      "twoInstalmentsDesc": "50 % à l’inscription, 50 % en milieu d’année",
+      "monthly": "Paiement mensuel",
+      "monthlyDesc": "12 mensualités de {{amount}}",
+      "covers": "Ce que couvrent les frais",
+      "coverTiles": {
+        "cours1": "Cours et",
+        "cours2": "supports",
+        "tp1": "Travaux",
+        "tp2": "pratiques",
+        "encadrement1": "Encadrement",
+        "encadrement2": "pédagogique",
+        "stage1": "Suivi de",
+        "stage2": "stage"
+      },
+      "goodToKnow": "Bon à savoir",
+      "tips": {
+        "t1": "Les frais de scolarité peuvent être réglés par Mobile Money (Orange, MTN, Express Union).",
+        "t2": "Un reçu officiel est délivré après chaque paiement."
+      }
+    },
+    "debouches": {
+      "jobsTitle": "Métiers accessibles",
+      "jobsIntro": "Après un {{name}}, vous pouvez exercer notamment comme :",
+      "sectors": "Secteurs qui recrutent",
+      "sectorTiles": {
+        "entreprises1": "Entreprises",
+        "entreprises2": "(privées et publiques)",
+        "banques1": "Banques &",
+        "banques2": "assurances",
+        "cabinets1": "Cabinets",
+        "cabinets2": "d’expertise comptable",
+        "commerce1": "Commerce &",
+        "commerce2": "distribution"
+      },
+      "career": "Évolution de carrière",
+      "careerIntro": "Des perspectives d’évolution vers des postes à responsabilités :",
+      "steps": {
+        "comptable": "Comptable",
+        "chef1": "Chef",
+        "chef2": "comptable",
+        "controleur1": "Contrôleur",
+        "controleur2": "de gestion",
+        "raf1": "Responsable",
+        "raf2": "administratif",
+        "raf3": "et financier (RAF)"
+      }
+    }
+  },
+  "preinscription": {
+    "sent": {
+      "title": "Préinscription envoyée !",
+      "text": "{{school}} a reçu votre dossier pour la formation <b>{{training}}</b>. Vous serez informé par SMS, e-mail et notification.",
+      "back": "Retour à l’établissement",
+      "explore": "Continuer à explorer"
+    },
+    "toastValidated": "Préinscription validée",
+    "crumb": "Préinscription",
+    "heroTitle": "Préinscription en ligne",
+    "subtitleRecap": "Vérifiez vos informations avant de valider votre demande.",
+    "subtitle": "Réservez votre place à la formation de votre choix en quelques minutes.",
+    "aside": {
+      "diplome": "Diplôme",
+      "duree": "Durée",
+      "cours": "Cours",
+      "fees": "Frais de formation :",
+      "question": "Une question ?",
+      "whatsappAria": "WhatsApp",
+      "whatsappToast": "Ouverture de WhatsApp (démo)"
+    },
+    "steps": {
+      "info1": "Informations",
+      "info2": "personnelles",
+      "parcours1": "Parcours",
+      "parcours2": "scolaire",
+      "pieces1": "Pièces",
+      "pieces2": "à fournir",
+      "validation": "Validation"
+    },
+    "step1": {
+      "title": "Étape 1 : Informations personnelles",
+      "nom": "Nom",
+      "nomPlaceholder": "Entrez votre nom",
+      "prenom": "Prénom(s)",
+      "prenomPlaceholder": "Entrez vos prénoms",
+      "sexe": "Sexe",
+      "sexes": {
+        "masculin": "Masculin",
+        "feminin": "Féminin"
+      },
+      "select": "Sélectionnez",
+      "naissance": "Date de naissance",
+      "naissancePlaceholder": "JJ / MM / AAAA",
+      "nationalite": "Nationalité",
+      "nationalites": {
+        "camerounaise": "Camerounaise",
+        "tchadienne": "Tchadienne",
+        "gabonaise": "Gabonaise",
+        "centrafricaine": "Centrafricaine",
+        "congolaise": "Congolaise",
+        "autre": "Autre"
+      },
+      "telephone": "Téléphone",
+      "telephonePlaceholder": "6 XX XX XX XX",
+      "email": "Email",
+      "emailPlaceholder": "votre@email.com"
+    },
+    "step2": {
+      "title": "Étape 2 : Parcours scolaire",
+      "diplome": "Dernier diplôme obtenu",
+      "diplomas": {
+        "baccalaureat": "Baccalauréat",
+        "probatoire": "Probatoire",
+        "bts": "BTS",
+        "licence": "Licence",
+        "gceALevel": "GCE A Level"
+      },
+      "serie": "Série / Spécialité",
+      "seriePlaceholder": "Ex. : G2 – Comptabilité et Gestion",
+      "annee": "Année d’obtention",
+      "select": "Sélectionnez",
+      "etablissement": "Établissement d’origine",
+      "etablissementPlaceholder": "Nom de votre établissement",
+      "autre": "J’ai un autre diplôme (BTS, Licence, etc.)"
+    },
+    "step3": {
+      "title": "Étape 3 : Pièces à fournir",
+      "pieces": {
+        "cni": "CNI ou Acte de naissance",
+        "diplome": "Dernier diplôme",
+        "releve": "Relevé de notes",
+        "photo": "Photo d’identité (JPEG/PNG)"
+      },
+      "chooseFile": "Choisir un fichier",
+      "formats": "Formats acceptés : PDF, JPG, PNG — 5 Mo par fichier."
+    },
+    "recap": {
+      "title": "Récapitulatif de votre préinscription",
+      "intro": "Veuillez vérifier les informations ci-dessous avant de valider définitivement votre demande.",
+      "personal": "Vos informations personnelles",
+      "nom": "Nom :",
+      "telephone": "Téléphone :",
+      "email": "Email :",
+      "parcours": "Votre parcours scolaire",
+      "diplome": "Dernier diplôme :",
+      "serie": "Série :",
+      "annee": "Année :",
+      "etablissement": "Établissement :",
+      "attachments": "Vos pièces jointes",
+      "allUploaded": "Tous les documents sont téléchargés avec succès.",
+      "seePieces": "Voir les pièces",
+      "secureTitle": "Vos données sont sécurisées",
+      "secureText": "Vos informations sont protégées et ne seront utilisées que dans le cadre de votre inscription.",
+      "edit": "Modifier"
+    },
+    "nav": {
+      "back": "Retour",
+      "next": "Suivant",
+      "submit": "Valider ma préinscription"
+    }
+  }
+}

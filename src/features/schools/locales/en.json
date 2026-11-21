@@ -1,0 +1,646 @@
+{
+  "schoolTypes": {
+    "ipes": "IPES",
+    "cfp": "CFP",
+    "autoEcole": "Driving school",
+    "autre": "Other"
+  },
+  "types": {
+    "ipes": {
+      "court": "IPES",
+      "long": "Private Higher Education Institutes",
+      "pluriel": "IPES",
+      "searchItem": "an IPES"
+    },
+    "cfp": {
+      "court": "CFP",
+      "long": "Vocational Training Centres",
+      "pluriel": "CFP",
+      "searchItem": "a CFP"
+    },
+    "autres": {
+      "court": "Others",
+      "long": "Other institutions (languages, IT, arts…)",
+      "pluriel": "institutions",
+      "searchItem": "an institution"
+    }
+  },
+  "modes": {
+    "jour": "Day",
+    "soir": "Evening",
+    "jourSoir": "Day & Evening"
+  },
+  "modeLabels": {
+    "jour": "Day classes",
+    "soir": "Evening classes",
+    "jourSoir": "Day & Evening"
+  },
+  "blocks": {
+    "verified": "Verified institution",
+    "search": "Search",
+    "allHint": "All",
+    "card": {
+      "reviews_one": "({{count}} review)",
+      "reviews_other": "({{count}} reviews)",
+      "seeTrainings": "See programmes",
+      "seeProfile": "See profile"
+    },
+    "formationRow": {
+      "dayAndEvening": "Day & evening",
+      "months_one": "{{count}} month",
+      "months_other": "{{count}} months",
+      "fees": "Tuition fees",
+      "perYear": "/ year",
+      "seeDetails": "See details"
+    },
+    "results": {
+      "sortBy": "Sort by:",
+      "sortByLabel": "Sort by",
+      "sort": {
+        "pertinence": "Relevance",
+        "bestRated": "Top rated",
+        "feesAsc": "Lowest fees",
+        "newest": "Most recent"
+      }
+    },
+    "resetFilters": "Reset filters",
+    "map": {
+      "opening": "Opening the map (demo)",
+      "see": "See on the map →"
+    }
+  },
+  "hub": {
+    "title": "Schools & Training Centres",
+    "subtitle": "Find the institution suited to your training and career plans.",
+    "features": {
+      "verified": "Verified institutions",
+      "certified": "Certified programmes",
+      "everywhere": "All over Cameroon"
+    },
+    "tiles": {
+      "all": "All schools",
+      "ipes": "IPES",
+      "cfp": "CFP",
+      "autoEcoles": "Driving schools",
+      "autres": "Others"
+    },
+    "search": {
+      "title": "Search for a school",
+      "location": "Location",
+      "locationHint": "Region, city, neighbourhood",
+      "type": "School type",
+      "typeHint": "IPES, CFP, Driving school, Other"
+    },
+    "found": "{{n}} institutions found",
+    "total": "1,248",
+    "pagination": "Showing 1 to 12 of 1,248 institutions"
+  },
+  "listing": {
+    "crumb": "Schools",
+    "tabs": {
+      "liste": "{{court}} ({{n}})",
+      "filieres": "Fields of study",
+      "diplomes": "Diplomas",
+      "regions": "Regions",
+      "villes": "Cities",
+      "frais": "Fees",
+      "cours": "Classes (Day/Evening)"
+    },
+    "titles": {
+      "liste": {
+        "subtitle": "Professional and degree programmes to boost your career."
+      },
+      "filieres": {
+        "title": "Fields of study – {{pluriel}}",
+        "subtitle": "Discover all the fields of study offered by {{long}}."
+      },
+      "diplomes": {
+        "title": "Diplomas – {{pluriel}}",
+        "subtitle": "Explore programmes by diploma level and find the one that matches your plans."
+      },
+      "regions": {
+        "title": "{{court}} by Region",
+        "subtitle": "Search for {{pluriel}} and their programmes in every region of Cameroon."
+      },
+      "villes": {
+        "title": "{{court}} by City",
+        "subtitle": "Find {{pluriel}} and their programmes in every city of Cameroon."
+      },
+      "frais": {
+        "title": "Tuition fees ({{court}})",
+        "subtitle": "Compare programme costs at {{long}} in Cameroon."
+      },
+      "cours": {
+        "title": "{{court}} – Classes (Day/Evening)",
+        "subtitle": "Find programmes that fit your schedule: day classes, evening classes or both."
+      }
+    },
+    "search": {
+      "region": "Region",
+      "city": "City",
+      "field": "Field of study",
+      "level": "Level / Diploma",
+      "levelHint": "All",
+      "placeholderListe": "Search for {{item}}, a programme…",
+      "placeholder": "Search for {{item}}, a programme..."
+    },
+    "found": "{{n}} {{pluriel}} found",
+    "liste": {
+      "empty": "No institution matches “{{q}}”.",
+      "pagination": "Showing 1 to {{shown}} of {{total}}"
+    },
+    "filieres": {
+      "domains": "Areas of study",
+      "all": "All fields of study",
+      "searchPlaceholder": "Search for a field of study (e.g. Accounting, IT, Health...)",
+      "available": "{{n}} fields of study available",
+      "sort": {
+        "popularity": "Popularity",
+        "name": "Name",
+        "trainings": "Number of programmes"
+      },
+      "cardMeta": "{{ecoles}} {{pluriel}} • {{formations}} programmes"
+    },
+    "diplomes": {
+      "searchPlaceholder": "Search for a diploma or a programme...",
+      "level": "Diploma level",
+      "all": "All diplomas",
+      "other": "Other diploma",
+      "available": "Available diplomas ({{n}})",
+      "tileCount": "<b>{{n}}</b> programmes",
+      "popular": "Popular programmes",
+      "seeAll": "See all programmes →"
+    },
+    "regions": {
+      "panel": "Regions of Cameroon (10)",
+      "all": "All regions",
+      "imageAlt": "{{name}} Region"
+    },
+    "villes": {
+      "panel": "Cities by Region",
+      "otherRegions": "Other regions",
+      "title": "Cities – {{court}} ({{n}})",
+      "sort": {
+        "count": "Number of {{court}}",
+        "name": "Name"
+      },
+      "tileCount": "<b>{{n}}</b> {{court}}"
+    },
+    "formations": {
+      "searchPlaceholder": "Search for a programme, {{item}}...",
+      "filterFees": "Filter fees",
+      "feeRange": "Fee range (per year)",
+      "courseType": "Class type",
+      "courseMode": "Class schedule",
+      "allCourses": "All classes",
+      "day": "Day classes",
+      "evening": "Evening classes",
+      "dayEvening": "Day & evening",
+      "tranches": {
+        "lt250": "Under 250,000 FCFA",
+        "from250to500": "250,000 – 500,000 FCFA",
+        "from500to750": "500,000 – 750,000 FCFA",
+        "from750to1000": "750,000 – 1,000,000 FCFA",
+        "gt1000": "Over 1,000,000 FCFA"
+      },
+      "titleFrais": "Programmes and fees ({{n}} results)",
+      "titleCours": "{{n}} programmes available",
+      "sort": {
+        "feesAsc": "Fees: low to high",
+        "feesDesc": "Fees: high to low",
+        "pertinence": "Relevance"
+      },
+      "empty": "No programmes in this selection.",
+      "shown": "{{n}} programmes shown"
+    }
+  },
+  "shared": {
+    "school": "School",
+    "verified": "Verified institution",
+    "ratingCount_one": "({{count}} review)",
+    "ratingCount_other": "({{count}} reviews)",
+    "preRegisterNow": "Pre-register now",
+    "inFavorites": "In your favourites",
+    "addToFavorites": "Add to favourites",
+    "months_one": "{{count}} month",
+    "months_other": "{{count}} months",
+    "perYear": "/ year",
+    "sortBy": "Sort by:",
+    "sortByAria": "Sort by",
+    "types": {
+      "ipes": "IPES",
+      "cfp": "CFP",
+      "autres": "Others"
+    },
+    "modes": {
+      "jour": "Day",
+      "soir": "Evening",
+      "jourEtSoir": "Day & Evening"
+    },
+    "modePills": {
+      "jour": "Day classes",
+      "soir": "Evening classes",
+      "jourEtSoir": "Day & Evening"
+    }
+  },
+  "ecoleProfil": {
+    "tabs": {
+      "apercu": "Overview",
+      "formations": "Programmes ({{n}})",
+      "informations": "Information",
+      "avis": "Reviews ({{n}})",
+      "galerie": "Gallery"
+    },
+    "apercu": {
+      "videoToast": "Playing the presentation video (demo)",
+      "videoAlt": "Discover {{sigle}} in 1 minute",
+      "presentation": "Presentation",
+      "highlights": {
+        "professional": "Career-focused programmes",
+        "experts": "Supervision by experts",
+        "internships": "Internships and job placement"
+      },
+      "keyInfo": "Key information",
+      "keys": {
+        "formations": "Programmes",
+        "filieres": "Fields of study",
+        "diplomes": "Diplomas",
+        "cours": "Classes",
+        "localisation": "Location"
+      },
+      "mainFields": "Our main fields of study"
+    },
+    "formations": {
+      "about": "About {{sigle}}",
+      "formationsCount_one": "{{count}} programme",
+      "formationsCount_other": "{{count}} programmes",
+      "fieldsCount_one": "{{count}} field of study",
+      "fieldsCount_other": "{{count}} fields of study",
+      "coursJourSoir": "Classes: Day and Evening",
+      "mainFields": "Main fields of study",
+      "ourTrainings": "Our programmes ({{n}})",
+      "sort": {
+        "pertinence": "Relevance",
+        "fraisCroissants": "Lowest fees",
+        "duree": "Duration"
+      },
+      "searchPlaceholder": "Search for a programme...",
+      "filiere": "Field of study",
+      "toutes": "All",
+      "diplome": "Diploma",
+      "tous": "All",
+      "cours": "Classes",
+      "fees": "Tuition fees",
+      "seeDetails": "See details"
+    },
+    "informations": {
+      "sections": {
+        "presentation": "Presentation",
+        "admission": "Admission requirements",
+        "frais": "Fees & payments",
+        "calendrier": "Academic calendar",
+        "contact": "Contact & location"
+      },
+      "presentationTitle": "About the institution",
+      "presentationText": "{{name}} is an approved higher education institution, dedicated to training skilled professionals who are immediately operational on the job market.",
+      "tiles": {
+        "qualite1": "Quality",
+        "qualite2": "education",
+        "enseignants1": "Experienced",
+        "enseignants2": "teachers",
+        "stages1": "Internships &",
+        "stages2": "jobs"
+      },
+      "mission": "Our mission",
+      "missionText": "To train qualified professionals with practical skills suited to the needs of companies.",
+      "assets": "Our strengths",
+      "assetsList": {
+        "a1": "Career-focused, certified programmes",
+        "a2": "Supervision by industry experts",
+        "a3": "Partnerships with companies",
+        "a4": "Support towards job placement"
+      },
+      "general": "General information",
+      "statut": "Status",
+      "statutValue": "Approved institution",
+      "diplomes": "Diplomas",
+      "cours": "Classes",
+      "rentree": "Intake",
+      "contactTitle": "Contact & location",
+      "mapToast": "Opening the map (demo)",
+      "seeOnMap": "View on the map",
+      "rows": {
+        "niveau": "Required level",
+        "niveauValue": "Baccalaureate (all series) or equivalent",
+        "selection": "Selection method",
+        "selectionValue": "Application review and/or interview",
+        "periode": "Application period",
+        "periodeValue": "1 Jul – 30 Sep 2026",
+        "pieces": "Documents",
+        "piecesValue": "Diploma, transcripts, ID card, 4 photos",
+        "fraisInscription": "Registration fees",
+        "fraisInscriptionValue": "50,000 FCFA",
+        "fraisScolarite": "Tuition fees",
+        "fraisScolariteValue": "From 450,000 to 750,000 FCFA / year",
+        "modalites": "Payment terms",
+        "modalitesValue": "In full (–5%), 2 instalments or monthly",
+        "paiement": "Payment",
+        "paiementValue": "Orange Money, MTN MoMo, Express Union",
+        "ouverture": "Applications open",
+        "ouvertureValue": "1 July 2026",
+        "cloture": "Applications close",
+        "clotureValue": "30 September 2026",
+        "rentree": "Academic intake",
+        "examens": "1st semester exams",
+        "examensValue": "February 2027",
+        "telephone": "Phone",
+        "email": "Email",
+        "adresse": "Address",
+        "horaires": "Opening hours",
+        "horairesValue": "Mon – Sat · 8am – 6pm"
+      }
+    },
+    "avis": {
+      "filters": {
+        "tous": "All ({{n}})",
+        "etudiants": "Students ({{n}})",
+        "anciens": "Former students ({{n}})",
+        "entreprises": "Companies ({{n}})"
+      },
+      "globalRating": "Overall rating",
+      "percent": "{{n}}%",
+      "giveReview": "Write a review",
+      "learnersReviews": "Learner reviews ({{n}})",
+      "sort": {
+        "recents": "Most recent",
+        "mieuxNotes": "Highest rated",
+        "utiles": "Most helpful"
+      },
+      "loadMoreToast": "Loading more reviews (demo)",
+      "seeMore": "See more reviews ({{n}})",
+      "roles": {
+        "etudiant": "Student",
+        "etudiante": "Student",
+        "ancienEtudiant": "Former student",
+        "ancienneEtudiante": "Former student",
+        "entreprise": "Company"
+      }
+    },
+    "galerie": {
+      "title": "Institution gallery",
+      "intro": "Discover our campus, facilities and student life in pictures.",
+      "all": "All photos",
+      "albumToast": "Album “{{name}}” (demo)",
+      "videoToast": "Playing the {{id}} video (demo)",
+      "videoAlt": "Presentation video"
+    }
+  },
+  "formationDetail": {
+    "tabs": {
+      "details": "Details",
+      "programme": "Curriculum",
+      "admission": "Admission requirements",
+      "frais": "Fees & payment",
+      "debouches": "Career prospects"
+    },
+    "breadcrumbFormations": "Programmes",
+    "badge": "Programme",
+    "aside": {
+      "contact": "Contact the institution",
+      "nextIntake": "Next intake"
+    },
+    "jobs": {
+      "comptable": "Accountant",
+      "assistantGestion": "Management assistant",
+      "gestionnaireTresorerie": "Treasury manager",
+      "assistantControle": "Management control assistant",
+      "collaborateurCabinet": "Accounting firm associate"
+    },
+    "details": {
+      "diplome": "Diploma",
+      "duree": "Duration",
+      "cours": "Classes",
+      "fees": "Tuition fees",
+      "presentationTitle": "About the programme",
+      "presentationText": "The {{name}} trains senior technicians able to manage the accounting, financial operations and management control of an organisation.",
+      "objectives": "Objectives",
+      "objectivesList": {
+        "o1": "Keep the accounts of an organisation",
+        "o2": "Prepare financial statements",
+        "o3": "Manage cash flow",
+        "o4": "Contribute to management control",
+        "o5": "Master accounting and financial tools (SAGE, Excel, etc.)"
+      },
+      "outcomes": "Career prospects"
+    },
+    "programme": {
+      "overview": "Curriculum overview",
+      "overviewText": "A career-focused curriculum combining accounting, management, finance and digital tools, with real-life work placements in companies.",
+      "duree": "Duration",
+      "cours": "Classes",
+      "volume": "Total hours",
+      "volumeValue": "~ 1,200 h",
+      "stage": "Work placement",
+      "stageValue": "2 to 3 months",
+      "detailed": "Detailed curriculum",
+      "ordinalFirst": "st",
+      "ordinalOther": "nd",
+      "yearLabel": "year ({{range}})",
+      "units_one": "{{count}} teaching unit",
+      "units_other": "{{count}} teaching units",
+      "hours_one": "≈ {{count}} hour",
+      "hours_other": "≈ {{count}} hours"
+    },
+    "admission": {
+      "title": "Admission requirements",
+      "intro": "The requirements below apply to the {{name}} programme.",
+      "niveau": "Required level",
+      "niveauValue": "Baccalaureate (all series)",
+      "selection": "Selection method",
+      "selectionValue": "Application review and/or interview",
+      "periode": "Application period",
+      "periodeValue": "From 1 July to 30 September 2026",
+      "documents": "Required documents",
+      "pieces": {
+        "bac": "Copy of the baccalaureate",
+        "releves": "Baccalaureate transcripts",
+        "cni": "Copy of ID card or birth certificate",
+        "photo": "Recent passport photo"
+      },
+      "required": "Required",
+      "goodToKnow": "Good to know",
+      "incomplete": "Incomplete applications will not be accepted."
+    },
+    "frais": {
+      "title": "Programme fees",
+      "inscription": "Registration fees",
+      "scolarite": "Tuition fees",
+      "perYear": "(per year)",
+      "total": "Total cost of the programme",
+      "years_one": "({{count}} year)",
+      "years_other": "({{count}} years)",
+      "payment": "Payment terms",
+      "once": "Payment in full",
+      "discount": "5% discount",
+      "twoInstalments": "Payment in 2 instalments",
+      "twoInstalmentsDesc": "50% on registration, 50% mid-year",
+      "monthly": "Monthly payment",
+      "monthlyDesc": "12 monthly payments of {{amount}}",
+      "covers": "What the fees cover",
+      "coverTiles": {
+        "cours1": "Classes and",
+        "cours2": "materials",
+        "tp1": "Practical",
+        "tp2": "work",
+        "encadrement1": "Teaching",
+        "encadrement2": "supervision",
+        "stage1": "Internship",
+        "stage2": "follow-up"
+      },
+      "goodToKnow": "Good to know",
+      "tips": {
+        "t1": "Tuition fees can be paid by Mobile Money (Orange, MTN, Express Union).",
+        "t2": "An official receipt is issued after each payment."
+      }
+    },
+    "debouches": {
+      "jobsTitle": "Accessible careers",
+      "jobsIntro": "After a {{name}}, you can work in particular as:",
+      "sectors": "Sectors that are hiring",
+      "sectorTiles": {
+        "entreprises1": "Companies",
+        "entreprises2": "(private and public)",
+        "banques1": "Banks &",
+        "banques2": "insurance",
+        "cabinets1": "Chartered",
+        "cabinets2": "accounting firms",
+        "commerce1": "Trade &",
+        "commerce2": "distribution"
+      },
+      "career": "Career progression",
+      "careerIntro": "Opportunities to progress to positions of responsibility:",
+      "steps": {
+        "comptable": "Accountant",
+        "chef1": "Chief",
+        "chef2": "accountant",
+        "controleur1": "Management",
+        "controleur2": "controller",
+        "raf1": "Administrative",
+        "raf2": "and financial",
+        "raf3": "manager (CFO)"
+      }
+    }
+  },
+  "preinscription": {
+    "sent": {
+      "title": "Pre-registration sent!",
+      "text": "{{school}} has received your application for the <b>{{training}}</b> programme. You will be notified by SMS, email and notification.",
+      "back": "Back to the institution",
+      "explore": "Keep exploring"
+    },
+    "toastValidated": "Pre-registration confirmed",
+    "crumb": "Pre-registration",
+    "heroTitle": "Online pre-registration",
+    "subtitleRecap": "Check your information before confirming your application.",
+    "subtitle": "Book your place in the programme of your choice in a few minutes.",
+    "aside": {
+      "diplome": "Diploma",
+      "duree": "Duration",
+      "cours": "Classes",
+      "fees": "Tuition fees:",
+      "question": "Any questions?",
+      "whatsappAria": "WhatsApp",
+      "whatsappToast": "Opening WhatsApp (demo)"
+    },
+    "steps": {
+      "info1": "Personal",
+      "info2": "information",
+      "parcours1": "Academic",
+      "parcours2": "background",
+      "pieces1": "Required",
+      "pieces2": "documents",
+      "validation": "Confirmation"
+    },
+    "step1": {
+      "title": "Step 1: Personal information",
+      "nom": "Last name",
+      "nomPlaceholder": "Enter your last name",
+      "prenom": "First name(s)",
+      "prenomPlaceholder": "Enter your first names",
+      "sexe": "Sex",
+      "sexes": {
+        "masculin": "Male",
+        "feminin": "Female"
+      },
+      "select": "Select",
+      "naissance": "Date of birth",
+      "naissancePlaceholder": "DD / MM / YYYY",
+      "nationalite": "Nationality",
+      "nationalites": {
+        "camerounaise": "Cameroonian",
+        "tchadienne": "Chadian",
+        "gabonaise": "Gabonese",
+        "centrafricaine": "Central African",
+        "congolaise": "Congolese",
+        "autre": "Other"
+      },
+      "telephone": "Phone",
+      "telephonePlaceholder": "6 XX XX XX XX",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com"
+    },
+    "step2": {
+      "title": "Step 2: Academic background",
+      "diplome": "Last diploma obtained",
+      "diplomas": {
+        "baccalaureat": "Baccalaureate",
+        "probatoire": "Probatoire",
+        "bts": "BTS",
+        "licence": "Bachelor’s degree",
+        "gceALevel": "GCE A Level"
+      },
+      "serie": "Series / Specialisation",
+      "seriePlaceholder": "E.g. G2 – Accounting and Management",
+      "annee": "Year obtained",
+      "select": "Select",
+      "etablissement": "Previous institution",
+      "etablissementPlaceholder": "Name of your institution",
+      "autre": "I have another diploma (BTS, Bachelor’s, etc.)"
+    },
+    "step3": {
+      "title": "Step 3: Required documents",
+      "pieces": {
+        "cni": "ID card or birth certificate",
+        "diplome": "Last diploma",
+        "releve": "Transcript",
+        "photo": "Passport photo (JPEG/PNG)"
+      },
+      "chooseFile": "Choose a file",
+      "formats": "Accepted formats: PDF, JPG, PNG — 5 MB per file."
+    },
+    "recap": {
+      "title": "Summary of your pre-registration",
+      "intro": "Please check the information below before submitting your application.",
+      "personal": "Your personal information",
+      "nom": "Name:",
+      "telephone": "Phone:",
+      "email": "Email:",
+      "parcours": "Your academic background",
+      "diplome": "Last diploma:",
+      "serie": "Series:",
+      "annee": "Year:",
+      "etablissement": "Institution:",
+      "attachments": "Your attachments",
+      "allUploaded": "All documents have been uploaded successfully.",
+      "seePieces": "View documents",
+      "secureTitle": "Your data is secure",
+      "secureText": "Your information is protected and will only be used for your registration.",
+      "edit": "Edit"
+    },
+    "nav": {
+      "back": "Back",
+      "next": "Next",
+      "submit": "Confirm my pre-registration"
+    }
+  }
+}

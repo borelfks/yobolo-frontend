@@ -1,0 +1,133 @@
+{
+  "connexion": {
+    "title": "Sign in",
+    "identifier": "Email or phone",
+    "password": "Password",
+    "show": "Show",
+    "hide": "Hide",
+    "remember": "Remember me",
+    "forgot": {
+      "link": "Forgot your password?",
+      "title": "Forgotten password",
+      "text": "A code would be sent to you by SMS or WhatsApp."
+    },
+    "submit": "Sign in",
+    "or": "Or",
+    "signUp": "Create an account",
+    "guest": "Continue without an account",
+    "welcome": "Welcome, {{name}}!",
+    "demoAccount": "Demo account",
+    "errors": {
+      "identifier": "Enter your email or phone number.",
+      "password": "The password must have at least 6 characters."
+    }
+  },
+  "demoAccounts": {
+    "utilisateur": {
+      "label": "Individual"
+    },
+    "ipes": {
+      "label": "School – IPES"
+    },
+    "cfp": {
+      "label": "School – CFP"
+    },
+    "autre": {
+      "label": "School – Other"
+    }
+  },
+  "inscription": {
+    "title": "Create an account",
+    "steps": {
+      "profil": "Profile",
+      "infos": "Details",
+      "verification": "Verification",
+      "done": "Done"
+    },
+    "profiles": {
+      "ecole": {
+        "title": "School / IPES",
+        "line1": "Training institute,",
+        "line2": "centre, driving school, etc."
+      },
+      "consultant": {
+        "title": "Consultant",
+        "line1": "Expert, trainer,",
+        "line2": "adviser, etc."
+      },
+      "entreprise": {
+        "title": "Company",
+        "line1": "Business, organisation,",
+        "line2": "employer, etc."
+      },
+      "personne": {
+        "title": "Individual",
+        "line1": "Applicant, student,",
+        "line2": "jobseeker, etc."
+      }
+    },
+    "choose": {
+      "title": "Choose your profile",
+      "text": "Select the type of account that suits you."
+    },
+    "continue": "Continue",
+    "back": "Back",
+    "infos": {
+      "title": "General information",
+      "text": "Fill in the basic information for your account.",
+      "choose": "Choose",
+      "fields": {
+        "nom": "Company name / Full name",
+        "telephone": "Phone",
+        "email": "Email",
+        "region": "Region",
+        "ville": "City",
+        "quartier": "Neighbourhood",
+        "motDePasse": "Password",
+        "confirmation": "Confirm the password"
+      }
+    },
+    "errors": {
+      "required": "This field is required.",
+      "phone": "Incomplete phone number.",
+      "email": "Invalid email address.",
+      "region": "Choose a region.",
+      "city": "Choose a city.",
+      "district": "Choose a neighbourhood.",
+      "passwordLength": "At least 8 characters.",
+      "passwordMatch": "The passwords do not match."
+    },
+    "verification": {
+      "title": "Verification of your profile – {{profile}}",
+      "text": "Attach the required documents to validate your account.",
+      "docs": {
+        "cni": "Identity document (ID card or passport)",
+        "autorisation": "Opening authorisation",
+        "justificatif": "Proof of activity",
+        "niu": "NIU (Unique Identification Number)"
+      },
+      "formats": "PDF, JPG or PNG (max. 5 MB)",
+      "import": "Upload",
+      "confidential": "Your documents are confidential and will be checked by the YIBOLO team before your account is activated.",
+      "submit": "Submit for verification",
+      "sent": "Application sent for verification"
+    },
+    "pending": {
+      "title": "Your account is being verified",
+      "text1": "We are reviewing your information and documents.",
+      "text2": "You will receive an email and SMS notification once it is approved.",
+      "delay": "Processing time",
+      "delayValue": "24 to 48 hours",
+      "notification": "Notification",
+      "notificationValue": "Email and SMS",
+      "back": "Back to sign in",
+      "simulate": "Simulate approval by YIBOLO"
+    },
+    "validated": {
+      "title": "Account approved!",
+      "text1": "Your account has been successfully verified.",
+      "text2": "You can now sign in and access your YIBOLO space.",
+      "signIn": "Sign in to my space"
+    }
+  }
+}

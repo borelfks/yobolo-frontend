@@ -1,9 +1,9 @@
-import { portrait } from '@/lib/utils'
+import { portrait } from '@/shared/utils/format'
 
 export const actualites = [
-  { id: 'rentree-2026', titre: 'Rentrée académique 2026 – Inscriptions ouvertes', date: '06 oct. 2026', statut: 'Publiée' as const, categorie: 'Rentrée / Admission', vues: 428, partages: 52, image: '/maquette/actu-rentree.jpg' },
-  { id: 'ceremonie', titre: 'Cérémonie de remise des diplômes – Promo 2025', date: '20 sept. 2026', statut: 'Publiée' as const, categorie: 'Événement', vues: 312, partages: 31, image: '/maquette/actu-ceremonie.jpg' },
-  { id: 'maintenance', titre: 'Nouvelle filière : Maintenance Industrielle', date: '01 sept. 2026', statut: 'Brouillon' as const, categorie: 'Formation', vues: 0, partages: 0, image: '/maquette/actu-filiere.jpg' },
+  { id: 'rentree-2026', titre: 'Rentrée académique 2026 – Inscriptions ouvertes', date: '06 oct. 2026', statut: 'Publiée' as const, categorie: 'Rentrée / Admission', vues: 428, partages: 52, image: '/images/maquette/actu-rentree.jpg' },
+  { id: 'ceremonie', titre: 'Cérémonie de remise des diplômes – Promo 2025', date: '20 sept. 2026', statut: 'Publiée' as const, categorie: 'Événement', vues: 312, partages: 31, image: '/images/maquette/actu-ceremonie.jpg' },
+  { id: 'maintenance', titre: 'Nouvelle filière : Maintenance Industrielle', date: '01 sept. 2026', statut: 'Brouillon' as const, categorie: 'Formation', vues: 0, partages: 0, image: '/images/maquette/actu-filiere.jpg' },
 ]
 
 export const actualiteById = (id?: string) => actualites.find((a) => a.id === id) ?? actualites[0]

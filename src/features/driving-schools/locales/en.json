@@ -1,0 +1,703 @@
+{
+  "common": {
+    "approved": "Approved",
+    "licence": "Licence {{code}}",
+    "licenceTitle": "Licence {{code}} – {{name}}",
+    "reviews_one": "({{count}} review)",
+    "reviews_other": "({{count}} reviews)",
+    "places_one": "{{count}} place",
+    "places_other": "{{count}} places",
+    "enrol": "Enrol",
+    "enrolNow": "Enrol now",
+    "addToFavorites": "Add to favourites",
+    "inFavorites": "In your favourites",
+    "crumbs": {
+      "school": "School",
+      "drivingSchools": "Driving schools",
+      "profile": "Profile"
+    }
+  },
+  "permis": {
+    "A": {
+      "name": "Motorcycle",
+      "short": "Motorbike",
+      "vehicle": "Motorbike",
+      "duration": "≈ 1 to 2 months",
+      "sub": "Riding a motorbike (≥ 125 cc)"
+    },
+    "B": {
+      "name": "Light vehicle",
+      "vehicle": "Car",
+      "duration": "≈ 2 to 3 months",
+      "sub": "Driving a passenger car"
+    },
+    "C": {
+      "name": "Heavy vehicle",
+      "vehicle": "Lorry",
+      "duration": "≈ 3 to 4 months",
+      "sub": "Driving lorries and heavy vehicles"
+    },
+    "D": {
+      "name": "Public transport",
+      "short": "Public transport",
+      "vehicle": "Bus",
+      "duration": "≈ 2 to 3 months",
+      "sub": "Driving buses, coaches or minibuses"
+    },
+    "E": {
+      "name": "Trailer",
+      "vehicle": "Trailer",
+      "duration": "≈ 1 month",
+      "sub": "Driving with a heavy trailer"
+    }
+  },
+  "sessions": {
+    "days": {
+      "monFri": "Mon – Fri"
+    },
+    "hours": "{{from}}:00 – {{to}}:00",
+    "daysHours": "{{days}}: {{hours}}",
+    "duration_one": "≈ {{count}} month",
+    "duration_other": "≈ {{count}} months"
+  },
+  "reviewDate": {
+    "days_one": "{{count}} day ago",
+    "days_other": "{{count}} days ago",
+    "weeks_one": "{{count}} week ago",
+    "weeks_other": "{{count}} weeks ago"
+  },
+  "header": {
+    "logoAlt": "{{name}} logo",
+    "trained": "{{value}} learners trained"
+  },
+  "favoriteModal": {
+    "title": "Add to favourites",
+    "textTraining": "Save this programme to find it again easily.",
+    "textSchool": "Save this driving school to find it again easily.",
+    "close": "Close",
+    "chooseFolder": "Choose a folder (optional)",
+    "cancel": "Cancel",
+    "add": "Add to favourites",
+    "folders": {
+      "myTrainings": "My programmes",
+      "myInstitutions": "My institutions",
+      "toCompare": "To compare"
+    }
+  },
+  "list": {
+    "title": "Driving schools in Cameroon",
+    "subtitle": "Find an approved driving school near you and prepare for your driving licence.",
+    "search": {
+      "placeholder": "Company name (driving school name)",
+      "allLicences": "Licence (all)",
+      "region": "Region",
+      "city": "City",
+      "district": "Neighbourhood",
+      "submit": "Search"
+    },
+    "filters": {
+      "title": "Refine your search",
+      "licenceType": "Licence type",
+      "allLicences": "All licences",
+      "location": "Location",
+      "region": "Region",
+      "city": "City",
+      "district": "Area",
+      "allRegions": "All regions",
+      "allCities": "All cities",
+      "allDistricts": "All neighbourhoods",
+      "reset": "Reset filters"
+    },
+    "found": "Driving schools found: {{count}}",
+    "sortBy": "Sort by:",
+    "sort": {
+      "bestRated": "Highest rated",
+      "cheapest": "Lowest price",
+      "nearest": "Nearest"
+    },
+    "gridView": "Grid view",
+    "listView": "List view",
+    "card": {
+      "trained": "{{value}} trained",
+      "licences": "Licences offered",
+      "viewProfile": "View profile",
+      "saveToFolder": "Save to a favourites folder…"
+    },
+    "empty": "No driving school matches these criteria.",
+    "pagination": "Showing 1 to {{count}} of {{total}} driving schools"
+  },
+  "profile": {
+    "tabs": {
+      "overview": "Overview",
+      "trainings": "Programmes & Licences",
+      "prices": "Prices",
+      "schedule": "Schedule",
+      "gallery": "Gallery",
+      "reviews": "Reviews ({{count}})"
+    },
+    "headers": {
+      "trainings": {
+        "title": "Programmes & Licences",
+        "subtitle": "All our driving programmes and licence categories."
+      },
+      "schedule": {
+        "title": "Programme schedule",
+        "subtitle": "Calendar of upcoming sessions and class times."
+      },
+      "gallery": {
+        "title": "Gallery – {{name}}",
+        "subtitle": "Discover our training setting, our equipment and our learners in action."
+      }
+    },
+    "why": {
+      "title": "Why choose us?",
+      "items": {
+        "approved": "Approved driving school",
+        "instructors": "Certified, experienced instructors",
+        "vehicles": "Recent, safe vehicles",
+        "successRate": "High pass rate (≈ 85%)",
+        "flexibleHours": "Flexible hours (day / evening / weekend)",
+        "examSupport": "Support right up to the exam"
+      }
+    },
+    "filters": {
+      "reset": "Reset",
+      "category": "Licence category"
+    },
+    "overview": {
+      "presentationTitle": "About us",
+      "presentation": "{{name}} is an approved institution specialising in driver training and preparation for the various licences ({{licences}}). We offer professional supervision, experienced instructors and well-maintained vehicles.",
+      "facts": {
+        "founded": "Year founded",
+        "location": "Location",
+        "hours": "Opening hours",
+        "hoursValue": "Mon – Sat: 08:00 – 18:00",
+        "status": "Status"
+      },
+      "licences": "Licences offered",
+      "gallery": "Gallery ({{count}})",
+      "seeGallery": "View the gallery",
+      "previous": "Previous",
+      "next": "Next",
+      "contactTitle": "Contact & access",
+      "mapAlt": "Access map",
+      "seeOnMap": "View on the map",
+      "mapToast": "Opening the map (demo)"
+    },
+    "trainings": {
+      "filterTitle": "Filter programmes",
+      "type": "Programme type",
+      "types": {
+        "initial": "Initial training",
+        "refresher": "Refresher course"
+      },
+      "title": "Our programmes and licence categories",
+      "count_one": "{{count}} programme",
+      "count_other": "{{count}} programmes",
+      "details": "View details",
+      "ctaText": "Choose your programme and start your enrolment."
+    },
+    "prices": {
+      "title": "Our programme prices",
+      "fullTraining": "Full programme",
+      "note": "Prices may vary by session. Check the <link>schedule</link> for upcoming programme dates.",
+      "includedTitle": "What the price includes",
+      "included": {
+        "code": "Highway code lessons (theory)",
+        "driving": "Practical driving with an instructor",
+        "materials": "Learning materials",
+        "exam": "Support up to the exam",
+        "fees": "Internal training fees"
+      },
+      "paymentTitle": "Payment terms",
+      "paymentOnce": "Single payment",
+      "discount": "– 5%",
+      "paymentInstalments": "Payment in instalments",
+      "paymentConditions": "(terms at enrolment)"
+    },
+    "schedule": {
+      "filterTitle": "Filter the schedule",
+      "session": "Session",
+      "sessionTypes": {
+        "next": "Next sessions",
+        "upcoming": "Upcoming sessions"
+      },
+      "title": "Next training sessions",
+      "columns": {
+        "training": "Programme / Licence",
+        "start": "Start date",
+        "hours": "Times",
+        "duration": "Duration",
+        "places": "Places"
+      },
+      "nextIntake": "Next intake",
+      "goodToKnow": "Good to know",
+      "tips": {
+        "code": "Highway code: day, evening and weekend",
+        "flexible": "Flexible schedule depending on sessions",
+        "groups": "Small group sizes",
+        "open": "Enrolment open all year round"
+      }
+    },
+    "gallery": {
+      "categories": "Categories",
+      "cats": {
+        "all": "All",
+        "centre": "Centre",
+        "vehicles": "Vehicles",
+        "classes": "Classes",
+        "exams": "Exams"
+      },
+      "photoToast": "Photo of {{name}} (demo)",
+      "sideTitle": "Our gallery",
+      "photos": "{{count}} photos",
+      "videos": "{{count}} videos",
+      "centre": "Our training centre",
+      "vehicles": "Our learner vehicles",
+      "classes": "Our classroom lessons",
+      "exams": "Our practical exams",
+      "seeVideos": "Watch the videos",
+      "videosToast": "Playing the videos (demo)"
+    },
+    "reviews": {
+      "overall": "Overall rating",
+      "basedOn_one": "Based on {{count}} verified review",
+      "basedOn_other": "Based on {{count}} verified reviews",
+      "percent": "{{value}}%",
+      "criteria": {
+        "quality": "Quality of training",
+        "instructors": "Instructor competence",
+        "organisation": "Organisation & schedule",
+        "facilities": "Facilities & vehicles",
+        "welcome": "Welcome & support"
+      },
+      "give": "Write a review",
+      "title": "Learner reviews ({{count}})",
+      "sort": "Sort",
+      "mostRecent": "Most recent",
+      "bestRated": "Highest rated",
+      "more": "More actions",
+      "moreToast": "Report · Share (demo)"
+    }
+  },
+  "licence": {
+    "tabs": {
+      "overview": "Overview",
+      "programme": "Syllabus",
+      "conditions": "Requirements",
+      "prices": "Prices",
+      "schedule": "Schedule"
+    },
+    "steps": {
+      "code": "Highway code",
+      "driving": "Practical driving",
+      "safety": "Road safety",
+      "exam": "Exam preparation"
+    },
+    "programmeTitle": "Training syllabus",
+    "admission": "Admission requirements",
+    "documents": "Required documents",
+    "priceTitle": "Programme price",
+    "fullTraining": "Full programme · {{duration}}",
+    "payment": "Single payment (–5%) or in instalments (terms at enrolment).",
+    "nextSessions": "Next sessions – Licence {{code}}",
+    "noSession": "No session scheduled at the moment. Enrol now: the driving school will offer you the next date.",
+    "startsOn": "Starts on {{date}}",
+    "quickContact": "Quick contact",
+    "practicalInfo": "Practical information",
+    "info": {
+      "avgDuration": "Average duration",
+      "classes": "Classes",
+      "classesValue": "Day / Evening / Weekend",
+      "place": "Training location",
+      "contact": "Contact",
+      "whatsapp": "WhatsApp"
+    },
+    "content": {
+      "A": {
+        "subtitle": "Full programme to ride a motorcycle safely.",
+        "presentationTitle": "About the programme",
+        "presentation": "Licence A entitles you to ride a motorcycle (two-wheeler) safely, in accordance with the regulations in force in Cameroon.",
+        "programme": [
+          "Rules, road signs and safety",
+          "Two-wheeler control and traffic",
+          "Risk prevention and good reflexes",
+          "Mock tests and real-life practice"
+        ],
+        "conditions": [
+          "Be at least 18 years old",
+          "Be able to read and write French",
+          "Be medically fit to drive"
+        ],
+        "documents": [
+          "National ID card (copy) or birth certificate",
+          "02 recent passport photos",
+          "Medical certificate of fitness to drive"
+        ],
+        "included": [
+          "Highway code lessons",
+          "Driving lessons",
+          "Support up to the exam"
+        ]
+      },
+      "B": {
+        "subtitle": "Full programme to drive a car safely and obtain your licence.",
+        "presentationTitle": "About",
+        "presentation": "Licence B allows you to drive a light vehicle (car) and travel safely, in accordance with the regulations in force in Cameroon.",
+        "programme": [
+          "Rules, road signs and legislation",
+          "Vehicle control and driving in traffic",
+          "Risk prevention and eco-driving",
+          "Mock tests and real-life practice"
+        ],
+        "conditions": [
+          "Be at least 18 years old",
+          "Be able to read and write French",
+          "Be medically fit to drive"
+        ],
+        "documents": [
+          "Copy of national ID card (or accepted ID)",
+          "02 recent passport photos",
+          "Medical certificate of fitness to drive"
+        ],
+        "included": [
+          "Highway code lessons (theory)",
+          "Practical driving",
+          "Support up to the exam"
+        ]
+      },
+      "C": {
+        "subtitle": "Full programme to drive a lorry and work in goods transport.",
+        "presentationTitle": "About",
+        "presentation": "Licence C authorises you to drive a goods vehicle (lorry, rigid truck) with a maximum authorised mass above 3.5 tonnes, in accordance with the regulations in force in Cameroon.",
+        "programme": [
+          "Rules, road signs and regulations",
+          "Heavy vehicle control and manoeuvres",
+          "Prevention of transport-specific risks",
+          "Practice and official tests"
+        ],
+        "conditions": [
+          "Be at least 21 years old",
+          "Hold a Licence B",
+          "Be medically fit to drive"
+        ],
+        "documents": [
+          "Copy of national ID card (or accepted ID)",
+          "Copy of Licence B",
+          "02 recent passport photos",
+          "Medical certificate of fitness to drive"
+        ],
+        "included": [
+          "Highway code lessons (theory)",
+          "Practical driving on a heavy vehicle",
+          "Support up to the exam"
+        ]
+      },
+      "D": {
+        "subtitle": "Full programme to drive a passenger transport vehicle (bus, coach, minibus).",
+        "presentationTitle": "About",
+        "presentation": "Licence D authorises you to drive a public passenger transport vehicle (bus, coach, minibus), in accordance with the regulations in force in Cameroon.",
+        "programme": [
+          "Rules, road signs and regulations",
+          "Bus control and safe transport",
+          "Risk management and responsibility",
+          "Tests and real-life practice"
+        ],
+        "conditions": [
+          "Be at least 21 years old",
+          "Hold a Licence B",
+          "Medical fitness to drive"
+        ],
+        "documents": [
+          "Copy of national ID card (or accepted ID)",
+          "Copy of Licence B",
+          "02 recent passport photos",
+          "Medical certificate of fitness to drive"
+        ],
+        "included": [
+          "Highway code lessons (theory)",
+          "Practical driving on a bus",
+          "Support up to the exam"
+        ]
+      },
+      "E": {
+        "subtitle": "Full programme to drive with a heavy trailer.",
+        "presentationTitle": "About",
+        "presentation": "Licence E authorises you to attach a heavy trailer to a category B, C or D vehicle, in accordance with the regulations in force in Cameroon.",
+        "programme": [
+          "Rules, road signs and regulations",
+          "Coupling and manoeuvres",
+          "Risk prevention",
+          "Tests and real-life practice"
+        ],
+        "conditions": [
+          "Be at least 21 years old",
+          "Hold a Licence B or C",
+          "Be medically fit to drive"
+        ],
+        "documents": [
+          "Copy of national ID card (or accepted ID)",
+          "Copy of Licence B",
+          "02 recent passport photos",
+          "Medical certificate of fitness to drive"
+        ],
+        "included": [
+          "Highway code lessons (theory)",
+          "Practical driving with a trailer",
+          "Support up to the exam"
+        ]
+      }
+    }
+  },
+  "enrollment": {
+    "permis": {
+      "A": {
+        "name": "Motorcycle",
+        "duration": "≈ 1 to 2 months"
+      },
+      "B": {
+        "name": "Light vehicle",
+        "duration": "≈ 2 to 3 months"
+      },
+      "C": {
+        "name": "Heavy goods vehicle",
+        "duration": "≈ 3 to 4 months"
+      },
+      "D": {
+        "name": "Public transport",
+        "duration": "≈ 2 to 3 months"
+      },
+      "E": {
+        "name": "Trailer",
+        "duration": "≈ 1 month"
+      }
+    },
+    "permisName": "Licence {{code}} – {{name}}",
+    "permisShort": "Licence {{code}}",
+    "sex": {
+      "male": "Male",
+      "female": "Female"
+    },
+    "pieces": {
+      "cni": {
+        "label": "Copy of the national identity card (CNI)",
+        "short": "CNI",
+        "state": "Added",
+        "hint": "Format: PDF, JPG or PNG (≤ 5 MB)",
+        "button": "Upload the file"
+      },
+      "photos": {
+        "label": "Recent passport photos (x2)",
+        "short": "Photos (x2)",
+        "state": "Added",
+        "hint": "Format: JPG or PNG (≤ 2 MB per photo)",
+        "button": "Upload the photos"
+      },
+      "medical": {
+        "label": "Medical certificate of fitness to drive",
+        "short": "Medical certificate",
+        "state": "Added",
+        "hint": "Format: PDF, JPG or PNG (≤ 5 MB)",
+        "button": "Upload the file"
+      }
+    },
+    "crumbs": {
+      "school": "School",
+      "drivingSchools": "Driving schools",
+      "enrollment": "Enrolment"
+    },
+    "form": {
+      "lastName": "Surname",
+      "lastNamePlaceholder": "Your surname",
+      "firstName": "First name(s)",
+      "firstNamePlaceholder": "Your first name(s)",
+      "birthDate": "Date of birth",
+      "birthDatePlaceholder": "dd / mm / yyyy",
+      "sex": "Sex",
+      "select": "Select",
+      "phone": "Phone",
+      "emailOptional": "Email (optional)",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "city": "City",
+      "cityPlaceholder": "Select the city",
+      "neighbourhood": "Neighbourhood",
+      "neighbourhoodPlaceholder": "Your neighbourhood"
+    },
+    "actions": {
+      "edit": "Edit",
+      "replace": "Replace",
+      "back": "Back",
+      "previous": "Previous",
+      "next": "Next",
+      "send": "Send my request",
+      "cancel": "Cancel",
+      "save": "Save changes",
+      "add": "Add",
+      "view": "View"
+    },
+    "toast": {
+      "pieceAdded": "{{piece}}: file added",
+      "fileAdded": "{{name}} added",
+      "certifyRequired": "Tick the certification box to send your request.",
+      "sent": "Request sent to the driving school",
+      "trainingUpdated": "Programme updated",
+      "changesSaved": "Changes saved",
+      "preview": "Document preview (demo)",
+      "fileReplaced": "File replaced",
+      "licenceBAdded": "Licence B added"
+    },
+    "inscription": {
+      "steps": {
+        "infos": "My details",
+        "pieces": "Required documents",
+        "validation": "Validation"
+      },
+      "sent": {
+        "title": "Request sent!",
+        "text": "Your enrolment request for the {{permis}} has been sent to {{school}}. You will be informed by SMS, email and notification as soon as it is processed.",
+        "backToSchool": "Back to the driving school",
+        "otherSchools": "See other driving schools"
+      },
+      "header": {
+        "validationTitle": "Enrolment – Validation",
+        "title": "Enrolment in the programme",
+        "validationSubtitle": "Check your details before sending your request."
+      },
+      "infos": {
+        "heading": "Candidate details",
+        "chosenTraining": "Chosen programme",
+        "schoolLocation": "{{school}} – {{city}}, {{neighbourhood}}"
+      },
+      "pieces": {
+        "heading": "Required documents",
+        "intro": "Attach the documents below to complete your enrolment request.",
+        "required": "Required",
+        "dropTitle": "Drag and drop your files here",
+        "dropText": "or click to select from your device"
+      },
+      "recap": {
+        "heading": "Summary of your enrolment",
+        "personal": "Personal details",
+        "fullName": "Full name",
+        "birthDate": "Date of birth",
+        "phone": "Phone",
+        "email": "Email",
+        "location": "Location",
+        "training": "Chosen programme",
+        "licence": "Licence",
+        "drivingSchool": "Driving school",
+        "place": "Training location",
+        "price": "Price",
+        "session": "Session",
+        "duration": "Estimated duration",
+        "piecesProvided": "Documents provided",
+        "rowLabel": "{{label}}:",
+        "certify": "I certify that the information provided is accurate and I accept the driving school’s <conditions>enrolment terms</conditions> and YIBOLO’s <privacy>privacy policy</privacy>."
+      },
+      "aside": {
+        "summary": "Enrolment summary",
+        "drivingSchool": "Driving school",
+        "training": "Programme",
+        "place": "Location",
+        "price": "Programme fees",
+        "nextSessions": "Upcoming sessions",
+        "start": "Start:",
+        "duration": "Duration:",
+        "placesAvailable": "Places available",
+        "benefits": "Your benefits",
+        "benefit1": "Quick and secure enrolment",
+        "benefit2": "Track your application online",
+        "benefit3": "Support right up to the exam",
+        "yourTraining": "Your programme",
+        "chosenLicence": "Chosen licence",
+        "drivingSchoolLower": "Driving school",
+        "tips": "Tips for your documents",
+        "tip1": "Legible, valid documents.",
+        "tip2": "Accepted formats: PDF, JPG, PNG.",
+        "tip3": "Maximum size: 5 MB per file.",
+        "tip4": "Passport photos: light background, face clearly visible.",
+        "willBeSent": "Your request will be sent to {{school}}.",
+        "notification": "You will be notified as soon as your application is processed.",
+        "nextSteps": "Next steps",
+        "step1Title": "Receipt of your request",
+        "step1Text": "An acknowledgement of receipt will be sent to you.",
+        "step2Title": "Review of your application",
+        "step2Text": "Checking of your details and documents.",
+        "step3Title": "Driving school’s response",
+        "step3Text": "Admission, request for more documents or refusal.",
+        "goodToKnow": "Good to know",
+        "know1": "Your application is processed within 48 to 72 h.",
+        "know2": "Track its progress in your YIBOLO space.",
+        "know3": "You will be informed by SMS, email and notification."
+      }
+    },
+    "edit": {
+      "sections": {
+        "infos": {
+          "title": "Edit my details",
+          "subtitle": "Update your personal details before final submission.",
+          "crumb": "Edit details"
+        },
+        "formation": {
+          "title": "Edit the chosen programme",
+          "subtitle": "Change driving school, licence or session.",
+          "crumb": "Edit programme"
+        },
+        "pieces": {
+          "title": "Edit the documents provided",
+          "subtitle": "Replace or complete your documents.",
+          "crumb": "Edit documents"
+        }
+      },
+      "menu": {
+        "infos1": "Personal",
+        "infos2": "details",
+        "formation": "Chosen programme",
+        "pieces": "Documents provided"
+      },
+      "formation": {
+        "heading": "New programme",
+        "drivingSchool": "Driving school",
+        "licence": "Licence (category)",
+        "place": "Training location",
+        "session": "Preferred session",
+        "duration": "Estimated duration",
+        "price": "Programme fees",
+        "notice": "Changing the programme may update the required documents according to the requirements of the new programme."
+      },
+      "infos": {
+        "heading": "Personal details"
+      },
+      "pieces": {
+        "heading": "My documents",
+        "prior": "Prior licence (if required for this category)",
+        "priorHint": "Copy of Licence B",
+        "notProvided": "Not provided",
+        "addOther": "Add another document (optional)",
+        "addOtherHint": "PDF, JPG or PNG — 5 MB max"
+      },
+      "aside": {
+        "currentTraining": "Current programme",
+        "myEnrollment": "My enrolment",
+        "trainingReminder": "My programme",
+        "drivingSchool": "School:",
+        "licence": "Licence:",
+        "session": "Session:",
+        "price": "Price:",
+        "benefits": "Your benefits",
+        "note": "Please note",
+        "goodToKnow": "Good to know",
+        "formation1": "Change your programme in a few clicks.",
+        "formation2": "Keep the details and documents already sent.",
+        "formation3": "Receive an update confirmation in your YIBOLO space.",
+        "infos1": "Your details can be edited until final submission.",
+        "infos2": "The driving school always receives the latest version.",
+        "infos3": "You are notified of every update.",
+        "pieces1": "Legible, valid documents.",
+        "pieces2": "Accepted formats: PDF, JPG, PNG.",
+        "pieces3": "Maximum size: 5 MB per file."
+      }
+    }
+  }
+}

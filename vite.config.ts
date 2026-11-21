@@ -29,6 +29,8 @@ export default defineConfig({
       'react-hook-form',
       'zod',
       '@hookform/resolvers/zod',
+      'i18next',
+      'react-i18next',
     ],
   },
 })

@@ -1,0 +1,116 @@
+{
+  "home": {
+    "hero": {
+      "line1": "Train, find an expert,",
+      "line2": "grow",
+      "highlight": "your career!",
+      "text": "Vocational schools, consultants, trades and job opportunities brought together on a single platform.",
+      "features": {
+        "verified": "Verified institutions",
+        "experts": "Certified experts",
+        "opportunities": "Real opportunities"
+      }
+    },
+    "univers": {
+      "school": {
+        "title": "School",
+        "text": "Find a recognised, qualifying programme"
+      },
+      "consultant": {
+        "title": "Consultant",
+        "text": "Consult experts by field"
+      },
+      "trades": {
+        "title": "Trades",
+        "text": "Discover trades and key skills"
+      },
+      "jobs": {
+        "title": "Jobs",
+        "text": "Access job, internship and apprenticeship offers"
+      }
+    },
+    "search": {
+      "title": "Search YIBOLO",
+      "location": {
+        "label": "Location",
+        "hint": "Region, city, neighbourhood"
+      },
+      "school": {
+        "label": "School",
+        "hint": "All institutions",
+        "options": {
+          "ipes": "IPES",
+          "cfp": "CFP",
+          "drivingSchools": "Driving schools",
+          "others": "Others"
+        }
+      },
+      "consultant": {
+        "label": "Consultant",
+        "hint": "All fields",
+        "options": {
+          "finance": "Finance & Tax",
+          "hr": "HR & Management",
+          "legal": "Legal",
+          "digital": "Digital & IT"
+        }
+      },
+      "trades": {
+        "label": "Trades",
+        "hint": "All trades",
+        "options": {
+          "mechanic": "Mechanic",
+          "accountant": "Accountant",
+          "nurse": "Nurse",
+          "electrician": "Electrician"
+        }
+      },
+      "submit": "Search"
+    },
+    "reco": {
+      "title": "Our recommendations",
+      "tabs": {
+        "ecoles": "Schools",
+        "consultants": "Consultants",
+        "metiers": "Trades",
+        "emplois": "Jobs"
+      },
+      "reviews_one": "({{n}} review)",
+      "reviews_other": "({{n}} reviews)",
+      "school": {
+        "badge": "School",
+        "chips": {
+          "accounting": "Accounting",
+          "hr": "HR",
+          "it": "IT"
+        }
+      },
+      "consultant": {
+        "badge": "Consultant",
+        "field": "Management & HR",
+        "available": "Available"
+      },
+      "trade": {
+        "badge": "Trade",
+        "title": "Car mechanic",
+        "tasks": "Servicing • Diagnosis • Repair",
+        "demand": "High demand"
+      },
+      "job": {
+        "badge": "Job",
+        "title": "Driving instructor",
+        "contract": "Permanent",
+        "new": "New"
+      }
+    }
+  },
+  "comingSoon": {
+    "title": "{{space}} — coming soon",
+    "text": "This demo covers the School area. The {{space}} area is coming in a future version.",
+    "spaces": {
+      "emploi": "Jobs",
+      "consultation": "Consulting"
+    },
+    "explore": "Explore schools"
+  }
+}

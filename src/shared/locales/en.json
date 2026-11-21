@@ -1,0 +1,195 @@
+{
+  "errors": {
+    "generic": {
+      "title": "Something went wrong",
+      "text": "This page could not be displayed. Reload it or go back to the home page."
+    },
+    "offline": {
+      "title": "No internet connection",
+      "text": "Check your connection, then try again."
+    },
+    "reload": "Reload the page",
+    "retry": "Try again",
+    "backHome": "Back to home"
+  },
+  "account": {
+    "signIn": "Sign in",
+    "signUp": "Create an account"
+  },
+  "footer": {
+    "tagline": "The platform for training, expertise and employment in Central Africa.",
+    "city": "Yaoundé, Cameroon",
+    "copyright": "© 2026 YIBOLO — Demo · Fictitious data",
+    "columns": {
+      "school": "School",
+      "institutions": "Institutions",
+      "account": "My account"
+    },
+    "links": {
+      "ipes": "IPES",
+      "drivingSchools": "Driving schools",
+      "favorites": "My favourites",
+      "proSpace": "IPES professional space",
+      "listSchool": "List my school",
+      "allSchools": "All schools",
+      "signIn": "Sign in",
+      "signUp": "Create an account"
+    }
+  },
+  "pro": {
+    "space": "Professional space – {{type}}",
+    "verified": "Verified institution",
+    "support": {
+      "button": "YIBOLO Support",
+      "title": "YIBOLO Support",
+      "text": "An adviser answers you Monday to Saturday, from 8 am to 6 pm."
+    },
+    "nav": {
+      "dashboard": "Dashboard",
+      "profile": "Institution profile",
+      "trainings": "Programmes",
+      "manageTrainings": "Manage programmes",
+      "newTraining": "Create a programme",
+      "contents": "Content and information",
+      "news": "Content & news",
+      "documents": "Downloadable documents",
+      "faq": "FAQ (Frequent questions)",
+      "statistics": "Statistics",
+      "settings": "Settings"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "aria_one": "Notifications ({{count}} unread)",
+    "aria_other": "Notifications ({{count}} unread)",
+    "seeAll": "See all notifications",
+    "items": {
+      "preRegistration": {
+        "title": "Pre-registration received",
+        "text": "IPC has received your BTS Accounting application.",
+        "when": "2 h ago"
+      },
+      "session": {
+        "title": "Session confirmed",
+        "text": "Licence B – starts on 15 Nov 2026.",
+        "when": "Yesterday"
+      },
+      "message": {
+        "title": "New message",
+        "text": "Me Alain Tchana has replied to you.",
+        "when": "2 days ago"
+      }
+    }
+  },
+  "demoAccounts": {
+    "utilisateur": {
+      "subtitle": "User"
+    },
+    "ipes": {
+      "subtitle": "Administrator"
+    },
+    "cfp": {
+      "subtitle": "Administrator"
+    },
+    "autre": {
+      "subtitle": "Administrator"
+    }
+  },
+  "logo": {
+    "home": "YIBOLO — Home",
+    "tagline": "Learn · Train · Consult · Work"
+  },
+  "breadcrumb": {
+    "label": "Breadcrumb",
+    "home": "Home"
+  },
+  "pagination": {
+    "previous": "Previous page",
+    "next": "Next page"
+  },
+  "loading": "Loading",
+  "modal": {
+    "close": "Close"
+  },
+  "rating": {
+    "reviews_one": "({{n}} review)",
+    "reviews_other": "({{n}} reviews)",
+    "stars_one": "{{count}} star",
+    "stars_other": "{{count}} stars"
+  },
+  "favorites": {
+    "add": "Add to favourites",
+    "remove": "Remove from favourites",
+    "added": "Added to your favourites",
+    "folder": "Folder: {{folder}}",
+    "removed": "Removed from your favourites",
+    "cleared": "All your favourites have been deleted",
+    "folders": {
+      "trainings": "My programmes",
+      "institutions": "My institutions",
+      "compare": "To compare"
+    }
+  },
+  "status": {
+    "publiee": "Published",
+    "publie": "Published",
+    "actif": "Active",
+    "active": "Active",
+    "valide": "Approved",
+    "verifiee": "Verified",
+    "verifie": "Verified",
+    "confirme": "Confirmed",
+    "paye": "Paid",
+    "disponible": "Available",
+    "clientActif": "Active client",
+    "terminee": "Completed",
+    "realise": "Done",
+    "enAttente": "Pending",
+    "enValidation": "Under validation",
+    "enAnalyse": "Under review",
+    "aEvaluer": "To assess",
+    "enCours": "In progress",
+    "prestationEnCours": "Service in progress",
+    "aVenir": "Upcoming",
+    "prospectConverti": "Converted prospect",
+    "aValider": "To validate",
+    "brouillon": "Draft",
+    "inactif": "Inactive",
+    "nonDemarree": "Not started",
+    "aFaire": "To do",
+    "annule": "Cancelled",
+    "aCompleter": "To complete"
+  },
+  "blocks": {
+    "ai": {
+      "title": "AI Assistant",
+      "toastText": "Demo feature: suggestions will appear here."
+    },
+    "tip": "Good to know",
+    "file": {
+      "view": "View",
+      "download": "Download",
+      "more": "More actions",
+      "previewTitle": "Document preview",
+      "previewText": "Demo: the file would open here.",
+      "downloadStarted": "Download started"
+    },
+    "demoAction": "Demo action"
+  },
+  "fields": {
+    "dropzone": {
+      "title": "Drag and drop your files here",
+      "hint": "PDF, JPG, PNG — 10 MB max",
+      "action": "{{title}} or <browse>browse</browse>"
+    },
+    "chips": {
+      "placeholder": "+ Add a keyword",
+      "remove": "Remove {{label}}"
+    }
+  },
+  "languageSwitcher": {
+    "francais": "Français",
+    "anglais": "English",
+    "changerDeLangue": "Change language"
+  }
+}

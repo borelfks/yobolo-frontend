@@ -1,0 +1,133 @@
+{
+  "connexion": {
+    "title": "Connexion",
+    "identifier": "Email ou téléphone",
+    "password": "Mot de passe",
+    "show": "Afficher",
+    "hide": "Masquer",
+    "remember": "Se souvenir de moi",
+    "forgot": {
+      "link": "Mot de passe oublié ?",
+      "title": "Mot de passe oublié",
+      "text": "Un code vous serait envoyé par SMS ou WhatsApp."
+    },
+    "submit": "Se connecter",
+    "or": "Ou",
+    "signUp": "Créer un compte",
+    "guest": "Continuer sans compte",
+    "welcome": "Bienvenue, {{name}} !",
+    "demoAccount": "Compte de démonstration",
+    "errors": {
+      "identifier": "Saisissez votre e-mail ou votre téléphone.",
+      "password": "Le mot de passe compte au moins 6 caractères."
+    }
+  },
+  "demoAccounts": {
+    "utilisateur": {
+      "label": "Personne physique"
+    },
+    "ipes": {
+      "label": "École – IPES"
+    },
+    "cfp": {
+      "label": "École – CFP"
+    },
+    "autre": {
+      "label": "École – Autre"
+    }
+  },
+  "inscription": {
+    "title": "Créer un compte",
+    "steps": {
+      "profil": "Profil",
+      "infos": "Infos",
+      "verification": "Vérification",
+      "done": "Terminé"
+    },
+    "profiles": {
+      "ecole": {
+        "title": "École / IPES",
+        "line1": "Institut de formation,",
+        "line2": "centre, auto-école, etc."
+      },
+      "consultant": {
+        "title": "Consultant",
+        "line1": "Expert, formateur,",
+        "line2": "conseiller, etc."
+      },
+      "entreprise": {
+        "title": "Entreprise",
+        "line1": "Société, organisation,",
+        "line2": "employeur, etc."
+      },
+      "personne": {
+        "title": "Personne physique",
+        "line1": "Candidat, étudiant,",
+        "line2": "demandeur d’emploi, etc."
+      }
+    },
+    "choose": {
+      "title": "Choisissez votre profil",
+      "text": "Sélectionnez le type de compte qui vous correspond."
+    },
+    "continue": "Continuer",
+    "back": "Retour",
+    "infos": {
+      "title": "Informations générales",
+      "text": "Renseignez les informations de base de votre compte.",
+      "choose": "Choisir",
+      "fields": {
+        "nom": "Raison sociale / Nom et prénoms",
+        "telephone": "Téléphone",
+        "email": "Email",
+        "region": "Région",
+        "ville": "Ville",
+        "quartier": "Quartier",
+        "motDePasse": "Mot de passe",
+        "confirmation": "Confirmer le mot de passe"
+      }
+    },
+    "errors": {
+      "required": "Ce champ est obligatoire.",
+      "phone": "Numéro de téléphone incomplet.",
+      "email": "Adresse e-mail invalide.",
+      "region": "Choisissez une région.",
+      "city": "Choisissez une ville.",
+      "district": "Choisissez un quartier.",
+      "passwordLength": "Au moins 8 caractères.",
+      "passwordMatch": "Les mots de passe ne correspondent pas."
+    },
+    "verification": {
+      "title": "Vérification de votre profil – {{profile}}",
+      "text": "Joignez les documents requis pour valider votre compte.",
+      "docs": {
+        "cni": "Pièce d’identité (CNI ou passeport)",
+        "autorisation": "Autorisation d’ouverture",
+        "justificatif": "Justificatif d’activité",
+        "niu": "NIU (Numéro d’Identification Unique)"
+      },
+      "formats": "PDF, JPG ou PNG (max. 5 Mo)",
+      "import": "Importer",
+      "confidential": "Vos documents sont confidentiels et seront vérifiés par l’équipe YIBOLO avant l’activation de votre compte.",
+      "submit": "Soumettre pour vérification",
+      "sent": "Dossier envoyé pour vérification"
+    },
+    "pending": {
+      "title": "Votre compte est en cours de vérification",
+      "text1": "Nous examinons vos informations et documents.",
+      "text2": "Vous recevrez une notification par email et SMS dès la validation.",
+      "delay": "Délai de traitement",
+      "delayValue": "24 à 48 heures",
+      "notification": "Notification",
+      "notificationValue": "Email et SMS",
+      "back": "Retour à la connexion",
+      "simulate": "Simuler la validation par YIBOLO"
+    },
+    "validated": {
+      "title": "Compte validé !",
+      "text1": "Votre compte a été vérifié avec succès.",
+      "text2": "Vous pouvez maintenant vous connecter et accéder à votre espace YIBOLO.",
+      "signIn": "Se connecter à mon espace"
+    }
+  }
+}

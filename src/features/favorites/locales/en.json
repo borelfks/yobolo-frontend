@@ -1,0 +1,62 @@
+{
+  "favoris": {
+    "crumbs": {
+      "ecole": "School",
+      "mesFavoris": "My favourites"
+    },
+    "title": "My favourites",
+    "subtitle": "Find here the programmes and institutions you have saved.",
+    "filtres": {
+      "tous": "All favourites",
+      "formation": "Programmes",
+      "etablissement": "Institutions"
+    },
+    "astuce": {
+      "titre": "Tip",
+      "texte": "Add programmes and institutions to your favourites to find them easily."
+    },
+    "toutSupprimer": "Delete all",
+    "vide": {
+      "titre": "No favourites yet",
+      "texte": "Explore schools and add the ones you are interested in.",
+      "explorer": "Explore schools"
+    }
+  },
+  "row": {
+    "badges": {
+      "formation": "Programme",
+      "etablissement": "Institution"
+    },
+    "voirDetails": "View details",
+    "voirEtablissement": "View institution",
+    "fraisFormation": "Tuition fees",
+    "parAn": "/ year",
+    "dureeMois_one": "{{count}} month",
+    "dureeMois_other": "{{count}} months",
+    "modes": {
+      "jour": "Day classes",
+      "soir": "Evening classes",
+      "jourSoir": "Day & Evening"
+    },
+    "note_one": "{{note}}/5 ({{count}} review)",
+    "note_other": "{{note}}/5 ({{count}} reviews)",
+    "etablissementVerifie": "Verified institution",
+    "tarifFormation": "Programme price",
+    "permisTitre": "Licence {{code}} – {{nom}}",
+    "permis": {
+      "A": "Motorcycle",
+      "B": "Light vehicle",
+      "C": "Heavy goods vehicle",
+      "D": "Public transport",
+      "E": "Trailer"
+    },
+    "duree": {
+      "A": "≈ 1 to 2 months",
+      "B": "≈ 2 to 3 months",
+      "C": "≈ 3 to 4 months",
+      "D": "≈ 2 to 3 months",
+      "E": "≈ 1 month"
+    },
+    "retirer": "Remove from favourites"
+  }
+}

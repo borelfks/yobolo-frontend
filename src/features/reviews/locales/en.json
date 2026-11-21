@@ -1,0 +1,88 @@
+{
+  "donnerAvis": {
+    "crumbs": {
+      "ecole": "School",
+      "autoEcoles": "Driving schools",
+      "avis": "Reviews",
+      "donnerAvis": "Write a review"
+    },
+    "types": {
+      "ipes": "IPES",
+      "cfp": "CFP",
+      "autres": "Others"
+    },
+    "heroSubtitle": "Your review helps future learners choose their institution.",
+    "title": "Write a review",
+    "intro": "Share your training experience to help future learners.",
+    "noteGlobale": "Your overall rating",
+    "etoiles_one": "{{count}} star",
+    "etoiles_other": "{{count}} stars",
+    "notes": {
+      "decevant": "Disappointing",
+      "moyen": "Average",
+      "bien": "Good",
+      "tresBien": "Very good",
+      "excellent": "Excellent"
+    },
+    "criteresTitre": "Rate the following points",
+    "facultatif": "(optional)",
+    "criteres": {
+      "qualiteFormation": "Quality of training",
+      "competenceMoniteurs": "Instructors’ skills",
+      "organisationPlanning": "Organisation & schedule",
+      "infrastructuresVehicules": "Facilities & vehicles",
+      "accueilAccompagnement": "Welcome & support",
+      "qualiteEnseignements": "Quality of teaching",
+      "competenceEnseignants": "Teachers’ skills",
+      "organisationAdministration": "Organisation & administration",
+      "infrastructuresEquipements": "Facilities & equipment",
+      "insertionPro": "Employability"
+    },
+    "commentaire": "Your comment",
+    "placeholder": {
+      "autoEcole": "Briefly describe your experience (e.g. quality of training, instructors, organisation, vehicles, etc.).",
+      "ecole": "Briefly describe your experience (e.g. quality of training, teachers, organisation, equipment, etc.)."
+    },
+    "confirm": {
+      "autoEcole": "I confirm that I trained at this driving school.",
+      "ecole": "I confirm that I trained at this institution."
+    },
+    "annuler": "Cancel",
+    "publier": "Publish my review",
+    "conseils": {
+      "titre": "A few tips",
+      "honnete": "Be honest and constructive.",
+      "aspects": "Rate the most important aspects.",
+      "courtois": "Stay polite and respectful."
+    },
+    "verifie": {
+      "titre": "Verified review",
+      "texte": "Your review will be marked “Verified” once approved by YIBOLO (confirmed enrolment or training)."
+    },
+    "toasts": {
+      "tropCourt": "Your comment must be at least 10 characters long.",
+      "confirmAutoEcole": "Please confirm that you trained at this driving school.",
+      "confirmEcole": "Please confirm that you trained at this institution.",
+      "merci": "Thank you! Your review will be published once checked by YIBOLO."
+    }
+  },
+  "blocks": {
+    "noteGlobale": "Overall rating",
+    "basee_one": "Based on {{total}} verified review",
+    "basee_other": "Based on {{total}} verified reviews",
+    "pourcentage": "{{value}}%",
+    "donnerAvis": "Write a review",
+    "avisVerifie": "Verified review",
+    "roles": {
+      "etudiant": "Student",
+      "etudiante": "Student",
+      "ancienEtudiant": "Former student",
+      "ancienneEtudiante": "Former student",
+      "entreprise": "Company"
+    },
+    "toasts": {
+      "merciRetour": "Thank you for your feedback",
+      "chargement": "Loading more reviews (demo)"
+    }
+  }
+}

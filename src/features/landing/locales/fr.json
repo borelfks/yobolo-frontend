@@ -1,0 +1,116 @@
+{
+  "home": {
+    "hero": {
+      "line1": "Formez-vous, trouvez un expert,",
+      "line2": "développez",
+      "highlight": "votre carrière !",
+      "text": "Écoles professionnelles, consultants, métiers et opportunités d’emploi réunis sur une seule plateforme.",
+      "features": {
+        "verified": "Établissements vérifiés",
+        "experts": "Experts certifiés",
+        "opportunities": "Opportunités réelles"
+      }
+    },
+    "univers": {
+      "school": {
+        "title": "École",
+        "text": "Trouvez une formation qualifiante et reconnue"
+      },
+      "consultant": {
+        "title": "Consultant",
+        "text": "Consultez des experts par domaine"
+      },
+      "trades": {
+        "title": "Métiers",
+        "text": "Découvrez les métiers et les compétences clés"
+      },
+      "jobs": {
+        "title": "Emploi",
+        "text": "Accédez aux offres d’emploi, de stage et d’apprentissage"
+      }
+    },
+    "search": {
+      "title": "Rechercher sur YIBOLO",
+      "location": {
+        "label": "Localisation",
+        "hint": "Région, ville, quartier"
+      },
+      "school": {
+        "label": "École",
+        "hint": "Tous les établissements",
+        "options": {
+          "ipes": "IPES",
+          "cfp": "CFP",
+          "drivingSchools": "Auto-écoles",
+          "others": "Autres"
+        }
+      },
+      "consultant": {
+        "label": "Consultant",
+        "hint": "Tous les domaines",
+        "options": {
+          "finance": "Finance & Fiscalité",
+          "hr": "RH & Management",
+          "legal": "Juridique",
+          "digital": "Digital & SI"
+        }
+      },
+      "trades": {
+        "label": "Métiers",
+        "hint": "Tous les métiers",
+        "options": {
+          "mechanic": "Mécanicien",
+          "accountant": "Comptable",
+          "nurse": "Infirmier",
+          "electrician": "Électricien"
+        }
+      },
+      "submit": "Rechercher"
+    },
+    "reco": {
+      "title": "Nos recommandations",
+      "tabs": {
+        "ecoles": "Écoles",
+        "consultants": "Consultants",
+        "metiers": "Métiers",
+        "emplois": "Emplois"
+      },
+      "reviews_one": "({{n}} avis)",
+      "reviews_other": "({{n}} avis)",
+      "school": {
+        "badge": "École",
+        "chips": {
+          "accounting": "Comptabilité",
+          "hr": "RH",
+          "it": "Informatique"
+        }
+      },
+      "consultant": {
+        "badge": "Consultant",
+        "field": "Management & RH",
+        "available": "Disponible"
+      },
+      "trade": {
+        "badge": "Métier",
+        "title": "Mécanicien automobile",
+        "tasks": "Entretien • Diagnostic • Réparation",
+        "demand": "Forte demande"
+      },
+      "job": {
+        "badge": "Emploi",
+        "title": "Moniteur(trice) de conduite",
+        "contract": "CDI",
+        "new": "Nouveau"
+      }
+    }
+  },
+  "comingSoon": {
+    "title": "{{space}} — bientôt disponible",
+    "text": "Cette démonstration couvre l’univers École. L’espace {{space}} arrive dans une prochaine version.",
+    "spaces": {
+      "emploi": "Emploi",
+      "consultation": "Consultation"
+    },
+    "explore": "Explorer les écoles"
+  }
+}

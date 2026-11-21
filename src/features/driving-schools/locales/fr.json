@@ -1,0 +1,703 @@
+{
+  "common": {
+    "approved": "Agréée",
+    "licence": "Permis {{code}}",
+    "licenceTitle": "Permis {{code}} – {{name}}",
+    "reviews_one": "({{count}} avis)",
+    "reviews_other": "({{count}} avis)",
+    "places_one": "{{count}} places",
+    "places_other": "{{count}} places",
+    "enrol": "S’inscrire",
+    "enrolNow": "S’inscrire maintenant",
+    "addToFavorites": "Ajouter aux favoris",
+    "inFavorites": "Dans vos favoris",
+    "crumbs": {
+      "school": "École",
+      "drivingSchools": "Auto-Écoles",
+      "profile": "Profil"
+    }
+  },
+  "permis": {
+    "A": {
+      "name": "Motocyclette",
+      "short": "Moto",
+      "vehicle": "Moto",
+      "duration": "≈ 1 à 2 mois",
+      "sub": "Conduite d’une moto (≥ 125 cm³)"
+    },
+    "B": {
+      "name": "Véhicule léger",
+      "vehicle": "Voiture",
+      "duration": "≈ 2 à 3 mois",
+      "sub": "Conduite d’un véhicule de tourisme"
+    },
+    "C": {
+      "name": "Poids lourd",
+      "vehicle": "Camion",
+      "duration": "≈ 3 à 4 mois",
+      "sub": "Conduite de camions et véhicules lourds"
+    },
+    "D": {
+      "name": "Transport en commun",
+      "short": "Transport commun",
+      "vehicle": "Bus",
+      "duration": "≈ 2 à 3 mois",
+      "sub": "Conduite de bus, car ou minibus"
+    },
+    "E": {
+      "name": "Remorque",
+      "vehicle": "Remorque",
+      "duration": "≈ 1 mois",
+      "sub": "Conduite avec remorque lourde"
+    }
+  },
+  "sessions": {
+    "days": {
+      "monFri": "Lun – Ven"
+    },
+    "hours": "{{from}}h – {{to}}h",
+    "daysHours": "{{days}} : {{hours}}",
+    "duration_one": "≈ {{count}} mois",
+    "duration_other": "≈ {{count}} mois"
+  },
+  "reviewDate": {
+    "days_one": "Il y a {{count}} jour",
+    "days_other": "Il y a {{count}} jours",
+    "weeks_one": "Il y a {{count}} semaine",
+    "weeks_other": "Il y a {{count}} semaines"
+  },
+  "header": {
+    "logoAlt": "Logo {{name}}",
+    "trained": "{{value}} apprenants formés"
+  },
+  "favoriteModal": {
+    "title": "Ajouter aux favoris",
+    "textTraining": "Enregistrez cette formation pour la retrouver facilement.",
+    "textSchool": "Enregistrez cette auto-école pour la retrouver facilement.",
+    "close": "Fermer",
+    "chooseFolder": "Choisir un dossier (facultatif)",
+    "cancel": "Annuler",
+    "add": "Ajouter aux favoris",
+    "folders": {
+      "myTrainings": "Mes formations",
+      "myInstitutions": "Mes établissements",
+      "toCompare": "À comparer"
+    }
+  },
+  "list": {
+    "title": "Auto-Écoles du Cameroun",
+    "subtitle": "Trouvez une auto-école agréée près de chez vous et préparez votre permis de conduire.",
+    "search": {
+      "placeholder": "Raison sociale (nom de l’auto-école)",
+      "allLicences": "Permis (tous)",
+      "region": "Région",
+      "city": "Ville",
+      "district": "Quartier",
+      "submit": "Rechercher"
+    },
+    "filters": {
+      "title": "Affiner la recherche",
+      "licenceType": "Type de permis",
+      "allLicences": "Tous les permis",
+      "location": "Localisation",
+      "region": "Région",
+      "city": "Ville",
+      "district": "Quartier",
+      "allRegions": "Toutes les régions",
+      "allCities": "Toutes les villes",
+      "allDistricts": "Tous les quartiers",
+      "reset": "Réinitialiser les filtres"
+    },
+    "found": "Auto-Écoles trouvées : {{count}}",
+    "sortBy": "Trier par :",
+    "sort": {
+      "bestRated": "Les mieux notées",
+      "cheapest": "Les moins chères",
+      "nearest": "Les plus proches"
+    },
+    "gridView": "Vue grille",
+    "listView": "Vue liste",
+    "card": {
+      "trained": "{{value}} formés",
+      "licences": "Permis proposés",
+      "viewProfile": "Voir le profil",
+      "saveToFolder": "Ranger dans un dossier de favoris…"
+    },
+    "empty": "Aucune auto-école ne correspond à ces critères.",
+    "pagination": "Affichage de 1 à {{count}} sur {{total}} auto-écoles"
+  },
+  "profile": {
+    "tabs": {
+      "overview": "Aperçu",
+      "trainings": "Formations & Permis",
+      "prices": "Tarifs",
+      "schedule": "Planning",
+      "gallery": "Galerie",
+      "reviews": "Avis ({{count}})"
+    },
+    "headers": {
+      "trainings": {
+        "title": "Formations & Permis",
+        "subtitle": "Toutes nos formations à la conduite et catégories de permis."
+      },
+      "schedule": {
+        "title": "Planning des formations",
+        "subtitle": "Calendrier des prochaines sessions et horaires de cours."
+      },
+      "gallery": {
+        "title": "Galerie – {{name}}",
+        "subtitle": "Découvrez notre cadre de formation, nos équipements et nos apprenants en action."
+      }
+    },
+    "why": {
+      "title": "Pourquoi nous choisir ?",
+      "items": {
+        "approved": "Auto-école agréée",
+        "instructors": "Moniteurs certifiés et expérimentés",
+        "vehicles": "Véhicules récents et sécurisés",
+        "successRate": "Taux de réussite élevé (≈ 85 %)",
+        "flexibleHours": "Horaires flexibles (jour / soir / week-end)",
+        "examSupport": "Accompagnement jusqu’à l’examen"
+      }
+    },
+    "filters": {
+      "reset": "Réinitialiser",
+      "category": "Catégorie de permis"
+    },
+    "overview": {
+      "presentationTitle": "Présentation",
+      "presentation": "{{name}} est un établissement agréé, spécialisé dans la formation à la conduite et la préparation aux différents permis ({{licences}}). Nous vous offrons un encadrement professionnel, des moniteurs expérimentés et des véhicules en bon état.",
+      "facts": {
+        "founded": "Année de création",
+        "location": "Localisation",
+        "hours": "Horaires",
+        "hoursValue": "Lun – Sam : 08h – 18h",
+        "status": "Statut"
+      },
+      "licences": "Permis proposés",
+      "gallery": "Galerie ({{count}})",
+      "seeGallery": "Voir la galerie",
+      "previous": "Précédent",
+      "next": "Suivant",
+      "contactTitle": "Contact & accès",
+      "mapAlt": "Plan d’accès",
+      "seeOnMap": "Voir sur la carte",
+      "mapToast": "Ouverture de la carte (démo)"
+    },
+    "trainings": {
+      "filterTitle": "Filtrer les formations",
+      "type": "Type de formation",
+      "types": {
+        "initial": "Formation initiale",
+        "refresher": "Renforcement / Recyclage"
+      },
+      "title": "Nos formations et catégories de permis",
+      "count_one": "{{count}} formations",
+      "count_other": "{{count}} formations",
+      "details": "Voir les détails",
+      "ctaText": "Choisissez votre formation et démarrez votre inscription."
+    },
+    "prices": {
+      "title": "Nos tarifs de formation",
+      "fullTraining": "Formation complète",
+      "note": "Les tarifs peuvent varier selon la session. Consultez le <link>planning</link> pour les prochaines dates de formation.",
+      "includedTitle": "Ce que comprend le tarif",
+      "included": {
+        "code": "Cours de code (théorie)",
+        "driving": "Conduite pratique avec moniteur",
+        "materials": "Supports pédagogiques",
+        "exam": "Accompagnement à l’examen",
+        "fees": "Frais internes de formation"
+      },
+      "paymentTitle": "Modalités de paiement",
+      "paymentOnce": "Paiement en une seule fois",
+      "discount": "– 5 %",
+      "paymentInstalments": "Paiement en plusieurs échéances",
+      "paymentConditions": "(conditions à l’inscription)"
+    },
+    "schedule": {
+      "filterTitle": "Filtrer le planning",
+      "session": "Session",
+      "sessionTypes": {
+        "next": "Prochaines sessions",
+        "upcoming": "Sessions à venir"
+      },
+      "title": "Prochaines sessions de formation",
+      "columns": {
+        "training": "Formation / Permis",
+        "start": "Date de début",
+        "hours": "Horaires",
+        "duration": "Durée",
+        "places": "Places"
+      },
+      "nextIntake": "Prochaine rentrée",
+      "goodToKnow": "Bon à savoir",
+      "tips": {
+        "code": "Cours de code : jour, soir et week-end",
+        "flexible": "Planning flexible selon les sessions",
+        "groups": "Groupes à effectif limité",
+        "open": "Inscription ouverte toute l’année"
+      }
+    },
+    "gallery": {
+      "categories": "Catégories",
+      "cats": {
+        "all": "Toutes",
+        "centre": "Centre",
+        "vehicles": "Véhicules",
+        "classes": "Cours",
+        "exams": "Examens"
+      },
+      "photoToast": "Photo de {{name}} (démo)",
+      "sideTitle": "Notre galerie",
+      "photos": "{{count}} photos",
+      "videos": "{{count}} vidéos",
+      "centre": "Notre centre de formation",
+      "vehicles": "Nos véhicules d’apprentissage",
+      "classes": "Nos cours en salle",
+      "exams": "Nos examens pratiques",
+      "seeVideos": "Voir les vidéos",
+      "videosToast": "Lecture des vidéos (démo)"
+    },
+    "reviews": {
+      "overall": "Note globale",
+      "basedOn_one": "Basée sur {{count}} avis vérifiés",
+      "basedOn_other": "Basée sur {{count}} avis vérifiés",
+      "percent": "{{value}} %",
+      "criteria": {
+        "quality": "Qualité de la formation",
+        "instructors": "Compétence des moniteurs",
+        "organisation": "Organisation & planning",
+        "facilities": "Infrastructures & véhicules",
+        "welcome": "Accueil & accompagnement"
+      },
+      "give": "Donner mon avis",
+      "title": "Avis des apprenants ({{count}})",
+      "sort": "Trier",
+      "mostRecent": "Les plus récents",
+      "bestRated": "Les mieux notés",
+      "more": "Plus d'actions",
+      "moreToast": "Signaler · Partager (démo)"
+    }
+  },
+  "licence": {
+    "tabs": {
+      "overview": "Aperçu",
+      "programme": "Programme",
+      "conditions": "Conditions",
+      "prices": "Tarifs",
+      "schedule": "Planning"
+    },
+    "steps": {
+      "code": "Code de la route",
+      "driving": "Conduite pratique",
+      "safety": "Sécurité routière",
+      "exam": "Préparation à l’examen"
+    },
+    "programmeTitle": "Programme de formation",
+    "admission": "Conditions d’admission",
+    "documents": "Pièces à fournir",
+    "priceTitle": "Tarif de la formation",
+    "fullTraining": "Formation complète · {{duration}}",
+    "payment": "Paiement en une seule fois (–5 %) ou en plusieurs échéances (conditions à l’inscription).",
+    "nextSessions": "Prochaines sessions – Permis {{code}}",
+    "noSession": "Aucune session programmée pour le moment. Inscrivez-vous : l’auto-école vous proposera la prochaine date.",
+    "startsOn": "Début le {{date}}",
+    "quickContact": "Contact rapide",
+    "practicalInfo": "Informations pratiques",
+    "info": {
+      "avgDuration": "Durée moyenne",
+      "classes": "Cours",
+      "classesValue": "Jour / Soir / Week-end",
+      "place": "Lieu de formation",
+      "contact": "Contact",
+      "whatsapp": "WhatsApp"
+    },
+    "content": {
+      "A": {
+        "subtitle": "Formation complète pour conduire une motocyclette en toute sécurité.",
+        "presentationTitle": "Présentation de la formation",
+        "presentation": "Le Permis A vous habilite à conduire une motocyclette (deux-roues) en toute sécurité, conformément à la réglementation en vigueur au Cameroun.",
+        "programme": [
+          "Règles, signalisation et sécurité",
+          "Maîtrise du deux-roues et circulation",
+          "Prévention des risques et bons réflexes",
+          "Tests blancs et mises en situation réelles"
+        ],
+        "conditions": [
+          "Être âgé(e) d’au moins 18 ans",
+          "Savoir lire et écrire le français",
+          "Être apte médicalement à la conduite"
+        ],
+        "documents": [
+          "CNI (copie) ou acte de naissance",
+          "02 photos d’identité récentes",
+          "Certificat médical d’aptitude à la conduite"
+        ],
+        "included": [
+          "Cours de code",
+          "Leçons de conduite",
+          "Accompagnement à l’examen"
+        ]
+      },
+      "B": {
+        "subtitle": "Formation complète pour conduire une voiture en toute sécurité et obtenir votre permis.",
+        "presentationTitle": "Présentation",
+        "presentation": "Le Permis B vous permet de conduire un véhicule léger (voiture) et de circuler en toute sécurité, conformément à la réglementation en vigueur au Cameroun.",
+        "programme": [
+          "Règles, signalisation et législation",
+          "Maîtrise du véhicule et mise en circulation",
+          "Prévention des risques et éco-conduite",
+          "Tests blancs et mise en situation réelle"
+        ],
+        "conditions": [
+          "Être âgé(e) d’au moins 18 ans",
+          "Savoir lire et écrire le français",
+          "Être apte médicalement à la conduite"
+        ],
+        "documents": [
+          "Copie de la CNI (ou pièce d’identité admise)",
+          "02 photos d’identité récentes",
+          "Certificat médical d’aptitude à la conduite"
+        ],
+        "included": [
+          "Cours de code (théorie)",
+          "Conduite pratique",
+          "Accompagnement à l’examen"
+        ]
+      },
+      "C": {
+        "subtitle": "Formation complète pour conduire un camion et exercer dans le transport de marchandises.",
+        "presentationTitle": "Présentation",
+        "presentation": "Le Permis C vous autorise à conduire un véhicule de transport de marchandises (camion, porteur) d’un poids total autorisé supérieur à 3,5 tonnes, conformément à la réglementation en vigueur au Cameroun.",
+        "programme": [
+          "Règles, signalisation et réglementation",
+          "Maîtrise du poids lourd et manœuvres",
+          "Prévention des risques spécifiques au transport",
+          "Mises en situation et tests officiels"
+        ],
+        "conditions": [
+          "Être âgé(e) d’au moins 21 ans",
+          "Être titulaire du Permis B",
+          "Être apte médicalement à la conduite"
+        ],
+        "documents": [
+          "Copie de la CNI (ou pièce d’identité admise)",
+          "Copie du Permis B",
+          "02 photos d’identité récentes",
+          "Certificat médical d’aptitude à la conduite"
+        ],
+        "included": [
+          "Cours de code (théorie)",
+          "Conduite pratique sur poids lourd",
+          "Accompagnement à l’examen"
+        ]
+      },
+      "D": {
+        "subtitle": "Formation complète pour conduire un véhicule de transport de personnes (bus, car, minibus).",
+        "presentationTitle": "Présentation",
+        "presentation": "Le Permis D vous autorise à conduire un véhicule de transport en commun de personnes (autobus, autocar, minibus), conformément à la réglementation en vigueur au Cameroun.",
+        "programme": [
+          "Règles, signalisation et réglementation",
+          "Maîtrise du bus et transport en sécurité",
+          "Gestion des risques et responsabilité",
+          "Tests et mises en situation réelles"
+        ],
+        "conditions": [
+          "Être âgé(e) d’au moins 21 ans",
+          "Être titulaire du Permis B",
+          "Aptitude médicale à la conduite"
+        ],
+        "documents": [
+          "Copie de la CNI (ou pièce d’identité admise)",
+          "Copie du Permis B",
+          "02 photos d’identité récentes",
+          "Certificat médical d’aptitude à la conduite"
+        ],
+        "included": [
+          "Cours de code (théorie)",
+          "Conduite pratique sur bus",
+          "Accompagnement à l’examen"
+        ]
+      },
+      "E": {
+        "subtitle": "Formation complète pour conduire avec une remorque lourde.",
+        "presentationTitle": "Présentation",
+        "presentation": "Le Permis E vous autorise à atteler une remorque lourde à un véhicule des catégories B, C ou D, conformément à la réglementation en vigueur au Cameroun.",
+        "programme": [
+          "Règles, signalisation et réglementation",
+          "Attelage et manœuvres",
+          "Prévention des risques",
+          "Tests et mises en situation réelles"
+        ],
+        "conditions": [
+          "Être âgé(e) d’au moins 21 ans",
+          "Être titulaire du Permis B ou C",
+          "Être apte médicalement à la conduite"
+        ],
+        "documents": [
+          "Copie de la CNI (ou pièce d’identité admise)",
+          "Copie du Permis B",
+          "02 photos d’identité récentes",
+          "Certificat médical d’aptitude à la conduite"
+        ],
+        "included": [
+          "Cours de code (théorie)",
+          "Conduite pratique avec remorque",
+          "Accompagnement à l’examen"
+        ]
+      }
+    }
+  },
+  "enrollment": {
+    "permis": {
+      "A": {
+        "name": "Motocyclette",
+        "duration": "≈ 1 à 2 mois"
+      },
+      "B": {
+        "name": "Véhicule léger",
+        "duration": "≈ 2 à 3 mois"
+      },
+      "C": {
+        "name": "Poids lourd",
+        "duration": "≈ 3 à 4 mois"
+      },
+      "D": {
+        "name": "Transport en commun",
+        "duration": "≈ 2 à 3 mois"
+      },
+      "E": {
+        "name": "Remorque",
+        "duration": "≈ 1 mois"
+      }
+    },
+    "permisName": "Permis {{code}} – {{name}}",
+    "permisShort": "Permis {{code}}",
+    "sex": {
+      "male": "Masculin",
+      "female": "Féminin"
+    },
+    "pieces": {
+      "cni": {
+        "label": "Copie de la carte nationale d’identité (CNI)",
+        "short": "CNI",
+        "state": "Ajoutée",
+        "hint": "Format : PDF, JPG ou PNG (≤ 5 Mo)",
+        "button": "Importer le fichier"
+      },
+      "photos": {
+        "label": "Photos d’identité récentes (x2)",
+        "short": "Photos (x2)",
+        "state": "Ajoutées",
+        "hint": "Format : JPG ou PNG (≤ 2 Mo par photo)",
+        "button": "Importer les photos"
+      },
+      "medical": {
+        "label": "Certificat médical d’aptitude à la conduite",
+        "short": "Certificat médical",
+        "state": "Ajouté",
+        "hint": "Format : PDF, JPG ou PNG (≤ 5 Mo)",
+        "button": "Importer le fichier"
+      }
+    },
+    "crumbs": {
+      "school": "École",
+      "drivingSchools": "Auto-Écoles",
+      "enrollment": "Inscription"
+    },
+    "form": {
+      "lastName": "Nom",
+      "lastNamePlaceholder": "Votre nom",
+      "firstName": "Prénom(s)",
+      "firstNamePlaceholder": "Vos prénom(s)",
+      "birthDate": "Date de naissance",
+      "birthDatePlaceholder": "jj / mm / aaaa",
+      "sex": "Sexe",
+      "select": "Sélectionner",
+      "phone": "Téléphone",
+      "emailOptional": "Email (facultatif)",
+      "email": "Email",
+      "emailPlaceholder": "votre@email.com",
+      "city": "Ville",
+      "cityPlaceholder": "Sélectionner la ville",
+      "neighbourhood": "Quartier",
+      "neighbourhoodPlaceholder": "Votre quartier"
+    },
+    "actions": {
+      "edit": "Modifier",
+      "replace": "Remplacer",
+      "back": "Retour",
+      "previous": "Précédent",
+      "next": "Suivant",
+      "send": "Envoyer ma demande",
+      "cancel": "Annuler",
+      "save": "Enregistrer les modifications",
+      "add": "Ajouter",
+      "view": "Voir"
+    },
+    "toast": {
+      "pieceAdded": "{{piece}} : fichier ajouté",
+      "fileAdded": "{{name}} ajouté",
+      "certifyRequired": "Cochez la case de certification pour envoyer votre demande.",
+      "sent": "Demande envoyée à l’auto-école",
+      "trainingUpdated": "Formation mise à jour",
+      "changesSaved": "Modifications enregistrées",
+      "preview": "Aperçu du document (démo)",
+      "fileReplaced": "Fichier remplacé",
+      "licenceBAdded": "Permis B ajouté"
+    },
+    "inscription": {
+      "steps": {
+        "infos": "Mes informations",
+        "pieces": "Pièces à fournir",
+        "validation": "Validation"
+      },
+      "sent": {
+        "title": "Demande envoyée !",
+        "text": "Votre demande d’inscription au {{permis}} a été transmise à {{school}}. Vous serez informé par SMS, e-mail et notification dès son traitement.",
+        "backToSchool": "Retour à l’auto-école",
+        "otherSchools": "Voir d’autres auto-écoles"
+      },
+      "header": {
+        "validationTitle": "Inscription – Validation",
+        "title": "Inscription à la formation",
+        "validationSubtitle": "Vérifiez vos informations avant d’envoyer votre demande."
+      },
+      "infos": {
+        "heading": "Informations du candidat",
+        "chosenTraining": "Formation choisie",
+        "schoolLocation": "{{school}} – {{city}}, {{neighbourhood}}"
+      },
+      "pieces": {
+        "heading": "Pièces à fournir",
+        "intro": "Joignez les documents ci-dessous pour finaliser votre demande d’inscription.",
+        "required": "Obligatoire",
+        "dropTitle": "Glissez-déposez vos fichiers ici",
+        "dropText": "ou cliquez pour sélectionner depuis votre appareil"
+      },
+      "recap": {
+        "heading": "Récapitulatif de votre inscription",
+        "personal": "Informations personnelles",
+        "fullName": "Nom et prénoms",
+        "birthDate": "Date de naissance",
+        "phone": "Téléphone",
+        "email": "Email",
+        "location": "Localisation",
+        "training": "Formation choisie",
+        "licence": "Permis",
+        "drivingSchool": "Auto-école",
+        "place": "Lieu de formation",
+        "price": "Tarif",
+        "session": "Session",
+        "duration": "Durée estimée",
+        "piecesProvided": "Pièces fournies",
+        "rowLabel": "{{label}} :",
+        "certify": "Je certifie que les informations fournies sont exactes et j’accepte les <conditions>conditions d’inscription</conditions> de l’auto-école et la <privacy>politique de confidentialité</privacy> de YIBOLO."
+      },
+      "aside": {
+        "summary": "Récapitulatif de l’inscription",
+        "drivingSchool": "Auto-École",
+        "training": "Formation",
+        "place": "Lieu",
+        "price": "Tarif de la formation",
+        "nextSessions": "Prochaines sessions",
+        "start": "Début :",
+        "duration": "Durée :",
+        "placesAvailable": "Places disponibles",
+        "benefits": "Vos avantages",
+        "benefit1": "Inscription rapide et sécurisée",
+        "benefit2": "Suivi de votre dossier en ligne",
+        "benefit3": "Accompagnement jusqu’à l’examen",
+        "yourTraining": "Votre formation",
+        "chosenLicence": "Permis choisi",
+        "drivingSchoolLower": "Auto-école",
+        "tips": "Conseils pour vos documents",
+        "tip1": "Documents lisibles et en cours de validité.",
+        "tip2": "Formats acceptés : PDF, JPG, PNG.",
+        "tip3": "Taille maximale : 5 Mo par fichier.",
+        "tip4": "Photos d’identité : fond clair, visage bien visible.",
+        "willBeSent": "Votre demande sera transmise à l’{{school}}.",
+        "notification": "Vous recevrez une notification dès le traitement de votre dossier.",
+        "nextSteps": "Prochaines étapes",
+        "step1Title": "Réception de votre demande",
+        "step1Text": "Un accusé de réception vous sera envoyé.",
+        "step2Title": "Étude de votre dossier",
+        "step2Text": "Vérification des informations et des pièces.",
+        "step3Title": "Réponse de l’auto-école",
+        "step3Text": "Admission, demande de complément ou refus.",
+        "goodToKnow": "Bon à savoir",
+        "know1": "Votre dossier est traité sous 48 à 72 h.",
+        "know2": "Suivez son évolution dans votre espace YIBOLO.",
+        "know3": "Vous serez informé par SMS, e-mail et notification."
+      }
+    },
+    "edit": {
+      "sections": {
+        "infos": {
+          "title": "Modifier mes informations",
+          "subtitle": "Mettez à jour vos informations personnelles avant l’envoi définitif.",
+          "crumb": "Modifier les informations"
+        },
+        "formation": {
+          "title": "Modifier la formation choisie",
+          "subtitle": "Changez d’auto-école, de permis ou de session.",
+          "crumb": "Modifier la formation"
+        },
+        "pieces": {
+          "title": "Modifier les pièces fournies",
+          "subtitle": "Remplacez ou complétez vos documents.",
+          "crumb": "Modifier les pièces"
+        }
+      },
+      "menu": {
+        "infos1": "Informations",
+        "infos2": "personnelles",
+        "formation": "Formation choisie",
+        "pieces": "Pièces fournies"
+      },
+      "formation": {
+        "heading": "Nouvelle formation",
+        "drivingSchool": "Auto-école",
+        "licence": "Permis (catégorie)",
+        "place": "Lieu de formation",
+        "session": "Session souhaitée",
+        "duration": "Durée estimée",
+        "price": "Tarif de la formation",
+        "notice": "La modification de la formation peut entraîner une mise à jour des pièces à fournir selon les exigences de la nouvelle formation."
+      },
+      "infos": {
+        "heading": "Informations personnelles"
+      },
+      "pieces": {
+        "heading": "Mes documents",
+        "prior": "Permis préalable (si requis pour cette catégorie)",
+        "priorHint": "Copie du Permis B",
+        "notProvided": "Non fourni",
+        "addOther": "Ajouter un autre document (facultatif)",
+        "addOtherHint": "PDF, JPG ou PNG — 5 Mo max"
+      },
+      "aside": {
+        "currentTraining": "Formation actuelle",
+        "myEnrollment": "Mon inscription",
+        "trainingReminder": "Rappel de ma formation",
+        "drivingSchool": "Auto-école :",
+        "licence": "Permis :",
+        "session": "Session :",
+        "price": "Tarif :",
+        "benefits": "Vos avantages",
+        "note": "À noter",
+        "goodToKnow": "Bon à savoir",
+        "formation1": "Modifier votre formation en quelques clics.",
+        "formation2": "Conserver vos informations et pièces déjà transmises.",
+        "formation3": "Recevoir une confirmation de mise à jour dans votre espace YIBOLO.",
+        "infos1": "Vos informations restent modifiables jusqu’à l’envoi définitif.",
+        "infos2": "L’auto-école reçoit toujours la dernière version.",
+        "infos3": "Vous êtes prévenu de chaque mise à jour.",
+        "pieces1": "Documents lisibles et en cours de validité.",
+        "pieces2": "Formats acceptés : PDF, JPG, PNG.",
+        "pieces3": "Taille maximale : 5 Mo par fichier."
+      }
+    }
+  }
+}

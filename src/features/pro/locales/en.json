@@ -1,0 +1,784 @@
+{
+  "header": {
+    "viewPublicPage": "View my public page"
+  },
+  "footer": {
+    "cancel": "Cancel",
+    "cancelled": "Changes cancelled",
+    "saveDraft": "Save as draft",
+    "draftSaved": "Draft saved",
+    "publish": "Save and publish",
+    "published": "Changes saved and published"
+  },
+  "status": {
+    "published": "Published",
+    "pending": "Pending",
+    "draft": "Draft"
+  },
+  "duration_one": "{{count}} month",
+  "duration_other": "{{count}} months",
+  "dashboard": {
+    "title": "Welcome to your professional space",
+    "subtitle": "Manage and update all your institution’s information on YIBOLO.",
+    "viewPublicPage": "View my public page",
+    "kpis": {
+      "trainings": "Programmes",
+      "fields": "Fields of study",
+      "media": "Photos / Videos",
+      "reviews": "Reviews received"
+    },
+    "completion": {
+      "title": "Profile completeness",
+      "text": "Your page is almost complete.",
+      "steps": {
+        "profile": "Profile",
+        "trainings": "Programmes",
+        "info": "Information",
+        "gallery": "Gallery",
+        "optimisation": "Optimisation"
+      },
+      "remaining": "Only <b>1 step</b> left for an optimal profile: optimise your page.",
+      "finish": "Finish"
+    },
+    "infos": {
+      "title": "Information to manage",
+      "lastUpdate": "Last updated: {{date}}",
+      "presentation": {
+        "label": "Presentation",
+        "text": "Describe your institution"
+      },
+      "admission": {
+        "label": "Admission requirements",
+        "text": "Set the criteria and documents"
+      },
+      "fees": {
+        "label": "Fees & payment",
+        "text": "Enter your prices and terms"
+      },
+      "calendar": {
+        "label": "Academic calendar",
+        "text": "Give the intake and key dates"
+      },
+      "careers": {
+        "label": "Career prospects",
+        "text": "List the jobs and sectors"
+      },
+      "contact": {
+        "label": "Contact & location",
+        "text": "Your contact details and address"
+      }
+    },
+    "preview": {
+      "title": "Overview of your public page",
+      "open": "Open the public page",
+      "verified": "Verified institution"
+    },
+    "quick": {
+      "title": "Quick actions",
+      "newTraining": "Create a programme",
+      "addMedia": "Add photos / videos",
+      "replyReviews": "Reply to reviews <red>(3)</red>",
+      "updateInfo": "Update the information",
+      "publishNews": "Publish a news item"
+    }
+  },
+  "profil": {
+    "crumb": "Institution profile",
+    "tabs": {
+      "general": "General information",
+      "contact": "Contact details",
+      "accreditation": "Accreditation & documents",
+      "media": "Media (logo, photos)"
+    },
+    "pages": {
+      "general": {
+        "title": "Institution profile",
+        "subtitle": "Enter and update the main information about your institution."
+      },
+      "contact": {
+        "title": "Contact details",
+        "subtitle": "Enter the contact and location information of your institution."
+      },
+      "accreditation": {
+        "title": "Accreditation & documents",
+        "subtitle": "Enter the accreditation information and upload your official documents."
+      },
+      "media": {
+        "title": "Media (logo, photos, videos)",
+        "subtitle": "Add and manage your institution’s visuals."
+      }
+    },
+    "banner": {
+      "tagline": "Vocational programmes and recognised diplomas",
+      "rating_one": "{{note}}/5 ({{count}} review)",
+      "rating_other": "{{note}}/5 ({{count}} reviews)",
+      "change": "Change the banner",
+      "changeToast": "Choose a new banner (demo)"
+    },
+    "types": {
+      "ipes": "IPES (Private Higher Education Institute)",
+      "cfp": "CFP (Vocational Training Centre)",
+      "other": "Other training institution"
+    },
+    "general": {
+      "title": "General information",
+      "name": "Institution name",
+      "acronym": "Acronym",
+      "type": "Type of institution",
+      "founded": "Year founded",
+      "presentation": "Presentation (short)"
+    },
+    "visibility": {
+      "title": "Status and visibility",
+      "verified": "Verified institution",
+      "publish": "Publish on YIBOLO"
+    },
+    "figures": {
+      "title": "Key figures (optional)",
+      "trainings": "Programmes",
+      "fields": "Fields of study"
+    },
+    "contact": {
+      "title": "Contact information",
+      "region": "Region",
+      "city": "City",
+      "neighbourhood": "Neighbourhood",
+      "locality": "Locality",
+      "address": "Full address",
+      "phone": "Main phone",
+      "phone2": "Secondary phone",
+      "optional": "(optional)",
+      "email": "Email",
+      "website": "Website",
+      "preview": "Contact details preview (public page)",
+      "map": "Access map"
+    },
+    "accreditation": {
+      "title": "Accreditation information",
+      "authorisation": "Opening authorisation / Accreditation",
+      "issueDate": "Date of issue",
+      "authority": "Issuing authority",
+      "otherAuthority": "Other",
+      "expiry": "Expiry date",
+      "ifApplicable": "(if applicable)",
+      "taxNumber": "Taxpayer number (NIU)",
+      "rccm": "RCCM",
+      "verified": "Verified institution",
+      "verifiedText": "Your documents have been checked and approved by YIBOLO.",
+      "compliant": "✓ Compliant"
+    },
+    "documents": {
+      "title": "Official documents",
+      "items": {
+        "authorisation": "Opening authorisation",
+        "statutes": "Institution’s articles",
+        "niu": "NIU certificate"
+      },
+      "file": "PDF • {{size}} MB",
+      "validated": "Approved",
+      "view": "View",
+      "viewToast": "Document preview (demo)",
+      "delete": "Delete",
+      "deleteToast": "Document deleted (demo)",
+      "add": "Add a document",
+      "formats": "PDF, JPG or PNG (Max. 10 MB)",
+      "choose": "Choose a file",
+      "sent": "{{name}} sent for verification"
+    },
+    "media": {
+      "cover": "Cover banner",
+      "coverAlt": "Banner",
+      "editCover": "Edit the banner",
+      "chooseImage": "Choose an image (demo)",
+      "logo": "Institution logo",
+      "logoAlt": "Logo",
+      "editLogo": "Edit the logo",
+      "chooseLogo": "Choose a logo (demo)",
+      "changeLogo": "Change the logo",
+      "logoFormat": "Format: PNG or JPG",
+      "logoSize": "Recommended size: 500 × 500 px",
+      "gallery": "Media gallery",
+      "filters": {
+        "all": "All (12)",
+        "photos": "Photos (10)",
+        "videos": "Videos (2)"
+      },
+      "playVideo": "Playing the video (demo)",
+      "options": "Media options (demo)",
+      "video": "Video",
+      "photo": "Photo",
+      "add": "Add photos or videos",
+      "drop": "Drag and drop your files here or click to select",
+      "images": "Images: JPG, PNG (Max. 10 MB)",
+      "videos": "Videos: MP4 (Max. 100 MB)",
+      "added": "{{name}} added"
+    }
+  },
+  "formations": {
+    "crumb": "Programmes",
+    "title": "Manage programmes",
+    "subtitle": "View, edit and follow all the programmes of your institution.",
+    "create": "Create a programme",
+    "kpis": {
+      "total": "Programmes",
+      "published": "Published",
+      "pending": "Pending",
+      "draft": "Draft"
+    },
+    "search": "Search for a programme...",
+    "filters": {
+      "field": "Field of study",
+      "status": "Status",
+      "allMasc": "All",
+      "allFem": "All",
+      "value": "{{label}}: {{value}}",
+      "sort": "Sort by: Most recent"
+    },
+    "table": {
+      "selectAll": "Select all",
+      "training": "Programme",
+      "field": "Field of study",
+      "diploma": "Diploma",
+      "duration": "Duration",
+      "nextIntake": "Next intake",
+      "status": "Status",
+      "actions": "Actions",
+      "select": "Select {{name}}",
+      "code": "Code: {{code}}",
+      "edit": "Edit",
+      "more": "More actions",
+      "moreToast": "Duplicate · Archive · View the public page (demo)"
+    },
+    "count": "{{shown}} of {{total}} programmes",
+    "prev": "Previous page",
+    "next": "Next page"
+  },
+  "creer": {
+    "crumb": "Programmes",
+    "editTitle": "Edit a programme",
+    "createTitle": "Create a programme",
+    "editSubtitle": "Update the information about your programme.",
+    "createSubtitle": "Enter the information about your new programme.",
+    "blocks": {
+      "general": "General information",
+      "organisation": "Programme organisation",
+      "fees": "Tuition fees",
+      "description": "Description (overview)"
+    },
+    "fields": {
+      "title": "Programme title",
+      "diploma": "Diploma awarded",
+      "field": "Field of study",
+      "level": "Level",
+      "duration": "Duration",
+      "mode": "Class schedule",
+      "intake": "Next intake",
+      "registrationFee": "Registration fee (FCFA)",
+      "tuition": "Tuition fees / year (FCFA)",
+      "payment": "Payment method",
+      "presentation": "Short presentation of the programme"
+    },
+    "levels": {
+      "none": "None",
+      "probatoire": "Probatoire",
+      "bac": "Bac",
+      "btsHnd": "BTS / HND",
+      "licence": "Bachelor’s"
+    },
+    "modes": {
+      "day": "Day",
+      "evening": "Evening",
+      "workStudy": "Work-study"
+    },
+    "payments": {
+      "several": "Several options",
+      "once": "In one payment",
+      "twoInstalments": "In two instalments",
+      "monthly": "Monthly"
+    },
+    "progress": {
+      "title": "Creation progress",
+      "percent": "{{pct}}%",
+      "general": "General information",
+      "organisation": "Programme organisation",
+      "fees": "Tuition fees",
+      "description": "Description and approval"
+    },
+    "tips": {
+      "title": "Good to know",
+      "required": "Fields marked with <red>*</red> are required.",
+      "next": "You can then complete the curriculum, admission requirements and career prospects."
+    },
+    "actions": {
+      "saveContinue": "Save and continue",
+      "sentForReview": "Programme sent to YIBOLO for approval",
+      "saveDraft": "Save as draft",
+      "draftSaved": "Draft saved",
+      "preview": "Preview",
+      "previewToast": "Programme page preview (demo)",
+      "cancel": "Cancel"
+    }
+  },
+  "stats": {
+    "crumb": "Institution profile",
+    "title": "Statistics",
+    "subtitle": "Track your institution’s performance on YIBOLO.",
+    "period": {
+      "label": "Period",
+      "last30": "Last 30 days",
+      "last7": "Last 7 days",
+      "last6m": "Last 6 months"
+    },
+    "export": "Export (PDF)",
+    "exportToast": "PDF export started",
+    "kpis": {
+      "views": "Views of your page",
+      "applications": "Applications / Pre-registrations",
+      "downloads": "Downloads",
+      "rating_one": "Rating ({{count}} review)",
+      "rating_other": "Rating ({{count}} reviews)",
+      "outOf5": "{{note}} / 5",
+      "trend": "+{{value}}%"
+    },
+    "visits": "Visits over time",
+    "sources": {
+      "title": "Visit sources",
+      "center": "{{total}} Visits",
+      "search": "YIBOLO search",
+      "direct": "Direct link",
+      "social": "Social networks",
+      "others": "Others"
+    },
+    "top": {
+      "title": "Most viewed programmes",
+      "views_one": "{{views}} view",
+      "views_other": "{{views}} views",
+      "all": "View all programmes"
+    },
+    "activity": {
+      "title": "Latest activity",
+      "applications": "12 new applications",
+      "downloads": "8 document downloads",
+      "reviews": "3 new reviews (average rating: {{note}}/5)",
+      "today": "today, {{time}}",
+      "yesterday": "yesterday, {{time}}"
+    }
+  },
+  "content": {
+    "status": {
+      "publishedF": "Published",
+      "published": "Published",
+      "draft": "Draft"
+    },
+    "contents": {
+      "title": "Content and information",
+      "subtitle": "Manage your institution’s presentation, news and documents.",
+      "tabs": {
+        "presentation": "Presentation",
+        "news": "News",
+        "documents": "Documents",
+        "faq": "FAQ"
+      },
+      "actions": {
+        "edit": "Edit",
+        "more": "More actions",
+        "view": "View",
+        "cancel": "Cancel",
+        "draft": "Draft",
+        "publish": "Publish"
+      },
+      "tip": "Tip",
+      "newsList": {
+        "moreToast": "Duplicate · Unpublish · Delete (demo)"
+      },
+      "presentation": {
+        "cardTitle": "Institution presentation",
+        "cardSubtitle": "Describe your institution, its mission, vision and strengths.",
+        "titleLabel": "Presentation title",
+        "contentLabel": "Presentation content",
+        "defaultTitle": "About {{sigle}}",
+        "defaultText": "Higher education institution training operational, competitive professionals suited to the needs of businesses.",
+        "tipText": "Write a clear, concise text (300 to 500 characters) highlighting your mission, your programmes and your strengths.",
+        "latestNews": "Latest news",
+        "newNews": "New post",
+        "documentsTitle": "Downloadable documents",
+        "documentsPublished": "Published documents",
+        "faqTitle": "FAQ",
+        "faqCount": "Questions / answers"
+      },
+      "news": {
+        "title": "News",
+        "newNews": "New post",
+        "tipText": "Publish at least one news post a month: active pages rank higher in YIBOLO searches.",
+        "draftSaved": "Draft saved",
+        "published": "News post published",
+        "form": {
+          "title": "Title",
+          "titlePlaceholder": "E.g. Open day",
+          "category": "Category",
+          "deadline": "Deadline (optional)",
+          "text": "Text"
+        },
+        "categories": {
+          "admission": "Intake / Admission",
+          "event": "Event",
+          "training": "Programme",
+          "results": "Results"
+        }
+      },
+      "documents": {
+        "addTitle": "Add a downloadable document",
+        "addHint": "Drag and drop or click to select — PDF, DOCX, XLSX, PPTX (Max. 20 MB)",
+        "added": "{{name}} added as a draft",
+        "suggestedTypes": "Suggested types",
+        "types": {
+          "brochure": "Brochure",
+          "admission": "Admission requirements",
+          "documentsList": "Required documents",
+          "rules": "Internal regulations",
+          "calendar": "Academic calendar"
+        },
+        "table": {
+          "document": "Document",
+          "category": "Category",
+          "size": "Size",
+          "publishedAt": "Publication date",
+          "status": "Status",
+          "actions": "Actions"
+        },
+        "categories": {
+          "brochure": "Brochure",
+          "admission": "Admission",
+          "rules": "Regulations",
+          "calendar": "Calendar"
+        },
+        "previewToast": "Preview (demo)",
+        "moreToast": "Rename · Replace · Delete (demo)",
+        "count_one": "{{count}} document",
+        "count_other": "{{count}} documents"
+      },
+      "faq": {
+        "categoriesTitle": "Categories",
+        "count_one": "{{count}} question",
+        "count_other": "{{count}} questions",
+        "add": "Add a question",
+        "searchPlaceholder": "Search for a question...",
+        "categoryAria": "Category",
+        "editToast": "Editing the question (demo)",
+        "added": "Question added",
+        "form": {
+          "question": "Question",
+          "category": "Category",
+          "answer": "Answer"
+        },
+        "categories": {
+          "all": "All",
+          "admission": "Admission",
+          "training": "Programme",
+          "fees": "Fees and payment",
+          "diplomas": "Diplomas"
+        }
+      }
+    },
+    "publication": {
+      "crumbs": {
+        "contents": "Content",
+        "news": "News",
+        "current": "View my post"
+      },
+      "badge": "News",
+      "publishedOn": "Published on {{date}}",
+      "views_one": "{{count}} view",
+      "views_other": "{{count}} views",
+      "body": "{{school}} is opening pre-registration for the 2026 – 2027 academic year. Applicants can submit their file online on YIBOLO or directly at the secretariat. Places are limited in some fields of study: don’t delay!",
+      "fields": "Fields of study concerned",
+      "deadline": "<b>Registration deadline:</b> {{date}}",
+      "signUpToast": "Button visible to visitors on the public page",
+      "signUp": "Register now",
+      "details": {
+        "title": "Details",
+        "category": "Category",
+        "date": "Date",
+        "views": "Views",
+        "shares": "Shares"
+      },
+      "quickActions": {
+        "title": "Quick actions",
+        "edit": "Edit",
+        "editToast": "Editing the post (demo)",
+        "copyLink": "Copy the public link",
+        "linkCopied": "Link copied",
+        "openNewTab": "Open in a new tab",
+        "delete": "Delete the post",
+        "deleted": "Post deleted (demo)"
+      },
+      "tipTitle": "Tip",
+      "tipText": "Share your news on your social networks to attract more applicants."
+    },
+    "roles": {
+      "admin": {
+        "name": "Administrator",
+        "description": "Full access to the space and settings"
+      },
+      "academicLead": {
+        "name": "Academic manager",
+        "description": "Programmes, curricula, applications"
+      },
+      "communication": {
+        "name": "Communication",
+        "description": "News, events, media"
+      },
+      "secretariat": {
+        "name": "Secretariat",
+        "description": "Pre-registrations, learner files"
+      },
+      "readOnly": {
+        "name": "Read-only",
+        "description": "Read-only access"
+      }
+    },
+    "settings": {
+      "crumbs": {
+        "profile": "Institution profile",
+        "settings": "Settings"
+      },
+      "title": "Settings",
+      "subtitle": "Manage your account, security and publishing preferences.",
+      "sections": {
+        "account": "Account and access",
+        "security": "Security",
+        "notifications": "Notifications",
+        "preferences": "Preferences",
+        "users": "Users",
+        "about": "About"
+      },
+      "cancel": "Cancel",
+      "cancelled": "Changes cancelled",
+      "save": "Save changes",
+      "saved": "Changes saved",
+      "tipTitle": "Tip",
+      "account": {
+        "title": "Account and access",
+        "subtitle": "Sign-in details and account management.",
+        "name": "Full name",
+        "phone": "Phone",
+        "email": "Email",
+        "role": "Role",
+        "changePhoto": "Change photo",
+        "changePhotoToast": "Choose a photo (demo)",
+        "securityTitle": "Account security",
+        "changePassword": "Change password",
+        "changePasswordHint": "Update your password regularly.",
+        "twoFactor": "Two-factor authentication (2FA)",
+        "twoFactorHint": "Strengthen your account’s security.",
+        "publishingTitle": "Publishing preferences",
+        "autoPublish": "Automatic publishing of approved content",
+        "autoPublishHint": "Publish my news and documents on YIBOLO once approved.",
+        "notificationsTitle": "Notifications",
+        "notificationsSubtitle": "Choose the alerts you want to receive.",
+        "alerts": {
+          "applications": "New applications / pre-registrations",
+          "reviews": "Comments and reviews",
+          "reminders": "Reminders (intake, expiries, documents)"
+        }
+      },
+      "security": {
+        "changePassword": "Change password",
+        "currentPassword": "Current password",
+        "newPassword": "New password",
+        "confirmPassword": "Confirm password",
+        "rules": {
+          "length": "At least 8 characters",
+          "uppercase": "One capital letter",
+          "digit": "One number",
+          "special": "One special character"
+        },
+        "invalidPassword": "The password does not meet all the criteria.",
+        "passwordUpdated": "Password updated",
+        "update": "Update",
+        "twoFactorTitle": "Two-factor authentication (2FA)",
+        "phoneCode": "Code by phone",
+        "enabled": "Enabled",
+        "sessionsTitle": "Active sessions",
+        "currentSession": "Current session",
+        "signOut": "Sign out",
+        "sessionClosed": "Session closed",
+        "sessions": {
+          "0": {
+            "device": "Windows – Chrome",
+            "date": "Current session"
+          },
+          "1": {
+            "device": "Android – App",
+            "date": "2 days ago"
+          }
+        },
+        "activityTitle": "Recent security activity",
+        "activity": {
+          "0": {
+            "event": "Successful sign-in",
+            "date": "Today, 09:12"
+          },
+          "1": {
+            "event": "Failed attempt",
+            "date": "12 Nov 2026, 22:41"
+          },
+          "2": {
+            "event": "Password changed",
+            "date": "02 Nov 2026"
+          }
+        }
+      },
+      "notifications": {
+        "title": "Notifications",
+        "markAllRead": "Mark all as read",
+        "allMarkedRead": "All marked as read",
+        "tabs": {
+          "all": "All",
+          "unread": "Unread",
+          "read": "Read"
+        },
+        "unread": "Unread",
+        "settingsTitle": "Notification settings",
+        "switches": {
+          "applications": "Applications / Pre-registrations",
+          "downloads": "Document downloads",
+          "reviews": "Reviews and comments",
+          "reminders": "Reminders and deadlines",
+          "news": "YIBOLO news"
+        },
+        "tipText": "Reply to applications within 48 h: it is the top satisfaction criterion for applicants.",
+        "items": {
+          "candidature": {
+            "title": "New application",
+            "text": "Grâce Mballa pre-registered for the BTS Comptabilité et Gestion.",
+            "date": "15 min ago"
+          },
+          "document": {
+            "title": "Document downloaded",
+            "text": "The 2026 – 2027 brochure was downloaded 12 times today.",
+            "date": "2 h ago"
+          },
+          "avis": {
+            "title": "New review",
+            "text": "Paul N. left a 5★ review of your institution.",
+            "date": "5 h ago"
+          },
+          "rappel": {
+            "title": "Reminder – Academic intake",
+            "text": "The intake is in 15 days: remember to update the calendar.",
+            "date": "Yesterday"
+          },
+          "validation": {
+            "title": "Programme approved",
+            "text": "Your programme “Marketing et Communication” has been approved by YIBOLO.",
+            "date": "12 Nov 2026"
+          }
+        }
+      },
+      "preferences": {
+        "publishingTitle": "Content publishing",
+        "autoPublish": "Automatic publishing",
+        "autoPublishHint": "Your content is published as soon as it is approved",
+        "manualPublish": "Manual publishing",
+        "manualPublishHint": "You choose when it goes online",
+        "visibilityTitle": "Institution visibility",
+        "showContacts": "Show contact details",
+        "showAddress": "Show address",
+        "showReviews": "Show reviews",
+        "hideFees": "Hide tuition fees",
+        "languageTitle": "Interface language",
+        "themeTitle": "Display theme",
+        "themes": {
+          "clair": "Light",
+          "sombre": "Dark",
+          "systeme": "System"
+        },
+        "darkSoon": "The dark theme is coming in a future version."
+      },
+      "users": {
+        "kpis": {
+          "users": "Users",
+          "active": "Active accounts",
+          "inactive": "Inactive account"
+        },
+        "invite": "Invite a user",
+        "searchPlaceholder": "Search for a user…",
+        "roleAria": "Role",
+        "statusAria": "Status",
+        "allRoles": "All roles",
+        "allStatuses": "All statuses",
+        "statuses": {
+          "active": "Active",
+          "inactive": "Inactive"
+        },
+        "table": {
+          "user": "User",
+          "role": "Role",
+          "contact": "Contact",
+          "status": "Status",
+          "lastLogin": "Last sign-in"
+        },
+        "you": "You",
+        "actions": "Actions",
+        "actionsToast": "Change role · Deactivate · Resend invitation (demo)",
+        "lastLogins": {
+          "0": "Today, 09:12",
+          "1": "Yesterday, 17:40",
+          "2": "12 Nov 2026",
+          "3": "10 Nov 2026",
+          "4": "02 Oct 2026"
+        }
+      },
+      "about": {
+        "tagline": "The platform connecting training, expertise, employment and funding in Central Africa.",
+        "pillars": "Get trained · Consult experts · Recruit · Find funding",
+        "missionTitle": "Our mission",
+        "missionText": "Make every quality institution visible and help every learner find the programme that leads to a career.",
+        "valuesTitle": "Our values",
+        "values": {
+          "professionalism": "Professionalism",
+          "reliability": "Reliability",
+          "inclusion": "Inclusion",
+          "innovation": "Innovation"
+        },
+        "supportTitle": "Support",
+        "contactSupport": "Contact support",
+        "contactSupportToast": "Support will get back to you within 24 h (demo)",
+        "helpCenter": "Help centre (FAQ)",
+        "helpCenterToast": "Help centre (demo)",
+        "documentsTitle": "Useful documents",
+        "documents": {
+          "terms": "General terms of use",
+          "sales": "General terms of sale",
+          "privacy": "Privacy policy"
+        },
+        "demoToast": "{{name}} (demo)",
+        "version": "Version <b>{{version}}</b>",
+        "upToDate": "Up to date",
+        "lastUpdate": "Last updated: {{date}}"
+      }
+    },
+    "invite": {
+      "crumbs": {
+        "settings": "Settings",
+        "users": "Users",
+        "current": "Invite a user"
+      },
+      "title": "Invite a user",
+      "subtitle": "Give a member of your team access to your space.",
+      "name": "Full name",
+      "namePlaceholder": "E.g. Claire Ndongo",
+      "phone": "Phone",
+      "email": "Email (optional)",
+      "emailPlaceholder": "firstname.lastname@school.cm",
+      "role": "Role",
+      "tip": "The invitation is sent by email or SMS. The person creates their password by following the link received.",
+      "cancel": "Cancel",
+      "send": "Send invitation",
+      "nameRequired": "Enter the name of the person invited.",
+      "sent": "Invitation sent to {{name}} ({{role}})",
+      "rolesTitle": "Available roles"
+    }
+  }
+}

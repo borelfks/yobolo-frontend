@@ -1,0 +1,195 @@
+{
+  "errors": {
+    "generic": {
+      "title": "Une erreur est survenue",
+      "text": "La page n’a pas pu s’afficher. Rechargez-la ou revenez à l’accueil."
+    },
+    "offline": {
+      "title": "Pas de connexion internet",
+      "text": "Vérifiez votre connexion, puis réessayez."
+    },
+    "reload": "Recharger la page",
+    "retry": "Réessayer",
+    "backHome": "Retour à l’accueil"
+  },
+  "account": {
+    "signIn": "Se connecter",
+    "signUp": "Créer un compte"
+  },
+  "footer": {
+    "tagline": "La plateforme de formation, d’expertise et d’emploi en Afrique centrale.",
+    "city": "Yaoundé, Cameroun",
+    "copyright": "© 2026 YIBOLO — Démonstration · Données fictives",
+    "columns": {
+      "school": "École",
+      "institutions": "Établissements",
+      "account": "Mon compte"
+    },
+    "links": {
+      "ipes": "IPES",
+      "drivingSchools": "Auto-écoles",
+      "favorites": "Mes favoris",
+      "proSpace": "Espace professionnel IPES",
+      "listSchool": "Référencer mon école",
+      "allSchools": "Toutes les écoles",
+      "signIn": "Se connecter",
+      "signUp": "Créer un compte"
+    }
+  },
+  "pro": {
+    "space": "Espace professionnel – {{type}}",
+    "verified": "Établissement vérifié",
+    "support": {
+      "button": "Assistance YIBOLO",
+      "title": "Assistance YIBOLO",
+      "text": "Un conseiller vous répond du lundi au samedi, de 8 h à 18 h."
+    },
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "profile": "Profil de l’établissement",
+      "trainings": "Formations",
+      "manageTrainings": "Gérer les formations",
+      "newTraining": "Créer une formation",
+      "contents": "Contenus et informations",
+      "news": "Contenus & actualités",
+      "documents": "Documents à télécharger",
+      "faq": "FAQ (Questions fréquentes)",
+      "statistics": "Statistiques",
+      "settings": "Paramètres"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "aria_one": "Notifications ({{count}} non lues)",
+    "aria_other": "Notifications ({{count}} non lues)",
+    "seeAll": "Voir toutes les notifications",
+    "items": {
+      "preRegistration": {
+        "title": "Préinscription reçue",
+        "text": "L’IPC a bien reçu votre dossier BTS Comptabilité.",
+        "when": "Il y a 2 h"
+      },
+      "session": {
+        "title": "Session confirmée",
+        "text": "Permis B – début le 15 nov. 2026.",
+        "when": "Hier"
+      },
+      "message": {
+        "title": "Nouveau message",
+        "text": "Me Alain Tchana vous a répondu.",
+        "when": "Il y a 2 jours"
+      }
+    }
+  },
+  "demoAccounts": {
+    "utilisateur": {
+      "subtitle": "Utilisateur"
+    },
+    "ipes": {
+      "subtitle": "Administrateur"
+    },
+    "cfp": {
+      "subtitle": "Administrateur"
+    },
+    "autre": {
+      "subtitle": "Administrateur"
+    }
+  },
+  "logo": {
+    "home": "YIBOLO — Accueil",
+    "tagline": "Apprendre · Former · Consulter · Travailler"
+  },
+  "breadcrumb": {
+    "label": "Fil d'Ariane",
+    "home": "Accueil"
+  },
+  "pagination": {
+    "previous": "Page précédente",
+    "next": "Page suivante"
+  },
+  "loading": "Chargement",
+  "modal": {
+    "close": "Fermer"
+  },
+  "rating": {
+    "reviews_one": "({{n}} avis)",
+    "reviews_other": "({{n}} avis)",
+    "stars_one": "{{count}} étoile",
+    "stars_other": "{{count}} étoiles"
+  },
+  "favorites": {
+    "add": "Ajouter aux favoris",
+    "remove": "Retirer des favoris",
+    "added": "Ajouté à vos favoris",
+    "folder": "Dossier : {{folder}}",
+    "removed": "Retiré de vos favoris",
+    "cleared": "Tous vos favoris ont été supprimés",
+    "folders": {
+      "trainings": "Mes formations",
+      "institutions": "Mes établissements",
+      "compare": "À comparer"
+    }
+  },
+  "status": {
+    "publiee": "Publiée",
+    "publie": "Publié",
+    "actif": "Actif",
+    "active": "Active",
+    "valide": "Validé",
+    "verifiee": "Vérifiée",
+    "verifie": "Vérifié",
+    "confirme": "Confirmé",
+    "paye": "Payé",
+    "disponible": "Disponible",
+    "clientActif": "Client actif",
+    "terminee": "Terminée",
+    "realise": "Réalisé",
+    "enAttente": "En attente",
+    "enValidation": "En validation",
+    "enAnalyse": "En analyse",
+    "aEvaluer": "À évaluer",
+    "enCours": "En cours",
+    "prestationEnCours": "Prestation en cours",
+    "aVenir": "À venir",
+    "prospectConverti": "Prospect converti",
+    "aValider": "À valider",
+    "brouillon": "Brouillon",
+    "inactif": "Inactif",
+    "nonDemarree": "Non démarrée",
+    "aFaire": "À faire",
+    "annule": "Annulé",
+    "aCompleter": "À compléter"
+  },
+  "blocks": {
+    "ai": {
+      "title": "Assistant IA",
+      "toastText": "Fonction de démonstration : les suggestions apparaîtront ici."
+    },
+    "tip": "Bon à savoir",
+    "file": {
+      "view": "Voir",
+      "download": "Télécharger",
+      "more": "Plus d'actions",
+      "previewTitle": "Aperçu du document",
+      "previewText": "Démonstration : le fichier s’ouvrirait ici.",
+      "downloadStarted": "Téléchargement lancé"
+    },
+    "demoAction": "Action de démonstration"
+  },
+  "fields": {
+    "dropzone": {
+      "title": "Glissez-déposez vos fichiers ici",
+      "hint": "PDF, JPG, PNG — 10 Mo max",
+      "action": "{{title}} ou <browse>parcourez</browse>"
+    },
+    "chips": {
+      "placeholder": "+ Ajouter un mot-clé",
+      "remove": "Retirer {{label}}"
+    }
+  },
+  "languageSwitcher": {
+    "francais": "Français",
+    "anglais": "English",
+    "changerDeLangue": "Changer de langue"
+  }
+}

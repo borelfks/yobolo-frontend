@@ -1,0 +1,62 @@
+{
+  "favoris": {
+    "crumbs": {
+      "ecole": "École",
+      "mesFavoris": "Mes favoris"
+    },
+    "title": "Mes favoris",
+    "subtitle": "Retrouvez ici les formations et établissements que vous avez enregistrés.",
+    "filtres": {
+      "tous": "Tous les favoris",
+      "formation": "Formations",
+      "etablissement": "Établissements"
+    },
+    "astuce": {
+      "titre": "Astuce",
+      "texte": "Ajoutez des formations et des établissements à vos favoris pour les retrouver facilement."
+    },
+    "toutSupprimer": "Tout supprimer",
+    "vide": {
+      "titre": "Aucun favori pour le moment",
+      "texte": "Explorez les écoles et ajoutez celles qui vous intéressent.",
+      "explorer": "Explorer les écoles"
+    }
+  },
+  "row": {
+    "badges": {
+      "formation": "Formation",
+      "etablissement": "Établissement"
+    },
+    "voirDetails": "Voir les détails",
+    "voirEtablissement": "Voir l’établissement",
+    "fraisFormation": "Frais de formation",
+    "parAn": "/ an",
+    "dureeMois_one": "{{count}} mois",
+    "dureeMois_other": "{{count}} mois",
+    "modes": {
+      "jour": "Cours de jour",
+      "soir": "Cours du soir",
+      "jourSoir": "Jour & Soir"
+    },
+    "note_one": "{{note}}/5 ({{count}} avis)",
+    "note_other": "{{note}}/5 ({{count}} avis)",
+    "etablissementVerifie": "Établissement vérifié",
+    "tarifFormation": "Tarif de la formation",
+    "permisTitre": "Permis {{code}} – {{nom}}",
+    "permis": {
+      "A": "Motocyclette",
+      "B": "Véhicule léger",
+      "C": "Poids lourd",
+      "D": "Transport en commun",
+      "E": "Remorque"
+    },
+    "duree": {
+      "A": "≈ 1 à 2 mois",
+      "B": "≈ 2 à 3 mois",
+      "C": "≈ 3 à 4 mois",
+      "D": "≈ 2 à 3 mois",
+      "E": "≈ 1 mois"
+    },
+    "retirer": "Retirer des favoris"
+  }
+}
