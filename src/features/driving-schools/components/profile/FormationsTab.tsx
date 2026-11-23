@@ -5,7 +5,8 @@ import { ArrowRight, CalendarDays, ChevronRight, Clock, Coins, GraduationCap } f
 import { CheckLine, FilterBox, Heading, WhyCard } from '@/features/driving-schools/components/profile/ProfileParts'
 import { card, inscrireHref, permisShortName } from '@/features/driving-schools/components/profile/profileUtils'
 import { Img } from '@/shared/components/ui/Img'
-import { autoEcoleById, permisCatalogue } from '@/mocks/drivingSchools'
+import { useAutoEcole } from '@/data/hooks'
+import { permisCatalogue } from '@/mocks/drivingSchools'
 import type { PermisCode } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { fcfa } from '@/shared/utils/format'
@@ -16,7 +17,7 @@ const trainingTypes = ['initial', 'refresher'] as const
 /** Onglet « Formations & Permis » de la fiche d'une auto-école. */
 export function FormationsTab({ id }: { id: string }) {
   const { t } = useTranslation('driving-schools')
-  const a = autoEcoleById(id)
+  const a = useAutoEcole(id)
   const [sel, setSel] = useState<string[]>([])
   const [types, setTypes] = useState<string[]>([])
   const codes = (['A', 'B', 'C', 'D', 'E'] as PermisCode[]).filter((c) => a.permis.includes(c))
@@ -67,7 +68,7 @@ export function FormationsTab({ id }: { id: string }) {
       </div>
       <div className="space-y-4">
         <WhyCard />
-        <Link to={inscrireHref(id)} className="flex items-center gap-4 rounded-2xl bg-[linear-gradient(120deg,#1f55e6,#2f6bff)] p-5 text-white shadow-lg shadow-brand-600/30">
+        <Link to={inscrireHref(a)} className="flex items-center gap-4 rounded-2xl bg-[linear-gradient(120deg,#1f55e6,#2f6bff)] p-5 text-white shadow-lg shadow-brand-600/30">
           <span className="flex-1">
             <span className="flex items-center gap-2.5 text-[20px] font-bold"><CalendarDays className="size-7" />{t('common.enrolNow')}</span>
             <span className="mt-1 block text-[14.5px] text-white/90">{t('profile.trainings.ctaText')}</span>

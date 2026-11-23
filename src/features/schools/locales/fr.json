@@ -539,6 +539,7 @@
       "explore": "Continuer à explorer"
     },
     "toastValidated": "Préinscription validée",
+    "toastError": "La préinscription n’a pas pu être enregistrée. Réessayez.",
     "crumb": "Préinscription",
     "heroTitle": "Préinscription en ligne",
     "subtitleRecap": "Vérifiez vos informations avant de valider votre demande.",

@@ -1,7 +1,7 @@
-import { createContext, use, useState, type ReactNode } from 'react'
+import { createContext, use, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
-import { load, save } from '@/shared/utils/storage'
+import { data, useCollectionWhenReady } from '@/data'
 import type { Favorite, FavoriteKind } from '@/shared/types'
 
 type FavoritesValue = {
@@ -13,12 +13,6 @@ type FavoritesValue = {
   remove: (id: string) => void
   clear: () => void
 }
-
-const initial: Favorite[] = [
-  { id: 'f-cg-ipc', kind: 'formation', folder: 'Mes formations' },
-  { id: 'f-info-ipc', kind: 'formation', folder: 'Mes formations' },
-  { id: 'ipc', kind: 'etablissement', folder: 'Mes établissements' },
-]
 
 /**
  * Les noms de dossiers sont des identifiants gardés dans le navigateur : on ne
@@ -35,19 +29,16 @@ const FavoritesContext = createContext<FavoritesValue | null>(null)
 export function FavoritesProvider({ children }: { children: ReactNode }) {
   const { t } = useTranslation()
   const folderLabel = (folder: string) => (folder in folderKeys ? t(folderKeys[folder as keyof typeof folderKeys]) : folder)
-  const [favorites, setFavorites] = useState<Favorite[]>(() => load('favorites', initial))
-  const update = (next: Favorite[]) => {
-    setFavorites(next)
-    save('favorites', next)
-  }
+  // Les favoris sont dans la base de test (collection « favoris ») ; vide le temps qu'elle s'ouvre.
+  const favorites = useCollectionWhenReady('favoris')
   const isFavorite = (id: string) => favorites.some((f) => f.id === id)
   const add = (id: string, kind: FavoriteKind, folder = 'Mes formations') => {
     if (isFavorite(id)) return
-    update([...favorites, { id, kind, folder }])
+    void data.put('favoris', { id, kind, folder })
     toast.success(t('favorites.added'), { description: t('favorites.folder', { folder: folderLabel(folder) }) })
   }
   const remove = (id: string) => {
-    update(favorites.filter((f) => f.id !== id))
+    void data.remove('favoris', id)
     toast(t('favorites.removed'))
   }
   const value: FavoritesValue = {
@@ -58,7 +49,7 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
     remove,
     toggle: (id, kind, folder) => (isFavorite(id) ? remove(id) : add(id, kind, folder)),
     clear: () => {
-      update([])
+      favorites.forEach((f) => void data.remove('favoris', f.id))
       toast(t('favorites.cleared'))
     },
   }

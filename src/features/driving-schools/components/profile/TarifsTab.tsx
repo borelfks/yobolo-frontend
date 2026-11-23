@@ -4,7 +4,8 @@ import { ArrowRight, CalendarDays, CircleCheck, Clock, Coins, CreditCard, Gradua
 import { GreenCheck, Heading } from '@/features/driving-schools/components/profile/ProfileParts'
 import { card, inscrireHref } from '@/features/driving-schools/components/profile/profileUtils'
 import { Img } from '@/shared/components/ui/Img'
-import { autoEcoleById, permisCatalogue } from '@/mocks/drivingSchools'
+import { useAutoEcole } from '@/data/hooks'
+import { permisCatalogue } from '@/mocks/drivingSchools'
 import type { PermisCode } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { fcfa } from '@/shared/utils/format'
@@ -15,7 +16,7 @@ const includedKeys = ['code', 'driving', 'materials', 'exam', 'fees'] as const
 /** Onglet « Tarifs » de la fiche d'une auto-école. */
 export function TarifsTab({ id }: { id: string }) {
   const { t } = useTranslation('driving-schools')
-  const a = autoEcoleById(id)
+  const a = useAutoEcole(id)
   const codes = (['A', 'B', 'C', 'D', 'E'] as PermisCode[]).filter((c) => a.permis.includes(c))
   return (
     <div className="grid gap-4 lg:grid-cols-[1fr_338px]">
@@ -36,7 +37,7 @@ export function TarifsTab({ id }: { id: string }) {
                   </p>
                 </div>
                 <span className="rounded-xl bg-[#e8efff] px-6 py-3 text-[24px] font-extrabold text-brand-700">{fcfa(p.prix)}</span>
-                <Link to={inscrireHref(id, c)} className="mr-2 inline-flex h-10 items-center gap-2 rounded-full bg-brand-600 px-7 text-[15px] font-semibold text-white hover:bg-brand-700">
+                <Link to={inscrireHref(a, c)} className="mr-2 inline-flex h-10 items-center gap-2 rounded-full bg-brand-600 px-7 text-[15px] font-semibold text-white hover:bg-brand-700">
                   {t('common.enrol')} <ArrowRight className="size-5" />
                 </Link>
               </div>
@@ -66,7 +67,7 @@ export function TarifsTab({ id }: { id: string }) {
             <li className="flex items-start gap-3"><CalendarDays className="size-6 text-brand-600" /><span><b>{t('profile.prices.paymentInstalments')}</b><span className="block text-[14px]">{t('profile.prices.paymentConditions')}</span></span></li>
           </ul>
         </div>
-        <Link to={inscrireHref(id)} className="flex h-14 items-center justify-center gap-3 rounded-2xl bg-brand-600 text-[20px] font-semibold text-white shadow-lg shadow-brand-600/30 hover:bg-brand-700">
+        <Link to={inscrireHref(a)} className="flex h-14 items-center justify-center gap-3 rounded-2xl bg-brand-600 text-[20px] font-semibold text-white shadow-lg shadow-brand-600/30 hover:bg-brand-700">
           <Send className="size-6" />
           {t('common.enrolNow')}
         </Link>

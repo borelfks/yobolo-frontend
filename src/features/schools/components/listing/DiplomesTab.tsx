@@ -6,6 +6,7 @@ import { SearchPanel } from '@/features/schools/components/EcoleBlocks'
 import { ArrowDot, SidePanel } from '@/features/schools/components/ListingBlocks'
 import { formationsOfType } from '@/features/schools/components/listing/formationsOfType'
 import { Img } from '@/shared/components/ui/Img'
+import { useEtablissements, useFormations } from '@/data/hooks'
 import { diplomesParType, domainesParType, typeConfig, villes } from '@/mocks/schools'
 import type { TypeSlug } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
@@ -35,10 +36,12 @@ export function DiplomesTab({ type }: { type: TypeSlug }) {
   const dips = diplomesParType[type]
   const cfg = typeConfig[type]
   const [checked, setChecked] = useState<string[]>([])
+  const formations = useFormations()
+  const etablissements = useEtablissements()
   const populaires =
     type === 'ipes'
       ? populairesIpes
-      : formationsOfType(type)
+      : formationsOfType(type, formations, etablissements)
           .slice(0, 4)
           .map((f) => ({ titre: f.nom, diplome: f.diplome, image: f.image, id: f.id }))
   const listeGauche = type === 'ipes' ? [...dips, { nom: t('listing.diplomes.other'), count: 230 }] : dips

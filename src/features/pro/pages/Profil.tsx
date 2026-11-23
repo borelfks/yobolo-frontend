@@ -31,9 +31,12 @@ import {
 } from 'lucide-react'
 import { ProCard, ProFooter, ProHeader, ProLabel } from '@/features/pro/components/ProBlocks'
 import { proInput } from '@/features/pro/proStyles'
+import { patchEtablissement, prefixer, sousCles, type Valeurs } from '@/features/pro/proData'
 import { Img } from '@/shared/components/ui/Img'
 import { LinkTabs } from '@/shared/components/ui/Tabs'
 import { useMonEcole } from '@/features/auth/hooks/useSession'
+import { data } from '@/data'
+import { useParametres } from '@/data/hooks'
 import { quartiers, regions, villes } from '@/mocks/schools'
 import { cn } from '@/shared/utils/cn'
 import { num } from '@/shared/utils/format'
@@ -45,14 +48,13 @@ const typeOptions = [
   { value: 'Autre', labelKey: 'other' },
 ] as const
 
-function SelectBox({ value, options, icon }: { value: string; options: { value: string; label: string }[]; icon?: ReactNode }) {
-  const [v, setV] = useState(value)
+function SelectBox({ value, onChange, options, icon }: { value: string; onChange: (v: string) => void; options: { value: string; label: string }[]; icon?: ReactNode }) {
   return (
     <label className="relative flex h-10 items-center gap-2.5 rounded-lg border border-[#c9d4ea] bg-white px-3.5 text-[15px] text-navy-900">
       {icon && <span className="text-navy-800 [&_svg]:size-5">{icon}</span>}
-      <span className="flex-1 truncate">{options.find((o) => o.value === v)?.label ?? v}</span>
+      <span className="flex-1 truncate">{options.find((o) => o.value === value)?.label ?? value}</span>
       <ChevronDown className="size-5" />
-      <select value={v} onChange={(e) => setV(e.target.value)} className="absolute inset-0 cursor-pointer opacity-0">
+      <select value={value} onChange={(e) => onChange(e.target.value)} className="absolute inset-0 cursor-pointer opacity-0">
         {options.map((o) => (
           <option key={o.value} value={o.value}>{o.label}</option>
         ))}
@@ -61,20 +63,61 @@ function SelectBox({ value, options, icon }: { value: string; options: { value: 
   )
 }
 
-function IconInput({ icon, defaultValue, placeholder }: { icon: ReactNode; defaultValue?: string; placeholder?: string }) {
+function IconInput({ icon, value, onChange, placeholder }: { icon: ReactNode; value: string; onChange: (v: string) => void; placeholder?: string }) {
   return (
     <span className="relative block">
       <span className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-navy-800 [&_svg]:size-5">{icon}</span>
-      <input defaultValue={defaultValue} placeholder={placeholder} className={cn(proInput, 'pl-11')} />
+      <input value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} className={cn(proInput, 'pl-11')} />
     </span>
   )
 }
 
 const opts = (xs: string[]) => xs.map((x) => ({ value: x, label: x }))
 
+/**
+ * Le formulaire du profil, partagé par les onglets : la valeur saisie (pas
+ * encore enregistrée), sinon la valeur enregistrée (réglages `profil.*`),
+ * sinon celle de la fiche ou de la maquette.
+ */
+type ProfilForm = {
+  texte: (cle: string, defaut: string) => string
+  oui: (cle: string, defaut: boolean) => boolean
+  changer: (cle: string, v: string | boolean) => void
+  /** Valeur enregistrée seulement (aperçu de la page publique). */
+  enregistre: (cle: string, defaut: string) => string
+}
+
 export function Profil() {
   const { t } = useTranslation('pro')
   const { tab = '' } = useParams()
+  const { ecole } = useMonEcole()
+  const reglages = useParametres(ecole.id)
+  const enregistres = sousCles('profil', reglages)
+  const [saisie, setSaisie] = useState<Valeurs>({})
+  const lire = (cle: string) => saisie[cle] ?? enregistres[cle]
+  const form: ProfilForm = {
+    texte: (cle, defaut) => {
+      const v = lire(cle)
+      return typeof v === 'string' ? v : defaut
+    },
+    oui: (cle, defaut) => {
+      const v = lire(cle)
+      return typeof v === 'boolean' ? v : defaut
+    },
+    changer: (cle, v) => setSaisie((s) => ({ ...s, [cle]: v })),
+    enregistre: (cle, defaut) => {
+      const v = enregistres[cle]
+      return typeof v === 'string' ? v : defaut
+    },
+  }
+  // Brouillon : gardé dans les réglages. Publication : la fiche publique change aussi (champs du type Etablissement).
+  const enregistrer = async (publier: boolean) => {
+    const valeurs = { ...enregistres, ...saisie }
+    await data.put('parametres', { id: ecole.id, valeurs: { ...reglages, ...prefixer('profil', valeurs) } })
+    const patch = patchEtablissement(valeurs)
+    if (publier && Object.keys(patch).length > 0) await data.update('etablissements', ecole.id, patch)
+    setSaisie({})
+  }
   const tabs = [
     { value: '', label: t('profil.tabs.general'), icon: <FileText /> },
     { value: 'coordonnees', label: t('profil.tabs.contact'), icon: <MapPin /> },
@@ -93,11 +136,11 @@ export function Profil() {
       <ProHeader crumbs={[{ label: t('profil.crumb'), to: ROUTES.pro.profile() }, ...(tab ? [{ label: page.title }] : [])]} icon={page.icon} title={page.title} subtitle={page.subtitle} />
       {tab === '' && <Banniere />}
       <LinkTabs items={tabs} base={ROUTES.pro.profile()} variant="block" className="[&>a]:h-11 [&>a]:rounded-full [&>a]:text-[15px]" />
-      {tab === '' && <Infos />}
-      {tab === 'coordonnees' && <Coordonnees />}
-      {tab === 'agrement' && <Agrement />}
+      {tab === '' && <Infos form={form} />}
+      {tab === 'coordonnees' && <Coordonnees form={form} />}
+      {tab === 'agrement' && <Agrement form={form} />}
       {tab === 'medias' && <Medias />}
-      <ProFooter />
+      <ProFooter onCancel={() => setSaisie({})} onSave={enregistrer} />
     </div>
   )
 }
@@ -127,23 +170,23 @@ function Banniere() {
   )
 }
 
-function Infos() {
+function Infos({ form }: { form: ProfilForm }) {
   const { t } = useTranslation('pro')
   const { ecole, formations } = useMonEcole()
-  const [publie, setPublie] = useState(true)
-  const [texte, setTexte] = useState(ecole.description.replace(/^L'Institut Professionnel du Centre \(IPC\) est un établissement/, 'Établissement'))
+  const publie = form.oui('publie', true)
+  const texte = form.texte('description', ecole.description.replace(/^L'Institut Professionnel du Centre \(IPC\) est un établissement/, 'Établissement'))
   return (
     <div className="grid gap-4 xl:grid-cols-[1fr_340px]">
       <ProCard title={t('profil.general.title')} icon={<Info />}>
         <div className="grid gap-x-6 gap-y-3 md:grid-cols-[1.55fr_1fr]">
-          <label><ProLabel required>{t('profil.general.name')}</ProLabel><input className={proInput} defaultValue={ecole.nom.replace(/ \([^)]*\)$/, '')} /></label>
-          <label><ProLabel required>{t('profil.general.acronym')}</ProLabel><input className={proInput} defaultValue={ecole.sigle} /></label>
-          <label><ProLabel required>{t('profil.general.type')}</ProLabel><SelectBox value={ecole.type} options={typeOptions.map((o) => ({ value: o.value, label: t(`profil.types.${o.labelKey}`) }))} /></label>
-          <label><ProLabel>{t('profil.general.founded')}</ProLabel><IconInput icon={<Calendar />} defaultValue="2018" /></label>
+          <label><ProLabel required>{t('profil.general.name')}</ProLabel><input className={proInput} value={form.texte('nom', ecole.nom.replace(/ \([^)]*\)$/, ''))} onChange={(e) => form.changer('nom', e.target.value)} /></label>
+          <label><ProLabel required>{t('profil.general.acronym')}</ProLabel><input className={proInput} value={form.texte('sigle', ecole.sigle)} onChange={(e) => form.changer('sigle', e.target.value)} /></label>
+          <label><ProLabel required>{t('profil.general.type')}</ProLabel><SelectBox value={form.texte('type', ecole.type)} onChange={(v) => form.changer('type', v)} options={typeOptions.map((o) => ({ value: o.value, label: t(`profil.types.${o.labelKey}`) }))} /></label>
+          <label><ProLabel>{t('profil.general.founded')}</ProLabel><IconInput icon={<Calendar />} value={form.texte('anneeCreation', '2018')} onChange={(v) => form.changer('anneeCreation', v)} /></label>
           <label className="md:col-span-2">
             <ProLabel required>{t('profil.general.presentation')}</ProLabel>
             <span className="relative block">
-              <textarea rows={3} maxLength={300} value={texte} onChange={(e) => setTexte(e.target.value)} className="w-full resize-none rounded-lg border border-[#c9d4ea] px-3.5 py-2.5 text-[15px] text-ink outline-none focus:border-brand-500" />
+              <textarea rows={3} maxLength={300} value={texte} onChange={(e) => form.changer('description', e.target.value)} className="w-full resize-none rounded-lg border border-[#c9d4ea] px-3.5 py-2.5 text-[15px] text-ink outline-none focus:border-brand-500" />
               <span className="absolute right-3 bottom-2 text-[12px] text-ink/70">{texte.length} / 300</span>
             </span>
           </label>
@@ -158,7 +201,7 @@ function Infos() {
           <div className="mt-3 flex items-center gap-2.5 text-[15px] text-navy-900">
             <Globe className="size-5 text-navy-800" />
             <span className="flex-1">{t('profil.visibility.publish')}</span>
-            <button type="button" role="switch" aria-checked={publie} onClick={() => setPublie(!publie)} className={cn('relative h-7 w-12 rounded-full transition-colors', publie ? 'bg-brand-600' : 'bg-slate-300')}>
+            <button type="button" role="switch" aria-checked={publie} onClick={() => form.changer('publie', !publie)} className={cn('relative h-7 w-12 rounded-full transition-colors', publie ? 'bg-brand-600' : 'bg-slate-300')}>
               <span className={cn('absolute top-0.5 size-6 rounded-full bg-white shadow transition-all', publie ? 'left-[22px]' : 'left-0.5')} />
             </button>
           </div>
@@ -180,30 +223,32 @@ function Infos() {
   )
 }
 
-function Coordonnees() {
+function Coordonnees({ form }: { form: ProfilForm }) {
   const { t } = useTranslation('pro')
   const { ecole } = useMonEcole()
+  const quartier = form.texte('quartier', ecole.quartier)
+  const site = `www.${ecole.sigle.toLowerCase().replace(/\s+/g, '')}.cm`
   return (
     <div className="grid gap-4 xl:grid-cols-[1fr_405px]">
       <ProCard title={t('profil.contact.title')} icon={<Contact />}>
         <div className="grid gap-x-5 gap-y-3 md:grid-cols-2">
-          <label><ProLabel required>{t('profil.contact.region')}</ProLabel><SelectBox value={ecole.region} options={opts(regions.map((r) => r.nom))} /></label>
-          <label><ProLabel required>{t('profil.contact.city')}</ProLabel><SelectBox value={ecole.ville} options={opts(villes.map((v) => v.nom))} /></label>
-          <label><ProLabel required>{t('profil.contact.neighbourhood')}</ProLabel><SelectBox value={ecole.quartier} options={opts([...new Set([ecole.quartier, ...quartiers])])} /></label>
-          <label><ProLabel>{t('profil.contact.locality')}</ProLabel><input className={proInput} defaultValue="Avenue Germaine" /></label>
-          <label className="md:col-span-2"><ProLabel required>{t('profil.contact.address')}</ProLabel><IconInput icon={<MapPin />} defaultValue="Avenue Germaine, immeuble Vision Confort, 3e étage" /></label>
-          <label><ProLabel required>{t('profil.contact.phone')}</ProLabel><IconInput icon={<Phone />} defaultValue={ecole.telephone} /></label>
-          <label><ProLabel>{t('profil.contact.phone2')} <span className="font-normal">{t('profil.contact.optional')}</span></ProLabel><IconInput icon={<Phone />} defaultValue="+237 6 75 43 21 09" /></label>
-          <label><ProLabel required>{t('profil.contact.email')}</ProLabel><IconInput icon={<Mail />} defaultValue={ecole.email} /></label>
-          <label><ProLabel>{t('profil.contact.website')} <span className="font-normal">{t('profil.contact.optional')}</span></ProLabel><IconInput icon={<Globe />} defaultValue={`www.${ecole.sigle.toLowerCase().replace(/\s+/g, '')}.cm`} /></label>
+          <label><ProLabel required>{t('profil.contact.region')}</ProLabel><SelectBox value={form.texte('region', ecole.region)} onChange={(v) => form.changer('region', v)} options={opts(regions.map((r) => r.nom))} /></label>
+          <label><ProLabel required>{t('profil.contact.city')}</ProLabel><SelectBox value={form.texte('ville', ecole.ville)} onChange={(v) => form.changer('ville', v)} options={opts(villes.map((v) => v.nom))} /></label>
+          <label><ProLabel required>{t('profil.contact.neighbourhood')}</ProLabel><SelectBox value={quartier} onChange={(v) => form.changer('quartier', v)} options={opts([...new Set([quartier, ...quartiers])])} /></label>
+          <label><ProLabel>{t('profil.contact.locality')}</ProLabel><input className={proInput} value={form.texte('lieuDit', 'Avenue Germaine')} onChange={(e) => form.changer('lieuDit', e.target.value)} /></label>
+          <label className="md:col-span-2"><ProLabel required>{t('profil.contact.address')}</ProLabel><IconInput icon={<MapPin />} value={form.texte('adresse', 'Avenue Germaine, immeuble Vision Confort, 3e étage')} onChange={(v) => form.changer('adresse', v)} /></label>
+          <label><ProLabel required>{t('profil.contact.phone')}</ProLabel><IconInput icon={<Phone />} value={form.texte('telephone', ecole.telephone)} onChange={(v) => form.changer('telephone', v)} /></label>
+          <label><ProLabel>{t('profil.contact.phone2')} <span className="font-normal">{t('profil.contact.optional')}</span></ProLabel><IconInput icon={<Phone />} value={form.texte('telephone2', '+237 6 75 43 21 09')} onChange={(v) => form.changer('telephone2', v)} /></label>
+          <label><ProLabel required>{t('profil.contact.email')}</ProLabel><IconInput icon={<Mail />} value={form.texte('email', ecole.email)} onChange={(v) => form.changer('email', v)} /></label>
+          <label><ProLabel>{t('profil.contact.website')} <span className="font-normal">{t('profil.contact.optional')}</span></ProLabel><IconInput icon={<Globe />} value={form.texte('siteWeb', site)} onChange={(v) => form.changer('siteWeb', v)} /></label>
         </div>
       </ProCard>
       <ProCard title={t('profil.contact.preview')} icon={<Eye />} className="[&_h2]:text-[17px]">
         <ul className="space-y-2 text-[15px] text-navy-900 [&_svg]:size-5 [&_svg]:text-brand-600">
-          <li className="flex items-center gap-3"><MapPin className="fill-brand-600 !text-white" />Avenue Germaine, {ecole.quartier} – {ecole.ville} ({ecole.region})</li>
+          <li className="flex items-center gap-3"><MapPin className="fill-brand-600 !text-white" />{form.enregistre('lieuDit', 'Avenue Germaine')}, {ecole.quartier} – {ecole.ville} ({ecole.region})</li>
           <li className="flex items-center gap-3"><Phone />{ecole.telephone}</li>
           <li className="flex items-center gap-3"><Mail />{ecole.email}</li>
-          <li className="flex items-center gap-3"><Globe />www.{ecole.sigle.toLowerCase().replace(/\s+/g, '')}.cm</li>
+          <li className="flex items-center gap-3"><Globe />{form.enregistre('siteWeb', site)}</li>
         </ul>
         <Img src="/images/maquette/pro-carte.jpg" alt={t('profil.contact.map')} className="mt-3 h-[188px] w-full rounded-xl" />
       </ProCard>
@@ -211,7 +256,7 @@ function Coordonnees() {
   )
 }
 
-function Agrement() {
+function Agrement({ form }: { form: ProfilForm }) {
   const { t } = useTranslation('pro')
   const docs = [
     { id: 'authorisation', taille: 2.4 },
@@ -222,12 +267,12 @@ function Agrement() {
     <div className="grid gap-4 xl:grid-cols-[1fr_430px]">
       <ProCard title={t('profil.accreditation.title')} icon={<Award />}>
         <div className="grid gap-x-6 gap-y-3 md:grid-cols-[1.45fr_1fr]">
-          <label><ProLabel required>{t('profil.accreditation.authorisation')}</ProLabel><input className={proInput} defaultValue="N° 184/MINEFOP du 08 septembre 2015" /></label>
-          <label><ProLabel required>{t('profil.accreditation.issueDate')}</ProLabel><IconInput icon={<Calendar />} defaultValue="08/09/2015" /></label>
-          <label><ProLabel required>{t('profil.accreditation.authority')}</ProLabel><SelectBox value="MINEFOP" options={[...opts(['MINEFOP', 'MINESUP', 'MINTRANSPORTS']), { value: 'Autre', label: t('profil.accreditation.otherAuthority') }]} /></label>
-          <label><ProLabel>{t('profil.accreditation.expiry')} <span className="font-normal">{t('profil.accreditation.ifApplicable')}</span></ProLabel><IconInput icon={<Calendar />} defaultValue="—" /></label>
-          <label><ProLabel required>{t('profil.accreditation.taxNumber')}</ProLabel><input className={proInput} defaultValue="M123456789012" /></label>
-          <label><ProLabel required>{t('profil.accreditation.rccm')}</ProLabel><input className={proInput} defaultValue="RC/YAO/2018/B/1234" /></label>
+          <label><ProLabel required>{t('profil.accreditation.authorisation')}</ProLabel><input className={proInput} value={form.texte('agrement', 'N° 184/MINEFOP du 08 septembre 2015')} onChange={(e) => form.changer('agrement', e.target.value)} /></label>
+          <label><ProLabel required>{t('profil.accreditation.issueDate')}</ProLabel><IconInput icon={<Calendar />} value={form.texte('agrementDate', '08/09/2015')} onChange={(v) => form.changer('agrementDate', v)} /></label>
+          <label><ProLabel required>{t('profil.accreditation.authority')}</ProLabel><SelectBox value={form.texte('agrementAutorite', 'MINEFOP')} onChange={(v) => form.changer('agrementAutorite', v)} options={[...opts(['MINEFOP', 'MINESUP', 'MINTRANSPORTS']), { value: 'Autre', label: t('profil.accreditation.otherAuthority') }]} /></label>
+          <label><ProLabel>{t('profil.accreditation.expiry')} <span className="font-normal">{t('profil.accreditation.ifApplicable')}</span></ProLabel><IconInput icon={<Calendar />} value={form.texte('agrementExpiration', '—')} onChange={(v) => form.changer('agrementExpiration', v)} /></label>
+          <label><ProLabel required>{t('profil.accreditation.taxNumber')}</ProLabel><input className={proInput} value={form.texte('niu', 'M123456789012')} onChange={(e) => form.changer('niu', e.target.value)} /></label>
+          <label><ProLabel required>{t('profil.accreditation.rccm')}</ProLabel><input className={proInput} value={form.texte('rccm', 'RC/YAO/2018/B/1234')} onChange={(e) => form.changer('rccm', e.target.value)} /></label>
         </div>
         <div className="mt-4 flex items-center gap-3 rounded-xl bg-[#e5f7ea] px-4 py-3">
           <CircleCheck className="size-8 fill-emerald-600 text-white" />

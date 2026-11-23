@@ -59,6 +59,8 @@
       "titre": "Avis vérifié",
       "texte": "Votre avis sera marqué « Vérifié » après validation par YIBOLO (inscription ou formation confirmée)."
     },
+    "visiteur": "Visiteur",
+    "aLInstant": "À l’instant",
     "toasts": {
       "tropCourt": "Votre commentaire doit compter au moins 10 caractères.",
       "confirmAutoEcole": "Confirmez avoir suivi une formation dans cette auto-école.",

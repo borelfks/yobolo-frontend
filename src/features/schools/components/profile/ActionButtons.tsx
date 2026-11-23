@@ -2,15 +2,15 @@ import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { ArrowRight, Heart, PencilLine } from 'lucide-react'
 import { useFavorites } from '@/shared/hooks/useFavorites'
-import { etablissementById, formationsOf } from '@/mocks/schools'
+import { useEtablissement, useFormationsOf } from '@/data/hooks'
 import { cn } from '@/shared/utils/cn'
 import { ROUTES } from '@/shared/utils/routes'
 
 /** « Préinscrire maintenant » et « Ajouter aux favoris » de la fiche établissement. */
 export function ActionButtons({ id }: { id: string }) {
   const { t } = useTranslation('schools')
-  const e = etablissementById(id)
-  const first = formationsOf(e.id).find((f) => f.statut === 'Publiée')
+  const e = useEtablissement(id)
+  const first = useFormationsOf(e.id).find((f) => f.statut === 'Publiée')
   const { isFavorite, toggle } = useFavorites()
   const fav = isFavorite(e.id)
   return (

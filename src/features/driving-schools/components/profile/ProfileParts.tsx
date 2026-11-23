@@ -5,7 +5,7 @@ import { CircleCheck, Funnel, Heart, Medal, RefreshCw, Send } from 'lucide-react
 import { FavoriteModal } from '@/features/driving-schools/components/AutoEcoleBlocks'
 import { card, inscrireHref, whyKeys } from '@/features/driving-schools/components/profile/profileUtils'
 import { useFavorites } from '@/shared/hooks/useFavorites'
-import { autoEcoleById } from '@/mocks/drivingSchools'
+import { useAutoEcole } from '@/data/hooks'
 import { cn } from '@/shared/utils/cn'
 
 /** Titre de carte avec son icône bleue. */
@@ -30,13 +30,13 @@ export function GreenCheck({ children }: { children: ReactNode }) {
 /** « S’inscrire maintenant » et « Ajouter aux favoris » (colonne de droite de l'aperçu). */
 export function SideActions({ id }: { id: string }) {
   const { t } = useTranslation('driving-schools')
-  const a = autoEcoleById(id)
+  const a = useAutoEcole(id)
   const { isFavorite, remove } = useFavorites()
   const [open, setOpen] = useState(false)
   const fav = isFavorite(a.id)
   return (
     <div className="space-y-3">
-      <Link to={inscrireHref(id)} className="flex h-12 items-center justify-center gap-3 rounded-xl bg-brand-600 text-[18px] font-semibold text-white shadow-md shadow-brand-600/25 hover:bg-brand-700">
+      <Link to={inscrireHref(a)} className="flex h-12 items-center justify-center gap-3 rounded-xl bg-brand-600 text-[18px] font-semibold text-white shadow-md shadow-brand-600/25 hover:bg-brand-700">
         <Send className="size-6" />
         {t('common.enrolNow')}
       </Link>

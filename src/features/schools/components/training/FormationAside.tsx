@@ -5,7 +5,7 @@ import { Img } from '@/shared/components/ui/Img'
 import { useFavorites } from '@/shared/hooks/useFavorites'
 import { ecoleUrl } from '@/features/schools/schoolLinks'
 import { card } from '@/features/schools/components/training/trainingShared'
-import { etablissementById } from '@/mocks/schools'
+import { useEtablissement } from '@/data/hooks'
 import type { Formation } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { num } from '@/shared/utils/format'
@@ -14,7 +14,7 @@ import { ROUTES } from '@/shared/utils/routes'
 /** Colonne de droite du détail d'une formation : établissement, actions, prochaine rentrée. */
 export function FormationAside({ f, showRentree }: { f: Formation; showRentree: boolean }) {
   const { t } = useTranslation('schools')
-  const e = etablissementById(f.etablissementId)
+  const e = useEtablissement(f.etablissementId)
   const { isFavorite, toggle } = useFavorites()
   const fav = isFavorite(f.id)
   const btn = 'flex h-[38px] w-full items-center justify-center gap-2.5 rounded-full border-2 border-brand-600/60 bg-white text-[15px] font-semibold text-navy-800 hover:bg-brand-50'

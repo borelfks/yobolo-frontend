@@ -26,15 +26,19 @@ import {
   Underline,
 } from 'lucide-react'
 import { ProCard, ProFooter, ProHeader, ProLabel } from '@/features/pro/components/ProBlocks'
+import { ActuModal } from '@/features/pro/components/ActuModal'
 import { proCard, proInput } from '@/features/pro/proStyles'
+import { CATEGORIE_DOCUMENT, dateDuJour, decoupeFichier, tailleFichier, texte } from '@/features/pro/proData'
 import { Img } from '@/shared/components/ui/Img'
 import { Modal } from '@/shared/components/ui/Modal'
 import { Select } from '@/shared/components/forms/Fields'
 import { LinkTabs } from '@/shared/components/ui/Tabs'
 import { useMonEcole } from '@/features/auth/hooks/useSession'
+import { data } from '@/data'
+import { useActualites, useDocuments, useFaq, useParametres } from '@/data/hooks'
+import type { QuestionFaq } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { ROUTES } from '@/shared/utils/routes'
-import { actualites, documentsPro, faq } from '@/mocks/pro'
 
 const catTone: Record<string, string> = {
   Brochure: 'bg-[#e3ecff] text-brand-700',
@@ -49,7 +53,6 @@ const STATUS_KEYS: Record<string, 'publishedF' | 'published' | 'draft' | undefin
 const DOC_CATEGORY_KEYS: Record<string, 'brochure' | 'admission' | 'rules' | 'calendar' | undefined> = { Brochure: 'brochure', Admission: 'admission', Règlement: 'rules', Calendrier: 'calendar' }
 /** Catégories de la FAQ (données de démo) → clé de traduction. */
 const FAQ_CATEGORY_KEYS: Record<string, 'admission' | 'training' | 'fees' | 'diplomas' | undefined> = { Admission: 'admission', Formation: 'training', 'Frais et paiement': 'fees', Diplômes: 'diplomas' }
-const NEWS_CATEGORIES = ['admission', 'event', 'training', 'results'] as const
 const DOCUMENT_TYPES = ['brochure', 'admission', 'documentsList', 'rules', 'calendar'] as const
 
 function StatutPill({ s }: { s: string }) {
@@ -92,6 +95,8 @@ export function Contenus() {
 
 function ActuList() {
   const { t } = useTranslation('pro', { keyPrefix: 'content' })
+  const { ecole } = useMonEcole()
+  const actualites = useActualites(ecole.id)
   return (
     <div className="divide-y divide-line">
       {actualites.map((a) => (
@@ -131,15 +136,27 @@ function Editor({ value, onChange, max }: { value: string; onChange: (v: string)
 function Presentation() {
   const { t } = useTranslation('pro', { keyPrefix: 'content' })
   const { ecole } = useMonEcole()
-  const [titre, setTitre] = useState(() => t('contents.presentation.defaultTitle', { sigle: ecole.sigle }))
-  const [texte, setTexte] = useState(() => t('contents.presentation.defaultText'))
+  const actualites = useActualites(ecole.id)
+  const documents = useDocuments(ecole.id)
+  const faq = useFaq(ecole.id)
+  const reglages = useParametres(ecole.id)
+  // Valeur enregistrée (réglages `presentation.*`), sinon le texte de la maquette.
+  const titreEnregistre = () => texte(reglages, 'presentation.titre', t('contents.presentation.defaultTitle', { sigle: ecole.sigle }))
+  const texteEnregistre = () => texte(reglages, 'presentation.texte', t('contents.presentation.defaultText'))
+  const [titre, setTitre] = useState(titreEnregistre)
+  const [contenu, setContenu] = useState(texteEnregistre)
+  const enregistrer = () => data.put('parametres', { id: ecole.id, valeurs: { ...reglages, 'presentation.titre': titre, 'presentation.texte': contenu } })
+  const annuler = () => {
+    setTitre(titreEnregistre())
+    setContenu(texteEnregistre())
+  }
   return (
     <>
       <div className="grid gap-4 xl:grid-cols-[1fr_1.12fr]">
         <ProCard title={t('contents.presentation.cardTitle')} icon={<FileText />} subtitle={t('contents.presentation.cardSubtitle')}>
           <div className="space-y-3">
             <label className="block"><ProLabel required>{t('contents.presentation.titleLabel')}</ProLabel><input className={proInput} value={titre} onChange={(e) => setTitre(e.target.value)} /></label>
-            <div><ProLabel required>{t('contents.presentation.contentLabel')}</ProLabel><Editor value={texte} onChange={setTexte} max={500} /></div>
+            <div><ProLabel required>{t('contents.presentation.contentLabel')}</ProLabel><Editor value={contenu} onChange={setContenu} max={500} /></div>
             <div className="flex gap-3 rounded-xl bg-[#f3f6fc] px-4 py-3">
               <Lightbulb className="size-7 shrink-0 fill-amber-300 text-amber-500" />
               <div className="text-[13.5px] text-navy-900">
@@ -161,7 +178,7 @@ function Presentation() {
             <Link to={ROUTES.pro.contents('documents')} className={cn(proCard, 'p-3')}>
               <p className="flex items-center gap-2.5 text-[17px] font-bold text-navy-900"><Folder className="size-7 text-emerald-600" />{t('contents.presentation.documentsTitle')}</p>
               <div className="mt-2 flex items-center rounded-xl bg-[#e5f7ea] px-4 py-3">
-                <span className="flex-1 leading-tight"><b className="block text-[30px] text-navy-900">{documentsPro.filter((d) => d.statut === 'Publié').length}</b><span className="text-[15px] text-navy-900">{t('contents.presentation.documentsPublished')}</span></span>
+                <span className="flex-1 leading-tight"><b className="block text-[30px] text-navy-900">{documents.filter((d) => d.statut === 'Publié').length}</b><span className="text-[15px] text-navy-900">{t('contents.presentation.documentsPublished')}</span></span>
                 <ChevronRight className="size-6 text-emerald-700" />
               </div>
             </Link>
@@ -175,13 +192,15 @@ function Presentation() {
           </div>
         </div>
       </div>
-      <ProFooter />
+      <ProFooter onCancel={annuler} onSave={enregistrer} />
     </>
   )
 }
 
 function Actualites() {
   const { t } = useTranslation('pro', { keyPrefix: 'content' })
+  const { ecole } = useMonEcole()
+  const actualites = useActualites(ecole.id)
   const [open, setOpen] = useState(false)
   return (
     <div className="grid gap-4 xl:grid-cols-[1.4fr_1fr]">
@@ -196,32 +215,21 @@ function Actualites() {
         <Lightbulb className="size-7 shrink-0 fill-amber-300 text-amber-500" />
         <p className="text-[14.5px] text-navy-900"><b className="block">{t('contents.tip')}</b>{t('contents.news.tipText')}</p>
       </div>
-      <Modal
-        open={open}
-        onClose={() => setOpen(false)}
-        size="lg"
-        title={t('contents.news.newNews')}
-        footer={
-          <>
-            <button type="button" onClick={() => setOpen(false)} className="h-11 rounded-full border-2 border-brand-600/60 px-6 font-semibold text-navy-800">{t('contents.actions.cancel')}</button>
-            <button type="button" onClick={() => { toast.success(t('contents.news.draftSaved')); setOpen(false) }} className="h-11 rounded-full border-2 border-brand-600/60 px-6 font-semibold text-navy-800">{t('contents.actions.draft')}</button>
-            <button type="button" onClick={() => { toast.success(t('contents.news.published')); setOpen(false) }} className="h-11 rounded-full bg-brand-600 px-6 font-semibold text-white">{t('contents.actions.publish')}</button>
-          </>
-        }
-      >
-        <div className="grid gap-4 sm:grid-cols-2">
-          <label className="sm:col-span-2"><ProLabel required>{t('contents.news.form.title')}</ProLabel><input className={proInput} placeholder={t('contents.news.form.titlePlaceholder')} /></label>
-          <label><ProLabel required>{t('contents.news.form.category')}</ProLabel><Select options={NEWS_CATEGORIES.map((c) => ({ value: c, label: t(`contents.news.categories.${c}`) }))} className="h-10" /></label>
-          <label><ProLabel>{t('contents.news.form.deadline')}</ProLabel><input type="date" className={proInput} /></label>
-          <label className="sm:col-span-2"><ProLabel required>{t('contents.news.form.text')}</ProLabel><textarea rows={4} className="w-full rounded-lg border border-[#c9d4ea] px-3.5 py-2.5 text-[15px] outline-none" /></label>
-        </div>
-      </Modal>
+      <ActuModal open={open} onClose={() => setOpen(false)} />
     </div>
   )
 }
 
 function Documents() {
   const { t } = useTranslation('pro', { keyPrefix: 'content' })
+  const { ecole } = useMonEcole()
+  const documentsPro = useDocuments(ecole.id)
+  // Le fichier n'est pas envoyé : on enregistre son nom, son type et sa taille, en brouillon.
+  const ajouter = async (fichier: File) => {
+    const { nom, type } = decoupeFichier(fichier.name)
+    await data.create('documents', { etablissementId: ecole.id, nom, type, categorie: CATEGORIE_DOCUMENT, taille: tailleFichier(fichier.size), date: dateDuJour(), statut: 'Brouillon' }, 'document')
+    toast.success(t('contents.documents.added', { name: fichier.name }))
+  }
   const categoryLabel = (c: string) => {
     const key = DOC_CATEGORY_KEYS[c]
     return key ? t(`contents.documents.categories.${key}`) : c
@@ -233,7 +241,7 @@ function Documents() {
           <CloudUpload className="size-10 text-brand-600" />
           <b className="text-[17px] text-navy-900">{t('contents.documents.addTitle')}</b>
           <span className="text-[13.5px] text-navy-900">{t('contents.documents.addHint')}</span>
-          <input type="file" className="sr-only" onChange={(e) => e.target.files?.[0] && toast.success(t('contents.documents.added', { name: e.target.files[0].name }))} />
+          <input type="file" className="sr-only" onChange={(e) => { const fichier = e.target.files?.[0]; if (fichier) void ajouter(fichier); e.target.value = '' }} />
         </label>
         <ProCard title={t('contents.documents.suggestedTypes')} icon={<Lightbulb />}>
           <div className="flex flex-wrap gap-2">
@@ -255,7 +263,7 @@ function Documents() {
           </thead>
           <tbody>
             {documentsPro.map((d) => (
-              <tr key={d.nom} className="border-t border-line">
+              <tr key={d.id} className="border-t border-line">
                 <td className="py-3 pl-5">
                   <span className="flex items-center gap-3">
                     <span className={cn('grid h-10 w-9 place-items-center rounded-md text-[10px] font-extrabold text-white', d.type === 'PDF' ? 'bg-rose-600' : d.type === 'XLSX' ? 'bg-emerald-600' : 'bg-brand-600')}>{d.type}</span>
@@ -287,8 +295,30 @@ function Faq() {
   const [cat, setCat] = useState('Toutes')
   const [open, setOpen] = useState<number | null>(0)
   const [q, setQ] = useState('')
+  const { ecole } = useMonEcole()
+  const faq = useFaq(ecole.id)
+  // Fenêtre « Ajouter une question », aussi utilisée pour modifier une question (crayon).
   const [adding, setAdding] = useState(false)
+  const [edition, setEdition] = useState<QuestionFaq | null>(null)
+  const [question, setQuestion] = useState('')
+  const [reponse, setReponse] = useState('')
   const cats = ['Admission', 'Formation', 'Frais et paiement', 'Diplômes']
+  const [categorie, setCategorie] = useState(cats[0] ?? '')
+  const ouvrir = (f: QuestionFaq | null) => {
+    setEdition(f)
+    setQuestion(f?.q ?? '')
+    setReponse(f?.r ?? '')
+    setCategorie(f?.categorie ?? cats[0] ?? '')
+    setAdding(true)
+  }
+  const enregistrer = async () => {
+    if (!question.trim() || !reponse.trim()) return void toast.error(t('contents.faq.required'))
+    const champs = { q: question.trim(), r: reponse.trim(), categorie }
+    if (edition) await data.update('faq', edition.id, champs)
+    else await data.create('faq', { ...champs, etablissementId: ecole.id }, 'faq')
+    toast.success(t(edition ? 'contents.faq.updated' : 'contents.faq.added'))
+    setAdding(false)
+  }
   const list = faq.filter((f) => (cat === 'Toutes' || f.categorie === cat) && f.q.toLowerCase().includes(q.toLowerCase()))
   const categoryLabel = (c: string) => {
     if (c === 'Toutes') return t('contents.faq.categories.all')
@@ -311,7 +341,7 @@ function Faq() {
       <ProCard
         title={t('contents.faq.count', { count: list.length })}
         icon={<CircleHelp />}
-        action={<button type="button" onClick={() => setAdding(true)} className="inline-flex h-10 items-center gap-2 rounded-full bg-brand-600 px-4 text-[15px] font-semibold text-white"><Plus className="size-5" />{t('contents.faq.add')}</button>}
+        action={<button type="button" onClick={() => ouvrir(null)} className="inline-flex h-10 items-center gap-2 rounded-full bg-brand-600 px-4 text-[15px] font-semibold text-white"><Plus className="size-5" />{t('contents.faq.add')}</button>}
       >
         <div className="mb-3 grid gap-3 sm:grid-cols-[1fr_220px]">
           <label className="relative">
@@ -322,7 +352,7 @@ function Faq() {
         </div>
         <div className="space-y-2.5">
           {list.map((f, i) => (
-            <div key={f.q} className="rounded-xl border border-line">
+            <div key={f.id} className="rounded-xl border border-line">
               <div className="flex items-center gap-3 px-4 py-3">
                 <button type="button" onClick={() => setOpen(open === i ? null : i)} className="flex flex-1 items-center gap-2 text-left text-[15px] font-bold text-navy-900">
                   <ChevronDown className={cn('size-5 shrink-0 transition-transform', open === i && 'rotate-180')} />
@@ -330,7 +360,7 @@ function Faq() {
                 </button>
                 <span className="rounded-full bg-[#e3ecff] px-3 py-0.5 text-[12.5px] font-medium text-brand-700">{categoryLabel(f.categorie)}</span>
                 <StatutPill s="Publié" />
-                <button type="button" aria-label={t('contents.actions.edit')} onClick={() => toast(t('contents.faq.editToast'))} className="grid size-8 place-items-center rounded-lg border border-line"><Pencil className="size-4" /></button>
+                <button type="button" aria-label={t('contents.actions.edit')} onClick={() => ouvrir(f)} className="grid size-8 place-items-center rounded-lg border border-line"><Pencil className="size-4" /></button>
               </div>
               {open === i && <p className="border-t border-line px-4 py-3 text-[14.5px] text-navy-900">{f.r}</p>}
             </div>
@@ -340,18 +370,18 @@ function Faq() {
       <Modal
         open={adding}
         onClose={() => setAdding(false)}
-        title={t('contents.faq.add')}
+        title={edition ? t('contents.actions.edit') : t('contents.faq.add')}
         footer={
           <>
             <button type="button" onClick={() => setAdding(false)} className="h-11 rounded-full border-2 border-brand-600/60 px-6 font-semibold text-navy-800">{t('contents.actions.cancel')}</button>
-            <button type="button" onClick={() => { toast.success(t('contents.faq.added')); setAdding(false) }} className="h-11 rounded-full bg-brand-600 px-6 font-semibold text-white">{t('contents.actions.publish')}</button>
+            <button type="button" onClick={() => void enregistrer()} className="h-11 rounded-full bg-brand-600 px-6 font-semibold text-white">{t('contents.actions.publish')}</button>
           </>
         }
       >
         <div className="space-y-4">
-          <label className="block"><ProLabel required>{t('contents.faq.form.question')}</ProLabel><input className={proInput} /></label>
-          <label className="block"><ProLabel required>{t('contents.faq.form.category')}</ProLabel><Select options={categoryOptions(cats)} className="h-10" /></label>
-          <label className="block"><ProLabel required>{t('contents.faq.form.answer')}</ProLabel><textarea rows={4} className="w-full rounded-lg border border-[#c9d4ea] px-3.5 py-2.5 text-[15px] outline-none" /></label>
+          <label className="block"><ProLabel required>{t('contents.faq.form.question')}</ProLabel><input className={proInput} value={question} onChange={(e) => setQuestion(e.target.value)} /></label>
+          <label className="block"><ProLabel required>{t('contents.faq.form.category')}</ProLabel><Select options={categoryOptions(cats)} value={categorie} onChange={(e) => setCategorie(e.target.value)} className="h-10" /></label>
+          <label className="block"><ProLabel required>{t('contents.faq.form.answer')}</ProLabel><textarea rows={4} value={reponse} onChange={(e) => setReponse(e.target.value)} className="w-full rounded-lg border border-[#c9d4ea] px-3.5 py-2.5 text-[15px] outline-none" /></label>
         </div>
       </Modal>
     </div>

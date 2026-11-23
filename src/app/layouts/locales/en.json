@@ -144,5 +144,23 @@
         "conditions": "Terms"
       }
     }
+  },
+  "testData": {
+    "menu": "Test data",
+    "title": "Test data",
+    "intro": "What you do in the demo (programmes, reviews, pre-registrations, profile…) is saved in your browser. To share your state with a colleague, export the file and send it to them: they can import it.",
+    "storage": "Storage: {{name}}",
+    "export": "Export data (.sqlite)",
+    "import": "Import a data file",
+    "reset": "Reset test data",
+    "resetConfirm": "Everything you have done will be erased and the starting data will come back. Continue?",
+    "resetYes": "Yes, reset",
+    "cancel": "Cancel",
+    "exported": "Data file downloaded",
+    "exportFailed": "The export failed. Please try again.",
+    "imported": "Data imported",
+    "importFailed": "This file is not a valid YIBOLO data file.",
+    "resetDone": "Test data reset",
+    "resetFailed": "The reset failed. Please try again."
   }
 }

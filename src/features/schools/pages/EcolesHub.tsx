@@ -5,7 +5,8 @@ import { Car, GraduationCap, LayoutGrid, MapPin, School, ShieldCheck, Star, User
 import { EcoleCard, ResultsHeader, SearchPanel } from '@/features/schools/components/EcoleBlocks'
 import { Hero, HeroFeatures } from '@/shared/components/ui/Hero'
 import { Pagination } from '@/shared/components/ui/Pagination'
-import { etablissementById, etablissements, regions, typesEcole } from '@/mocks/schools'
+import { regions, typesEcole } from '@/mocks/schools'
+import { useEtablissements } from '@/data/hooks'
 import { cn } from '@/shared/utils/cn'
 import { num } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
@@ -28,10 +29,13 @@ const vedettes = ['ipc', 'cfp-btp', 'langues']
 export function EcolesHub() {
   const { t } = useTranslation('schools')
   const [q, setQ] = useState('')
-  const ordered = [...vedettes.map((id) => etablissementById(id)), ...etablissements.filter((e) => !vedettes.includes(e.id))]
+  const etablissements = useEtablissements()
+  // Comme avant : un identifiant inconnu renvoie le premier établissement.
+  const byId = (id: string) => etablissements.find((e) => e.id === id) ?? etablissements[0]!
+  const ordered = [...vedettes.map(byId), ...etablissements.filter((e) => !vedettes.includes(e.id))]
   const list = ordered.filter((e) => e.nom.toLowerCase().includes(q.toLowerCase()))
   const autoEcole = {
-    ...etablissementById('ipc'),
+    ...byId('ipc'),
     id: 'conduite-sure',
     nom: 'Auto-École La Conduite Sûre',
     type: 'Auto-école' as const,

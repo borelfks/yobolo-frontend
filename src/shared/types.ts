@@ -135,3 +135,120 @@ export type Account = {
   label: string
   description: string
 }
+
+/* --- Données enregistrées dans la base de test (src/data) ----------------- */
+/*
+ * Les enregistrements qui portent `etablissementId: '*'` (ou `autoEcoleId: '*'`)
+ * sont ceux de la maquette : ils s'affichent pour tous les établissements,
+ * comme avant. Ceux créés par les testeurs portent le vrai identifiant.
+ */
+
+export type StatutPublication = 'Publiée' | 'En attente' | 'Brouillon'
+
+/** Une ligne du tableau « Gérer les formations » de l'espace pro. */
+export type FormationPro = {
+  id: string
+  etablissementId: string
+  nom: string
+  code: string
+  filiere: string
+  ton: string
+  diplome: string
+  duree: string
+  rentree: string
+  statut: StatutPublication
+}
+
+export type SessionAutoEcole = {
+  id: string
+  permis: PermisCode
+  debut: string
+  horaires: string[]
+  duree: string
+  places: number
+}
+
+export type AvisEtablissement = Avis & { etablissementId: string }
+
+export type AvisAutoEcole = {
+  id: string
+  autoEcoleId: string
+  nom: string
+  date: string
+  note: number
+  texte: string
+  avatar: string
+}
+
+export type Actualite = {
+  id: string
+  etablissementId: string
+  titre: string
+  date: string
+  statut: 'Publiée' | 'Brouillon'
+  categorie: string
+  vues: number
+  partages: number
+  image: string
+}
+
+export type DocumentPro = {
+  id: string
+  etablissementId: string
+  nom: string
+  type: string
+  categorie: string
+  taille: string
+  date: string
+  statut: string
+}
+
+export type QuestionFaq = {
+  id: string
+  etablissementId: string
+  q: string
+  r: string
+  categorie: string
+}
+
+export type UtilisateurPro = {
+  id: string
+  etablissementId: string
+  nom: string
+  role: string
+  telephone: string
+  email: string
+  statut: string
+  connexion: string
+  avatar: string
+  vous?: boolean
+}
+
+/** Une préinscription envoyée depuis la fiche d'une formation. */
+export type Preinscription = {
+  id: string
+  formationId: string
+  etablissementId: string
+  /** Date d'envoi (ISO). */
+  envoyeeLe: string
+  statut: 'Envoyée'
+  /** Les champs saisis, tels quels. */
+  donnees: Record<string, string>
+}
+
+/** Une inscription à un permis, envoyée à une auto-école. */
+export type InscriptionAutoEcole = {
+  id: string
+  autoEcoleId: string
+  permis: PermisCode
+  envoyeeLe: string
+  statut: 'Envoyée'
+  donnees: InscriptionDraft
+}
+
+/** Réglages de l'espace pro d'un établissement (Paramètres). */
+export type ParametresEtablissement = {
+  /** Identifiant de l'établissement. */
+  id: string
+  valeurs: Record<string, string | boolean>
+}

@@ -539,6 +539,7 @@
       "explore": "Keep exploring"
     },
     "toastValidated": "Pre-registration confirmed",
+    "toastError": "The pre-registration could not be saved. Please try again.",
     "crumb": "Pre-registration",
     "heroTitle": "Online pre-registration",
     "subtitleRecap": "Check your information before confirming your application.",

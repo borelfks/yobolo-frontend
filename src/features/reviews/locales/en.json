@@ -59,6 +59,8 @@
       "titre": "Verified review",
       "texte": "Your review will be marked “Verified” once approved by YIBOLO (confirmed enrolment or training)."
     },
+    "visiteur": "Visitor",
+    "aLInstant": "Just now",
     "toasts": {
       "tropCourt": "Your comment must be at least 10 characters long.",
       "confirmAutoEcole": "Please confirm that you trained at this driving school.",

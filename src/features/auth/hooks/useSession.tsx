@@ -2,7 +2,7 @@ import { createContext, use, useState, type ReactNode } from 'react'
 import { load, save } from '@/shared/utils/storage'
 import { demoAccounts } from '@/mocks/demoAccounts'
 import type { Account, Role } from '@/shared/types'
-import { etablissementById, formationsOf } from '@/mocks/schools'
+import { useEtablissement, useFormationsOf } from '@/data/hooks'
 
 
 type SessionValue = {
@@ -44,6 +44,6 @@ export function useSession() {
 /** L'établissement de l'espace pro : celui du compte, l'IPC par défaut. */
 export function useMonEcole() {
   const { account } = useSession()
-  const ecole = etablissementById(account?.ecoleId ?? 'ipc')
-  return { ecole, formations: formationsOf(ecole.id) }
+  const ecole = useEtablissement(account?.ecoleId ?? 'ipc')
+  return { ecole, formations: useFormationsOf(ecole.id) }
 }

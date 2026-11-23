@@ -6,7 +6,10 @@ import { Calendar, Check, ChartNoAxesColumnIncreasing, ChevronDown, CircleCheck,
 import { ProHeader, ProLabel } from '@/features/pro/components/ProBlocks'
 import { proCard, proInput } from '@/features/pro/proStyles'
 import { useMonEcole } from '@/features/auth/hooks/useSession'
-import { formationById } from '@/mocks/schools'
+import { IMAGE_FORMATION, NIVEAUX, PREFIXE_FORMATION_CREEE, codeFormation, modeCours, montant, oui, prefixer, sousCles, texte } from '@/features/pro/proData'
+import { data, newId } from '@/data'
+import { useFormations, useFormationsPro, useParametres } from '@/data/hooks'
+import type { Formation, FormationPro, StatutPublication } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { num, shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
@@ -49,20 +52,64 @@ export function CreerFormation() {
   const { id } = useParams()
   const navigate = useNavigate()
   const { ecole } = useMonEcole()
-  const edit = id ? formationById(id) : null
+  const toutes = useFormations()
+  const lignes = useFormationsPro(ecole.id)
+  const reglages = useParametres(ecole.id)
+  // En édition : la formation enregistrée, sinon la ligne du tableau « Gérer les formations » (img11).
+  const formation = id ? toutes.find((f) => f.id === id) : undefined
+  const ligne = id ? lignes.find((f) => f.id === id) : undefined
+  const edit = formation ?? (ligne ? { ...ligne, dureeMois: Number.parseInt(ligne.duree, 10) || 24, mode: 'Jour & Soir' as const, fraisAn: 450000 } : null)
+  // Champs que la fiche ne garde pas (ou pas au format du formulaire) : réglages `formation.<id>.*`, sinon la valeur de la maquette.
+  const saisis = id ? sousCles(`formation.${id}`, reglages) : {}
   const diplomes = ecole.type === 'IPES' ? ['BTS', 'Licence', 'Master', 'Ingénieur', 'Certificat'] : ecole.type === 'CFP' ? ['CQP', 'DQP', 'Certificat', 'Attestation'] : ['Attestation', 'Certification', 'Certificat']
   const [intitule, setIntitule] = useState(edit?.nom ?? 'BTS Comptabilité & Gestion')
   const [diplome, setDiplome] = useState(edit?.diplome ?? diplomes[0])
   const [filiere, setFiliere] = useState(edit?.filiere ?? 'Comptabilité & Gestion')
-  const [niveau, setNiveau] = useState<(typeof LEVELS)[number]>('bac')
+  const [niveau, setNiveau] = useState<(typeof LEVELS)[number]>(() => LEVELS.find((l) => l === saisis.niveau) ?? 'bac')
   const [duree, setDuree] = useState(edit ? String(edit.dureeMois) : '24')
-  const [modes, setModes] = useState<string[]>(edit ? (edit.mode === 'Jour & Soir' ? ['Jour', 'Soir'] : [edit.mode]) : ['Jour', 'Soir'])
-  const [rentree, setRentree] = useState(() => shortDate(new Date(2026, 9, 6), { day: '2-digit', month: 'long', year: 'numeric' }))
-  const [inscription, setInscription] = useState(() => num(50000))
-  const [scolarite, setScolarite] = useState(() => num(edit ? edit.fraisAn : 450000))
-  const [paiement, setPaiement] = useState<(typeof PAYMENTS)[number]>('several')
-  const [description, setDescription] = useState('Formation professionnelle qui forme des techniciens supérieurs capables de gérer la comptabilité, la gestion financière et le contrôle de gestion d’une organisation.')
-  const [validation, setValidation] = useState(false)
+  const [modes, setModes] = useState<string[]>(() => {
+    const m = saisis.modes
+    if (typeof m === 'string') return m ? m.split(',') : []
+    return edit ? (edit.mode === 'Jour & Soir' ? ['Jour', 'Soir'] : [edit.mode]) : ['Jour', 'Soir']
+  })
+  const [rentree, setRentree] = useState(() => texte(saisis, 'rentree', shortDate(new Date(2026, 9, 6), { day: '2-digit', month: 'long', year: 'numeric' })))
+  const [inscription, setInscription] = useState(() => texte(saisis, 'inscription', num(50000)))
+  const [scolarite, setScolarite] = useState(() => texte(saisis, 'scolarite', num(edit ? edit.fraisAn : 450000)))
+  const [paiement, setPaiement] = useState<(typeof PAYMENTS)[number]>(() => PAYMENTS.find((p) => p === saisis.paiement) ?? 'several')
+  const [description, setDescription] = useState(() => texte(saisis, 'description', 'Formation professionnelle qui forme des techniciens supérieurs capables de gérer la comptabilité, la gestion financière et le contrôle de gestion d’une organisation.'))
+  const [validation, setValidation] = useState(() => oui(saisis, 'validation', false))
+  /**
+   * Enregistre la formation (fiche) et sa ligne du tableau « Gérer les formations ».
+   * Envoyée : « En attente » de validation par YIBOLO ; sinon « Brouillon ».
+   */
+  const enregistrer = async (statut: StatutPublication) => {
+    const fid = id ?? newId(PREFIXE_FORMATION_CREEE)
+    const code = edit?.code ?? codeFormation(intitule, diplome)
+    const fiche: Formation = {
+      ...(formation ?? { etablissementId: ecole.id, image: IMAGE_FORMATION }),
+      id: fid,
+      nom: intitule,
+      code,
+      filiere,
+      diplome,
+      niveau: NIVEAUX[niveau],
+      dureeMois: Number(duree),
+      mode: modeCours(modes),
+      fraisInscription: montant(inscription),
+      fraisAn: montant(scolarite),
+      rentree,
+      statut,
+      description,
+    }
+    await data.put('formations', fiche)
+    const champs = { nom: intitule, code, filiere, diplome, duree: `${duree} mois`, rentree, statut }
+    if (ligne) await data.update('formationsPro', fid, champs)
+    else await data.create('formationsPro', { id: fid, etablissementId: ecole.id, ton: 'blue', ...champs } satisfies FormationPro)
+    await data.put('parametres', {
+      id: ecole.id,
+      valeurs: { ...reglages, ...prefixer(`formation.${fid}`, { niveau, modes: modes.join(','), rentree, inscription, scolarite, paiement, description, validation }) },
+    })
+  }
   const done: Record<(typeof CHECKS)[number], boolean> = {
     general: intitule.length > 2,
     organisation: modes.length > 0 && rentree !== '',
@@ -159,8 +206,8 @@ export function CreerFormation() {
             </ul>
           </div>
           <div className={cn(proCard, 'space-y-2.5 p-3')}>
-            <button type="button" onClick={() => { toast.success(t('creer.actions.sentForReview')); navigate(ROUTES.pro.trainings) }} className={cn(side, 'bg-brand-600 text-white hover:bg-brand-700')}><Check className="size-5" strokeWidth={3} />{t('creer.actions.saveContinue')}</button>
-            <button type="button" onClick={() => { toast.success(t('creer.actions.draftSaved')); navigate(ROUTES.pro.trainings) }} className={cn(side, 'border-2 border-brand-600/60 text-navy-800 hover:bg-brand-50')}><Save className="size-5" />{t('creer.actions.saveDraft')}</button>
+            <button type="button" onClick={async () => { await enregistrer('En attente'); toast.success(t('creer.actions.sentForReview')); navigate(ROUTES.pro.trainings) }} className={cn(side, 'bg-brand-600 text-white hover:bg-brand-700')}><Check className="size-5" strokeWidth={3} />{t('creer.actions.saveContinue')}</button>
+            <button type="button" onClick={async () => { await enregistrer('Brouillon'); toast.success(t('creer.actions.draftSaved')); navigate(ROUTES.pro.trainings) }} className={cn(side, 'border-2 border-brand-600/60 text-navy-800 hover:bg-brand-50')}><Save className="size-5" />{t('creer.actions.saveDraft')}</button>
             <button type="button" onClick={() => toast(t('creer.actions.previewToast'))} className={cn(side, 'border-2 border-brand-600/60 text-navy-800 hover:bg-brand-50')}><Eye className="size-5" />{t('creer.actions.preview')}</button>
             <button type="button" onClick={() => navigate(ROUTES.pro.trainings)} className={cn(side, 'border-2 border-brand-600/60 text-navy-800 hover:bg-brand-50')}><X className="size-5" />{t('creer.actions.cancel')}</button>
           </div>

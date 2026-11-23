@@ -56,21 +56,28 @@ export function ProCard({ title, icon, subtitle, action, children, className }: 
   )
 }
 
-/** Pied de formulaire : Annuler · Enregistrer en brouillon · Enregistrer et publier. */
-export function ProFooter({ onPublish, publishLabel }: { onPublish?: () => void; publishLabel?: string }) {
+/**
+ * Pied de formulaire : Annuler · Enregistrer en brouillon · Enregistrer et publier.
+ * `onSave` enregistre (brouillon ou publication) avant le message ; `onCancel` remet le formulaire.
+ */
+export function ProFooter({ onCancel, onSave }: { onCancel?: () => void; onSave?: (publier: boolean) => Promise<void> | void }) {
   const { t } = useTranslation('pro')
+  const save = async (publier: boolean) => {
+    await onSave?.(publier)
+    toast.success(t(publier ? 'footer.published' : 'footer.draftSaved'))
+  }
   return (
     <div className="flex flex-wrap justify-end gap-3 pt-1">
-      <button type="button" onClick={() => toast(t('footer.cancelled'))} className="h-12 w-40 rounded-full border-2 border-brand-600/60 bg-white text-[17px] font-semibold text-navy-800 hover:bg-brand-50">
+      <button type="button" onClick={() => { onCancel?.(); toast(t('footer.cancelled')) }} className="h-12 w-40 rounded-full border-2 border-brand-600/60 bg-white text-[17px] font-semibold text-navy-800 hover:bg-brand-50">
         {t('footer.cancel')}
       </button>
-      <button type="button" onClick={() => toast.success(t('footer.draftSaved'))} className="inline-flex h-12 items-center gap-2.5 rounded-full border-2 border-brand-600/60 bg-white px-8 text-[17px] font-semibold text-navy-800 hover:bg-brand-50">
+      <button type="button" onClick={() => void save(false)} className="inline-flex h-12 items-center gap-2.5 rounded-full border-2 border-brand-600/60 bg-white px-8 text-[17px] font-semibold text-navy-800 hover:bg-brand-50">
         <Save className="size-6" />
         {t('footer.saveDraft')}
       </button>
-      <button type="button" onClick={onPublish ?? (() => toast.success(t('footer.published')))} className="inline-flex h-12 items-center gap-2.5 rounded-full bg-brand-600 px-10 text-[17px] font-semibold text-white hover:bg-brand-700">
+      <button type="button" onClick={() => void save(true)} className="inline-flex h-12 items-center gap-2.5 rounded-full bg-brand-600 px-10 text-[17px] font-semibold text-white hover:bg-brand-700">
         <Check className="size-6" strokeWidth={3} />
-        {publishLabel ?? t('footer.publish')}
+        {t('footer.publish')}
       </button>
     </div>
   )

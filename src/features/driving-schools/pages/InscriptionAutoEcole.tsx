@@ -34,7 +34,9 @@ import { AEHeader } from '@/features/driving-schools/components/AutoEcoleBlocks'
 import { Select } from '@/shared/components/forms/Fields'
 import { piecesAE, type PieceKey } from '@/features/driving-schools/autoEcoleRules'
 import { useInscriptionDraft } from '@/features/driving-schools/hooks/useInscriptionDraft'
-import { autoEcoleById, permisCatalogue } from '@/mocks/drivingSchools'
+import { data } from '@/data'
+import { useAutoEcole } from '@/data/hooks'
+import { permisCatalogue } from '@/mocks/drivingSchools'
 import type { PermisCode } from '@/shared/types'
 import { quartiers, villes } from '@/mocks/schools'
 import { cn } from '@/shared/utils/cn'
@@ -109,7 +111,7 @@ function Steps({ step }: { step: number }) {
 export function InscriptionAutoEcole() {
   const { t } = useTranslation('driving-schools', { keyPrefix: 'enrollment' })
   const { id, code = 'B' } = useParams()
-  const a = autoEcoleById(id)
+  const a = useAutoEcole(id)
   const p = permisCatalogue[code as PermisCode] ?? permisCatalogue.B
   const [d, update] = useInscriptionDraft(a.id, p.code)
   const [step, setStep] = useState(0)
@@ -336,8 +338,9 @@ export function InscriptionAutoEcole() {
             ) : (
               <button
                 type="button"
-                onClick={() => {
+                onClick={async () => {
                   if (!certif) return toast.error(t('toast.certifyRequired'))
+                  await data.create('inscriptionsAutoEcole', { autoEcoleId: a.id, permis: p.code, envoyeeLe: new Date().toISOString(), statut: 'Envoyée', donnees: d }, 'inscription')
                   toast.success(t('toast.sent'))
                   setSent(true)
                 }}

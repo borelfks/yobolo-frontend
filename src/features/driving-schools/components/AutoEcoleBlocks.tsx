@@ -4,7 +4,8 @@ import { permisIcon } from '@/features/driving-schools/autoEcoleRules'
 import { Breadcrumb, type Crumb } from '@/shared/components/ui/Breadcrumb'
 import { Img } from '@/shared/components/ui/Img'
 import { useFavorites } from '@/shared/hooks/useFavorites'
-import { autoEcoleById, permisCatalogue } from '@/mocks/drivingSchools'
+import { useAutoEcole } from '@/data/hooks'
+import { permisCatalogue } from '@/mocks/drivingSchools'
 import type { PermisCode } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { fcfa, num } from '@/shared/utils/format'
@@ -47,7 +48,7 @@ export function AEHeader({
   image?: string
 }) {
   const { t } = useTranslation('driving-schools')
-  const a = autoEcoleById(id)
+  const a = useAutoEcole(id)
   return (
     <>
       <Breadcrumb items={crumbs} className="-mt-1" />
@@ -107,7 +108,7 @@ export function FavoriteModal({ open, onClose, aeId, code }: { open: boolean; on
   const { t } = useTranslation('driving-schools')
   const { add, folders } = useFavorites()
   const [folder, setFolder] = useState('Mes formations')
-  const a = autoEcoleById(aeId)
+  const a = useAutoEcole(aeId)
   const p = code ? permisCatalogue[code] : null
   /** Les dossiers par défaut sont traduits ; ceux créés par l'utilisateur restent tels quels. */
   const folderLabel = (f: string) => {

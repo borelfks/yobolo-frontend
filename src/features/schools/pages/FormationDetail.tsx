@@ -10,7 +10,8 @@ import { ProgrammeTab } from '@/features/schools/components/training/ProgrammeTa
 import { AdmissionTab } from '@/features/schools/components/training/AdmissionTab'
 import { FraisTab } from '@/features/schools/components/training/FraisTab'
 import { DebouchesTab } from '@/features/schools/components/training/DebouchesTab'
-import { etablissementById, formationById, isTypeSlug, slugOfType } from '@/mocks/schools'
+import { isTypeSlug, slugOfType } from '@/mocks/schools'
+import { useEtablissement, useFormation } from '@/data/hooks'
 import { cn } from '@/shared/utils/cn'
 import { ROUTES } from '@/shared/utils/routes'
 
@@ -20,8 +21,8 @@ const headerPhotos: Record<string, string> = { 'f-cg-ipc': '/images/maquette/for
 export function FormationDetail() {
   const { t } = useTranslation('schools')
   const { id, tab = '' } = useParams()
-  const f = formationById(id)
-  const e = etablissementById(f.etablissementId)
+  const f = useFormation(id)
+  const e = useEtablissement(f.etablissementId)
   const slug = slugOfType(e.type)
   const base = ROUTES.training(f.id)
   const tabs = [

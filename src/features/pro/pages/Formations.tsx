@@ -6,7 +6,7 @@ import { ArrowUpDown, CalendarDays, ChevronDown, ChevronLeft, ChevronRight, Circ
 import { ProHeader } from '@/features/pro/components/ProBlocks'
 import { useMonEcole } from '@/features/auth/hooks/useSession'
 import { cn } from '@/shared/utils/cn'
-import { formationsPro } from '@/mocks/pro'
+import { useFormationsPro } from '@/data/hooks'
 import { ROUTES } from '@/shared/utils/routes'
 
 const chip: Record<string, string> = {
@@ -57,10 +57,19 @@ export function Formations() {
   const { t } = useTranslation('pro')
   const duration = useDuration()
   const { ecole, formations } = useMonEcole()
+  const lignes = useFormationsPro(ecole.id)
+  // IPC : le tableau de la maquette (img11) et les formations créées. Autres établissements : leurs formations,
+  // avec la ligne enregistrée par « Créer / Modifier une formation » quand elle existe.
+  const propres = lignes.filter((f) => f.etablissementId === ecole.id)
   const base =
     ecole.id === 'ipc'
-      ? [...formationsPro]
-      : formations.map((f) => ({ id: f.id, nom: f.nom, code: f.code, filiere: f.filiere, ton: 'blue', diplome: f.diplome, duree: `${f.dureeMois} mois`, rentree: f.rentree, statut: f.statut }))
+      ? lignes
+      : [
+          ...propres,
+          ...formations
+            .filter((f) => !propres.some((p) => p.id === f.id))
+            .map((f) => ({ id: f.id, nom: f.nom, code: f.code, filiere: f.filiere, ton: 'blue', diplome: f.diplome, duree: `${f.dureeMois} mois`, rentree: f.rentree, statut: f.statut })),
+        ]
   const [q, setQ] = useState('')
   const [filiere, setFiliere] = useState('')
   const [statut, setStatut] = useState('')

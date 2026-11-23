@@ -8,6 +8,7 @@ import { useTypeLabels } from '@/features/schools/components/listing/useTypeLabe
 import { modeKey } from '@/features/schools/schoolLinks'
 import { Card } from '@/shared/components/ui/Card'
 import { Pagination } from '@/shared/components/ui/Pagination'
+import { useEtablissements, useFormations } from '@/data/hooks'
 import { diplomesParType, domainesParType, regions, typeConfig, villes } from '@/mocks/schools'
 import type { ModeCours, TypeSlug } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
@@ -43,7 +44,7 @@ export function FormationsTab({ type, mode }: { type: TypeSlug; mode: 'frais' | 
   const { t } = useTranslation('schools')
   const { searchItem } = useTypeLabels(type)
   const cfg = typeConfig[type]
-  const all = formationsOfType(type)
+  const all = formationsOfType(type, useFormations(), useEtablissements())
   const [tr, setTr] = useState<number[]>([])
   const [modes, setModes] = useState<string[]>([])
   const toggle = <T,>(list: T[], v: T, on: boolean) => (on ? [...list, v] : list.filter((x) => x !== v))

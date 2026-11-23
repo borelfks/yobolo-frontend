@@ -4,7 +4,7 @@ import { toast } from 'sonner'
 import { ArrowRight, Award, Briefcase, Building2, CalendarDays, GraduationCap, Info, Layers, Mail, Map as MapIcon, MapPin, Phone, Sun, Target, Trophy, Users, Wallet } from 'lucide-react'
 import { ActionButtons } from '@/features/schools/components/profile/ActionButtons'
 import { card } from '@/features/schools/components/profile/profileShared'
-import { etablissementById, formationsOf } from '@/mocks/schools'
+import { useEtablissement, useFormationsOf } from '@/data/hooks'
 import { cn } from '@/shared/utils/cn'
 
 type SectionId = 'presentation' | 'admission' | 'frais' | 'calendrier' | 'contact'
@@ -22,8 +22,8 @@ const assets = ['a1', 'a2', 'a3', 'a4'] as const
 /** Onglet « Informations » de la fiche établissement. */
 export function InformationsTab({ id }: { id: string }) {
   const { t } = useTranslation('schools')
-  const e = etablissementById(id)
-  const list = formationsOf(id).filter((f) => f.statut === 'Publiée')
+  const e = useEtablissement(id)
+  const list = useFormationsOf(id).filter((f) => f.statut === 'Publiée')
   const [sec, setSec] = useState<SectionId>('presentation')
   return (
     <div className="grid gap-4 lg:grid-cols-[294px_1fr_336px]">
@@ -142,7 +142,7 @@ function CheckMark() {
 
 function InfoSection({ sec, id }: { sec: Exclude<SectionId, 'presentation'>; id: string }) {
   const { t } = useTranslation('schools')
-  const e = etablissementById(id)
+  const e = useEtablissement(id)
   const r = (k: RowId) => t(`ecoleProfil.informations.rows.${k}`)
   const rows: Record<Exclude<SectionId, 'presentation'>, [string, string][]> = {
     admission: [

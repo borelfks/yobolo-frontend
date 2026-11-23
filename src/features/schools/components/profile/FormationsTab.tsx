@@ -10,7 +10,7 @@ import { formationUrl } from '@/features/schools/schoolLinks'
 import { FavoriteWide } from '@/features/schools/components/profile/ActionButtons'
 import { card, principales } from '@/features/schools/components/profile/profileShared'
 import { modeKey } from '@/features/schools/components/training/trainingShared'
-import { etablissementById, formationsOf } from '@/mocks/schools'
+import { useEtablissement, useFormationsOf } from '@/data/hooks'
 import type { Formation } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { fcfa } from '@/shared/utils/format'
@@ -78,12 +78,12 @@ function MoonIcon() {
 /** Onglet « Formations » de la fiche établissement. */
 export function FormationsTab({ id }: { id: string }) {
   const { t } = useTranslation('schools')
-  const e = etablissementById(id)
-  const all = formationsOf(id).filter((f) => f.statut === 'Publiée')
+  const e = useEtablissement(id)
+  const all = useFormationsOf(id).filter((f) => f.statut === 'Publiée')
   const [q, setQ] = useState('')
   const list = all.filter((f) => f.nom.toLowerCase().includes(q.toLowerCase()))
   const diplomes = [...new Set(all.map((f) => f.diplome))]
-  const fil = principales(id)
+  const fil = principales(e)
   return (
     <div className="grid gap-4 lg:grid-cols-[258px_1fr]">
       <div className={cn(card, 'h-fit space-y-3 p-4')}>

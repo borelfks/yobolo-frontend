@@ -10,6 +10,8 @@ import { Field, Input, PhoneInput, Radio, Select } from '@/shared/components/for
 import { FormFooter, PageTitle, Tip } from '@/shared/components/ui/Blocks'
 import { ROUTES } from '@/shared/utils/routes'
 import { roles } from '@/mocks/pro'
+import { useMonEcole } from '@/features/auth/hooks/useSession'
+import { data } from '@/data'
 
 /** Rôles des données de démo → clé de traduction. */
 const ROLE_KEYS: Record<string, 'admin' | 'academicLead' | 'communication' | 'secretariat' | 'readOnly' | undefined> = {
@@ -25,6 +27,9 @@ export function InviterUtilisateur() {
   const navigate = useNavigate()
   const [role, setRole] = useState('Responsable pédagogique')
   const [nom, setNom] = useState('')
+  const [telephone, setTelephone] = useState('')
+  const [email, setEmail] = useState('')
+  const { ecole } = useMonEcole()
   const roleName = (r: string) => {
     const key = ROLE_KEYS[r]
     return key ? t(`roles.${key}.name`) : r
@@ -41,16 +46,22 @@ export function InviterUtilisateur() {
         <Card className="space-y-4 p-5">
           <Field label={t('invite.name')} required><Input value={nom} onChange={(e) => setNom(e.target.value)} placeholder={t('invite.namePlaceholder')} /></Field>
           <div className="grid gap-4 sm:grid-cols-2">
-            <Field label={t('invite.phone')} required><PhoneInput /></Field>
-            <Field label={t('invite.email')}><Input type="email" placeholder={t('invite.emailPlaceholder')} /></Field>
+            <Field label={t('invite.phone')} required><PhoneInput value={telephone} onChange={(e) => setTelephone(e.target.value)} /></Field>
+            <Field label={t('invite.email')}><Input type="email" placeholder={t('invite.emailPlaceholder')} value={email} onChange={(e) => setEmail(e.target.value)} /></Field>
           </div>
           <Field label={t('invite.role')} required><Select options={roles.map((r) => ({ value: r.nom, label: roleName(r.nom) }))} value={role} onChange={(e) => setRole(e.target.value)} /></Field>
           <Tip icon={<Info />}>{t('invite.tip')}</Tip>
           <FormFooter>
             <Button variant="neutral" onClick={() => navigate(ROUTES.pro.settings('utilisateurs'))}>{t('invite.cancel')}</Button>
             <Button
-              onClick={() => {
+              onClick={async () => {
                 if (nom.trim().length < 2) return toast.error(t('invite.nameRequired'))
+                // Invitation pas encore acceptée : « En attente » (statut connu des badges), pas encore de connexion.
+                await data.create(
+                  'utilisateurs',
+                  { etablissementId: ecole.id, nom: nom.trim(), role, telephone: telephone.trim() ? `+237 ${telephone.trim()}` : '', email: email.trim(), statut: 'En attente', connexion: '—', avatar: '' },
+                  'utilisateur',
+                )
                 toast.success(t('invite.sent', { name: nom, role: roleName(role) }))
                 navigate(ROUTES.pro.settings('utilisateurs'))
               }}

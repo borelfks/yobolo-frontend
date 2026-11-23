@@ -30,7 +30,8 @@ import {
 import { AEHeader } from '@/features/driving-schools/components/AutoEcoleBlocks'
 import { piecesAE, type PieceKey } from '@/features/driving-schools/autoEcoleRules'
 import { useInscriptionDraft } from '@/features/driving-schools/hooks/useInscriptionDraft'
-import { autoEcoleById, autoEcoles, permisCatalogue, sessions } from '@/mocks/drivingSchools'
+import { useAutoEcoles, useSessions } from '@/data/hooks'
+import { permisCatalogue } from '@/mocks/drivingSchools'
 import type { PermisCode } from '@/shared/types'
 import { quartiers, villes } from '@/mocks/schools'
 import { cn } from '@/shared/utils/cn'
@@ -94,7 +95,11 @@ function Checks({ items }: { items: string[] }) {
 export function ModifierInscription() {
   const { t } = useTranslation('driving-schools', { keyPrefix: 'enrollment' })
   const { id, code = 'B', section = 'infos' } = useParams()
-  const a = autoEcoleById(id)
+  const autoEcoles = useAutoEcoles()
+  const sessions = useSessions()
+  /** Comme avant : un identifiant inconnu donne la première auto-école. */
+  const trouverAutoEcole = (x?: string) => autoEcoles.find((e) => e.id === x) ?? autoEcoles[0]!
+  const a = trouverAutoEcole(id)
   const p = permisCatalogue[code as PermisCode] ?? permisCatalogue.B
   const [d, update] = useInscriptionDraft(a.id, p.code)
   const navigate = useNavigate()
@@ -173,19 +178,19 @@ export function ModifierInscription() {
                     options={autoEcoles.map((x) => ({ value: x.id, label: x.nom }))}
                     onChange={(v) => {
                       setNewAe(v)
-                      const next = autoEcoleById(v)
+                      const next = trouverAutoEcole(v)
                       if (!next.permis.includes(newPermis)) setNewPermis(next.permis[0])
                     }}
                   />
                 </label>
                 <label className="block">
                   <Label required>{t('edit.formation.licence')}</Label>
-                  <IconSelect icon={<Car />} value={newPermis} options={autoEcoleById(newAe).permis.map((c) => ({ value: c, label: permisName(c) }))} onChange={(v) => setNewPermis(v as PermisCode)} />
+                  <IconSelect icon={<Car />} value={newPermis} options={trouverAutoEcole(newAe).permis.map((c) => ({ value: c, label: permisName(c) }))} onChange={(v) => setNewPermis(v as PermisCode)} />
                 </label>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="block">
                     <Label required>{t('edit.formation.place')}</Label>
-                    <IconSelect icon={<MapPin />} value="lieu" options={[{ value: 'lieu', label: `${autoEcoleById(newAe).ville} – ${autoEcoleById(newAe).quartier}` }]} />
+                    <IconSelect icon={<MapPin />} value="lieu" options={[{ value: 'lieu', label: `${trouverAutoEcole(newAe).ville} – ${trouverAutoEcole(newAe).quartier}` }]} />
                   </label>
                   <label className="block">
                     <Label required>{t('edit.formation.session')}</Label>

@@ -46,7 +46,7 @@ export function PublicLayout() {
               <>
                 <NotificationsBell />
                 <span className="hidden h-8 w-px bg-line sm:block" />
-                <UserMenu />
+                <UserMenu withTestData />
               </>
             ) : (
               <>

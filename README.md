@@ -21,7 +21,7 @@ Interface en français (et en anglais), prix en FCFA, contenus centrés sur le C
 
 - **Univers École réalisé** : IPES, CFP et Autres (même gabarit), auto-écoles, préinscription, inscription en auto-école, avis, favoris, et l'**espace professionnel** partagé par les IPES, CFP et Autres.
 - **Consultation** et **Emploi** : présents dans la navigation, avec une page « bientôt disponible ». Prochaine étape envisagée : l'univers **Consultation** (espace pro du consultant, 11 menus).
-- Les données sont fictives (`src/mocks/`). Seuls la session, les favoris, le brouillon d'inscription en auto-école et la langue sont gardés dans le navigateur.
+- Les données de départ sont fictives (`src/mocks/`). Ce que fait chaque testeur (formations, avis, préinscriptions, inscriptions, profil, contenus, favoris…) est enregistré dans **sa base SQLite, dans son navigateur** (`src/data/`). Menu du compte › **Données de test** : exporter un fichier `.sqlite` pour le partager, l'importer chez un collègue, ou tout réinitialiser.
 
 ## Stack
 
@@ -107,7 +107,8 @@ src/
 │   └── types.ts           types du domaine
 │
 ├── i18n/                traduction : index.ts (initialisation, langue gardée), i18next.d.ts (clés typées)
-├── mocks/               données de démonstration (elles jouent le rôle du serveur)
+├── data/                données enregistrées : couche unique (index.ts, hooks.ts), sources/ (SQLite navigateur, mémoire), remplaçable plus tard
+├── mocks/               données de départ et de référence (seed.ts construit la base de départ)
 └── assets/              police Plus Jakarta Sans et logo YIBOLO
 
 public/

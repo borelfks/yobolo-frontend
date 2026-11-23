@@ -11,7 +11,8 @@ import { Img } from '@/shared/components/ui/Img'
 import { FavoriteButton } from '@/shared/components/ui/FavoriteButton'
 import { Select } from '@/shared/components/forms/Fields'
 import type { Etablissement, Formation } from '@/shared/types'
-import { etablissementById, typeTone } from '@/mocks/schools'
+import { typeTone } from '@/mocks/schools'
+import { useEtablissement } from '@/data/hooks'
 import { ecoleUrl, formationUrl, modeKey, modeStyle, schoolTypeKey, useModeLabel } from '@/features/schools/schoolLinks'
 import { cn } from '@/shared/utils/cn'
 import { fcfa, num } from '@/shared/utils/format'
@@ -99,7 +100,7 @@ export function EcoleCard({ e }: { e: Etablissement }) {
 export function FormationRow({ f, showEcole = true, chips = 'frais' }: { f: Formation; showEcole?: boolean; chips?: 'frais' | 'cours' }) {
   const { t } = useTranslation('schools')
   const modeLabel = useModeLabel()
-  const e = etablissementById(f.etablissementId)
+  const e = useEtablissement(f.etablissementId)
   const m = modeStyle[f.mode]
   const modePill = {
     Jour: 'bg-[#fff3d6] text-navy-900 [&_svg]:text-amber-500 [&_svg]:fill-amber-400',

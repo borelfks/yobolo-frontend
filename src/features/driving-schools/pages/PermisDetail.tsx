@@ -29,7 +29,8 @@ import {
 import { AEHeader, FavoriteModal } from '@/features/driving-schools/components/AutoEcoleBlocks'
 import { Img } from '@/shared/components/ui/Img'
 import { useFavorites } from '@/shared/hooks/useFavorites'
-import { autoEcoleById, permisCatalogue, sessions } from '@/mocks/drivingSchools'
+import { useAutoEcole, useSessions } from '@/data/hooks'
+import { permisCatalogue } from '@/mocks/drivingSchools'
 import type { PermisCode } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { fcfa } from '@/shared/utils/format'
@@ -80,7 +81,8 @@ function Checks({ items }: { items: string[] }) {
 export function PermisDetail() {
   const { t } = useTranslation('driving-schools')
   const { id, code = 'B', tab = '' } = useParams()
-  const a = autoEcoleById(id)
+  const a = useAutoEcole(id)
+  const sessions = useSessions()
   const c = (code.toUpperCase() as PermisCode) in permisCatalogue ? (code.toUpperCase() as PermisCode) : 'B'
   const contenu = contenus[c]
   const programme = t(`licence.content.${c}.programme`, { returnObjects: true })
@@ -187,7 +189,7 @@ export function PermisDetail() {
               ) : (
                 <div className="mt-3 space-y-2.5">
                   {list.map((s) => (
-                    <div key={s.debut} className={cn(soft, 'flex flex-wrap items-center gap-4 px-4 py-3 text-[15px] text-navy-900')}>
+                    <div key={s.id} className={cn(soft, 'flex flex-wrap items-center gap-4 px-4 py-3 text-[15px] text-navy-900')}>
                       <CalendarDays className="size-6 text-brand-600" />
                       <span className="flex-1"><b>{t('licence.startsOn', { date: sessionStart(s.debut) })}</b> · {[sessionDays(t, s.horaires[0]), sessionHours(t, s.horaires[1])].join(' · ')} · {sessionDuration(t, s.duree)}</span>
                       <span className="rounded-full bg-emerald-50 px-3 py-1 font-semibold text-emerald-700">{t('common.places', { count: s.places })}</span>
@@ -224,7 +226,7 @@ function WhatsAppIcon() {
 
 function Aside({ aeId, code, contenu }: { aeId: string; code: PermisCode; contenu: Contenu }) {
   const { t } = useTranslation('driving-schools')
-  const a = autoEcoleById(aeId)
+  const a = useAutoEcole(aeId)
   const { isFavorite, remove } = useFavorites()
   const [open, setOpen] = useState(false)
   const fav = isFavorite(`${aeId}:${code}`)

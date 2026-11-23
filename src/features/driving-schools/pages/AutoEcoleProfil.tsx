@@ -8,7 +8,7 @@ import { FormationsTab } from '@/features/driving-schools/components/profile/For
 import { GalerieTab } from '@/features/driving-schools/components/profile/GalerieTab'
 import { PlanningTab } from '@/features/driving-schools/components/profile/PlanningTab'
 import { TarifsTab } from '@/features/driving-schools/components/profile/TarifsTab'
-import { autoEcoleById } from '@/mocks/drivingSchools'
+import { useAutoEcole } from '@/data/hooks'
 import { cn } from '@/shared/utils/cn'
 import { ROUTES } from '@/shared/utils/routes'
 
@@ -16,7 +16,7 @@ import { ROUTES } from '@/shared/utils/routes'
 export function AutoEcoleProfil() {
   const { t } = useTranslation('driving-schools')
   const { id, tab = '' } = useParams()
-  const a = autoEcoleById(id)
+  const a = useAutoEcole(id)
   const base = ROUTES.drivingSchool(a.id)
   const tabs = [
     { value: '', label: t('profile.tabs.overview'), icon: <Home /> },

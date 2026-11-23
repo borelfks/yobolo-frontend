@@ -9,14 +9,15 @@ import { FormationsTab } from '@/features/schools/components/profile/FormationsT
 import { InformationsTab } from '@/features/schools/components/profile/InformationsTab'
 import { AvisTab } from '@/features/schools/components/profile/AvisTab'
 import { GalerieTab } from '@/features/schools/components/profile/GalerieTab'
-import { etablissementById, isTypeSlug, slugOfType } from '@/mocks/schools'
+import { isTypeSlug, slugOfType } from '@/mocks/schools'
+import { useEtablissement } from '@/data/hooks'
 import { num } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
 
 export function EcoleProfil() {
   const { t } = useTranslation('schools')
   const { id, tab = '' } = useParams()
-  const e = etablissementById(id)
+  const e = useEtablissement(id)
   const slug = slugOfType(e.type)
   const base = ROUTES.school(slug, e.id)
   const typeLabel = isTypeSlug(slug) ? t(`shared.types.${slug}`) : t('shared.school')

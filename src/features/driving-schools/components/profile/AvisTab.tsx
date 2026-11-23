@@ -4,9 +4,11 @@ import { toast } from 'sonner'
 import { BadgeCheck, Building2, CalendarDays, ChevronRight, CircleGauge, Handshake, MessageCircle, MoreHorizontal, PencilLine, Star, Users } from 'lucide-react'
 import { Heading } from '@/features/driving-schools/components/profile/ProfileParts'
 import { card, criteriaKeys, reviewDate } from '@/features/driving-schools/components/profile/profileUtils'
+import { Avatar } from '@/shared/components/ui/Avatar'
 import { Img } from '@/shared/components/ui/Img'
 import { Stars } from '@/shared/components/ui/StarRating'
-import { autoEcoleById, avisAutoEcole, criteresAvis, repartitionAutoEcole } from '@/mocks/drivingSchools'
+import { useAutoEcole, useAvisAutoEcole } from '@/data/hooks'
+import { criteresAvis, repartitionAutoEcole } from '@/mocks/drivingSchools'
 import { cn } from '@/shared/utils/cn'
 import { num } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
@@ -16,7 +18,8 @@ const critereIcons = [CircleGauge, Users, CalendarDays, Building2, Handshake]
 /** Onglet « Avis » de la fiche d'une auto-école. */
 export function AvisTab({ id }: { id: string }) {
   const { t } = useTranslation('driving-schools')
-  const a = autoEcoleById(id)
+  const a = useAutoEcole(id)
+  const avis = useAvisAutoEcole(a.id)
   const colors = ['bg-emerald-600', 'bg-emerald-400', 'bg-amber-300', 'bg-orange-400', 'bg-rose-500']
   const starColors = ['fill-emerald-600 text-emerald-600', 'fill-amber-400 text-amber-400', 'fill-amber-400 text-amber-400', 'fill-amber-400 text-amber-400', 'fill-amber-400 text-amber-400']
   return (
@@ -72,10 +75,11 @@ export function AvisTab({ id }: { id: string }) {
             <ChevronRight className="pointer-events-none absolute top-1/2 right-3 size-4 -translate-y-1/2 rotate-90" />
           </label>
         </div>
-        {avisAutoEcole.map((r) => (
+        {avis.map((r) => (
           <div key={r.id} className="flex flex-col gap-3 rounded-xl border border-line p-3 sm:flex-row">
             <div className="flex items-center gap-3 sm:w-[270px]">
-              <Img src={r.avatar} alt={r.nom} className="size-[62px] rounded-full" />
+              {/* Un avis de visiteur n’a pas de photo : initiales. */}
+              {r.avatar ? <Img src={r.avatar} alt={r.nom} className="size-[62px] rounded-full" /> : <Avatar name={r.nom} size={62} />}
               <div>
                 <p className="flex items-center gap-1.5 text-[16px] font-bold text-navy-900">
                   {r.nom}

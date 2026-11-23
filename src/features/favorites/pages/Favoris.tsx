@@ -7,8 +7,8 @@ import { Img } from '@/shared/components/ui/Img'
 import { useFavorites } from '@/shared/hooks/useFavorites'
 import type { Favorite, ModeCours, PermisCode } from '@/shared/types'
 import { ecoleUrl, formationUrl } from '@/features/schools/schoolLinks'
-import { etablissementById, etablissements, formationById, formations } from '@/mocks/schools'
-import { autoEcoleById, autoEcoles, permisCatalogue } from '@/mocks/drivingSchools'
+import { permisCatalogue } from '@/mocks/drivingSchools'
+import { useAutoEcoles, useEtablissements, useFormations } from '@/data/hooks'
 import { cn } from '@/shared/utils/cn'
 import { fcfa, num } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
@@ -115,6 +115,12 @@ function ModePill({ mode }: { mode: ModeCours }) {
 
 function FavRow({ fav, onRemove }: { fav: Favorite; onRemove: () => void }) {
   const { t } = useTranslation('favorites')
+  // Lus une fois dans la base ; comme avant, un identifiant inconnu renvoie le premier élément.
+  const formations = useFormations()
+  const etablissements = useEtablissements()
+  const autoEcoles = useAutoEcoles()
+  const etablissementDe = (id: string) => etablissements.find((x) => x.id === id) ?? etablissements[0]!
+  const autoEcoleDe = (id?: string) => autoEcoles.find((x) => x.id === id) ?? autoEcoles[0]!
   let image = ''
   let badge = t('row.badges.formation')
   let title = ''
@@ -130,9 +136,10 @@ function FavRow({ fav, onRemove }: { fav: Favorite; onRemove: () => void }) {
       </p>
     </>
   )
-  if (fav.kind === 'formation' && formations.some((x) => x.id === fav.id)) {
-    const f = formationById(fav.id)
-    const e = etablissementById(f.etablissementId)
+  const formation = fav.kind === 'formation' ? formations.find((x) => x.id === fav.id) : undefined
+  if (formation) {
+    const f = formation
+    const e = etablissementDe(f.etablissementId)
     ;[image, title, to] = [favPhotos[f.id] ?? f.image, f.nom, formationUrl(f)]
     left = (
       <>
@@ -145,7 +152,7 @@ function FavRow({ fav, onRemove }: { fav: Favorite; onRemove: () => void }) {
     )
     right = price(f.fraisAn)
   } else if (fav.kind === 'etablissement' && etablissements.some((x) => x.id === fav.id)) {
-    const e = etablissementById(fav.id)
+    const e = etablissementDe(fav.id)
     ;[image, badge, title, to, cta] = [favPhotos[e.id] ?? e.image, t('row.badges.etablissement'), e.nom, ecoleUrl(e), t('row.voirEtablissement')]
     left = <p className="flex items-center gap-2 text-[15px] text-navy-900"><MapPin className="size-5" />{e.ville} – {e.quartier}</p>
     right = (
@@ -158,13 +165,13 @@ function FavRow({ fav, onRemove }: { fav: Favorite; onRemove: () => void }) {
       </div>
     )
   } else if (fav.kind === 'auto-ecole' && autoEcoles.some((x) => x.id === fav.id)) {
-    const a = autoEcoleById(fav.id)
+    const a = autoEcoleDe(fav.id)
     ;[image, badge, title, to, cta] = [a.image, t('row.badges.etablissement'), a.nom, ROUTES.drivingSchool(a.id), t('row.voirEtablissement')]
     left = <p className="flex items-center gap-2 text-[15px] text-navy-900"><MapPin className="size-5" />{a.ville} – {a.quartier}</p>
     right = <p className="flex items-center gap-1.5 text-[16px] text-navy-900"><Star className="size-5 fill-amber-400 text-amber-400" />{t('row.note', { note: num(a.note), count: a.avis })}</p>
   } else if (fav.kind === 'permis') {
     const [aeId, code] = fav.id.split(':')
-    const a = autoEcoleById(aeId)
+    const a = autoEcoleDe(aeId)
     const p = permisCatalogue[code as PermisCode] ?? permisCatalogue.B
     ;[image, title, to] = [p.image, t('row.permisTitre', { code: p.code, nom: t(`row.permis.${p.code}`) }), ROUTES.license(a.id, p.code)]
     left = (

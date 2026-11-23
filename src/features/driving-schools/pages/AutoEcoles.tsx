@@ -8,7 +8,8 @@ import { Hero } from '@/shared/components/ui/Hero'
 import { Img } from '@/shared/components/ui/Img'
 import { Pagination } from '@/shared/components/ui/Pagination'
 import { permisIcon } from '@/features/driving-schools/autoEcoleRules'
-import { autoEcoles, permisList } from '@/mocks/drivingSchools'
+import { useAutoEcoles } from '@/data/hooks'
+import { permisList } from '@/mocks/drivingSchools'
 import type { PermisCode } from '@/shared/types'
 import { quartiers, regions, villes } from '@/mocks/schools'
 import { cn } from '@/shared/utils/cn'
@@ -57,6 +58,7 @@ export function AutoEcoles() {
   const [fav, setFav] = useState<string | null>(null)
   const [openPermis, setOpenPermis] = useState(true)
   const [openLoc, setOpenLoc] = useState(true)
+  const autoEcoles = useAutoEcoles()
   const list = autoEcoles.filter(
     (a) => (permis.length === 0 || permis.some((p) => a.permis.includes(p))) && (!region || a.region === region) && a.nom.toLowerCase().includes(q.toLowerCase()),
   )

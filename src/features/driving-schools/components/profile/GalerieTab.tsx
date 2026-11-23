@@ -5,13 +5,13 @@ import { Award, Building2, Car, Image as ImageIcon, Images, PlayCircle, Users } 
 import { Heading } from '@/features/driving-schools/components/profile/ProfileParts'
 import { card } from '@/features/driving-schools/components/profile/profileUtils'
 import { Img } from '@/shared/components/ui/Img'
-import { autoEcoleById } from '@/mocks/drivingSchools'
+import { useAutoEcole } from '@/data/hooks'
 import { cn } from '@/shared/utils/cn'
 
 /** Onglet « Galerie » de la fiche d'une auto-école. */
 export function GalerieTab({ id }: { id: string }) {
   const { t } = useTranslation('driving-schools')
-  const a = autoEcoleById(id)
+  const a = useAutoEcole(id)
   const [cat, setCat] = useState('all')
   const cats = [
     { id: 'all', count: 24, icon: null },

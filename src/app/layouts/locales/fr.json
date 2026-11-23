@@ -144,5 +144,23 @@
         "conditions": "Conditions générales"
       }
     }
+  },
+  "testData": {
+    "menu": "Données de test",
+    "title": "Données de test",
+    "intro": "Ce que vous faites dans la démo (formations, avis, préinscriptions, profil…) est enregistré dans votre navigateur. Pour partager votre état avec un collègue, exportez le fichier et envoyez-le-lui : il pourra l’importer.",
+    "storage": "Stockage : {{name}}",
+    "export": "Exporter les données (.sqlite)",
+    "import": "Importer un fichier de données",
+    "reset": "Réinitialiser les données de test",
+    "resetConfirm": "Tout ce que vous avez fait sera effacé et les données de départ reviendront. Continuer ?",
+    "resetYes": "Oui, réinitialiser",
+    "cancel": "Annuler",
+    "exported": "Fichier de données téléchargé",
+    "exportFailed": "L’export a échoué. Réessayez.",
+    "imported": "Données importées",
+    "importFailed": "Ce fichier n’est pas un fichier de données YIBOLO valide.",
+    "resetDone": "Données de test réinitialisées",
+    "resetFailed": "La réinitialisation a échoué. Réessayez."
   }
 }

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { Trans, useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
@@ -9,9 +10,11 @@ import { Breadcrumb } from '@/shared/components/ui/Breadcrumb'
 import { Img } from '@/shared/components/ui/Img'
 import { InfoRow, QuickAction, Tip } from '@/shared/components/ui/Blocks'
 import { useMonEcole } from '@/features/auth/hooks/useSession'
+import { ActuModal } from '@/features/pro/components/ActuModal'
+import { data } from '@/data'
+import { useActualite, useParametres } from '@/data/hooks'
 import { num, shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
-import { actualiteById } from '@/mocks/pro'
 
 /** Catégories des actualités (données de démo) → clé de traduction. */
 const NEWS_CATEGORY_KEYS: Record<string, 'admission' | 'event' | 'training' | 'results' | undefined> = {
@@ -24,8 +27,13 @@ const NEWS_CATEGORY_KEYS: Record<string, 'admission' | 'event' | 'training' | 'r
 export function Publication() {
   const { t } = useTranslation('pro', { keyPrefix: 'content' })
   const { id } = useParams()
-  const a = actualiteById(id)
+  const a = useActualite(id)
   const { ecole } = useMonEcole()
+  const reglages = useParametres(ecole.id)
+  // Texte et date limite saisis dans « Modifier » (réglages), sinon ceux de la maquette.
+  const corps = reglages[`actualite.${a.id}.texte`]
+  const limite = reglages[`actualite.${a.id}.limite`]
+  const [edition, setEdition] = useState(false)
   const navigate = useNavigate()
   const categoryKey = NEWS_CATEGORY_KEYS[a.categorie]
   return (
@@ -45,14 +53,14 @@ export function Publication() {
               <span className="flex items-center gap-1"><Eye className="size-4" />{t('publication.views', { count: a.vues })}</span>
             </p>
             <p className="text-sm leading-relaxed text-ink/85">
-              {t('publication.body', { school: ecole.nom })}
+              {typeof corps === 'string' && corps ? corps : t('publication.body', { school: ecole.nom })}
             </p>
             <div>
               <p className="mb-2 text-sm font-bold text-navy-900">{t('publication.fields')}</p>
               <div className="flex flex-wrap gap-2">{ecole.filieres.map((f) => <Badge key={f} tone="violet">{f}</Badge>)}</div>
             </div>
             <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-brand-50 p-4">
-              <p className="text-sm"><Trans t={t} i18nKey="publication.deadline" values={{ date: shortDate(new Date(2026, 8, 30), { day: 'numeric', month: 'long', year: 'numeric' }) }} components={{ b: <b /> }} /></p>
+              <p className="text-sm"><Trans t={t} i18nKey="publication.deadline" values={{ date: shortDate(typeof limite === 'string' && limite ? limite : new Date(2026, 8, 30), { day: 'numeric', month: 'long', year: 'numeric' }) }} components={{ b: <b /> }} /></p>
               <Button onClick={() => toast(t('publication.signUpToast'))}>{t('publication.signUp')}</Button>
             </div>
           </div>
@@ -68,10 +76,10 @@ export function Publication() {
           </Section>
           <Section title={t('publication.quickActions.title')}>
             <div className="space-y-2">
-              <QuickAction icon={<Pencil />} label={t('publication.quickActions.edit')} onClick={() => toast(t('publication.quickActions.editToast'))} />
+              <QuickAction icon={<Pencil />} label={t('publication.quickActions.edit')} onClick={() => setEdition(true)} />
               <QuickAction icon={<Copy />} label={t('publication.quickActions.copyLink')} onClick={() => { void navigator.clipboard?.writeText(window.location.href); toast.success(t('publication.quickActions.linkCopied')) }} />
               <QuickAction icon={<ExternalLink />} label={t('publication.quickActions.openNewTab')} onClick={() => window.open(window.location.href, '_blank', 'noopener')} />
-              <Button variant="danger-outline" className="w-full justify-start" onClick={() => { toast(t('publication.quickActions.deleted')); navigate(ROUTES.pro.contents('actualites')) }}>
+              <Button variant="danger-outline" className="w-full justify-start" onClick={async () => { navigate(ROUTES.pro.contents('actualites')); await data.remove('actualites', a.id); toast(t('publication.quickActions.deleted')) }}>
                 <Trash2 /> {t('publication.quickActions.delete')}
               </Button>
             </div>
@@ -79,6 +87,7 @@ export function Publication() {
           <Tip title={t('publication.tipTitle')} icon={<Lightbulb />} tone="amber">{t('publication.tipText')}</Tip>
         </aside>
       </div>
+      <ActuModal key={a.id} open={edition} onClose={() => setEdition(false)} actu={a} />
     </div>
   )
 }

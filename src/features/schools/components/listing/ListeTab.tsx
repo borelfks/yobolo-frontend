@@ -5,7 +5,8 @@ import { EcoleCard, ResultsHeader, SearchPanel } from '@/features/schools/compon
 import { useTypeLabels } from '@/features/schools/components/listing/useTypeLabels'
 import { Card } from '@/shared/components/ui/Card'
 import { Pagination } from '@/shared/components/ui/Pagination'
-import { diplomesParType, domainesParType, etablissementsOfType, regions, typeConfig, villes } from '@/mocks/schools'
+import { diplomesParType, domainesParType, regions, typeConfig, villes } from '@/mocks/schools'
+import { useEtablissements } from '@/data/hooks'
 import type { TypeSlug } from '@/shared/types'
 
 /** Onglet principal : la liste des établissements du type. */
@@ -14,7 +15,7 @@ export function ListeTab({ type }: { type: TypeSlug }) {
   const labels = useTypeLabels(type)
   const cfg = typeConfig[type]
   const [q, setQ] = useState('')
-  const list = etablissementsOfType(cfg.type).filter((e) => (e.nom + e.filieres.join(' ')).toLowerCase().includes(q.toLowerCase()))
+  const list = useEtablissements().filter((e) => e.type === cfg.type).filter((e) => (e.nom + e.filieres.join(' ')).toLowerCase().includes(q.toLowerCase()))
   return (
     <div className="space-y-5">
       <SearchPanel

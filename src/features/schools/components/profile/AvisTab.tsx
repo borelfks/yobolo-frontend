@@ -7,7 +7,9 @@ import { Img } from '@/shared/components/ui/Img'
 import { Stars } from '@/shared/components/ui/StarRating'
 import { Select } from '@/shared/components/forms/Fields'
 import { card } from '@/features/schools/components/profile/profileShared'
-import { avisIpc, etablissementById, repartitionNotes, slugOfType } from '@/mocks/schools'
+import { repartitionNotes, slugOfType } from '@/mocks/schools'
+import { useAvisEtablissement, useEtablissement } from '@/data/hooks'
+import type { AvisEtablissement } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { num } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
@@ -49,9 +51,10 @@ function Laurel({ flip }: { flip?: boolean }) {
 /** Onglet « Avis » de la fiche établissement. */
 export function AvisTab({ id }: { id: string }) {
   const { t } = useTranslation('schools')
-  const e = etablissementById(id)
+  const e = useEtablissement(id)
+  const avis = useAvisEtablissement(e.id)
   const [f, setF] = useState('tous')
-  const list = f === 'tous' ? avisIpc : avisIpc.filter((a) => (f === 'etudiants' ? a.role.startsWith('Étudiant') : f === 'anciens' ? a.role.startsWith('Ancien') : a.role === 'Entreprise'))
+  const list = f === 'tous' ? avis : avis.filter((a) => (f === 'etudiants' ? a.role.startsWith('Étudiant') : f === 'anciens' ? a.role.startsWith('Ancien') : a.role === 'Entreprise'))
   const filtres = [
     { value: 'tous', label: t('ecoleProfil.avis.filters.tous', { n: e.avis }), icon: null },
     { value: 'etudiants', label: t('ecoleProfil.avis.filters.etudiants', { n: Math.round(e.avis * 0.734) }), icon: <GraduationCap /> },
@@ -128,7 +131,7 @@ export function AvisTab({ id }: { id: string }) {
   )
 }
 
-function AvisLine({ r }: { r: (typeof avisIpc)[number] }) {
+function AvisLine({ r }: { r: AvisEtablissement }) {
   const { t } = useTranslation('schools')
   const [liked, setLiked] = useState(false)
   return (

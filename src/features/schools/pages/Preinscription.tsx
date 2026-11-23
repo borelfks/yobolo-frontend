@@ -31,7 +31,8 @@ import { Img } from '@/shared/components/ui/Img'
 import { Select } from '@/shared/components/forms/Fields'
 import { ecoleUrl } from '@/features/schools/schoolLinks'
 import { modeKey } from '@/features/schools/components/training/trainingShared'
-import { etablissementById, formationById } from '@/mocks/schools'
+import { data } from '@/data'
+import { useEtablissement, useFormation } from '@/data/hooks'
 import { cn } from '@/shared/utils/cn'
 import { fcfa } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
@@ -62,8 +63,8 @@ function Label({ children, required }: { children: ReactNode; required?: boolean
 export function Preinscription() {
   const { t } = useTranslation('schools')
   const { id } = useParams()
-  const f = formationById(id)
-  const e = etablissementById(f.etablissementId)
+  const f = useFormation(id)
+  const e = useEtablissement(f.etablissementId)
   const navigate = useNavigate()
   const [step, setStep] = useState(0)
   const [sent, setSent] = useState(false)
@@ -96,6 +97,36 @@ export function Preinscription() {
   }
 
   const nomComplet = `${info.nom.toUpperCase()} ${info.prenom}`.trim() || 'NDJON MBOG Thierry'
+
+  /** Envoi final : la préinscription est enregistrée dans la base (champs saisis, tels quels). */
+  const envoyer = async () => {
+    try {
+      await data.create(
+        'preinscriptions',
+        {
+          formationId: f.id,
+          etablissementId: e.id,
+          envoyeeLe: new Date().toISOString(),
+          statut: 'Envoyée',
+          donnees: {
+            ...info,
+            diplome: parcours.diplome,
+            serie: parcours.serie,
+            annee: parcours.annee,
+            etablissementOrigine: parcours.etablissement,
+            autreDiplome: parcours.autre ? 'oui' : 'non',
+            ...Object.fromEntries(Object.entries(files).map(([piece, nom]) => [`piece_${piece}`, nom])),
+          },
+        },
+        'preinscription',
+      )
+    } catch {
+      toast.error(t('preinscription.toastError'))
+      return
+    }
+    toast.success(t('preinscription.toastValidated'))
+    setSent(true)
+  }
 
   return (
     <div className="mx-auto max-w-[1320px] space-y-4 px-5 py-4">
@@ -308,10 +339,7 @@ export function Preinscription() {
               ) : (
                 <button
                   type="button"
-                  onClick={() => {
-                    toast.success(t('preinscription.toastValidated'))
-                    setSent(true)
-                  }}
+                  onClick={() => void envoyer()}
                   className="inline-flex h-11 items-center justify-center gap-2.5 rounded-full bg-emerald-600 px-10 text-[16px] font-semibold text-white hover:bg-emerald-700"
                 >
                   <Check className="size-5" strokeWidth={3} />

@@ -5,7 +5,7 @@ Consignes pour Claude Code sur ce dépôt. À lire en entier avant toute action.
 ## Le projet en bref
 YIBOLO est une plateforme de **formation, d'expertise et d'emploi en Afrique centrale** (Cameroun d'abord). Elle réunit quatre univers : **École**, **Consultation**, **Métiers** et **Emploi**.
 
-Ce dépôt est **un front seul** : il transforme la **maquette Word du client** (`C:\Users\USER\Documents\yibolo\NOUVEAU DESIGN YIBOLO.docx`, environ 150 captures) en interface qui fonctionne, avec des **données de démonstration** (`src/mocks/`).
+Ce dépôt est **un front seul** : il transforme la **maquette Word du client** (`C:\Users\USER\Documents\yibolo\NOUVEAU DESIGN YIBOLO.docx`, environ 150 captures) en interface qui fonctionne, avec des **données de démonstration** (`src/mocks/`), enregistrées pour chaque testeur dans une **base SQLite dans le navigateur** (`src/data/`).
 
 - **Réalisé :** l'univers **École** : IPES, CFP et Autres (même gabarit), auto-écoles, et l'**espace professionnel** partagé par les IPES, CFP et Autres.
 - **Pas encore réalisé :** Consultation et Emploi (page « bientôt disponible »). Prochaine étape envisagée : l'univers **Consultation**.
@@ -16,7 +16,7 @@ Ce dépôt est **un front seul** : il transforme la **maquette Word du client** 
 - Démarrer, comptes de démo, organisation du code : [README.md](README.md)
 
 ## Les 10 règles qui priment sur tout
-1. **Front seul.** Aucun backend, aucun client d'API, pas d'Orval, pas de react-query. Toutes les données viennent de `src/mocks/`. **Ne jamais proposer de brancher le backend.**
+1. **Pas de serveur à nous.** Aucun backend, pas d'Orval, pas de react-query. Les données modifiables passent **toutes** par la couche `src/data/` (SQLite dans le navigateur aujourd'hui, remplaçable plus tard sans toucher aux écrans) ; les données de départ et de référence viennent de `src/mocks/`. **Ne jamais proposer de brancher yibolo-backend.** Détail : [.claude/rules/donnees-et-backend.md](.claude/rules/donnees-et-backend.md).
 2. **Identique à la maquette.** Photos découpées de la maquette (`public/images/maquette/`), textes et chiffres recopiés de chaque capture. Les contradictions de la maquette (prix des permis entre liste et détail, modes de formation) sont **gardées telles quelles**, écran par écran. On ne « corrige » pas la maquette sans accord.
 3. **Périmètre : univers École seulement.** Consultation et Emploi restent une page « bientôt disponible » tant que le porteur du projet n'a pas dit de les commencer.
 4. **Proposer d'abord, attendre « vas-y ».** Un accord vaut pour ce changement-là seulement. « **Dis-moi juste** » / « **réponds juste** » = répondre seulement, ne rien modifier.
@@ -44,7 +44,7 @@ Code rangé **par fonctionnalité**, sur le modèle d'Autopia (détail : README 
 - `src/features/<sujet>/` : `pages/`, `components/`, `hooks/` et les fichiers de logique du sujet à sa racine. Sujets : `landing`, `auth`, `schools` (IPES, CFP, Autres), `driving-schools` (auto-écoles), `reviews`, `favorites`, `pro` (espace professionnel).
 - `src/shared/` : ce qui sert à plusieurs sujets. `components/ui/` (briques), `components/forms/` (`Fields.tsx`), `components/errors/`, `hooks/` (`useFavorites`), `i18n/` (traduction), `utils/` (`routes`, `format`, `storage`, `cn`), `types.ts`. **`shared/` n'importe jamais `app/`, `features/` ni `mocks/`.**
 - Logique propre à un sujet : `features/schools/schoolLinks.tsx`, `schoolDomains.ts` ; `features/driving-schools/autoEcoleRules.ts` ; `features/pro/proStyles.ts`.
-- Données de démo (elles jouent le rôle du serveur) : `src/mocks/schools.ts`, `drivingSchools.ts`, `pro.ts`, `demoAccounts.ts`.
+- Données : `src/data/` (point d'entrée `index.ts` : `useCollection`, `data.create/update/remove` ; lectures par sujet dans `hooks.ts` ; sources dans `sources/` : SQLite navigateur, mémoire). Données de départ et de référence : `src/mocks/schools.ts`, `drivingSchools.ts`, `pro.ts`, `demoAccounts.ts`, `seed.ts`. Panneau « Données de test » (exporter, importer, réinitialiser) dans le menu du compte.
 - Session : `features/auth/hooks/useSession.tsx` (`useSession`, `useMonEcole`). Favoris : `shared/hooks/useFavorites.tsx`.
 - Traduction : `src/i18n/` (initialisation, types) et un dossier `locales/` (fr.json, en.json) dans chaque fonctionnalité, `src/shared/locales/` et `src/app/layouts/locales/` ; même organisation que yibolo-client (voir `.claude/rules/traduction.md`). Thème : `src/app/styles/theme.css`.
 - Les commentaires `imgN` dans le code renvoient à l'image `word/media/imageN` de la maquette Word.

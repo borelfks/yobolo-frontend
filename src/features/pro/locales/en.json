@@ -412,6 +412,7 @@
         "tipText": "Publish at least one news post a month: active pages rank higher in YIBOLO searches.",
         "draftSaved": "Draft saved",
         "published": "News post published",
+        "titleRequired": "Enter the title of the news post.",
         "form": {
           "title": "Title",
           "titlePlaceholder": "E.g. Open day",
@@ -464,8 +465,9 @@
         "add": "Add a question",
         "searchPlaceholder": "Search for a question...",
         "categoryAria": "Category",
-        "editToast": "Editing the question (demo)",
         "added": "Question added",
+        "updated": "Question updated",
+        "required": "Enter the question and the answer.",
         "form": {
           "question": "Question",
           "category": "Category",
@@ -505,7 +507,6 @@
       "quickActions": {
         "title": "Quick actions",
         "edit": "Edit",
-        "editToast": "Editing the post (demo)",
         "copyLink": "Copy the public link",
         "linkCopied": "Link copied",
         "openNewTab": "Open in a new tab",

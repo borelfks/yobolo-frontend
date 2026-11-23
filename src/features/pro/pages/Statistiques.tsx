@@ -7,7 +7,10 @@ import { proCard } from '@/features/pro/proStyles'
 import { AreaTrend, Donut } from '@/shared/components/ui/Charts'
 import { useMonEcole } from '@/features/auth/hooks/useSession'
 import { cn } from '@/shared/utils/cn'
-import { formationsPro, sourcesVisites, visitesSerie } from '@/mocks/pro'
+import { sourcesVisites, visitesSerie } from '@/mocks/pro'
+import { POUR_TOUS } from '@/data'
+import { useFormationsPro } from '@/data/hooks'
+import { PREFIXE_FORMATION_CREEE } from '@/features/pro/proData'
 import { num, shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
 
@@ -26,7 +29,10 @@ function chartLabel(label: string) {
 export function Statistiques() {
   const { t } = useTranslation('pro')
   const { ecole, formations } = useMonEcole()
-  const top = ecole.id === 'ipc' ? formationsPro.slice(0, 3).map((f) => f.nom) : formations.slice(0, 3).map((f) => f.nom)
+  // Classement de la maquette : les formations de départ (une formation créée n'a pas encore de vues).
+  const lignesMaquette = useFormationsPro(ecole.id).filter((f) => f.etablissementId === POUR_TOUS)
+  const formationsMaquette = formations.filter((f) => !f.id.startsWith(`${PREFIXE_FORMATION_CREEE}-`))
+  const top = ecole.id === 'ipc' ? lignesMaquette.slice(0, 3).map((f) => f.nom) : formationsMaquette.slice(0, 3).map((f) => f.nom)
   const kpis = [
     { v: num(4286), l: t('stats.kpis.views'), t: t('stats.kpis.trend', { value: 18 }), icon: <Users />, c: 'bg-[#e8f0ff]', ic: 'bg-[#d6e3ff] text-brand-600' },
     { v: num(356), l: t('stats.kpis.applications'), t: t('stats.kpis.trend', { value: 24 }), icon: <GraduationCap />, c: 'bg-[#e5f7ea]', ic: 'bg-[#cdeed8] text-emerald-600' },

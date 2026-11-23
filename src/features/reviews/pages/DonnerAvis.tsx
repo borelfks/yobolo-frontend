@@ -6,8 +6,10 @@ import { Building2, CalendarDays, CircleCheck, GraduationCap, Handshake, Info, P
 import { AEHeader } from '@/features/driving-schools/components/AutoEcoleBlocks'
 import { Hero } from '@/shared/components/ui/Hero'
 import { Img } from '@/shared/components/ui/Img'
-import { etablissementById, slugOfType, isTypeSlug } from '@/mocks/schools'
-import { autoEcoleById } from '@/mocks/drivingSchools'
+import { useSession } from '@/features/auth/hooks/useSession'
+import { data } from '@/data'
+import { useAutoEcole, useEtablissement } from '@/data/hooks'
+import { slugOfType, isTypeSlug } from '@/mocks/schools'
 import { cn } from '@/shared/utils/cn'
 import { ROUTES } from '@/shared/utils/routes'
 
@@ -70,11 +72,14 @@ export function DonnerAvis() {
   const [texte, setTexte] = useState('')
   const [confirm, setConfirm] = useState(true)
   const label = labels[note - 1]
+  const { account } = useSession()
+  // Les deux lectures sont faites à chaque fois (règle des hooks) ; seule celle du bon univers sert.
+  const a = useAutoEcole(id)
+  const e = useEtablissement(id)
 
   let back: string
   let header: ReactNode
   if (isAE) {
-    const a = autoEcoleById(id)
     back = ROUTES.drivingSchool(a.id, 'avis')
     header = (
       <AEHeader
@@ -90,7 +95,6 @@ export function DonnerAvis() {
       />
     )
   } else {
-    const e = etablissementById(id)
     const slug = slugOfType(e.type)
     back = ROUTES.school(slug, e.id, 'avis')
     header = (
@@ -111,9 +115,13 @@ export function DonnerAvis() {
     )
   }
 
-  const publish = () => {
+  const publish = async () => {
     if (texte.trim().length < 10) return toast.error(t('donnerAvis.toasts.tropCourt'))
     if (!confirm) return toast.error(isAE ? t('donnerAvis.toasts.confirmAutoEcole') : t('donnerAvis.toasts.confirmEcole'))
+    // Auteur : le compte connecté, sinon « Visiteur ». La date est un texte, comme les avis de la maquette.
+    const auteur = { nom: account?.name ?? t('donnerAvis.visiteur'), avatar: account?.avatar ?? '', date: t('donnerAvis.aLInstant'), note, texte: texte.trim() }
+    if (isAE) await data.create('avisAutoEcoles', { ...auteur, autoEcoleId: a.id }, 'avis')
+    else await data.create('avisEtablissements', { ...auteur, etablissementId: e.id, role: 'Étudiant', utile: 0 }, 'avis')
     toast.success(t('donnerAvis.toasts.merci'))
     navigate(back)
   }

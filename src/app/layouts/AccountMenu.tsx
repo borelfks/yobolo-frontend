@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { Bell, CalendarCheck, ChevronDown, FileCheck2, Heart, LayoutDashboard, LogOut, MessageSquare, Repeat, Star } from 'lucide-react'
+import { Bell, CalendarCheck, ChevronDown, Database, FileCheck2, Heart, LayoutDashboard, LogOut, MessageSquare, Repeat, Star } from 'lucide-react'
 import { Avatar } from '@/shared/components/ui/Avatar'
+import { TestDataDialog } from '@/app/layouts/TestDataDialog'
 import { useSession } from '@/features/auth/hooks/useSession'
 import { cn } from '@/shared/utils/cn'
 import { ROUTES } from '@/shared/utils/routes'
@@ -67,11 +68,13 @@ export function NotificationsBell({ count = 3, light, href }: { count?: number; 
   )
 }
 
-export function UserMenu() {
+/** `withTestData` : ajoute « Données de test » (pages publiques, espace pro ; pas la landing). */
+export function UserMenu({ withTestData = false }: { withTestData?: boolean }) {
   const { t } = useTranslation('layout')
   const { account, signOut } = useSession()
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
+  const [testData, setTestData] = useState(false)
   const ref = useOutside(() => setOpen(false))
   if (!account) return null
   const close = () => setOpen(false)
@@ -104,6 +107,19 @@ export function UserMenu() {
               {t('userMenu.review')}
             </Link>
           )}
+          {withTestData && (
+            <button
+              type="button"
+              onClick={() => {
+                close()
+                setTestData(true)
+              }}
+              className={cn(item, 'w-full')}
+            >
+              <Database />
+              {t('testData.menu')}
+            </button>
+          )}
           <Link to={ROUTES.signIn} onClick={close} className={item}>
             <Repeat />
             {t('userMenu.switchAccount')}
@@ -122,6 +138,7 @@ export function UserMenu() {
           </button>
         </div>
       )}
+      {withTestData && <TestDataDialog open={testData} onClose={() => setTestData(false)} />}
     </div>
   )
 }

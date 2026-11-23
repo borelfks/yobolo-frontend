@@ -31,6 +31,7 @@ export default defineConfig({
       '@hookform/resolvers/zod',
       'i18next',
       'react-i18next',
+      'sql.js',
     ],
   },
 })

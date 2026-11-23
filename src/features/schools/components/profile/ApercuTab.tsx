@@ -5,7 +5,8 @@ import { Award, BarChart3, Building2, Calculator, CircleCheck, GraduationCap, In
 import { Img } from '@/shared/components/ui/Img'
 import { ActionButtons } from '@/features/schools/components/profile/ActionButtons'
 import { card, principales } from '@/features/schools/components/profile/profileShared'
-import { etablissementById, formationsOf, slugOfType } from '@/mocks/schools'
+import { slugOfType } from '@/mocks/schools'
+import { useEtablissement, useFormationsOf } from '@/data/hooks'
 import { cn } from '@/shared/utils/cn'
 import { ROUTES } from '@/shared/utils/routes'
 
@@ -22,10 +23,10 @@ const highlights = ['professional', 'experts', 'internships'] as const
 /** Onglet « Aperçu » de la fiche établissement. */
 export function ApercuTab({ id }: { id: string }) {
   const { t } = useTranslation('schools')
-  const e = etablissementById(id)
-  const list = formationsOf(id).filter((f) => f.statut === 'Publiée')
+  const e = useEtablissement(id)
+  const list = useFormationsOf(id).filter((f) => f.statut === 'Publiée')
   const diplomes = [...new Set(list.map((f) => f.diplome))]
-  const fil = principales(id)
+  const fil = principales(e)
   return (
     <div className="space-y-4">
       <div className="grid items-start gap-4 lg:grid-cols-[1.06fr_0.92fr_0.74fr]">

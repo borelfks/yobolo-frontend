@@ -47,7 +47,34 @@ import { FormFooter, IconBtn, IconTile, Kpi, KpiGrid, Tip } from '@/shared/compo
 import { cn } from '@/shared/utils/cn'
 import { shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
-import { activiteSecurite, notificationsPro, roles, sessionsActives, utilisateurs } from '@/mocks/pro'
+import { activiteSecurite, notificationsPro, roles, sessionsActives } from '@/mocks/pro'
+import { useMonEcole } from '@/features/auth/hooks/useSession'
+import { POUR_TOUS, data } from '@/data'
+import { useParametres, useUtilisateurs } from '@/data/hooks'
+import { oui, prefixer, sousCles, texte, type Valeurs } from '@/features/pro/proData'
+
+/**
+ * Réglages d'une rubrique (`compte`, `preferences`, `notifications`) : valeurs
+ * saisies, relues depuis la base, et enregistrement.
+ */
+function useReglages(rubrique: string) {
+  const { ecole } = useMonEcole()
+  const reglages = useParametres(ecole.id)
+  const enregistres = sousCles(rubrique, reglages)
+  const [saisie, setSaisie] = useState<Valeurs>({})
+  const valeurs = { ...enregistres, ...saisie }
+  return {
+    texte: (cle: string, defaut: string) => texte(valeurs, cle, defaut),
+    oui: (cle: string, defaut: boolean) => oui(valeurs, cle, defaut),
+    changer: (cle: string, v: string | boolean) => setSaisie((s) => ({ ...s, [cle]: v })),
+    annuler: () => setSaisie({}),
+    /** Enregistre les valeurs saisies (et, si donné, un changement immédiat). */
+    enregistrer: async (immediat: Valeurs = {}) => {
+      await data.put('parametres', { id: ecole.id, valeurs: { ...reglages, ...prefixer(rubrique, { ...valeurs, ...immediat }) } })
+      setSaisie({})
+    },
+  }
+}
 
 const sections = [
   { key: '', labelKey: 'account', icon: UserRound },
@@ -116,20 +143,19 @@ export function Parametres() {
   )
 }
 
-function SaveFooter() {
+function SaveFooter({ onCancel, onSave }: { onCancel: () => void; onSave: () => Promise<void> }) {
   const { t } = useTranslation('pro', { keyPrefix: 'content' })
   return (
     <FormFooter className="mt-6">
-      <Button variant="neutral" onClick={() => toast(t('settings.cancelled'))}>{t('settings.cancel')}</Button>
-      <Button onClick={() => toast.success(t('settings.saved'))}>{t('settings.save')}</Button>
+      <Button variant="neutral" onClick={() => { onCancel(); toast(t('settings.cancelled')) }}>{t('settings.cancel')}</Button>
+      <Button onClick={async () => { await onSave(); toast.success(t('settings.saved')) }}>{t('settings.save')}</Button>
     </FormFooter>
   )
 }
 
-function Toggle({ defaultOn = true }: { defaultOn?: boolean }) {
-  const [on, setOn] = useState(defaultOn)
+function Toggle({ on, onChange }: { on: boolean; onChange: (v: boolean) => void }) {
   return (
-    <button type="button" role="switch" aria-checked={on} onClick={() => setOn(!on)} className={cn('relative h-7 w-12 shrink-0 rounded-full transition-colors', on ? 'bg-brand-600' : 'bg-slate-300')}>
+    <button type="button" role="switch" aria-checked={on} onClick={() => onChange(!on)} className={cn('relative h-7 w-12 shrink-0 rounded-full transition-colors', on ? 'bg-brand-600' : 'bg-slate-300')}>
       <span className={cn('absolute top-0.5 size-6 rounded-full bg-white shadow transition-all', on ? 'left-[22px]' : 'left-0.5')} />
     </button>
   )
@@ -138,6 +164,7 @@ function Toggle({ defaultOn = true }: { defaultOn?: boolean }) {
 function Compte() {
   const { t } = useTranslation('pro', { keyPrefix: 'content' })
   const roleName = useRoleName()
+  const r = useReglages('compte')
   const card = 'rounded-2xl border border-line bg-white p-4 shadow-[0_2px_10px_rgba(15,29,61,0.06)]'
   const input = 'h-10 w-full rounded-lg border border-[#c9d4ea] bg-white pl-11 pr-3 text-[15px] outline-none focus:border-brand-500'
   const title = (icon: React.ReactNode, text: string, sub?: string) => (
@@ -155,10 +182,10 @@ function Compte() {
         <div>
           {title(<UserRound />, t('settings.account.title'), t('settings.account.subtitle'))}
           <div className="mt-3 grid gap-x-5 gap-y-3 md:grid-cols-2">
-            <label><span className="mb-1 block text-[14.5px] font-bold text-navy-900">{t('settings.account.name')} <span className="text-rose-500">*</span></span><input className={cn(input, 'pl-3.5')} defaultValue="IPC Yaoundé – Administrateur" /></label>
-            <label><span className="mb-1 block text-[14.5px] font-bold text-navy-900">{t('settings.account.phone')} <span className="text-rose-500">*</span></span><span className="relative block"><Phone className="pointer-events-none absolute top-1/2 left-3.5 size-5 -translate-y-1/2 text-navy-800" /><input className={input} defaultValue="+237 6 90 12 34 56" /></span></label>
-            <label><span className="mb-1 block text-[14.5px] font-bold text-navy-900">{t('settings.account.email')} <span className="text-rose-500">*</span></span><span className="relative block"><Mail className="pointer-events-none absolute top-1/2 left-3.5 size-5 -translate-y-1/2 text-navy-800" /><input className={input} defaultValue="contact@ipc.cm" /></span></label>
-            <label><span className="mb-1 block text-[14.5px] font-bold text-navy-900">{t('settings.account.role')}</span><span className="relative block"><Users className="pointer-events-none absolute top-1/2 left-3.5 size-5 -translate-y-1/2 text-navy-800" /><select className={cn(input, 'appearance-none')} defaultValue="Administrateur">{roles.map((r) => <option key={r.nom} value={r.nom}>{roleName(r.nom)}</option>)}</select></span></label>
+            <label><span className="mb-1 block text-[14.5px] font-bold text-navy-900">{t('settings.account.name')} <span className="text-rose-500">*</span></span><input className={cn(input, 'pl-3.5')} value={r.texte('nom', 'IPC Yaoundé – Administrateur')} onChange={(e) => r.changer('nom', e.target.value)} /></label>
+            <label><span className="mb-1 block text-[14.5px] font-bold text-navy-900">{t('settings.account.phone')} <span className="text-rose-500">*</span></span><span className="relative block"><Phone className="pointer-events-none absolute top-1/2 left-3.5 size-5 -translate-y-1/2 text-navy-800" /><input className={input} value={r.texte('telephone', '+237 6 90 12 34 56')} onChange={(e) => r.changer('telephone', e.target.value)} /></span></label>
+            <label><span className="mb-1 block text-[14.5px] font-bold text-navy-900">{t('settings.account.email')} <span className="text-rose-500">*</span></span><span className="relative block"><Mail className="pointer-events-none absolute top-1/2 left-3.5 size-5 -translate-y-1/2 text-navy-800" /><input className={input} value={r.texte('email', 'contact@ipc.cm')} onChange={(e) => r.changer('email', e.target.value)} /></span></label>
+            <label><span className="mb-1 block text-[14.5px] font-bold text-navy-900">{t('settings.account.role')}</span><span className="relative block"><Users className="pointer-events-none absolute top-1/2 left-3.5 size-5 -translate-y-1/2 text-navy-800" /><select className={cn(input, 'appearance-none')} value={r.texte('role', 'Administrateur')} onChange={(e) => r.changer('role', e.target.value)}>{roles.map((r) => <option key={r.nom} value={r.nom}>{roleName(r.nom)}</option>)}</select></span></label>
           </div>
         </div>
         <div className="flex flex-col items-center justify-center gap-3 rounded-2xl bg-[#eef3fc] p-4">
@@ -182,7 +209,7 @@ function Compte() {
               <div className="flex items-center gap-3 py-2.5">
                 <ShieldCheck className="size-6 text-navy-800" />
                 <span className="flex-1"><b className="block text-[15px] text-navy-900">{t('settings.account.twoFactor')}</b><span className="text-[13px] text-navy-900">{t('settings.account.twoFactorHint')}</span></span>
-                <Toggle />
+                <Toggle on={r.oui('doubleAuthentification', true)} onChange={(v) => r.changer('doubleAuthentification', v)} />
               </div>
             </div>
           </div>
@@ -190,7 +217,7 @@ function Compte() {
             {title(<SlidersHorizontal />, t('settings.account.publishingTitle'))}
             <div className="mt-2 flex items-center gap-3 border-t border-line pt-3">
               <span className="flex-1"><b className="block text-[15px] text-navy-900">{t('settings.account.autoPublish')}</b><span className="text-[13px] text-navy-900">{t('settings.account.autoPublishHint')}</span></span>
-              <Toggle />
+              <Toggle on={r.oui('publicationAutomatique', true)} onChange={(v) => r.changer('publicationAutomatique', v)} />
             </div>
           </div>
         </div>
@@ -199,13 +226,13 @@ function Compte() {
             {title(<Bell />, t('settings.account.notificationsTitle'), t('settings.account.notificationsSubtitle'))}
             <div className="mt-2 divide-y divide-line">
               {(['applications', 'reviews', 'reminders'] as const).map((k) => (
-                <div key={k} className="flex items-center justify-between gap-3 py-2.5 text-[15px] text-navy-900">{t(`settings.account.alerts.${k}`)}<Toggle /></div>
+                <div key={k} className="flex items-center justify-between gap-3 py-2.5 text-[15px] text-navy-900">{t(`settings.account.alerts.${k}`)}<Toggle on={r.oui(`alertes.${k}`, true)} onChange={(v) => r.changer(`alertes.${k}`, v)} /></div>
               ))}
             </div>
           </div>
           <div className="mt-auto flex justify-end gap-3">
-            <button type="button" onClick={() => toast(t('settings.cancelled'))} className="h-11 w-36 rounded-full border-2 border-brand-600/60 bg-white text-[16px] font-semibold text-navy-800">{t('settings.cancel')}</button>
-            <button type="button" onClick={() => toast.success(t('settings.saved'))} className="inline-flex h-11 items-center gap-2.5 rounded-full bg-brand-600 px-6 text-[16px] font-semibold text-white"><Check className="size-5" strokeWidth={3} />{t('settings.save')}</button>
+            <button type="button" onClick={() => { r.annuler(); toast(t('settings.cancelled')) }} className="h-11 w-36 rounded-full border-2 border-brand-600/60 bg-white text-[16px] font-semibold text-navy-800">{t('settings.cancel')}</button>
+            <button type="button" onClick={async () => { await r.enregistrer(); toast.success(t('settings.saved')) }} className="inline-flex h-11 items-center gap-2.5 rounded-full bg-brand-600 px-6 text-[16px] font-semibold text-white"><Check className="size-5" strokeWidth={3} />{t('settings.save')}</button>
           </div>
         </div>
       </div>
@@ -297,14 +324,18 @@ const isNotifType = (type: string): type is NotifType => (NOTIF_TYPES as readonl
 function Notifications() {
   const { t } = useTranslation('pro', { keyPrefix: 'content' })
   const [tab, setTab] = useState('toutes')
-  const [items, setItems] = useState(notificationsPro)
+  // Notifications de la maquette (référence) ; « lue » et les interrupteurs sont enregistrés tout de suite.
+  const r = useReglages('notifications')
+  const items = notificationsPro.map((n) => ({ ...n, lu: r.oui(`lue.${n.type}`, n.lu) }))
+  const marquer = (ns: typeof items) => r.enregistrer(Object.fromEntries(ns.map((n) => [`lue.${n.type}`, true])))
+  const alerte = (cle: string, defaut: boolean) => ({ checked: r.oui(`alertes.${cle}`, defaut), onChange: (v: boolean) => void r.enregistrer({ [`alertes.${cle}`]: v }) })
   const list = items.filter((n) => tab === 'toutes' || (tab === 'non-lues' ? !n.lu : n.lu))
   return (
     <div className="grid gap-5 xl:grid-cols-[1fr_320px]">
       <Section
         title={t('settings.notifications.title')}
         icon={<Bell />}
-        action={<Button variant="ghost" size="sm" onClick={() => { setItems(items.map((n) => ({ ...n, lu: true }))); toast.success(t('settings.notifications.allMarkedRead')) }}>{t('settings.notifications.markAllRead')}</Button>}
+        action={<Button variant="ghost" size="sm" onClick={async () => { await marquer(items); toast.success(t('settings.notifications.allMarkedRead')) }}>{t('settings.notifications.markAllRead')}</Button>}
       >
         <Tabs
           variant="underline"
@@ -321,7 +352,7 @@ function Notifications() {
             const s = notifIcon[n.type]
             const type = isNotifType(n.type) ? n.type : null
             return (
-              <button key={n.titre} type="button" onClick={() => setItems(items.map((x) => (x === n ? { ...x, lu: true } : x)))} className="flex w-full items-start gap-3 py-3 text-left">
+              <button key={n.titre} type="button" onClick={() => void marquer([n])} className="flex w-full items-start gap-3 py-3 text-left">
                 <IconTile icon={s.icon} tone={s.tone} size="sm" />
                 <div className="flex-1 text-sm">
                   <p className="font-bold text-navy-900">{type ? t(`settings.notifications.items.${type}.title`) : n.titre}</p>
@@ -337,11 +368,11 @@ function Notifications() {
       <div className="space-y-5">
         <Section title={t('settings.notifications.settingsTitle')}>
           <div className="space-y-3">
-            <Switch label={t('settings.notifications.switches.applications')} defaultChecked />
-            <Switch label={t('settings.notifications.switches.downloads')} defaultChecked />
-            <Switch label={t('settings.notifications.switches.reviews')} defaultChecked />
-            <Switch label={t('settings.notifications.switches.reminders')} defaultChecked />
-            <Switch label={t('settings.notifications.switches.news')} />
+            <Switch label={t('settings.notifications.switches.applications')} {...alerte('applications', true)} />
+            <Switch label={t('settings.notifications.switches.downloads')} {...alerte('downloads', true)} />
+            <Switch label={t('settings.notifications.switches.reviews')} {...alerte('reviews', true)} />
+            <Switch label={t('settings.notifications.switches.reminders')} {...alerte('reminders', true)} />
+            <Switch label={t('settings.notifications.switches.news')} {...alerte('news', false)} />
           </div>
         </Section>
         <Tip title={t('settings.tipTitle')} icon={<Lightbulb />} tone="amber">{t('settings.notifications.tipText')}</Tip>
@@ -353,21 +384,25 @@ function Notifications() {
 function Preferences() {
   const { t, i18n } = useTranslation('pro', { keyPrefix: 'content' })
   const { t: tc } = useTranslation('common')
-  const [theme, setTheme] = useState('clair')
+  const r = useReglages('preferences')
+  const theme = r.texte('theme', 'clair')
+  const setTheme = (v: string) => r.changer('theme', v)
+  const publication = r.texte('publication', 'automatique')
+  const visibilite = (cle: string, defaut: boolean) => ({ checked: r.oui(`visibilite.${cle}`, defaut), onChange: (v: boolean) => r.changer(`visibilite.${cle}`, v) })
   return (
     <div className="space-y-5">
       <Section title={t('settings.preferences.publishingTitle')}>
         <div className="space-y-3">
-          <Radio name="pub" label={t('settings.preferences.autoPublish')} description={t('settings.preferences.autoPublishHint')} defaultChecked />
-          <Radio name="pub" label={t('settings.preferences.manualPublish')} description={t('settings.preferences.manualPublishHint')} />
+          <Radio name="pub" label={t('settings.preferences.autoPublish')} description={t('settings.preferences.autoPublishHint')} checked={publication === 'automatique'} onChange={() => r.changer('publication', 'automatique')} />
+          <Radio name="pub" label={t('settings.preferences.manualPublish')} description={t('settings.preferences.manualPublishHint')} checked={publication === 'manuelle'} onChange={() => r.changer('publication', 'manuelle')} />
         </div>
       </Section>
       <Section title={t('settings.preferences.visibilityTitle')}>
         <div className="space-y-3">
-          <Switch label={t('settings.preferences.showContacts')} defaultChecked />
-          <Switch label={t('settings.preferences.showAddress')} defaultChecked />
-          <Switch label={t('settings.preferences.showReviews')} defaultChecked />
-          <Switch label={t('settings.preferences.hideFees')} />
+          <Switch label={t('settings.preferences.showContacts')} {...visibilite('contacts', true)} />
+          <Switch label={t('settings.preferences.showAddress')} {...visibilite('adresse', true)} />
+          <Switch label={t('settings.preferences.showReviews')} {...visibilite('avis', true)} />
+          <Switch label={t('settings.preferences.hideFees')} {...visibilite('masquerFrais', false)} />
         </div>
       </Section>
       <div className="grid gap-5 md:grid-cols-2">
@@ -391,7 +426,7 @@ function Preferences() {
           </div>
         </Section>
       </div>
-      <SaveFooter />
+      <SaveFooter onCancel={r.annuler} onSave={() => r.enregistrer()} />
     </div>
   )
 }
@@ -400,6 +435,10 @@ function Utilisateurs() {
   const { t } = useTranslation('pro', { keyPrefix: 'content' })
   const roleName = useRoleName()
   const [q, setQ] = useState('')
+  const { ecole } = useMonEcole()
+  const utilisateurs = useUtilisateurs(ecole.id)
+  // Dernière connexion traduite pour les 5 personnes de la maquette (« utilisateur-1 » à « utilisateur-5 »).
+  const indexMaquette = (u: (typeof utilisateurs)[number]) => (u.etablissementId === POUR_TOUS ? Number(/^utilisateur-([1-5])$/.exec(u.id)?.[1] ?? 0) - 1 : -1)
   const list = utilisateurs.filter((u) => u.nom.toLowerCase().includes(q.toLowerCase()))
   const roleTone: Record<string, 'blue' | 'violet' | 'orange' | 'green' | 'gray'> = { Administrateur: 'blue', 'Responsable pédagogique': 'violet', Communication: 'orange', Secrétariat: 'green', Consultation: 'gray' }
   return (
@@ -431,7 +470,7 @@ function Utilisateurs() {
           </thead>
           <tbody>
             {list.map((u) => (
-              <tr key={u.email} className="border-b border-line last:border-0">
+              <tr key={u.id} className="border-b border-line last:border-0">
                 <td className="py-3">
                   <span className="flex items-center gap-3">
                     <Avatar src={u.avatar} name={u.nom} size={36} />
@@ -442,7 +481,7 @@ function Utilisateurs() {
                 <td><Badge tone={roleTone[u.role]}>{roleName(u.role)}</Badge></td>
                 <td className="text-xs"><p>{u.telephone}</p><p className="text-muted">{u.email}</p></td>
                 <td><StatusBadge status={u.statut} /></td>
-                <td className="text-muted">{t(`settings.users.lastLogins.${utilisateurs.indexOf(u) as 0 | 1 | 2 | 3 | 4}`, { defaultValue: u.connexion })}</td>
+                <td className="text-muted">{indexMaquette(u) >= 0 ? t(`settings.users.lastLogins.${indexMaquette(u) as 0 | 1 | 2 | 3 | 4}`, { defaultValue: u.connexion }) : u.connexion}</td>
                 <td className="text-right"><IconBtn label={t('settings.users.actions')} onClick={() => toast(t('settings.users.actionsToast'))}><MoreHorizontal /></IconBtn></td>
               </tr>
             ))}

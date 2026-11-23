@@ -30,7 +30,8 @@ src/
 │   ├── utils/            routes, format, storage, cn
 │   └── types.ts          types du domaine
 ├── i18n/               traduction : index.ts, i18next.d.ts (comme yibolo-client)
-├── mocks/              données de démo (elles jouent le rôle du serveur)
+├── data/               données enregistrées (voir donnees-et-backend.md) : index.ts, hooks.ts, sources/
+├── mocks/              données de départ et de référence
 └── assets/             fonts/ (Plus Jakarta Sans), brand/ (logo)
 ```
 
@@ -46,7 +47,7 @@ features/schools/
 
 ## Règles de rangement
 - Un fichier utilisé par **une seule** fonctionnalité vit dans cette fonctionnalité. Il va dans `shared/` seulement quand **plusieurs** s'en servent.
-- **`shared/` n'importe jamais `app/`, `features/` ni `mocks/`.**
+- **`shared/` n'importe jamais `app/`, `features/` ni `mocks/`** (il peut importer `@/data`). **`src/data/` n'importe jamais `mocks/`** : les données de départ lui sont passées par `startData(buildSeed)` dans `main.tsx`.
 - **Sens des dépendances entre fonctionnalités** (constaté le 2026-11-21) :
 
   `auth` → `schools` → `driving-schools` → `reviews` → (`favorites`, `pro`, `landing`)

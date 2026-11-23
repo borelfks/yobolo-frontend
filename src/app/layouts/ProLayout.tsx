@@ -114,7 +114,7 @@ export function ProLayout() {
             <CircleHelp className="size-5" />
           </Link>
           <span className="mx-1 hidden h-8 w-px bg-line sm:block" />
-          <UserMenu />
+          <UserMenu withTestData />
         </div>
       </header>
       <div className="flex">

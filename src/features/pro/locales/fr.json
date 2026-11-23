@@ -412,6 +412,7 @@
         "tipText": "Publiez au moins une actualité par mois : les pages actives remontent dans les recherches YIBOLO.",
         "draftSaved": "Brouillon enregistré",
         "published": "Actualité publiée",
+        "titleRequired": "Indiquez le titre de l’actualité.",
         "form": {
           "title": "Titre",
           "titlePlaceholder": "Ex. Journée portes ouvertes",
@@ -464,8 +465,9 @@
         "add": "Ajouter une question",
         "searchPlaceholder": "Rechercher une question...",
         "categoryAria": "Catégorie",
-        "editToast": "Modification de la question (démo)",
         "added": "Question ajoutée",
+        "updated": "Question modifiée",
+        "required": "Indiquez la question et la réponse.",
         "form": {
           "question": "Question",
           "category": "Catégorie",
@@ -505,7 +507,6 @@
       "quickActions": {
         "title": "Actions rapides",
         "edit": "Modifier",
-        "editToast": "Édition de la publication (démo)",
         "copyLink": "Copier le lien public",
         "linkCopied": "Lien copié",
         "openNewTab": "Ouvrir dans un nouvel onglet",

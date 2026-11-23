@@ -1,6 +1,5 @@
 import type { TFunction } from 'i18next'
-import { autoEcoleById } from '@/mocks/drivingSchools'
-import type { PermisCode } from '@/shared/types'
+import type { AutoEcole, PermisCode } from '@/shared/types'
 import { demoDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
 
@@ -10,8 +9,7 @@ export const card = 'rounded-2xl border border-line bg-white shadow-[0_2px_10px_
 export const soft = 'rounded-xl bg-[#f0f4fc]'
 
 /** Adresse de l'inscription : le permis donné, sinon le B (ou le premier proposé). */
-export function inscrireHref(id: string, code?: string) {
-  const a = autoEcoleById(id)
+export function inscrireHref(a: Pick<AutoEcole, 'id' | 'permis'>, code?: string) {
   return ROUTES.enrollment(a.id, code ?? (a.permis.includes('B') ? 'B' : a.permis[0]))
 }
 
