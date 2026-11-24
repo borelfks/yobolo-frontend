@@ -69,7 +69,7 @@ Sur la page **Connexion** (`/connexion`), le bloc **« Compte de démonstration 
 | École – CFP | CFP du BTP (Douala) | `/pro/ecole` | même espace, pour un CFP |
 | École – Autre | Centre Linguistique | `/pro/ecole` | même espace, pour un « Autre » établissement |
 
-- À la première visite, la démo s'ouvre avec le compte **Utilisateur**.
+- À la première visite, on arrive **non connecté** : « Se connecter » sur la landing, puis choisir un compte de démo.
 - `/connexion?espace=ecole` présélectionne le compte IPES.
 - L'espace professionnel (`/pro/ecole`) n'est ouvert qu'aux comptes école ; les autres sont renvoyés à la connexion.
 - L'inscription (`/inscription`) se parcourt jusqu'au bout ; « Simuler la validation par YIBOLO » montre l'écran « Compte validé ! ».

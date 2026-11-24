@@ -77,7 +77,7 @@ La maquette prévoit **4 profils** : **École / IPES** (institut, centre, auto-�
 - **Un compte = un espace.** Les trois comptes école partagent **le même espace pro** ; seuls le nom, le type affiché (« Espace professionnel – IPES / CFP / Autre ») et les données de l'établissement changent (`useMonEcole`).
 - **Garde de l'espace pro** : un compte sans établissement (`ecoleId`) qui ouvre `/pro/ecole…` est renvoyé vers `/connexion?espace=ecole`.
 - Les pages publiques sont ouvertes à tous, connecté ou non (préinscription et favoris compris).
-- À la première visite, la session démarre avec le compte **Utilisateur**. Après « Se déconnecter », on arrive sur la connexion.
+- À la première visite, on arrive **non connecté** : la landing montre « Se connecter », qui mène à la connexion puis à « Créer un compte » (choix du profil). Après « Se déconnecter », on arrive sur la connexion.
 - La session est gardée dans le navigateur (`yibolo:role`).
 
 ### Menu du compte (avatar)
@@ -95,7 +95,7 @@ La maquette prévoit **4 profils** : **École / IPES** (institut, centre, auto-�
 | **Créer un compte** | `/inscription` | Étapes **Profil → Infos → Vérification → Terminé**. |
 
 **Créer un compte :**
-1. **Profil** : 4 cartes (École / IPES, Consultant, Entreprise, Personne physique).
+1. **Profil** : 4 cartes (École / IPES, Consultant, Entreprise, Personne physique). Seule **École / IPES** se choisit ; les trois autres sont grisées avec « Bientôt disponible » (décision du 2026-11-24).
 2. **Infos** (« Informations générales ») : raison sociale / nom et prénoms, téléphone, e-mail, région, ville, quartier, mot de passe (8 caractères au moins) et confirmation. Champs **préremplis** avec les valeurs de la maquette (IPC). Validation react-hook-form + zod.
 3. **Vérification** : documents à joindre. Personne physique : pièce d'identité. Autres profils : autorisation d'ouverture (école) ou justificatif d'activité, et NIU. Bouton « Soumettre pour vérification ».
 4. **« Votre compte est en cours de vérification »** : délai 24 à 48 heures, notification par e-mail et SMS, « Retour à la connexion ». Lien de démo « Simuler la validation par YIBOLO ».

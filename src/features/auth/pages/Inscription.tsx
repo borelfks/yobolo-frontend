@@ -7,6 +7,7 @@ import { z } from 'zod'
 import { toast } from 'sonner'
 import { ArrowLeft, ArrowRight, Building2, Check, CircleCheck, Clock, Eye, FileText, IdCard, Lock, LogIn, Mail, Phone, ShieldCheck, Upload, Users } from 'lucide-react'
 import { AuthCard } from '@/app/layouts/AuthLayout'
+import { Badge } from '@/shared/components/ui/Badge'
 import { Img } from '@/shared/components/ui/Img'
 import { Select } from '@/shared/components/forms/Fields'
 import { useSession } from '@/features/auth/hooks/useSession'
@@ -165,23 +166,34 @@ export function Inscription() {
           <h2 className="text-[22px] font-bold text-navy-900">{t('inscription.choose.title')}</h2>
           <p className="text-[14.5px] text-navy-900">{t('inscription.choose.text')}</p>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            {profils.map((p) => (
+            {profils.map((p) => {
+              // Seul le profil École est ouvert pour l'instant (décision du 2026-11-24).
+              const bientot = p.value !== 'ecole'
+              return (
               <button
                 key={p.value}
                 type="button"
+                disabled={bientot}
                 onClick={() => setProfil(p.value)}
-                className={cn('relative flex items-center gap-4 rounded-2xl border p-4 text-left transition-colors', profil === p.value ? 'border-brand-600 bg-[#f3f6fe] ring-2 ring-brand-600/40' : 'border-line hover:bg-slate-50')}
+                className={cn(
+                  'relative flex items-center gap-4 rounded-2xl border p-4 text-left transition-colors',
+                  bientot ? 'cursor-not-allowed border-line opacity-60' : profil === p.value ? 'border-brand-600 bg-[#f3f6fe] ring-2 ring-brand-600/40' : 'border-line hover:bg-slate-50',
+                )}
               >
                 {profil === p.value && <CircleCheck className="absolute top-3 right-3 size-6 fill-brand-600 text-white" />}
                 {p.visuel}
                 <span>
-                  <span className="block text-[16px] font-bold text-navy-900">{t(`inscription.profiles.${p.value}.title`)}</span>
+                  <span className="flex flex-wrap items-center gap-2 text-[16px] font-bold text-navy-900">
+                    {t(`inscription.profiles.${p.value}.title`)}
+                    {bientot && <Badge tone="gray">{t('inscription.comingSoon')}</Badge>}
+                  </span>
                   {([t(`inscription.profiles.${p.value}.line1`), t(`inscription.profiles.${p.value}.line2`)]).map((line) => (
                     <span key={line} className="block text-[13px] text-navy-900">{line}</span>
                   ))}
                 </span>
               </button>
-            ))}
+              )
+            })}
           </div>
           <div className="mt-6 flex justify-center">
             <button type="button" onClick={() => setStep(1)} className="inline-flex h-12 w-80 items-center justify-center gap-2.5 rounded-full bg-brand-600 text-[17px] font-semibold text-white hover:bg-brand-700">

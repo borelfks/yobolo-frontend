@@ -9,7 +9,7 @@
 | `autre` | Centre Linguistique | `langues` | `/pro/ecole` |
 
 - **Un compte = un espace.** Pas de changement de rôle : on change de compte depuis la connexion (« Changer de compte de démo »).
-- Session : `useSession()` (`features/auth/hooks/useSession.tsx`), gardée sous `yibolo:role`. À la première visite : compte **Utilisateur**.
+- Session : `useSession()` (`features/auth/hooks/useSession.tsx`), gardée sous `yibolo:role`. À la première visite : **visiteur non connecté** (la landing montre « Se connecter » ; décision du 2026-11-24).
 - L'établissement de l'espace pro : `useMonEcole()` (celui du compte ; l'IPC par défaut).
 
 ## Connexion (`/connexion`)
@@ -19,7 +19,7 @@
 4. « Mot de passe oublié ? » affiche un message (code par SMS ou WhatsApp) ; « Continuer sans compte » mène à l'accueil.
 
 ## Inscription (`/inscription`)
-1. **Profil** : École / IPES, Consultant, Entreprise, Personne physique.
+1. **Profil** : École / IPES, Consultant, Entreprise, Personne physique. Seul **École / IPES** est ouvert ; les trois autres affichent « Bientôt disponible » et ne se choisissent pas (décision du 2026-11-24).
 2. **Infos** : raison sociale ou nom, téléphone, e-mail, région, ville, quartier, mot de passe (8 caractères) + confirmation.
 3. **Vérification** : pièces selon le profil (pièce d'identité ; ou autorisation d'ouverture / justificatif d'activité + NIU).
 4. **En cours de vérification** (24 à 48 heures, notification par e-mail et SMS), puis **Compte validé !** (lien de démo « Simuler la validation par YIBOLO »). « Se connecter à mon espace » ouvre le compte IPES (profil École) ou Utilisateur.
