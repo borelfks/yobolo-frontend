@@ -1,5 +1,4 @@
 import { Link } from 'react-router'
-import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
 import { ArrowRight, ArrowUp, CalendarDays, ChartNoAxesColumn, ChevronDown, Clock, Download, FileText, GraduationCap, Layers, Star, TrendingUp, UserRound, Users } from 'lucide-react'
 import { ProHeader } from '@/features/pro/components/ProBlocks'
@@ -7,9 +6,7 @@ import { proCard } from '@/features/pro/proStyles'
 import { AreaTrend, Donut } from '@/shared/components/ui/Charts'
 import { useMonEcole } from '@/features/auth/hooks/useSession'
 import { cn } from '@/shared/utils/cn'
-import { sourcesVisites, visitesSerie } from '@/mocks/pro'
-import { POUR_TOUS } from '@/data'
-import { useFormationsPro } from '@/data/hooks'
+import { useFormationsPro, useIndicateurs, useSourcesVisites, useVisites } from '@/data/hooks'
 import { PREFIXE_FORMATION_CREEE } from '@/features/pro/proData'
 import { num, shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
@@ -26,17 +23,29 @@ function chartLabel(label: string) {
   return i < 0 ? label : shortDate(new Date(2026, i, Number(day)), { day: '2-digit', month: 'short' })
 }
 
+/** Apparence de chaque type d'activité (les activités elles-mêmes sont dans la base). */
+const ACTIVITE_ICONES = {
+  applications: <UserRound className="text-emerald-600" />,
+  downloads: <Download className="text-violet-600" />,
+  reviews: <Star className="text-brand-600" />,
+}
+const ACTIVITE_FONDS = { applications: 'bg-[#e5f7ea]', downloads: 'bg-[#f1ebff]', reviews: 'bg-[#e8f0ff]' }
+
 export function Statistiques() {
+  const visitesSerie = useVisites()
+  const sourcesVisites = useSourcesVisites()
   const { t } = useTranslation('pro')
   const { ecole, formations } = useMonEcole()
-  // Classement de la maquette : les formations de départ (une formation créée n'a pas encore de vues).
-  const lignesMaquette = useFormationsPro(ecole.id).filter((f) => f.etablissementId === POUR_TOUS)
-  const formationsMaquette = formations.filter((f) => !f.id.startsWith(`${PREFIXE_FORMATION_CREEE}-`))
-  const top = ecole.id === 'ipc' ? lignesMaquette.slice(0, 3).map((f) => f.nom) : formationsMaquette.slice(0, 3).map((f) => f.nom)
+  // Les plus consultées : les formations de départ de l'établissement (une formation créée n'a pas encore de vues),
+  // celles de son tableau d'abord, sinon ses fiches.
+  const depart = (id: string) => !id.startsWith(`${PREFIXE_FORMATION_CREEE}-`)
+  const lignes = useFormationsPro(ecole.id).filter((f) => f.etablissementId === ecole.id && depart(f.id))
+  const top = (lignes.length ? lignes : formations.filter((f) => depart(f.id))).slice(0, 3).map((f) => f.nom)
+  const ind = useIndicateurs(ecole.id)
   const kpis = [
-    { v: num(4286), l: t('stats.kpis.views'), t: t('stats.kpis.trend', { value: 18 }), icon: <Users />, c: 'bg-[#e8f0ff]', ic: 'bg-[#d6e3ff] text-brand-600' },
-    { v: num(356), l: t('stats.kpis.applications'), t: t('stats.kpis.trend', { value: 24 }), icon: <GraduationCap />, c: 'bg-[#e5f7ea]', ic: 'bg-[#cdeed8] text-emerald-600' },
-    { v: num(76), l: t('stats.kpis.downloads'), t: t('stats.kpis.trend', { value: 12 }), icon: <FileText />, c: 'bg-[#fff4dd]', ic: 'bg-[#ffe7b8] text-amber-600' },
+    { v: num(ind.vues.valeur), l: t('stats.kpis.views'), t: t('stats.kpis.trend', { value: ind.vues.tendance }), icon: <Users />, c: 'bg-[#e8f0ff]', ic: 'bg-[#d6e3ff] text-brand-600' },
+    { v: num(ind.candidatures.valeur), l: t('stats.kpis.applications'), t: t('stats.kpis.trend', { value: ind.candidatures.tendance }), icon: <GraduationCap />, c: 'bg-[#e5f7ea]', ic: 'bg-[#cdeed8] text-emerald-600' },
+    { v: num(ind.telechargements.valeur), l: t('stats.kpis.downloads'), t: t('stats.kpis.trend', { value: ind.telechargements.tendance }), icon: <FileText />, c: 'bg-[#fff4dd]', ic: 'bg-[#ffe7b8] text-amber-600' },
     { v: t('stats.kpis.outOf5', { note: num(ecole.note) }), l: t('stats.kpis.rating', { count: ecole.avis }), icon: <Star />, c: 'bg-[#f1ebff]', ic: 'bg-[#e1d4ff] text-violet-600' },
   ]
   return (
@@ -58,7 +67,7 @@ export function Statistiques() {
                 <option>{t('stats.period.last6m')}</option>
               </select>
             </label>
-            <button type="button" onClick={() => toast.success(t('stats.exportToast'))} className="inline-flex h-11 items-center gap-2.5 rounded-full border-2 border-brand-600/70 bg-white px-6 text-[16px] font-semibold text-navy-800 hover:bg-brand-50">
+            <button type="button" onClick={() => window.print()} className="inline-flex h-11 items-center gap-2.5 rounded-full border-2 border-brand-600/70 bg-white px-6 text-[16px] font-semibold text-navy-800 hover:bg-brand-50">
               <Download className="size-5" />
               {t('stats.export')}
             </button>
@@ -87,7 +96,7 @@ export function Statistiques() {
         <div className={cn(proCard, 'p-4')}>
           <h2 className="flex items-center gap-2.5 text-[19px] font-bold text-navy-900"><Layers className="size-6 text-brand-600" />{t('stats.sources.title')}</h2>
           <div className="mt-3">
-            <Donut data={sourcesVisites.map((d) => ({ ...d, name: isSource(d.name) ? t(`stats.sources.${SOURCE_KEYS[d.name]}`) : d.name }))} center={t('stats.sources.center', { total: num(4286) })} size={170} />
+            <Donut data={sourcesVisites.map((d) => ({ ...d, name: isSource(d.name) ? t(`stats.sources.${SOURCE_KEYS[d.name]}`) : d.name }))} center={t('stats.sources.center', { total: num(ind.vues.valeur) })} size={170} />
           </div>
         </div>
       </div>
@@ -99,7 +108,7 @@ export function Statistiques() {
               <li key={nom} className="flex items-center gap-4 py-2.5 text-[15px] text-navy-900">
                 <span className="grid size-7 place-items-center rounded-full bg-navy-800 text-[13px] font-bold text-white">{i + 1}</span>
                 <span className="flex-1 font-semibold">{nom}</span>
-                <span>{t('stats.top.views', { count: [1028, 842, 618][i], views: num([1028, 842, 618][i] ?? 0) })}</span>
+                <span>{t('stats.top.views', { count: ind.vuesFormations[i] ?? 0, views: num(ind.vuesFormations[i] ?? 0) })}</span>
               </li>
             ))}
           </ol>
@@ -110,11 +119,12 @@ export function Statistiques() {
         <div className={cn(proCard, 'p-4')}>
           <h2 className="flex items-center gap-2.5 text-[19px] font-bold text-navy-900"><Clock className="size-6 text-brand-600" />{t('stats.activity.title')}</h2>
           <ul className="mt-3 divide-y divide-line">
-            {[
-              { icon: <UserRound className="text-emerald-600" />, bg: 'bg-[#e5f7ea]', t: t('stats.activity.applications'), d: t('stats.activity.today', { time: '10:24' }) },
-              { icon: <Download className="text-violet-600" />, bg: 'bg-[#f1ebff]', t: t('stats.activity.downloads'), d: t('stats.activity.today', { time: '09:17' }) },
-              { icon: <Star className="text-brand-600" />, bg: 'bg-[#e8f0ff]', t: t('stats.activity.reviews', { note: num(ecole.note) }), d: t('stats.activity.yesterday', { time: '16:45' }) },
-            ].map((a) => (
+            {ind.activites.map((x) => ({
+              icon: ACTIVITE_ICONES[x.id],
+              bg: ACTIVITE_FONDS[x.id],
+              t: t(`stats.activity.${x.id}`, { count: x.count, note: num(ecole.note) }),
+              d: t(`stats.activity.${x.jour}`, { time: x.heure }),
+            })).map((a) => (
               <li key={a.t} className="flex items-center gap-3 py-2.5 text-[15px] text-navy-900">
                 <span className={cn('grid size-10 place-items-center rounded-full [&_svg]:size-5', a.bg)}>{a.icon}</span>
                 <span className="flex-1 font-semibold">{a.t}</span>

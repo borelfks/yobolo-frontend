@@ -35,13 +35,13 @@ import { Select } from '@/shared/components/forms/Fields'
 import { piecesAE, type PieceKey } from '@/features/driving-schools/autoEcoleRules'
 import { useInscriptionDraft } from '@/features/driving-schools/hooks/useInscriptionDraft'
 import { data } from '@/data'
-import { useAutoEcole } from '@/data/hooks'
-import { permisCatalogue } from '@/mocks/drivingSchools'
+import { useAutoEcole, usePermisCatalogue, useQuartiers, useSessions, useVilles } from '@/data/hooks'
 import type { PermisCode } from '@/shared/types'
-import { quartiers, villes } from '@/mocks/schools'
 import { cn } from '@/shared/utils/cn'
 import { demoDate, fcfa, shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
+import { useSession } from '@/features/auth/hooks/useSession'
+import { joindrePiece } from '@/features/driving-schools/piecesJointes'
 
 const card = 'rounded-2xl border border-line bg-white shadow-[0_2px_10px_rgba(15,29,61,0.06)]'
 const field = 'h-10 w-full rounded-lg border border-[#c9d4ea] bg-white px-3.5 text-[14px] text-ink outline-none placeholder:text-ink/60 focus:border-brand-500 focus:ring-3 focus:ring-brand-100'
@@ -109,11 +109,22 @@ function Steps({ step }: { step: number }) {
 }
 
 export function InscriptionAutoEcole() {
+  const { account } = useSession()
+  const sessions = useSessions()
+  const permisCatalogue = usePermisCatalogue()
+  const villes = useVilles()
+  const quartiers = useQuartiers().map((q) => q.nom)
   const { t } = useTranslation('driving-schools', { keyPrefix: 'enrollment' })
   const { id, code = 'B' } = useParams()
   const a = useAutoEcole(id)
   const p = permisCatalogue[code as PermisCode] ?? permisCatalogue.B
   const [d, update] = useInscriptionDraft(a.id, p.code)
+  const ajouterPiece = async (cle: string, fichier: File, message: string) => {
+    const id = await joindrePiece(fichier)
+    if (!id) return void toast.error(t('toast.fileTooBig'))
+    update({ pieces: { ...d.pieces, [cle]: true }, fichiers: { ...d.fichiers, [cle]: id } })
+    toast.success(message)
+  }
   const [step, setStep] = useState(0)
   const [certif, setCertif] = useState(true)
   const [sent, setSent] = useState(false)
@@ -240,17 +251,11 @@ export function InscriptionAutoEcole() {
                         <span className="rounded-lg bg-rose-100 px-3 py-1 text-[13px] font-semibold text-rose-600">{t('inscription.pieces.required')}</span>
                       )}
                       <span className="hidden h-10 w-px bg-line sm:block" />
-                      <button
-                        type="button"
-                        onClick={() => {
-                          update({ pieces: { ...d.pieces, [pc.key]: true } })
-                          toast.success(t('toast.pieceAdded', { piece: t(`pieces.${pc.key}.short`) }))
-                        }}
-                        className="inline-flex h-10 w-50 items-center justify-center gap-2.5 rounded-lg border-2 border-[#9fb4e3] bg-white text-[14px] font-semibold text-navy-800 hover:bg-brand-50"
-                      >
+                      <label className="inline-flex h-10 w-50 cursor-pointer items-center justify-center gap-2.5 rounded-lg border-2 border-[#9fb4e3] bg-white text-[14px] font-semibold text-navy-800 hover:bg-brand-50">
                         <Upload className="size-5" />
                         {ok ? t('actions.replace') : t(`pieces.${pc.key}.button`)}
-                      </button>
+                        <input type="file" accept=".pdf,.jpg,.jpeg,.png" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; e.target.value = ''; if (f) void ajouterPiece(pc.key, f, t('toast.pieceAdded', { piece: t(`pieces.${pc.key}.short`) })) }} />
+                      </label>
                     </div>
                   )
                 })}
@@ -263,9 +268,12 @@ export function InscriptionAutoEcole() {
                   type="file"
                   className="sr-only"
                   onChange={(e) => {
-                    if (!e.target.files?.[0]) return
-                    update({ pieces: { cni: true, photos: true, medical: true } })
-                    toast.success(t('toast.fileAdded', { name: e.target.files[0].name }))
+                    const f = e.target.files?.[0]
+                    e.target.value = ''
+                    if (!f) return
+                    // Le fichier déposé complète la première pièce manquante (sinon : pièce supplémentaire).
+                    const cle = piecesAE.find((pc) => !d.pieces[pc.key])?.key ?? `autre-${Object.keys(d.pieces).length + 1}`
+                    void ajouterPiece(cle, f, t('toast.fileAdded', { name: f.name }))
                   }}
                 />
               </label>
@@ -340,7 +348,11 @@ export function InscriptionAutoEcole() {
                 type="button"
                 onClick={async () => {
                   if (!certif) return toast.error(t('toast.certifyRequired'))
-                  await data.create('inscriptionsAutoEcole', { autoEcoleId: a.id, permis: p.code, envoyeeLe: new Date().toISOString(), statut: 'Envoyée', donnees: d }, 'inscription')
+                  await data.create('inscriptionsAutoEcole', { compteId: account?.id, autoEcoleId: a.id, permis: p.code, envoyeeLe: new Date().toISOString(), statut: 'Envoyée', donnees: d }, 'inscription')
+                  // La session choisie compte une place de moins.
+                  const session = sessions.find((s) => s.permis === p.code && s.debut === d.session)
+                  if (session) await data.update('sessions', session.id, { places: Math.max(0, session.places - 1) })
+                  if (account) await data.create('notificationsCompte', { compteId: account.id, type: 'session', titre: t('notificationCandidat.titre'), texte: t('notificationCandidat.texte', { licence: p.code, school: a.nom }), quand: t('notificationCandidat.quand'), lu: false }, 'notif')
                   toast.success(t('toast.sent'))
                   setSent(true)
                 }}

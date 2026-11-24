@@ -1,13 +1,12 @@
 import { useState } from 'react'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import { Trans, useTranslation } from 'react-i18next'
 import { Award, ChevronRight, FileBadge, FileCheck2, Flame, GraduationCap, HardHat, Layers, MapPin } from 'lucide-react'
 import { SearchPanel } from '@/features/schools/components/EcoleBlocks'
 import { ArrowDot, SidePanel } from '@/features/schools/components/ListingBlocks'
 import { formationsOfType } from '@/features/schools/components/listing/formationsOfType'
 import { Img } from '@/shared/components/ui/Img'
-import { useEtablissements, useFormations } from '@/data/hooks'
-import { diplomesParType, domainesParType, typeConfig, villes } from '@/mocks/schools'
+import { useDiplomes, useDomaines, useEtablissements, useFormations, useFormationsPopulaires, useTypeEcole, useVilles } from '@/data/hooks'
 import type { TypeSlug } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { num } from '@/shared/utils/format'
@@ -22,37 +21,39 @@ const diplomeTiles = [
   { bg: 'bg-[#f2ecff]', icon: GraduationCap, color: 'text-violet-600' },
 ]
 
-/** Les 4 formations populaires de la maquette (img27). */
-const populairesIpes = [
-  { titre: 'BTS Comptabilité & Gestion', diplome: 'BTS', image: '/images/maquette/form-bts-compta.jpg', id: 'f-cg-ipc' },
-  { titre: 'Licence Informatique', diplome: 'Licence', image: '/images/maquette/form-licence-info.jpg', id: 'f-info-ipc' },
-  { titre: 'Licence Santé Publique', diplome: 'Licence', image: '/images/maquette/form-licence-sante.jpg', id: 'f-lab-ims' },
-  { titre: 'Master Génie Civil', diplome: 'Master', image: '/images/maquette/form-master-genie.jpg', id: 'f-audit-ipc' },
-]
-
 /** Onglet Diplômes : niveaux à gauche, tuiles de diplômes et formations populaires. */
 export function DiplomesTab({ type }: { type: TypeSlug }) {
   const { t } = useTranslation('schools')
-  const dips = diplomesParType[type]
-  const cfg = typeConfig[type]
+  const navigate = useNavigate()
+  const cfg = useTypeEcole(type)
+  const domaines = useDomaines(type)
+  const dips = useDiplomes(type)
+  const villes = useVilles()
   const [checked, setChecked] = useState<string[]>([])
   const formations = useFormations()
   const etablissements = useEtablissements()
+  const populairesBase = useFormationsPopulaires(type).map((f) => ({ titre: f.titre, diplome: f.diplome, image: f.image, id: f.formationId }))
+  // Sans sélection enregistrée pour ce type : ses 4 premières formations publiées.
   const populaires =
-    type === 'ipes'
-      ? populairesIpes
+    populairesBase.length > 0
+      ? populairesBase
       : formationsOfType(type, formations, etablissements)
           .slice(0, 4)
           .map((f) => ({ titre: f.nom, diplome: f.diplome, image: f.image, id: f.id }))
-  const listeGauche = type === 'ipes' ? [...dips, { nom: t('listing.diplomes.other'), count: 230 }] : dips
+  const listeGauche = cfg.autresDiplomes ? [...dips, { nom: t('listing.diplomes.other'), count: cfg.autresDiplomes }] : dips
   return (
     <div className="space-y-4">
       <SearchPanel
         placeholder={t('listing.diplomes.searchPlaceholder')}
         fields={[
-          { placeholder: t('listing.search.field'), options: domainesParType[type].map((d) => d.nom), icon: <GraduationCap /> },
-          { placeholder: t('listing.search.city'), options: villes.map((v) => v.nom), icon: <MapPin /> },
+          { name: 'filiere', placeholder: t('listing.search.field'), options: domaines.map((d) => d.nom), icon: <GraduationCap /> },
+          { name: 'ville', placeholder: t('listing.search.city'), options: villes.map((v) => v.nom), icon: <MapPin /> },
         ]}
+        onSearch={(q, c) => {
+          // « Rechercher » ouvre la liste du type, filtrée.
+          const params = new URLSearchParams(Object.entries({ q, ...c }).filter(([, v]) => v))
+          navigate(`${ROUTES.schoolType(type)}${params.size ? `?${params}` : ''}`)
+        }}
       />
       <div className="grid gap-5 lg:grid-cols-[256px_1fr]">
         <SidePanel title={t('listing.diplomes.level')} icon={<Layers />}>
@@ -88,7 +89,7 @@ export function DiplomesTab({ type }: { type: TypeSlug }) {
               .map((d, i) => {
                 const tile = diplomeTiles[i % diplomeTiles.length]
                 return (
-                  <Link key={d.nom} to={ROUTES.schoolType(type, 'frais')} className={cn('group flex items-center gap-4 rounded-2xl border border-line/60 px-4 py-3.5 shadow-[0_2px_8px_rgba(15,29,61,0.05)] transition-shadow hover:shadow-lg', tile.bg)}>
+                  <Link key={d.nom} to={`${ROUTES.schoolType(type)}?${new URLSearchParams({ niveau: d.nom })}`} className={cn('group flex items-center gap-4 rounded-2xl border border-line/60 px-4 py-3.5 shadow-[0_2px_8px_rgba(15,29,61,0.05)] transition-shadow hover:shadow-lg', tile.bg)}>
                     <span className={cn('grid size-12 shrink-0 place-items-center rounded-xl bg-white/70', tile.color)}>
                       <tile.icon className="size-7" />
                     </span>

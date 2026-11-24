@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import { load, save } from '@/shared/utils/storage'
 import type { InscriptionDraft, PermisCode } from '@/shared/types'
+import { useSessions } from '@/data/hooks'
 
 export function useInscriptionDraft(aeId: string, code: PermisCode) {
+  // Session proposée : la prochaine session du permis, enregistrée dans la base.
+  const prochaine = useSessions().find((x) => x.permis === code)?.debut ?? ''
   const key = `inscription-v2:${aeId}:${code}`
   const initial: InscriptionDraft = {
     nom: '',
@@ -15,7 +18,7 @@ export function useInscriptionDraft(aeId: string, code: PermisCode) {
     quartier: '',
     autoEcoleId: aeId,
     permis: code,
-    session: '15 novembre 2026',
+    session: prochaine,
     pieces: {},
   }
   const [draft, setDraft] = useState<InscriptionDraft>(() => load(key, initial))

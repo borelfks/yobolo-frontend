@@ -29,8 +29,7 @@ import {
 import { AEHeader, FavoriteModal } from '@/features/driving-schools/components/AutoEcoleBlocks'
 import { Img } from '@/shared/components/ui/Img'
 import { useFavorites } from '@/shared/hooks/useFavorites'
-import { useAutoEcole, useSessions } from '@/data/hooks'
-import { permisCatalogue } from '@/mocks/drivingSchools'
+import { useAutoEcole, usePermisCatalogue, useSessions } from '@/data/hooks'
 import type { PermisCode } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { fcfa } from '@/shared/utils/format'
@@ -49,14 +48,6 @@ type Contenu = {
   /** Prix affiché sur la page de détail (la maquette diffère parfois des listes). */
   prix: number
   contactRapide?: boolean
-}
-
-const contenus: Record<PermisCode, Contenu> = {
-  A: { prix: 150000, contactRapide: true },
-  B: { prix: 300000 },
-  C: { prix: 500000 },
-  D: { prix: 550000 },
-  E: { prix: 200000 },
 }
 
 const vehicleIcon: Record<PermisCode, typeof Car> = { A: Bike, B: Car, C: Truck, D: Bus, E: Truck }
@@ -79,12 +70,14 @@ function Checks({ items }: { items: string[] }) {
 }
 
 export function PermisDetail() {
+  const permisCatalogue = usePermisCatalogue()
   const { t } = useTranslation('driving-schools')
   const { id, code = 'B', tab = '' } = useParams()
   const a = useAutoEcole(id)
   const sessions = useSessions()
   const c = (code.toUpperCase() as PermisCode) in permisCatalogue ? (code.toUpperCase() as PermisCode) : 'B'
-  const contenu = contenus[c]
+  // Prix de la fiche (enregistré dans la base) ; à défaut, celui de la liste.
+  const contenu: Contenu = { prix: permisCatalogue[c].prixFiche ?? permisCatalogue[c].prix, contactRapide: permisCatalogue[c].contactRapide }
   const programme = t(`licence.content.${c}.programme`, { returnObjects: true })
   const base = ROUTES.license(a.id, c)
   const Vehicle = vehicleIcon[c]

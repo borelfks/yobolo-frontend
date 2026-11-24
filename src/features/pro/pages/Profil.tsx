@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react'
+import { useRef, useState, type ReactNode } from 'react'
 import { useParams } from 'react-router'
 import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
@@ -31,16 +31,19 @@ import {
 } from 'lucide-react'
 import { ProCard, ProFooter, ProHeader, ProLabel } from '@/features/pro/components/ProBlocks'
 import { proInput } from '@/features/pro/proStyles'
-import { patchEtablissement, prefixer, sousCles, type Valeurs } from '@/features/pro/proData'
+import { type Valeurs, patchEtablissement, prefixer, sousCles, tailleFichier } from '@/features/pro/proData'
 import { Img } from '@/shared/components/ui/Img'
 import { LinkTabs } from '@/shared/components/ui/Tabs'
 import { useMonEcole } from '@/features/auth/hooks/useSession'
 import { data } from '@/data'
-import { useParametres } from '@/data/hooks'
-import { quartiers, regions, villes } from '@/mocks/schools'
+import { useFichiers, useMedias, useParametres, usePiecesEtablissement, useQuartiers, useRegions, useVilles } from '@/data/hooks'
 import { cn } from '@/shared/utils/cn'
 import { num } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
+import { MenuActions } from '@/shared/components/ui/MenuActions'
+import { Visionneuse } from '@/shared/components/ui/Visionneuse'
+import { lireFichier, lireImage, telecharger, TAILLE_MAX_DOCUMENT, TAILLE_MAX_PHOTO } from '@/shared/utils/fichiers'
+import { ajusterIndicateurs, compterDansLAnnuaire } from '@/shared/utils/compteurs'
 
 const typeOptions = [
   { value: 'IPES', labelKey: 'ipes' },
@@ -114,8 +117,16 @@ export function Profil() {
   const enregistrer = async (publier: boolean) => {
     const valeurs = { ...enregistres, ...saisie }
     await data.put('parametres', { id: ecole.id, valeurs: { ...reglages, ...prefixer('profil', valeurs) } })
-    const patch = patchEtablissement(valeurs)
-    if (publier && Object.keys(patch).length > 0) await data.update('etablissements', ecole.id, patch)
+    const patch = patchEtablissement(valeurs, ecole.agrement)
+    if (publier && Object.keys(patch).length > 0) {
+      await data.update('etablissements', ecole.id, patch)
+      // Un autre type, une autre région ou une autre ville : l'annuaire compte l'établissement au bon endroit.
+      const apres = { type: patch.type ?? ecole.type, region: patch.region ?? ecole.region, ville: patch.ville ?? ecole.ville }
+      if (apres.type !== ecole.type || apres.region !== ecole.region || apres.ville !== ecole.ville) {
+        await compterDansLAnnuaire(ecole, -1)
+        await compterDansLAnnuaire(apres, 1)
+      }
+    }
     setSaisie({})
   }
   const tabs = [
@@ -150,7 +161,7 @@ function Banniere() {
   const { ecole } = useMonEcole()
   return (
     <section className="relative flex overflow-hidden md:h-[126px] rounded-2xl bg-[linear-gradient(100deg,#0a2a86_0%,#1238a8_70%,#1a47c4_100%)] text-white">
-      <Img src={ecole.id === 'ipc' ? '/images/maquette/pro-banniere-batiment.jpg' : ecole.image} alt="" className="hidden h-[126px] w-[258px] shrink-0 md:block" />
+      <Img src={ecole.banniere ?? ecole.image} alt="" className="hidden h-[126px] w-[258px] shrink-0 md:block" />
       <div className="min-w-0 flex-1 px-5 py-4 md:px-7">
         <p className="text-[22px] font-bold md:truncate">{ecole.nom}</p>
         <p className="text-[16px] text-white/90">{t('profil.banner.tagline')}</p>
@@ -160,11 +171,12 @@ function Banniere() {
         </p>
       </div>
       <div className="relative hidden w-[277px] shrink-0 md:block">
-        <Img src="/images/maquette/pro-banniere-droite.jpg" alt="" className="h-full w-full" />
-        <button type="button" onClick={() => toast(t('profil.banner.changeToast'))} className="absolute right-2.5 bottom-2.5 inline-flex h-10 w-[172px] items-center justify-center gap-2 rounded-lg border border-white/60 bg-[#1b2537] px-3 text-[13.5px] font-semibold text-white hover:bg-[#111a2a]">
+        <Img src={ecole.bandeau ?? ecole.image} alt="" className="h-full w-full" />
+        <label className="absolute right-2.5 bottom-2.5 inline-flex h-10 w-[172px] cursor-pointer items-center justify-center gap-2 rounded-lg border border-white/60 bg-[#1b2537] px-3 text-[13.5px] font-semibold text-white hover:bg-[#111a2a]">
           <Camera className="size-5" />
           {t('profil.banner.change')}
-        </button>
+          <input type="file" accept="image/*" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; e.target.value = ''; if (f) void changerImage(ecole.id, 'bandeau', f, t('profil.banner.changed'), t('profil.media.tooBig')) }} />
+        </label>
       </div>
     </section>
   )
@@ -182,7 +194,7 @@ function Infos({ form }: { form: ProfilForm }) {
           <label><ProLabel required>{t('profil.general.name')}</ProLabel><input className={proInput} value={form.texte('nom', ecole.nom.replace(/ \([^)]*\)$/, ''))} onChange={(e) => form.changer('nom', e.target.value)} /></label>
           <label><ProLabel required>{t('profil.general.acronym')}</ProLabel><input className={proInput} value={form.texte('sigle', ecole.sigle)} onChange={(e) => form.changer('sigle', e.target.value)} /></label>
           <label><ProLabel required>{t('profil.general.type')}</ProLabel><SelectBox value={form.texte('type', ecole.type)} onChange={(v) => form.changer('type', v)} options={typeOptions.map((o) => ({ value: o.value, label: t(`profil.types.${o.labelKey}`) }))} /></label>
-          <label><ProLabel>{t('profil.general.founded')}</ProLabel><IconInput icon={<Calendar />} value={form.texte('anneeCreation', '2018')} onChange={(v) => form.changer('anneeCreation', v)} /></label>
+          <label><ProLabel>{t('profil.general.founded')}</ProLabel><IconInput icon={<Calendar />} value={form.texte('anneeCreation', ecole.anneeCreation ?? '')} onChange={(v) => form.changer('anneeCreation', v)} /></label>
           <label className="md:col-span-2">
             <ProLabel required>{t('profil.general.presentation')}</ProLabel>
             <span className="relative block">
@@ -224,6 +236,9 @@ function Infos({ form }: { form: ProfilForm }) {
 }
 
 function Coordonnees({ form }: { form: ProfilForm }) {
+  const regions = useRegions()
+  const villes = useVilles()
+  const quartiers = useQuartiers().map((q) => q.nom)
   const { t } = useTranslation('pro')
   const { ecole } = useMonEcole()
   const quartier = form.texte('quartier', ecole.quartier)
@@ -235,8 +250,8 @@ function Coordonnees({ form }: { form: ProfilForm }) {
           <label><ProLabel required>{t('profil.contact.region')}</ProLabel><SelectBox value={form.texte('region', ecole.region)} onChange={(v) => form.changer('region', v)} options={opts(regions.map((r) => r.nom))} /></label>
           <label><ProLabel required>{t('profil.contact.city')}</ProLabel><SelectBox value={form.texte('ville', ecole.ville)} onChange={(v) => form.changer('ville', v)} options={opts(villes.map((v) => v.nom))} /></label>
           <label><ProLabel required>{t('profil.contact.neighbourhood')}</ProLabel><SelectBox value={quartier} onChange={(v) => form.changer('quartier', v)} options={opts([...new Set([quartier, ...quartiers])])} /></label>
-          <label><ProLabel>{t('profil.contact.locality')}</ProLabel><input className={proInput} value={form.texte('lieuDit', 'Avenue Germaine')} onChange={(e) => form.changer('lieuDit', e.target.value)} /></label>
-          <label className="md:col-span-2"><ProLabel required>{t('profil.contact.address')}</ProLabel><IconInput icon={<MapPin />} value={form.texte('adresse', 'Avenue Germaine, immeuble Vision Confort, 3e étage')} onChange={(v) => form.changer('adresse', v)} /></label>
+          <label><ProLabel>{t('profil.contact.locality')}</ProLabel><input className={proInput} value={form.texte('lieuDit', ecole.lieuDit ?? '')} onChange={(e) => form.changer('lieuDit', e.target.value)} /></label>
+          <label className="md:col-span-2"><ProLabel required>{t('profil.contact.address')}</ProLabel><IconInput icon={<MapPin />} value={form.texte('adresse', ecole.adresse ?? '')} onChange={(v) => form.changer('adresse', v)} /></label>
           <label><ProLabel required>{t('profil.contact.phone')}</ProLabel><IconInput icon={<Phone />} value={form.texte('telephone', ecole.telephone)} onChange={(v) => form.changer('telephone', v)} /></label>
           <label><ProLabel>{t('profil.contact.phone2')} <span className="font-normal">{t('profil.contact.optional')}</span></ProLabel><IconInput icon={<Phone />} value={form.texte('telephone2', '+237 6 75 43 21 09')} onChange={(v) => form.changer('telephone2', v)} /></label>
           <label><ProLabel required>{t('profil.contact.email')}</ProLabel><IconInput icon={<Mail />} value={form.texte('email', ecole.email)} onChange={(v) => form.changer('email', v)} /></label>
@@ -258,21 +273,31 @@ function Coordonnees({ form }: { form: ProfilForm }) {
 
 function Agrement({ form }: { form: ProfilForm }) {
   const { t } = useTranslation('pro')
-  const docs = [
-    { id: 'authorisation', taille: 2.4 },
-    { id: 'statutes', taille: 1.8 },
-    { id: 'niu', taille: 1.2 },
-  ] as const
+  const { ecole } = useMonEcole()
+  const docs = usePiecesEtablissement(ecole.id)
+  const fichiers = useFichiers()
+  // Une pièce envoyée est gardée dans la base (fichier + ligne « En vérification »), en attendant la validation par YIBOLO.
+  const envoyer = async (fichier: File) => {
+    if (fichier.size > TAILLE_MAX_DOCUMENT) return void toast.error(t('profil.documents.tooBig'))
+    const f = await data.create('fichiers', { nom: fichier.name, type: fichier.type, taille: fichier.size, dataUrl: await lireFichier(fichier) }, 'fichier')
+    await data.create('piecesEtablissement', { etablissementId: ecole.id, nom: fichier.name, taille: tailleFichier(fichier.size), statut: 'En vérification', fichierId: f.id }, 'piece')
+    toast.success(t('profil.documents.sent', { name: fichier.name }))
+  }
+  const ouvrirPiece = (fichierId?: string) => {
+    const f = fichiers.find((x) => x.id === fichierId)
+    if (f) telecharger(f.dataUrl, f.nom)
+    else toast(t('profil.documents.noFile'))
+  }
   return (
     <div className="grid gap-4 xl:grid-cols-[1fr_430px]">
       <ProCard title={t('profil.accreditation.title')} icon={<Award />}>
         <div className="grid gap-x-6 gap-y-3 md:grid-cols-[1.45fr_1fr]">
-          <label><ProLabel required>{t('profil.accreditation.authorisation')}</ProLabel><input className={proInput} value={form.texte('agrement', 'N° 184/MINEFOP du 08 septembre 2015')} onChange={(e) => form.changer('agrement', e.target.value)} /></label>
-          <label><ProLabel required>{t('profil.accreditation.issueDate')}</ProLabel><IconInput icon={<Calendar />} value={form.texte('agrementDate', '08/09/2015')} onChange={(v) => form.changer('agrementDate', v)} /></label>
-          <label><ProLabel required>{t('profil.accreditation.authority')}</ProLabel><SelectBox value={form.texte('agrementAutorite', 'MINEFOP')} onChange={(v) => form.changer('agrementAutorite', v)} options={[...opts(['MINEFOP', 'MINESUP', 'MINTRANSPORTS']), { value: 'Autre', label: t('profil.accreditation.otherAuthority') }]} /></label>
-          <label><ProLabel>{t('profil.accreditation.expiry')} <span className="font-normal">{t('profil.accreditation.ifApplicable')}</span></ProLabel><IconInput icon={<Calendar />} value={form.texte('agrementExpiration', '—')} onChange={(v) => form.changer('agrementExpiration', v)} /></label>
-          <label><ProLabel required>{t('profil.accreditation.taxNumber')}</ProLabel><input className={proInput} value={form.texte('niu', 'M123456789012')} onChange={(e) => form.changer('niu', e.target.value)} /></label>
-          <label><ProLabel required>{t('profil.accreditation.rccm')}</ProLabel><input className={proInput} value={form.texte('rccm', 'RC/YAO/2018/B/1234')} onChange={(e) => form.changer('rccm', e.target.value)} /></label>
+          <label><ProLabel required>{t('profil.accreditation.authorisation')}</ProLabel><input className={proInput} value={form.texte('agrement', ecole.agrement?.numero ?? '')} onChange={(e) => form.changer('agrement', e.target.value)} /></label>
+          <label><ProLabel required>{t('profil.accreditation.issueDate')}</ProLabel><IconInput icon={<Calendar />} value={form.texte('agrementDate', ecole.agrement?.date ?? '')} onChange={(v) => form.changer('agrementDate', v)} /></label>
+          <label><ProLabel required>{t('profil.accreditation.authority')}</ProLabel><SelectBox value={form.texte('agrementAutorite', ecole.agrement?.autorite ?? '')} onChange={(v) => form.changer('agrementAutorite', v)} options={[...opts(['MINEFOP', 'MINESUP', 'MINTRANSPORTS']), { value: 'Autre', label: t('profil.accreditation.otherAuthority') }]} /></label>
+          <label><ProLabel>{t('profil.accreditation.expiry')} <span className="font-normal">{t('profil.accreditation.ifApplicable')}</span></ProLabel><IconInput icon={<Calendar />} value={form.texte('agrementExpiration', ecole.agrement?.expiration ?? '')} onChange={(v) => form.changer('agrementExpiration', v)} /></label>
+          <label><ProLabel required>{t('profil.accreditation.taxNumber')}</ProLabel><input className={proInput} value={form.texte('niu', ecole.agrement?.niu ?? '')} onChange={(e) => form.changer('niu', e.target.value)} /></label>
+          <label><ProLabel required>{t('profil.accreditation.rccm')}</ProLabel><input className={proInput} value={form.texte('rccm', ecole.agrement?.rccm ?? '')} onChange={(e) => form.changer('rccm', e.target.value)} /></label>
         </div>
         <div className="mt-4 flex items-center gap-3 rounded-xl bg-[#e5f7ea] px-4 py-3">
           <CircleCheck className="size-8 fill-emerald-600 text-white" />
@@ -287,23 +312,39 @@ function Agrement({ form }: { form: ProfilForm }) {
         <div className="space-y-2">
           {docs.map((d) => (
             <div key={d.id} className="flex items-center gap-3 rounded-xl bg-[#f3f6fc] px-3 py-2">
-              <span className="grid h-10 w-9 place-items-center rounded-md bg-rose-600 text-[10px] font-extrabold text-white">PDF</span>
-              <span className="flex-1 leading-tight">
-                <b className="block text-[15px] text-navy-900">{t(`profil.documents.items.${d.id}`)}</b>
-                <span className="text-[13px] text-navy-900">{t('profil.documents.file', { size: num(d.taille) })}</span>
+              <span className="grid h-10 w-9 place-items-center rounded-md bg-rose-600 text-[10px] font-extrabold text-white">{(d.nom.split('.').pop() || 'PDF').toUpperCase().slice(0, 4)}</span>
+              <span className="min-w-0 flex-1 leading-tight">
+                <b className="block truncate text-[15px] text-navy-900">{d.cle ? t(`profil.documents.items.${d.cle}`) : d.nom}</b>
+                <span className="text-[13px] text-navy-900">{t('profil.documents.fileSize', { size: d.taille })}</span>
               </span>
-              <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-[13px] font-semibold text-emerald-700"><CircleCheck className="size-4 fill-emerald-600 text-white" />{t('profil.documents.validated')}</span>
-              <button type="button" aria-label={t('profil.documents.view')} onClick={() => toast(t('profil.documents.viewToast'))} className="text-brand-600"><Eye className="size-5" /></button>
-              <button type="button" aria-label={t('profil.documents.delete')} onClick={() => toast(t('profil.documents.deleteToast'))} className="text-rose-600"><Trash2 className="size-5" /></button>
+              {d.statut === 'Validé' ? (
+                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-[13px] font-semibold text-emerald-700"><CircleCheck className="size-4 fill-emerald-600 text-white" />{t('profil.documents.validated')}</span>
+              ) : (
+                <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 text-[13px] font-semibold text-amber-700">{t('profil.documents.pending')}</span>
+              )}
+              <button type="button" aria-label={t('profil.documents.view')} onClick={() => ouvrirPiece(d.fichierId)} className="text-brand-600"><Eye className="size-5" /></button>
+              <button
+                type="button"
+                aria-label={t('profil.documents.delete')}
+                onClick={async () => {
+                  await data.remove('piecesEtablissement', d.id)
+                  if (d.fichierId) await data.remove('fichiers', d.fichierId)
+                  toast.success(t('profil.documents.deleted'))
+                }}
+                className="text-rose-600"
+              >
+                <Trash2 className="size-5" />
+              </button>
             </div>
           ))}
+          {docs.length === 0 && <p className="rounded-xl bg-[#f3f6fc] px-3 py-3 text-[14px] text-muted">{t('profil.documents.none')}</p>}
         </div>
         <label className="mt-3 flex cursor-pointer flex-col items-center gap-1 rounded-xl border-2 border-dashed border-[#9fb4e3] py-4 text-center">
           <CloudUpload className="size-8 text-brand-600" />
           <b className="text-[16px] text-navy-900">{t('profil.documents.add')}</b>
           <span className="text-[13px] text-navy-900">{t('profil.documents.formats')}</span>
           <span className="mt-1 inline-flex h-10 items-center gap-2 rounded-full border-2 border-brand-600/60 px-8 text-[15px] font-semibold text-navy-800"><Plus className="size-5" />{t('profil.documents.choose')}</span>
-          <input type="file" className="sr-only" onChange={(e) => e.target.files?.[0] && toast.success(t('profil.documents.sent', { name: e.target.files[0].name }))} />
+          <input type="file" accept=".pdf,.jpg,.jpeg,.png" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; e.target.value = ''; if (f) void envoyer(f) }} />
         </label>
       </ProCard>
     </div>
@@ -314,31 +355,39 @@ function Medias() {
   const { t } = useTranslation('pro')
   const { ecole } = useMonEcole()
   const [f, setF] = useState('toutes')
-  const items = [
-    { src: '/images/maquette/media-1.jpg', video: false },
-    { src: '/images/maquette/media-2.jpg', video: false },
-    { src: '/images/maquette/media-3.jpg', video: false },
-    { src: '/images/maquette/media-4.jpg', video: true },
-    { src: '/images/maquette/media-5.jpg', video: false },
-    { src: '/images/maquette/media-6.jpg', video: false },
-  ]
+  const items = useMedias(ecole.id)
   const shown = items.filter((x) => f === 'toutes' || (f === 'videos' ? x.video : !x.video))
+  const [vue, setVue] = useState<number | null>(null)
+  // Un seul champ de fichier caché pour la couverture et le logo.
+  const champ = useRef<HTMLInputElement>(null)
+  const [cible, setCible] = useState<'couverture' | 'logo'>('logo')
+  const choisir = (c: 'couverture' | 'logo') => {
+    setCible(c)
+    champ.current?.click()
+  }
+  const ajouter = async (fichier: File) => {
+    const video = fichier.type.startsWith('video/')
+    if (fichier.size > (video ? TAILLE_MAX_DOCUMENT : TAILLE_MAX_PHOTO)) return void toast.error(t('profil.media.tooBig'))
+    await data.create('medias', { etablissementId: ecole.id, src: await lireFichier(fichier), video }, 'media')
+    await ajusterIndicateurs(ecole.id, { medias: 1 })
+    toast.success(t('profil.media.added', { name: fichier.name }))
+  }
   return (
     <div className="grid gap-4 xl:grid-cols-[370px_1fr]">
       <div className="rounded-2xl border border-line bg-white p-4 shadow-[0_2px_10px_rgba(15,29,61,0.06)]">
         <h2 className="flex items-center gap-2.5 text-[19px] font-bold text-navy-900"><ImageIcon className="size-6 text-brand-600" />{t('profil.media.cover')}</h2>
         <div className="relative mt-3 overflow-hidden rounded-xl">
-          <Img src="/images/maquette/pro-banniere.jpg" alt={t('profil.media.coverAlt')} className="h-[130px] w-full" />
-          <button type="button" aria-label={t('profil.media.editCover')} onClick={() => toast(t('profil.media.chooseImage'))} className="absolute top-2 right-2 grid size-9 place-items-center rounded-full bg-white text-brand-600 shadow"><Pencil className="size-4" /></button>
+          <Img src={ecole.couverture ?? ecole.image} alt={t('profil.media.coverAlt')} className="h-[130px] w-full" />
+          <button type="button" aria-label={t('profil.media.editCover')} onClick={() => choisir('couverture')} className="absolute top-2 right-2 grid size-9 place-items-center rounded-full bg-white text-brand-600 shadow"><Pencil className="size-4" /></button>
         </div>
         <h2 className="mt-4 flex items-center gap-2.5 border-t border-line pt-4 text-[19px] font-bold text-navy-900"><ImageIcon className="size-6 text-brand-600" />{t('profil.media.logo')}</h2>
         <div className="mt-3 flex gap-4">
           <div className="relative">
-            <Img src={ecole.id === 'ipc' ? '/images/maquette/pro-logo-ipc.jpg' : ecole.image} alt={t('profil.media.logoAlt')} className="size-[130px] rounded-xl border border-line" />
-            <button type="button" aria-label={t('profil.media.editLogo')} onClick={() => toast(t('profil.media.chooseLogo'))} className="absolute -top-1 -right-1 grid size-8 place-items-center rounded-full bg-white text-brand-600 shadow"><Pencil className="size-4" /></button>
+            <Img src={ecole.logo ?? ecole.image} alt={t('profil.media.logoAlt')} className="size-[130px] rounded-xl border border-line" />
+            <button type="button" aria-label={t('profil.media.editLogo')} onClick={() => choisir('logo')} className="absolute -top-1 -right-1 grid size-8 place-items-center rounded-full bg-white text-brand-600 shadow"><Pencil className="size-4" /></button>
           </div>
           <div className="space-y-2 text-[13.5px] text-navy-900">
-            <button type="button" onClick={() => toast(t('profil.media.chooseLogo'))} className="inline-flex h-9 items-center gap-2 rounded-full border-2 border-brand-600/60 px-4 text-[14px] font-semibold text-navy-800"><Upload className="size-4" />{t('profil.media.changeLogo')}</button>
+            <button type="button" onClick={() => choisir('logo')} className="inline-flex h-9 items-center gap-2 rounded-full border-2 border-brand-600/60 px-4 text-[14px] font-semibold text-navy-800"><Upload className="size-4" />{t('profil.media.changeLogo')}</button>
             <p>{t('profil.media.logoFormat')}<br />{t('profil.media.logoSize')}</p>
           </div>
         </div>
@@ -353,11 +402,22 @@ function Medias() {
           </div>
         </div>
         <div className="mt-3 grid grid-cols-2 gap-3 md:grid-cols-3">
-          {shown.map((m) => (
-            <button key={m.src} type="button" onClick={() => toast(m.video ? t('profil.media.playVideo') : t('profil.media.options'))} className="overflow-hidden rounded-xl">
-              <Img src={m.src} alt={m.video ? t('profil.media.video') : t('profil.media.photo')} className="h-[112px] w-full" />
-            </button>
+          {shown.map((m, i) => (
+            <div key={m.id} className="relative overflow-hidden rounded-xl">
+              <button type="button" onClick={() => setVue(i)} className="block w-full" aria-label={m.video ? t('profil.media.video') : t('profil.media.photo')}>
+                {m.video && m.src.startsWith('data:video') ? <video src={m.src} className="h-[112px] w-full object-cover" muted /> : <Img src={m.src} alt={m.video ? t('profil.media.video') : t('profil.media.photo')} className="h-[112px] w-full" />}
+              </button>
+              <MenuActions
+                label={t('profil.media.optionsLabel')}
+                className="absolute top-1.5 right-1.5 size-8 bg-white/90"
+                actions={[
+                  { label: t('profil.media.view'), icon: <Eye />, onClick: () => setVue(i) },
+                  { label: t('profil.media.delete'), icon: <Trash2 />, danger: true, onClick: async () => { await data.remove('medias', m.id); await ajusterIndicateurs(ecole.id, { medias: -1 }); toast.success(t('profil.media.deleted')) } },
+                ]}
+              />
+            </div>
           ))}
+          {shown.length === 0 && <p className="col-span-full rounded-xl bg-[#f3f6fc] px-3 py-3 text-[14px] text-muted">{t('profil.media.none')}</p>}
         </div>
         <label className="mt-3 flex cursor-pointer flex-wrap items-center gap-4 rounded-xl border-2 border-dashed border-[#9fb4e3] px-5 py-3">
           <CloudUpload className="size-10 text-brand-600" />
@@ -369,9 +429,25 @@ function Medias() {
             <span className="flex items-center gap-2"><ImageIcon className="size-4" />{t('profil.media.images')}</span>
             <span className="flex items-center gap-2"><Video className="size-4" />{t('profil.media.videos')}</span>
           </span>
-          <input type="file" className="sr-only" onChange={(e) => e.target.files?.[0] && toast.success(t('profil.media.added', { name: e.target.files[0].name }))} />
+          <input type="file" accept="image/*,video/*" className="sr-only" onChange={(e) => { const fichier = e.target.files?.[0]; e.target.value = ''; if (fichier) void ajouter(fichier) }} />
         </label>
       </div>
+      <input ref={champ} type="file" accept="image/*" className="sr-only" onChange={(e) => { const fichier = e.target.files?.[0]; e.target.value = ''; if (fichier) void changerImage(ecole.id, cible, fichier, t(cible === 'logo' ? 'profil.media.logoChanged' : 'profil.media.coverChanged'), t('profil.media.tooBig')) }} />
+      <Visionneuse
+        elements={shown.map((m) => ({ src: m.src, alt: m.video ? t('profil.media.video') : t('profil.media.photo'), video: m.video && (m.src.startsWith('data:video') || m.src.endsWith('.webm')) }))}
+        index={vue}
+        onClose={() => setVue(null)}
+      />
     </div>
   )
+}
+
+/** Remplace une image de l'établissement (bannière, couverture, logo) par le fichier choisi, enregistré dans la base. */
+async function changerImage(id: string, champ: 'bandeau' | 'couverture' | 'logo', fichier: File, message: string, tropLourd: string) {
+  if (fichier.size > TAILLE_MAX_PHOTO) return void toast.error(tropLourd)
+  const image = await lireImage(fichier)
+  // La fiche publique suit : la couverture remplace sa photo, le logo sa vignette.
+  const suite = champ === 'couverture' ? { photoFiche: image } : champ === 'logo' ? { vignette: image } : {}
+  await data.update('etablissements', id, { [champ]: image, ...suite })
+  toast.success(message)
 }

@@ -9,9 +9,10 @@ import { Img } from '@/shared/components/ui/Img'
 import { useSession } from '@/features/auth/hooks/useSession'
 import { data } from '@/data'
 import { useAutoEcole, useEtablissement } from '@/data/hooks'
-import { slugOfType, isTypeSlug } from '@/mocks/schools'
+import { slugOfType, isTypeSlug } from '@/features/schools/schoolTypes'
 import { cn } from '@/shared/utils/cn'
 import { ROUTES } from '@/shared/utils/routes'
+import { ajusterIndicateurs } from '@/shared/utils/compteurs'
 
 const card = 'rounded-2xl border border-line bg-white shadow-[0_2px_10px_rgba(15,29,61,0.06)]'
 /** Libellé de chaque note, de 1 à 5 étoiles. */
@@ -120,8 +121,17 @@ export function DonnerAvis() {
     if (!confirm) return toast.error(isAE ? t('donnerAvis.toasts.confirmAutoEcole') : t('donnerAvis.toasts.confirmEcole'))
     // Auteur : le compte connecté, sinon « Visiteur ». La date est un texte, comme les avis de la maquette.
     const auteur = { nom: account?.name ?? t('donnerAvis.visiteur'), avatar: account?.avatar ?? '', date: t('donnerAvis.aLInstant'), note, texte: texte.trim() }
-    if (isAE) await data.create('avisAutoEcoles', { ...auteur, autoEcoleId: a.id }, 'avis')
-    else await data.create('avisEtablissements', { ...auteur, etablissementId: e.id, role: 'Étudiant', utile: 0 }, 'avis')
+    // La note moyenne et le nombre d'avis suivent le nouvel avis.
+    const moyenne = (n: number, total: number) => Math.round(((n * total + note) / (total + 1)) * 10) / 10
+    if (isAE) {
+      await data.create('avisAutoEcoles', { ...auteur, autoEcoleId: a.id, criteres: criteres.map((c) => sub[c.key] ?? c.defaut) }, 'avis')
+      await data.update('autoEcoles', a.id, { avis: a.avis + 1, note: moyenne(a.note, a.avis) })
+    } else {
+      await data.create('avisEtablissements', { ...auteur, etablissementId: e.id, role: 'Étudiant', utile: 0 }, 'avis')
+      await data.update('etablissements', e.id, { avis: e.avis + 1, note: moyenne(e.note, e.avis) })
+      await ajusterIndicateurs(e.id, { activite: 'reviews' })
+      await data.create('notifications', { etablissementId: e.id, type: 'avis', titre: t('donnerAvis.notification.titre'), texte: t('donnerAvis.notification.texte', { name: auteur.nom, note }), date: t('donnerAvis.aLInstant'), lu: false }, 'notification')
+    }
     toast.success(t('donnerAvis.toasts.merci'))
     navigate(back)
   }

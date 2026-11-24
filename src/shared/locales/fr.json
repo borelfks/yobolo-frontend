@@ -97,7 +97,7 @@
   },
   "logo": {
     "home": "YIBOLO — Accueil",
-    "tagline": "Apprendre · Former · Consulter · Travailler"
+    "tagline": "Apprendre · Évoluer · Réussir"
   },
   "breadcrumb": {
     "label": "Fil d'Ariane",
@@ -191,5 +191,28 @@
     "francais": "Français",
     "anglais": "English",
     "changerDeLangue": "Changer de langue"
+  },
+  "visionneuse": {
+    "previous": "Photo précédente",
+    "next": "Photo suivante"
+  },
+  "assistance": {
+    "title": "Assistance YIBOLO",
+    "hours": "Un conseiller vous répond du lundi au samedi, de 8 h à 18 h.",
+    "subject": "Sujet",
+    "message": "Votre message",
+    "placeholder": "Décrivez votre question ou votre problème…",
+    "send": "Envoyer la demande",
+    "sent": "Demande envoyée : le support YIBOLO vous répond par e-mail ou SMS.",
+    "subjects": {
+      "compte": "Mon compte",
+      "profil": "Profil de l’établissement",
+      "formations": "Formations",
+      "validation": "Validation par YIBOLO",
+      "autre": "Autre question"
+    },
+    "errors": {
+      "message": "Le message compte au moins 10 caractères."
+    }
   }
 }

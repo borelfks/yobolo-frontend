@@ -14,5 +14,5 @@
    - mot de passe (Paramètres › Sécurité) : 8 caractères, une majuscule, un chiffre, un caractère spécial.
 5. **Champs :** toujours ceux de `shared/components/forms/Fields.tsx` (et `ProLabel` / `proInput` dans l'espace pro). Astérisque rouge si obligatoire, « (facultatif) » quand la maquette l'écrit.
 6. **Étapes :** préinscription en 4 étapes, inscription en auto-école en 3, création de compte en 4. L'indicateur d'étapes permet de revenir en arrière ; l'étape « Validation » montre un récapitulatif avec « Modifier » par bloc.
-7. **Pièces à fournir :** bouton « Importer » (champ fichier caché) ; le nom du fichier s'affiche, rien n'est envoyé. Formats affichés comme sur la maquette (« PDF, JPG ou PNG (max. 5 Mo) »).
-8. **Envoi :** message de réussite, puis écran de confirmation ou retour à la page parente. **Rien n'est enregistré** (front seul), sauf le brouillon d'inscription en auto-école (`useInscriptionDraft`).
+7. **Pièces à fournir :** bouton « Importer » (champ fichier caché) ; le fichier est **enregistré dans la base** (table `fichiers`, data URL, 3 Mo au plus ; photos 2 Mo), le nom s'affiche, et on peut le revoir (télécharger) ou le remplacer. Formats affichés comme sur la maquette (« PDF, JPG ou PNG (max. 5 Mo) »).
+8. **Envoi :** tout est enregistré dans la base (préinscriptions, inscriptions en auto-école, avis, comptes, formations, contenus…), puis message de réussite et écran de confirmation ou retour à la page parente. Les envois d'un compte connecté portent son `compteId`.

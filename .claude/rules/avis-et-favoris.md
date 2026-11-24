@@ -7,10 +7,10 @@
    - notes par **critère**, facultatives (5 critères pour une auto-école, 5 pour un établissement) ;
    - **commentaire** d'au moins 10 caractères ;
    - case « Je confirme avoir suivi une formation dans cet établissement / cette auto-école », obligatoire.
-3. « Publier mon avis » : « Merci ! Votre avis sera publié après vérification par YIBOLO. », retour à l'onglet Avis. L'avis sera marqué **« Vérifié »** après validation par YIBOLO. Dans la démo, il n'est pas ajouté à la liste.
+3. « Publier mon avis » : l'avis est enregistré dans la base et s'affiche en tête des avis (« À l'instant »). Message : « Merci ! Votre avis sera publié après vérification par YIBOLO. », retour à l'onglet Avis.
 4. Affichage : `RatingSummary` (note globale + répartition), `ReviewItem` (un avis), `Stars` / `Rating`. Les avis, notes, nombres d'avis et répartitions sont **ceux de la maquette** (`avisIpc`, `repartitionNotes`, `avisAutoEcole`, `repartitionAutoEcole`, `criteresAvis`).
 5. Fiche établissement : filtres Tous · Étudiants · Anciens étudiants · Entreprises. Fiche auto-école : tri « Les plus récents » / « Les mieux notés ».
-6. Côté espace pro, « Répondre aux avis » et les notifications « Nouvel avis » sont affichés comme sur la maquette ; la réponse n'est pas réalisée.
+6. **Réponse aux avis** : l'établissement connecté voit « Répondre » sous chaque avis de sa fiche publique (onglet Avis) ; la réponse est enregistrée sur l'avis (`reponse`) et affichée à tous, modifiable ou retirable. « Répondre aux avis » du tableau de bord y mène. **Utile** (pouce) : compté dans la base. Avis d'auto-école : menu « … » → Partager (lien copié) · Signaler (table `signalementsAvis`). Tri, « Voir plus » réels.
 
 ## Favoris
 1. Ce qu'on peut garder (`FavoriteKind`) : une **formation**, un **établissement**, une **auto-école**, un **permis**.

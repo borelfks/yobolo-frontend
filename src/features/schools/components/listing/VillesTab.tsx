@@ -7,22 +7,36 @@ import { SidePanel } from '@/features/schools/components/ListingBlocks'
 import { ListSearch } from '@/features/schools/components/listing/ListSearch'
 import { useTypeLabels } from '@/features/schools/components/listing/useTypeLabels'
 import { Img } from '@/shared/components/ui/Img'
-import { regions, typeConfig, villes, villesParRegion } from '@/mocks/schools'
 import type { TypeSlug } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { ROUTES } from '@/shared/utils/routes'
+import { useRegions, useTypeEcole, useVilles, useVillesRegion } from '@/data/hooks'
 
 /** Onglet Villes : arbre régions → villes à gauche, tuiles de villes à droite. */
 export function VillesTab({ type }: { type: TypeSlug }) {
   const { t } = useTranslation('schools')
   const { court } = useTypeLabels(type)
-  const cfg = typeConfig[type]
-  const ratio = cfg.count / 532
+  const cfg = useTypeEcole(type)
+  const totalIpes = useTypeEcole('ipes').count
+  const regions = useRegions()
+  const villes = useVilles()
+  // Villes de chaque région détaillée, regroupées par région.
+  const villesParRegion: Record<string, { nom: string; ipes: number }[]> = {}
+  for (const v of useVillesRegion()) (villesParRegion[v.region] ??= []).push(v)
+  // Les nombres sont ceux des IPES : pour un autre type, ils sont ramenés à son total.
+  const ratio = cfg.count / totalIpes
   const n = (x: number) => Math.max(1, Math.round(x * ratio))
   const [openRegion, setOpenRegion] = useState('Centre')
-  const [checked, setChecked] = useState<string[]>(['Yaoundé'])
+  const [checked, setChecked] = useState<string[]>([])
+  const [tri, setTri] = useState(0)
+  // Les villes cochées dans l'arbre filtrent les tuiles ; tri par nombre ou par nom.
+  const cochees = checked.length ? villes.filter((v) => checked.includes(v.nom)) : villes
+  const villesAffichees = tri === 1 ? [...cochees].sort((a, b) => a.nom.localeCompare(b.nom)) : [...cochees].sort((a, b) => b.ipes - a.ipes)
   const regionCount = (r: string) => regions.find((x) => x.nom === r)?.ipes ?? 0
-  const arbre = [...Object.keys(villesParRegion).map((r) => ({ nom: r, count: regionCount(r) })), { nom: t('listing.villes.otherRegions'), count: 170 }]
+  const detaillees = Object.keys(villesParRegion).map((r) => ({ nom: r, count: regionCount(r) }))
+  // « Autres régions » : le reste des IPES, hors régions détaillées.
+  const autres = totalIpes - detaillees.reduce((s, r) => s + r.count, 0)
+  const arbre = [...detaillees, { nom: t('listing.villes.otherRegions'), count: autres }]
   return (
     <div className="space-y-4">
       <ListSearch type={type} />
@@ -67,10 +81,10 @@ export function VillesTab({ type }: { type: TypeSlug }) {
           </ul>
         </SidePanel>
         <div className="space-y-3">
-          <ResultsHeader title={t('listing.villes.title', { court, n: cfg.count })} sort={[t('listing.villes.sort.count', { court }), t('listing.villes.sort.name')]} />
+          <ResultsHeader title={t('listing.villes.title', { court, n: cfg.count })} sort={[t('listing.villes.sort.count', { court }), t('listing.villes.sort.name')]} tri={tri} onTri={setTri} />
           <div className="grid gap-3.5 sm:grid-cols-2 xl:grid-cols-4">
-            {villes.map((v) => (
-              <Link key={v.nom} to={ROUTES.schoolType(type)} className="group overflow-hidden rounded-xl border border-line bg-white shadow-[0_2px_8px_rgba(15,29,61,0.06)] transition-shadow hover:shadow-lg">
+            {villesAffichees.map((v) => (
+              <Link key={v.nom} to={`${ROUTES.schoolType(type)}?${new URLSearchParams({ ville: v.nom })}`} className="group overflow-hidden rounded-xl border border-line bg-white shadow-[0_2px_8px_rgba(15,29,61,0.06)] transition-shadow hover:shadow-lg">
                 <div className="relative">
                   <Img src={v.image} alt={v.nom} className="h-[86px] w-full" />
                   <span className="absolute top-2 left-2 inline-flex items-center gap-1 rounded-full bg-navy-800 px-2.5 py-0.5 text-[12px] font-semibold text-white">

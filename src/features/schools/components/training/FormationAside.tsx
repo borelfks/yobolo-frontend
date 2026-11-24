@@ -21,7 +21,7 @@ export function FormationAside({ f, showRentree }: { f: Formation; showRentree: 
   return (
     <aside className="space-y-3 lg:sticky lg:top-24 lg:self-start">
       <Link to={ecoleUrl(e)} className={cn(card, 'flex items-center gap-3 p-3')}>
-        <Img src={e.id === 'ipc' ? '/images/maquette/ipc-carte.jpg' : e.image} alt={e.nom} className="size-[102px] rounded-xl" />
+        <Img src={e.vignette ?? e.image} alt={e.nom} className="size-[102px] rounded-xl" />
         <div className="space-y-1.5">
           <p className="text-[17px] leading-tight font-bold text-navy-900">{e.nom}</p>
           <p className="flex items-center gap-1.5 text-[14px] text-navy-900">

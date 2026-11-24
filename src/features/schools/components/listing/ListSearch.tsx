@@ -1,24 +1,35 @@
+import { useNavigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { Building2, GraduationCap, Layers, MapPin } from 'lucide-react'
 import { SearchPanel } from '@/features/schools/components/EcoleBlocks'
 import { useTypeLabels } from '@/features/schools/components/listing/useTypeLabels'
-import { diplomesParType, domainesParType, regions, villes } from '@/mocks/schools'
 import type { TypeSlug } from '@/shared/types'
+import { ROUTES } from '@/shared/utils/routes'
+import { useDiplomes, useDomaines, useRegions, useVilles } from '@/data/hooks'
 
 /** Barre de recherche commune aux onglets IPES, Régions et Villes (img25, img28). */
-export function ListSearch({ type, onSearch }: { type: TypeSlug; onSearch?: (q: string) => void }) {
+/** La barre de recherche des onglets Régions et Villes : « Rechercher » ouvre la liste du type, filtrée. */
+export function ListSearch({ type }: { type: TypeSlug }) {
+  const navigate = useNavigate()
+  const domaines = useDomaines(type)
+  const diplomes = useDiplomes(type)
+  const regions = useRegions()
+  const villes = useVilles()
   const { t } = useTranslation('schools')
   const { searchItem } = useTypeLabels(type)
   return (
     <SearchPanel
       placeholder={t('listing.search.placeholder', { item: searchItem })}
       fields={[
-        { placeholder: t('listing.search.region'), options: regions.map((r) => r.nom), icon: <MapPin /> },
-        { placeholder: t('listing.search.city'), options: villes.map((v) => v.nom), icon: <Building2 /> },
-        { placeholder: t('listing.search.field'), options: domainesParType[type].map((d) => d.nom), icon: <GraduationCap /> },
-        { placeholder: t('listing.search.level'), hint: t('listing.search.levelHint'), options: diplomesParType[type].map((d) => d.nom), icon: <Layers /> },
+        { name: 'region', placeholder: t('listing.search.region'), options: regions.map((r) => r.nom), icon: <MapPin /> },
+        { name: 'ville', placeholder: t('listing.search.city'), options: villes.map((v) => v.nom), icon: <Building2 /> },
+        { name: 'filiere', placeholder: t('listing.search.field'), options: domaines.map((d) => d.nom), icon: <GraduationCap /> },
+        { name: 'niveau', placeholder: t('listing.search.level'), hint: t('listing.search.levelHint'), options: diplomes.map((d) => d.nom), icon: <Layers /> },
       ]}
-      onSearch={onSearch}
+      onSearch={(q, c) => {
+        const params = new URLSearchParams(Object.entries({ q, ...c }).filter(([, v]) => v))
+        navigate(`${ROUTES.schoolType(type)}${params.size ? `?${params}` : ''}`)
+      }}
     />
   )
 }

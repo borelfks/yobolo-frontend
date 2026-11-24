@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Moon, Repeat, Sun } from 'lucide-react'
-import { slugOfType } from '@/mocks/schools'
+import { slugOfType } from '@/features/schools/schoolTypes'
 import type { Etablissement, Formation, ModeCours, TypeEcole } from '@/shared/types'
 import { ROUTES } from '@/shared/utils/routes'
 

@@ -7,8 +7,7 @@ import { Img } from '@/shared/components/ui/Img'
 import { useFavorites } from '@/shared/hooks/useFavorites'
 import type { Favorite, ModeCours, PermisCode } from '@/shared/types'
 import { ecoleUrl, formationUrl } from '@/features/schools/schoolLinks'
-import { permisCatalogue } from '@/mocks/drivingSchools'
-import { useAutoEcoles, useEtablissements, useFormations } from '@/data/hooks'
+import { useAutoEcoles, useEtablissements, useFormations, usePermisCatalogue } from '@/data/hooks'
 import { cn } from '@/shared/utils/cn'
 import { fcfa, num } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
@@ -16,13 +15,6 @@ import { ROUTES } from '@/shared/utils/routes'
 type Filter = 'tous' | 'formation' | 'etablissement'
 
 const card = 'rounded-2xl border border-line bg-white shadow-[0_2px_10px_rgba(15,29,61,0.06)]'
-
-/** Vignettes de la maquette (img48) pour les favoris de départ. */
-const favPhotos: Record<string, string> = {
-  'f-cg-ipc': '/images/maquette/fav-compta.jpg',
-  'f-info-ipc': '/images/maquette/fav-info.jpg',
-  ipc: '/images/maquette/fav-ipc.jpg',
-}
 
 export function Favoris() {
   const { t } = useTranslation('favorites')
@@ -114,6 +106,7 @@ function ModePill({ mode }: { mode: ModeCours }) {
 }
 
 function FavRow({ fav, onRemove }: { fav: Favorite; onRemove: () => void }) {
+  const permisCatalogue = usePermisCatalogue()
   const { t } = useTranslation('favorites')
   // Lus une fois dans la base ; comme avant, un identifiant inconnu renvoie le premier élément.
   const formations = useFormations()
@@ -140,7 +133,7 @@ function FavRow({ fav, onRemove }: { fav: Favorite; onRemove: () => void }) {
   if (formation) {
     const f = formation
     const e = etablissementDe(f.etablissementId)
-    ;[image, title, to] = [favPhotos[f.id] ?? f.image, f.nom, formationUrl(f)]
+    ;[image, title, to] = [fav.vignette ?? f.image, f.nom, formationUrl(f)]
     left = (
       <>
         <p className="flex items-center gap-2 text-[15px] text-navy-900"><Landmark className="size-5" />{e.nom}</p>
@@ -153,7 +146,7 @@ function FavRow({ fav, onRemove }: { fav: Favorite; onRemove: () => void }) {
     right = price(f.fraisAn)
   } else if (fav.kind === 'etablissement' && etablissements.some((x) => x.id === fav.id)) {
     const e = etablissementDe(fav.id)
-    ;[image, badge, title, to, cta] = [favPhotos[e.id] ?? e.image, t('row.badges.etablissement'), e.nom, ecoleUrl(e), t('row.voirEtablissement')]
+    ;[image, badge, title, to, cta] = [fav.vignette ?? e.image, t('row.badges.etablissement'), e.nom, ecoleUrl(e), t('row.voirEtablissement')]
     left = <p className="flex items-center gap-2 text-[15px] text-navy-900"><MapPin className="size-5" />{e.ville} – {e.quartier}</p>
     right = (
       <div className="space-y-2">

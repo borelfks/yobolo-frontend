@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router'
 import { LandingLayout } from '@/app/layouts/LandingLayout'
 import { PublicLayout } from '@/app/layouts/PublicLayout'
 import { ProLayout } from '@/app/layouts/ProLayout'
+import { GardeAccueil } from '@/app/routes/GardeAccueil'
 // Chargée d'emblée : elle sert d'écran de secours si une route plante.
 import { ErrorPage } from '@/app/ErrorPage'
 import { ROUTES, ROUTE_PATTERNS } from '@/shared/utils/routes'
@@ -10,6 +11,7 @@ import { ROUTES, ROUTE_PATTERNS } from '@/shared/utils/routes'
 /* --- Pages publiques ------------------------------------------------------ */
 const Home = lazy(() => import('@/features/landing/pages/Home').then((m) => ({ default: m.Home })))
 const HorsPerimetre = lazy(() => import('@/features/landing/pages/HorsPerimetre').then((m) => ({ default: m.HorsPerimetre })))
+const Accueil = lazy(() => import('@/features/accueil/pages/Accueil').then((m) => ({ default: m.Accueil })))
 const NotFound = lazy(() => import('@/app/NotFound').then((m) => ({ default: m.NotFound })))
 
 /* --- Authentification ----------------------------------------------------- */
@@ -59,13 +61,19 @@ export const router = createBrowserRouter([
       { path: ROUTES.signIn, element: <Connexion /> },
       { path: ROUTES.signUp, element: <Inscription /> },
       // La landing, copiée de yibolo-client : son propre cadre (en-tête flottant, pied de page).
+      // Réservée aux visiteurs : un compte connecté est mené à sa page d'arrivée (GardeAccueil).
       {
-        element: <LandingLayout />,
+        element: (
+          <GardeAccueil>
+            <LandingLayout />
+          </GardeAccueil>
+        ),
         children: [{ index: true, element: <Home /> }],
       },
       {
         element: <PublicLayout />,
         children: [
+          { path: P.accueil, element: <Accueil /> },
           { path: ROUTES.schools, element: <EcolesHub /> },
           { path: ROUTES.favorites, element: <Favoris /> },
           { path: P.preRegistration, element: <Preinscription /> },

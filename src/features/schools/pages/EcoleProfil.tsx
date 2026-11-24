@@ -9,7 +9,7 @@ import { FormationsTab } from '@/features/schools/components/profile/FormationsT
 import { InformationsTab } from '@/features/schools/components/profile/InformationsTab'
 import { AvisTab } from '@/features/schools/components/profile/AvisTab'
 import { GalerieTab } from '@/features/schools/components/profile/GalerieTab'
-import { isTypeSlug, slugOfType } from '@/mocks/schools'
+import { isTypeSlug, slugOfType } from '@/features/schools/schoolTypes'
 import { useEtablissement } from '@/data/hooks'
 import { num } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'

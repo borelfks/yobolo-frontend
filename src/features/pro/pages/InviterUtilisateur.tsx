@@ -9,9 +9,9 @@ import { Breadcrumb } from '@/shared/components/ui/Breadcrumb'
 import { Field, Input, PhoneInput, Radio, Select } from '@/shared/components/forms/Fields'
 import { FormFooter, PageTitle, Tip } from '@/shared/components/ui/Blocks'
 import { ROUTES } from '@/shared/utils/routes'
-import { roles } from '@/mocks/pro'
 import { useMonEcole } from '@/features/auth/hooks/useSession'
 import { data } from '@/data'
+import { useRoles } from '@/data/hooks'
 
 /** Rôles des données de démo → clé de traduction. */
 const ROLE_KEYS: Record<string, 'admin' | 'academicLead' | 'communication' | 'secretariat' | 'readOnly' | undefined> = {
@@ -23,6 +23,7 @@ const ROLE_KEYS: Record<string, 'admin' | 'academicLead' | 'communication' | 'se
 }
 
 export function InviterUtilisateur() {
+  const roles = useRoles()
   const { t } = useTranslation('pro', { keyPrefix: 'content' })
   const navigate = useNavigate()
   const [role, setRole] = useState('Responsable pédagogique')

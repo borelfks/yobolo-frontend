@@ -6,12 +6,12 @@
 - Nom de la marque : **YIBOLO**, en capitales dans les textes (« Assistance YIBOLO », « Rechercher sur YIBOLO », « validation par YIBOLO »).
 
 ## Ce dépôt : un front seul
-- **Aucun backend, aucun appel d'API, pas d'Orval, pas de react-query.** Toutes les données viennent de `src/mocks/` (voir [donnees-et-backend.md](donnees-et-backend.md)).
+- **Aucun backend, aucun appel d'API, pas d'Orval, pas de react-query.** Toutes les données sont dans la base SQLite du navigateur, rien n'est écrit dans le code (voir [donnees-et-backend.md](donnees-et-backend.md)).
 - But : montrer au client **sa maquette qui fonctionne**. Chaque écran est **identique à sa capture** (voir [design.md](design.md)).
 
 ## Périmètre (décision du 2026-11-17)
 - **Réalisé : l'univers École.**
-  - **IPES, CFP, Autres** : même gabarit (annuaire en 7 onglets, fiche, formation, préinscription). Le type vient de l'adresse (`/ecoles/ipes|cfp|autres`) et de `typeConfig` (`src/mocks/schools.ts`).
+  - **IPES, CFP, Autres** : même gabarit (annuaire en 7 onglets, fiche, formation, préinscription). Le type vient de l'adresse (`/ecoles/ipes|cfp|autres`) et de `features/schools/schoolTypes.ts` (chiffres dans la table `typesEcole`).
   - **Auto-écoles** : écrans propres (liste, fiche en 6 onglets, permis A à D, inscription en 3 étapes).
   - **Espace professionnel** : **un seul**, partagé par les IPES, CFP et Autres (`/pro/ecole`). Le compte choisit l'établissement (`useMonEcole`).
 - **Pas réalisé : Consultation et Emploi** (et Métiers) : page « bientôt disponible » (`HorsPerimetre`). Ne pas les commencer sans accord.
@@ -24,7 +24,7 @@
 ## Confiance
 - Badge **« Établissement vérifié »** (vert) pour les établissements, **« Agréée »** pour les auto-écoles.
 - Les avis sont publiés **après vérification par YIBOLO** ; l'auteur confirme avoir suivi une formation.
-- Chiffres et notes affichés = **ceux de la maquette**, jamais inventés ni recalculés.
+- Chiffres et notes affichés = **ceux de la maquette** au départ, jamais inventés ni recalculés ; ensuite ils **suivent les actions** des testeurs (maquette + ajouts − retraits, voir [donnees-et-backend.md](donnees-et-backend.md) › Compteurs).
 
 ## Argent
 - Montants en **FCFA**, entiers, écrits avec `fcfa()` : « 450 000 FCFA ».

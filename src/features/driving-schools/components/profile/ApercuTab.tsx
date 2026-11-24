@@ -1,23 +1,23 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
-import { toast } from 'sonner'
 import { ArrowRight, BadgeCheck, CalendarDays, Car, ChevronLeft, ChevronRight, Clock, Globe, Images, Info, Mail, MapPin, Medal, Phone, UserRound } from 'lucide-react'
 import { GreenCheck, Heading, SideActions } from '@/features/driving-schools/components/profile/ProfileParts'
 import { card, soft, whyKeys } from '@/features/driving-schools/components/profile/profileUtils'
 import { permisIcon } from '@/features/driving-schools/autoEcoleRules'
 import { Img } from '@/shared/components/ui/Img'
-import { useAutoEcole } from '@/data/hooks'
+import { useAutoEcole, usePhotosAutoEcole } from '@/data/hooks'
 import type { PermisCode } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { ROUTES } from '@/shared/utils/routes'
+import { lienCarte, ouvrir } from '@/shared/utils/liens'
 
 /** Onglet « Aperçu » de la fiche d'une auto-école. */
 export function ApercuTab({ id }: { id: string }) {
   const { t } = useTranslation('driving-schools')
   const a = useAutoEcole(id)
   const [slide, setSlide] = useState(0)
-  const photos = ['/images/maquette/ae-galerie-1.jpg', '/images/maquette/ae-galerie-2.jpg', '/images/maquette/ae-galerie-3.jpg', '/images/maquette/ae-galerie-4.jpg', '/images/maquette/aeg-6.jpg', '/images/maquette/aeg-7.jpg']
+  const photos = usePhotosAutoEcole(a.id, 'apercu').map((p) => p.image)
   const visible = [0, 1, 2, 3].map((i) => photos[(slide + i) % photos.length])
   return (
     <div className="grid gap-4 lg:grid-cols-[1fr_290px]">
@@ -75,7 +75,7 @@ export function ApercuTab({ id }: { id: string }) {
         </div>
         <div className={cn(card, 'p-4')}>
           <div className="flex items-center justify-between">
-            <Heading icon={<Images />}>{t('profile.overview.gallery', { count: 12 })}</Heading>
+            <Heading icon={<Images />}>{t('profile.overview.gallery', { count: a.nbPhotos ?? photos.length })}</Heading>
             <Link to={ROUTES.drivingSchool(a.id, 'galerie')} className="inline-flex items-center gap-2 text-[15px] font-semibold text-brand-600 underline underline-offset-4">
               {t('profile.overview.seeGallery')} <ArrowRight className="size-5" />
             </Link>
@@ -113,7 +113,7 @@ export function ApercuTab({ id }: { id: string }) {
           </ul>
           <div className="relative mt-3 overflow-hidden rounded-xl">
             <Img src="/images/maquette/ae-carte.jpg" alt={t('profile.overview.mapAlt')} className="h-[190px] w-full" />
-            <button type="button" onClick={() => toast(t('profile.overview.mapToast'))} className="absolute inset-x-0 bottom-0 h-14" aria-label={t('profile.overview.seeOnMap')} />
+            <button type="button" onClick={() => ouvrir(lienCarte(a.adresse, a.quartier, a.ville))} className="absolute inset-x-0 bottom-0 h-14" aria-label={t('profile.overview.seeOnMap')} />
           </div>
         </div>
       </aside>

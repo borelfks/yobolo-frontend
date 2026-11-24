@@ -12,33 +12,11 @@
     "signIn": "Sign in",
     "signUp": "Create an account"
   },
-  "footer": {
-    "tagline": "The platform for training, expertise and employment in Central Africa.",
-    "city": "Yaoundé, Cameroon",
-    "copyright": "© 2026 YIBOLO — Demo · Fictitious data",
-    "columns": {
-      "school": "School",
-      "institutions": "Institutions",
-      "account": "My account"
-    },
-    "links": {
-      "ipes": "IPES",
-      "drivingSchools": "Driving schools",
-      "favorites": "My favourites",
-      "proSpace": "IPES professional space",
-      "listSchool": "List my school",
-      "allSchools": "All schools",
-      "signIn": "Sign in",
-      "signUp": "Create an account"
-    }
-  },
   "pro": {
     "space": "Professional space – {{type}}",
     "verified": "Verified institution",
     "support": {
-      "button": "YIBOLO Support",
-      "title": "YIBOLO Support",
-      "text": "An adviser answers you Monday to Saturday, from 8 am to 6 pm."
+      "button": "YIBOLO Support"
     },
     "nav": {
       "dashboard": "Dashboard",
@@ -65,23 +43,9 @@
     "aria_one": "Notifications ({{count}} unread)",
     "aria_other": "Notifications ({{count}} unread)",
     "seeAll": "See all notifications",
-    "items": {
-      "preRegistration": {
-        "title": "Pre-registration received",
-        "text": "IPC has received your BTS Accounting application.",
-        "when": "2 h ago"
-      },
-      "session": {
-        "title": "Session confirmed",
-        "text": "Licence B – starts on 15 Nov 2026.",
-        "when": "Yesterday"
-      },
-      "message": {
-        "title": "New message",
-        "text": "Me Alain Tchana has replied to you.",
-        "when": "2 days ago"
-      }
-    }
+    "markAllRead": "Mark all as read",
+    "unread": "Unread",
+    "empty": "No notifications."
   },
   "userMenu": {
     "proSpace": "My professional space",
@@ -105,6 +69,8 @@
     }
   },
   "authLayout": {
+    "home": "Home",
+    "backHome": "Back to home",
     "headline": "The platform for training, expertise and employment in Central Africa",
     "points": {
       "schools": "Certified schools and programmes",

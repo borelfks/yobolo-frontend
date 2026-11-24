@@ -34,8 +34,12 @@ import { modeKey } from '@/features/schools/components/training/trainingShared'
 import { data } from '@/data'
 import { useEtablissement, useFormation } from '@/data/hooks'
 import { cn } from '@/shared/utils/cn'
-import { fcfa } from '@/shared/utils/format'
+import { fcfa, shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
+import { lienWhatsApp, ouvrir } from '@/shared/utils/liens'
+import { useSession } from '@/features/auth/hooks/useSession'
+import { lireFichier, TAILLE_MAX_DOCUMENT } from '@/shared/utils/fichiers'
+import { ajusterIndicateurs } from '@/shared/utils/compteurs'
 
 const card = 'rounded-2xl border border-line bg-white shadow-[0_2px_10px_rgba(15,29,61,0.06)]'
 const field = 'h-11 w-full rounded-lg border border-[#c9d4ea] bg-white px-3.5 text-[14px] text-ink outline-none placeholder:text-ink/60 focus:border-brand-500 focus:ring-3 focus:ring-brand-100'
@@ -69,7 +73,17 @@ export function Preinscription() {
   const [step, setStep] = useState(0)
   const [sent, setSent] = useState(false)
   const [files, setFiles] = useState<Record<string, string>>({})
-  const [info, setInfo] = useState({ nom: '', prenom: '', sexe: '', naissance: '', nationalite: 'camerounaise', telephone: '', email: '' })
+  // Fichier joint de chaque pièce (gardé dans la base, table fichiers).
+  const [fichierIds, setFichierIds] = useState<Record<string, string>>({})
+  const joindre = async (piece: string, fichier: File) => {
+    if (fichier.size > TAILLE_MAX_DOCUMENT) return void toast.error(t('preinscription.step3.tooBig'))
+    const f = await data.create('fichiers', { nom: fichier.name, type: fichier.type, taille: fichier.size, dataUrl: await lireFichier(fichier) }, 'fichier')
+    setFiles((x) => ({ ...x, [piece]: fichier.name }))
+    setFichierIds((x) => ({ ...x, [piece]: f.id }))
+  }
+  // Compte connecté : son nom, son téléphone et son e-mail préremplissent le formulaire.
+  const { account } = useSession()
+  const [info, setInfo] = useState({ nom: '', prenom: account && !account.ecoleId ? account.name : '', sexe: '', naissance: '', nationalite: 'camerounaise', telephone: account?.telephone ?? '', email: account?.identifiant ?? '' })
   const [parcours, setParcours] = useState<{ diplome: Diploma; serie: string; annee: string; etablissement: string; autre: boolean }>({ diplome: 'baccalaureat', serie: '', annee: '', etablissement: '', autre: false })
 
   if (sent) {
@@ -96,16 +110,22 @@ export function Preinscription() {
     )
   }
 
-  const nomComplet = `${info.nom.toUpperCase()} ${info.prenom}`.trim() || 'NDJON MBOG Thierry'
+  const nomComplet = `${info.nom.toUpperCase()} ${info.prenom}`.trim()
 
   /** Envoi final : la préinscription est enregistrée dans la base (champs saisis, tels quels). */
   const envoyer = async () => {
     try {
+      await data.create('notifications', { etablissementId: e.id, type: 'candidature', titre: t('preinscription.notification.titre'), texte: t('preinscription.notification.texte', { name: `${info.prenom} ${info.nom}`.trim() || t('preinscription.notification.anonyme'), training: f.nom }), date: shortDate(new Date(), { day: '2-digit', month: 'short', year: 'numeric' }), lu: false }, 'notification')
+      // Les chiffres de l'établissement suivent (candidatures, activité du jour).
+      await ajusterIndicateurs(e.id, { candidatures: 1, activite: 'applications' })
+      // Le candidat connecté le retrouve dans ses notifications.
+      if (account) await data.create('notificationsCompte', { compteId: account.id, type: 'preRegistration', titre: t('preinscription.notificationCandidat.titre'), texte: t('preinscription.notificationCandidat.texte', { school: e.sigle || e.nom, training: f.nom }), quand: t('preinscription.notificationCandidat.quand'), lu: false }, 'notif')
       await data.create(
         'preinscriptions',
         {
           formationId: f.id,
           etablissementId: e.id,
+          compteId: account?.id,
           envoyeeLe: new Date().toISOString(),
           statut: 'Envoyée',
           donnees: {
@@ -116,6 +136,7 @@ export function Preinscription() {
             etablissementOrigine: parcours.etablissement,
             autreDiplome: parcours.autre ? 'oui' : 'non',
             ...Object.fromEntries(Object.entries(files).map(([piece, nom]) => [`piece_${piece}`, nom])),
+            ...Object.fromEntries(Object.entries(fichierIds).map(([piece, id]) => [`fichier_${piece}`, id])),
           },
         },
         'preinscription',
@@ -146,7 +167,7 @@ export function Preinscription() {
       <div className="grid gap-5 lg:grid-cols-[328px_1fr]">
         <aside className="space-y-4">
           <div className={cn(card, 'overflow-hidden p-1.5')}>
-            <Img src={e.id === 'ipc' ? '/images/maquette/preinscription-ipc.jpg' : e.image} alt={e.nom} className="h-[112px] w-full rounded-xl" />
+            <Img src={e.photoPreinscription ?? e.image} alt={e.nom} className="h-[112px] w-full rounded-xl" />
             <div className="space-y-1 px-3 pt-3 pb-3">
               <p className="text-[20px] font-bold text-navy-900">{f.nom}</p>
               <p className="flex items-center gap-2 text-[14.5px] text-navy-900"><Landmark className="size-5" />{e.nom}</p>
@@ -171,7 +192,7 @@ export function Preinscription() {
               <p className="text-[16px] font-bold text-navy-900">{t('preinscription.aside.question')}</p>
               <p className="flex items-center gap-1.5 text-[16px] font-bold text-navy-900"><Phone className="size-4" />{e.telephone}</p>
             </div>
-            <button type="button" aria-label={t('preinscription.aside.whatsappAria')} onClick={() => toast(t('preinscription.aside.whatsappToast'))} className="grid size-12 place-items-center rounded-xl bg-[#dcf7e5]">
+            <button type="button" aria-label={t('preinscription.aside.whatsappAria')} onClick={() => ouvrir(lienWhatsApp(e.telephone, t('preinscription.aside.whatsappMessage', { formation: f.nom })))} className="grid size-12 place-items-center rounded-xl bg-[#dcf7e5]">
               <svg viewBox="0 0 24 24" className="size-8" aria-hidden>
                 <circle cx="12" cy="12" r="11" fill="#25D366" />
                 <path fill="#fff" d="M16.7 13.9c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.2.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.7a2.7 2.7 0 0 0 1.8-1.3c.2-.6.2-1 .1-1.1l-.3-.3Z" />
@@ -271,7 +292,7 @@ export function Preinscription() {
                         <Upload className="size-5 text-brand-600" />
                         <span className="flex-1 truncate">{files[p] ?? t('preinscription.step3.chooseFile')}</span>
                         {files[p] ? <CircleCheck className="size-5 fill-emerald-500 text-white" /> : <Info className="size-5 text-navy-800" />}
-                        <input type="file" className="sr-only" onChange={(ev) => ev.target.files?.[0] && setFiles({ ...files, [p]: ev.target.files[0].name })} />
+                        <input type="file" accept=".pdf,.jpg,.jpeg,.png" className="sr-only" onChange={(ev) => { const f = ev.target.files?.[0]; ev.target.value = ''; if (f) void joindre(p, f) }} />
                       </label>
                     </div>
                   ))}

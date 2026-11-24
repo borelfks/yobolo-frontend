@@ -1,17 +1,23 @@
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { toast } from 'sonner'
-import { BadgeCheck, Building2, CalendarDays, ChevronRight, CircleGauge, Handshake, MessageCircle, MoreHorizontal, PencilLine, Star, Users } from 'lucide-react'
+import { BadgeCheck, Building2, CalendarDays, ChevronRight, CircleGauge, Flag, Handshake, MessageCircle, PencilLine, Share2, Star, Users } from 'lucide-react'
 import { Heading } from '@/features/driving-schools/components/profile/ProfileParts'
 import { card, criteriaKeys, reviewDate } from '@/features/driving-schools/components/profile/profileUtils'
 import { Avatar } from '@/shared/components/ui/Avatar'
 import { Img } from '@/shared/components/ui/Img'
 import { Stars } from '@/shared/components/ui/StarRating'
-import { useAutoEcole, useAvisAutoEcole } from '@/data/hooks'
-import { criteresAvis, repartitionAutoEcole } from '@/mocks/drivingSchools'
+import { useAutoEcole, useAvisAutoEcole, useCriteresAvis, useRepartitionNotes } from '@/data/hooks'
 import { cn } from '@/shared/utils/cn'
 import { num } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
+import { MenuActions } from '@/shared/components/ui/MenuActions'
+import { Modal } from '@/shared/components/ui/Modal'
+import { data } from '@/data'
+import { partager } from '@/shared/utils/liens'
+import { useSession } from '@/features/auth/hooks/useSession'
+import { ajoutes, critereAJour, repartitionAJour } from '@/shared/utils/compteurs'
 
 const critereIcons = [CircleGauge, Users, CalendarDays, Building2, Handshake]
 
@@ -19,7 +25,15 @@ const critereIcons = [CircleGauge, Users, CalendarDays, Building2, Handshake]
 export function AvisTab({ id }: { id: string }) {
   const { t } = useTranslation('driving-schools')
   const a = useAutoEcole(id)
-  const avis = useAvisAutoEcole(a.id)
+  // Répartition et critères de la maquette, plus les avis ajoutés sur cette auto-école.
+  const nouveaux = ajoutes(useAvisAutoEcole(a.id).filter((x) => x.autoEcoleId === a.id))
+  const repartitionAutoEcole = repartitionAJour(useRepartitionNotes('auto-ecole'), a.avis, nouveaux.map((x) => x.note))
+  const criteresAvis = useCriteresAvis().map((c, i) => ({ ...c, note: critereAJour(c.note, a.avis, nouveaux.flatMap((x) => (x.criteres?.[i] ? [x.criteres[i]] : []))) }))
+  const [tri, setTri] = useState<'recents' | 'mieuxNotes'>('recents')
+  const [signale, setSignale] = useState<string | null>(null)
+  const [motif, setMotif] = useState<'inappropriate' | 'false' | 'spam' | 'other'>('inappropriate')
+  const { account } = useSession()
+  const avis = [...useAvisAutoEcole(a.id)].sort((x, y) => (tri === 'mieuxNotes' ? y.note - x.note : 0))
   const colors = ['bg-emerald-600', 'bg-emerald-400', 'bg-amber-300', 'bg-orange-400', 'bg-rose-500']
   const starColors = ['fill-emerald-600 text-emerald-600', 'fill-amber-400 text-amber-400', 'fill-amber-400 text-amber-400', 'fill-amber-400 text-amber-400', 'fill-amber-400 text-amber-400']
   return (
@@ -68,9 +82,9 @@ export function AvisTab({ id }: { id: string }) {
         <div className="flex flex-wrap items-center justify-between gap-2">
           <Heading icon={<MessageCircle />} className="text-[25px] [&_svg]:size-9">{t('profile.reviews.title', { count: a.avis })}</Heading>
           <label className="relative">
-            <select aria-label={t('profile.reviews.sort')} className="h-10 appearance-none rounded-xl border border-[#c9d4ea] bg-white pr-9 pl-3 text-[14px] text-navy-900">
-              <option>{t('profile.reviews.mostRecent')}</option>
-              <option>{t('profile.reviews.bestRated')}</option>
+            <select aria-label={t('profile.reviews.sort')} value={tri} onChange={(e) => setTri(e.target.value as 'recents' | 'mieuxNotes')} className="h-10 appearance-none rounded-xl border border-[#c9d4ea] bg-white pr-9 pl-3 text-[14px] text-navy-900">
+              <option value="recents">{t('profile.reviews.mostRecent')}</option>
+              <option value="mieuxNotes">{t('profile.reviews.bestRated')}</option>
             </select>
             <ChevronRight className="pointer-events-none absolute top-1/2 right-3 size-4 -translate-y-1/2 rotate-90" />
           </label>
@@ -94,13 +108,57 @@ export function AvisTab({ id }: { id: string }) {
                 {r.note}/5
               </p>
               <p className="mt-1 text-[14px] text-navy-900">{r.texte}</p>
+              {r.reponse && (
+                <div className="mt-2 rounded-xl border-l-4 border-brand-600 bg-[#f3f6fc] px-3 py-2 text-[13.5px] text-navy-900">
+                  <p className="font-semibold text-brand-700">{t('profile.reviews.replyFrom')} · <span className="font-normal text-muted">{r.reponse.le}</span></p>
+                  <p>{r.reponse.texte}</p>
+                </div>
+              )}
             </div>
-            <button type="button" aria-label={t('profile.reviews.more')} onClick={() => toast(t('profile.reviews.moreToast'))} className="self-start p-1 text-navy-800">
-              <MoreHorizontal className="size-5" />
-            </button>
+            <MenuActions
+              label={t('profile.reviews.more')}
+              className="self-start bg-transparent"
+              actions={[
+                { label: t('profile.reviews.share'), icon: <Share2 />, onClick: async () => { const r2 = await partager(a.nom, window.location.href); toast.success(t(r2 === 'copie' ? 'profile.reviews.linkCopied' : 'profile.reviews.shared')) } },
+                { label: t('profile.reviews.report'), icon: <Flag />, onClick: () => setSignale(r.id) },
+              ]}
+            />
           </div>
         ))}
       </div>
+      <Modal
+        open={signale !== null}
+        onClose={() => setSignale(null)}
+        title={t('profile.reviews.reportTitle')}
+        icon={<Flag className="mt-0.5 size-5 text-rose-600" />}
+        footer={
+          <>
+            <button type="button" onClick={() => setSignale(null)} className="h-10 rounded-full border border-line px-5 font-semibold text-navy-800">{t('profile.reviews.cancel')}</button>
+            <button
+              type="button"
+              onClick={async () => {
+                if (!signale) return
+                await data.create('signalementsAvis', { avisId: signale, cible: 'auto-ecole', compteId: account?.id, motif, le: new Date().toISOString() }, 'signalement')
+                setSignale(null)
+                toast.success(t('profile.reviews.reported'))
+              }}
+              className="h-10 rounded-full bg-rose-600 px-5 font-semibold text-white hover:bg-rose-700"
+            >
+              {t('profile.reviews.send')}
+            </button>
+          </>
+        }
+      >
+        <p className="text-sm text-muted">{t('profile.reviews.reportIntro')}</p>
+        <div className="mt-3 space-y-2">
+          {(['inappropriate', 'false', 'spam', 'other'] as const).map((m) => (
+            <label key={m} className="flex cursor-pointer items-center gap-2.5 text-[14.5px] text-navy-900">
+              <input type="radio" name="motif" checked={motif === m} onChange={() => setMotif(m)} className="size-4 accent-brand-600" />
+              {t(`profile.reviews.motifs.${m}`)}
+            </label>
+          ))}
+        </div>
+      </Modal>
     </div>
   )
 }

@@ -1,16 +1,13 @@
 import { useState } from 'react'
-import { NavLink, useParams } from 'react-router'
+import { NavLink, useParams, Link } from 'react-router'
 import { Trans, useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import {
-  SlidersHorizontal,
-  Phone,
-  Mail,
-  Check,
   Bell,
   BookOpen,
   CalendarClock,
   Camera,
+  Check,
   CheckCircle2,
   ChevronRight,
   Download,
@@ -21,17 +18,24 @@ import {
   Laptop,
   Lightbulb,
   Lock,
+  LogOut,
+  Mail,
   Moon,
-  MoreHorizontal,
+  Phone,
   Plus,
   Search,
+  Send,
   Settings,
   ShieldCheck,
+  SlidersHorizontal,
   Smartphone,
   Star,
   Sun,
+  Trash2,
+  UserCheck,
   UserCog,
   UserRound,
+  UserX,
   Users,
   XCircle,
 } from 'lucide-react'
@@ -47,11 +51,14 @@ import { FormFooter, IconBtn, IconTile, Kpi, KpiGrid, Tip } from '@/shared/compo
 import { cn } from '@/shared/utils/cn'
 import { shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
-import { activiteSecurite, notificationsPro, roles, sessionsActives } from '@/mocks/pro'
-import { useMonEcole } from '@/features/auth/hooks/useSession'
+import { useActiviteSecurite, useNotifications, useParametres, useRoles, useSessionsActives, useUtilisateurs } from '@/data/hooks'
+import { useMonEcole, useSession } from '@/features/auth/hooks/useSession'
 import { POUR_TOUS, data } from '@/data'
-import { useParametres, useUtilisateurs } from '@/data/hooks'
-import { oui, prefixer, sousCles, texte, type Valeurs } from '@/features/pro/proData'
+import { MenuActions } from '@/shared/components/ui/MenuActions'
+import { AssistanceModal } from '@/shared/components/ui/AssistanceModal'
+import { protegerMotDePasse, verifierMotDePasse } from '@/shared/utils/motDePasse'
+import { lireImage, TAILLE_MAX_PHOTO } from '@/shared/utils/fichiers'
+import { oui, prefixer, sousCles, texte, type Valeurs, dateDuJour } from '@/features/pro/proData'
 
 /**
  * Réglages d'une rubrique (`compte`, `preferences`, `notifications`) : valeurs
@@ -162,6 +169,9 @@ function Toggle({ on, onChange }: { on: boolean; onChange: (v: boolean) => void 
 }
 
 function Compte() {
+  const { account } = useSession()
+  const { ecole } = useMonEcole()
+  const roles = useRoles()
   const { t } = useTranslation('pro', { keyPrefix: 'content' })
   const roleName = useRoleName()
   const r = useReglages('compte')
@@ -182,18 +192,33 @@ function Compte() {
         <div>
           {title(<UserRound />, t('settings.account.title'), t('settings.account.subtitle'))}
           <div className="mt-3 grid gap-x-5 gap-y-3 md:grid-cols-2">
-            <label><span className="mb-1 block text-[14.5px] font-bold text-navy-900">{t('settings.account.name')} <span className="text-rose-500">*</span></span><input className={cn(input, 'pl-3.5')} value={r.texte('nom', 'IPC Yaoundé – Administrateur')} onChange={(e) => r.changer('nom', e.target.value)} /></label>
-            <label><span className="mb-1 block text-[14.5px] font-bold text-navy-900">{t('settings.account.phone')} <span className="text-rose-500">*</span></span><span className="relative block"><Phone className="pointer-events-none absolute top-1/2 left-3.5 size-5 -translate-y-1/2 text-navy-800" /><input className={input} value={r.texte('telephone', '+237 6 90 12 34 56')} onChange={(e) => r.changer('telephone', e.target.value)} /></span></label>
-            <label><span className="mb-1 block text-[14.5px] font-bold text-navy-900">{t('settings.account.email')} <span className="text-rose-500">*</span></span><span className="relative block"><Mail className="pointer-events-none absolute top-1/2 left-3.5 size-5 -translate-y-1/2 text-navy-800" /><input className={input} value={r.texte('email', 'contact@ipc.cm')} onChange={(e) => r.changer('email', e.target.value)} /></span></label>
-            <label><span className="mb-1 block text-[14.5px] font-bold text-navy-900">{t('settings.account.role')}</span><span className="relative block"><Users className="pointer-events-none absolute top-1/2 left-3.5 size-5 -translate-y-1/2 text-navy-800" /><select className={cn(input, 'appearance-none')} value={r.texte('role', 'Administrateur')} onChange={(e) => r.changer('role', e.target.value)}>{roles.map((r) => <option key={r.nom} value={r.nom}>{roleName(r.nom)}</option>)}</select></span></label>
+            <label><span className="mb-1 block text-[14.5px] font-bold text-navy-900">{t('settings.account.name')} <span className="text-rose-500">*</span></span><input className={cn(input, 'pl-3.5')} value={r.texte('nom', account?.name ?? ecole.nom)} onChange={(e) => r.changer('nom', e.target.value)} /></label>
+            <label><span className="mb-1 block text-[14.5px] font-bold text-navy-900">{t('settings.account.phone')} <span className="text-rose-500">*</span></span><span className="relative block"><Phone className="pointer-events-none absolute top-1/2 left-3.5 size-5 -translate-y-1/2 text-navy-800" /><input className={input} value={r.texte('telephone', account?.telephone ?? ecole.telephone)} onChange={(e) => r.changer('telephone', e.target.value)} /></span></label>
+            <label><span className="mb-1 block text-[14.5px] font-bold text-navy-900">{t('settings.account.email')} <span className="text-rose-500">*</span></span><span className="relative block"><Mail className="pointer-events-none absolute top-1/2 left-3.5 size-5 -translate-y-1/2 text-navy-800" /><input className={input} value={r.texte('email', account?.identifiant ?? ecole.email)} onChange={(e) => r.changer('email', e.target.value)} /></span></label>
+            <label><span className="mb-1 block text-[14.5px] font-bold text-navy-900">{t('settings.account.role')}</span><span className="relative block"><Users className="pointer-events-none absolute top-1/2 left-3.5 size-5 -translate-y-1/2 text-navy-800" /><select className={cn(input, 'appearance-none')} value={r.texte('role', account?.subtitle ?? '')} onChange={(e) => r.changer('role', e.target.value)}>{roles.map((r) => <option key={r.nom} value={r.nom}>{roleName(r.nom)}</option>)}</select></span></label>
           </div>
         </div>
         <div className="flex flex-col items-center justify-center gap-3 rounded-2xl bg-[#eef3fc] p-4">
           <span className="relative">
-            <Avatar src="/images/maquette/avatar-ipc.jpg" name="IPC Yaoundé" size={92} />
+            <Avatar src={account?.avatar} name={account?.name ?? ecole.nom} size={92} />
             <span className="absolute right-0 bottom-0 grid size-8 place-items-center rounded-full border-2 border-white bg-brand-600 text-white"><Camera className="size-4" /></span>
           </span>
-          <button type="button" onClick={() => toast(t('settings.account.changePhotoToast'))} className="h-9 rounded-full border-2 border-brand-600/60 bg-white px-4 text-[14px] font-semibold text-navy-800">{t('settings.account.changePhoto')}</button>
+          <label className="inline-flex h-9 cursor-pointer items-center rounded-full border-2 border-brand-600/60 bg-white px-4 text-[14px] font-semibold text-navy-800">
+            {t('settings.account.changePhoto')}
+            <input
+              type="file"
+              accept="image/*"
+              className="sr-only"
+              onChange={async (e) => {
+                const fichier = e.target.files?.[0]
+                e.target.value = ''
+                if (!fichier || !account) return
+                if (fichier.size > TAILLE_MAX_PHOTO) return void toast.error(t('settings.account.photoTooBig'))
+                await data.update('comptes', account.id, { avatar: await lireImage(fichier) })
+                toast.success(t('settings.account.photoUpdated'))
+              }}
+            />
+          </label>
         </div>
       </div>
       <div className="grid gap-4 xl:grid-cols-2">
@@ -232,7 +257,19 @@ function Compte() {
           </div>
           <div className="mt-auto flex justify-end gap-3">
             <button type="button" onClick={() => { r.annuler(); toast(t('settings.cancelled')) }} className="h-11 w-36 rounded-full border-2 border-brand-600/60 bg-white text-[16px] font-semibold text-navy-800">{t('settings.cancel')}</button>
-            <button type="button" onClick={async () => { await r.enregistrer(); toast.success(t('settings.saved')) }} className="inline-flex h-11 items-center gap-2.5 rounded-full bg-brand-600 px-6 text-[16px] font-semibold text-white"><Check className="size-5" strokeWidth={3} />{t('settings.save')}</button>
+            <button
+              type="button"
+              onClick={async () => {
+                // Le nom, le téléphone et l'e-mail sont ceux du compte (table comptes) ; le reste, des réglages.
+                if (account) await data.update('comptes', account.id, { name: r.texte('nom', account.name).trim() || account.name, telephone: r.texte('telephone', account.telephone), identifiant: r.texte('email', account.identifiant).trim() || account.identifiant })
+                await r.enregistrer()
+                toast.success(t('settings.saved'))
+              }}
+              className="inline-flex h-11 items-center gap-2.5 rounded-full bg-brand-600 px-6 text-[16px] font-semibold text-white"
+            >
+              <Check className="size-5" strokeWidth={3} />
+              {t('settings.save')}
+            </button>
           </div>
         </div>
       </div>
@@ -240,9 +277,18 @@ function Compte() {
   )
 }
 
+/** « +237 6 77 12 34 56 » → « +237 6 77 •• •• 56 ». */
+const masquer = (tel: string) => tel.replace(/(\d{2}) (\d{2})( \d{2})$/, '•• ••$3')
+
 function Securite() {
+  const sessionsActives = useSessionsActives()
+  const activiteSecurite = useActiviteSecurite()
   const { t } = useTranslation('pro', { keyPrefix: 'content' })
+  const { account } = useSession()
+  const r = useReglages('securite')
+  const [actuel, setActuel] = useState('')
   const [pwd, setPwd] = useState('')
+  const [confirmation, setConfirmation] = useState('')
   const rules = [
     { label: t('settings.security.rules.length'), ok: pwd.length >= 8 },
     { label: t('settings.security.rules.uppercase'), ok: /[A-Z]/.test(pwd) },
@@ -255,8 +301,8 @@ function Securite() {
       <div className="grid gap-5 xl:grid-cols-2">
         <Section title={t('settings.security.changePassword')} icon={<Lock />}>
           <div className="space-y-4">
-            <Field label={t('settings.security.currentPassword')} required><Input type="password" defaultValue="demo2026" /></Field>
-            <Field label={t('settings.security.newPassword')} required><Input type="password" value={pwd} onChange={(e) => setPwd(e.target.value)} /></Field>
+            <Field label={t('settings.security.currentPassword')} required><Input type="password" autoComplete="current-password" value={actuel} onChange={(e) => setActuel(e.target.value)} /></Field>
+            <Field label={t('settings.security.newPassword')} required><Input type="password" autoComplete="new-password" value={pwd} onChange={(e) => setPwd(e.target.value)} /></Field>
             <div className="flex gap-1">
               {[0, 1, 2, 3].map((i) => <span key={i} className={cn('h-1.5 flex-1 rounded-full', i < score ? (score < 3 ? 'bg-orange-400' : 'bg-emerald-500') : 'bg-slate-200')} />)}
             </div>
@@ -267,41 +313,74 @@ function Securite() {
                 </li>
               ))}
             </ul>
-            <Field label={t('settings.security.confirmPassword')} required><Input type="password" /></Field>
-            <Button onClick={() => (score < 4 ? toast.error(t('settings.security.invalidPassword')) : toast.success(t('settings.security.passwordUpdated')))}>{t('settings.security.update')}</Button>
+            <Field label={t('settings.security.confirmPassword')} required><Input type="password" autoComplete="new-password" value={confirmation} onChange={(e) => setConfirmation(e.target.value)} /></Field>
+            <Button
+              onClick={async () => {
+                if (!account) return
+                if (!(await verifierMotDePasse(account.motDePasse, actuel))) return void toast.error(t('settings.security.wrongCurrent'))
+                if (score < 4) return void toast.error(t('settings.security.invalidPassword'))
+                if (pwd !== confirmation) return void toast.error(t('settings.security.mismatch'))
+                await data.update('comptes', account.id, { motDePasse: await protegerMotDePasse(pwd) })
+                await data.create('activiteSecurite', { evenement: 'Mot de passe modifié', lieu: '—', date: dateDuJour(), ok: true }, 'activite')
+                setActuel('')
+                setPwd('')
+                setConfirmation('')
+                toast.success(t('settings.security.passwordUpdated'))
+              }}
+            >
+              {t('settings.security.update')}
+            </Button>
           </div>
         </Section>
         <div className="space-y-5">
           <Section title={t('settings.security.twoFactorTitle')} icon={<Smartphone />}>
-            <Switch label={t('settings.security.phoneCode')} description="+237 6 77 •• •• 56" defaultChecked />
-            <Badge tone="green" className="mt-3">{t('settings.security.enabled')}</Badge>
+            <Switch
+              label={t('settings.security.phoneCode')}
+              description={masquer(account?.telephone ?? '')}
+              checked={r.oui('deuxFacteurs', true)}
+              onChange={async (actif) => {
+                await r.enregistrer({ deuxFacteurs: actif })
+                toast.success(t(actif ? 'settings.security.twoFactorOn' : 'settings.security.twoFactorOff'))
+              }}
+            />
+            <Badge tone={r.oui('deuxFacteurs', true) ? 'green' : 'gray'} className="mt-3">{t(r.oui('deuxFacteurs', true) ? 'settings.security.enabled' : 'settings.security.disabled')}</Badge>
           </Section>
           <Section title={t('settings.security.sessionsTitle')} icon={<Laptop />}>
             <div className="space-y-2.5">
-              {sessionsActives.map((s, i) => (
-                <div key={s.appareil} className="flex items-center gap-3 rounded-xl border border-line p-3 text-sm">
+              {sessionsActives.map((s) => {
+                // Sessions de départ (session-active-1 et 2) : traduites ; une autre s'affiche telle quelle.
+                const n = /^session-active-([12])$/.exec(s.id)?.[1]
+                const i = n ? (Number(n) - 1) as 0 | 1 : null
+                return (
+                <div key={s.id} className="flex items-center gap-3 rounded-xl border border-line p-3 text-sm">
                   <IconTile icon={s.actuelle ? <Laptop /> : <Smartphone />} tone="blue" size="sm" />
                   <div className="flex-1">
-                    <p className="font-semibold">{t(`settings.security.sessions.${i as 0 | 1}.device`, { defaultValue: s.appareil })} – {s.lieu}</p>
-                    <p className="text-xs text-muted">{t(`settings.security.sessions.${i as 0 | 1}.date`, { defaultValue: s.date })}</p>
+                    <p className="font-semibold">{i !== null ? t(`settings.security.sessions.${i}.device`) : s.appareil} – {s.lieu}</p>
+                    <p className="text-xs text-muted">{i !== null ? t(`settings.security.sessions.${i}.date`) : s.date}</p>
                   </div>
-                  {s.actuelle ? <Badge tone="green">{t('settings.security.currentSession')}</Badge> : <IconBtn label={t('settings.security.signOut')} onClick={() => toast.success(t('settings.security.sessionClosed'))}><MoreHorizontal /></IconBtn>}
+                  {s.actuelle ? <Badge tone="green">{t('settings.security.currentSession')}</Badge> : <IconBtn label={t('settings.security.signOut')} onClick={async () => { await data.remove('sessionsActives', s.id); toast.success(t('settings.security.sessionClosed')) }}><LogOut /></IconBtn>}
                 </div>
-              ))}
+                )
+              })}
             </div>
           </Section>
         </div>
       </div>
       <Section title={t('settings.security.activityTitle')} icon={<ShieldCheck />}>
         <div className="divide-y divide-line">
-          {activiteSecurite.map((a, i) => (
-            <div key={a.date} className="flex items-center gap-3 py-3 text-sm">
-              {a.ok ? <CheckCircle2 className="size-5 text-emerald-500" /> : <XCircle className="size-5 text-rose-500" />}
-              <span className="flex-1 font-semibold">{t(`settings.security.activity.${i as 0 | 1 | 2}.event`, { defaultValue: a.evenement })}</span>
-              <span className="text-muted">{a.lieu}</span>
-              <span className="w-40 text-right text-muted">{t(`settings.security.activity.${i as 0 | 1 | 2}.date`, { defaultValue: a.date })}</span>
-            </div>
-          ))}
+          {activiteSecurite.map((a) => {
+            // Les lignes de départ (activite-1 à 3) ont leur traduction ; une ligne ajoutée s'affiche telle quelle.
+            const n = /^activite-([1-3])$/.exec(a.id)?.[1]
+            const cle = n ? (String(Number(n) - 1) as '0' | '1' | '2') : null
+            return (
+              <div key={a.id} className="flex items-center gap-3 py-3 text-sm">
+                {a.ok ? <CheckCircle2 className="size-5 text-emerald-500" /> : <XCircle className="size-5 text-rose-500" />}
+                <span className="flex-1 font-semibold">{cle ? t(`settings.security.activity.${cle}.event`) : a.evenement}</span>
+                <span className="text-muted">{a.lieu}</span>
+                <span className="w-40 text-right text-muted">{cle ? t(`settings.security.activity.${cle}.date`) : a.date}</span>
+              </div>
+            )
+          })}
         </div>
       </Section>
     </div>
@@ -322,12 +401,14 @@ type NotifType = (typeof NOTIF_TYPES)[number]
 const isNotifType = (type: string): type is NotifType => (NOTIF_TYPES as readonly string[]).includes(type)
 
 function Notifications() {
+  const notificationsPro = useNotifications()
   const { t } = useTranslation('pro', { keyPrefix: 'content' })
   const [tab, setTab] = useState('toutes')
   // Notifications de la maquette (référence) ; « lue » et les interrupteurs sont enregistrés tout de suite.
   const r = useReglages('notifications')
-  const items = notificationsPro.map((n) => ({ ...n, lu: r.oui(`lue.${n.type}`, n.lu) }))
-  const marquer = (ns: typeof items) => r.enregistrer(Object.fromEntries(ns.map((n) => [`lue.${n.type}`, true])))
+  const { ecole } = useMonEcole()
+  const items = notificationsPro.filter((n) => !n.etablissementId || n.etablissementId === ecole.id)
+  const marquer = (ns: typeof items) => Promise.all(ns.map((n) => data.update('notifications', n.id, { lu: true })))
   const alerte = (cle: string, defaut: boolean) => ({ checked: r.oui(`alertes.${cle}`, defaut), onChange: (v: boolean) => void r.enregistrer({ [`alertes.${cle}`]: v }) })
   const list = items.filter((n) => tab === 'toutes' || (tab === 'non-lues' ? !n.lu : n.lu))
   return (
@@ -350,9 +431,10 @@ function Notifications() {
         <div className="mt-3 divide-y divide-line">
           {list.map((n) => {
             const s = notifIcon[n.type]
-            const type = isNotifType(n.type) ? n.type : null
+            // Les notifications de départ (notification-1 à 5) ont leur traduction ; une nouvelle s'affiche telle quelle.
+            const type = /^notification-[1-5]$/.test(n.id) && isNotifType(n.type) ? n.type : null
             return (
-              <button key={n.titre} type="button" onClick={() => void marquer([n])} className="flex w-full items-start gap-3 py-3 text-left">
+              <button key={n.id} type="button" onClick={() => void marquer([n])} className="flex w-full items-start gap-3 py-3 text-left">
                 <IconTile icon={s.icon} tone={s.tone} size="sm" />
                 <div className="flex-1 text-sm">
                   <p className="font-bold text-navy-900">{type ? t(`settings.notifications.items.${type}.title`) : n.titre}</p>
@@ -432,6 +514,7 @@ function Preferences() {
 }
 
 function Utilisateurs() {
+  const roles = useRoles()
   const { t } = useTranslation('pro', { keyPrefix: 'content' })
   const roleName = useRoleName()
   const [q, setQ] = useState('')
@@ -439,7 +522,18 @@ function Utilisateurs() {
   const utilisateurs = useUtilisateurs(ecole.id)
   // Dernière connexion traduite pour les 5 personnes de la maquette (« utilisateur-1 » à « utilisateur-5 »).
   const indexMaquette = (u: (typeof utilisateurs)[number]) => (u.etablissementId === POUR_TOUS ? Number(/^utilisateur-([1-5])$/.exec(u.id)?.[1] ?? 0) - 1 : -1)
-  const list = utilisateurs.filter((u) => u.nom.toLowerCase().includes(q.toLowerCase()))
+  const [filtreRole, setFiltreRole] = useState('')
+  const [filtreStatut, setFiltreStatut] = useState('')
+  const list = utilisateurs.filter(
+    (u) =>
+      u.nom.toLowerCase().includes(q.toLowerCase()) &&
+      (!filtreRole || u.role === filtreRole) &&
+      (!filtreStatut || (filtreStatut === 'Actif' ? u.statut === 'Actif' : u.statut !== 'Actif')),
+  )
+  const modifier = async (u: (typeof utilisateurs)[number], patch: Partial<(typeof utilisateurs)[number]>, message: string) => {
+    await data.update('utilisateurs', u.id, patch)
+    toast.success(message)
+  }
   const roleTone: Record<string, 'blue' | 'violet' | 'orange' | 'green' | 'gray'> = { Administrateur: 'blue', 'Responsable pédagogique': 'violet', Communication: 'orange', Secrétariat: 'green', Consultation: 'gray' }
   return (
     <div className="space-y-5">
@@ -454,8 +548,8 @@ function Utilisateurs() {
       <Card className="overflow-x-auto p-5">
         <div className="mb-4 grid gap-3 md:grid-cols-[1.5fr_1fr_1fr]">
           <Input icon={<Search />} placeholder={t('settings.users.searchPlaceholder')} value={q} onChange={(e) => setQ(e.target.value)} />
-          <Select aria-label={t('settings.users.roleAria')} options={[t('settings.users.allRoles'), ...roles.map((r) => roleName(r.nom))]} />
-          <Select aria-label={t('settings.users.statusAria')} options={[t('settings.users.allStatuses'), t('settings.users.statuses.active'), t('settings.users.statuses.inactive')]} />
+          <Select aria-label={t('settings.users.roleAria')} value={filtreRole} onChange={(e) => setFiltreRole(e.target.value)} options={[{ value: '', label: t('settings.users.allRoles') }, ...roles.map((r) => ({ value: r.nom, label: roleName(r.nom) }))]} />
+          <Select aria-label={t('settings.users.statusAria')} value={filtreStatut} onChange={(e) => setFiltreStatut(e.target.value)} options={[{ value: '', label: t('settings.users.allStatuses') }, { value: 'Actif', label: t('settings.users.statuses.active') }, { value: 'Inactif', label: t('settings.users.statuses.inactive') }]} />
         </div>
         <table className="w-full min-w-[820px] text-sm">
           <thead>
@@ -482,7 +576,22 @@ function Utilisateurs() {
                 <td className="text-xs"><p>{u.telephone}</p><p className="text-muted">{u.email}</p></td>
                 <td><StatusBadge status={u.statut} /></td>
                 <td className="text-muted">{indexMaquette(u) >= 0 ? t(`settings.users.lastLogins.${indexMaquette(u) as 0 | 1 | 2 | 3 | 4}`, { defaultValue: u.connexion }) : u.connexion}</td>
-                <td className="text-right"><IconBtn label={t('settings.users.actions')} onClick={() => toast(t('settings.users.actionsToast'))}><MoreHorizontal /></IconBtn></td>
+                <td className="text-right">
+                  <MenuActions
+                    label={t('settings.users.actions')}
+                    className="ml-auto"
+                    actions={[
+                      ...roles
+                        .filter((r) => r.nom !== u.role)
+                        .map((r) => ({ label: t('settings.users.menu.setRole', { role: roleName(r.nom) }), icon: <UserCog />, onClick: () => modifier(u, { role: r.nom }, t('settings.users.menu.roleChanged', { name: u.nom, role: roleName(r.nom) })) })),
+                      u.statut === 'Actif'
+                        ? { label: t('settings.users.menu.deactivate'), icon: <UserX />, hidden: u.vous, onClick: () => modifier(u, { statut: 'Inactif' }, t('settings.users.menu.deactivated', { name: u.nom })) }
+                        : { label: t('settings.users.menu.activate'), icon: <UserCheck />, onClick: () => modifier(u, { statut: 'Actif' }, t('settings.users.menu.activated', { name: u.nom })) },
+                      { label: t('settings.users.menu.resend'), icon: <Send />, hidden: u.statut !== 'En attente', onClick: () => modifier(u, { connexion: t('settings.users.menu.invitedOn', { date: dateDuJour() }) }, t('settings.users.menu.resent', { email: u.email })) },
+                      { label: t('settings.users.menu.remove'), icon: <Trash2 />, danger: true, hidden: u.vous, onClick: async () => { await data.remove('utilisateurs', u.id); toast.success(t('settings.users.menu.removed', { name: u.nom })) } },
+                    ]}
+                  />
+                </td>
               </tr>
             ))}
           </tbody>
@@ -497,6 +606,8 @@ const USEFUL_DOCUMENTS = ['terms', 'sales', 'privacy'] as const
 
 function APropos() {
   const { t } = useTranslation('pro', { keyPrefix: 'content' })
+  const { account } = useSession()
+  const [assistance, setAssistance] = useState(false)
   return (
     <div className="space-y-5">
       <Card className="bg-navy-gradient p-6 text-white">
@@ -512,14 +623,14 @@ function APropos() {
         </Section>
         <Section title={t('settings.about.supportTitle')} icon={<Headphones />}>
           <div className="space-y-2">
-            <Button variant="outline" className="w-full justify-start" onClick={() => toast(t('settings.about.contactSupportToast'))}><Headphones /> {t('settings.about.contactSupport')}</Button>
-            <Button variant="outline" className="w-full justify-start" onClick={() => toast(t('settings.about.helpCenterToast'))}><Info /> {t('settings.about.helpCenter')}</Button>
+            <Button variant="outline" className="w-full justify-start" onClick={() => setAssistance(true)}><Headphones /> {t('settings.about.contactSupport')}</Button>
+            <Button variant="outline" className="w-full justify-start" to={ROUTES.help}><Info /> {t('settings.about.helpCenter')}</Button>
           </div>
         </Section>
         <Section title={t('settings.about.documentsTitle')} icon={<FileText />}>
           <ul className="space-y-2 text-sm">
             {USEFUL_DOCUMENTS.map((d) => (
-              <li key={d}><button type="button" onClick={() => toast(t('settings.about.demoToast', { name: t(`settings.about.documents.${d}`) }))} className="flex w-full items-center justify-between rounded-lg p-2 hover:bg-brand-50">{t(`settings.about.documents.${d}`)}<ChevronRight className="size-4" /></button></li>
+              <li key={d}><Link to={ROUTES.terms} className="flex w-full items-center justify-between rounded-lg p-2 hover:bg-brand-50">{t(`settings.about.documents.${d}`)}<ChevronRight className="size-4" /></Link></li>
             ))}
           </ul>
         </Section>
@@ -528,6 +639,7 @@ function APropos() {
         <span><Trans t={t} i18nKey="settings.about.version" values={{ version: '2.4.0' }} components={{ b: <b /> }} /> <Badge tone="green">{t('settings.about.upToDate')}</Badge></span>
         <span className="text-muted">{t('settings.about.lastUpdate', { date: shortDate(new Date(2026, 10, 5), { day: '2-digit', month: 'short', year: 'numeric' }) })}</span>
       </Card>
+      {account && <AssistanceModal open={assistance} onClose={() => setAssistance(false)} compteId={account.id} />}
     </div>
   )
 }

@@ -13,6 +13,16 @@ const withTab = (base: string, tab?: string) => (tab ? `${base}/${tab}` : base)
 export const ROUTES = {
   // -- Pages publiques ------------------------------------------------------
   home: '/',
+  /** L'accueil d'un compte connecté (fil, raccourcis, offres) : un compte connecté qui ouvre « / » y est mené. */
+  accueil: '/accueil',
+  /** L'accueil connecté, ouvert sur « Mes enregistrés ». */
+  accueilEnregistres: '/accueil?vue=enregistres',
+  /** L'accueil connecté, ouvert sur une publication (lien à partager). */
+  accueilPublication: (id: string) => `/accueil?publication=${encodeURIComponent(id)}`,
+  /** L'accueil connecté, filtré sur un type (« offre », « conseil »…). */
+  accueilGenre: (genre: string) => `/accueil?genre=${encodeURIComponent(genre)}`,
+  /** L'accueil connecté, ouvert sur la fiche d'une offre d'emploi. */
+  accueilOffre: (id: string) => `/accueil?offre=${encodeURIComponent(id)}`,
   consultation: '/consultation',
   emploi: '/emploi',
   /** Formations en ligne et bibliothèque (cartes de la landing) : pas encore réalisées. */
@@ -66,6 +76,7 @@ export const ROUTES = {
 
 /** Motifs utilisés par la table des routes (src/app/routes/index.tsx). */
 export const ROUTE_PATTERNS = {
+  accueil: 'accueil',
   schoolType: 'ecoles/:type/:tab?',
   school: 'ecoles/:type/etablissement/:id/:tab?',
   schoolReview: 'ecoles/:type/etablissement/:id/avis/nouveau',

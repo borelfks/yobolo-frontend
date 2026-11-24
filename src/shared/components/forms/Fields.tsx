@@ -356,9 +356,25 @@ export function Dropzone({
 }
 
 /** Saisie de mots-clés en pastilles. */
-export function ChipsInput({ defaultValue = [], placeholder }: { defaultValue?: string[]; placeholder?: string }) {
+export function ChipsInput({
+  defaultValue = [],
+  placeholder,
+  value,
+  onChange,
+}: {
+  defaultValue?: string[]
+  placeholder?: string
+  /** Facultatif : liste tenue par le formulaire (avec `onChange`), sinon le champ garde la sienne. */
+  value?: string[]
+  onChange?: (chips: string[]) => void
+}) {
   const { t } = useTranslation()
-  const [chips, setChips] = useState(defaultValue)
+  const [interne, setInterne] = useState(defaultValue)
+  const chips = value ?? interne
+  const setChips = (suite: string[]) => {
+    setInterne(suite)
+    onChange?.(suite)
+  }
   const [draft, setDraft] = useState('')
   const add = () => {
     const v = draft.trim()

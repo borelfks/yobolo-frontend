@@ -181,8 +181,7 @@
       "next": "Suivant",
       "contactTitle": "Contact & accès",
       "mapAlt": "Plan d’accès",
-      "seeOnMap": "Voir sur la carte",
-      "mapToast": "Ouverture de la carte (démo)"
+      "seeOnMap": "Voir sur la carte"
     },
     "trainings": {
       "filterTitle": "Filtrer les formations",
@@ -248,7 +247,6 @@
         "classes": "Cours",
         "exams": "Examens"
       },
-      "photoToast": "Photo de {{name}} (démo)",
       "sideTitle": "Notre galerie",
       "photos": "{{count}} photos",
       "videos": "{{count}} vidéos",
@@ -257,7 +255,7 @@
       "classes": "Nos cours en salle",
       "exams": "Nos examens pratiques",
       "seeVideos": "Voir les vidéos",
-      "videosToast": "Lecture des vidéos (démo)"
+      "photoAlt": "Photo {{n}} – {{name}}"
     },
     "reviews": {
       "overall": "Note globale",
@@ -277,7 +275,22 @@
       "mostRecent": "Les plus récents",
       "bestRated": "Les mieux notés",
       "more": "Plus d'actions",
-      "moreToast": "Signaler · Partager (démo)"
+      "replyFrom": "Réponse de l’auto-école",
+      "share": "Partager",
+      "report": "Signaler",
+      "reportTitle": "Signaler cet avis",
+      "reportIntro": "Pourquoi cet avis pose-t-il problème ? YIBOLO le vérifiera.",
+      "motifs": {
+        "inappropriate": "Propos déplacés ou insultants",
+        "false": "Avis faux ou trompeur",
+        "spam": "Publicité ou spam",
+        "other": "Autre raison"
+      },
+      "cancel": "Annuler",
+      "send": "Envoyer le signalement",
+      "reported": "Merci : l’avis a été signalé à YIBOLO.",
+      "linkCopied": "Lien copié",
+      "shared": "Partagé"
     }
   },
   "licence": {
@@ -543,9 +556,10 @@
       "sent": "Demande envoyée à l’auto-école",
       "trainingUpdated": "Formation mise à jour",
       "changesSaved": "Modifications enregistrées",
-      "preview": "Aperçu du document (démo)",
       "fileReplaced": "Fichier remplacé",
-      "licenceBAdded": "Permis B ajouté"
+      "licenceBAdded": "Permis B ajouté",
+      "fileTooBig": "Fichier trop lourd : 3 Mo au maximum.",
+      "noFile": "Aucun fichier joint pour cette pièce : ajoutez-le avec « Remplacer »."
     },
     "inscription": {
       "steps": {
@@ -675,7 +689,8 @@
         "priorHint": "Copie du Permis B",
         "notProvided": "Non fourni",
         "addOther": "Ajouter un autre document (facultatif)",
-        "addOtherHint": "PDF, JPG ou PNG — 5 Mo max"
+        "addOtherHint": "PDF, JPG ou PNG — 5 Mo max",
+        "provided": "Fourni"
       },
       "aside": {
         "currentTraining": "Formation actuelle",
@@ -698,6 +713,11 @@
         "pieces2": "Formats acceptés : PDF, JPG, PNG.",
         "pieces3": "Taille maximale : 5 Mo par fichier."
       }
+    },
+    "notificationCandidat": {
+      "titre": "Inscription envoyée",
+      "texte": "Votre inscription au permis {{licence}} a été envoyée à {{school}}.",
+      "quand": "À l’instant"
     }
   }
 }

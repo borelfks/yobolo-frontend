@@ -181,8 +181,7 @@
       "next": "Next",
       "contactTitle": "Contact & access",
       "mapAlt": "Access map",
-      "seeOnMap": "View on the map",
-      "mapToast": "Opening the map (demo)"
+      "seeOnMap": "View on the map"
     },
     "trainings": {
       "filterTitle": "Filter programmes",
@@ -248,7 +247,6 @@
         "classes": "Classes",
         "exams": "Exams"
       },
-      "photoToast": "Photo of {{name}} (demo)",
       "sideTitle": "Our gallery",
       "photos": "{{count}} photos",
       "videos": "{{count}} videos",
@@ -257,7 +255,7 @@
       "classes": "Our classroom lessons",
       "exams": "Our practical exams",
       "seeVideos": "Watch the videos",
-      "videosToast": "Playing the videos (demo)"
+      "photoAlt": "Photo {{n}} – {{name}}"
     },
     "reviews": {
       "overall": "Overall rating",
@@ -277,7 +275,22 @@
       "mostRecent": "Most recent",
       "bestRated": "Highest rated",
       "more": "More actions",
-      "moreToast": "Report · Share (demo)"
+      "replyFrom": "Reply from the driving school",
+      "share": "Share",
+      "report": "Report",
+      "reportTitle": "Report this review",
+      "reportIntro": "What is wrong with this review? YIBOLO will check it.",
+      "motifs": {
+        "inappropriate": "Offensive or insulting",
+        "false": "False or misleading",
+        "spam": "Advertising or spam",
+        "other": "Other reason"
+      },
+      "cancel": "Cancel",
+      "send": "Send report",
+      "reported": "Thank you: the review has been reported to YIBOLO.",
+      "linkCopied": "Link copied",
+      "shared": "Shared"
     }
   },
   "licence": {
@@ -543,9 +556,10 @@
       "sent": "Request sent to the driving school",
       "trainingUpdated": "Programme updated",
       "changesSaved": "Changes saved",
-      "preview": "Document preview (demo)",
       "fileReplaced": "File replaced",
-      "licenceBAdded": "Licence B added"
+      "licenceBAdded": "Licence B added",
+      "fileTooBig": "File too large: 3 MB maximum.",
+      "noFile": "No file attached to this document: add it with “Replace”."
     },
     "inscription": {
       "steps": {
@@ -675,7 +689,8 @@
         "priorHint": "Copy of Licence B",
         "notProvided": "Not provided",
         "addOther": "Add another document (optional)",
-        "addOtherHint": "PDF, JPG or PNG — 5 MB max"
+        "addOtherHint": "PDF, JPG or PNG — 5 MB max",
+        "provided": "Provided"
       },
       "aside": {
         "currentTraining": "Current programme",
@@ -698,6 +713,11 @@
         "pieces2": "Accepted formats: PDF, JPG, PNG.",
         "pieces3": "Maximum size: 5 MB per file."
       }
+    },
+    "notificationCandidat": {
+      "titre": "Enrolment sent",
+      "texte": "Your licence {{licence}} enrolment was sent to {{school}}.",
+      "quand": "Just now"
     }
   }
 }

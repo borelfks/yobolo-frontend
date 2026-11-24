@@ -10,7 +10,10 @@ import {
   CircleCheck,
   CircleHelp,
   CloudUpload,
+  Copy,
+  Download,
   Eye,
+  EyeOff,
   FileText,
   Folder,
   Italic,
@@ -19,10 +22,11 @@ import {
   List,
   ListOrdered,
   Megaphone,
-  MoreHorizontal,
   Pencil,
   Plus,
   Search,
+  Send,
+  Trash2,
   Underline,
 } from 'lucide-react'
 import { ProCard, ProFooter, ProHeader, ProLabel } from '@/features/pro/components/ProBlocks'
@@ -35,10 +39,12 @@ import { Select } from '@/shared/components/forms/Fields'
 import { LinkTabs } from '@/shared/components/ui/Tabs'
 import { useMonEcole } from '@/features/auth/hooks/useSession'
 import { data } from '@/data'
-import { useActualites, useDocuments, useFaq, useParametres } from '@/data/hooks'
-import type { QuestionFaq } from '@/shared/types'
+import { useActualites, useDocuments, useFaq, useFichiers, useParametres } from '@/data/hooks'
+import { lireFichier, telecharger, TAILLE_MAX_DOCUMENT } from '@/shared/utils/fichiers'
+import type { DocumentPro, QuestionFaq } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { ROUTES } from '@/shared/utils/routes'
+import { MenuActions } from '@/shared/components/ui/MenuActions'
 
 const catTone: Record<string, string> = {
   Brochure: 'bg-[#e3ecff] text-brand-700',
@@ -110,7 +116,16 @@ function ActuList() {
             </p>
           </div>
           <Link to={ROUTES.pro.publication(a.id)} aria-label={t('contents.actions.edit')} className="grid size-9 shrink-0 place-items-center rounded-lg border border-line bg-white text-navy-800 hover:bg-brand-50"><Pencil className="size-4" /></Link>
-          <button type="button" aria-label={t('contents.actions.more')} onClick={() => toast(t('contents.newsList.moreToast'))} className="grid size-9 shrink-0 place-items-center rounded-lg bg-[#eef3fc] text-navy-800"><MoreHorizontal className="size-5" /></button>
+          <MenuActions
+            label={t('contents.actions.more')}
+            actions={[
+              { label: t('contents.newsList.duplicate'), icon: <Copy />, onClick: async () => { await data.create('actualites', { ...a, id: undefined, etablissementId: ecole.id, titre: `${a.titre}${t('contents.newsList.copySuffix')}`, statut: 'Brouillon', vues: 0, partages: 0 }, 'actualite'); toast.success(t('contents.newsList.duplicated')) } },
+              a.statut === 'Publiée'
+                ? { label: t('contents.newsList.unpublish'), icon: <EyeOff />, onClick: async () => { await data.update('actualites', a.id, { statut: 'Brouillon' }); toast.success(t('contents.newsList.unpublished')) } }
+                : { label: t('contents.newsList.publish'), icon: <Send />, onClick: async () => { await data.update('actualites', a.id, { statut: 'Publiée' }); toast.success(t('contents.newsList.published')) } },
+              { label: t('contents.newsList.delete'), icon: <Trash2 />, danger: true, onClick: async () => { await data.remove('actualites', a.id); toast.success(t('contents.newsList.deleted')) } },
+            ]}
+          />
         </div>
       ))}
     </div>
@@ -224,10 +239,16 @@ function Documents() {
   const { t } = useTranslation('pro', { keyPrefix: 'content' })
   const { ecole } = useMonEcole()
   const documentsPro = useDocuments(ecole.id)
-  // Le fichier n'est pas envoyé : on enregistre son nom, son type et sa taille, en brouillon.
+  const [apercu, setApercu] = useState<DocumentPro | null>(null)
+  const [renomme, setRenomme] = useState<DocumentPro | null>(null)
+  const [nouveauNom, setNouveauNom] = useState('')
+  // Le fichier est gardé dans la base (table fichiers) ; le document est ajouté en brouillon.
+  const fichiers = useFichiers()
   const ajouter = async (fichier: File) => {
+    if (fichier.size > TAILLE_MAX_DOCUMENT) return void toast.error(t('contents.documents.tooBig'))
     const { nom, type } = decoupeFichier(fichier.name)
-    await data.create('documents', { etablissementId: ecole.id, nom, type, categorie: CATEGORIE_DOCUMENT, taille: tailleFichier(fichier.size), date: dateDuJour(), statut: 'Brouillon' }, 'document')
+    const f = await data.create('fichiers', { nom: fichier.name, type: fichier.type, taille: fichier.size, dataUrl: await lireFichier(fichier) }, 'fichier')
+    await data.create('documents', { etablissementId: ecole.id, nom, type, categorie: CATEGORIE_DOCUMENT, taille: tailleFichier(fichier.size), date: dateDuJour(), statut: 'Brouillon', fichierId: f.id }, 'document')
     toast.success(t('contents.documents.added', { name: fichier.name }))
   }
   const categoryLabel = (c: string) => {
@@ -276,8 +297,17 @@ function Documents() {
                 <td><StatutPill s={d.statut} /></td>
                 <td className="pr-5">
                   <div className="flex justify-center gap-2">
-                    <button type="button" aria-label={t('contents.actions.view')} onClick={() => toast(t('contents.documents.previewToast'))} className="grid size-9 place-items-center rounded-lg bg-[#eef3fc] text-navy-800"><Eye className="size-4" /></button>
-                    <button type="button" aria-label={t('contents.actions.more')} onClick={() => toast(t('contents.documents.moreToast'))} className="grid size-9 place-items-center rounded-lg bg-[#eef3fc] text-navy-800"><MoreHorizontal className="size-5" /></button>
+                    <button type="button" aria-label={t('contents.actions.view')} onClick={() => setApercu(d)} className="grid size-9 place-items-center rounded-lg bg-[#eef3fc] text-navy-800"><Eye className="size-4" /></button>
+                    <MenuActions
+                      label={t('contents.actions.more')}
+                      actions={[
+                        d.statut === 'Publié'
+                          ? { label: t('contents.documents.menu.unpublish'), icon: <EyeOff />, onClick: async () => { await data.update('documents', d.id, { statut: 'Brouillon' }); toast.success(t('contents.documents.menu.unpublished', { name: d.nom })) } }
+                          : { label: t('contents.documents.menu.publish'), icon: <Send />, onClick: async () => { await data.update('documents', d.id, { statut: 'Publié' }); toast.success(t('contents.documents.menu.published', { name: d.nom })) } },
+                        { label: t('contents.documents.menu.rename'), icon: <Pencil />, onClick: () => (setRenomme(d), setNouveauNom(d.nom)) },
+                        { label: t('contents.documents.menu.delete'), icon: <Trash2 />, danger: true, onClick: async () => { await data.remove('documents', d.id); toast.success(t('contents.documents.menu.deleted', { name: d.nom })) } },
+                      ]}
+                    />
                   </div>
                 </td>
               </tr>
@@ -286,6 +316,57 @@ function Documents() {
         </table>
       </div>
       <p className="text-[15px] text-navy-900">{t('contents.documents.count', { count: documentsPro.length })}</p>
+      <Modal open={apercu !== null} onClose={() => setApercu(null)} title={apercu?.nom ?? ''} icon={<FileText className="mt-0.5 size-5 text-brand-600" />}>
+        {apercu && (
+          <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-[14.5px] text-navy-900">
+            <dt className="font-semibold">{t('contents.documents.table.category')}</dt><dd>{categoryLabel(apercu.categorie)}</dd>
+            <dt className="font-semibold">{t('contents.documents.preview.format')}</dt><dd>{apercu.type}</dd>
+            <dt className="font-semibold">{t('contents.documents.table.size')}</dt><dd>{apercu.taille}</dd>
+            <dt className="font-semibold">{t('contents.documents.table.publishedAt')}</dt><dd>{apercu.date}</dd>
+            <dt className="font-semibold">{t('contents.documents.table.status')}</dt><dd><StatutPill s={apercu.statut} /></dd>
+          </dl>
+        )}
+        {apercu && (() => {
+          const f = fichiers.find((x) => x.id === apercu.fichierId)
+          return f ? (
+            <div className="mt-4 space-y-3">
+              {f.type.startsWith('image/') && <img src={f.dataUrl} alt={apercu.nom} className="max-h-72 w-full rounded-xl object-contain" />}
+              {f.type === 'application/pdf' && <iframe src={f.dataUrl} title={apercu.nom} className="h-72 w-full rounded-xl border border-line" />}
+              <button type="button" onClick={() => telecharger(f.dataUrl, f.nom)} className="inline-flex h-10 items-center gap-2 rounded-full bg-brand-600 px-5 font-semibold text-white"><Download className="size-4" />{t('contents.documents.preview.download')}</button>
+            </div>
+          ) : (
+            <p className="mt-4 rounded-xl bg-[#f3f6fc] px-3 py-2.5 text-[13.5px] text-muted">{t('contents.documents.preview.noFile')}</p>
+          )
+        })()}
+      </Modal>
+      <Modal
+        open={renomme !== null}
+        onClose={() => setRenomme(null)}
+        title={t('contents.documents.menu.rename')}
+        footer={
+          <>
+            <button type="button" onClick={() => setRenomme(null)} className="h-10 rounded-full border-2 border-brand-600/60 px-5 font-semibold text-navy-800">{t('contents.documents.menu.cancel')}</button>
+            <button
+              type="button"
+              disabled={!nouveauNom.trim()}
+              onClick={async () => {
+                if (!renomme) return
+                await data.update('documents', renomme.id, { nom: nouveauNom.trim() })
+                toast.success(t('contents.documents.menu.renamed', { name: nouveauNom.trim() }))
+                setRenomme(null)
+              }}
+              className="h-10 rounded-full bg-brand-600 px-5 font-semibold text-white disabled:opacity-50"
+            >
+              {t('contents.documents.menu.save')}
+            </button>
+          </>
+        }
+      >
+        <label className="block">
+          <span className="mb-1 block text-[14.5px] font-bold text-navy-900">{t('contents.documents.menu.newName')}</span>
+          <input value={nouveauNom} onChange={(e) => setNouveauNom(e.target.value)} className={proInput} />
+        </label>
+      </Modal>
     </div>
   )
 }

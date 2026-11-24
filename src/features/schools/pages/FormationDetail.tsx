@@ -10,13 +10,12 @@ import { ProgrammeTab } from '@/features/schools/components/training/ProgrammeTa
 import { AdmissionTab } from '@/features/schools/components/training/AdmissionTab'
 import { FraisTab } from '@/features/schools/components/training/FraisTab'
 import { DebouchesTab } from '@/features/schools/components/training/DebouchesTab'
-import { isTypeSlug, slugOfType } from '@/mocks/schools'
+import { isTypeSlug, slugOfType } from '@/features/schools/schoolTypes'
 import { useEtablissement, useFormation } from '@/data/hooks'
 import { cn } from '@/shared/utils/cn'
 import { ROUTES } from '@/shared/utils/routes'
 
 /** Photo d'en-tête propre à certaines formations (maquette img39). */
-const headerPhotos: Record<string, string> = { 'f-cg-ipc': '/images/maquette/formation-header-compta.jpg' }
 
 export function FormationDetail() {
   const { t } = useTranslation('schools')
@@ -49,7 +48,7 @@ export function FormationDetail() {
       <section className="relative overflow-hidden rounded-[18px] bg-[linear-gradient(100deg,#0a2a86_0%,#1238a8_60%,#1a47c4_100%)] text-white">
         <Img src="/images/maquette/formation-hero.jpg" alt="" className="absolute inset-y-0 right-0 hidden h-full w-[33%] object-left md:block" />
         <div className="relative flex flex-col gap-6 p-2.5 md:flex-row md:items-center">
-          <Img src={headerPhotos[f.id] ?? f.image} alt={f.nom} className="h-[115px] w-full rounded-xl md:w-[235px]" />
+          <Img src={f.photoEntete ?? f.image} alt={f.nom} className="h-[115px] w-full rounded-xl md:w-[235px]" />
           <div className="space-y-2 pb-2 md:pb-0">
             <span className="inline-block rounded-full bg-brand-500 px-3.5 py-0.5 text-[15px] font-semibold">{t('formationDetail.badge')}</span>
             <h1 className="text-[26px] font-extrabold md:text-[32px]">{f.nom}</h1>

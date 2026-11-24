@@ -4,15 +4,19 @@ import { toast } from 'sonner'
 import { Trans, useTranslation } from 'react-i18next'
 import { Calendar, Check, ChartNoAxesColumnIncreasing, ChevronDown, CircleCheck, Eye, GraduationCap, Lightbulb, Save, X } from 'lucide-react'
 import { ProHeader, ProLabel } from '@/features/pro/components/ProBlocks'
+import { Img } from '@/shared/components/ui/Img'
+import { Modal } from '@/shared/components/ui/Modal'
 import { proCard, proInput } from '@/features/pro/proStyles'
 import { useMonEcole } from '@/features/auth/hooks/useSession'
 import { IMAGE_FORMATION, NIVEAUX, PREFIXE_FORMATION_CREEE, codeFormation, modeCours, montant, oui, prefixer, sousCles, texte } from '@/features/pro/proData'
 import { data, newId } from '@/data'
-import { useFormations, useFormationsPro, useParametres } from '@/data/hooks'
+import { useDiplomes, useFormations, useFormationsPro, useParametres } from '@/data/hooks'
+import { isTypeSlug, slugOfType } from '@/features/schools/schoolTypes'
 import type { Formation, FormationPro, StatutPublication } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
-import { num, shortDate } from '@/shared/utils/format'
+import { num } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
+import { ajusterNombreFormations } from '@/shared/utils/compteurs'
 
 /** Valeurs fixes des listes : enregistrées telles quelles, affichées via une clé de traduction. */
 const LEVELS = ['none', 'probatoire', 'bac', 'btsHnd', 'licence'] as const
@@ -58,26 +62,31 @@ export function CreerFormation() {
   // En édition : la formation enregistrée, sinon la ligne du tableau « Gérer les formations » (img11).
   const formation = id ? toutes.find((f) => f.id === id) : undefined
   const ligne = id ? lignes.find((f) => f.id === id) : undefined
-  const edit = formation ?? (ligne ? { ...ligne, dureeMois: Number.parseInt(ligne.duree, 10) || 24, mode: 'Jour & Soir' as const, fraisAn: 450000 } : null)
-  // Champs que la fiche ne garde pas (ou pas au format du formulaire) : réglages `formation.<id>.*`, sinon la valeur de la maquette.
+  // Une ligne sans fiche ne connaît ni le mode ni les frais : ces champs restent à remplir.
+  const edit = formation ?? (ligne ? { ...ligne, dureeMois: Number.parseInt(ligne.duree, 10) || 0, mode: 'Jour & Soir' as const, fraisAn: 0 } : null)
+  // Champs que la fiche ne garde pas (ou pas au format du formulaire) : réglages `formation.<id>.*`, sinon vides.
   const saisis = id ? sousCles(`formation.${id}`, reglages) : {}
-  const diplomes = ecole.type === 'IPES' ? ['BTS', 'Licence', 'Master', 'Ingénieur', 'Certificat'] : ecole.type === 'CFP' ? ['CQP', 'DQP', 'Certificat', 'Attestation'] : ['Attestation', 'Certification', 'Certificat']
-  const [intitule, setIntitule] = useState(edit?.nom ?? 'BTS Comptabilité & Gestion')
-  const [diplome, setDiplome] = useState(edit?.diplome ?? diplomes[0])
-  const [filiere, setFiliere] = useState(edit?.filiere ?? 'Comptabilité & Gestion')
+  // Les diplômes proposés : ceux du type de l'établissement, dans la base.
+  const slug = slugOfType(ecole.type)
+  const diplomes = useDiplomes(isTypeSlug(slug) ? slug : 'autres').map((d) => d.nom)
+  const [intitule, setIntitule] = useState(edit?.nom ?? '')
+  const [diplome, setDiplome] = useState(edit?.diplome ?? diplomes[0] ?? '')
+  const [filiere, setFiliere] = useState(edit?.filiere ?? '')
   const [niveau, setNiveau] = useState<(typeof LEVELS)[number]>(() => LEVELS.find((l) => l === saisis.niveau) ?? 'bac')
-  const [duree, setDuree] = useState(edit ? String(edit.dureeMois) : '24')
+  const [duree, setDuree] = useState(edit?.dureeMois ? String(edit.dureeMois) : '')
   const [modes, setModes] = useState<string[]>(() => {
     const m = saisis.modes
     if (typeof m === 'string') return m ? m.split(',') : []
     return edit ? (edit.mode === 'Jour & Soir' ? ['Jour', 'Soir'] : [edit.mode]) : ['Jour', 'Soir']
   })
-  const [rentree, setRentree] = useState(() => texte(saisis, 'rentree', shortDate(new Date(2026, 9, 6), { day: '2-digit', month: 'long', year: 'numeric' })))
-  const [inscription, setInscription] = useState(() => texte(saisis, 'inscription', num(50000)))
-  const [scolarite, setScolarite] = useState(() => texte(saisis, 'scolarite', num(edit ? edit.fraisAn : 450000)))
+  // En édition, les champs reprennent la formation enregistrée (sinon, enregistrer sans les retaper les viderait).
+  const [rentree, setRentree] = useState(() => texte(saisis, 'rentree', edit?.rentree ?? ''))
+  const [inscription, setInscription] = useState(() => texte(saisis, 'inscription', formation?.fraisInscription ? num(formation.fraisInscription) : ''))
+  const [scolarite, setScolarite] = useState(() => texte(saisis, 'scolarite', edit?.fraisAn ? num(edit.fraisAn) : ''))
   const [paiement, setPaiement] = useState<(typeof PAYMENTS)[number]>(() => PAYMENTS.find((p) => p === saisis.paiement) ?? 'several')
-  const [description, setDescription] = useState(() => texte(saisis, 'description', 'Formation professionnelle qui forme des techniciens supérieurs capables de gérer la comptabilité, la gestion financière et le contrôle de gestion d’une organisation.'))
+  const [description, setDescription] = useState(() => texte(saisis, 'description', formation?.description ?? ''))
   const [validation, setValidation] = useState(() => oui(saisis, 'validation', false))
+  const [apercu, setApercu] = useState(false)
   /**
    * Enregistre la formation (fiche) et sa ligne du tableau « Gérer les formations ».
    * Envoyée : « En attente » de validation par YIBOLO ; sinon « Brouillon ».
@@ -91,6 +100,8 @@ export function CreerFormation() {
       nom: intitule,
       code,
       filiere,
+      // Domaine de l'annuaire (filtre « Filière ») : celui des formations de la même filière.
+      domaine: formation?.filiere === filiere && formation.domaine ? formation.domaine : toutes.find((x) => x.filiere === filiere && x.domaine)?.domaine,
       diplome,
       niveau: NIVEAUX[niveau],
       dureeMois: Number(duree),
@@ -105,6 +116,8 @@ export function CreerFormation() {
     const champs = { nom: intitule, code, filiere, diplome, duree: `${duree} mois`, rentree, statut }
     if (ligne) await data.update('formationsPro', fid, champs)
     else await data.create('formationsPro', { id: fid, etablissementId: ecole.id, ton: 'blue', ...champs } satisfies FormationPro)
+    // Une nouvelle formation : l'établissement en compte une de plus.
+    if (!formation && !ligne) await ajusterNombreFormations(ecole.id, 1)
     await data.put('parametres', {
       id: ecole.id,
       valeurs: { ...reglages, ...prefixer(`formation.${fid}`, { niveau, modes: modes.join(','), rentree, inscription, scolarite, paiement, description, validation }) },
@@ -208,11 +221,27 @@ export function CreerFormation() {
           <div className={cn(proCard, 'space-y-2.5 p-3')}>
             <button type="button" onClick={async () => { await enregistrer('En attente'); toast.success(t('creer.actions.sentForReview')); navigate(ROUTES.pro.trainings) }} className={cn(side, 'bg-brand-600 text-white hover:bg-brand-700')}><Check className="size-5" strokeWidth={3} />{t('creer.actions.saveContinue')}</button>
             <button type="button" onClick={async () => { await enregistrer('Brouillon'); toast.success(t('creer.actions.draftSaved')); navigate(ROUTES.pro.trainings) }} className={cn(side, 'border-2 border-brand-600/60 text-navy-800 hover:bg-brand-50')}><Save className="size-5" />{t('creer.actions.saveDraft')}</button>
-            <button type="button" onClick={() => toast(t('creer.actions.previewToast'))} className={cn(side, 'border-2 border-brand-600/60 text-navy-800 hover:bg-brand-50')}><Eye className="size-5" />{t('creer.actions.preview')}</button>
+            <button type="button" onClick={() => setApercu(true)} className={cn(side, 'border-2 border-brand-600/60 text-navy-800 hover:bg-brand-50')}><Eye className="size-5" />{t('creer.actions.preview')}</button>
             <button type="button" onClick={() => navigate(ROUTES.pro.trainings)} className={cn(side, 'border-2 border-brand-600/60 text-navy-800 hover:bg-brand-50')}><X className="size-5" />{t('creer.actions.cancel')}</button>
           </div>
         </aside>
       </div>
+      <Modal open={apercu} onClose={() => setApercu(false)} title={t('creer.preview.title')} size="lg" icon={<Eye className="mt-0.5 size-5 text-brand-600" />}>
+        <div className="space-y-3">
+          <Img src={formation?.image ?? IMAGE_FORMATION} alt="" className="h-40 w-full rounded-xl" />
+          <p className="text-xl font-bold text-navy-900">{intitule || t('creer.preview.untitled')}</p>
+          <p className="text-sm text-muted">{ecole.nom} · {ecole.ville} – {ecole.quartier}</p>
+          <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 text-[14.5px] text-navy-900">
+            <dt className="font-semibold">{t('creer.preview.diploma')}</dt><dd>{diplome || '—'}</dd>
+            <dt className="font-semibold">{t('creer.preview.field')}</dt><dd>{filiere || '—'}</dd>
+            <dt className="font-semibold">{t('creer.preview.duration')}</dt><dd>{duree ? t('creer.preview.months', { count: Number(duree) }) : '—'}</dd>
+            <dt className="font-semibold">{t('creer.preview.mode')}</dt><dd>{modes.length ? modes.join(' & ') : '—'}</dd>
+            <dt className="font-semibold">{t('creer.preview.intake')}</dt><dd>{rentree || '—'}</dd>
+            <dt className="font-semibold">{t('creer.preview.fees')}</dt><dd>{scolarite ? `${scolarite} FCFA` : '—'}</dd>
+          </dl>
+          {description && <p className="text-sm leading-relaxed text-ink/85">{description}</p>}
+        </div>
+      </Modal>
     </div>
   )
 }

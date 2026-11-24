@@ -12,33 +12,11 @@
     "signIn": "Se connecter",
     "signUp": "Créer un compte"
   },
-  "footer": {
-    "tagline": "La plateforme de formation, d’expertise et d’emploi en Afrique centrale.",
-    "city": "Yaoundé, Cameroun",
-    "copyright": "© 2026 YIBOLO — Démonstration · Données fictives",
-    "columns": {
-      "school": "École",
-      "institutions": "Établissements",
-      "account": "Mon compte"
-    },
-    "links": {
-      "ipes": "IPES",
-      "drivingSchools": "Auto-écoles",
-      "favorites": "Mes favoris",
-      "proSpace": "Espace professionnel IPES",
-      "listSchool": "Référencer mon école",
-      "allSchools": "Toutes les écoles",
-      "signIn": "Se connecter",
-      "signUp": "Créer un compte"
-    }
-  },
   "pro": {
     "space": "Espace professionnel – {{type}}",
     "verified": "Établissement vérifié",
     "support": {
-      "button": "Assistance YIBOLO",
-      "title": "Assistance YIBOLO",
-      "text": "Un conseiller vous répond du lundi au samedi, de 8 h à 18 h."
+      "button": "Assistance YIBOLO"
     },
     "nav": {
       "dashboard": "Tableau de bord",
@@ -65,23 +43,9 @@
     "aria_one": "Notifications ({{count}} non lues)",
     "aria_other": "Notifications ({{count}} non lues)",
     "seeAll": "Voir toutes les notifications",
-    "items": {
-      "preRegistration": {
-        "title": "Préinscription reçue",
-        "text": "L’IPC a bien reçu votre dossier BTS Comptabilité.",
-        "when": "Il y a 2 h"
-      },
-      "session": {
-        "title": "Session confirmée",
-        "text": "Permis B – début le 15 nov. 2026.",
-        "when": "Hier"
-      },
-      "message": {
-        "title": "Nouveau message",
-        "text": "Me Alain Tchana vous a répondu.",
-        "when": "Il y a 2 jours"
-      }
-    }
+    "markAllRead": "Tout marquer comme lu",
+    "unread": "Non lue",
+    "empty": "Aucune notification."
   },
   "userMenu": {
     "proSpace": "Mon espace professionnel",
@@ -105,6 +69,8 @@
     }
   },
   "authLayout": {
+    "home": "Accueil",
+    "backHome": "Retour à l’accueil",
     "headline": "La plateforme de formation, d’expertise et d’emploi en Afrique centrale",
     "points": {
       "schools": "Écoles et formations certifiées",

@@ -60,16 +60,21 @@ const TYPES: TypeEcole[] = ['IPES', 'CFP', 'Auto-école', 'Autre']
  * (type Etablissement) : publiés, ils changent la fiche. Les autres
  * (année de création, lieu-dit, agrément…) restent dans les réglages.
  */
-export function patchEtablissement(valeurs: Valeurs): Partial<Etablissement> {
+export function patchEtablissement(valeurs: Valeurs, agrementActuel?: Etablissement['agrement']): Partial<Etablissement> {
   const patch: Partial<Etablissement> = {}
   const s = (cle: string) => (typeof valeurs[cle] === 'string' ? (valeurs[cle] as string) : undefined)
-  const champs = ['nom', 'sigle', 'description', 'region', 'ville', 'quartier', 'telephone', 'email'] as const
+  const champs = ['nom', 'sigle', 'description', 'region', 'ville', 'quartier', 'telephone', 'email', 'anneeCreation', 'lieuDit', 'adresse'] as const
   for (const champ of champs) {
     const v = s(champ)
     if (v !== undefined) patch[champ] = v
   }
   const type = TYPES.find((x) => x === s('type'))
   if (type) patch.type = type
+  // Agrément : les six champs de l'onglet, rangés ensemble dans la fiche.
+  const cles = { numero: 'agrement', date: 'agrementDate', autorite: 'agrementAutorite', expiration: 'agrementExpiration', niu: 'niu', rccm: 'rccm' } as const
+  if (Object.values(cles).some((c) => s(c) !== undefined)) {
+    patch.agrement = Object.fromEntries(Object.entries(cles).map(([k, c]) => [k, s(c) ?? agrementActuel?.[k as keyof typeof cles] ?? ''])) as NonNullable<Etablissement['agrement']>
+  }
   return patch
 }
 

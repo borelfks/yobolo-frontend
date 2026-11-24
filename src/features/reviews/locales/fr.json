@@ -66,6 +66,10 @@
       "confirmAutoEcole": "Confirmez avoir suivi une formation dans cette auto-école.",
       "confirmEcole": "Confirmez avoir suivi une formation dans cet établissement.",
       "merci": "Merci ! Votre avis sera publié après vérification par YIBOLO."
+    },
+    "notification": {
+      "titre": "Nouvel avis",
+      "texte": "{{name}} a laissé un avis {{note}}★ sur votre établissement."
     }
   },
   "blocks": {

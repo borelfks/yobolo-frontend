@@ -77,9 +77,16 @@
       "title": "Quick actions",
       "newTraining": "Create a programme",
       "addMedia": "Add photos / videos",
-      "replyReviews": "Reply to reviews <red>(3)</red>",
+      "replyReviews": "Reply to reviews <red>({{count}})</red>",
       "updateInfo": "Update the information",
       "publishNews": "Publish a news item"
+    },
+    "applications": {
+      "title_one": "Pre-registration received ({{count}})",
+      "title_other": "Pre-registrations received ({{count}})",
+      "none": "No pre-registrations received yet.",
+      "anonymous": "Candidate",
+      "received": "Received"
     }
   },
   "profil": {
@@ -113,7 +120,7 @@
       "rating_one": "{{note}}/5 ({{count}} review)",
       "rating_other": "{{note}}/5 ({{count}} reviews)",
       "change": "Change the banner",
-      "changeToast": "Choose a new banner (demo)"
+      "changed": "Banner updated"
     },
     "types": {
       "ipes": "IPES (Private Higher Education Institute)",
@@ -174,26 +181,27 @@
         "statutes": "Institution’s articles",
         "niu": "NIU certificate"
       },
-      "file": "PDF • {{size}} MB",
       "validated": "Approved",
       "view": "View",
-      "viewToast": "Document preview (demo)",
       "delete": "Delete",
-      "deleteToast": "Document deleted (demo)",
       "add": "Add a document",
       "formats": "PDF, JPG or PNG (Max. 10 MB)",
       "choose": "Choose a file",
-      "sent": "{{name}} sent for verification"
+      "sent": "{{name}} sent for verification",
+      "fileSize": "File · {{size}}",
+      "pending": "Under review",
+      "deleted": "Document deleted",
+      "none": "No documents yet.",
+      "noFile": "This starting document has no attached file in the demo.",
+      "tooBig": "File too large: 3 MB maximum."
     },
     "media": {
       "cover": "Cover banner",
       "coverAlt": "Banner",
       "editCover": "Edit the banner",
-      "chooseImage": "Choose an image (demo)",
       "logo": "Institution logo",
       "logoAlt": "Logo",
       "editLogo": "Edit the logo",
-      "chooseLogo": "Choose a logo (demo)",
       "changeLogo": "Change the logo",
       "logoFormat": "Format: PNG or JPG",
       "logoSize": "Recommended size: 500 × 500 px",
@@ -203,15 +211,21 @@
         "photos": "Photos (10)",
         "videos": "Videos (2)"
       },
-      "playVideo": "Playing the video (demo)",
-      "options": "Media options (demo)",
       "video": "Video",
       "photo": "Photo",
       "add": "Add photos or videos",
       "drop": "Drag and drop your files here or click to select",
       "images": "Images: JPG, PNG (Max. 10 MB)",
       "videos": "Videos: MP4 (Max. 100 MB)",
-      "added": "{{name}} added"
+      "added": "{{name}} added",
+      "optionsLabel": "Media options",
+      "view": "Enlarge",
+      "delete": "Delete",
+      "deleted": "Media deleted",
+      "none": "No media yet.",
+      "tooBig": "File too large (photo: 2 MB, video: 3 MB maximum).",
+      "logoChanged": "Logo updated",
+      "coverChanged": "Cover image updated"
     }
   },
   "formations": {
@@ -246,12 +260,25 @@
       "select": "Select {{name}}",
       "code": "Code: {{code}}",
       "edit": "Edit",
-      "more": "More actions",
-      "moreToast": "Duplicate · Archive · View the public page (demo)"
+      "more": "More actions"
     },
     "count": "{{shown}} of {{total}} programmes",
     "prev": "Previous page",
-    "next": "Next page"
+    "next": "Next page",
+    "menu": {
+      "view": "View public page",
+      "duplicate": "Duplicate",
+      "publish": "Send for approval",
+      "unpublish": "Unpublish (draft)",
+      "delete": "Delete",
+      "copySuffix": " (copy)",
+      "duplicated": "“{{name}}” created as a draft",
+      "sentForReview": "“{{name}}” sent to YIBOLO for approval",
+      "unpublished": "“{{name}}” moved back to draft",
+      "deleted": "“{{name}}” deleted",
+      "validate": "Simulate YIBOLO approval",
+      "validated": "“{{name}}” approved by YIBOLO: it is now published"
+    }
   },
   "creer": {
     "crumb": "Programmes",
@@ -315,8 +342,19 @@
       "saveDraft": "Save as draft",
       "draftSaved": "Draft saved",
       "preview": "Preview",
-      "previewToast": "Programme page preview (demo)",
       "cancel": "Cancel"
+    },
+    "preview": {
+      "title": "Programme page preview",
+      "untitled": "Untitled programme",
+      "diploma": "Diploma",
+      "field": "Field of study",
+      "duration": "Duration",
+      "months_one": "{{count}} month",
+      "months_other": "{{count}} months",
+      "mode": "Classes",
+      "intake": "Next intake",
+      "fees": "Tuition fees / year"
     }
   },
   "stats": {
@@ -330,7 +368,6 @@
       "last6m": "Last 6 months"
     },
     "export": "Export (PDF)",
-    "exportToast": "PDF export started",
     "kpis": {
       "views": "Views of your page",
       "applications": "Applications / Pre-registrations",
@@ -357,9 +394,9 @@
     },
     "activity": {
       "title": "Latest activity",
-      "applications": "12 new applications",
-      "downloads": "8 document downloads",
-      "reviews": "3 new reviews (average rating: {{note}}/5)",
+      "applications": "{{count}} new applications",
+      "downloads": "{{count}} document downloads",
+      "reviews": "{{count}} new reviews (average rating: {{note}}/5)",
       "today": "today, {{time}}",
       "yesterday": "yesterday, {{time}}"
     }
@@ -389,7 +426,15 @@
       },
       "tip": "Tip",
       "newsList": {
-        "moreToast": "Duplicate · Unpublish · Delete (demo)"
+        "duplicate": "Duplicate",
+        "publish": "Publish",
+        "unpublish": "Unpublish (draft)",
+        "delete": "Delete",
+        "copySuffix": " (copy)",
+        "duplicated": "News post duplicated as a draft",
+        "published": "News post published",
+        "unpublished": "News post moved back to draft",
+        "deleted": "News post deleted"
       },
       "presentation": {
         "cardTitle": "Institution presentation",
@@ -453,10 +498,27 @@
           "rules": "Regulations",
           "calendar": "Calendar"
         },
-        "previewToast": "Preview (demo)",
-        "moreToast": "Rename · Replace · Delete (demo)",
         "count_one": "{{count}} document",
-        "count_other": "{{count}} documents"
+        "count_other": "{{count}} documents",
+        "preview": {
+          "format": "Format",
+          "download": "Download",
+          "noFile": "This starting document has no attached file in the demo."
+        },
+        "menu": {
+          "publish": "Publish",
+          "unpublish": "Unpublish (draft)",
+          "rename": "Rename",
+          "delete": "Delete",
+          "newName": "New name",
+          "cancel": "Cancel",
+          "save": "Save",
+          "published": "“{{name}}” published",
+          "unpublished": "“{{name}}” moved back to draft",
+          "renamed": "Document renamed: “{{name}}”",
+          "deleted": "“{{name}}” deleted"
+        },
+        "tooBig": "File too large: 3 MB maximum."
       },
       "faq": {
         "categoriesTitle": "Categories",
@@ -495,7 +557,6 @@
       "body": "{{school}} is opening pre-registration for the 2026 – 2027 academic year. Applicants can submit their file online on YIBOLO or directly at the secretariat. Places are limited in some fields of study: don’t delay!",
       "fields": "Fields of study concerned",
       "deadline": "<b>Registration deadline:</b> {{date}}",
-      "signUpToast": "Button visible to visitors on the public page",
       "signUp": "Register now",
       "details": {
         "title": "Details",
@@ -511,7 +572,7 @@
         "linkCopied": "Link copied",
         "openNewTab": "Open in a new tab",
         "delete": "Delete the post",
-        "deleted": "Post deleted (demo)"
+        "deleted": "Post deleted"
       },
       "tipTitle": "Tip",
       "tipText": "Share your news on your social networks to attract more applicants."
@@ -566,7 +627,6 @@
         "email": "Email",
         "role": "Role",
         "changePhoto": "Change photo",
-        "changePhotoToast": "Choose a photo (demo)",
         "securityTitle": "Account security",
         "changePassword": "Change password",
         "changePasswordHint": "Update your password regularly.",
@@ -581,7 +641,9 @@
           "applications": "New applications / pre-registrations",
           "reviews": "Comments and reviews",
           "reminders": "Reminders (intake, expiries, documents)"
-        }
+        },
+        "photoUpdated": "Photo updated",
+        "photoTooBig": "Image too large: 2 MB maximum."
       },
       "security": {
         "changePassword": "Change password",
@@ -628,7 +690,12 @@
             "event": "Password changed",
             "date": "02 Nov 2026"
           }
-        }
+        },
+        "wrongCurrent": "The current password is incorrect.",
+        "mismatch": "The two new passwords do not match.",
+        "twoFactorOn": "Two-factor authentication enabled",
+        "twoFactorOff": "Two-factor authentication disabled",
+        "disabled": "Disabled"
       },
       "notifications": {
         "title": "Notifications",
@@ -722,13 +789,25 @@
         },
         "you": "You",
         "actions": "Actions",
-        "actionsToast": "Change role · Deactivate · Resend invitation (demo)",
         "lastLogins": {
           "0": "Today, 09:12",
           "1": "Yesterday, 17:40",
           "2": "12 Nov 2026",
           "3": "10 Nov 2026",
           "4": "02 Oct 2026"
+        },
+        "menu": {
+          "setRole": "Role: {{role}}",
+          "roleChanged": "{{name}} is now “{{role}}”",
+          "deactivate": "Deactivate",
+          "deactivated": "{{name}} has been deactivated",
+          "activate": "Activate",
+          "activated": "{{name}} has been activated",
+          "resend": "Resend invitation",
+          "resent": "Invitation sent again to {{email}}",
+          "invitedOn": "Invited on {{date}}",
+          "remove": "Remove from space",
+          "removed": "{{name}} no longer has access to the space"
         }
       },
       "about": {
@@ -745,16 +824,13 @@
         },
         "supportTitle": "Support",
         "contactSupport": "Contact support",
-        "contactSupportToast": "Support will get back to you within 24 h (demo)",
         "helpCenter": "Help centre (FAQ)",
-        "helpCenterToast": "Help centre (demo)",
         "documentsTitle": "Useful documents",
         "documents": {
           "terms": "General terms of use",
           "sales": "General terms of sale",
           "privacy": "Privacy policy"
         },
-        "demoToast": "{{name}} (demo)",
         "version": "Version <b>{{version}}</b>",
         "upToDate": "Up to date",
         "lastUpdate": "Last updated: {{date}}"

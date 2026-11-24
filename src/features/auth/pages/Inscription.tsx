@@ -11,9 +11,13 @@ import { Badge } from '@/shared/components/ui/Badge'
 import { Img } from '@/shared/components/ui/Img'
 import { Select } from '@/shared/components/forms/Fields'
 import { useSession } from '@/features/auth/hooks/useSession'
-import { quartiers, regions, villes } from '@/mocks/schools'
 import { cn } from '@/shared/utils/cn'
 import { ROUTES } from '@/shared/utils/routes'
+import { useComptes, useQuartiers, useRegions, useVilles } from '@/data/hooks'
+import { data } from '@/data'
+import type { Compte } from '@/shared/types'
+import { normaliserIdentifiant, protegerMotDePasse } from '@/shared/utils/motDePasse'
+import { compterDansLAnnuaire } from '@/shared/utils/compteurs'
 
 type Profil = 'ecole' | 'consultant' | 'entreprise' | 'personne'
 
@@ -74,6 +78,9 @@ function Field({ label, required, error, children }: { label: string; required?:
 }
 
 export function Inscription() {
+  const regions = useRegions()
+  const villes = useVilles()
+  const quartiers = useQuartiers().map((q) => q.nom)
   const { t } = useTranslation('auth')
   const [step, setStep] = useState(0)
   const [profil, setProfil] = useState<Profil>('ecole')
@@ -81,6 +88,10 @@ export function Inscription() {
   const [pieces, setPieces] = useState<Record<string, string>>({})
   const { signIn } = useSession()
   const navigate = useNavigate()
+  const comptes = useComptes()
+  // Le compte créé à l'étape « Vérification » (enregistré dans la base).
+  const [compte, setCompte] = useState<Compte | null>(null)
+  const [envoi, setEnvoi] = useState(false)
   // Construit dans le composant (comme yibolo-client) : les messages suivent la langue.
   const infos = useMemo(
     () =>
@@ -100,11 +111,76 @@ export function Inscription() {
   )
   const form = useForm<Infos>({
     resolver: zodResolver(infos),
-    defaultValues: { nom: 'Institut Professionnel du Centre (IPC)', telephone: '+237 6 70 12 34 56', email: 'contact@ipc-yaounde.cm', region: 'Centre', ville: 'Yaoundé', quartier: 'Bastos', motDePasse: 'Yibolo2026', confirmation: 'Yibolo2026' },
+    defaultValues: { nom: '', telephone: '', email: '', region: '', ville: '', quartier: '', motDePasse: '', confirmation: '' },
   })
   const { register, formState } = form
   const err = formState.errors
   const titre = t(`inscription.profiles.${profil}.title`)
+
+  /**
+   * « Soumettre pour vérification » : enregistre le compte dans la base, en
+   * attente de validation par YIBOLO. Un compte École reçoit aussi son
+   * établissement (il le complétera depuis son espace professionnel).
+   */
+  const soumettre = async () => {
+    const v = form.getValues()
+    if (comptes.some((c) => normaliserIdentifiant(c.identifiant) === normaliserIdentifiant(v.email))) {
+      toast.error(t('inscription.errors.emailTaken'))
+      setStep(1)
+      return
+    }
+    setEnvoi(true)
+    try {
+      const ecole = profil === 'ecole'
+      const etablissement = ecole
+        ? await data.create(
+            'etablissements',
+            {
+              nom: v.nom,
+              sigle: '',
+              type: 'IPES',
+              region: v.region,
+              ville: v.ville,
+              quartier: v.quartier,
+              note: 0,
+              avis: 0,
+              image: '/images/maquette/ecoles-hero.jpg',
+              filieres: [],
+              formations: 0,
+              description: '',
+              telephone: v.telephone,
+              email: v.email,
+              rentree: '',
+              enVerification: true,
+            },
+            'etablissement',
+          )
+        : undefined
+      const cree = await data.create(
+        'comptes',
+        {
+          identifiant: v.email.trim(),
+          telephone: v.telephone,
+          role: ecole ? 'ipes' : 'utilisateur',
+          name: v.nom,
+          subtitle: ecole ? 'Administrateur' : 'Utilisateur',
+          avatar: '',
+          home: ecole ? ROUTES.pro.root : ROUTES.accueil,
+          ecoleId: etablissement?.id,
+          statut: 'En vérification',
+          motDePasse: await protegerMotDePasse(v.motDePasse),
+        },
+        'compte',
+      )
+      setCompte(cree)
+      toast.success(t('inscription.verification.sent'))
+      setDone('attente')
+    } catch {
+      toast.error(t('inscription.errors.saveFailed'))
+    } finally {
+      setEnvoi(false)
+    }
+  }
 
   if (done === 'attente') {
     return (
@@ -123,7 +199,21 @@ export function Inscription() {
           </div>
           <div className="mt-6 flex flex-col items-center gap-3">
             <Link to={ROUTES.signIn} className="inline-flex h-11 w-72 items-center justify-center rounded-full border-2 border-brand-600/60 text-[16px] font-semibold text-navy-800 hover:bg-brand-50">{t('inscription.pending.back')}</Link>
-            <button type="button" onClick={() => setDone('valide')} className="text-[13px] font-semibold text-brand-600 hover:underline">{t('inscription.pending.simulate')}</button>
+            <button
+              type="button"
+              onClick={async () => {
+                // Démo : YIBOLO valide le compte (dans la base).
+                if (compte) setCompte((await data.update('comptes', compte.id, { statut: 'Validé' })) ?? compte)
+                // L'établissement devient visible et entre dans les chiffres de l'annuaire.
+                const ecole = compte?.ecoleId ? (await data.list('etablissements')).find((x) => x.id === compte.ecoleId) : undefined
+                if (ecole?.enVerification) {
+                  await data.update('etablissements', ecole.id, { enVerification: false })
+                  await compterDansLAnnuaire(ecole, 1)
+                }
+                setDone('valide')
+              }}
+              className="text-[13px] font-semibold text-brand-600 hover:underline"
+            >{t('inscription.pending.simulate')}</button>
           </div>
         </div>
       </AuthCard>
@@ -144,8 +234,9 @@ export function Inscription() {
           <button
             type="button"
             onClick={() => {
-              const a = signIn(profil === 'ecole' ? 'ipes' : 'utilisateur')
-              navigate(a.home)
+              if (!compte) return navigate(ROUTES.signIn)
+              signIn(compte)
+              navigate(compte.home)
             }}
             className="mt-6 inline-flex h-12 items-center justify-center gap-3 rounded-full bg-brand-600 px-14 text-[17px] font-semibold text-white hover:bg-brand-700"
           >
@@ -280,10 +371,8 @@ export function Inscription() {
             </button>
             <button
               type="button"
-              onClick={() => {
-                toast.success(t('inscription.verification.sent'))
-                setDone('attente')
-              }}
+              disabled={envoi}
+              onClick={() => void soumettre()}
               className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-brand-600 text-[16px] font-semibold text-white hover:bg-brand-700"
             >
               <Check className="size-5" strokeWidth={3} /> {t('inscription.verification.submit')}

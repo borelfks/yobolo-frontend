@@ -77,9 +77,16 @@
       "title": "Actions rapides",
       "newTraining": "Créer une formation",
       "addMedia": "Ajouter des photos / vidéos",
-      "replyReviews": "Répondre aux avis <red>(3)</red>",
+      "replyReviews": "Répondre aux avis <red>({{count}})</red>",
       "updateInfo": "Mettre à jour les informations",
       "publishNews": "Publier une actualité"
+    },
+    "applications": {
+      "title_one": "Préinscription reçue ({{count}})",
+      "title_other": "Préinscriptions reçues ({{count}})",
+      "none": "Aucune préinscription reçue pour le moment.",
+      "anonymous": "Candidat",
+      "received": "Reçue"
     }
   },
   "profil": {
@@ -113,7 +120,7 @@
       "rating_one": "{{note}}/5 ({{count}} avis)",
       "rating_other": "{{note}}/5 ({{count}} avis)",
       "change": "Changer la bannière",
-      "changeToast": "Choisissez une nouvelle bannière (démo)"
+      "changed": "Bannière mise à jour"
     },
     "types": {
       "ipes": "IPES (Institut Privé d’Enseignement Supérieur)",
@@ -174,26 +181,27 @@
         "statutes": "Statuts de l’établissement",
         "niu": "Certificat du NIU"
       },
-      "file": "PDF • {{size}} Mo",
       "validated": "Validé",
       "view": "Voir",
-      "viewToast": "Aperçu du document (démo)",
       "delete": "Supprimer",
-      "deleteToast": "Document supprimé (démo)",
       "add": "Ajouter un document",
       "formats": "PDF, JPG ou PNG (Max. 10 Mo)",
       "choose": "Choisir un fichier",
-      "sent": "{{name}} envoyé pour vérification"
+      "sent": "{{name}} envoyé pour vérification",
+      "fileSize": "Fichier · {{size}}",
+      "pending": "En vérification",
+      "deleted": "Document supprimé",
+      "none": "Aucun document pour le moment.",
+      "noFile": "Ce document de départ n’a pas de fichier joint dans la démo.",
+      "tooBig": "Fichier trop lourd : 3 Mo au maximum."
     },
     "media": {
       "cover": "Bannière de couverture",
       "coverAlt": "Bannière",
       "editCover": "Modifier la bannière",
-      "chooseImage": "Choisir une image (démo)",
       "logo": "Logo de l’établissement",
       "logoAlt": "Logo",
       "editLogo": "Modifier le logo",
-      "chooseLogo": "Choisir un logo (démo)",
       "changeLogo": "Changer le logo",
       "logoFormat": "Format : PNG ou JPG",
       "logoSize": "Taille recommandée : 500 × 500 px",
@@ -203,15 +211,21 @@
         "photos": "Photos (10)",
         "videos": "Vidéos (2)"
       },
-      "playVideo": "Lecture de la vidéo (démo)",
-      "options": "Options du média (démo)",
       "video": "Vidéo",
       "photo": "Photo",
       "add": "Ajouter des photos ou vidéos",
       "drop": "Glissez-déposez vos fichiers ici ou cliquez pour sélectionner",
       "images": "Images : JPG, PNG (Max. 10 Mo)",
       "videos": "Vidéos : MP4 (Max. 100 Mo)",
-      "added": "{{name}} ajouté"
+      "added": "{{name}} ajouté",
+      "optionsLabel": "Options du média",
+      "view": "Agrandir",
+      "delete": "Supprimer",
+      "deleted": "Média supprimé",
+      "none": "Aucun média pour le moment.",
+      "tooBig": "Fichier trop lourd (photo : 2 Mo, vidéo : 3 Mo au maximum).",
+      "logoChanged": "Logo mis à jour",
+      "coverChanged": "Image de couverture mise à jour"
     }
   },
   "formations": {
@@ -246,12 +260,25 @@
       "select": "Sélectionner {{name}}",
       "code": "Code : {{code}}",
       "edit": "Modifier",
-      "more": "Plus d'actions",
-      "moreToast": "Dupliquer · Archiver · Voir la page publique (démo)"
+      "more": "Plus d'actions"
     },
     "count": "{{shown}} sur {{total}} formations",
     "prev": "Page précédente",
-    "next": "Page suivante"
+    "next": "Page suivante",
+    "menu": {
+      "view": "Voir la page publique",
+      "duplicate": "Dupliquer",
+      "publish": "Envoyer pour validation",
+      "unpublish": "Dépublier (brouillon)",
+      "delete": "Supprimer",
+      "copySuffix": " (copie)",
+      "duplicated": "« {{name}} » créée en brouillon",
+      "sentForReview": "« {{name}} » envoyée pour validation par YIBOLO",
+      "unpublished": "« {{name}} » repassée en brouillon",
+      "deleted": "« {{name}} » supprimée",
+      "validate": "Simuler la validation par YIBOLO",
+      "validated": "« {{name}} » validée par YIBOLO : elle est publiée"
+    }
   },
   "creer": {
     "crumb": "Formations",
@@ -315,8 +342,19 @@
       "saveDraft": "Enregistrer en brouillon",
       "draftSaved": "Brouillon enregistré",
       "preview": "Aperçu",
-      "previewToast": "Aperçu de la fiche formation (démo)",
       "cancel": "Annuler"
+    },
+    "preview": {
+      "title": "Aperçu de la fiche formation",
+      "untitled": "Formation sans intitulé",
+      "diploma": "Diplôme",
+      "field": "Filière",
+      "duration": "Durée",
+      "months_one": "{{count}} mois",
+      "months_other": "{{count}} mois",
+      "mode": "Cours",
+      "intake": "Prochaine rentrée",
+      "fees": "Frais de scolarité / an"
     }
   },
   "stats": {
@@ -330,7 +368,6 @@
       "last6m": "Derniers 6 mois"
     },
     "export": "Exporter (PDF)",
-    "exportToast": "Export PDF lancé",
     "kpis": {
       "views": "Vues de votre page",
       "applications": "Candidatures / Préinscriptions",
@@ -357,9 +394,9 @@
     },
     "activity": {
       "title": "Dernières activités",
-      "applications": "12 nouvelles candidatures",
-      "downloads": "8 téléchargements de documents",
-      "reviews": "3 nouveaux avis (note moyenne : {{note}}/5)",
+      "applications": "{{count}} nouvelles candidatures",
+      "downloads": "{{count}} téléchargements de documents",
+      "reviews": "{{count}} nouveaux avis (note moyenne : {{note}}/5)",
       "today": "aujourd’hui, {{time}}",
       "yesterday": "hier, {{time}}"
     }
@@ -389,7 +426,15 @@
       },
       "tip": "Conseil",
       "newsList": {
-        "moreToast": "Dupliquer · Dépublier · Supprimer (démo)"
+        "duplicate": "Dupliquer",
+        "publish": "Publier",
+        "unpublish": "Dépublier (brouillon)",
+        "delete": "Supprimer",
+        "copySuffix": " (copie)",
+        "duplicated": "Actualité dupliquée en brouillon",
+        "published": "Actualité publiée",
+        "unpublished": "Actualité repassée en brouillon",
+        "deleted": "Actualité supprimée"
       },
       "presentation": {
         "cardTitle": "Présentation de l’établissement",
@@ -453,10 +498,27 @@
           "rules": "Règlement",
           "calendar": "Calendrier"
         },
-        "previewToast": "Aperçu (démo)",
-        "moreToast": "Renommer · Remplacer · Supprimer (démo)",
         "count_one": "{{count}} documents",
-        "count_other": "{{count}} documents"
+        "count_other": "{{count}} documents",
+        "preview": {
+          "format": "Format",
+          "download": "Télécharger",
+          "noFile": "Ce document de départ n’a pas de fichier joint dans la démo."
+        },
+        "menu": {
+          "publish": "Publier",
+          "unpublish": "Dépublier (brouillon)",
+          "rename": "Renommer",
+          "delete": "Supprimer",
+          "newName": "Nouveau nom",
+          "cancel": "Annuler",
+          "save": "Enregistrer",
+          "published": "« {{name}} » publié",
+          "unpublished": "« {{name}} » repassé en brouillon",
+          "renamed": "Document renommé : « {{name}} »",
+          "deleted": "« {{name}} » supprimé"
+        },
+        "tooBig": "Fichier trop lourd : 3 Mo au maximum."
       },
       "faq": {
         "categoriesTitle": "Catégories",
@@ -495,7 +557,6 @@
       "body": "{{school}} ouvre les préinscriptions pour l’année académique 2026 – 2027. Les candidats peuvent déposer leur dossier en ligne sur YIBOLO ou directement au secrétariat. Les places sont limitées dans certaines filières : ne tardez pas !",
       "fields": "Filières concernées",
       "deadline": "<b>Date limite d’inscription :</b> {{date}}",
-      "signUpToast": "Bouton visible des visiteurs sur la page publique",
       "signUp": "S’inscrire maintenant",
       "details": {
         "title": "Détails",
@@ -511,7 +572,7 @@
         "linkCopied": "Lien copié",
         "openNewTab": "Ouvrir dans un nouvel onglet",
         "delete": "Supprimer la publication",
-        "deleted": "Publication supprimée (démo)"
+        "deleted": "Publication supprimée"
       },
       "tipTitle": "Conseil",
       "tipText": "Partagez vos actualités sur vos réseaux sociaux pour attirer plus de candidats."
@@ -566,7 +627,6 @@
         "email": "E-mail",
         "role": "Rôle",
         "changePhoto": "Changer la photo",
-        "changePhotoToast": "Choisir une photo (démo)",
         "securityTitle": "Sécurité du compte",
         "changePassword": "Modifier le mot de passe",
         "changePasswordHint": "Mettez à jour votre mot de passe régulièrement.",
@@ -581,7 +641,9 @@
           "applications": "Nouvelles candidatures / préinscriptions",
           "reviews": "Commentaires et avis",
           "reminders": "Rappels (rentrée, expirations, documents)"
-        }
+        },
+        "photoUpdated": "Photo mise à jour",
+        "photoTooBig": "Image trop lourde : 2 Mo au maximum."
       },
       "security": {
         "changePassword": "Modifier le mot de passe",
@@ -628,7 +690,12 @@
             "event": "Mot de passe modifié",
             "date": "02 nov. 2026"
           }
-        }
+        },
+        "wrongCurrent": "Le mot de passe actuel n’est pas le bon.",
+        "mismatch": "Les deux nouveaux mots de passe ne sont pas identiques.",
+        "twoFactorOn": "Double authentification activée",
+        "twoFactorOff": "Double authentification désactivée",
+        "disabled": "Désactivée"
       },
       "notifications": {
         "title": "Notifications",
@@ -722,13 +789,25 @@
         },
         "you": "Vous",
         "actions": "Actions",
-        "actionsToast": "Modifier le rôle · Désactiver · Renvoyer l’invitation (démo)",
         "lastLogins": {
           "0": "Aujourd’hui, 09:12",
           "1": "Hier, 17:40",
           "2": "12 nov. 2026",
           "3": "10 nov. 2026",
           "4": "02 oct. 2026"
+        },
+        "menu": {
+          "setRole": "Rôle : {{role}}",
+          "roleChanged": "{{name}} est maintenant « {{role}} »",
+          "deactivate": "Désactiver",
+          "deactivated": "{{name}} est désactivé",
+          "activate": "Activer",
+          "activated": "{{name}} est activé",
+          "resend": "Renvoyer l’invitation",
+          "resent": "Invitation renvoyée à {{email}}",
+          "invitedOn": "Invité le {{date}}",
+          "remove": "Retirer de l’espace",
+          "removed": "{{name}} n’a plus accès à l’espace"
         }
       },
       "about": {
@@ -745,16 +824,13 @@
         },
         "supportTitle": "Assistance",
         "contactSupport": "Contacter le support",
-        "contactSupportToast": "Le support vous recontacte sous 24 h (démo)",
         "helpCenter": "Centre d’aide (FAQ)",
-        "helpCenterToast": "Centre d’aide (démo)",
         "documentsTitle": "Documents utiles",
         "documents": {
           "terms": "Conditions générales d’utilisation",
           "sales": "Conditions générales de vente",
           "privacy": "Politique de confidentialité"
         },
-        "demoToast": "{{name}} (démo)",
         "version": "Version <b>{{version}}</b>",
         "upToDate": "À jour",
         "lastUpdate": "Dernière mise à jour : {{date}}"

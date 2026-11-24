@@ -2,7 +2,7 @@
 
 **Règle : toute chaîne de texte visible par l'utilisateur passe par `t()` (`react-i18next`), jamais écrite en dur dans le JSX ou dans un schéma zod.** Même organisation et même comportement que **yibolo-client**.
 
-Ça inclut les libellés, titres, `placeholder`, messages d'erreur, messages `toast`, aides, `aria-label`, `title`, `alt` (sauf photos décoratives `alt=""`). Ça exclut les **données de démonstration** de `src/mocks/` (elles jouent le rôle du serveur) et tout texte qui sert aussi de valeur technique (identifiant stocké, valeur de filtre).
+Ça inclut les libellés, titres, `placeholder`, messages d'erreur, messages `toast`, aides, `aria-label`, `title`, `alt` (sauf photos décoratives `alt=""`). Ça exclut les **données de démonstration** de la base (`src/data/depart/yibolo.sql`) (elles jouent le rôle du serveur) et tout texte qui sert aussi de valeur technique (identifiant stocké, valeur de filtre).
 
 ## Comportement
 - **Français par défaut** et langue de référence ; anglais britannique (comme au Cameroun).
@@ -37,7 +37,7 @@
 7. Texte avec balisage (`<b>`, lien) : `<Trans t={t} i18nKey="…" components={{ b: <b /> }} />`, jamais de HTML dans le JSON.
 8. `t` s'appelle pendant l'affichage : une liste définie hors du composant garde des **clés** ou des identifiants, résolus dans le composant.
 9. Clés dynamiques construites à partir d'un type littéral (`'A' | 'B'`), pas d'une `string` quelconque.
-10. Valeurs fixes des données affichées comme libellés (mode « Jour/Soir », statut « Publiée », nom d'un permis, rôle…) : traduites à l'affichage par une clé construite à partir de la valeur ; on ne modifie pas `src/mocks/` pour traduire.
+10. Valeurs fixes des données affichées comme libellés (mode « Jour/Soir », statut « Publiée », nom d'un permis, rôle…) : traduites à l'affichage par une clé construite à partir de la valeur ; on ne modifie pas la base (`src/data/depart/yibolo.sql`) pour traduire.
 11. Nombres et dates : `num()`, `fcfa()`, `shortDate()` de `src/shared/utils/format.ts`, jamais `toLocaleString('fr-FR')`.
 12. Les adresses ne se traduisent pas et viennent de `ROUTES`.
 13. Vérifier : `npm run i18n:check` (mêmes clés en fr et en dans chaque `locales/`), `npx tsc -b`, `npm run lint`, puis l'écran dans les deux langues.

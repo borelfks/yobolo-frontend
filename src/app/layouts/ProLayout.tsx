@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Link, Navigate, NavLink, ScrollRestoration, useLocation } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { toast } from 'sonner'
 import { BadgeCheck, Building2, ChevronDown, CircleHelp, Headphones, Menu, X } from 'lucide-react'
 import { Logo } from '@/shared/components/ui/Logo'
 import { LanguageSwitcher } from '@/shared/components/ui/LanguageSwitcher'
@@ -9,18 +8,21 @@ import { NotificationsBell, UserMenu } from '@/app/layouts/AccountMenu'
 import { proNav } from '@/app/layouts/navConfig'
 import { RouteOutlet } from '@/app/routes/RouteOutlet'
 import { Img } from '@/shared/components/ui/Img'
+import { AssistanceModal } from '@/shared/components/ui/AssistanceModal'
 import { useMonEcole, useSession } from '@/features/auth/hooks/useSession'
 import { cn } from '@/shared/utils/cn'
 import { ROUTES } from '@/shared/utils/routes'
 
 function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   const { t } = useTranslation('layout')
+  const { account } = useSession()
+  const [assistance, setAssistance] = useState(false)
   const { pathname } = useLocation()
   const { ecole } = useMonEcole()
   return (
     <div className="flex h-full flex-col gap-5 overflow-y-auto bg-[linear-gradient(180deg,#0f2c7a_0%,#0b2366_45%,#0a1f5c_100%)] px-3 py-5 text-white">
       <Link to={ROUTES.pro.profile()} onClick={onNavigate} className="flex items-center gap-2.5 px-1">
-        <Img src={ecole.id === 'ipc' ? '/images/maquette/ipc-carte.jpg' : ecole.image} alt="" className="size-[60px] rounded-lg" />
+        <Img src={ecole.vignette ?? ecole.image} alt="" className="size-[60px] rounded-lg" />
         <div className="min-w-0 flex-1">
           <p className="text-[14px] leading-tight font-semibold">{ecole.nom}</p>
           <span className="mt-1.5 inline-flex items-center gap-1 rounded-full bg-emerald-600 px-2 py-0.5 text-[11px] font-semibold whitespace-nowrap">
@@ -76,12 +78,13 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
       </nav>
       <button
         type="button"
-        onClick={() => toast(t('pro.support.title'), { description: t('pro.support.text') })}
+        onClick={() => setAssistance(true)}
         className="mx-2 mt-auto flex h-12 items-center justify-center gap-2.5 rounded-full border border-white/50 text-[15px] font-semibold hover:bg-white/10"
       >
         <Headphones className="size-6" />
         {t('pro.support.button')}
       </button>
+      {account && <AssistanceModal open={assistance} onClose={() => setAssistance(false)} compteId={account.id} />}
     </div>
   )
 }
@@ -100,8 +103,8 @@ export function ProLayout() {
         <button type="button" aria-label={t('nav.menu')} onClick={() => setOpen(true)} className="grid size-10 place-items-center rounded-full hover:bg-brand-50 lg:hidden">
           <Menu className="size-5" />
         </button>
-        <div className="shrink-0 lg:w-[250px] lg:pl-4 [&_svg]:size-9">
-          <Logo to={ROUTES.pro.root} compact />
+        <div className="shrink-0 lg:w-[250px] lg:pl-4">
+          <Logo to={ROUTES.pro.root} />
         </div>
         <div className="ml-8 hidden items-center gap-3 rounded-full bg-[#eaf0fb] px-5 py-2 text-navy-800 lg:flex">
           <Building2 className="size-7 text-brand-600" />

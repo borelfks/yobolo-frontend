@@ -4,7 +4,6 @@ import { createRoot } from 'react-dom/client'
 import '@/i18n'
 import { App } from '@/app/App'
 import { startData } from '@/data'
-import { buildSeed } from '@/mocks/seed'
 import { SessionProvider } from '@/features/auth/hooks/useSession'
 import { FavoritesProvider } from '@/shared/hooks/useFavorites'
 import '@/app/styles/globals.css'
@@ -15,8 +14,8 @@ if (!container) {
   throw new Error('Élément racine #root introuvable dans index.html.')
 }
 
-// Ouvre la base de test (SQLite dans le navigateur) en arrière-plan.
-void startData(buildSeed)
+// Ouvre la base (SQLite dans le navigateur, remplie au premier lancement avec src/data/depart/yibolo.sql) en arrière-plan.
+void startData()
 
 createRoot(container).render(
   <StrictMode>

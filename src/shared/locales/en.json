@@ -97,7 +97,7 @@
   },
   "logo": {
     "home": "YIBOLO — Home",
-    "tagline": "Learn · Train · Consult · Work"
+    "tagline": "Learn · Grow · Succeed"
   },
   "breadcrumb": {
     "label": "Breadcrumb",
@@ -191,5 +191,28 @@
     "francais": "Français",
     "anglais": "English",
     "changerDeLangue": "Change language"
+  },
+  "visionneuse": {
+    "previous": "Previous photo",
+    "next": "Next photo"
+  },
+  "assistance": {
+    "title": "YIBOLO support",
+    "hours": "An adviser answers Monday to Saturday, 8 am to 6 pm.",
+    "subject": "Subject",
+    "message": "Your message",
+    "placeholder": "Describe your question or problem…",
+    "send": "Send request",
+    "sent": "Request sent: YIBOLO support will reply by email or SMS.",
+    "subjects": {
+      "compte": "My account",
+      "profil": "Institution profile",
+      "formations": "Programmes",
+      "validation": "YIBOLO approval",
+      "autre": "Other question"
+    },
+    "errors": {
+      "message": "The message must have at least 10 characters."
+    }
   }
 }

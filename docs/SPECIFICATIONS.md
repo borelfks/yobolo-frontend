@@ -18,7 +18,7 @@
 | **Métiers** | découvrir les métiers et les compétences clés | lien vers la page Emploi (« bientôt disponible ») |
 | **Emploi** | offres d'emploi, de stage et d'apprentissage | page « bientôt disponible » |
 
-**Ce dépôt est un front seul** : il transforme la maquette du client en interface qui fonctionne. Toutes les données sont fictives (`src/mocks/`), aucun serveur n'est appelé.
+**Ce dépôt est un front seul** : il transforme la maquette du client en interface qui fonctionne. Toutes les données sont fictives et enregistrées dans la base SQLite du navigateur (départ : `src/data/depart/yibolo.sql`), aucun serveur n'est appelé.
 
 **Marché :** Cameroun (10 régions, Yaoundé et Douala en tête). Interface en **français** (référence) et en **anglais britannique**, montants en **FCFA**.
 
@@ -66,10 +66,10 @@ Mots anglais : voir le glossaire de [.claude/rules/traduction.md](../.claude/rul
 ### Profils à l'inscription
 La maquette prévoit **4 profils** : **École / IPES** (institut, centre, auto-école…), **Consultant**, **Entreprise**, **Personne physique** (candidat, étudiant, demandeur d'emploi).
 
-### Comptes de démonstration (`src/mocks/demoAccounts.ts`)
+### Comptes (table `comptes`)
 | Rôle (`Role`) | Nom | Première page | Espace |
 |---|---|---|---|
-| `utilisateur` | Jean Dupont | `/ecoles` | pages publiques |
+| `utilisateur` | Jean Dupont | `/accueil` | pages publiques |
 | `ipes` | IPC Yaoundé (établissement `ipc`) | `/pro/ecole` | espace pro « IPES » |
 | `cfp` | CFP du BTP (établissement `cfp-btp`) | `/pro/ecole` | espace pro « CFP » |
 | `autre` | Centre Linguistique (établissement `langues`) | `/pro/ecole` | espace pro « Autre » |
@@ -78,12 +78,13 @@ La maquette prévoit **4 profils** : **École / IPES** (institut, centre, auto-�
 - **Garde de l'espace pro** : un compte sans établissement (`ecoleId`) qui ouvre `/pro/ecole…` est renvoyé vers `/connexion?espace=ecole`.
 - Les pages publiques sont ouvertes à tous, connecté ou non (préinscription et favoris compris).
 - À la première visite, on arrive **non connecté** : la landing montre « Se connecter », qui mène à la connexion puis à « Créer un compte » (choix du profil). Après « Se déconnecter », on arrive sur la connexion.
-- La session est gardée dans le navigateur (`yibolo:role`).
+- À la connexion, l'e-mail (ou le téléphone) et le mot de passe sont vérifiés dans la base. Comptes de départ : `jean.dupont@exemple.cm` (Personne physique), `contact@ipc.cm` (École – IPES), `contact@cfp-btp.cm` (École – CFP), `contact@langues.cm` (École – Autre), tous avec le mot de passe `yibolo2026`.
+- La session est gardée dans le navigateur (`yibolo:compte`).
 
 ### Menu du compte (avatar)
 - Compte école : **Mon espace professionnel** · Mes favoris · Changer de compte de démo · Se déconnecter.
 - Utilisateur : Mes favoris · **Donner un avis** · Changer de compte de démo · Se déconnecter.
-- La cloche ouvre 3 notifications de démonstration ; dans l'espace pro, « Voir toutes les notifications » mène à Paramètres › Notifications.
+- La cloche montre les notifications du compte (base), avec le nombre de non lues ; un clic marque comme lu. Dans l'espace pro, « Voir toutes les notifications » mène à Paramètres › Notifications.
 
 ---
 
@@ -110,6 +111,18 @@ La maquette prévoit **4 profils** : **École / IPES** (institut, centre, auto-�
 - **« Rechercher sur YIBOLO »** : Localisation, École, Consultant, Métiers + bouton jaune « Rechercher » (mène à `/ecoles`).
 - **« Nos recommandations »** : onglets Écoles · Consultants · Métiers · Emplois ; 4 cartes (IPC, Me Alain Tchana, Mécanicien automobile, Moniteur(trice) de conduite). Les onglets changent l'onglet actif mais pas les cartes.
 
+### 6 bis. Accueil de l'utilisateur connecté — `/accueil`
+
+Copie de l'accueil connecté de **yibolo-client** (pas dans la maquette Word), aux couleurs de l'application (bleu, bleu nuit, Plus Jakarta Sans). Réservé aux comptes connectés (un visiteur est mené à `/connexion`). Un compte connecté qui ouvre `/` est mené à sa page d'arrivée (`account.home`) ; la landing reste réservée aux visiteurs.
+
+- **Trois colonnes** à partir de 1536 px : *Domaines d'expertise* (filtre, table `domainesExpertise`) · le fil · *Mes raccourcis*, *Offres d'emploi populaires* (les 3 dernières), *Vous êtes expert ?*. Sous 1536 px, les domaines passent en menu d'icônes en haut du fil (« Plus » pour la liste entière) ; sous 1280 px, les raccourcis remontent dans le fil, les offres et la carte expert passent dessous.
+- **Haut du fil**, collé sous la barre du site : recherche (mot clé), *Ville* (démo), *Type* (Toutes · Publications · Offres d'emploi · Formations), *Plus de filtres* (Tout le fil / Mes enregistrés ; Les plus récentes / Les plus lues), ⋮ (démo) ; les filtres choisis en pastilles. Filtres tenus dans l'adresse : `?genre=`, `?tri=lues`, `?vue=enregistres`, `?domaine=`, `?sujet=`, `?q=`.
+- **Bandeau** « Développez vos compétences avec les meilleurs experts » (« Découvrir les domaines » → `/ecoles`). **Zone « Partagez un conseil… »** et bouton « Publier une actualité » : fenêtre « Publier sur le fil » (titre, texte, 1 à 3 domaines, sujets ; publier ou enregistrer en brouillon, table `publications`).
+- **Fil** « Publications récentes » : onglets Toutes · Conseils (démo) · Actualités (démo) · Offres d'emploi · Formations ; cartes en grille (1 à 3 de front) : publications (`publications` : J'aime, Commenter (démo), Partager, menu ⋯ Enregistrer · Copier le lien · Signaler), offres (`offresEmploi`, « Voir l'offre » → `/emploi`), formations (`formations`, « Voir la formation »). 12 cartes, puis « Voir plus » (et au défilement) ; « Vous êtes à jour » à la fin. Une publication s'ouvre en fenêtre de lecture (`?publication=<id>`) et compte une lecture.
+- **À faire** : à l'arrivée, une fenêtre liste les gestes en attente du compte (`tachesAccueil`), une fois par session du navigateur.
+- **Raccourcis** : Mes formations (→ `/formations`, bientôt disponible), Mes favoris (→ « Mes enregistrés »), Mes notifications et Mon profil (démo).
+- **Bande du bas** : Formation continue · Conseils d'experts · Opportunités d'emploi · Réseau professionnel · Développement des compétences, et la devise « Ensemble pour un avenir meilleur ! ».
+
 ---
 
 ## 7. Univers École (maquette : « ECOLE »)
@@ -120,7 +133,7 @@ Le menu École comprend : **IPES**, **CFP**, **Auto-écoles** et **Autres**. IPE
 - Bandeau « Écoles & Centres de formation ».
 - **5 tuiles** : Toutes les écoles (1 248), IPES (532), CFP (286), Auto-écoles (126), Autres (304).
 - « Rechercher une école » (localisation, type d'école) ; la recherche filtre les cartes par nom.
-- « 1 248 établissements trouvés » : cartes d'établissement (les 4 de la maquette d'abord), pagination de démonstration.
+- « 1 248 établissements trouvés » : cartes d'établissement (les 4 de la maquette d'abord), pagination réelle ; recherche par région et type, tri (pertinence, mieux notés, frais croissants).
 
 ### 7.2 Espace public d'un type (IPES, CFP, Autres) — `/ecoles/:type/:onglet?`
 `:type` = `ipes`, `cfp` ou `autres`. La maquette prévoit **7 menus**, faits en onglets portés par l'adresse :
@@ -168,7 +181,7 @@ Colonne de droite : l'établissement (badge vérifié), prochaine rentrée, acti
 3. **Pièces à fournir** : CNI ou acte de naissance, dernier diplôme, relevé de notes, photo d'identité
 4. **Validation** : récapitulatif par bloc, avec « Modifier » qui ramène à l'étape concernée
 
-Envoi → « Préinscription envoyée ! », avec « Retour à l'établissement » ou « Continuer à explorer » (annuaire École). Rien n'est enregistré.
+Envoi → « Préinscription envoyée ! », avec « Retour à l'établissement » ou « Continuer à explorer » (annuaire École). La préinscription et ses pièces sont enregistrées dans la base.
 
 ### 7.6 Ajouter aux favoris
 Un cœur sur les cartes, les formations et les fiches ajoute ou retire un favori (message « Ajouté à vos favoris », avec le dossier). Côté auto-école, une fenêtre permet de **choisir un dossier** (facultatif).
@@ -268,6 +281,6 @@ Page « **Consultation — bientôt disponible** » (ou Emploi) : « Cette démo
 ## 13. Ce qui est simulé
 
 - Les **envois** (préinscription, inscription, avis, formation, actualité, paramètres, invitation) affichent un message de réussite ; **rien n'est enregistré**, sauf les favoris, la session, la langue et le brouillon d'inscription en auto-école.
-- Les actions secondaires (vidéo, carte, partager, dupliquer, export PDF, WhatsApp…) affichent un message « (démo) ».
+- Toutes les actions sont réelles : vidéo (lecteur), carte (Google Maps), WhatsApp (wa.me), partager (lien), dupliquer / publier / dépublier / supprimer (base), export PDF (impression), fichiers joints (base).
 - Les chiffres (1 248 établissements, 532 IPES, 286 avis…) sont **ceux de la maquette**, pas des calculs.
 - Les notifications sont fixes (3 dans la cloche, 5 dans Paramètres › Notifications).

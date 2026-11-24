@@ -1,7 +1,6 @@
 import { use, useSyncExternalStore } from 'react'
-import { COLLECTIONS, type CollectionName, type Collections, type Seed } from './collections'
+import { COLLECTIONS, type CollectionName, type Collections } from './collections'
 import type { DataSource } from './source'
-import { createMemorySource } from './sources/memorySource'
 import { createSqliteSource } from './sources/sqliteSource'
 
 /**
@@ -19,12 +18,11 @@ import { createSqliteSource } from './sources/sqliteSource'
  */
 const SOURCES: Record<string, () => DataSource> = {
   sqlite: createSqliteSource,
-  memoire: createMemorySource,
 }
 
 let source: DataSource
-let seedFactory: () => Seed
 let ready: Promise<void> | undefined
+let pret = false
 const cache = new Map<CollectionName, unknown[]>()
 const listeners = new Set<() => void>()
 const EMPTY: never[] = []
@@ -50,22 +48,21 @@ async function refresh(collection: CollectionName) {
  * Le chargement continue en arrière-plan : les pages qui ont besoin des
  * données attendent (PageLoader), les autres s'affichent tout de suite.
  */
-export function startData(seed: () => Seed) {
-  seedFactory = seed
+export function startData() {
   ready ??= (async () => {
     const wanted = import.meta.env.VITE_DATA_SOURCE ?? 'sqlite'
-    try {
-      source = (SOURCES[wanted] ?? createSqliteSource)()
-      await source.init(seedFactory())
-    } catch (error) {
-      // Stockage indisponible (navigation privée stricte, navigateur ancien…) : la démo continue en mémoire.
-      console.warn('Stockage des données indisponible, démo en mémoire.', error)
-      source = createMemorySource()
-      await source.init(seedFactory())
-    }
+    source = (SOURCES[wanted] ?? createSqliteSource)()
+    await source.init()
     await loadAll()
+    pret = true
+    notify()
   })()
   return ready
+}
+
+/** Vrai quand la base est chargée (pour un cadre qui ne doit pas attendre, comme la garde de l'espace pro). */
+export function useDataReady() {
+  return useSyncExternalStore(subscribe, () => pret)
 }
 
 function readyOrThrow() {
@@ -89,6 +86,20 @@ export function newId(prefix: string) {
   return `${prefix}-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`
 }
 
+/**
+ * Date à laquelle un testeur a ajouté un élément, lue dans son identifiant
+ * (`newId` : préfixe + horodatage). `null` pour un élément des données de
+ * départ (identifiants écrits à la main : « ipc », « f-cg-ipc », « a1 »…).
+ * Sert aux compteurs : chiffre de la maquette + ce que les testeurs ont ajouté.
+ */
+export function dateDeCreation(id: string): Date | null {
+  const m = /-([0-9a-z]{8})[0-9a-z]{0,4}$/.exec(id)
+  if (!m?.[1]) return null
+  const ms = parseInt(m[1], 36)
+  // Entre 2023 et 2049 : un horodatage plausible, pas un mot.
+  return ms > 1.7e12 && ms < 2.5e12 ? new Date(ms) : null
+}
+
 type NewItem<K extends CollectionName> = Omit<Collections[K], 'id'> & { id?: string }
 
 /** Les écritures. Toutes asynchrones (comme le serait un appel réseau) ; les écrans se mettent à jour seuls. */
@@ -104,6 +115,12 @@ export const data = {
     await source.put(collection, full)
     await refresh(collection)
     return full
+  },
+
+  /** Les éléments d'une table, lus hors d'un écran (pour une écriture qui dépend de l'existant, comme un compteur). */
+  async list<K extends CollectionName>(collection: K): Promise<Collections[K][]> {
+    await readyOrThrow()
+    return (cache.get(collection) ?? EMPTY) as Collections[K][]
   },
 
   async update<K extends CollectionName>(collection: K, id: string, patch: Partial<Collections[K]>): Promise<Collections[K] | undefined> {
@@ -132,7 +149,7 @@ export const data = {
   /** Remet les données de départ (efface tout ce que le testeur a fait). */
   async reset() {
     await readyOrThrow()
-    await source.reset(seedFactory())
+    await source.reset()
     await loadAll()
   },
 

@@ -4,8 +4,7 @@ import { ArrowRight, CalendarDays, CircleCheck, Clock, Coins, CreditCard, Gradua
 import { GreenCheck, Heading } from '@/features/driving-schools/components/profile/ProfileParts'
 import { card, inscrireHref } from '@/features/driving-schools/components/profile/profileUtils'
 import { Img } from '@/shared/components/ui/Img'
-import { useAutoEcole } from '@/data/hooks'
-import { permisCatalogue } from '@/mocks/drivingSchools'
+import { useAutoEcole, usePermisCatalogue } from '@/data/hooks'
 import type { PermisCode } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { fcfa } from '@/shared/utils/format'
@@ -15,6 +14,7 @@ const includedKeys = ['code', 'driving', 'materials', 'exam', 'fees'] as const
 
 /** Onglet « Tarifs » de la fiche d'une auto-école. */
 export function TarifsTab({ id }: { id: string }) {
+  const permisCatalogue = usePermisCatalogue()
   const { t } = useTranslation('driving-schools')
   const a = useAutoEcole(id)
   const codes = (['A', 'B', 'C', 'D', 'E'] as PermisCode[]).filter((c) => a.permis.includes(c))

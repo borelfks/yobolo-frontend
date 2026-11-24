@@ -13,10 +13,17 @@ import { useMonEcole } from '@/features/auth/hooks/useSession'
 import { shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
 import { CheckCircle2 } from 'lucide-react'
+import { useAvisEtablissement, useFormations, useIndicateurs, usePreinscriptionsRecues } from '@/data/hooks'
 
 export function Dashboard() {
   const { t } = useTranslation('pro')
-  const { ecole, formations } = useMonEcole()
+  const { ecole } = useMonEcole()
+  const indicateurs = useIndicateurs(ecole.id)
+  // Les avis de sa fiche qui attendent encore une réponse.
+  const sansReponse = useAvisEtablissement(ecole.id).filter((a) => !a.reponse).length
+  // Les préinscriptions envoyées par les candidats (les plus récentes d'abord).
+  const recues = [...usePreinscriptionsRecues(ecole.id)].sort((a, b) => b.envoyeeLe.localeCompare(a.envoyeeLe))
+  const toutes = useFormations()
   const infos = [
     { id: 'presentation', icon: <Building2 />, tone: 'blue' as const, to: ROUTES.pro.contents() },
     { id: 'admission', icon: <ShieldCheck />, tone: 'violet' as const, to: ROUTES.pro.contents('faq') },
@@ -39,16 +46,16 @@ export function Dashboard() {
         }
       />
       <KpiGrid>
-        <Kpi icon={<GraduationCap />} label={t('dashboard.kpis.trainings')} value={Math.max(ecole.formations, formations.length)} tone="blue" />
+        <Kpi icon={<GraduationCap />} label={t('dashboard.kpis.trainings')} value={ecole.formations} tone="blue" />
         <Kpi icon={<Layers />} label={t('dashboard.kpis.fields')} value={(ecole.principales ?? ecole.filieres).length} tone="green" />
-        <Kpi icon={<Images />} label={t('dashboard.kpis.media')} value={28} tone="violet" />
+        <Kpi icon={<Images />} label={t('dashboard.kpis.media')} value={indicateurs.medias} tone="violet" />
         <Kpi icon={<MessageSquareText />} label={t('dashboard.kpis.reviews')} value={ecole.avis} tone="amber" extra={<Rating value={ecole.note} className="text-sm" />} />
       </KpiGrid>
       <div className="grid gap-6 xl:grid-cols-[1fr_340px]">
         <div className="space-y-6">
           <Card className="p-5">
             <div className="flex flex-col gap-5 md:flex-row md:items-center">
-              <Ring value={92} size={104} />
+              <Ring value={indicateurs.completude} size={104} />
               <div className="flex-1">
                 <h2 className="text-xl font-bold text-navy-900">{t('dashboard.completion.title')}</h2>
                 <p className="text-sm text-muted">{t('dashboard.completion.text')}</p>
@@ -71,6 +78,26 @@ export function Dashboard() {
               <span className="flex-1"><Trans t={t} i18nKey="dashboard.completion.remaining" components={{ b: <b /> }} /></span>
               <Button to={ROUTES.pro.profile('medias')} variant="outline" size="sm">{t('dashboard.completion.finish')} <ArrowRight /></Button>
             </div>
+          </Card>
+          <Card className="p-5">
+            <h2 className="flex items-center gap-2.5 text-lg font-bold text-navy-900">
+              <GraduationCap className="size-5 text-brand-600" />
+              {t('dashboard.applications.title', { count: recues.length })}
+            </h2>
+            {recues.length === 0 ? (
+              <p className="mt-3 rounded-xl bg-[#f3f6fc] px-4 py-3 text-sm text-muted">{t('dashboard.applications.none')}</p>
+            ) : (
+              <ul className="mt-3 divide-y divide-line">
+                {recues.slice(0, 5).map((p) => (
+                  <li key={p.id} className="flex flex-wrap items-center gap-x-3 gap-y-1 py-2.5 text-sm">
+                    <b className="text-navy-900">{[p.donnees.prenom, p.donnees.nom].filter(Boolean).join(' ') || t('dashboard.applications.anonymous')}</b>
+                    <span className="min-w-0 flex-1 text-muted">{toutes.find((f) => f.id === p.formationId)?.nom ?? '—'}</span>
+                    <span className="text-xs text-muted">{shortDate(new Date(p.envoyeeLe), { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+                    <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-700">{t('dashboard.applications.received')}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
           </Card>
           <Section title={t('dashboard.infos.title')} icon={<Layers />} action={<span className="text-xs text-muted">{t('dashboard.infos.lastUpdate', { date: shortDate(new Date(2026, 10, 10), { day: '2-digit', month: 'short', year: 'numeric' }) })}</span>}>
             <div className="grid gap-3 md:grid-cols-2">
@@ -108,7 +135,7 @@ export function Dashboard() {
             <div className="space-y-2.5">
               <QuickAction tone="primary" icon={<Plus />} label={t('dashboard.quick.newTraining')} to={ROUTES.pro.newTraining} />
               <QuickAction icon={<ImagePlus />} label={t('dashboard.quick.addMedia')} to={ROUTES.pro.profile('medias')} />
-              <QuickAction icon={<Megaphone />} label={<Trans t={t} i18nKey="dashboard.quick.replyReviews" components={{ red: <span className="text-rose-500" /> }} />} to={`${ecoleUrl(ecole)}/avis`} />
+              <QuickAction icon={<Megaphone />} label={<Trans t={t} i18nKey="dashboard.quick.replyReviews" values={{ count: sansReponse }} components={{ red: <span className="text-rose-500" /> }} />} to={`${ecoleUrl(ecole)}/avis`} />
               <QuickAction icon={<PencilLine />} label={t('dashboard.quick.updateInfo')} to={ROUTES.pro.profile()} />
               <QuickAction icon={<BookOpen />} label={t('dashboard.quick.publishNews')} to={ROUTES.pro.contents('actualites')} />
             </div>

@@ -5,8 +5,7 @@ import { ArrowRight, CalendarDays, Car, Clock, Hourglass, Info, Send } from 'luc
 import { CheckLine, FilterBox, GreenCheck, Heading } from '@/features/driving-schools/components/profile/ProfileParts'
 import { card, inscrireHref, permisShortName, sessionDays, sessionDuration, sessionHours, sessionStart } from '@/features/driving-schools/components/profile/profileUtils'
 import { Img } from '@/shared/components/ui/Img'
-import { useAutoEcole, useSessions } from '@/data/hooks'
-import { permisCatalogue } from '@/mocks/drivingSchools'
+import { useAutoEcole, usePermisCatalogue, useSessions } from '@/data/hooks'
 import type { PermisCode } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { shortDate } from '@/shared/utils/format'
@@ -16,6 +15,7 @@ const tipKeys = ['code', 'flexible', 'groups', 'open'] as const
 
 /** Onglet « Planning » de la fiche d'une auto-école. */
 export function PlanningTab({ id }: { id: string }) {
+  const permisCatalogue = usePermisCatalogue()
   const { t } = useTranslation('driving-schools')
   const a = useAutoEcole(id)
   const sessions = useSessions()

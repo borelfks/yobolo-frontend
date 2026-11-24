@@ -31,7 +31,6 @@ src/
 │   └── types.ts          types du domaine
 ├── i18n/               traduction : index.ts, i18next.d.ts (comme yibolo-client)
 ├── data/               données enregistrées (voir donnees-et-backend.md) : index.ts, hooks.ts, sources/
-├── mocks/              données de départ et de référence
 └── assets/             fonts/ (Plus Jakarta Sans), brand/ (logo)
 ```
 
@@ -47,7 +46,7 @@ features/schools/
 
 ## Règles de rangement
 - Un fichier utilisé par **une seule** fonctionnalité vit dans cette fonctionnalité. Il va dans `shared/` seulement quand **plusieurs** s'en servent.
-- **`shared/` n'importe jamais `app/`, `features/` ni `mocks/`** (il peut importer `@/data`). **`src/data/` n'importe jamais `mocks/`** : les données de départ lui sont passées par `startData(buildSeed)` dans `main.tsx`.
+- **`shared/` n'importe jamais `app/` ni `features/`** (il peut importer `@/data`). **`src/data/` n'importe ni `app/` ni `features/`** ; ses données de départ sont dans `src/data/depart/yibolo.sql`. **Aucune donnée écrite dans le code** (voir [donnees-et-backend.md](donnees-et-backend.md)).
 - **Sens des dépendances entre fonctionnalités** (constaté le 2026-11-21) :
 
   `auth` → `schools` → `driving-schools` → `reviews` → (`favorites`, `pro`, `landing`)
@@ -67,7 +66,7 @@ features/schools/
 2. **Adresses** : `ROUTES` / `ROUTE_PATTERNS`. **Couleurs** : jetons. **Textes** : traduction (voir [traduction.md](traduction.md)). **Nombres et dates** : `num()`, `fcfa()`, `shortDate()`.
 3. Composants courts et lisibles. Les commentaires sont **en français** et expliquent le *pourquoi* ; une référence à la maquette s'écrit `imgN` (= `word/media/imageN` du fichier Word).
 4. Pas de `dangerouslySetInnerHTML`. Aucune clé secrète (il n'y en a pas : `.env.example` le rappelle).
-5. Stockage local : `load` / `save` de `shared/utils/storage.ts` (clés préfixées `yibolo:` : `yibolo:role`, `yibolo:favorites`, `yibolo:inscription-v2:<auto-école>:<permis>`), toujours sous try/catch. La langue est gardée sous `yibolo:langue` (`src/i18n/index.ts`).
+5. Stockage local : `load` / `save` de `shared/utils/storage.ts` (clés préfixées `yibolo:` : `yibolo:compte`, `yibolo:inscription-v2:<auto-école>:<permis>`), toujours sous try/catch. La langue est gardée sous `yibolo:langue` (`src/i18n/index.ts`).
 6. Pas de code mort : supprimer ce qui n'est plus utilisé.
 7. **Pas de nouvelle dépendance sans accord.** Jamais de client d'API.
 8. `vite.config.ts` liste les bibliothèques à pré-compiler (`optimizeDeps.include`) : une nouvelle bibliothèque importée par une page chargée à la demande doit y être ajoutée (sinon « Invalid hook call »).

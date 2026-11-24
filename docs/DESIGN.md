@@ -36,7 +36,7 @@ Les jetons sont dans [src/app/styles/theme.css](../src/app/styles/theme.css) (bl
 | `muted` | `#5b6885` | texte secondaire |
 | `line` | `#e3e9f4` | bordure des cartes |
 
-**Dégradés** (dans `src/app/styles/globals.css`) : `.bg-navy-gradient` (pied de page, carte bleu nuit des Paramètres), `.bg-ai-gradient` (carte `AiCard`, violet clair), `.bg-hero-gradient` (défini, pas utilisé aujourd'hui). La barre latérale de l'espace pro, le bandeau de l'accueil et le cadre de connexion ont leur propre dégradé écrit dans le composant.
+**Dégradés** (dans `src/app/styles/globals.css`) : `.bg-navy-gradient` (carte bleu nuit des Paramètres), `.bg-ai-gradient` (carte `AiCard`, violet clair), `.bg-hero-gradient` (défini, pas utilisé aujourd'hui). La barre latérale de l'espace pro, le bandeau de l'accueil et le cadre de connexion ont leur propre dégradé écrit dans le composant.
 
 **Couleurs de sens** (palette Tailwind, comme sur la maquette) :
 - vert `emerald` : « Établissement vérifié », « Agréée », réussite, « Publiée » ;
@@ -77,7 +77,7 @@ Les jetons sont dans [src/app/styles/theme.css](../src/app/styles/theme.css) (bl
 - **Bandeaux** (`Hero`) : fond bleu, icône, titre, sous-titre, photo à droite avec un arc jaune, atouts en blanc.
 - **Fil d'Ariane** (`Breadcrumb`) en haut des pages de l'univers École : « École › IPES › Institut Professionnel du Centre (IPC) › Aperçu ».
 - **Onglets en blocs** (`LinkTabs`) sous le bandeau : chaque onglet a son adresse.
-- **Pied de page** bleu nuit : logo, contact, colonnes École · Établissements · Mon compte, « © 2026 YIBOLO — Démonstration · Données fictives ».
+- **Pied de page** : la partie basse de celui de l'accueil (logo et devise, Aide · Conditions, copyright), fond `navy-900`, texte blanc ; sans la vague ni la phrase « Yibolo, plus qu’une plateforme… ».
 
 ### Espace professionnel (`ProLayout`)
 - **Barre du haut** (56 px) : logo, pastille « Espace professionnel – IPES » (ou CFP, Autre), cloche, aide « ? », menu du compte.
@@ -85,7 +85,7 @@ Les jetons sont dans [src/app/styles/theme.css](../src/app/styles/theme.css) (bl
 - **En-tête de page** (`ProHeader`) : fil d'Ariane, icône, titre, sous-titre, actions (ex. voir la page publique).
 
 ### Connexion et inscription (`AuthLayout`)
-- **Connexion** (`AuthShell`) : grand cadre bleu en dégradé, photo en bas à gauche, titre et 4 atouts en blanc, carte blanche du formulaire à droite.
+- **Connexion** (`AuthShell`) : mise en page de la connexion de yibolo-client, **aux couleurs de l'application** (bleu `brand-600`, titres `navy-900`, Plus Jakarta Sans, photo voilée de bleu nuit) : formulaire à gauche sur le fond des pages `page` (logo, « Retour à l'accueil », langue ; champs avec libellés), grande photo à droite (`/images/accueil/ecoles.jpg`) avec la phrase de la marque et les 4 atouts. Sur téléphone et tablette, le formulaire seul (décision du 2026-11-24).
 - **Inscription** (`AuthCard`) : carte blanche centrée sur fond bleu très clair, logo et « Créer un compte », étapes numérotées.
 
 ---
@@ -135,7 +135,7 @@ Les morceaux des grandes pages sont dans des sous-dossiers : `features/schools/c
 - **Photos de la maquette** : `public/images/maquette/` (environ 120 fichiers : accueil, établissements, formations, régions, auto-écoles, véhicules, avatars, actualités…). Nom en minuscules avec tirets, préfixé par l'écran (`ae-…` auto-école, `aeav-…` avis d'auto-école, `region-…`, `actu-…`).
 - Les **photos de personnes** de la maquette (avatars, témoignages, photo de la connexion) sont **gardées** : elles font partie de la maquette du client.
 - Quelques images de démonstration viennent encore d'internet (`photo()` → picsum.photos, `portrait()` → randomuser.me) pour les comptes CFP et Autre et les utilisateurs de l'espace pro.
-- **Logo YIBOLO** : redessiné en SVG d'après la maquette, `src/assets/brand/` (icône, icône blanche, logo, logo blanc ; voir son `README.md`). Dans l'interface, il est dessiné par `Logo`. Favicon : `public/favicon.svg` ; icônes d'application : `public/icons/` ; manifeste : `public/site.webmanifest` (couleur `#0f2c7a`).
+- **Logo YIBOLO** : celui de l'accueil (repris de yibolo-client) : carré bleu avec le « Y » en coche, « Yibolo », devise « Apprendre · Évoluer · Réussir » (décision du 2026-11-24). Fichiers : `src/assets/brand/` (voir son `README.md`). Dans l'interface, il est dessiné par `Logo` (`light` sur fond sombre). Favicon : `public/favicon.svg` ; icônes d'application : `public/icons/` ; manifeste : `public/site.webmanifest`.
 - Chaque image a un `alt` qui la décrit ; une image décorative a `alt=""`.
 
 ---

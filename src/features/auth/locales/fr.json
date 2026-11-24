@@ -1,6 +1,8 @@
 {
   "connexion": {
     "title": "Connexion",
+    "subtitle": "Heureux de vous revoir ! Connectez-vous pour retrouver votre espace.",
+    "identifierPlaceholder": "vous@exemple.cm ou 6 90 12 34 56",
     "identifier": "Email ou téléphone",
     "password": "Mot de passe",
     "show": "Afficher",
@@ -9,31 +11,35 @@
     "forgot": {
       "link": "Mot de passe oublié ?",
       "title": "Mot de passe oublié",
-      "text": "Un code vous serait envoyé par SMS ou WhatsApp."
+      "intro": "Saisissez l’e-mail ou le téléphone de votre compte : nous vous envoyons un code pour choisir un nouveau mot de passe.",
+      "identifier": "Email ou téléphone",
+      "sendCode": "Recevoir un code",
+      "codeSent": "Un code de vérification a été envoyé par SMS au {{phone}}.",
+      "demoCode": "Démonstration sans envoi de SMS : votre code est",
+      "code": "Code de vérification",
+      "newPassword": "Nouveau mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "save": "Enregistrer le nouveau mot de passe",
+      "done": "Mot de passe modifié. Connectez-vous avec votre nouveau mot de passe.",
+      "errors": {
+        "identifier": "Saisissez votre e-mail ou votre téléphone.",
+        "unknown": "Aucun compte ne correspond à cet identifiant.",
+        "code": "Le code compte 6 chiffres.",
+        "wrongCode": "Ce code n’est pas le bon.",
+        "passwordLength": "Le mot de passe compte au moins 8 caractères.",
+        "passwordMatch": "Les deux mots de passe ne sont pas identiques."
+      }
     },
     "submit": "Se connecter",
     "or": "Ou",
     "signUp": "Créer un compte",
     "guest": "Continuer sans compte",
     "welcome": "Bienvenue, {{name}} !",
-    "demoAccount": "Compte de démonstration",
     "errors": {
+      "invalid": "Identifiant ou mot de passe incorrect.",
+      "pending": "Votre compte est en cours de vérification par YIBOLO. Vous recevrez une notification dès qu’il sera validé.",
       "identifier": "Saisissez votre e-mail ou votre téléphone.",
       "password": "Le mot de passe compte au moins 6 caractères."
-    }
-  },
-  "demoAccounts": {
-    "utilisateur": {
-      "label": "Personne physique"
-    },
-    "ipes": {
-      "label": "École – IPES"
-    },
-    "cfp": {
-      "label": "École – CFP"
-    },
-    "autre": {
-      "label": "École – Autre"
     }
   },
   "inscription": {
@@ -89,6 +95,8 @@
       }
     },
     "errors": {
+      "emailTaken": "Un compte existe déjà avec cet e-mail. Connectez-vous ou utilisez une autre adresse.",
+      "saveFailed": "Le compte n’a pas pu être enregistré. Réessayez.",
       "required": "Ce champ est obligatoire.",
       "phone": "Numéro de téléphone incomplet.",
       "email": "Adresse e-mail invalide.",

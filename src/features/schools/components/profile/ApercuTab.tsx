@@ -1,14 +1,15 @@
 import { Link } from 'react-router'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { toast } from 'sonner'
 import { Award, BarChart3, Building2, Calculator, CircleCheck, GraduationCap, Info, Laptop, Layers, MapPin, Megaphone, Sun, Users } from 'lucide-react'
 import { Img } from '@/shared/components/ui/Img'
 import { ActionButtons } from '@/features/schools/components/profile/ActionButtons'
 import { card, principales } from '@/features/schools/components/profile/profileShared'
-import { slugOfType } from '@/mocks/schools'
-import { useEtablissement, useFormationsOf } from '@/data/hooks'
+import { slugOfType } from '@/features/schools/schoolTypes'
+import { useEtablissement, useFormationsOf, useVideos } from '@/data/hooks'
 import { cn } from '@/shared/utils/cn'
 import { ROUTES } from '@/shared/utils/routes'
+import { Visionneuse } from '@/shared/components/ui/Visionneuse'
 
 const filiereTiles = [
   { bg: 'bg-[#e8f0ff]', color: 'text-brand-600', icon: Calculator },
@@ -27,12 +28,17 @@ export function ApercuTab({ id }: { id: string }) {
   const list = useFormationsOf(id).filter((f) => f.statut === 'Publiée')
   const diplomes = [...new Set(list.map((f) => f.diplome))]
   const fil = principales(e)
+  const presentation = useVideos('etablissement', e.id, 'presentation')[0]
+  const [vue, setVue] = useState<number | null>(null)
   return (
     <div className="space-y-4">
       <div className="grid items-start gap-4 lg:grid-cols-[1.06fr_0.92fr_0.74fr]">
-        <button type="button" onClick={() => toast(t('ecoleProfil.apercu.videoToast'))} className="overflow-hidden rounded-2xl">
-          <Img src="/images/maquette/ipc-video.jpg" alt={t('ecoleProfil.apercu.videoAlt', { sigle: e.sigle })} className="h-auto w-full sm:h-[244px]" />
-        </button>
+        {presentation && (
+          <button type="button" onClick={() => setVue(0)} aria-label={t('ecoleProfil.apercu.videoAlt', { sigle: e.sigle })} className="overflow-hidden rounded-2xl">
+            <Img src={presentation.poster} alt={t('ecoleProfil.apercu.videoAlt', { sigle: e.sigle })} className="h-auto w-full sm:h-[244px]" />
+          </button>
+        )}
+        {presentation && <Visionneuse elements={[{ src: presentation.src, poster: presentation.poster, video: true, alt: t('ecoleProfil.apercu.videoAlt', { sigle: e.sigle }) }]} index={vue} onClose={() => setVue(null)} />}
         <div className={cn(card, 'p-4')}>
           <h2 className="flex items-center gap-2.5 text-[21px] font-bold text-navy-900">
             <Info className="size-6 text-brand-600" /> {t('ecoleProfil.apercu.presentation')}

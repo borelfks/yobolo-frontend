@@ -1,6 +1,8 @@
 {
   "connexion": {
     "title": "Sign in",
+    "subtitle": "Good to see you again! Sign in to get back to your space.",
+    "identifierPlaceholder": "you@example.cm or 6 90 12 34 56",
     "identifier": "Email or phone",
     "password": "Password",
     "show": "Show",
@@ -9,31 +11,35 @@
     "forgot": {
       "link": "Forgot your password?",
       "title": "Forgotten password",
-      "text": "A code would be sent to you by SMS or WhatsApp."
+      "intro": "Enter your account’s email or phone number: we will send you a code to choose a new password.",
+      "identifier": "Email or phone",
+      "sendCode": "Get a code",
+      "codeSent": "A verification code was sent by SMS to {{phone}}.",
+      "demoCode": "Demo without SMS: your code is",
+      "code": "Verification code",
+      "newPassword": "New password",
+      "confirmPassword": "Confirm password",
+      "save": "Save new password",
+      "done": "Password changed. Sign in with your new password.",
+      "errors": {
+        "identifier": "Enter your email or phone number.",
+        "unknown": "No account matches this email or phone.",
+        "code": "The code has 6 digits.",
+        "wrongCode": "This code is incorrect.",
+        "passwordLength": "The password must have at least 8 characters.",
+        "passwordMatch": "The two passwords do not match."
+      }
     },
     "submit": "Sign in",
     "or": "Or",
     "signUp": "Create an account",
     "guest": "Continue without an account",
     "welcome": "Welcome, {{name}}!",
-    "demoAccount": "Demo account",
     "errors": {
+      "invalid": "Incorrect username or password.",
+      "pending": "Your account is being verified by YIBOLO. You will be notified as soon as it is approved.",
       "identifier": "Enter your email or phone number.",
       "password": "The password must have at least 6 characters."
-    }
-  },
-  "demoAccounts": {
-    "utilisateur": {
-      "label": "Individual"
-    },
-    "ipes": {
-      "label": "School – IPES"
-    },
-    "cfp": {
-      "label": "School – CFP"
-    },
-    "autre": {
-      "label": "School – Other"
     }
   },
   "inscription": {
@@ -89,6 +95,8 @@
       }
     },
     "errors": {
+      "emailTaken": "An account already exists with this email. Sign in or use another address.",
+      "saveFailed": "The account could not be saved. Please try again.",
       "required": "This field is required.",
       "phone": "Incomplete phone number.",
       "email": "Invalid email address.",

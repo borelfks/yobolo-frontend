@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { toast } from 'sonner'
 import { BookOpen, Building2, FlaskConical, Image as ImageIcon, LayoutGrid, Monitor, Users } from 'lucide-react'
 import { Img } from '@/shared/components/ui/Img'
 import { card } from '@/features/schools/components/profile/profileShared'
-import { albums } from '@/mocks/schools'
 import { cn } from '@/shared/utils/cn'
+import { useAlbums, useEtablissement, useMedias, useVideos } from '@/data/hooks'
+import { Visionneuse } from '@/shared/components/ui/Visionneuse'
 
 const albumIcons = { 'Campus & bâtiments': Building2, 'Salles de cours': Monitor, Laboratoires: FlaskConical, Bibliothèque: BookOpen, 'Vie étudiante': Users } as const
 
@@ -14,6 +14,14 @@ const ALL = '__all__'
 
 /** Onglet « Galerie » de la fiche établissement. */
 export function GalerieTab({ id }: { id: string }) {
+  const albums = useAlbums()
+  const videoGalerie = useVideos('etablissement', id, 'galerie')[0]
+  const [video, setVideo] = useState<number | null>(null)
+  // Les médias de l'établissement (ajoutés depuis son espace pro, Profil › Médias).
+  const e = useEtablissement(id)
+  const medias = useMedias(id)
+  const [media, setMedia] = useState<number | null>(null)
+  const [vue, setVue] = useState<number | null>(null)
   const { t } = useTranslation('schools')
   const [cat, setCat] = useState(ALL)
   const total = albums.reduce((s, a) => s + a.count, 0)
@@ -50,18 +58,35 @@ export function GalerieTab({ id }: { id: string }) {
           <ImageIcon className="size-7" /> {cat === ALL ? allLabel : cat} ({cat === ALL ? total : albums.find((a) => a.nom === cat)?.count})
         </h2>
         <div className="grid grid-cols-2 gap-3.5 md:grid-cols-3">
-          {shown.map((a) => (
-            <button key={a.nom} type="button" onClick={() => toast(t('ecoleProfil.galerie.albumToast', { name: a.nom }))} className="overflow-hidden rounded-xl transition-transform hover:scale-[1.01]">
+          {shown.map((a, i) => (
+            <button key={a.nom} type="button" onClick={() => setVue(i)} className="overflow-hidden rounded-xl transition-transform hover:scale-[1.01]">
               <Img src={a.image} alt={a.nom} className="h-[162px] w-full" />
             </button>
           ))}
-          {cat === ALL && (
-            <button type="button" onClick={() => toast(t('ecoleProfil.galerie.videoToast', { id: id.toUpperCase() }))} className="overflow-hidden rounded-xl transition-transform hover:scale-[1.01]">
-              <Img src="/images/maquette/album-video.jpg" alt={t('ecoleProfil.galerie.videoAlt')} className="h-[162px] w-full" />
+          {cat === ALL && videoGalerie && (
+            <button type="button" onClick={() => setVideo(0)} className="overflow-hidden rounded-xl transition-transform hover:scale-[1.01]">
+              <Img src={videoGalerie.poster} alt={t('ecoleProfil.galerie.videoAlt')} className="h-[162px] w-full" />
             </button>
           )}
         </div>
       </div>
+      {medias.length > 0 && (
+        <div className="space-y-3">
+          <h2 className="flex items-center gap-2.5 text-[22px] font-bold text-navy-900">
+            <ImageIcon className="size-7" /> {t('ecoleProfil.galerie.medias', { count: medias.length })}
+          </h2>
+          <div className="grid grid-cols-2 gap-3.5 md:grid-cols-4">
+            {medias.map((m, i) => (
+              <button key={m.id} type="button" onClick={() => setMedia(i)} className="overflow-hidden rounded-xl transition-transform hover:scale-[1.01]">
+                {m.video && m.src.startsWith('data:video') ? <video src={m.src} muted className="h-[130px] w-full object-cover" /> : <Img src={m.src} alt="" className="h-[130px] w-full" />}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+      <Visionneuse elements={medias.map((m) => ({ src: m.src, alt: e.nom, video: m.video && (m.src.startsWith('data:video') || m.src.endsWith('.webm')) }))} index={media} onClose={() => setMedia(null)} />
+      {videoGalerie && <Visionneuse elements={[{ src: videoGalerie.src, poster: videoGalerie.poster, video: true, alt: videoGalerie.titre }]} index={video} onClose={() => setVideo(null)} />}
+      <Visionneuse elements={shown.map((a) => ({ src: a.image, alt: a.nom }))} index={vue} onClose={() => setVue(null)} />
     </div>
   )
 }

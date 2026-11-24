@@ -1,13 +1,17 @@
 import { useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { toast } from 'sonner'
-import { ArrowRight, Award, Briefcase, Building2, CalendarDays, GraduationCap, Info, Layers, Mail, Map as MapIcon, MapPin, Phone, Sun, Target, Trophy, Users, Wallet } from 'lucide-react'
+import { ArrowRight, Award, Briefcase, Building2, CalendarDays, CircleHelp, FileDown, GraduationCap, Info, Newspaper, Layers, Mail, Map as MapIcon, MapPin, Phone, Sun, Target, Trophy, Users, Wallet } from 'lucide-react'
 import { ActionButtons } from '@/features/schools/components/profile/ActionButtons'
+import { ContenusPublics } from '@/features/schools/components/profile/ContenusPublics'
 import { card } from '@/features/schools/components/profile/profileShared'
 import { useEtablissement, useFormationsOf } from '@/data/hooks'
 import { cn } from '@/shared/utils/cn'
+import { lienCarte, ouvrir } from '@/shared/utils/liens'
 
-type SectionId = 'presentation' | 'admission' | 'frais' | 'calendrier' | 'contact'
+type SectionInfo = 'admission' | 'frais' | 'calendrier' | 'contact'
+/** Rubriques alimentées par l'espace pro de l'établissement (Contenus et informations). */
+type SectionContenu = 'actualites' | 'documents' | 'faq'
+type SectionId = 'presentation' | SectionInfo | SectionContenu
 
 const sections: { id: SectionId; icon: ReactNode }[] = [
   { id: 'presentation', icon: <Info /> },
@@ -15,6 +19,9 @@ const sections: { id: SectionId; icon: ReactNode }[] = [
   { id: 'frais', icon: <Wallet /> },
   { id: 'calendrier', icon: <CalendarDays /> },
   { id: 'contact', icon: <MapPin /> },
+  { id: 'actualites', icon: <Newspaper /> },
+  { id: 'documents', icon: <FileDown /> },
+  { id: 'faq', icon: <CircleHelp /> },
 ]
 
 const assets = ['a1', 'a2', 'a3', 'a4'] as const
@@ -88,7 +95,7 @@ export function InformationsTab({ id }: { id: string }) {
             </div>
           </div>
         ) : (
-          <InfoSection sec={sec} id={id} />
+          sec === 'actualites' || sec === 'documents' || sec === 'faq' ? <ContenusPublics sec={sec} id={id} /> : <InfoSection sec={sec} id={id} />
         )}
       </div>
       <div className="space-y-4">
@@ -121,7 +128,7 @@ export function InformationsTab({ id }: { id: string }) {
             <li className="flex items-center gap-3 rounded-lg px-3 py-1.5 font-medium"><Mail className="size-5" />{e.email}</li>
             <li className="flex items-center gap-3 rounded-lg bg-[#f5f8fd] px-3 py-1.5 font-medium"><MapPin className="size-5" />{e.ville} – {e.quartier}</li>
           </ul>
-          <button type="button" onClick={() => toast(t('ecoleProfil.informations.mapToast'))} className="mt-3 flex h-11 w-full items-center justify-center gap-3 rounded-full border-2 border-brand-600/70 text-[16px] font-semibold text-navy-800 hover:bg-brand-50">
+          <button type="button" onClick={() => ouvrir(lienCarte(e.nom, e.quartier, e.ville))} className="mt-3 flex h-11 w-full items-center justify-center gap-3 rounded-full border-2 border-brand-600/70 text-[16px] font-semibold text-navy-800 hover:bg-brand-50">
             <MapIcon className="size-5" />
             {t('ecoleProfil.informations.seeOnMap')}
             <ArrowRight className="size-5" />
@@ -140,11 +147,11 @@ function CheckMark() {
   )
 }
 
-function InfoSection({ sec, id }: { sec: Exclude<SectionId, 'presentation'>; id: string }) {
+function InfoSection({ sec, id }: { sec: SectionInfo; id: string }) {
   const { t } = useTranslation('schools')
   const e = useEtablissement(id)
   const r = (k: RowId) => t(`ecoleProfil.informations.rows.${k}`)
-  const rows: Record<Exclude<SectionId, 'presentation'>, [string, string][]> = {
+  const rows: Record<SectionInfo, [string, string][]> = {
     admission: [
       [r('niveau'), r('niveauValue')],
       [r('selection'), r('selectionValue')],

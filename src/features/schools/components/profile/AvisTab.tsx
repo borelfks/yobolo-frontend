@@ -1,18 +1,22 @@
 import { useState } from 'react'
 import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { toast } from 'sonner'
 import { Briefcase, ChevronDown, GraduationCap, MessageCircle, PencilLine, Star, ThumbsUp, Users } from 'lucide-react'
 import { Img } from '@/shared/components/ui/Img'
 import { Stars } from '@/shared/components/ui/StarRating'
 import { Select } from '@/shared/components/forms/Fields'
 import { card } from '@/features/schools/components/profile/profileShared'
-import { repartitionNotes, slugOfType } from '@/mocks/schools'
-import { useAvisEtablissement, useEtablissement } from '@/data/hooks'
+import { useAvisEtablissement, useEtablissement, useRepartitionNotes } from '@/data/hooks'
+import { data } from '@/data'
+import { load, save } from '@/shared/utils/storage'
 import type { AvisEtablissement } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
-import { num } from '@/shared/utils/format'
+import { num, shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
+import { slugOfType } from '@/features/schools/schoolTypes'
+import { toast } from 'sonner'
+import { useSession } from '@/features/auth/hooks/useSession'
+import { ajoutes, repartitionAJour } from '@/shared/utils/compteurs'
 
 /** Rôle d'un auteur d'avis (valeur fixe des données) → fin de sa clé de traduction. */
 const roleKeys = {
@@ -49,17 +53,31 @@ function Laurel({ flip }: { flip?: boolean }) {
 }
 
 /** Onglet « Avis » de la fiche établissement. */
+type Filtre = 'tous' | 'etudiants' | 'anciens' | 'entreprises'
+type Tri = 'recents' | 'mieuxNotes' | 'utiles'
+const TRIS: Tri[] = ['recents', 'mieuxNotes', 'utiles']
+/** Nombre d'avis affichés, puis ajoutés à chaque « Voir plus ». */
+const PAR_PAGE = 3
+
 export function AvisTab({ id }: { id: string }) {
   const { t } = useTranslation('schools')
   const e = useEtablissement(id)
   const avis = useAvisEtablissement(e.id)
-  const [f, setF] = useState('tous')
-  const list = f === 'tous' ? avis : avis.filter((a) => (f === 'etudiants' ? a.role.startsWith('Étudiant') : f === 'anciens' ? a.role.startsWith('Ancien') : a.role === 'Entreprise'))
+  // Répartition de la maquette, plus les avis ajoutés sur cet établissement.
+  const repartitionNotes = repartitionAJour(useRepartitionNotes('etablissement'), e.avis, ajoutes(avis.filter((x) => x.etablissementId === e.id)).map((x) => x.note))
+  // L'établissement connecté répond à ses avis depuis sa fiche publique.
+  const { account } = useSession()
+  const [f, setF] = useState<Filtre>('tous')
+  const [tri, setTri] = useState<Tri>('recents')
+  const [visibles, setVisibles] = useState(PAR_PAGE)
+  // Les filtres comptent les avis enregistrés de chaque profil.
+  const deProfil = (x: Filtre) => (x === 'tous' ? avis : avis.filter((a) => (x === 'etudiants' ? a.role.startsWith('Étudiant') : x === 'anciens' ? a.role.startsWith('Ancien') : a.role === 'Entreprise')))
+  const list = [...deProfil(f)].sort((a, b) => (tri === 'mieuxNotes' ? b.note - a.note : tri === 'utiles' ? b.utile - a.utile : 0))
   const filtres = [
-    { value: 'tous', label: t('ecoleProfil.avis.filters.tous', { n: e.avis }), icon: null },
-    { value: 'etudiants', label: t('ecoleProfil.avis.filters.etudiants', { n: Math.round(e.avis * 0.734) }), icon: <GraduationCap /> },
-    { value: 'anciens', label: t('ecoleProfil.avis.filters.anciens', { n: Math.round(e.avis * 0.196) }), icon: <Briefcase /> },
-    { value: 'entreprises', label: t('ecoleProfil.avis.filters.entreprises', { n: Math.round(e.avis * 0.07) }), icon: <Users /> },
+    { value: 'tous' as const, label: t('ecoleProfil.avis.filters.tous', { n: avis.length }), icon: null },
+    { value: 'etudiants' as const, label: t('ecoleProfil.avis.filters.etudiants', { n: deProfil('etudiants').length }), icon: <GraduationCap /> },
+    { value: 'anciens' as const, label: t('ecoleProfil.avis.filters.anciens', { n: deProfil('anciens').length }), icon: <Briefcase /> },
+    { value: 'entreprises' as const, label: t('ecoleProfil.avis.filters.entreprises', { n: deProfil('entreprises').length }), icon: <Users /> },
   ]
   return (
     <div className="grid gap-5 lg:grid-cols-[324px_1fr]">
@@ -101,7 +119,7 @@ export function AvisTab({ id }: { id: string }) {
           </h2>
           <span className="flex items-center gap-2 text-sm">
             {t('shared.sortBy')}
-            <span className="w-44"><Select aria-label={t('shared.sortByAria')} options={[t('ecoleProfil.avis.sort.recents'), t('ecoleProfil.avis.sort.mieuxNotes'), t('ecoleProfil.avis.sort.utiles')]} className="h-10" /></span>
+            <span className="w-44"><Select aria-label={t('shared.sortByAria')} value={tri} onChange={(ev) => setTri(ev.target.value as Tri)} options={TRIS.map((x) => ({ value: x, label: t(`ecoleProfil.avis.sort.${x}`) }))} className="h-10" /></span>
           </span>
         </div>
         <div className="flex flex-wrap gap-3">
@@ -109,7 +127,7 @@ export function AvisTab({ id }: { id: string }) {
             <button
               key={x.value}
               type="button"
-              onClick={() => setF(x.value)}
+              onClick={() => (setF(x.value), setVisibles(PAR_PAGE))}
               className={cn('inline-flex h-10 items-center gap-2 rounded-full px-5 text-[15px] font-semibold [&_svg]:size-5', f === x.value ? 'bg-brand-600 text-white' : 'border border-line bg-white text-navy-900 hover:bg-brand-50')}
             >
               {x.icon}
@@ -117,25 +135,50 @@ export function AvisTab({ id }: { id: string }) {
             </button>
           ))}
         </div>
-        {list.map((r) => (
-          <AvisLine key={r.id} r={r} />
+        {list.slice(0, visibles).map((r) => (
+          <AvisLine key={r.id} r={r} peutRepondre={account?.ecoleId === e.id} />
         ))}
-        <div className="flex justify-center pt-1">
-          <button type="button" onClick={() => toast(t('ecoleProfil.avis.loadMoreToast'))} className="inline-flex h-11 items-center gap-2 rounded-full border-2 border-brand-600/60 bg-white px-11 text-[16px] font-semibold text-navy-800 hover:bg-brand-50">
-            {t('ecoleProfil.avis.seeMore', { n: e.avis - 3 })}
-            <ChevronDown className="size-5" />
-          </button>
-        </div>
+        {list.length === 0 && <p className="rounded-2xl border border-line bg-white p-5 text-center text-[15px] text-muted">{t('ecoleProfil.avis.none')}</p>}
+        {list.length > visibles && (
+          <div className="flex justify-center pt-1">
+            <button type="button" onClick={() => setVisibles((v) => v + PAR_PAGE)} className="inline-flex h-11 items-center gap-2 rounded-full border-2 border-brand-600/60 bg-white px-11 text-[16px] font-semibold text-navy-800 hover:bg-brand-50">
+              {t('ecoleProfil.avis.seeMore', { n: list.length - visibles })}
+              <ChevronDown className="size-5" />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )
 }
 
-function AvisLine({ r }: { r: AvisEtablissement }) {
+function AvisLine({ r, peutRepondre }: { r: AvisEtablissement; peutRepondre: boolean }) {
   const { t } = useTranslation('schools')
-  const [liked, setLiked] = useState(false)
+  const [repondre, setRepondre] = useState(false)
+  const [texte, setTexte] = useState(r.reponse?.texte ?? '')
+  const publier = async () => {
+    if (texte.trim().length < 2) return void toast.error(t('ecoleProfil.avis.reply.tooShort'))
+    await data.update('avisEtablissements', r.id, { reponse: { texte: texte.trim(), le: shortDate(new Date(), { day: '2-digit', month: 'short', year: 'numeric' }) } })
+    setRepondre(false)
+    toast.success(t('ecoleProfil.avis.reply.published'))
+  }
+  const retirer = async () => {
+    await data.update('avisEtablissements', r.id, { reponse: undefined })
+    setTexte('')
+    toast.success(t('ecoleProfil.avis.reply.removed'))
+  }
+  // « Utile » : le nombre est enregistré dans la base ; ce navigateur retient qu'il a déjà voté.
+  const [liked, setLiked] = useState(() => load<string[]>('avis-utiles', []).includes(r.id))
+  const voter = async () => {
+    const votes = load<string[]>('avis-utiles', [])
+    const suivant = !liked
+    setLiked(suivant)
+    save('avis-utiles', suivant ? [...votes, r.id] : votes.filter((x) => x !== r.id))
+    await data.update('avisEtablissements', r.id, { utile: Math.max(0, r.utile + (suivant ? 1 : -1)) })
+  }
   return (
-    <div className={cn(card, 'flex flex-col gap-3 p-3 sm:flex-row sm:items-center')}>
+    <div className={cn(card, 'p-3')}>
+    <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
       <div className="flex items-center gap-3 sm:w-[310px]">
         <Img src={r.avatar} alt={r.nom} className="size-14 rounded-full" />
         <div>
@@ -149,10 +192,32 @@ function AvisLine({ r }: { r: AvisEtablissement }) {
         </div>
       </div>
       <p className="flex-1 border-line text-[14px] leading-snug text-navy-900 sm:border-l sm:pl-5">{r.texte}</p>
-      <button type="button" onClick={() => setLiked(!liked)} className={cn('inline-flex items-center gap-2 px-3 text-[15px] font-semibold', liked ? 'text-brand-600' : 'text-navy-900')}>
+      <button type="button" aria-pressed={liked} aria-label={t('ecoleProfil.avis.useful')} onClick={() => void voter()} className={cn('inline-flex items-center gap-2 px-3 text-[15px] font-semibold', liked ? 'text-brand-600' : 'text-navy-900')}>
         <ThumbsUp className={cn('size-5 text-brand-600', liked && 'fill-brand-600')} />
-        {r.utile + (liked ? 1 : 0)}
+        {r.utile}
       </button>
+    </div>
+      {r.reponse && !repondre && (
+        <div className="mt-3 rounded-xl border-l-4 border-brand-600 bg-[#f3f6fc] px-4 py-2.5 text-[14px] text-navy-900 sm:ml-[310px]">
+          <p className="font-semibold text-brand-700">{t('ecoleProfil.avis.reply.from')} · <span className="font-normal text-muted">{r.reponse.le}</span></p>
+          <p className="mt-0.5">{r.reponse.texte}</p>
+        </div>
+      )}
+      {peutRepondre && !repondre && (
+        <div className="mt-2 flex gap-3 sm:ml-[310px]">
+          <button type="button" onClick={() => setRepondre(true)} className="text-[14px] font-semibold text-brand-600 hover:underline">{r.reponse ? t('ecoleProfil.avis.reply.edit') : t('ecoleProfil.avis.reply.reply')}</button>
+          {r.reponse && <button type="button" onClick={() => void retirer()} className="text-[14px] font-semibold text-rose-600 hover:underline">{t('ecoleProfil.avis.reply.remove')}</button>}
+        </div>
+      )}
+      {repondre && (
+        <div className="mt-3 space-y-2 sm:ml-[310px]">
+          <textarea value={texte} onChange={(ev) => setTexte(ev.target.value)} rows={3} aria-label={t('ecoleProfil.avis.reply.label')} placeholder={t('ecoleProfil.avis.reply.placeholder')} className="w-full rounded-xl border border-line p-3 text-[14px] outline-none focus:border-brand-500 focus:ring-3 focus:ring-brand-100" />
+          <div className="flex gap-2">
+            <button type="button" onClick={() => void publier()} className="h-9 rounded-full bg-brand-600 px-5 text-[14px] font-semibold text-white hover:bg-brand-700">{t('ecoleProfil.avis.reply.publish')}</button>
+            <button type="button" onClick={() => (setRepondre(false), setTexte(r.reponse?.texte ?? ''))} className="h-9 rounded-full border border-line px-5 text-[14px] font-semibold text-navy-800">{t('ecoleProfil.avis.reply.cancel')}</button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

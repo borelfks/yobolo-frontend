@@ -1,13 +1,22 @@
 import { useState } from 'react'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
-import { ArrowUpDown, CalendarDays, ChevronDown, ChevronLeft, ChevronRight, CircleCheck, Clock, FileText, GraduationCap, Layers, MoreHorizontal, Pencil, Plus, Search, Tag } from 'lucide-react'
+import { ArrowUpDown, BadgeCheck, CalendarDays, ChevronDown, ChevronLeft, ChevronRight, CircleCheck, Clock, Copy, ExternalLink, EyeOff, FileText, GraduationCap, Layers, Pencil, Plus, Search, Send, Tag, Trash2 } from 'lucide-react'
 import { ProHeader } from '@/features/pro/components/ProBlocks'
 import { useMonEcole } from '@/features/auth/hooks/useSession'
 import { cn } from '@/shared/utils/cn'
-import { useFormationsPro } from '@/data/hooks'
+import { useFormations, useFormationsPro } from '@/data/hooks'
+import { data, newId } from '@/data'
+import { formationUrl } from '@/features/schools/schoolLinks'
+import { PREFIXE_FORMATION_CREEE } from '@/features/pro/proData'
+import type { StatutPublication } from '@/shared/types'
 import { ROUTES } from '@/shared/utils/routes'
+import { MenuActions } from '@/shared/components/ui/MenuActions'
+import { ajusterNombreFormations } from '@/shared/utils/compteurs'
+
+/** L'instant présent, en texte ISO (appelé hors du rendu). */
+const maintenant = () => new Date().toISOString()
 
 const chip: Record<string, string> = {
   blue: 'bg-[#e3ecff] text-brand-700',
@@ -58,18 +67,45 @@ export function Formations() {
   const duration = useDuration()
   const { ecole, formations } = useMonEcole()
   const lignes = useFormationsPro(ecole.id)
-  // IPC : le tableau de la maquette (img11) et les formations créées. Autres établissements : leurs formations,
-  // avec la ligne enregistrée par « Créer / Modifier une formation » quand elle existe.
+  // Les lignes du tableau de l'établissement (formationsPro), puis ses fiches de formation qui n'ont pas encore de ligne.
   const propres = lignes.filter((f) => f.etablissementId === ecole.id)
-  const base =
-    ecole.id === 'ipc'
-      ? lignes
-      : [
-          ...propres,
-          ...formations
-            .filter((f) => !propres.some((p) => p.id === f.id))
-            .map((f) => ({ id: f.id, nom: f.nom, code: f.code, filiere: f.filiere, ton: 'blue', diplome: f.diplome, duree: `${f.dureeMois} mois`, rentree: f.rentree, statut: f.statut })),
-        ]
+  const base = [
+    ...propres,
+    ...formations
+      .filter((f) => !propres.some((p) => p.id === f.id))
+      .map((f) => ({ id: f.id, nom: f.nom, code: f.code, filiere: f.filiere, ton: 'blue', diplome: f.diplome, duree: `${f.dureeMois} mois`, rentree: f.rentree, statut: f.statut })),
+  ]
+  const navigate = useNavigate()
+  const toutes = useFormations()
+  type Ligne = (typeof base)[number]
+  // Une ligne vient du tableau (formationsPro), d'une fiche (formations), ou des deux : on met à jour ce qui existe.
+  const enregistree = (id: string) => lignes.some((l) => l.id === id)
+  const fiche = (id: string) => toutes.find((x) => x.id === id)
+  const changerStatut = async (f: Ligne, statut: StatutPublication) => {
+    if (enregistree(f.id)) await data.update('formationsPro', f.id, { statut })
+    const source = fiche(f.id)
+    // Publiée pour la première fois : elle prend place dans le fil de l'accueil à cette date.
+    if (source) await data.update('formations', f.id, statut === 'Publiée' && !source.publieeLe ? { statut, publieeLe: maintenant() } : { statut })
+    toast.success(t(statut === 'Brouillon' ? 'formations.menu.unpublished' : statut === 'Publiée' ? 'formations.menu.validated' : 'formations.menu.sentForReview', { name: f.nom }))
+  }
+  const dupliquer = async (f: Ligne) => {
+    const id = newId(PREFIXE_FORMATION_CREEE)
+    const nom = `${f.nom}${t('formations.menu.copySuffix')}`
+    const source = fiche(f.id)
+    if (source) await data.create('formations', { ...source, id, nom, etablissementId: ecole.id, statut: 'Brouillon', publieeLe: undefined })
+    await data.create('formationsPro', { id, etablissementId: ecole.id, nom, code: f.code, filiere: f.filiere, ton: f.ton, diplome: f.diplome, duree: f.duree, rentree: f.rentree, statut: 'Brouillon' })
+    // L'établissement compte une formation de plus (fiche, tableau de bord).
+    await ajusterNombreFormations(ecole.id, 1)
+    toast.success(t('formations.menu.duplicated', { name: nom }))
+  }
+  const supprimer = async (f: Ligne) => {
+    if (enregistree(f.id)) await data.remove('formationsPro', f.id)
+    if (fiche(f.id)) await data.remove('formations', f.id)
+    // Une formation de moins, et elle quitte les favoris.
+    await ajusterNombreFormations(ecole.id, -1)
+    if ((await data.list('favoris')).some((x) => x.id === f.id)) await data.remove('favoris', f.id)
+    toast.success(t('formations.menu.deleted', { name: f.nom }))
+  }
   const [q, setQ] = useState('')
   const [filiere, setFiliere] = useState('')
   const [statut, setStatut] = useState('')
@@ -159,7 +195,18 @@ export function Formations() {
                   <td className="pr-5">
                     <div className="flex justify-center gap-2">
                       <Link to={ROUTES.pro.editTraining(f.id)} aria-label={t('formations.table.edit')} className="grid size-9 place-items-center rounded-lg bg-[#eef3fc] text-navy-800 hover:bg-brand-100"><Pencil className="size-4" /></Link>
-                      <button type="button" aria-label={t('formations.table.more')} onClick={() => toast(t('formations.table.moreToast'))} className="grid size-9 place-items-center rounded-lg bg-[#eef3fc] text-navy-800 hover:bg-brand-100"><MoreHorizontal className="size-5" /></button>
+                      <MenuActions
+                        label={t('formations.table.more')}
+                        actions={[
+                          { label: t('formations.menu.view'), icon: <ExternalLink />, hidden: !formations.some((x) => x.id === f.id), onClick: () => navigate(formationUrl(formations.find((x) => x.id === f.id)!)) },
+                          { label: t('formations.menu.duplicate'), icon: <Copy />, onClick: () => dupliquer(f) },
+                          { label: t('formations.menu.validate'), icon: <BadgeCheck />, hidden: f.statut !== 'En attente', onClick: () => changerStatut(f, 'Publiée') },
+                          f.statut === 'Brouillon'
+                            ? { label: t('formations.menu.publish'), icon: <Send />, onClick: () => changerStatut(f, 'En attente') }
+                            : { label: t('formations.menu.unpublish'), icon: <EyeOff />, onClick: () => changerStatut(f, 'Brouillon') },
+                          { label: t('formations.menu.delete'), icon: <Trash2 />, danger: true, onClick: () => supprimer(f) },
+                        ]}
+                      />
                     </div>
                   </td>
                 </tr>

@@ -65,7 +65,6 @@
     },
     "resetFilters": "Reset filters",
     "map": {
-      "opening": "Opening the map (demo)",
       "see": "See on the map →"
     }
   },
@@ -92,8 +91,8 @@
       "typeHint": "IPES, CFP, Driving school, Other"
     },
     "found": "{{n}} institutions found",
-    "total": "1,248",
-    "pagination": "Showing 1 to 12 of 1,248 institutions"
+    "empty": "No institution matches this search.",
+    "paginationDynamic": "Showing {{from}} to {{to}} of {{total}} institutions"
   },
   "listing": {
     "crumb": "Schools",
@@ -252,7 +251,6 @@
       "galerie": "Gallery"
     },
     "apercu": {
-      "videoToast": "Playing the presentation video (demo)",
       "videoAlt": "Discover {{sigle}} in 1 minute",
       "presentation": "Presentation",
       "highlights": {
@@ -299,7 +297,10 @@
         "admission": "Admission requirements",
         "frais": "Fees & payments",
         "calendrier": "Academic calendar",
-        "contact": "Contact & location"
+        "contact": "Contact & location",
+        "actualites": "News",
+        "documents": "Documents to download",
+        "faq": "Frequently asked questions"
       },
       "presentationTitle": "About the institution",
       "presentationText": "{{name}} is an approved higher education institution, dedicated to training skilled professionals who are immediately operational on the job market.",
@@ -327,7 +328,6 @@
       "cours": "Classes",
       "rentree": "Intake",
       "contactTitle": "Contact & location",
-      "mapToast": "Opening the map (demo)",
       "seeOnMap": "View on the map",
       "rows": {
         "niveau": "Required level",
@@ -358,6 +358,13 @@
         "adresse": "Address",
         "horaires": "Opening hours",
         "horairesValue": "Mon – Sat · 8am – 6pm"
+      },
+      "contenus": {
+        "noNews": "No news published yet.",
+        "noDocuments": "No documents published yet.",
+        "noFaq": "No questions yet.",
+        "download": "Download",
+        "noFile": "This starting document has no attached file in the demo."
       }
     },
     "avis": {
@@ -376,7 +383,6 @@
         "mieuxNotes": "Highest rated",
         "utiles": "Most helpful"
       },
-      "loadMoreToast": "Loading more reviews (demo)",
       "seeMore": "See more reviews ({{n}})",
       "roles": {
         "etudiant": "Student",
@@ -384,15 +390,29 @@
         "ancienEtudiant": "Former student",
         "ancienneEtudiante": "Former student",
         "entreprise": "Company"
+      },
+      "none": "No reviews for this profile yet.",
+      "useful": "Helpful review",
+      "reply": {
+        "from": "Reply from the institution",
+        "reply": "Reply",
+        "edit": "Edit reply",
+        "remove": "Remove reply",
+        "label": "Your reply",
+        "placeholder": "Thank the author, add some detail…",
+        "publish": "Publish reply",
+        "cancel": "Cancel",
+        "published": "Reply published",
+        "removed": "Reply removed",
+        "tooShort": "Write your reply."
       }
     },
     "galerie": {
       "title": "Institution gallery",
       "intro": "Discover our campus, facilities and student life in pictures.",
       "all": "All photos",
-      "albumToast": "Album “{{name}}” (demo)",
-      "videoToast": "Playing the {{id}} video (demo)",
-      "videoAlt": "Presentation video"
+      "videoAlt": "Presentation video",
+      "medias": "Institution photos and videos ({{count}})"
     }
   },
   "formationDetail": {
@@ -551,7 +571,7 @@
       "fees": "Tuition fees:",
       "question": "Any questions?",
       "whatsappAria": "WhatsApp",
-      "whatsappToast": "Opening WhatsApp (demo)"
+      "whatsappMessage": "Hello, I would like information about the “{{formation}}” programme."
     },
     "steps": {
       "info1": "Personal",
@@ -617,7 +637,8 @@
         "photo": "Passport photo (JPEG/PNG)"
       },
       "chooseFile": "Choose a file",
-      "formats": "Accepted formats: PDF, JPG, PNG — 5 MB per file."
+      "formats": "Accepted formats: PDF, JPG, PNG — 5 MB per file.",
+      "tooBig": "File too large: 3 MB maximum."
     },
     "recap": {
       "title": "Summary of your pre-registration",
@@ -642,6 +663,16 @@
       "back": "Back",
       "next": "Next",
       "submit": "Confirm my pre-registration"
+    },
+    "notification": {
+      "titre": "New application",
+      "texte": "{{name}} pre-registered for {{training}}.",
+      "anonyme": "A candidate"
+    },
+    "notificationCandidat": {
+      "titre": "Pre-registration sent",
+      "texte": "Your {{training}} application was sent to {{school}}.",
+      "quand": "Just now"
     }
   }
 }

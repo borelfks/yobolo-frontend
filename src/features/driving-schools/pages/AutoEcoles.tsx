@@ -8,23 +8,25 @@ import { Hero } from '@/shared/components/ui/Hero'
 import { Img } from '@/shared/components/ui/Img'
 import { Pagination } from '@/shared/components/ui/Pagination'
 import { permisIcon } from '@/features/driving-schools/autoEcoleRules'
-import { useAutoEcoles } from '@/data/hooks'
-import { permisList } from '@/mocks/drivingSchools'
+import { useAutoEcoles, usePermisCatalogue, usePermisListe, useQuartiers, useRegions, useVilles } from '@/data/hooks'
+import { pageDe } from '@/shared/utils/pages'
 import type { PermisCode } from '@/shared/types'
-import { quartiers, regions, villes } from '@/mocks/schools'
 import { cn } from '@/shared/utils/cn'
 import { num } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
 
+/** Auto-écoles par page. */
+const PAR_PAGE = 9
+
 const card = 'rounded-2xl border border-line bg-white shadow-[0_2px_10px_rgba(15,29,61,0.06)]'
 
-function PillSelect({ icon, label, options, onChange }: { icon: ReactNode; label: string; options: string[]; onChange?: (v: string) => void }) {
+function PillSelect({ icon, label, options, value, onChange }: { icon: ReactNode; label: string; options: string[]; value?: string; onChange?: (v: string) => void }) {
   return (
     <label className="relative flex h-11 flex-1 items-center gap-2.5 rounded-full border border-[#c9d4ea] bg-white px-4 text-[15px] text-navy-900">
       <span className="text-navy-800 [&_svg]:size-5">{icon}</span>
-      <span className="flex-1 truncate">{label}</span>
+      <span className={cn('flex-1 truncate', value && 'font-semibold text-brand-700')}>{value || label}</span>
       <ChevronDown className="size-5" />
-      <select aria-label={label} defaultValue="" onChange={(e) => onChange?.(e.target.value)} className="absolute inset-0 cursor-pointer opacity-0">
+      <select aria-label={label} value={value ?? ''} onChange={(e) => onChange?.(e.target.value)} className="absolute inset-0 cursor-pointer opacity-0">
         <option value="">{label}</option>
         {options.map((o) => (
           <option key={o}>{o}</option>
@@ -50,19 +52,38 @@ function SmallSelect({ label, options, value, onChange }: { label: string; optio
 }
 
 export function AutoEcoles() {
+  const permisList = usePermisListe()
+  const regions = useRegions()
+  const villes = useVilles()
+  const quartiers = useQuartiers().map((q) => q.nom)
   const { t } = useTranslation('driving-schools')
   const [permis, setPermis] = useState<PermisCode[]>([])
   const [region, setRegion] = useState('')
+  const [ville, setVille] = useState('')
+  const [quartier, setQuartier] = useState('')
+  const [tri, setTri] = useState<'bestRated' | 'cheapest' | 'nearest'>('bestRated')
+  const [page, setPage] = useState(1)
   const [q, setQ] = useState('')
+  const permisCatalogue = usePermisCatalogue()
   const [view, setView] = useState<'grid' | 'list'>('grid')
   const [fav, setFav] = useState<string | null>(null)
   const [openPermis, setOpenPermis] = useState(true)
   const [openLoc, setOpenLoc] = useState(true)
   const autoEcoles = useAutoEcoles()
-  const list = autoEcoles.filter(
-    (a) => (permis.length === 0 || permis.some((p) => a.permis.includes(p))) && (!region || a.region === region) && a.nom.toLowerCase().includes(q.toLowerCase()),
+  const trouvees = autoEcoles.filter(
+    (a) =>
+      (permis.length === 0 || permis.some((p) => a.permis.includes(p))) &&
+      (!region || a.region === region) &&
+      (!ville || a.ville === ville) &&
+      (!quartier || a.quartier === quartier) &&
+      [a.nom, a.ville, a.quartier].join(' ').toLowerCase().includes(q.trim().toLowerCase()),
   )
-  const filtered = permis.length > 0 || !!region || !!q
+  // Tri : mieux notées ; moins chères (permis le moins cher proposé) ; plus proches (la ville choisie, puis la région).
+  const prixMin = (a: (typeof autoEcoles)[number]) => Math.min(...a.permis.map((c) => permisCatalogue[c]?.prix ?? Number.POSITIVE_INFINITY))
+  const proximite = (a: (typeof autoEcoles)[number]) => (ville && a.ville === ville ? 0 : region && a.region === region ? 1 : 2)
+  const list = [...trouvees].sort((a, b) => (tri === 'cheapest' ? prixMin(a) - prixMin(b) : tri === 'nearest' ? proximite(a) - proximite(b) || b.note - a.note : b.note - a.note || b.avis - a.avis))
+  const { pages, page: courante, elements } = pageDe(list, page, PAR_PAGE)
+  const filtrer = <T,>(f: (v: T) => void) => (v: T) => (f(v), setPage(1))
   return (
     <div className="mx-auto max-w-[1320px] space-y-4 px-5 py-4">
       <Hero
@@ -84,10 +105,10 @@ export function AutoEcoles() {
           <Search className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-navy-900" />
           <input name="q" placeholder={t('list.search.placeholder')} className="h-11 w-full rounded-full border border-[#c9d4ea] bg-white pr-4 pl-11 text-[15px] outline-none placeholder:text-ink/70 focus:ring-3 focus:ring-brand-100" />
         </label>
-        <PillSelect icon={<Car />} label={t('list.search.allLicences')} options={permisList.map((p) => t('common.licence', { code: p.code }))} onChange={(v) => setPermis(v ? [v.slice(-1) as PermisCode] : [])} />
-        <PillSelect icon={<MapPin />} label={t('list.search.region')} options={regions.map((r) => r.nom)} onChange={setRegion} />
-        <PillSelect icon={<Building2 />} label={t('list.search.city')} options={villes.map((v) => v.nom)} />
-        <PillSelect icon={<MapPin />} label={t('list.search.district')} options={quartiers} />
+        <PillSelect icon={<Car />} label={t('list.search.allLicences')} options={permisList.map((p) => t('common.licence', { code: p.code }))} value={permis.length === 1 ? t('common.licence', { code: permis[0] }) : ''} onChange={filtrer((v: string) => setPermis(v ? [v.slice(-1) as PermisCode] : []))} />
+        <PillSelect icon={<MapPin />} label={t('list.search.region')} options={regions.map((r) => r.nom)} value={region} onChange={filtrer(setRegion)} />
+        <PillSelect icon={<Building2 />} label={t('list.search.city')} options={villes.map((v) => v.nom)} value={ville} onChange={filtrer(setVille)} />
+        <PillSelect icon={<MapPin />} label={t('list.search.district')} options={quartiers} value={quartier} onChange={filtrer(setQuartier)} />
         <button type="submit" className="inline-flex h-11 shrink-0 items-center justify-center gap-2.5 rounded-full bg-brand-600 px-8 text-[17px] font-semibold text-white hover:bg-brand-700">
           <Search className="size-5" strokeWidth={2.6} />
           {t('list.search.submit')}
@@ -133,9 +154,9 @@ export function AutoEcoles() {
           </button>
           {openLoc && (
             <div className="mt-2 space-y-2.5 text-[14px] text-navy-900">
-              <div className="flex items-center gap-3"><span className="w-16">{t('list.filters.region')}</span><SmallSelect label={t('list.filters.allRegions')} options={regions.map((r) => r.nom)} value={region} onChange={setRegion} /></div>
-              <div className="flex items-center gap-3"><span className="w-16">{t('list.filters.city')}</span><SmallSelect label={t('list.filters.allCities')} options={villes.map((v) => v.nom)} /></div>
-              <div className="flex items-center gap-3"><span className="w-16">{t('list.filters.district')}</span><SmallSelect label={t('list.filters.allDistricts')} options={quartiers} /></div>
+              <div className="flex items-center gap-3"><span className="w-16">{t('list.filters.region')}</span><SmallSelect label={t('list.filters.allRegions')} options={regions.map((r) => r.nom)} value={region} onChange={filtrer(setRegion)} /></div>
+              <div className="flex items-center gap-3"><span className="w-16">{t('list.filters.city')}</span><SmallSelect label={t('list.filters.allCities')} options={villes.map((v) => v.nom)} value={ville} onChange={filtrer(setVille)} /></div>
+              <div className="flex items-center gap-3"><span className="w-16">{t('list.filters.district')}</span><SmallSelect label={t('list.filters.allDistricts')} options={quartiers} value={quartier} onChange={filtrer(setQuartier)} /></div>
             </div>
           )}
           <button
@@ -143,7 +164,10 @@ export function AutoEcoles() {
             onClick={() => {
               setPermis([])
               setRegion('')
+              setVille('')
+              setQuartier('')
               setQ('')
+              setPage(1)
             }}
             className="mt-5 flex h-11 w-full items-center justify-center gap-2.5 rounded-full bg-[#eaf0fb] text-[15px] font-semibold text-navy-900 hover:bg-brand-100"
           >
@@ -153,10 +177,18 @@ export function AutoEcoles() {
         </aside>
         <div className="space-y-3">
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <h2 className="text-[22px] font-bold text-navy-900">{t('list.found', { count: filtered ? list.length : 42 })}</h2>
+            <h2 className="text-[22px] font-bold text-navy-900">{t('list.found', { count: list.length })}</h2>
             <div className="flex items-center gap-3 text-[14px] text-navy-900">
               {t('list.sortBy')}
-              <SmallSelect label={t('list.sort.bestRated')} options={[t('list.sort.bestRated'), t('list.sort.cheapest'), t('list.sort.nearest')]} />
+              <label className="relative flex h-9 items-center rounded-full border border-[#c9d4ea] bg-white px-3 text-[13px] text-navy-900">
+                <span className="flex-1 truncate pr-5">{t(`list.sort.${tri}`)}</span>
+                <ChevronDown className="pointer-events-none absolute right-2.5 size-4" />
+                <select aria-label={t('list.sortBy')} value={tri} onChange={(e) => (setTri(e.target.value as typeof tri), setPage(1))} className="absolute inset-0 cursor-pointer opacity-0">
+                  {(['bestRated', 'cheapest', 'nearest'] as const).map((x) => (
+                    <option key={x} value={x}>{t(`list.sort.${x}`)}</option>
+                  ))}
+                </select>
+              </label>
               <div className="flex overflow-hidden rounded-xl border border-line bg-white">
                 {(['grid', 'list'] as const).map((v) => (
                   <button key={v} type="button" aria-label={v === 'grid' ? t('list.gridView') : t('list.listView')} onClick={() => setView(v)} className={cn('grid h-9 w-12 place-items-center', view === v ? 'bg-brand-600 text-white' : 'text-navy-900')}>
@@ -167,7 +199,7 @@ export function AutoEcoles() {
             </div>
           </div>
           <div className={cn('grid gap-4', view === 'grid' ? 'sm:grid-cols-2 xl:grid-cols-3' : '')}>
-            {list.map((a) => (
+            {elements.map((a) => (
               <div key={a.id} className={cn(card, 'flex overflow-hidden transition-shadow hover:shadow-lg', view === 'grid' ? 'flex-col' : 'flex-col sm:flex-row')}>
                 <div className={cn('relative', view === 'list' && 'sm:w-80')}>
                   <Img src={a.image} alt={a.nom} className="h-[140px] w-full" />
@@ -217,7 +249,7 @@ export function AutoEcoles() {
             ))}
           </div>
           {list.length === 0 && <div className={cn(card, 'p-8 text-center text-sm text-muted')}>{t('list.empty')}</div>}
-          <Pagination label={t('list.pagination', { count: list.length, total: 42 })} pages={4} />
+          <Pagination label={t('list.pagination', { count: elements.length, total: list.length })} pages={pages} page={courante} onChange={setPage} />
         </div>
       </div>
       {fav && <FavoriteModal open onClose={() => setFav(null)} aeId={fav} />}

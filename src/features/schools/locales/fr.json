@@ -65,7 +65,6 @@
     },
     "resetFilters": "Réinitialiser les filtres",
     "map": {
-      "opening": "Ouverture de la carte (démo)",
       "see": "Voir sur la carte →"
     }
   },
@@ -92,8 +91,8 @@
       "typeHint": "IPES, CFP, Auto-école, Autre"
     },
     "found": "{{n}} établissements trouvés",
-    "total": "1 248",
-    "pagination": "Affichage de 1 à 12 sur 1 248 établissements"
+    "empty": "Aucun établissement ne correspond à cette recherche.",
+    "paginationDynamic": "Affichage de {{from}} à {{to}} sur {{total}} établissements"
   },
   "listing": {
     "crumb": "École",
@@ -252,7 +251,6 @@
       "galerie": "Galerie"
     },
     "apercu": {
-      "videoToast": "Lecture de la vidéo de présentation (démo)",
       "videoAlt": "Découvrir {{sigle}} en 1 minute",
       "presentation": "Présentation",
       "highlights": {
@@ -299,7 +297,10 @@
         "admission": "Conditions d’admission",
         "frais": "Frais & paiements",
         "calendrier": "Calendrier académique",
-        "contact": "Contact & localisation"
+        "contact": "Contact & localisation",
+        "actualites": "Actualités",
+        "documents": "Documents à télécharger",
+        "faq": "Questions fréquentes"
       },
       "presentationTitle": "Présentation de l’établissement",
       "presentationText": "{{name}} est un établissement de formation supérieure agréé, dédié à la formation de professionnels compétents et immédiatement opérationnels sur le marché du travail.",
@@ -327,7 +328,6 @@
       "cours": "Cours",
       "rentree": "Rentrée",
       "contactTitle": "Contact & localisation",
-      "mapToast": "Ouverture de la carte (démo)",
       "seeOnMap": "Voir sur la carte",
       "rows": {
         "niveau": "Niveau requis",
@@ -358,6 +358,13 @@
         "adresse": "Adresse",
         "horaires": "Horaires",
         "horairesValue": "Lun – Sam · 08h – 18h"
+      },
+      "contenus": {
+        "noNews": "Aucune actualité publiée pour le moment.",
+        "noDocuments": "Aucun document publié pour le moment.",
+        "noFaq": "Aucune question pour le moment.",
+        "download": "Télécharger",
+        "noFile": "Ce document de départ n’a pas de fichier joint dans la démo."
       }
     },
     "avis": {
@@ -376,7 +383,6 @@
         "mieuxNotes": "Les mieux notés",
         "utiles": "Les plus utiles"
       },
-      "loadMoreToast": "Chargement d’autres avis (démo)",
       "seeMore": "Voir plus d’avis ({{n}})",
       "roles": {
         "etudiant": "Étudiant",
@@ -384,15 +390,29 @@
         "ancienEtudiant": "Ancien étudiant",
         "ancienneEtudiante": "Ancienne étudiante",
         "entreprise": "Entreprise"
+      },
+      "none": "Aucun avis pour ce profil pour le moment.",
+      "useful": "Avis utile",
+      "reply": {
+        "from": "Réponse de l’établissement",
+        "reply": "Répondre",
+        "edit": "Modifier la réponse",
+        "remove": "Retirer la réponse",
+        "label": "Votre réponse",
+        "placeholder": "Remerciez l’auteur, apportez une précision…",
+        "publish": "Publier la réponse",
+        "cancel": "Annuler",
+        "published": "Réponse publiée",
+        "removed": "Réponse retirée",
+        "tooShort": "Écrivez votre réponse."
       }
     },
     "galerie": {
       "title": "Galerie de l’établissement",
       "intro": "Découvrez en images notre campus, nos infrastructures et la vie étudiante.",
       "all": "Toutes les photos",
-      "albumToast": "Album « {{name}} » (démo)",
-      "videoToast": "Lecture de la vidéo de {{id}} (démo)",
-      "videoAlt": "Vidéo de présentation"
+      "videoAlt": "Vidéo de présentation",
+      "medias": "Photos et vidéos de l’établissement ({{count}})"
     }
   },
   "formationDetail": {
@@ -551,7 +571,7 @@
       "fees": "Frais de formation :",
       "question": "Une question ?",
       "whatsappAria": "WhatsApp",
-      "whatsappToast": "Ouverture de WhatsApp (démo)"
+      "whatsappMessage": "Bonjour, je souhaite des informations sur la formation « {{formation}} »."
     },
     "steps": {
       "info1": "Informations",
@@ -617,7 +637,8 @@
         "photo": "Photo d’identité (JPEG/PNG)"
       },
       "chooseFile": "Choisir un fichier",
-      "formats": "Formats acceptés : PDF, JPG, PNG — 5 Mo par fichier."
+      "formats": "Formats acceptés : PDF, JPG, PNG — 5 Mo par fichier.",
+      "tooBig": "Fichier trop lourd : 3 Mo au maximum."
     },
     "recap": {
       "title": "Récapitulatif de votre préinscription",
@@ -642,6 +663,16 @@
       "back": "Retour",
       "next": "Suivant",
       "submit": "Valider ma préinscription"
+    },
+    "notification": {
+      "titre": "Nouvelle candidature",
+      "texte": "{{name}} s’est préinscrit(e) en {{training}}.",
+      "anonyme": "Un candidat"
+    },
+    "notificationCandidat": {
+      "titre": "Préinscription envoyée",
+      "texte": "Votre dossier {{training}} a été envoyé à {{school}}.",
+      "quand": "À l’instant"
     }
   }
 }

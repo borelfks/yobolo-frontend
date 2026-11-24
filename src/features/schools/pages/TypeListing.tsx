@@ -9,7 +9,8 @@ import { FormationsTab } from '@/features/schools/components/listing/FormationsT
 import { ListeTab } from '@/features/schools/components/listing/ListeTab'
 import { RegionsTab } from '@/features/schools/components/listing/RegionsTab'
 import { VillesTab } from '@/features/schools/components/listing/VillesTab'
-import { isTypeSlug, typeConfig } from '@/mocks/schools'
+import { isTypeSlug } from '@/features/schools/schoolTypes'
+import { useTypesEcole } from '@/data/hooks'
 import { ROUTES } from '@/shared/utils/routes'
 
 const heroImages: Record<string, string> = {
@@ -25,8 +26,9 @@ const heroImages: Record<string, string> = {
 export function TypeListing() {
   const { type, tab = '' } = useParams()
   const { t } = useTranslation('schools')
+  const typesEcole = useTypesEcole()
   if (!isTypeSlug(type)) return <Navigate to={ROUTES.schools} replace />
-  const cfg = typeConfig[type]
+  const cfg = typesEcole.find((x) => x.id === type)!
   const court = t(`types.${type}.court`)
   const long = t(`types.${type}.long`)
   const pluriel = t(`types.${type}.pluriel`)

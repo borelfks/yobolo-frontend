@@ -1,4 +1,4 @@
-import type { CollectionName, Collections, Seed } from './collections'
+import type { CollectionName, Collections } from './collections'
 
 /**
  * Le contrat de stockage. TOUT passe par lui : les écrans ne savent pas où
@@ -11,8 +11,8 @@ import type { CollectionName, Collections, Seed } from './collections'
 export interface DataSource {
   /** Nom affiché dans le panneau « Données de test » (ex. « SQLite (navigateur) »). */
   readonly label: string
-  /** Ouvre le stockage ; le remplit avec `seed` s'il est vide ou trop ancien. */
-  init(seed: Seed): Promise<void>
+  /** Ouvre le stockage ; le remplit avec ses données de départ s'il est vide ou trop ancien. */
+  init(): Promise<void>
   /** Tous les éléments d'une collection, dans l'ordre d'affichage (les plus récents d'abord parmi les ajouts). */
   list<K extends CollectionName>(collection: K): Promise<Collections[K][]>
   /** Ajoute ou remplace un élément (selon son `id`). */
@@ -20,7 +20,7 @@ export interface DataSource {
   /** Supprime un élément. */
   remove(collection: CollectionName, id: string): Promise<void>
   /** Efface tout et remet les données de départ. */
-  reset(seed: Seed): Promise<void>
+  reset(): Promise<void>
   /** Facultatif : télécharger toutes les données dans un fichier. */
   exportFile?(): Promise<{ blob: Blob; fileName: string }>
   /** Facultatif : remplacer toutes les données par celles d'un fichier exporté. */

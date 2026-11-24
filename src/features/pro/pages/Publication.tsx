@@ -15,6 +15,7 @@ import { data } from '@/data'
 import { useActualite, useParametres } from '@/data/hooks'
 import { num, shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
+import { ecoleUrl } from '@/features/schools/schoolLinks'
 
 /** Catégories des actualités (données de démo) → clé de traduction. */
 const NEWS_CATEGORY_KEYS: Record<string, 'admission' | 'event' | 'training' | 'results' | undefined> = {
@@ -61,7 +62,7 @@ export function Publication() {
             </div>
             <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-brand-50 p-4">
               <p className="text-sm"><Trans t={t} i18nKey="publication.deadline" values={{ date: shortDate(typeof limite === 'string' && limite ? limite : new Date(2026, 8, 30), { day: 'numeric', month: 'long', year: 'numeric' }) }} components={{ b: <b /> }} /></p>
-              <Button onClick={() => toast(t('publication.signUpToast'))}>{t('publication.signUp')}</Button>
+              <Button to={ecoleUrl(ecole, 'formations')}>{t('publication.signUp')}</Button>
             </div>
           </div>
         </Card>
@@ -79,7 +80,7 @@ export function Publication() {
               <QuickAction icon={<Pencil />} label={t('publication.quickActions.edit')} onClick={() => setEdition(true)} />
               <QuickAction icon={<Copy />} label={t('publication.quickActions.copyLink')} onClick={() => { void navigator.clipboard?.writeText(window.location.href); toast.success(t('publication.quickActions.linkCopied')) }} />
               <QuickAction icon={<ExternalLink />} label={t('publication.quickActions.openNewTab')} onClick={() => window.open(window.location.href, '_blank', 'noopener')} />
-              <Button variant="danger-outline" className="w-full justify-start" onClick={async () => { navigate(ROUTES.pro.contents('actualites')); await data.remove('actualites', a.id); toast(t('publication.quickActions.deleted')) }}>
+              <Button variant="danger-outline" className="w-full justify-start" onClick={async () => { navigate(ROUTES.pro.contents('actualites')); await data.remove('actualites', a.id); toast.success(t('publication.quickActions.deleted')) }}>
                 <Trash2 /> {t('publication.quickActions.delete')}
               </Button>
             </div>

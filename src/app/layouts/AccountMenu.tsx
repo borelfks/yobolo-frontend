@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { Bell, CalendarCheck, ChevronDown, Database, FileCheck2, Heart, LayoutDashboard, LogOut, MessageSquare, Repeat, Star } from 'lucide-react'
+import { Bell, CalendarCheck, CheckCircle2, ChevronDown, Database, FileCheck2, FileText, Heart, LayoutDashboard, LogOut, MessageSquare, Repeat, Star, type LucideIcon } from 'lucide-react'
 import { Avatar } from '@/shared/components/ui/Avatar'
 import { TestDataDialog } from '@/app/layouts/TestDataDialog'
 import { useSession } from '@/features/auth/hooks/useSession'
+import { POUR_TOUS, data, useCollectionWhenReady } from '@/data'
+import { slugOfType } from '@/features/schools/schoolTypes'
 import { cn } from '@/shared/utils/cn'
 import { ROUTES } from '@/shared/utils/routes'
 
@@ -20,17 +22,38 @@ function useOutside(onOutside: () => void) {
   return ref
 }
 
-/** Notifications de démonstration : leurs textes sont dans common.json (notifications.items.<id>). */
-const notifications = [
-  { id: 'preRegistration', icon: FileCheck2, tone: 'bg-emerald-100 text-emerald-600' },
-  { id: 'session', icon: CalendarCheck, tone: 'bg-brand-100 text-brand-600' },
-  { id: 'message', icon: MessageSquare, tone: 'bg-violet-100 text-violet-600' },
-] as const
+/** Icône et couleur de chaque type de notification (le type vient de la base). */
+const APPARENCE: Record<string, { icon: LucideIcon; tone: string }> = {
+  preRegistration: { icon: FileCheck2, tone: 'bg-emerald-100 text-emerald-600' },
+  candidature: { icon: FileCheck2, tone: 'bg-emerald-100 text-emerald-600' },
+  session: { icon: CalendarCheck, tone: 'bg-brand-100 text-brand-600' },
+  rappel: { icon: CalendarCheck, tone: 'bg-brand-100 text-brand-600' },
+  message: { icon: MessageSquare, tone: 'bg-violet-100 text-violet-600' },
+  avis: { icon: Star, tone: 'bg-amber-100 text-amber-600' },
+  review: { icon: Star, tone: 'bg-amber-100 text-amber-600' },
+  document: { icon: FileText, tone: 'bg-sky-100 text-sky-600' },
+  validation: { icon: CheckCircle2, tone: 'bg-emerald-100 text-emerald-600' },
+}
+const PAR_DEFAUT = { icon: Bell, tone: 'bg-slate-100 text-slate-600' }
 
-export function NotificationsBell({ count = 3, light, href }: { count?: number; light?: boolean; href?: string }) {
+/**
+ * La cloche : les notifications du compte connecté, lues dans la base
+ * (espace pro : table `notifications` ; utilisateur : `notificationsCompte`).
+ * Le nombre affiché est celui des non lues ; un clic marque comme lu.
+ */
+export function NotificationsBell({ light, href }: { light?: boolean; href?: string }) {
   const { t } = useTranslation('layout')
+  const { account } = useSession()
   const [open, setOpen] = useState(false)
   const ref = useOutside(() => setOpen(false))
+  const pro = useCollectionWhenReady('notifications')
+  const perso = useCollectionWhenReady('notificationsCompte')
+  const collection = account?.ecoleId ? ('notifications' as const) : ('notificationsCompte' as const)
+  const items = account?.ecoleId
+    ? pro.filter((n) => !n.etablissementId || n.etablissementId === account.ecoleId).map((n) => ({ id: n.id, type: n.type, titre: n.titre, texte: n.texte, quand: n.date, lu: n.lu }))
+    : perso.filter((n) => n.compteId === account?.id || n.compteId === POUR_TOUS).map((n) => ({ id: n.id, type: n.type, titre: n.titre, texte: n.texte, quand: n.quand, lu: n.lu }))
+  const count = items.filter((n) => !n.lu).length
+  const lire = (ids: string[]) => Promise.all(ids.map((id) => data.update(collection, id, { lu: true })))
   return (
     <div ref={ref} className="relative">
       <button
@@ -43,20 +66,34 @@ export function NotificationsBell({ count = 3, light, href }: { count?: number; 
         {count > 0 && <span className="absolute top-1 right-1 grid size-4 place-items-center rounded-full bg-rose-500 text-[10px] font-bold text-white">{count}</span>}
       </button>
       {open && (
-        <div className="absolute right-0 z-40 mt-2 w-80 rounded-2xl border border-line bg-white p-2 shadow-xl">
-          <p className="px-3 py-2 text-sm font-bold text-navy-900">{t('notifications.title')}</p>
-          {notifications.map((n) => (
-            <div key={n.id} className="flex gap-3 rounded-xl p-3 hover:bg-slate-50">
-              <span className={cn('grid size-9 shrink-0 place-items-center rounded-xl', n.tone)}>
-                <n.icon className="size-4" />
-              </span>
-              <div className="text-sm">
-                <p className="font-semibold text-navy-900">{t(`notifications.items.${n.id}.title`)}</p>
-                <p className="text-muted">{t(`notifications.items.${n.id}.text`)}</p>
-                <p className="mt-0.5 text-xs text-slate-400">{t(`notifications.items.${n.id}.when`)}</p>
-              </div>
-            </div>
-          ))}
+        <div className="absolute right-0 z-40 mt-2 w-80 max-w-[calc(100vw-2rem)] rounded-2xl border border-line bg-white p-2 shadow-xl">
+          <div className="flex items-center justify-between px-3 py-2">
+            <p className="text-sm font-bold text-navy-900">{t('notifications.title')}</p>
+            {count > 0 && (
+              <button type="button" onClick={() => void lire(items.filter((n) => !n.lu).map((n) => n.id))} className="text-xs font-semibold text-brand-600 hover:underline">
+                {t('notifications.markAllRead')}
+              </button>
+            )}
+          </div>
+          <div className="max-h-96 overflow-y-auto">
+            {items.map((n) => {
+              const a = APPARENCE[n.type] ?? PAR_DEFAUT
+              return (
+                <button key={n.id} type="button" onClick={() => void lire([n.id])} className={cn('flex w-full gap-3 rounded-xl p-3 text-left hover:bg-slate-50', !n.lu && 'bg-brand-50/60')}>
+                  <span className={cn('grid size-9 shrink-0 place-items-center rounded-xl', a.tone)}>
+                    <a.icon className="size-4" />
+                  </span>
+                  <span className="min-w-0 flex-1 text-sm">
+                    <span className="block font-semibold text-navy-900">{n.titre}</span>
+                    <span className="block text-muted">{n.texte}</span>
+                    <span className="mt-0.5 block text-xs text-slate-400">{n.quand}</span>
+                  </span>
+                  {!n.lu && <span className="mt-1.5 size-2.5 shrink-0 rounded-full bg-brand-600" aria-label={t('notifications.unread')} />}
+                </button>
+              )
+            })}
+            {items.length === 0 && <p className="px-3 py-4 text-center text-sm text-muted">{t('notifications.empty')}</p>}
+          </div>
           {href && (
             <Link to={href} onClick={() => setOpen(false)} className="block rounded-xl p-2 text-center text-sm font-semibold text-brand-600 hover:bg-brand-50">
               {t('notifications.seeAll')}
@@ -68,7 +105,6 @@ export function NotificationsBell({ count = 3, light, href }: { count?: number; 
   )
 }
 
-/** `withTestData` : ajoute « Données de test » (pages publiques, espace pro ; pas la landing). */
 export function UserMenu({ withTestData = false }: { withTestData?: boolean }) {
   const { t } = useTranslation('layout')
   const { account, signOut } = useSession()
@@ -76,6 +112,23 @@ export function UserMenu({ withTestData = false }: { withTestData?: boolean }) {
   const [open, setOpen] = useState(false)
   const [testData, setTestData] = useState(false)
   const ref = useOutside(() => setOpen(false))
+  // « Donner un avis » : sur le dernier établissement ou la dernière auto-école où le compte s'est inscrit.
+  const preinscriptions = useCollectionWhenReady('preinscriptions')
+  const inscriptions = useCollectionWhenReady('inscriptionsAutoEcole')
+  const etablissements = useCollectionWhenReady('etablissements')
+  const dernieres = [
+    ...preinscriptions
+      .filter((p) => account && p.compteId === account.id)
+      .map((p) => {
+        const e = etablissements.find((x) => x.id === p.etablissementId)
+        const slug = e ? slugOfType(e.type) : 'auto-ecoles'
+        return { le: p.envoyeeLe, to: e && slug !== 'auto-ecoles' ? ROUTES.schoolReview(slug, e.id) : null }
+      }),
+    ...inscriptions.filter((i) => account && i.compteId === account.id).map((i) => ({ le: i.envoyeeLe, to: ROUTES.drivingSchoolReview(i.autoEcoleId) })),
+  ]
+    .filter((x) => x.to)
+    .sort((a, b) => b.le.localeCompare(a.le))
+  const avisVers = dernieres[0]?.to ?? null
   if (!account) return null
   const close = () => setOpen(false)
   const item = 'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-navy-900 hover:bg-brand-50 [&_svg]:size-4 [&_svg]:text-brand-600'
@@ -101,8 +154,8 @@ export function UserMenu({ withTestData = false }: { withTestData?: boolean }) {
             <Heart />
             {t('userMenu.favorites')}
           </Link>
-          {account.role === 'utilisateur' && (
-            <Link to={ROUTES.drivingSchoolReview('conduite-plus')} onClick={close} className={item}>
+          {account.role === 'utilisateur' && avisVers && (
+            <Link to={avisVers} onClick={close} className={item}>
               <Star />
               {t('userMenu.review')}
             </Link>

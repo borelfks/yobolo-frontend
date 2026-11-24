@@ -4,8 +4,7 @@ import { BarChart3, Briefcase, Building2, GraduationCap, Home, Layers, Settings,
 import { ROUTES } from '@/shared/utils/routes'
 
 /**
- * Les listes de liens des cadres (en-tête public, pied de page, menu de
- * l'espace pro). Elles gardent des clés de traduction (namespace « common ») :
+ * Les listes de liens des cadres (en-tête public, menu de l'espace pro). Elles gardent des clés de traduction (namespace « common ») :
  * le texte est résolu par `t` dans le cadre, au moment de l'affichage.
  */
 type LabelKey = ParseKeys<'layout'>
@@ -18,35 +17,6 @@ export const publicNav: PublicNavItem[] = [
   { to: ROUTES.schools, labelKey: 'nav.school', icon: GraduationCap },
   { to: ROUTES.consultation, labelKey: 'nav.consultation', icon: UserRound },
   { to: ROUTES.emploi, labelKey: 'nav.employment', icon: Briefcase },
-]
-
-export type FooterColumn = { titleKey: LabelKey; items: { labelKey: LabelKey; to: string }[] }
-
-export const footerColumns: FooterColumn[] = [
-  {
-    titleKey: 'footer.columns.school',
-    items: [
-      { labelKey: 'footer.links.ipes', to: ROUTES.schoolType('ipes') },
-      { labelKey: 'footer.links.drivingSchools', to: ROUTES.drivingSchools },
-      { labelKey: 'footer.links.favorites', to: ROUTES.favorites },
-    ],
-  },
-  {
-    titleKey: 'footer.columns.institutions',
-    items: [
-      { labelKey: 'footer.links.proSpace', to: ROUTES.pro.root },
-      { labelKey: 'footer.links.listSchool', to: ROUTES.signUp },
-      { labelKey: 'footer.links.allSchools', to: ROUTES.schools },
-    ],
-  },
-  {
-    titleKey: 'footer.columns.account',
-    items: [
-      { labelKey: 'footer.links.signIn', to: ROUTES.signIn },
-      { labelKey: 'footer.links.signUp', to: ROUTES.signUp },
-      { labelKey: 'footer.links.favorites', to: ROUTES.favorites },
-    ],
-  },
 ]
 
 export type ProNavItem = {

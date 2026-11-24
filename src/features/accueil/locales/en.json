@@ -1,0 +1,360 @@
+{
+  "titre": "Home",
+  "genres": {
+    "tout": "All",
+    "publication": "Posts",
+    "offre": "Job offers",
+    "formation": "Programmes",
+    "conseils": "Advice",
+    "actualites": "News",
+    "actualite": "News",
+    "conseil": "Advice"
+  },
+  "fil": {
+    "titre": "Recent posts"
+  },
+  "onglets": {
+    "libelle": "Content type"
+  },
+  "bandeau": {
+    "titre": "Grow your skills with the best experts",
+    "texte": "Programmes, advice, job opportunities — all in one place!",
+    "action": "Explore the fields",
+    "suivant": "Next",
+    "carrousel": "Home announcements",
+    "aller": "Go to announcement {{rang}} of {{total}}"
+  },
+  "raccourcis": {
+    "titre": "My shortcuts",
+    "formations": "My programmes",
+    "favoris": "My favourites",
+    "notifications": "My notifications",
+    "profil": "My profile",
+    "formationsAide": "See my programmes",
+    "favorisAide": "See my favourites",
+    "notificationsAide": "See my notifications",
+    "profilAide": "Manage my profile"
+  },
+  "offres": {
+    "titre": "Popular job offers",
+    "voirTout": "See all",
+    "voir": "See",
+    "vide": "Published offers will appear here as soon as they go live.",
+    "voirLOffre": "View the offer {{titre}}"
+  },
+  "expert": {
+    "titre": "Are you an expert?",
+    "texte": "Share your knowledge and help the community!",
+    "publier": "Publish an update",
+    "devenir": "Become a consultant"
+  },
+  "bande": {
+    "libelle": "What YIBOLO brings together",
+    "formationContinue": "Continuing education",
+    "conseils": "Expert advice",
+    "emploi": "Job opportunities",
+    "reseau": "Professional network",
+    "competences": "Skills development",
+    "devise": "Together for a better future!"
+  },
+  "tris": {
+    "recentes": "Most recent",
+    "lues": "Most read"
+  },
+  "filtres": {
+    "bouton": "More filters",
+    "titre": "Filter the feed",
+    "ordre": "Sort by",
+    "reinitialiser": "Reset",
+    "voir": "Show results",
+    "actifs": "Chosen filters",
+    "retirer": "Remove filter {{filtre}}",
+    "vue": "Show",
+    "toutLeFil": "Whole feed",
+    "mesEnregistres": "My saved posts",
+    "enregistresExplique": "The posts you saved, most recently saved first. Fields and search apply to them.",
+    "luesSeulementPublications": "Only posts have readers: jobs and programmes are not shown in this order.",
+    "ville": "City",
+    "type": "Type",
+    "autres": "More options",
+    "mesPublications": "My posts",
+    "publicationsEnregistrees": "Saved posts",
+    "copierLaRecherche": "Copy the link to this search",
+    "reinitialiserLesFiltres": "Reset filters",
+    "toutesLesVilles": "All cities",
+    "miennesExplique": "The posts you wrote, newest first."
+  },
+  "recherche": {
+    "libelle": "Search the feed",
+    "placeholder": "Search a keyword, a field, a city, an expert…",
+    "effacer": "Clear search"
+  },
+  "domaines": {
+    "libelle": "Fields",
+    "expertise": "Fields of expertise",
+    "tous": "All",
+    "tousLesDomaines": "All fields",
+    "plus": "More",
+    "effacer": "Clear all",
+    "chercher": "Find a field",
+    "seulementLesPublications": "Jobs and programmes are not sorted by field: only posts are shown."
+  },
+  "rubriques": {
+    "pour": "Results for “{{recherche}}”"
+  },
+  "badge": {
+    "consultant": "Consultant",
+    "ecole": "School",
+    "entreprise": "Company",
+    "membre": "Member"
+  },
+  "auteur": {
+    "inconnu": "A member"
+  },
+  "composer": {
+    "invite": "Share a tip, some news, a success…",
+    "publier": "Post",
+    "titrePublier": "Post to the feed",
+    "descriptionPublier": "Publish it now, or save it as a draft to come back to later.",
+    "titreBrouillon": "Continue the draft",
+    "descriptionBrouillon": "Only you can see it. It will appear on the feed when you publish it.",
+    "champTitre": "Title",
+    "hintTitre": "{{max}} characters at most. It shows in large type on the feed; without a title, the first sentence is used.",
+    "placeholderTitre": "What readers should remember",
+    "champTexte": "Text",
+    "hintTexte_one": "{{count}} word.",
+    "hintTexte_other": "{{count}} words.",
+    "champDomaines": "Fields",
+    "hintDomaines": "From 1 to {{max}}. Your post shows up when a reader picks one of them.",
+    "champSujets": "Topics",
+    "hintSujets": "Press Enter to add. Reusing a followed topic helps readers find you.",
+    "placeholderSujets": "E.g. labour law",
+    "annuler": "Cancel",
+    "enregistrerLeBrouillon": "Save draft",
+    "envoi": "Sending…",
+    "publiee": "Post is live.",
+    "brouillonEnregistre": "Draft saved.",
+    "erreurs": {
+      "texteRequis": "A post needs some text.",
+      "tropDeSujets": "{{max}} topics at most.",
+      "sujetTropLong": "{{max}} characters per topic at most.",
+      "titreTropLong": "{{max}} characters at most for the title.",
+      "brouillonVide": "Write a title or a few words before saving the draft.",
+      "tropDeDomaines": "{{max}} fields at most.",
+      "domaineRequis": "Pick at least one field.",
+      "envoiEchoue": "Sending did not go through."
+    }
+  },
+  "aFaire": {
+    "titre": "To do",
+    "description": "Here is what is waiting for you.",
+    "plusTard": "Later",
+    "paiementsAReprendre": {
+      "texte_one": "Retry 1 appointment payment that failed",
+      "texte_other": "Retry {{count}} appointment payments that failed",
+      "aide_one": "Your request is only sent to the consultant once paid.",
+      "aide_other": "Your requests are only sent to the consultants once paid."
+    },
+    "reportsATrancher": {
+      "texte_one": "Answer the date change suggested for 1 appointment",
+      "texte_other": "Answer the date changes suggested for {{count}} appointments",
+      "aide_one": "The consultant suggests another date: accept or decline it. Until then, the appointment stays on hold.",
+      "aide_other": "Consultants suggest other dates: accept or decline them. Until then, these appointments stay on hold."
+    },
+    "propositionsAExaminer": {
+      "texte_one": "Accept or decline 1 service proposal",
+      "texte_other": "Accept or decline {{count}} service proposals",
+      "aide_one": "Without an answer, it expires 7 days after it was sent.",
+      "aide_other": "Without an answer, each one expires 7 days after it was sent."
+    },
+    "rapportsAValider": {
+      "texte_one": "Approve 1 report you received",
+      "texte_other": "Approve {{count}} reports you received",
+      "aide_one": "Without an answer, it is approved automatically after 2 days.",
+      "aide_other": "Without an answer, each one is approved automatically after 2 days."
+    }
+  },
+  "actions": {
+    "jaime": "Like",
+    "voirPlus": "See more",
+    "nePlusAimer": "Unlike",
+    "commentaires_zero": "Comment",
+    "commentaires_one": "{{nombre}} comment",
+    "commentaires_other": "{{nombre}} comments",
+    "partager": "Share",
+    "enregistrer": "Save",
+    "enregistree": "Saved",
+    "retirerDesEnregistres": "Remove from saved",
+    "copierLeLien": "Copy the link",
+    "lienCopie": "Link copied",
+    "signaler": "Report",
+    "menu": "More options",
+    "ajouteeAuxEnregistres": "Added to your saved items",
+    "retireeDesEnregistres": "Removed from your saved items",
+    "echecEnregistrement": "It can't be saved right now.",
+    "echecJaime": "Your like was not saved.",
+    "lectures_one": "{{nombre}} read",
+    "lectures_other": "{{nombre}} reads",
+    "commenter": "Comment",
+    "jaimes_one": "{{nombre}} like",
+    "jaimes_other": "{{nombre}} likes"
+  },
+  "signalement": {
+    "titre": "Report this content",
+    "description": "A moderator will read it. Pick the closest reason.",
+    "motif": "Reason",
+    "motifs": {
+      "spam": "Spam",
+      "proposHaineux": "Hate speech",
+      "contenuTrompeur": "Misleading content",
+      "horsSujet": "Off topic"
+    },
+    "precision": "Details (optional)",
+    "precisionAide": "Read by the moderator only: neither the reported author nor the public can see it.",
+    "annuler": "Cancel",
+    "envoye": "Report sent.",
+    "dejaSignale": "You had already reported this content.",
+    "erreur": "The report did not go through."
+  },
+  "lecture": {
+    "sujets": "Topics"
+  },
+  "offre": {
+    "clotureLe": "Closes on {{date}}",
+    "voir": "See the job",
+    "negociable": "Negotiable",
+    "postuler": "Apply",
+    "poste": "The job",
+    "message": "Message to the recruiter",
+    "messageAide": "(optional)",
+    "messagePlaceholder": "Introduce yourself in a few lines…",
+    "candidatureEnvoyee": "Application sent",
+    "candidatureEnvoyeeBadge": "Application sent",
+    "envoyeeLe": "Sent on {{date}}",
+    "retirerCandidature": "Withdraw my application",
+    "candidatureRetiree": "Application withdrawn",
+    "cloturee": "This offer is closed: applications are no longer possible.",
+    "erreurs": {
+      "envoi": "The application could not be saved. Please try again.",
+      "messageTropLong": "The message has at most {{max}} characters."
+    }
+  },
+  "contrats": {
+    "Cdi": "Permanent",
+    "Cdd": "Fixed-term",
+    "Stage": "Internship",
+    "Alternance": "Apprenticeship",
+    "Mission": "Assignment",
+    "Freelance": "Freelance"
+  },
+  "modes": {
+    "SurSite": "On site",
+    "Hybride": "Hybrid",
+    "ADistance": "Remote"
+  },
+  "formation": {
+    "voir": "See the programme",
+    "prixParAn": "{{prix}} / year",
+    "duree_one": "{{count}} month",
+    "duree_other": "{{count}} months"
+  },
+  "nature": {
+    "publication": "Post",
+    "offre": "Job offer",
+    "formation": "Programme",
+    "actualite": "News"
+  },
+  "vide": {
+    "titre": "Nothing to read yet",
+    "detail": "Posts, job offers and programmes will appear here as soon as they are online.",
+    "filtre": "Try other words, or remove a field.",
+    "enregistresTitre": "No saved posts",
+    "enregistresDetail": "Tap the save icon on a post to find it here.",
+    "toutVoir": "See everything",
+    "rechercheTitre": "Nothing matches “{{recherche}}”"
+  },
+  "voirPlus": "See more",
+  "fin": "You're all caught up",
+  "bientot": "Coming soon",
+  "actualite": {
+    "vues_one": "{{nombre}} view",
+    "vues_other": "{{nombre}} views",
+    "partages_one": "{{nombre}} share",
+    "partages_other": "{{nombre}} shares",
+    "voir": "View institution"
+  },
+  "commentaires": {
+    "titre_one": "{{count}} comment",
+    "titre_other": "{{count}} comments",
+    "aucun": "No comments yet: be the first.",
+    "champ": "Your comment",
+    "placeholder": "Write a comment…",
+    "envoyer": "Post comment",
+    "publie": "Comment posted",
+    "supprimer": "Delete my comment",
+    "supprime": "Comment deleted",
+    "erreurs": {
+      "vide": "Write your comment.",
+      "tropLong": "The comment has at most {{max}} characters.",
+      "envoi": "The comment could not be posted. Please try again.",
+      "suppression": "The comment could not be deleted. Please try again."
+    }
+  },
+  "suppression": {
+    "titre": "Delete this post?",
+    "texte": "The post, its comments and its likes will be deleted. This cannot be undone.",
+    "annuler": "Cancel",
+    "confirmer": "Delete",
+    "faite": "Post deleted",
+    "echec": "The post could not be deleted. Please try again.",
+    "menu": "Delete post"
+  },
+  "mesFormations": {
+    "titre": "My programmes",
+    "aucune": "You have not sent any pre-registration or enrolment yet.",
+    "trouver": "Find a programme",
+    "preinscriptions_one": "Pre-registration ({{count}})",
+    "preinscriptions_other": "Pre-registrations ({{count}})",
+    "permis_one": "Driving school enrolment ({{count}})",
+    "permis_other": "Driving school enrolments ({{count}})",
+    "permisCode": "Licence {{code}}",
+    "envoyeeLe": "Sent on {{date}}",
+    "statuts": {
+      "Envoyée": "Sent"
+    }
+  },
+  "notifications": {
+    "titre": "My notifications",
+    "toutLire": "Mark all as read",
+    "toutesLues": "All your notifications are read",
+    "resume_zero": "No unread notifications",
+    "resume_one": "{{count}} unread notification",
+    "resume_other": "{{count}} unread notifications",
+    "aucune": "No notifications yet.",
+    "marquerLue": "Mark “{{titre}}” as read",
+    "nonLue": "Unread"
+  },
+  "profil": {
+    "titre": "My profile",
+    "nom": "Full name",
+    "telephone": "Phone",
+    "email": "Email",
+    "emailAide": "This is also your sign-in username.",
+    "changerPhoto": "Change photo",
+    "retirerPhoto": "Remove photo",
+    "photoAide": "JPG or PNG, 2 MB maximum.",
+    "annuler": "Cancel",
+    "enregistrer": "Save",
+    "enregistre": "Profile updated",
+    "erreurs": {
+      "nom": "Enter your name (at least 2 characters).",
+      "telephone": "Enter a valid phone number.",
+      "email": "Enter a valid email address.",
+      "photoType": "Choose an image (JPG or PNG).",
+      "photoTaille": "Image too large: 2 MB maximum.",
+      "photoLecture": "The image could not be read.",
+      "emailPris": "This email address is already used by another account.",
+      "enregistrement": "The profile could not be saved. Please try again."
+    }
+  }
+}

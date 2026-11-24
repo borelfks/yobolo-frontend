@@ -30,13 +30,13 @@ import {
 import { AEHeader } from '@/features/driving-schools/components/AutoEcoleBlocks'
 import { piecesAE, type PieceKey } from '@/features/driving-schools/autoEcoleRules'
 import { useInscriptionDraft } from '@/features/driving-schools/hooks/useInscriptionDraft'
-import { useAutoEcoles, useSessions } from '@/data/hooks'
-import { permisCatalogue } from '@/mocks/drivingSchools'
+import { useAutoEcoles, useFichiers, usePermisCatalogue, useQuartiers, useSessions, useVilles } from '@/data/hooks'
 import type { PermisCode } from '@/shared/types'
-import { quartiers, villes } from '@/mocks/schools'
 import { cn } from '@/shared/utils/cn'
 import { demoDate, fcfa } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
+import { joindrePiece } from '@/features/driving-schools/piecesJointes'
+import { telecharger } from '@/shared/utils/fichiers'
 
 const card = 'rounded-2xl border border-line bg-white shadow-[0_2px_10px_rgba(15,29,61,0.06)]'
 const field = 'h-11 w-full rounded-lg border border-[#c9d4ea] bg-white px-3.5 text-[15px] text-ink outline-none focus:border-brand-500 focus:ring-3 focus:ring-brand-100'
@@ -93,6 +93,9 @@ function Checks({ items }: { items: string[] }) {
 }
 
 export function ModifierInscription() {
+  const permisCatalogue = usePermisCatalogue()
+  const villes = useVilles()
+  const quartiers = useQuartiers().map((q) => q.nom)
   const { t } = useTranslation('driving-schools', { keyPrefix: 'enrollment' })
   const { id, code = 'B', section = 'infos' } = useParams()
   const autoEcoles = useAutoEcoles()
@@ -102,6 +105,18 @@ export function ModifierInscription() {
   const a = trouverAutoEcole(id)
   const p = permisCatalogue[code as PermisCode] ?? permisCatalogue.B
   const [d, update] = useInscriptionDraft(a.id, p.code)
+  const fichiers = useFichiers()
+  const voir = (cle: string) => {
+    const f = fichiers.find((x) => x.id === d.fichiers?.[cle])
+    if (f) telecharger(f.dataUrl, f.nom)
+    else toast(t('toast.noFile'))
+  }
+  const ajouterPiece = async (cle: string, fichier: File, message: string) => {
+    const id = await joindrePiece(fichier)
+    if (!id) return void toast.error(t('toast.fileTooBig'))
+    update({ pieces: { ...d.pieces, [cle]: true }, fichiers: { ...d.fichiers, [cle]: id } })
+    toast.success(message)
+  }
   const navigate = useNavigate()
   const base = ROUTES.enrollment(a.id, p.code)
   const [form, setForm] = useState(d)
@@ -249,12 +264,17 @@ export function ModifierInscription() {
                       <p className="text-[15px] font-bold text-navy-900">{t(`pieces.${pc.key}.label`)} <span className="text-rose-500">*</span></p>
                       <p className="text-[12.5px] text-navy-900">{t(`pieces.${pc.key}.hint`)}</p>
                     </div>
-                    <span className="inline-flex items-center gap-1 rounded-lg bg-emerald-50 px-3 py-1 text-[13px] font-semibold text-emerald-700"><CircleCheck className="size-4 fill-emerald-600 text-white" />{t(`pieces.${pc.key}.state`)}</span>
-                    <button type="button" aria-label={t('actions.view')} onClick={() => toast(t('toast.preview'))} className="grid size-9 place-items-center rounded-lg text-navy-800 hover:bg-slate-100"><Eye className="size-5" /></button>
-                    <button type="button" onClick={() => { update({ pieces: { ...d.pieces, [pc.key]: true } }); toast.success(t('toast.fileReplaced')) }} className="inline-flex h-9 items-center gap-2 rounded-lg border-2 border-[#9fb4e3] px-3 text-[14px] font-semibold text-navy-800 hover:bg-brand-50">
+                    {d.pieces[pc.key] ? (
+                      <span className="inline-flex items-center gap-1 rounded-lg bg-emerald-50 px-3 py-1 text-[13px] font-semibold text-emerald-700"><CircleCheck className="size-4 fill-emerald-600 text-white" />{t(`pieces.${pc.key}.state`)}</span>
+                    ) : (
+                      <span className="rounded-lg bg-rose-100 px-3 py-1 text-[13px] font-semibold text-rose-600">{t('inscription.pieces.required')}</span>
+                    )}
+                    <button type="button" aria-label={t('actions.view')} onClick={() => voir(pc.key)} className="grid size-9 place-items-center rounded-lg text-navy-800 hover:bg-slate-100"><Eye className="size-5" /></button>
+                    <label className="inline-flex h-9 cursor-pointer items-center gap-2 rounded-lg border-2 border-[#9fb4e3] px-3 text-[14px] font-semibold text-navy-800 hover:bg-brand-50">
                       <RefreshCw className="size-4" />
-                      {t('actions.replace')}
-                    </button>
+                      {d.pieces[pc.key] ? t('actions.replace') : t(`pieces.${pc.key}.button`)}
+                      <input type="file" accept=".pdf,.jpg,.jpeg,.png" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; e.target.value = ''; if (f) void ajouterPiece(pc.key, f, t('toast.fileReplaced')) }} />
+                    </label>
                   </div>
                 ))}
                 {(p.code === 'C' || p.code === 'D' || p.code === 'E') && (
@@ -264,15 +284,19 @@ export function ModifierInscription() {
                       <p className="text-[15px] font-bold text-navy-900">{t('edit.pieces.prior')}</p>
                       <p className="text-[12.5px] text-navy-900">{t('edit.pieces.priorHint')}</p>
                     </div>
-                    <span className="rounded-lg bg-slate-100 px-3 py-1 text-[13px] font-semibold text-slate-600">{t('edit.pieces.notProvided')}</span>
-                    <button type="button" onClick={() => toast.success(t('toast.licenceBAdded'))} className="inline-flex h-9 items-center gap-2 rounded-lg bg-brand-600 px-3 text-[14px] font-semibold text-white"><Plus className="size-4" />{t('actions.add')}</button>
+                    {d.pieces.permisB ? (
+                      <span className="inline-flex items-center gap-1 rounded-lg bg-emerald-50 px-3 py-1 text-[13px] font-semibold text-emerald-700"><CircleCheck className="size-4 fill-emerald-600 text-white" />{t('edit.pieces.provided')}</span>
+                    ) : (
+                      <span className="rounded-lg bg-slate-100 px-3 py-1 text-[13px] font-semibold text-slate-600">{t('edit.pieces.notProvided')}</span>
+                    )}
+                    <label className="inline-flex h-9 cursor-pointer items-center gap-2 rounded-lg bg-brand-600 px-3 text-[14px] font-semibold text-white"><input type="file" accept=".pdf,.jpg,.jpeg,.png" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; e.target.value = ''; if (f) void ajouterPiece('permisB', f, t('toast.licenceBAdded')) }} /><Plus className="size-4" />{t('actions.add')}</label>
                   </div>
                 )}
                 <label className="flex cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-[#9fb4e3] bg-[#f3f7fe] py-5 text-center">
                   <CloudUpload className="size-8 text-brand-600" />
                   <span className="text-[15px] font-bold text-navy-900">{t('edit.pieces.addOther')}</span>
                   <span className="text-[13px] text-navy-900">{t('edit.pieces.addOtherHint')}</span>
-                  <input type="file" className="sr-only" onChange={(e) => e.target.files?.[0] && toast.success(t('toast.fileAdded', { name: e.target.files[0].name }))} />
+                  <input type="file" accept=".pdf,.jpg,.jpeg,.png" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; e.target.value = ''; if (f) void ajouterPiece(`autre-${Object.keys(d.pieces).length + 1}`, f, t('toast.fileAdded', { name: f.name })) }} />
                 </label>
               </div>
             )}

@@ -28,10 +28,10 @@ Référence complète : [DESIGN.md](../../docs/DESIGN.md).
 ## Mise en page
 - Pages publiques : contenu jusqu'à 1320 px, marges de 20 px ; bandeau (`Hero`), fil d'Ariane, onglets en blocs.
 - Espace pro : barre latérale de 250 px, en-tête de page `ProHeader`.
-- Connexion : grand cadre bleu (`AuthShell`) ; inscription : carte centrée (`AuthCard`).
+- Connexion : formulaire à gauche et photo à droite (`AuthShell`), aux couleurs de l'application ; inscription : carte centrée (`AuthCard`).
 
 ## Messages
-- Toasts (sonner) en haut à droite, couleurs de leur sens, avec une croix. Une action non réalisée dans la démo affiche un message qui finit par « (démo) ».
+- Toasts (sonner) en haut à droite, couleurs de leur sens, avec une croix. **Toutes les actions sont réelles** (décision du 2026-11-24) : pas de message « (démo) » à la place d'une action.
 
 ## Mouvement
 - Animations rares et courtes (survols, ouverture des menus). Respecter « réduire les animations » (`motion-reduce`).

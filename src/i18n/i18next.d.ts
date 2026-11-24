@@ -6,6 +6,7 @@ import type drivingSchoolsFr from '@/features/driving-schools/locales/fr.json'
 import type reviewsFr from '@/features/reviews/locales/fr.json'
 import type favoritesFr from '@/features/favorites/locales/fr.json'
 import type proFr from '@/features/pro/locales/fr.json'
+import type accueilFr from '@/features/accueil/locales/fr.json'
 import type commonFr from '@/shared/locales/fr.json'
 
 declare module 'i18next' {
@@ -21,6 +22,7 @@ declare module 'i18next' {
       reviews: typeof reviewsFr
       favorites: typeof favoritesFr
       pro: typeof proFr
+      accueil: typeof accueilFr
     }
   }
 }

@@ -21,7 +21,7 @@ Interface en français (et en anglais), prix en FCFA, contenus centrés sur le C
 
 - **Univers École réalisé** : IPES, CFP et Autres (même gabarit), auto-écoles, préinscription, inscription en auto-école, avis, favoris, et l'**espace professionnel** partagé par les IPES, CFP et Autres.
 - **Consultation** et **Emploi** : présents dans la navigation, avec une page « bientôt disponible ». Prochaine étape envisagée : l'univers **Consultation** (espace pro du consultant, 11 menus).
-- Les données de départ sont fictives (`src/mocks/`). Ce que fait chaque testeur (formations, avis, préinscriptions, inscriptions, profil, contenus, favoris…) est enregistré dans **sa base SQLite, dans son navigateur** (`src/data/`). Menu du compte › **Données de test** : exporter un fichier `.sqlite` pour le partager, l'importer chez un collègue, ou tout réinitialiser.
+- Les données de départ sont fictives, dans `src/data/depart/yibolo.sql` (aucune donnée n'est écrite dans le code). Ce que fait chaque testeur (formations, avis, préinscriptions, inscriptions, profil, contenus, favoris…) est enregistré dans **sa base SQLite, dans son navigateur** (`src/data/`). Menu du compte › **Données de test** : exporter un fichier `.sqlite` pour le partager, l'importer chez un collègue, ou tout réinitialiser.
 
 ## Stack
 
@@ -60,17 +60,27 @@ Puis ouvrir **http://localhost:5199** (le port 5199 est fixé dans `package.json
 
 ## Comptes de démonstration
 
-Sur la page **Connexion** (`/connexion`), le bloc **« Compte de démonstration »** permet de choisir le compte. N'importe quel identifiant et n'importe quel mot de passe d'au moins 6 caractères sont acceptés.
+Les comptes sont dans la base (table `comptes`). Mot de passe des comptes de départ : **`yibolo2026`**.
+
+| Identifiant | Compte |
+|---|---|
+| `jean.dupont@exemple.cm` | Personne physique |
+| `contact@ipc.cm` | École – IPES |
+| `contact@cfp-btp.cm` | École – CFP |
+| `contact@langues.cm` | École – Autre |
+
+On peut aussi se connecter avec le téléphone du compte. Un compte créé par « Créer un compte » est enregistré « en vérification » ; « Simuler la validation par YIBOLO » le valide, puis on se connecte avec son e-mail et son mot de passe.
+
+Les comptes :
 
 | Compte | Nom affiché | Arrive sur | Usage |
 |---|---|---|---|
-| Personne physique (Utilisateur) | Jean Dupont | `/ecoles` | chercher une école, se préinscrire, s'inscrire en auto-école, gérer ses favoris, donner un avis |
+| Personne physique (Utilisateur) | Jean Dupont | `/accueil` | chercher une école, se préinscrire, s'inscrire en auto-école, gérer ses favoris, donner un avis |
 | École – IPES | IPC Yaoundé (Institut Professionnel du Centre) | `/pro/ecole` | espace professionnel complet |
 | École – CFP | CFP du BTP (Douala) | `/pro/ecole` | même espace, pour un CFP |
 | École – Autre | Centre Linguistique | `/pro/ecole` | même espace, pour un « Autre » établissement |
 
-- À la première visite, on arrive **non connecté** : « Se connecter » sur la landing, puis choisir un compte de démo.
-- `/connexion?espace=ecole` présélectionne le compte IPES.
+- À la première visite, on arrive **non connecté** : « Se connecter » sur la landing.
 - L'espace professionnel (`/pro/ecole`) n'est ouvert qu'aux comptes école ; les autres sont renvoyés à la connexion.
 - L'inscription (`/inscription`) se parcourt jusqu'au bout ; « Simuler la validation par YIBOLO » montre l'écran « Compte validé ! ».
 
@@ -107,8 +117,7 @@ src/
 │   └── types.ts           types du domaine
 │
 ├── i18n/                traduction : index.ts (initialisation, langue gardée), i18next.d.ts (clés typées)
-├── data/                données enregistrées : couche unique (index.ts, hooks.ts), sources/ (SQLite navigateur, mémoire), remplaçable plus tard
-├── mocks/               données de départ et de référence (seed.ts construit la base de départ)
+├── data/                toutes les données : couche unique (index.ts, hooks.ts), sources/ (SQLite navigateur), depart/yibolo.sql (données de départ)
 └── assets/              police Plus Jakarta Sans et logo YIBOLO
 
 public/
@@ -141,7 +150,7 @@ L'interface existe en **français** (langue de référence, par défaut) et en *
 - Initialisation et types : `src/i18n/index.ts`, `src/i18n/i18next.d.ts`.
 - Les clés sont **typées** à partir du français : une clé absente est une erreur TypeScript.
 - `npm run i18n:check` vérifie que l'anglais a les mêmes clés que le français.
-- Les données de démonstration (`src/mocks/`) restent en français : elles jouent le rôle du serveur.
+- Les données de démonstration (`src/data/depart/yibolo.sql`) restent en français : elles jouent le rôle du serveur.
 
 Règles complètes et glossaire : [.claude/rules/traduction.md](.claude/rules/traduction.md).
 

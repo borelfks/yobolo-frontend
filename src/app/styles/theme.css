@@ -31,6 +31,8 @@
      n'est pas repris : le nom sert déjà ici (texte gris) ; la landing n'utilise
      que « muted-foreground ». */
   --font-client: 'Geist', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  /* La devise manuscrite de l'accueil connecté (Caveat n'est pas hébergée ici : police cursive du système). */
+  --font-manuscrite: 'Caveat', 'Segoe Script', 'Bradley Hand', cursive;
   --text-caption3: 0.6875rem;
   --text-caption3--line-height: 1.3;
 

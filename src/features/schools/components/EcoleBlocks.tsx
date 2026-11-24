@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { toast } from 'sonner'
 import { ArrowRight, BadgeCheck, Building2, CalendarDays, MapPin, Search, Star } from 'lucide-react'
 import { SearchField } from '@/shared/components/ui/SearchField'
 import { Badge } from '@/shared/components/ui/Badge'
@@ -11,11 +10,12 @@ import { Img } from '@/shared/components/ui/Img'
 import { FavoriteButton } from '@/shared/components/ui/FavoriteButton'
 import { Select } from '@/shared/components/forms/Fields'
 import type { Etablissement, Formation } from '@/shared/types'
-import { typeTone } from '@/mocks/schools'
+import { typeTone } from '@/features/schools/schoolTypes'
 import { useEtablissement } from '@/data/hooks'
 import { ecoleUrl, formationUrl, modeKey, modeStyle, schoolTypeKey, useModeLabel } from '@/features/schools/schoolLinks'
 import { cn } from '@/shared/utils/cn'
 import { fcfa, num } from '@/shared/utils/format'
+import { lienCarte, ouvrir } from '@/shared/utils/liens'
 
 export function VerifiedBadge({ label, light }: { label?: string; light?: boolean }) {
   const { t } = useTranslation('schools')
@@ -167,12 +167,17 @@ export function SearchPanel({
   placeholder,
   title,
   onSearch,
+  defautQ,
   tone = 'navy',
 }: {
-  fields: { placeholder: string; hint?: string; options: string[]; icon?: ReactNode }[]
+  /** `name` : la clé du critère transmis à `onSearch` (« region », « ville », « filiere », « niveau », « type »). */
+  fields: { name: string; placeholder: string; hint?: string; options: string[]; icon?: ReactNode; defaut?: string }[]
   placeholder?: string
+  /** Texte de recherche au départ (par exemple venu de l'adresse). */
+  defautQ?: string
   title?: string
-  onSearch?: (q: string) => void
+  /** Le texte saisi et les critères choisis (vides : tous). */
+  onSearch?: (q: string, criteres: Record<string, string>) => void
   tone?: 'navy' | 'light'
 }) {
   const { t } = useTranslation('schools')
@@ -180,8 +185,9 @@ export function SearchPanel({
     <form
       onSubmit={(e) => {
         e.preventDefault()
-        const q = new FormData(e.currentTarget).get('q')
-        onSearch?.(String(q ?? ''))
+        const form = new FormData(e.currentTarget)
+        const criteres = Object.fromEntries(fields.map((f) => [f.name, String(form.get(f.name) ?? '')]))
+        onSearch?.(String(form.get('q') ?? ''), criteres)
       }}
       className={cn(
         'grid gap-3 rounded-2xl p-3 xl:flex xl:items-center',
@@ -197,15 +203,15 @@ export function SearchPanel({
       {placeholder && (
         <label className="relative flex-[1.7] xl:min-w-[300px]">
           <Search className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-navy-900" />
-          <input name="q" placeholder={placeholder} className="h-[46px] w-full rounded-full border border-line bg-white pr-4 pl-11 text-[15px] text-ink outline-none placeholder:text-ink/70 focus:ring-3 focus:ring-brand-200" />
+          <input name="q" defaultValue={defautQ} placeholder={placeholder} className="h-[46px] w-full rounded-full border border-line bg-white pr-4 pl-11 text-[15px] text-ink outline-none placeholder:text-ink/70 focus:ring-3 focus:ring-brand-200" />
         </label>
       )}
       {fields.map((f) =>
         tone === 'navy' ? (
-          <SearchField key={f.placeholder} icon={f.icon ?? <Search />} label={f.placeholder} hint={f.hint ?? t('blocks.allHint')} options={f.options} className="h-[46px]" />
+          <SearchField key={f.name} name={f.name} defaut={f.defaut} icon={f.icon ?? <Search />} label={f.placeholder} hint={f.hint ?? t('blocks.allHint')} options={f.options} className="h-[46px]" />
         ) : (
-          <div key={f.placeholder} className="flex-1">
-            <Select aria-label={f.placeholder} options={f.options} placeholder={f.placeholder} icon={f.icon} />
+          <div key={f.name} className="flex-1">
+            <Select name={f.name} defaultValue={f.defaut} aria-label={f.placeholder} options={f.options} placeholder={f.placeholder} icon={f.icon} />
           </div>
         ),
       )}
@@ -224,7 +230,8 @@ export function SearchPanel({
 }
 
 /** En-tête de liste : « 532 IPES trouvés » + tri. */
-export function ResultsHeader({ title, sort, children }: { title: ReactNode; sort?: string[]; children?: ReactNode }) {
+/** `tri` : l'index de l'option choisie dans `sort` (ou dans les tris par défaut) ; `onTri` la change. */
+export function ResultsHeader({ title, sort, tri = 0, onTri, children }: { title: ReactNode; sort?: string[]; tri?: number; onTri?: (index: number) => void; children?: ReactNode }) {
   const { t } = useTranslation('schools')
   const options = sort ?? [t('blocks.results.sort.pertinence'), t('blocks.results.sort.bestRated'), t('blocks.results.sort.feesAsc'), t('blocks.results.sort.newest')]
   return (
@@ -234,7 +241,7 @@ export function ResultsHeader({ title, sort, children }: { title: ReactNode; sor
         {children}
         <span>{t('blocks.results.sortBy')}</span>
         <div className="w-48">
-          <Select aria-label={t('blocks.results.sortByLabel')} options={options} className="h-10" />
+          <Select aria-label={t('blocks.results.sortByLabel')} value={String(tri)} onChange={(e) => onTri?.(Number(e.target.value))} options={options.map((label, i) => ({ value: String(i), label }))} className="h-10" />
         </div>
       </div>
     </div>
@@ -278,7 +285,8 @@ export function CountList({ items, value, onChange }: { items: { label: string; 
   )
 }
 
-export function MapBox({ className }: { className?: string }) {
+/** Petite carte ; « Voir » ouvre le plan de l'adresse. */
+export function MapBox({ adresse, className }: { adresse: string; className?: string }) {
   const { t } = useTranslation('schools')
   return (
     <div className={cn('relative h-40 overflow-hidden rounded-xl bg-[linear-gradient(135deg,#dbeafe_25%,#e0f2fe_25%,#e0f2fe_50%,#dbeafe_50%,#dbeafe_75%,#e0f2fe_75%)] bg-[length:28px_28px]', className)}>
@@ -287,7 +295,7 @@ export function MapBox({ className }: { className?: string }) {
         <path d="M120 0 L160 160" stroke="#fff" strokeWidth="7" fill="none" />
       </svg>
       <MapPin className="absolute top-1/2 left-1/2 size-9 -translate-x-1/2 -translate-y-full fill-rose-500 text-white drop-shadow" />
-      <button type="button" onClick={() => toast(t('blocks.map.opening'))} className="absolute right-2 bottom-2 rounded-lg bg-white px-2.5 py-1 text-xs font-semibold text-brand-600 shadow">
+      <button type="button" onClick={() => ouvrir(lienCarte(adresse))} className="absolute right-2 bottom-2 rounded-lg bg-white px-2.5 py-1 text-xs font-semibold text-brand-600 shadow">
         {t('blocks.map.see')}
       </button>
     </div>

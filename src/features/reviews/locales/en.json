@@ -66,6 +66,10 @@
       "confirmAutoEcole": "Please confirm that you trained at this driving school.",
       "confirmEcole": "Please confirm that you trained at this institution.",
       "merci": "Thank you! Your review will be published once checked by YIBOLO."
+    },
+    "notification": {
+      "titre": "New review",
+      "texte": "{{name}} left a {{note}}★ review on your institution."
     }
   },
   "blocks": {

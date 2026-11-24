@@ -3,14 +3,15 @@ import { useTranslation } from 'react-i18next'
 import { BookOpen, BookOpenText, Briefcase, CalendarDays, ChevronDown, ChevronUp, Clock, Layers, Sun } from 'lucide-react'
 import { Heading } from '@/features/schools/components/training/TrainingUi'
 import { card, modeKey, soft } from '@/features/schools/components/training/trainingShared'
-import { programme } from '@/mocks/schools'
 import type { Formation } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
+import { useProgramme } from '@/data/hooks'
 
 /** Onglet « Programme » d'une formation. */
 export function ProgrammeTab({ f }: { f: Formation }) {
   const { t } = useTranslation('schools')
-  const years = Object.keys(programme)
+  const semestres = useProgramme()
+  const years = [...new Set(semestres.map((s) => s.annee))]
   const [year, setYear] = useState(years[0])
   const [open, setOpen] = useState<string>('Semestre 1')
   return (
@@ -42,7 +43,7 @@ export function ProgrammeTab({ f }: { f: Formation }) {
             </button>
           ))}
         </div>
-        {programme[year as keyof typeof programme].map((s) => {
+        {semestres.filter((s) => s.annee === year).map((s) => {
           const isOpen = open === s.semestre
           return (
             <div key={s.semestre} className="rounded-xl border border-line">

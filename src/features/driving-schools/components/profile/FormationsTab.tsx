@@ -5,8 +5,7 @@ import { ArrowRight, CalendarDays, ChevronRight, Clock, Coins, GraduationCap } f
 import { CheckLine, FilterBox, Heading, WhyCard } from '@/features/driving-schools/components/profile/ProfileParts'
 import { card, inscrireHref, permisShortName } from '@/features/driving-schools/components/profile/profileUtils'
 import { Img } from '@/shared/components/ui/Img'
-import { useAutoEcole } from '@/data/hooks'
-import { permisCatalogue } from '@/mocks/drivingSchools'
+import { useAutoEcole, usePermisCatalogue } from '@/data/hooks'
 import type { PermisCode } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { fcfa } from '@/shared/utils/format'
@@ -16,6 +15,7 @@ const trainingTypes = ['initial', 'refresher'] as const
 
 /** Onglet « Formations & Permis » de la fiche d'une auto-école. */
 export function FormationsTab({ id }: { id: string }) {
+  const permisCatalogue = usePermisCatalogue()
   const { t } = useTranslation('driving-schools')
   const a = useAutoEcole(id)
   const [sel, setSel] = useState<string[]>([])
