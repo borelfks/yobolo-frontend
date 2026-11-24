@@ -167,6 +167,9 @@ export function Inscription() {
           avatar: '',
           home: ecole ? ROUTES.pro.root : ROUTES.accueil,
           ecoleId: etablissement?.id,
+          region: v.region,
+          ville: v.ville,
+          quartier: v.quartier,
           statut: 'En vérification',
           motDePasse: await protegerMotDePasse(v.motDePasse),
         },
@@ -258,8 +261,8 @@ export function Inscription() {
           <p className="text-[14.5px] text-navy-900">{t('inscription.choose.text')}</p>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             {profils.map((p) => {
-              // Seul le profil École est ouvert pour l'instant (décision du 2026-11-24).
-              const bientot = p.value !== 'ecole'
+              // Profils ouverts : École et Personne physique (décisions du 2026-11-24).
+              const bientot = p.value !== 'ecole' && p.value !== 'personne'
               return (
               <button
                 key={p.value}

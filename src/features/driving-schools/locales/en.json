@@ -571,7 +571,8 @@
         "title": "Request sent!",
         "text": "Your enrolment request for the {{permis}} has been sent to {{school}}. You will be informed by SMS, email and notification as soon as it is processed.",
         "backToSchool": "Back to the driving school",
-        "otherSchools": "See other driving schools"
+        "otherSchools": "See other driving schools",
+        "voirDossier": "View my enrolment in My space"
       },
       "header": {
         "validationTitle": "Enrolment – Validation",

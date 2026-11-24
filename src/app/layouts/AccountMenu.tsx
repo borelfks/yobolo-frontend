@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { Bell, CalendarCheck, CheckCircle2, ChevronDown, Database, FileCheck2, FileText, Heart, LayoutDashboard, LogOut, MessageSquare, Repeat, Star, type LucideIcon } from 'lucide-react'
+import { Bell, CalendarCheck, CheckCircle2, ChevronDown, Database, FileCheck2, FileText, Heart, LayoutDashboard, LogOut, MessageSquare, Repeat, Star, UserRound, type LucideIcon } from 'lucide-react'
 import { Avatar } from '@/shared/components/ui/Avatar'
 import { TestDataDialog } from '@/app/layouts/TestDataDialog'
 import { useSession } from '@/features/auth/hooks/useSession'
@@ -148,6 +148,12 @@ export function UserMenu({ withTestData = false }: { withTestData?: boolean }) {
             <Link to={account.home} onClick={close} className={item}>
               <LayoutDashboard />
               {t('userMenu.proSpace')}
+            </Link>
+          )}
+          {account.role === 'utilisateur' && (
+            <Link to={ROUTES.espace()} onClick={close} className={item}>
+              <UserRound />
+              {t('userMenu.mySpace')}
             </Link>
           )}
           <Link to={ROUTES.favorites} onClick={close} className={item}>

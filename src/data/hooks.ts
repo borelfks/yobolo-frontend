@@ -91,8 +91,9 @@ export function useParametres(etablissementId: string) {
   return useCollection('parametres').find((p) => p.id === etablissementId)?.valeurs ?? {}
 }
 
+/** Les préinscriptions reçues par un établissement (pas celles que le candidat a annulées). */
 export function usePreinscriptionsRecues(etablissementId: string) {
-  return useCollection('preinscriptions').filter((p) => p.etablissementId === etablissementId)
+  return useCollection('preinscriptions').filter((p) => p.etablissementId === etablissementId && p.statut !== 'Annulée')
 }
 
 /* --- Comptes ---------------------------------------------------------------- */
@@ -325,6 +326,14 @@ export function useActualitesPubliees() {
 /** Tous les commentaires (pour compter ceux de chaque publication du fil). */
 export function useTousLesCommentaires() {
   return useCollection('commentaires')
+}
+
+/** Les avis écrits par un compte (Mon espace › Mes avis). */
+export function useMesAvis(compteId?: string) {
+  return {
+    etablissements: useCollection('avisEtablissements').filter((a) => !!compteId && a.compteId === compteId),
+    autoEcoles: useCollection('avisAutoEcoles').filter((a) => !!compteId && a.compteId === compteId),
+  }
 }
 
 /** Les préinscriptions et inscriptions en auto-école envoyées par un compte (« Mes formations »). */

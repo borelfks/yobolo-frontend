@@ -180,6 +180,12 @@ export type Compte = Account & {
   telephone: string
   /** « En vérification » après l'inscription, « Validé » après la validation par YIBOLO. */
   statut: 'Validé' | 'En vérification'
+  /** Profil d'une personne physique (Mon espace › Mon profil). */
+  civilite?: 'Monsieur' | 'Madame'
+  naissance?: string
+  region?: string
+  ville?: string
+  quartier?: string
   /** Mot de passe haché : sha256(sel + ':' + mot de passe), en hexadécimal. */
   motDePasse: { sel: string; hash: string }
 }
@@ -219,11 +225,13 @@ export type SessionAutoEcole = {
 /** La réponse de l'établissement (ou de l'auto-école) à un avis. */
 export type ReponseAvis = { texte: string; le: string }
 
-export type AvisEtablissement = Avis & { etablissementId: string; reponse?: ReponseAvis }
+export type AvisEtablissement = Avis & { etablissementId: string; reponse?: ReponseAvis; /** Le compte qui l'a écrit (Mon espace › Mes avis). */ compteId?: string }
 
 export type AvisAutoEcole = {
   id: string
   autoEcoleId: string
+  /** Le compte qui l'a écrit (Mon espace › Mes avis). */
+  compteId?: string
   /** Notes par critère (dans l'ordre de la table `criteresAvis`), quand l'auteur les a données. */
   criteres?: number[]
   reponse?: ReponseAvis
@@ -289,7 +297,9 @@ export type Preinscription = {
   etablissementId: string
   /** Date d'envoi (ISO). */
   envoyeeLe: string
-  statut: 'Envoyée'
+  statut: 'Envoyée' | 'Annulée'
+  /** Date d'annulation par le candidat (ISO). */
+  annuleeLe?: string
   /** Les champs saisis, tels quels. */
   donnees: Record<string, string>
 }
@@ -302,7 +312,9 @@ export type InscriptionAutoEcole = {
   autoEcoleId: string
   permis: PermisCode
   envoyeeLe: string
-  statut: 'Envoyée'
+  statut: 'Envoyée' | 'Annulée'
+  /** Date d'annulation par le candidat (ISO). */
+  annuleeLe?: string
   donnees: InscriptionDraft
 }
 

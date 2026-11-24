@@ -33,7 +33,9 @@
     "formationsAide": "Voir mes formations",
     "favorisAide": "Voir mes favoris",
     "notificationsAide": "Voir mes notifications",
-    "profilAide": "Gérer mon profil"
+    "profilAide": "Gérer mon profil",
+    "nonLues_one": "{{count}} notification non lue",
+    "nonLues_other": "{{count}} notifications non lues"
   },
   "offres": {
     "titre": "Offres d'emploi populaires",
@@ -308,53 +310,5 @@
     "faite": "Publication supprimée",
     "echec": "La publication n’a pas pu être supprimée. Réessayez.",
     "menu": "Supprimer la publication"
-  },
-  "mesFormations": {
-    "titre": "Mes formations",
-    "aucune": "Vous n’avez encore envoyé aucune préinscription ni inscription.",
-    "trouver": "Trouver une formation",
-    "preinscriptions_one": "Préinscription ({{count}})",
-    "preinscriptions_other": "Préinscriptions ({{count}})",
-    "permis_one": "Inscription en auto-école ({{count}})",
-    "permis_other": "Inscriptions en auto-école ({{count}})",
-    "permisCode": "Permis {{code}}",
-    "envoyeeLe": "Envoyée le {{date}}",
-    "statuts": {
-      "Envoyée": "Envoyée"
-    }
-  },
-  "notifications": {
-    "titre": "Mes notifications",
-    "toutLire": "Tout marquer comme lu",
-    "toutesLues": "Toutes vos notifications sont lues",
-    "resume_zero": "Aucune notification non lue",
-    "resume_one": "{{count}} notification non lue",
-    "resume_other": "{{count}} notifications non lues",
-    "aucune": "Aucune notification pour le moment.",
-    "marquerLue": "Marquer « {{titre}} » comme lue",
-    "nonLue": "Non lue"
-  },
-  "profil": {
-    "titre": "Mon profil",
-    "nom": "Nom et prénom",
-    "telephone": "Téléphone",
-    "email": "E-mail",
-    "emailAide": "C’est aussi votre identifiant de connexion.",
-    "changerPhoto": "Changer la photo",
-    "retirerPhoto": "Retirer la photo",
-    "photoAide": "JPG ou PNG, 2 Mo au maximum.",
-    "annuler": "Annuler",
-    "enregistrer": "Enregistrer",
-    "enregistre": "Profil mis à jour",
-    "erreurs": {
-      "nom": "Indiquez votre nom (2 caractères au moins).",
-      "telephone": "Indiquez un numéro de téléphone valide.",
-      "email": "Indiquez une adresse e-mail valide.",
-      "photoType": "Choisissez une image (JPG ou PNG).",
-      "photoTaille": "Image trop lourde : 2 Mo au maximum.",
-      "photoLecture": "L’image n’a pas pu être lue.",
-      "emailPris": "Cette adresse e-mail est déjà utilisée par un autre compte.",
-      "enregistrement": "Le profil n’a pas pu être enregistré. Réessayez."
-    }
   }
 }

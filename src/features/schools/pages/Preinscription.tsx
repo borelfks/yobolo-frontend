@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react'
-import { useNavigate, useParams } from 'react-router'
+import { Link, useNavigate, useParams } from 'react-router'
 import { Trans, useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import {
@@ -72,6 +72,8 @@ export function Preinscription() {
   const navigate = useNavigate()
   const [step, setStep] = useState(0)
   const [sent, setSent] = useState(false)
+  // Le dossier envoyé par un compte connecté : « Voir mon dossier » dans Mon espace.
+  const [dossier, setDossier] = useState<string | null>(null)
   const [files, setFiles] = useState<Record<string, string>>({})
   // Fichier joint de chaque pièce (gardé dans la base, table fichiers).
   const [fichierIds, setFichierIds] = useState<Record<string, string>>({})
@@ -105,6 +107,11 @@ export function Preinscription() {
               {t('preinscription.sent.explore')}
             </button>
           </div>
+          {dossier && (
+            <Link to={ROUTES.espacePreinscription(dossier)} className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full font-semibold text-brand-700 hover:underline mt-3">
+              {t('preinscription.sent.voirDossier')}
+            </Link>
+          )}
         </div>
       </div>
     )
@@ -120,7 +127,7 @@ export function Preinscription() {
       await ajusterIndicateurs(e.id, { candidatures: 1, activite: 'applications' })
       // Le candidat connecté le retrouve dans ses notifications.
       if (account) await data.create('notificationsCompte', { compteId: account.id, type: 'preRegistration', titre: t('preinscription.notificationCandidat.titre'), texte: t('preinscription.notificationCandidat.texte', { school: e.sigle || e.nom, training: f.nom }), quand: t('preinscription.notificationCandidat.quand'), lu: false }, 'notif')
-      await data.create(
+      const cree = await data.create(
         'preinscriptions',
         {
           formationId: f.id,
@@ -141,6 +148,7 @@ export function Preinscription() {
         },
         'preinscription',
       )
+      if (account?.role === 'utilisateur') setDossier(cree.id)
     } catch {
       toast.error(t('preinscription.toastError'))
       return

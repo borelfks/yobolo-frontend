@@ -32,6 +32,12 @@ export const ROUTES = {
   help: '/aide',
   terms: '/conditions',
   favorites: '/favoris',
+  /** L'espace d'une personne physique (onglets dans l'adresse). */
+  espace: (tab?: string) => withTab('/mon-espace', tab),
+  /** Le détail d'une préinscription envoyée, dans l'espace personnel. */
+  espacePreinscription: (id: string) => `/mon-espace/preinscriptions/${id}`,
+  /** Le détail d'une inscription en auto-école, dans l'espace personnel. */
+  espaceInscription: (id: string) => `/mon-espace/auto-ecole/${id}`,
 
   // -- Univers École : IPES, CFP, Autres -------------------------------------
   schools: '/ecoles',
@@ -77,6 +83,9 @@ export const ROUTES = {
 /** Motifs utilisés par la table des routes (src/app/routes/index.tsx). */
 export const ROUTE_PATTERNS = {
   accueil: 'accueil',
+  espace: 'mon-espace/:tab?',
+  espacePreinscription: 'mon-espace/preinscriptions/:id',
+  espaceInscription: 'mon-espace/auto-ecole/:id',
   schoolType: 'ecoles/:type/:tab?',
   school: 'ecoles/:type/etablissement/:id/:tab?',
   schoolReview: 'ecoles/:type/etablissement/:id/avis/nouveau',

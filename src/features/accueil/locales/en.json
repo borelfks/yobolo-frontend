@@ -33,7 +33,9 @@
     "formationsAide": "See my programmes",
     "favorisAide": "See my favourites",
     "notificationsAide": "See my notifications",
-    "profilAide": "Manage my profile"
+    "profilAide": "Manage my profile",
+    "nonLues_one": "{{count}} unread notification",
+    "nonLues_other": "{{count}} unread notifications"
   },
   "offres": {
     "titre": "Popular job offers",
@@ -308,53 +310,5 @@
     "faite": "Post deleted",
     "echec": "The post could not be deleted. Please try again.",
     "menu": "Delete post"
-  },
-  "mesFormations": {
-    "titre": "My programmes",
-    "aucune": "You have not sent any pre-registration or enrolment yet.",
-    "trouver": "Find a programme",
-    "preinscriptions_one": "Pre-registration ({{count}})",
-    "preinscriptions_other": "Pre-registrations ({{count}})",
-    "permis_one": "Driving school enrolment ({{count}})",
-    "permis_other": "Driving school enrolments ({{count}})",
-    "permisCode": "Licence {{code}}",
-    "envoyeeLe": "Sent on {{date}}",
-    "statuts": {
-      "Envoyée": "Sent"
-    }
-  },
-  "notifications": {
-    "titre": "My notifications",
-    "toutLire": "Mark all as read",
-    "toutesLues": "All your notifications are read",
-    "resume_zero": "No unread notifications",
-    "resume_one": "{{count}} unread notification",
-    "resume_other": "{{count}} unread notifications",
-    "aucune": "No notifications yet.",
-    "marquerLue": "Mark “{{titre}}” as read",
-    "nonLue": "Unread"
-  },
-  "profil": {
-    "titre": "My profile",
-    "nom": "Full name",
-    "telephone": "Phone",
-    "email": "Email",
-    "emailAide": "This is also your sign-in username.",
-    "changerPhoto": "Change photo",
-    "retirerPhoto": "Remove photo",
-    "photoAide": "JPG or PNG, 2 MB maximum.",
-    "annuler": "Cancel",
-    "enregistrer": "Save",
-    "enregistre": "Profile updated",
-    "erreurs": {
-      "nom": "Enter your name (at least 2 characters).",
-      "telephone": "Enter a valid phone number.",
-      "email": "Enter a valid email address.",
-      "photoType": "Choose an image (JPG or PNG).",
-      "photoTaille": "Image too large: 2 MB maximum.",
-      "photoLecture": "The image could not be read.",
-      "emailPris": "This email address is already used by another account.",
-      "enregistrement": "The profile could not be saved. Please try again."
-    }
   }
 }

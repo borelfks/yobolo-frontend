@@ -1,0 +1,218 @@
+{
+  "crumbs": {
+    "accueil": "Home",
+    "espace": "My space",
+    "preinscriptions": "My pre-registrations",
+    "permis": "My licences"
+  },
+  "entete": {
+    "profil": "Individual",
+    "modifier": "Edit my profile",
+    "verifie": "Verified account"
+  },
+  "onglets": {
+    "apercu": "Overview",
+    "preinscriptions": "My pre-registrations ({{n}})",
+    "autoEcole": "My licences ({{n}})",
+    "avis": "My reviews ({{n}})",
+    "notifications": "Notifications ({{n}})",
+    "profil": "My profile",
+    "parametres": "Settings"
+  },
+  "statuts": {
+    "Envoyée": "Sent",
+    "Annulée": "Cancelled"
+  },
+  "apercu": {
+    "bonjour": "Hello, {{name}}!",
+    "texte": "Find your pre-registrations, driving school enrolments, reviews and notifications here.",
+    "kpis": {
+      "preinscriptions": "Pre-registrations",
+      "permis": "Driving school enrolments",
+      "favoris": "Favourites",
+      "avis": "Reviews given"
+    },
+    "activite": "My latest applications",
+    "aucuneActivite": "You have not made any application yet. Find a programme or a driving school to start.",
+    "actions": "Quick actions",
+    "trouverFormation": "Find a programme",
+    "trouverAutoEcole": "Find a driving school",
+    "voirFavoris": "See my favourites",
+    "completerProfil": "Complete my profile",
+    "notifications_one": "{{count}} unread notification",
+    "notifications_other": "{{count}} unread notifications",
+    "notifications_zero": "No unread notifications",
+    "voirNotifications": "See my notifications",
+    "profilComplet": "Profile {{pct}} % complete",
+    "genres": {
+      "preinscription": "Pre-registration",
+      "permis": "Licence {{code}} enrolment",
+      "avis": "Review"
+    }
+  },
+  "dossiers": {
+    "envoyeeLe": "Sent on {{date}}",
+    "annuleeLe": "Cancelled on {{date}}",
+    "voir": "View application",
+    "annuler": "Cancel",
+    "aucunePreinscription": "You have not sent any pre-registration.",
+    "aucunPermis": "You have not enrolled for any licence.",
+    "trouverFormation": "Find a programme",
+    "trouverAutoEcole": "Find a driving school",
+    "permis": "Licence {{code}}",
+    "session": "Session of {{date}}",
+    "introuvable": "This application cannot be found.",
+    "retour": "Back to my applications",
+    "detailPreinscription": "My pre-registration",
+    "detailPermis": "My licence {{code}} enrolment",
+    "candidat": "The applicant",
+    "parcours": "Education",
+    "pieces": "Attached documents",
+    "aucunePiece": "No attached document.",
+    "telecharger": "Download",
+    "formation": "Programme",
+    "etablissement": "Institution",
+    "autoEcole": "Driving school",
+    "frais": "Fees per year",
+    "prix": "Licence price",
+    "statut": "Status",
+    "voirFormation": "View programme",
+    "voirEtablissement": "View institution",
+    "voirAutoEcole": "View driving school",
+    "donnerAvis": "Give my review",
+    "champs": {
+      "nom": "Surname",
+      "prenom": "First name",
+      "sexe": "Sex",
+      "naissance": "Date of birth",
+      "nationalite": "Nationality",
+      "telephone": "Phone",
+      "email": "Email",
+      "ville": "City",
+      "quartier": "Neighbourhood",
+      "diplome": "Diploma",
+      "serie": "Stream",
+      "annee": "Year obtained",
+      "etablissementOrigine": "Previous school",
+      "session": "Session"
+    },
+    "annulation": {
+      "titre": "Cancel this application?",
+      "texte": "The institution will be informed. You can send a new application later.",
+      "garder": "Keep my application",
+      "confirmer": "Cancel the application",
+      "faite": "Application cancelled",
+      "echec": "The application could not be cancelled. Please try again.",
+      "notificationTitre": "Pre-registration cancelled",
+      "notificationTexte": "{{name}} cancelled their pre-registration for {{training}}."
+    }
+  },
+  "avis": {
+    "aucun": "You have not given any review yet.",
+    "conseil": "After a programme or a licence, give your review to help other applicants.",
+    "reponse": "Reply from the institution",
+    "modifier": "Edit",
+    "supprimer": "Delete",
+    "voir": "View on the page",
+    "modifierTitre": "Edit my review",
+    "note": "Overall rating",
+    "commentaire": "Comment",
+    "enregistrer": "Save",
+    "annuler": "Cancel",
+    "modifie": "Review updated",
+    "supprimerTitre": "Delete this review?",
+    "supprimerTexte": "It will disappear from the page, and the average rating will be recalculated.",
+    "supprime": "Review deleted",
+    "erreurs": {
+      "court": "The comment has at least 10 characters.",
+      "echec": "The review could not be saved. Please try again."
+    }
+  },
+  "notifications": {
+    "titre": "My notifications",
+    "toutLire": "Mark all as read",
+    "toutesLues": "All your notifications are read",
+    "aucune": "No notifications yet.",
+    "nonLue": "Unread",
+    "marquerLue": "Mark as read",
+    "supprimer": "Delete",
+    "supprimee": "Notification deleted",
+    "filtres": {
+      "toutes": "All ({{n}})",
+      "nonLues": "Unread ({{n}})"
+    }
+  },
+  "profil": {
+    "titre": "My profile",
+    "texte": "This information pre-fills your pre-registrations and enrolments.",
+    "photo": "Photo",
+    "changerPhoto": "Change photo",
+    "retirerPhoto": "Remove photo",
+    "photoAide": "JPG or PNG, 2 MB maximum.",
+    "civilite": "Title",
+    "civilites": {
+      "Monsieur": "Mr",
+      "Madame": "Mrs"
+    },
+    "nom": "Full name",
+    "naissance": "Date of birth",
+    "telephone": "Phone",
+    "email": "Email",
+    "emailAide": "This is also your sign-in username.",
+    "residence": "Residence",
+    "region": "Region",
+    "ville": "City",
+    "quartier": "Neighbourhood",
+    "choisir": "Choose",
+    "enregistrer": "Save",
+    "enregistre": "Profile updated",
+    "erreurs": {
+      "nom": "Enter your name (at least 2 characters).",
+      "telephone": "Enter a valid phone number (at least 9 digits).",
+      "email": "Enter a valid email address.",
+      "emailPris": "This email address is already used by another account.",
+      "photoType": "Choose an image (JPG or PNG).",
+      "photoTaille": "Image too large: 2 MB maximum.",
+      "photoLecture": "The image could not be read.",
+      "enregistrement": "The profile could not be saved. Please try again."
+    }
+  },
+  "parametres": {
+    "motDePasse": {
+      "titre": "Change my password",
+      "actuel": "Current password",
+      "nouveau": "New password",
+      "confirmation": "Confirm the new password",
+      "enregistrer": "Change password",
+      "change": "Password changed",
+      "regles": {
+        "longueur": "At least 8 characters",
+        "majuscule": "One capital letter",
+        "chiffre": "One number",
+        "special": "One special character"
+      },
+      "erreurs": {
+        "actuel": "Enter your current password.",
+        "faux": "The current password is incorrect.",
+        "regles": "The new password does not meet all the rules.",
+        "different": "The two passwords do not match."
+      }
+    },
+    "langue": {
+      "titre": "Language",
+      "texte": "The app language, kept in this browser."
+    },
+    "suppression": {
+      "titre": "Delete my account",
+      "texte": "Your account and notifications will be deleted. Applications already sent stay with the institutions.",
+      "bouton": "Delete my account",
+      "confirmerTitre": "Permanently delete your account?",
+      "confirmerTexte": "Enter your password to confirm. This cannot be undone.",
+      "motDePasse": "Password",
+      "annuler": "Cancel",
+      "confirmer": "Delete permanently",
+      "faite": "Your account has been deleted",
+      "faux": "Incorrect password."
+    }
+  }
+}

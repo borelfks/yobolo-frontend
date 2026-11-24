@@ -120,7 +120,7 @@ export function DonnerAvis() {
     if (texte.trim().length < 10) return toast.error(t('donnerAvis.toasts.tropCourt'))
     if (!confirm) return toast.error(isAE ? t('donnerAvis.toasts.confirmAutoEcole') : t('donnerAvis.toasts.confirmEcole'))
     // Auteur : le compte connecté, sinon « Visiteur ». La date est un texte, comme les avis de la maquette.
-    const auteur = { nom: account?.name ?? t('donnerAvis.visiteur'), avatar: account?.avatar ?? '', date: t('donnerAvis.aLInstant'), note, texte: texte.trim() }
+    const auteur = { compteId: account?.id, nom: account?.name ?? t('donnerAvis.visiteur'), avatar: account?.avatar ?? '', date: t('donnerAvis.aLInstant'), note, texte: texte.trim() }
     // La note moyenne et le nombre d'avis suivent le nouvel avis.
     const moyenne = (n: number, total: number) => Math.round(((n * total + note) / (total + 1)) * 10) / 10
     if (isAE) {

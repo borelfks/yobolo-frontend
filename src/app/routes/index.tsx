@@ -36,6 +36,11 @@ const ModifierInscription = lazy(() => import('@/features/driving-schools/pages/
 const DonnerAvis = lazy(() => import('@/features/reviews/pages/DonnerAvis').then((m) => ({ default: m.DonnerAvis })))
 const Favoris = lazy(() => import('@/features/favorites/pages/Favoris').then((m) => ({ default: m.Favoris })))
 
+/* --- Mon espace (personne physique) ----------------------------------------- */
+const MonEspace = lazy(() => import('@/features/espace/pages/MonEspace').then((m) => ({ default: m.MonEspace })))
+const DossierPreinscription = lazy(() => import('@/features/espace/pages/DossierPreinscription').then((m) => ({ default: m.DossierPreinscription })))
+const DossierInscription = lazy(() => import('@/features/espace/pages/DossierInscription').then((m) => ({ default: m.DossierInscription })))
+
 /* --- Espace professionnel École ------------------------------------------- */
 const Dashboard = lazy(() => import('@/features/pro/pages/Dashboard').then((m) => ({ default: m.Dashboard })))
 const Profil = lazy(() => import('@/features/pro/pages/Profil').then((m) => ({ default: m.Profil })))
@@ -76,6 +81,9 @@ export const router = createBrowserRouter([
           { path: P.accueil, element: <Accueil /> },
           { path: ROUTES.schools, element: <EcolesHub /> },
           { path: ROUTES.favorites, element: <Favoris /> },
+          { path: P.espacePreinscription, element: <DossierPreinscription /> },
+          { path: P.espaceInscription, element: <DossierInscription /> },
+          { path: P.espace, element: <MonEspace /> },
           { path: P.preRegistration, element: <Preinscription /> },
           { path: P.training, element: <FormationDetail /> },
           { path: P.drivingSchools, element: <AutoEcoles /> },

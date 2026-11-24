@@ -571,7 +571,8 @@
         "title": "Demande envoyée !",
         "text": "Votre demande d’inscription au {{permis}} a été transmise à {{school}}. Vous serez informé par SMS, e-mail et notification dès son traitement.",
         "backToSchool": "Retour à l’auto-école",
-        "otherSchools": "Voir d’autres auto-écoles"
+        "otherSchools": "Voir d’autres auto-écoles",
+        "voirDossier": "Voir mon dossier dans Mon espace"
       },
       "header": {
         "validationTitle": "Inscription – Validation",

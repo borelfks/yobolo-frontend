@@ -128,6 +128,8 @@ export function InscriptionAutoEcole() {
   const [step, setStep] = useState(0)
   const [certif, setCertif] = useState(true)
   const [sent, setSent] = useState(false)
+  // Le dossier envoyé par un compte connecté : « Voir mon dossier » dans Mon espace.
+  const [dossier, setDossier] = useState<string | null>(null)
   const navigate = useNavigate()
   const permisNom = t('permisName', { code: p.code, name: t(`permis.${p.code}.name`) })
   const lieu = `${a.ville} – ${a.quartier}`
@@ -143,6 +145,11 @@ export function InscriptionAutoEcole() {
             <Link to={ROUTES.drivingSchool(a.id)} className="inline-flex h-11 flex-1 items-center justify-center rounded-full border-2 border-brand-600/60 font-semibold text-navy-800">{t('inscription.sent.backToSchool')}</Link>
             <Link to={ROUTES.drivingSchools} className="inline-flex h-11 flex-1 items-center justify-center rounded-full bg-brand-600 font-semibold text-white">{t('inscription.sent.otherSchools')}</Link>
           </div>
+          {dossier && (
+            <Link to={ROUTES.espaceInscription(dossier)} className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full font-semibold text-brand-700 hover:underline mt-3">
+              {t('inscription.sent.voirDossier')}
+            </Link>
+          )}
         </div>
       </div>
     )
@@ -348,7 +355,8 @@ export function InscriptionAutoEcole() {
                 type="button"
                 onClick={async () => {
                   if (!certif) return toast.error(t('toast.certifyRequired'))
-                  await data.create('inscriptionsAutoEcole', { compteId: account?.id, autoEcoleId: a.id, permis: p.code, envoyeeLe: new Date().toISOString(), statut: 'Envoyée', donnees: d }, 'inscription')
+                  const cree = await data.create('inscriptionsAutoEcole', { compteId: account?.id, autoEcoleId: a.id, permis: p.code, envoyeeLe: new Date().toISOString(), statut: 'Envoyée', donnees: d }, 'inscription')
+                  if (account?.role === 'utilisateur') setDossier(cree.id)
                   // La session choisie compte une place de moins.
                   const session = sessions.find((s) => s.permis === p.code && s.debut === d.session)
                   if (session) await data.update('sessions', session.id, { places: Math.max(0, session.places - 1) })

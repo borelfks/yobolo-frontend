@@ -556,7 +556,8 @@
       "title": "Pre-registration sent!",
       "text": "{{school}} has received your application for the <b>{{training}}</b> programme. You will be notified by SMS, email and notification.",
       "back": "Back to the institution",
-      "explore": "Keep exploring"
+      "explore": "Keep exploring",
+      "voirDossier": "View my application in My space"
     },
     "toastValidated": "Pre-registration confirmed",
     "toastError": "The pre-registration could not be saved. Please try again.",

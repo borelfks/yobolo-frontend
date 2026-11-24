@@ -7,7 +7,7 @@ Les listes de liens des cadres sont dans `navConfig.ts`. Elles gardent des **cl�
 - **Espace pro** (`proNav`) : Tableau de bord · Profil de l'établissement · Formations · Contenus et informations · Statistiques · Paramètres.
   - **Sous-menus** (comme sur la maquette) : Formations › Gérer les formations, Créer une formation ; Contenus et informations › Contenus & actualités, Documents à télécharger, FAQ (Questions fréquentes).
   - « Tableau de bord » est `end` : il n'est pas actif sur les autres pages.
-- **Menu du compte** (avatar, `AccountMenu.tsx`) : Mon espace professionnel (compte école), Mes favoris, Donner un avis (utilisateur : sur le dernier établissement ou la dernière auto-école de ses préinscriptions / inscriptions ; absent sinon), Changer de compte, Données de test, Se déconnecter. **Cloche** : les notifications du compte dans la base (`notificationsCompte` ; espace pro : `notifications`), nombre de non lues, « Tout marquer comme lu ».
+- **Menu du compte** (avatar, `AccountMenu.tsx`) : Mon espace professionnel (compte école), Mon espace (utilisateur), Mes favoris, Donner un avis (utilisateur : sur le dernier établissement ou la dernière auto-école de ses préinscriptions / inscriptions ; absent sinon), Changer de compte, Données de test, Se déconnecter. **Cloche** : les notifications du compte dans la base (`notificationsCompte` ; espace pro : `notifications`), nombre de non lues, « Tout marquer comme lu ».
 - Ajouter un menu ou une rubrique **seulement si la maquette le montre**.
 
 ## Cadres
@@ -21,6 +21,7 @@ Les listes de liens des cadres sont dans `navConfig.ts`. Elles gardent des **cl�
   - univers École : `/ecoles`, `/ecoles/:type` (`ipes`, `cfp`, `autres`), `/ecoles/:type/etablissement/:id`, `/ecoles/formations/:id`, `/ecoles/formations/:id/preinscription` ;
   - auto-écoles : `/ecoles/auto-ecoles`, `/ecoles/auto-ecoles/:id`, `…/permis/:code`, `…/permis/:code/inscription`, `…/inscription/modifier/:section` ;
   - avis : `…/avis/nouveau` ; favoris : `/favoris` ;
+  - Mon espace (personne physique) : `/mon-espace/:onglet?` (`preinscriptions`, `auto-ecole`, `avis`, `notifications`, `profil`, `parametres`), `/mon-espace/preinscriptions/:id`, `/mon-espace/auto-ecole/:id` ;
   - espace pro : `/pro/ecole`, `/pro/ecole/profil`, `/pro/ecole/formations`, `/pro/ecole/contenus`, `/pro/ecole/statistiques`, `/pro/ecole/parametres` ;
   - `/connexion` (`?espace=ecole` présélectionne l'IPES), `/inscription`, `/consultation`, `/emploi` ;
   - accueil de l'utilisateur connecté : `/accueil` (`ROUTES.accueil`, filtres du fil dans l'adresse : `?genre=`, `?tri=`, `?vue=enregistres`, `?domaine=`, `?sujet=`, `?q=`, `?publication=`).

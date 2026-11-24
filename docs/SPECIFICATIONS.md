@@ -69,7 +69,7 @@ La maquette prévoit **4 profils** : **École / IPES** (institut, centre, auto-�
 ### Comptes (table `comptes`)
 | Rôle (`Role`) | Nom | Première page | Espace |
 |---|---|---|---|
-| `utilisateur` | Jean Dupont | `/accueil` | pages publiques |
+| `utilisateur` | Jean Dupont | `/accueil` | pages publiques + **Mon espace** (`/mon-espace`) |
 | `ipes` | IPC Yaoundé (établissement `ipc`) | `/pro/ecole` | espace pro « IPES » |
 | `cfp` | CFP du BTP (établissement `cfp-btp`) | `/pro/ecole` | espace pro « CFP » |
 | `autre` | Centre Linguistique (établissement `langues`) | `/pro/ecole` | espace pro « Autre » |
@@ -83,7 +83,7 @@ La maquette prévoit **4 profils** : **École / IPES** (institut, centre, auto-�
 
 ### Menu du compte (avatar)
 - Compte école : **Mon espace professionnel** · Mes favoris · Changer de compte de démo · Se déconnecter.
-- Utilisateur : Mes favoris · **Donner un avis** · Changer de compte de démo · Se déconnecter.
+- Utilisateur : **Mon espace** · Mes favoris · **Donner un avis** · Changer de compte de démo · Se déconnecter. Sa cloche mène à Mon espace › Notifications.
 - La cloche montre les notifications du compte (base), avec le nombre de non lues ; un clic marque comme lu. Dans l'espace pro, « Voir toutes les notifications » mène à Paramètres › Notifications.
 
 ---
@@ -240,6 +240,20 @@ Trois sections, ouvertes depuis la validation : `formation` (changer d'auto-éco
 - Dossiers : Mes formations, Mes établissements, À comparer.
 - Retirer un favori, tout supprimer.
 - Favoris de départ : 2 formations de l'IPC et l'IPC. Gardés dans le navigateur (`yibolo:favorites`).
+
+---
+
+## 9 bis. Mon espace (personne physique) — `/mon-espace/:onglet?`
+La maquette ne montre pas cet espace : il reprend l'idée de l'espace personnel de yibolo-client, limité à l'univers École. **Pas de barre latérale** (décision du 2026-11-24) : le cadre public, un en-tête bleu (photo, nom, « Personne physique », e-mail, résidence, « Modifier mon profil ») et des onglets dans l'adresse.
+- **Aperçu** (sans segment) : préinscriptions et inscriptions actives, favoris, avis donnés ; les 5 dernières démarches ; notifications non lues ; profil complété à n % ; actions rapides.
+- **Mes préinscriptions** (`preinscriptions`) : formation, établissement, date, statut (Envoyée / Annulée) ; « Voir le dossier » (`/mon-espace/preinscriptions/:id` : champs saisis, pièces jointes à télécharger, liens vers la formation, l'établissement, « Donner mon avis ») ; « Annuler » (confirmation) : l'établissement est prévenu et ses candidatures baissent d'une.
+- **Mes permis** (`auto-ecole`) : inscriptions en auto-école, même principe (`/mon-espace/auto-ecole/:id`) ; l'annulation rend la place à la session.
+- **Mes avis** (`avis`) : les avis écrits par le compte, avec la réponse de l'établissement ; modifier (note, commentaire) ou supprimer : le nombre d'avis et la moyenne de la fiche suivent.
+- **Notifications** (`notifications`) : toutes, ou non lues ; marquer comme lue, tout marquer comme lu, supprimer (les siennes).
+- **Mon profil** (`profil`) : civilité, nom et prénom, date de naissance, téléphone, e-mail (identifiant, unique), région, ville, quartier, photo.
+- **Paramètres** (`parametres`) : changer le mot de passe (actuel vérifié ; 8 caractères, une majuscule, un chiffre, un caractère spécial), langue, supprimer le compte (mot de passe demandé).
+- Après une préinscription ou une inscription envoyée par un compte connecté : « Voir mon dossier dans Mon espace ».
+- Un visiteur qui ouvre `/mon-espace` est mené à la connexion ; un compte école, à son espace professionnel.
 
 ---
 

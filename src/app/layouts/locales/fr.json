@@ -52,7 +52,8 @@
     "favorites": "Mes favoris",
     "review": "Donner un avis",
     "switchAccount": "Changer de compte de démo",
-    "signOut": "Se déconnecter"
+    "signOut": "Se déconnecter",
+    "mySpace": "Mon espace"
   },
   "demoAccounts": {
     "utilisateur": {

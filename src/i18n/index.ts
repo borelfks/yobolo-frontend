@@ -18,6 +18,8 @@ import proFr from '@/features/pro/locales/fr.json'
 import proEn from '@/features/pro/locales/en.json'
 import accueilFr from '@/features/accueil/locales/fr.json'
 import accueilEn from '@/features/accueil/locales/en.json'
+import espaceFr from '@/features/espace/locales/fr.json'
+import espaceEn from '@/features/espace/locales/en.json'
 import commonFr from '@/shared/locales/fr.json'
 import commonEn from '@/shared/locales/en.json'
 
@@ -43,7 +45,7 @@ void i18next.use(initReactI18next).init({
   lng: langueInitiale(),
   fallbackLng: 'fr',
   defaultNS: 'common',
-  ns: ['common', 'layout', 'landing', 'auth', 'schools', 'driving-schools', 'reviews', 'favorites', 'pro', 'accueil'],
+  ns: ['common', 'layout', 'landing', 'auth', 'schools', 'driving-schools', 'reviews', 'favorites', 'pro', 'accueil', 'espace'],
   resources: {
     fr: {
       common: commonFr,
@@ -56,6 +58,7 @@ void i18next.use(initReactI18next).init({
       favorites: favoritesFr,
       pro: proFr,
       accueil: accueilFr,
+      espace: espaceFr,
     },
     en: {
       common: commonEn,
@@ -68,6 +71,7 @@ void i18next.use(initReactI18next).init({
       favorites: favoritesEn,
       pro: proEn,
       accueil: accueilEn,
+      espace: espaceEn,
     },
   },
   interpolation: { escapeValue: false },

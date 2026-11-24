@@ -49,9 +49,9 @@ features/schools/
 - **`shared/` n'importe jamais `app/` ni `features/`** (il peut importer `@/data`). **`src/data/` n'importe ni `app/` ni `features/`** ; ses données de départ sont dans `src/data/depart/yibolo.sql`. **Aucune donnée écrite dans le code** (voir [donnees-et-backend.md](donnees-et-backend.md)).
 - **Sens des dépendances entre fonctionnalités** (constaté le 2026-11-21) :
 
-  `auth` → `schools` → `driving-schools` → `reviews` → (`favorites`, `pro`, `landing`)
+  `auth` → `schools` → `driving-schools` → `reviews` → (`favorites`, `pro`, `landing`, `accueil`, `espace`)
 
-  Une fonctionnalité n'importe que celles placées **avant** elle ; jamais l'inverse, et pas d'import entre celles du dernier groupe. Aujourd'hui : `reviews` utilise `driving-schools` (`AEHeader`), `favorites` utilise `schools`, `pro` utilise `auth` et `schools`. Si un besoin va dans l'autre sens, la chose est mal rangée : la mettre dans `shared/`.
+  Une fonctionnalité n'importe que celles placées **avant** elle ; jamais l'inverse, et pas d'import entre celles du dernier groupe. Aujourd'hui : `reviews` utilise `driving-schools` (`AEHeader`), `favorites` utilise `schools`, `pro` utilise `auth` et `schools`, `espace` (Mon espace de la personne physique) utilise `auth` et `schools`. Si un besoin va dans l'autre sens, la chose est mal rangée : la mettre dans `shared/`.
 - `app/` peut importer `features/auth` (session) ; les pages de connexion importent `app/layouts/AuthLayout`.
 - Pas de sous-dossiers `services/` ou `utils/` dans une fonctionnalité : ses fichiers de logique sont à sa racine, préfixés par son nom (`autoEcoleRules.ts`, `schoolLinks.tsx`, `proStyles.ts`).
 - Une page de plus d'environ 500 lignes se découpe dans `components/<sous-dossier>/` de sa fonctionnalité.

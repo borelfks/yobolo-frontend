@@ -1,30 +1,26 @@
 import { Bell, GraduationCap, Heart, UserRound } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
-import { useState, type ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { ROUTES } from '@/shared/utils/routes'
 import { cn } from '@/shared/utils/cn'
 import { useNotificationsCompte } from '@/data/hooks'
 import { useSession } from '@/features/auth/hooks/useSession'
-import { FenetreFormations } from '@/features/accueil/components/FenetreFormations'
-import { FenetreNotifications } from '@/features/accueil/components/FenetreNotifications'
-import { FenetreProfil } from '@/features/accueil/components/FenetreProfil'
 
 interface Raccourci {
   cle: 'formations' | 'favoris' | 'notifications' | 'profil'
   icone: LucideIcon
   rond: string
   plein?: boolean
-  /** Une adresse, ou la fenêtre ouverte sur place (formations, notifications, profil). */
-  vers?: string
+  vers: string
 }
 
 const RACCOURCIS: Raccourci[] = [
-  { cle: 'formations', icone: GraduationCap, rond: 'bg-brand-50 text-brand-600' },
+  { cle: 'formations', icone: GraduationCap, rond: 'bg-brand-50 text-brand-600', vers: ROUTES.espace('preinscriptions') },
   { cle: 'favoris', icone: Heart, rond: 'bg-teinte-rose text-rose-600', plein: true, vers: ROUTES.accueilEnregistres },
-  { cle: 'notifications', icone: Bell, rond: 'bg-teinte-emeraude text-emeraude' },
-  { cle: 'profil', icone: UserRound, rond: 'bg-teinte-violet text-violet' },
+  { cle: 'notifications', icone: Bell, rond: 'bg-teinte-emeraude text-emeraude', vers: ROUTES.espace('notifications') },
+  { cle: 'profil', icone: UserRound, rond: 'bg-teinte-violet text-violet', vers: ROUTES.espace('profil') },
 ]
 
 const CLASSES_RACCOURCI =
@@ -37,7 +33,6 @@ const CLASSES_RACCOURCI =
 export function Raccourcis() {
   const { t } = useTranslation('accueil')
   const { account } = useSession()
-  const [fenetre, setFenetre] = useState<'formations' | 'notifications' | 'profil' | null>(null)
   // Le nombre de notifications non lues, sur le raccourci.
   const nonLues = useNotificationsCompte(account?.id).filter((n) => !n.lu).length
 
@@ -62,27 +57,18 @@ export function Raccourcis() {
           )
           return (
             <li key={cle}>
-              {vers ? (
-                <Link to={vers} className={CLASSES_RACCOURCI}>
-                  {contenu}
-                </Link>
-              ) : (
-                <button type="button" onClick={() => setFenetre(cle as 'formations' | 'notifications' | 'profil')} className={cn(CLASSES_RACCOURCI, 'relative')}>
-                  {contenu}
-                  {cle === 'notifications' && nonLues > 0 && (
-                    <span className="absolute top-1 right-1 grid size-4 place-items-center rounded-full bg-rose-500 text-[0.5625rem] font-bold text-white" aria-label={t('notifications.resume', { count: nonLues })}>
-                      {nonLues}
-                    </span>
-                  )}
-                </button>
-              )}
+              <Link to={vers} className={cn(CLASSES_RACCOURCI, 'relative')}>
+                {contenu}
+                {cle === 'notifications' && nonLues > 0 && (
+                  <span className="absolute top-1 right-1 grid size-4 place-items-center rounded-full bg-rose-500 text-[0.5625rem] font-bold text-white" aria-label={t('raccourcis.nonLues', { count: nonLues })}>
+                    {nonLues}
+                  </span>
+                )}
+              </Link>
             </li>
           )
         })}
       </ul>
-      {fenetre === 'formations' && <FenetreFormations onFermer={() => setFenetre(null)} />}
-      {fenetre === 'notifications' && <FenetreNotifications onFermer={() => setFenetre(null)} />}
-      {fenetre === 'profil' && <FenetreProfil onFermer={() => setFenetre(null)} />}
     </section>
   )
 }

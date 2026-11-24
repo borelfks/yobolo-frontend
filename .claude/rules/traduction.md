@@ -21,6 +21,7 @@
 | `driving-schools` | `src/features/driving-schools/locales/` | auto-écoles, permis ; l'inscription est sous la clé `enrollment` |
 | `reviews` | `src/features/reviews/locales/` | donner un avis |
 | `favorites` | `src/features/favorites/locales/` | mes favoris |
+| `espace` | `src/features/espace/locales/` | Mon espace (personne physique) |
 | `pro` | `src/features/pro/locales/` | espace pro ; contenus, publication, paramètres, invitation sous la clé `content` |
 
 - Initialisation : `src/i18n/index.ts` (`CLE_STOCKAGE_LANGUE`, `Langue`, `LANGUES`, `langueActive()`, `currentLocale()`).

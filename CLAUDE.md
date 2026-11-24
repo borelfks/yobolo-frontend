@@ -7,7 +7,7 @@ YIBOLO est une plateforme de **formation, d'expertise et d'emploi en Afrique cen
 
 Ce dépôt est **un front seul** : il transforme la **maquette Word du client** (`C:\Users\USER\Documents\yibolo\NOUVEAU DESIGN YIBOLO.docx`, environ 150 captures) en interface qui fonctionne, avec des **données de démonstration** enregistrées pour chaque testeur dans une **base SQLite dans le navigateur** (`src/data/`, données de départ dans `src/data/depart/yibolo.sql`). **Rien n'est écrit en dur dans le code.**
 
-- **Réalisé :** l'univers **École** : IPES, CFP et Autres (même gabarit), auto-écoles, et l'**espace professionnel** partagé par les IPES, CFP et Autres.
+- **Réalisé :** l'univers **École** : IPES, CFP et Autres (même gabarit), auto-écoles, l'**espace professionnel** partagé par les IPES, CFP et Autres, l'accueil connecté et **Mon espace** de la personne physique (`/mon-espace`, onglets, sans barre latérale).
 - **Pas encore réalisé :** Consultation et Emploi (page « bientôt disponible »). Prochaine étape envisagée : l'univers **Consultation**.
 
 - Ce que fait l'app, écran par écran : [docs/SPECIFICATIONS.md](docs/SPECIFICATIONS.md)

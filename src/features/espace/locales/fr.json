@@ -1,0 +1,218 @@
+{
+  "crumbs": {
+    "accueil": "Accueil",
+    "espace": "Mon espace",
+    "preinscriptions": "Mes préinscriptions",
+    "permis": "Mes permis"
+  },
+  "entete": {
+    "profil": "Personne physique",
+    "modifier": "Modifier mon profil",
+    "verifie": "Compte vérifié"
+  },
+  "onglets": {
+    "apercu": "Aperçu",
+    "preinscriptions": "Mes préinscriptions ({{n}})",
+    "autoEcole": "Mes permis ({{n}})",
+    "avis": "Mes avis ({{n}})",
+    "notifications": "Notifications ({{n}})",
+    "profil": "Mon profil",
+    "parametres": "Paramètres"
+  },
+  "statuts": {
+    "Envoyée": "Envoyée",
+    "Annulée": "Annulée"
+  },
+  "apercu": {
+    "bonjour": "Bonjour, {{name}} !",
+    "texte": "Retrouvez ici vos préinscriptions, vos inscriptions en auto-école, vos avis et vos notifications.",
+    "kpis": {
+      "preinscriptions": "Préinscriptions",
+      "permis": "Inscriptions en auto-école",
+      "favoris": "Favoris",
+      "avis": "Avis donnés"
+    },
+    "activite": "Mes dernières démarches",
+    "aucuneActivite": "Vous n’avez encore fait aucune démarche. Trouvez une formation ou une auto-école pour commencer.",
+    "actions": "Actions rapides",
+    "trouverFormation": "Trouver une formation",
+    "trouverAutoEcole": "Trouver une auto-école",
+    "voirFavoris": "Voir mes favoris",
+    "completerProfil": "Compléter mon profil",
+    "notifications_one": "{{count}} notification non lue",
+    "notifications_other": "{{count}} notifications non lues",
+    "notifications_zero": "Aucune notification non lue",
+    "voirNotifications": "Voir mes notifications",
+    "profilComplet": "Profil complété à {{pct}} %",
+    "genres": {
+      "preinscription": "Préinscription",
+      "permis": "Inscription au permis {{code}}",
+      "avis": "Avis"
+    }
+  },
+  "dossiers": {
+    "envoyeeLe": "Envoyée le {{date}}",
+    "annuleeLe": "Annulée le {{date}}",
+    "voir": "Voir le dossier",
+    "annuler": "Annuler",
+    "aucunePreinscription": "Vous n’avez envoyé aucune préinscription.",
+    "aucunPermis": "Vous ne vous êtes inscrit à aucun permis.",
+    "trouverFormation": "Trouver une formation",
+    "trouverAutoEcole": "Trouver une auto-école",
+    "permis": "Permis {{code}}",
+    "session": "Session du {{date}}",
+    "introuvable": "Ce dossier est introuvable.",
+    "retour": "Retour à mes dossiers",
+    "detailPreinscription": "Ma préinscription",
+    "detailPermis": "Mon inscription au permis {{code}}",
+    "candidat": "Le candidat",
+    "parcours": "Le parcours",
+    "pieces": "Pièces jointes",
+    "aucunePiece": "Aucune pièce jointe.",
+    "telecharger": "Télécharger",
+    "formation": "Formation",
+    "etablissement": "Établissement",
+    "autoEcole": "Auto-école",
+    "frais": "Frais par an",
+    "prix": "Prix du permis",
+    "statut": "Statut",
+    "voirFormation": "Voir la formation",
+    "voirEtablissement": "Voir l’établissement",
+    "voirAutoEcole": "Voir l’auto-école",
+    "donnerAvis": "Donner mon avis",
+    "champs": {
+      "nom": "Nom",
+      "prenom": "Prénom",
+      "sexe": "Sexe",
+      "naissance": "Date de naissance",
+      "nationalite": "Nationalité",
+      "telephone": "Téléphone",
+      "email": "E-mail",
+      "ville": "Ville",
+      "quartier": "Quartier",
+      "diplome": "Diplôme",
+      "serie": "Série",
+      "annee": "Année d’obtention",
+      "etablissementOrigine": "Établissement d’origine",
+      "session": "Session"
+    },
+    "annulation": {
+      "titre": "Annuler ce dossier ?",
+      "texte": "L’établissement sera prévenu. Vous pourrez envoyer un nouveau dossier plus tard.",
+      "garder": "Garder mon dossier",
+      "confirmer": "Annuler le dossier",
+      "faite": "Dossier annulé",
+      "echec": "Le dossier n’a pas pu être annulé. Réessayez.",
+      "notificationTitre": "Préinscription annulée",
+      "notificationTexte": "{{name}} a annulé sa préinscription en {{training}}."
+    }
+  },
+  "avis": {
+    "aucun": "Vous n’avez encore donné aucun avis.",
+    "conseil": "Après une formation ou un permis, donnez votre avis pour aider les autres candidats.",
+    "reponse": "Réponse de l’établissement",
+    "modifier": "Modifier",
+    "supprimer": "Supprimer",
+    "voir": "Voir sur la fiche",
+    "modifierTitre": "Modifier mon avis",
+    "note": "Note globale",
+    "commentaire": "Commentaire",
+    "enregistrer": "Enregistrer",
+    "annuler": "Annuler",
+    "modifie": "Avis modifié",
+    "supprimerTitre": "Supprimer cet avis ?",
+    "supprimerTexte": "Il disparaîtra de la fiche, et la note moyenne sera recalculée.",
+    "supprime": "Avis supprimé",
+    "erreurs": {
+      "court": "Le commentaire compte au moins 10 caractères.",
+      "echec": "L’avis n’a pas pu être enregistré. Réessayez."
+    }
+  },
+  "notifications": {
+    "titre": "Mes notifications",
+    "toutLire": "Tout marquer comme lu",
+    "toutesLues": "Toutes vos notifications sont lues",
+    "aucune": "Aucune notification pour le moment.",
+    "nonLue": "Non lue",
+    "marquerLue": "Marquer comme lue",
+    "supprimer": "Supprimer",
+    "supprimee": "Notification supprimée",
+    "filtres": {
+      "toutes": "Toutes ({{n}})",
+      "nonLues": "Non lues ({{n}})"
+    }
+  },
+  "profil": {
+    "titre": "Mon profil",
+    "texte": "Ces informations préremplissent vos préinscriptions et vos inscriptions.",
+    "photo": "Photo",
+    "changerPhoto": "Changer la photo",
+    "retirerPhoto": "Retirer la photo",
+    "photoAide": "JPG ou PNG, 2 Mo au maximum.",
+    "civilite": "Civilité",
+    "civilites": {
+      "Monsieur": "Monsieur",
+      "Madame": "Madame"
+    },
+    "nom": "Nom et prénom",
+    "naissance": "Date de naissance",
+    "telephone": "Téléphone",
+    "email": "E-mail",
+    "emailAide": "C’est aussi votre identifiant de connexion.",
+    "residence": "Résidence",
+    "region": "Région",
+    "ville": "Ville",
+    "quartier": "Quartier",
+    "choisir": "Choisir",
+    "enregistrer": "Enregistrer",
+    "enregistre": "Profil mis à jour",
+    "erreurs": {
+      "nom": "Indiquez votre nom (2 caractères au moins).",
+      "telephone": "Indiquez un numéro de téléphone valide (9 chiffres au moins).",
+      "email": "Indiquez une adresse e-mail valide.",
+      "emailPris": "Cette adresse e-mail est déjà utilisée par un autre compte.",
+      "photoType": "Choisissez une image (JPG ou PNG).",
+      "photoTaille": "Image trop lourde : 2 Mo au maximum.",
+      "photoLecture": "L’image n’a pas pu être lue.",
+      "enregistrement": "Le profil n’a pas pu être enregistré. Réessayez."
+    }
+  },
+  "parametres": {
+    "motDePasse": {
+      "titre": "Changer mon mot de passe",
+      "actuel": "Mot de passe actuel",
+      "nouveau": "Nouveau mot de passe",
+      "confirmation": "Confirmer le nouveau mot de passe",
+      "enregistrer": "Changer le mot de passe",
+      "change": "Mot de passe changé",
+      "regles": {
+        "longueur": "8 caractères au moins",
+        "majuscule": "Une majuscule",
+        "chiffre": "Un chiffre",
+        "special": "Un caractère spécial"
+      },
+      "erreurs": {
+        "actuel": "Indiquez votre mot de passe actuel.",
+        "faux": "Le mot de passe actuel est incorrect.",
+        "regles": "Le nouveau mot de passe ne respecte pas toutes les règles.",
+        "different": "Les deux mots de passe ne sont pas identiques."
+      }
+    },
+    "langue": {
+      "titre": "Langue",
+      "texte": "La langue de l’application, gardée dans ce navigateur."
+    },
+    "suppression": {
+      "titre": "Supprimer mon compte",
+      "texte": "Votre compte et vos notifications seront supprimés. Les dossiers déjà envoyés restent chez les établissements.",
+      "bouton": "Supprimer mon compte",
+      "confirmerTitre": "Supprimer définitivement votre compte ?",
+      "confirmerTexte": "Saisissez votre mot de passe pour confirmer. Cette action est définitive.",
+      "motDePasse": "Mot de passe",
+      "annuler": "Annuler",
+      "confirmer": "Supprimer définitivement",
+      "faite": "Votre compte a été supprimé",
+      "faux": "Mot de passe incorrect."
+    }
+  }
+}

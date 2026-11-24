@@ -556,7 +556,8 @@
       "title": "Préinscription envoyée !",
       "text": "{{school}} a reçu votre dossier pour la formation <b>{{training}}</b>. Vous serez informé par SMS, e-mail et notification.",
       "back": "Retour à l’établissement",
-      "explore": "Continuer à explorer"
+      "explore": "Continuer à explorer",
+      "voirDossier": "Voir mon dossier dans Mon espace"
     },
     "toastValidated": "Préinscription validée",
     "toastError": "La préinscription n’a pas pu être enregistrée. Réessayez.",

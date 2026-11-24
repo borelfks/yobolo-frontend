@@ -54,7 +54,7 @@ export function PublicLayout() {
             <LanguageSwitcher />
             {account ? (
               <>
-                <NotificationsBell />
+                <NotificationsBell href={account?.role === 'utilisateur' ? ROUTES.espace('notifications') : undefined} />
                 <span className="hidden h-8 w-px bg-line sm:block" />
                 <UserMenu withTestData />
               </>
