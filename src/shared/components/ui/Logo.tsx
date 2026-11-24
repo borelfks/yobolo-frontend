@@ -14,12 +14,13 @@ export function LogoMark({ className }: { className?: string }) {
   )
 }
 
-export function Logo({ light, className, to = ROUTES.home }: { light?: boolean; className?: string; to?: string }) {
+/** `compact` : sur téléphone, seule l'icône s'affiche (barres trop étroites pour le nom et la devise). */
+export function Logo({ light, compact, className, to = ROUTES.home }: { light?: boolean; compact?: boolean; className?: string; to?: string }) {
   const { t } = useTranslation()
   return (
     <Link to={to} aria-label={t('logo.home')} className={cn('flex items-center gap-2', className)}>
       <LogoMark />
-      <span className="leading-none">
+      <span className={cn('leading-none', compact && 'max-sm:hidden')}>
         <span className={cn('block text-2xl font-extrabold tracking-tight', light ? 'text-white' : 'text-navy-800')}>YIBOLO</span>
         <span className={cn('block text-[9px] font-semibold tracking-wide', light ? 'text-white/70' : 'text-brand-600')}>
           {t('logo.tagline')}

@@ -47,7 +47,7 @@ export function Statistiques() {
         title={t('stats.title')}
         subtitle={t('stats.subtitle')}
         actions={
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-3">
             <label className="relative flex h-11 w-56 items-center gap-2.5 rounded-full border-2 border-brand-600/50 bg-white px-4 text-[15px] text-navy-900">
               <CalendarDays className="size-5 text-brand-600" />
               <span className="flex-1">{t('stats.period.last30')}</span>

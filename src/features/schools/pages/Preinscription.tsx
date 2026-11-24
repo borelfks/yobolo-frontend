@@ -180,20 +180,20 @@ export function Preinscription() {
           </div>
         </aside>
 
-        <div className="space-y-4">
-          <ol className="flex items-center gap-2 rounded-2xl border border-line bg-[#f3f6fc] p-1.5 shadow-sm">
+        <div className="min-w-0 space-y-4">
+          <ol className="flex items-center gap-1 rounded-2xl border border-line bg-[#f3f6fc] p-1.5 shadow-sm sm:gap-2">
             {steps.map((s, i) => (
-              <li key={s[0]} className={cn('flex items-center gap-3', i < steps.length - 1 && 'flex-1')}>
+              <li key={s[0]} className={cn('flex min-w-0 items-center gap-1 sm:gap-3', i < steps.length - 1 && 'flex-1')}>
                 <button
                   type="button"
                   disabled={i > step}
                   onClick={() => setStep(i)}
-                  className={cn('flex items-center gap-3 rounded-full px-3 py-1.5 text-left text-[15px] leading-tight', i <= step && i < 3 && 'bg-[#e3ebfb]', i === step && 'font-semibold text-navy-900')}
+                  className={cn('flex min-w-0 items-center gap-3 rounded-full px-1.5 py-1.5 text-left sm:px-3 text-[15px] leading-tight', i <= step && i < 3 && 'bg-[#e3ebfb]', i === step && 'font-semibold text-navy-900')}
                 >
                   <span className={cn('grid size-10 shrink-0 place-items-center rounded-full text-[18px] font-bold text-white', i < step ? 'bg-brand-600' : i === step ? 'bg-brand-600' : 'bg-[#a7b3c9]')}>
                     {i < step ? <Check className="size-5" strokeWidth={3} /> : i + 1}
                   </span>
-                  <span className={cn('text-navy-900', i === 3 && i === step && 'text-[20px] font-bold')}>
+                  <span className={cn('text-navy-900 max-sm:hidden lg:max-xl:hidden', i === 3 && i === step && 'text-[20px] font-bold')}>
                     {t(`preinscription.steps.${s[0]}`)}
                     {s[1] && <span className="block">{t(`preinscription.steps.${s[1]}`)}</span>}
                   </span>

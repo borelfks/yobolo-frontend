@@ -100,17 +100,17 @@ function ActuList() {
   return (
     <div className="divide-y divide-line">
       {actualites.map((a) => (
-        <div key={a.id} className="flex items-center gap-3 py-2">
-          <Img src={a.image} alt="" className="h-12 w-[92px] rounded-lg" />
+        <div key={a.id} className="flex items-center gap-2 py-2 sm:gap-3">
+          <Img src={a.image} alt="" className="h-12 w-16 shrink-0 rounded-lg sm:w-[92px]" />
           <div className="min-w-0 flex-1">
-            <Link to={ROUTES.pro.publication(a.id)} className="block truncate text-[14.5px] font-bold text-navy-900 hover:text-brand-600">{a.titre}</Link>
-            <p className="mt-1 flex items-center gap-3 text-[13.5px] text-navy-900">
-              <span className="inline-flex items-center gap-1.5"><CalendarDays className="size-4" />{a.date}</span>
+            <Link to={ROUTES.pro.publication(a.id)} className="line-clamp-2 text-[14.5px] font-bold text-navy-900 hover:text-brand-600 sm:block sm:truncate">{a.titre}</Link>
+            <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[13.5px] text-navy-900">
+              <span className="inline-flex items-center gap-1.5 whitespace-nowrap"><CalendarDays className="size-4" />{a.date}</span>
               <StatutPill s={a.statut} />
             </p>
           </div>
-          <Link to={ROUTES.pro.publication(a.id)} aria-label={t('contents.actions.edit')} className="grid size-9 place-items-center rounded-lg border border-line bg-white text-navy-800 hover:bg-brand-50"><Pencil className="size-4" /></Link>
-          <button type="button" aria-label={t('contents.actions.more')} onClick={() => toast(t('contents.newsList.moreToast'))} className="grid size-9 place-items-center rounded-lg bg-[#eef3fc] text-navy-800"><MoreHorizontal className="size-5" /></button>
+          <Link to={ROUTES.pro.publication(a.id)} aria-label={t('contents.actions.edit')} className="grid size-9 shrink-0 place-items-center rounded-lg border border-line bg-white text-navy-800 hover:bg-brand-50"><Pencil className="size-4" /></Link>
+          <button type="button" aria-label={t('contents.actions.more')} onClick={() => toast(t('contents.newsList.moreToast'))} className="grid size-9 shrink-0 place-items-center rounded-lg bg-[#eef3fc] text-navy-800"><MoreHorizontal className="size-5" /></button>
         </div>
       ))}
     </div>
@@ -174,7 +174,7 @@ function Presentation() {
           >
             <ActuList />
           </ProCard>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid gap-4 sm:grid-cols-2">
             <Link to={ROUTES.pro.contents('documents')} className={cn(proCard, 'p-3')}>
               <p className="flex items-center gap-2.5 text-[17px] font-bold text-navy-900"><Folder className="size-7 text-emerald-600" />{t('contents.presentation.documentsTitle')}</p>
               <div className="mt-2 flex items-center rounded-xl bg-[#e5f7ea] px-4 py-3">
@@ -249,7 +249,7 @@ function Documents() {
           </div>
         </ProCard>
       </div>
-      <div className="overflow-hidden rounded-2xl border border-line bg-white shadow-[0_2px_10px_rgba(15,29,61,0.06)]">
+      <div className="overflow-x-auto rounded-2xl border border-line bg-white shadow-[0_2px_10px_rgba(15,29,61,0.06)]">
         <table className="w-full min-w-[760px] text-[14.5px] text-navy-900">
           <thead>
             <tr className="bg-[#eef3fc] text-left font-bold">
@@ -353,8 +353,9 @@ function Faq() {
         <div className="space-y-2.5">
           {list.map((f, i) => (
             <div key={f.id} className="rounded-xl border border-line">
-              <div className="flex items-center gap-3 px-4 py-3">
-                <button type="button" onClick={() => setOpen(open === i ? null : i)} className="flex flex-1 items-center gap-2 text-left text-[15px] font-bold text-navy-900">
+              {/* Sur téléphone, la question prend toute la ligne ; catégorie, statut et crayon passent dessous. */}
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 px-3 py-3 sm:flex-nowrap sm:px-4">
+                <button type="button" onClick={() => setOpen(open === i ? null : i)} className="flex min-w-0 flex-1 basis-full items-center gap-2 text-left text-[15px] font-bold text-navy-900 sm:basis-auto">
                   <ChevronDown className={cn('size-5 shrink-0 transition-transform', open === i && 'rotate-180')} />
                   {f.q}
                 </button>

@@ -82,7 +82,7 @@ export function DiplomesTab({ type }: { type: TypeSlug }) {
         </SidePanel>
         <div className="space-y-3">
           <h2 className="text-[19px] font-bold text-navy-950">{t('listing.diplomes.available', { n: num(cfg.diplomes) })}</h2>
-          <div className="grid grid-cols-2 gap-3.5 md:grid-cols-3">
+          <div className="grid gap-3.5 sm:grid-cols-2 md:grid-cols-3">
             {dips
               .filter((d) => checked.length === 0 || checked.includes(d.nom))
               .map((d, i) => {

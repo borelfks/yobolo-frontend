@@ -20,7 +20,7 @@ export function Heading({ icon, children, className }: { icon: ReactNode; childr
 
 export function GreenCheck({ children }: { children: ReactNode }) {
   return (
-    <li className="flex items-center gap-2.5 text-[13.5px] whitespace-nowrap text-navy-900">
+    <li className="flex items-center gap-2.5 text-[13.5px] text-navy-900 xl:whitespace-nowrap">
       <CircleCheck className="size-5 shrink-0 fill-emerald-600 text-white" />
       {children}
     </li>

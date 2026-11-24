@@ -31,7 +31,7 @@ export function ApercuTab({ id }: { id: string }) {
     <div className="space-y-4">
       <div className="grid items-start gap-4 lg:grid-cols-[1.06fr_0.92fr_0.74fr]">
         <button type="button" onClick={() => toast(t('ecoleProfil.apercu.videoToast'))} className="overflow-hidden rounded-2xl">
-          <Img src="/images/maquette/ipc-video.jpg" alt={t('ecoleProfil.apercu.videoAlt', { sigle: e.sigle })} className="h-[244px] w-full" />
+          <Img src="/images/maquette/ipc-video.jpg" alt={t('ecoleProfil.apercu.videoAlt', { sigle: e.sigle })} className="h-auto w-full sm:h-[244px]" />
         </button>
         <div className={cn(card, 'p-4')}>
           <h2 className="flex items-center gap-2.5 text-[21px] font-bold text-navy-900">

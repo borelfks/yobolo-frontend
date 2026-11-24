@@ -149,10 +149,10 @@ function Banniere() {
   const { t } = useTranslation('pro')
   const { ecole } = useMonEcole()
   return (
-    <section className="relative flex h-[126px] overflow-hidden rounded-2xl bg-[linear-gradient(100deg,#0a2a86_0%,#1238a8_70%,#1a47c4_100%)] text-white">
+    <section className="relative flex overflow-hidden md:h-[126px] rounded-2xl bg-[linear-gradient(100deg,#0a2a86_0%,#1238a8_70%,#1a47c4_100%)] text-white">
       <Img src={ecole.id === 'ipc' ? '/images/maquette/pro-banniere-batiment.jpg' : ecole.image} alt="" className="hidden h-[126px] w-[258px] shrink-0 md:block" />
-      <div className="min-w-0 flex-1 px-7 py-4">
-        <p className="truncate text-[22px] font-bold">{ecole.nom}</p>
+      <div className="min-w-0 flex-1 px-5 py-4 md:px-7">
+        <p className="text-[22px] font-bold md:truncate">{ecole.nom}</p>
         <p className="text-[16px] text-white/90">{t('profil.banner.tagline')}</p>
         <p className="mt-3 flex flex-wrap items-center gap-x-6 text-[16px]">
           <span className="inline-flex items-center gap-1.5"><MapPin className="size-5 fill-white text-navy-800" />{ecole.ville} – {ecole.quartier}</span>

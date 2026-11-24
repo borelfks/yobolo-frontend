@@ -188,14 +188,14 @@ function FavRow({ fav, onRemove }: { fav: Favorite; onRemove: () => void }) {
     )
   } else return null
   return (
-    <div className={cn(card, 'relative flex flex-col gap-4 p-3 sm:flex-row sm:items-center')}>
-      <Img src={image} alt={title} className="h-32 w-full rounded-xl sm:h-[100px] sm:w-[194px]" />
+    <div className={cn(card, 'relative flex flex-col gap-4 p-3 xl:flex-row xl:items-center')}>
+      <Img src={image} alt={title} className="h-32 w-full rounded-xl xl:h-[100px] xl:w-[194px]" />
       <div className="min-w-0 flex-1 space-y-1.5">
         <span className="inline-block rounded-full bg-brand-600 px-3 py-0.5 text-[13px] font-semibold text-white">{badge}</span>
         <Link to={to} className="block text-[20px] font-bold text-navy-900 hover:text-brand-600">{title}</Link>
         {left}
       </div>
-      <div className="flex items-center gap-6 border-line sm:min-w-[420px] sm:self-stretch sm:border-l sm:pl-8">
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-line xl:min-w-[420px] xl:flex-nowrap xl:self-stretch xl:border-l xl:pl-8">
         <div className="flex-1">{right}</div>
         <Link to={to} className="mt-6 inline-flex h-10 items-center gap-2 rounded-full border-2 border-brand-600/60 px-6 text-[15px] font-semibold whitespace-nowrap text-navy-800 hover:bg-brand-50">
           {cta}

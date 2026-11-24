@@ -41,7 +41,7 @@ export function ProHeader({ crumbs, icon, title, subtitle, actions }: { crumbs: 
 export function ProCard({ title, icon, subtitle, action, children, className }: { title: ReactNode; icon?: ReactNode; subtitle?: ReactNode; action?: ReactNode; children: ReactNode; className?: string }) {
   return (
     <div className={cn(proCard, 'p-4', className)}>
-      <div className="flex items-start justify-between gap-3">
+      <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h2 className="flex items-center gap-2.5 text-[20px] font-bold text-navy-900 [&_svg]:size-7 [&_svg]:text-brand-600">
             {icon}

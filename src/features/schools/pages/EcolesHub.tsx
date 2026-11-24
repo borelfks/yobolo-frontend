@@ -64,7 +64,7 @@ export function EcolesHub() {
         />
       </Hero>
 
-      <section className="grid grid-cols-2 gap-4 md:grid-cols-5">
+      <section className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-5">
         {typesEcole.map((tile, i) => {
           const s = tiles[tile.key]
           return (
@@ -72,7 +72,7 @@ export function EcolesHub() {
               key={tile.key}
               to={s.to}
               className={cn(
-                'flex h-[68px] items-center gap-3.5 rounded-2xl px-4 shadow-[0_2px_10px_rgba(15,29,61,0.07)] transition-all hover:-translate-y-0.5',
+                'flex min-h-[68px] items-center gap-3.5 rounded-2xl px-4 py-2 shadow-[0_2px_10px_rgba(15,29,61,0.07)] transition-all hover:-translate-y-0.5',
                 i === 0 ? 'bg-brand-600 text-white' : 'border border-line bg-white',
               )}
             >
@@ -83,8 +83,8 @@ export function EcolesHub() {
                   <s.icon className="size-6" />
                 </span>
               )}
-              <span className="leading-tight">
-                <span className={cn('block text-[17px] font-bold whitespace-nowrap', i === 0 ? 'text-white' : 'text-navy-950')}>{t(`hub.tiles.${s.labelKey}`)}</span>
+              <span className="min-w-0 leading-tight">
+                <span className={cn('block text-[17px] font-bold', i === 0 ? 'text-white' : 'text-navy-950')}>{t(`hub.tiles.${s.labelKey}`)}</span>
                 <span className={cn('text-[16px]', i === 0 ? 'text-white/90' : 'text-ink/80')}>({num(tile.count)})</span>
               </span>
             </Link>
@@ -103,7 +103,7 @@ export function EcolesHub() {
 
       <section className="space-y-4">
         <ResultsHeader title={t('hub.found', { n: q ? list.length : t('hub.total') })} />
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {cards.map((e) => (
             <EcoleCard key={e.id} e={e} />
           ))}

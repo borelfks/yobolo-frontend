@@ -39,7 +39,7 @@ function FormationLine({ f }: { f: Formation }) {
             {f.filiere}
           </span>
         </p>
-        <p className="flex items-center gap-4 text-[14px] text-navy-900">
+        <p className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[14px] text-navy-900">
           <span className="inline-flex items-center gap-1.5">
             <CalendarDays className="size-4" />
             {t('shared.months', { count: f.dureeMois })}

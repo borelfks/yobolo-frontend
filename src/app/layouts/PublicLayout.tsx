@@ -17,10 +17,10 @@ export function PublicLayout() {
   const { account } = useSession()
   const [open, setOpen] = useState(false)
   return (
-    <div className="flex min-h-dvh flex-col">
+    <div className="app-cadre flex min-h-dvh flex-col">
       <ScrollRestoration />
       <header className="sticky top-0 z-30 border-b border-line/70 bg-white/90 backdrop-blur">
-        <div className="mx-auto flex h-[68px] max-w-[1320px] items-center gap-4 px-5">
+        <div className="mx-auto flex h-[68px] max-w-[1320px] items-center gap-2 px-3 sm:gap-4 sm:px-5">
           <Logo />
           <nav className="mx-auto hidden items-center gap-1 lg:flex">
             {publicNav.map((l) => (
@@ -40,7 +40,7 @@ export function PublicLayout() {
               </NavLink>
             ))}
           </nav>
-          <div className="ml-auto flex items-center gap-2 lg:ml-0">
+          <div className="ml-auto flex items-center gap-1 sm:gap-2 lg:ml-0">
             <LanguageSwitcher />
             {account ? (
               <>

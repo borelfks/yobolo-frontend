@@ -26,11 +26,11 @@ export function DetailsTab({ f }: { f: Formation }) {
       </div>
       <div className="grid grid-cols-2 gap-3 xl:grid-cols-[0.95fr_0.75fr_0.9fr_1.2fr]">
         {tiles.map((x) => (
-          <div key={x.label} className={cn(soft, 'flex items-center gap-4 px-4 py-3 [&_svg]:size-8 [&_svg]:shrink-0 [&_svg]:text-navy-800')}>
+          <div key={x.label} className={cn(soft, 'flex items-center gap-2.5 px-3 py-3 sm:gap-4 sm:px-4 [&_svg]:size-8 [&_svg]:shrink-0 [&_svg]:text-navy-800')}>
             {x.icon}
             <div>
               <p className="text-[14px] text-navy-900">{x.label}</p>
-              <p className="text-[17px] font-bold whitespace-nowrap text-navy-900">{x.value}</p>
+              <p className="text-[17px] font-bold text-navy-900 sm:whitespace-nowrap">{x.value}</p>
             </div>
           </div>
         ))}

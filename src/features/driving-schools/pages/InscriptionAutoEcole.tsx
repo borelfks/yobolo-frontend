@@ -84,10 +84,10 @@ function Steps({ step }: { step: number }) {
   const labels = [t('inscription.steps.infos'), t('inscription.steps.pieces'), t('inscription.steps.validation')]
   const allGreen = step === 2
   return (
-    <ol className="flex items-start border-b border-line px-6 pb-3">
+    <ol className="flex items-start border-b border-line pb-3 sm:px-6">
       {labels.map((l, i) => (
         <Fragment key={l}>
-          <li className="flex min-w-[150px] flex-col items-center gap-1.5">
+          <li className="flex min-w-0 flex-col items-center gap-1.5 text-center sm:min-w-[150px]">
             <span
               className={cn(
                 'grid size-9 place-items-center rounded-full border-2 text-[17px] font-bold',
@@ -96,7 +96,7 @@ function Steps({ step }: { step: number }) {
             >
               {allGreen && i < 2 ? <Check className="size-5" strokeWidth={3} /> : i + 1}
             </span>
-            <span className={cn('flex items-center gap-1.5 text-[14.5px] text-navy-900', i === step && 'font-bold')}>
+            <span className={cn('flex items-center gap-1.5 text-[13px] text-navy-900 sm:text-[14.5px]', i === step && 'font-bold')}>
               {l}
               {!allGreen && i < step && <CircleCheck className="size-4 fill-emerald-600 text-white" />}
             </span>
@@ -160,7 +160,7 @@ export function InscriptionAutoEcole() {
         image="/images/maquette/ae-hero-formations.jpg"
       />
       <div className="grid gap-4 lg:grid-cols-[1fr_386px]">
-        <div className={cn(card, 'px-5 pt-3 pb-5')}>
+        <div className={cn(card, 'min-w-0 px-4 pt-3 pb-5 sm:px-5')}>
           <Steps step={step} />
 
           {step === 0 && (

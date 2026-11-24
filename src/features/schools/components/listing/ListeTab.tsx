@@ -29,7 +29,7 @@ export function ListeTab({ type }: { type: TypeSlug }) {
         onSearch={setQ}
       />
       <ResultsHeader title={t('listing.found', { n: q ? list.length : cfg.count, pluriel: labels.pluriel })} />
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {list.map((e) => (
           <EcoleCard key={e.id} e={e} />
         ))}

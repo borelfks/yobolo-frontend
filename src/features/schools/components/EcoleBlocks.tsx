@@ -82,11 +82,11 @@ export function EcoleCard({ e }: { e: Etablissement }) {
           ))}
           {extra > 0 && <span className="rounded-full bg-[#eef2fb] px-2.5 py-1 text-[12px] font-semibold text-navy-800">+{extra}</span>}
         </div>
-        <div className="mt-auto flex gap-2 pt-2">
-          <Link to={ecoleUrl(e, 'formations')} className="inline-flex h-9 flex-1 items-center justify-center rounded-full border border-navy-800 px-3 text-[13px] font-semibold text-navy-900 hover:bg-brand-50">
+        <div className="mt-auto flex flex-wrap gap-2 pt-2">
+          <Link to={ecoleUrl(e, 'formations')} className="inline-flex h-9 flex-auto items-center justify-center rounded-full border border-navy-800 px-3 text-[13px] font-semibold whitespace-nowrap text-navy-900 hover:bg-brand-50">
             {t('blocks.card.seeTrainings')}
           </Link>
-          <Link to={ecoleUrl(e)} className="inline-flex h-9 flex-1 items-center justify-center gap-1.5 rounded-full bg-brand-600 px-3 text-[13px] font-semibold text-white hover:bg-brand-700">
+          <Link to={ecoleUrl(e)} className="inline-flex h-9 flex-auto items-center justify-center gap-1.5 rounded-full bg-brand-600 px-3 text-[13px] font-semibold whitespace-nowrap text-white hover:bg-brand-700">
             {t('blocks.card.seeProfile')}
             <ArrowRight className="size-4" />
           </Link>
@@ -184,7 +184,7 @@ export function SearchPanel({
         onSearch?.(String(q ?? ''))
       }}
       className={cn(
-        'grid gap-3 rounded-2xl p-3 md:flex md:items-center',
+        'grid gap-3 rounded-2xl p-3 xl:flex xl:items-center',
         tone === 'navy' ? 'bg-[linear-gradient(100deg,#0f2c7a,#1238a8)] shadow-lg shadow-navy-900/20' : 'border border-line bg-white',
       )}
     >
@@ -195,7 +195,7 @@ export function SearchPanel({
         </p>
       )}
       {placeholder && (
-        <label className="relative flex-[1.7] md:min-w-[300px]">
+        <label className="relative flex-[1.7] xl:min-w-[300px]">
           <Search className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-navy-900" />
           <input name="q" placeholder={placeholder} className="h-[46px] w-full rounded-full border border-line bg-white pr-4 pl-11 text-[15px] text-ink outline-none placeholder:text-ink/70 focus:ring-3 focus:ring-brand-200" />
         </label>

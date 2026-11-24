@@ -52,6 +52,13 @@
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-brand-500;
   }
+  /* Sur téléphone, une colonne de grille ne doit pas s'élargir à la taille de
+     son contenu (sinon la page déborde à droite). :where() garde une
+     spécificité nulle : une classe min-w-… posée sur l'élément l'emporte.
+     Seulement dans les cadres de l'application (.app-cadre), pas la landing. */
+  :where(.app-cadre) :where(.grid > *) {
+    min-width: 0;
+  }
 }
 
 @utility scrollbar-thin {

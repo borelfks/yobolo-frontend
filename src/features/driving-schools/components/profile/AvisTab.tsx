@@ -65,7 +65,7 @@ export function AvisTab({ id }: { id: string }) {
         </Link>
       </div>
       <div className={cn(card, 'space-y-3 p-4')}>
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <Heading icon={<MessageCircle />} className="text-[25px] [&_svg]:size-9">{t('profile.reviews.title', { count: a.avis })}</Heading>
           <label className="relative">
             <select aria-label={t('profile.reviews.sort')} className="h-10 appearance-none rounded-xl border border-[#c9d4ea] bg-white pr-9 pl-3 text-[14px] text-navy-900">

@@ -94,21 +94,21 @@ export function ProLayout() {
   // Un compte = un espace : seul un compte école entre ici.
   if (!account?.ecoleId) return <Navigate to={ROUTES.signInSchool} replace />
   return (
-    <div className="min-h-dvh bg-page">
+    <div className="app-cadre min-h-dvh bg-page">
       <ScrollRestoration />
-      <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-line bg-white/95 pr-4 backdrop-blur">
+      <header className="sticky top-0 z-30 flex h-14 items-center gap-1 border-b border-line bg-white/95 pr-2 backdrop-blur sm:gap-3 sm:pr-4">
         <button type="button" aria-label={t('nav.menu')} onClick={() => setOpen(true)} className="grid size-10 place-items-center rounded-full hover:bg-brand-50 lg:hidden">
           <Menu className="size-5" />
         </button>
-        <div className="w-[250px] shrink-0 pl-4 max-sm:w-auto [&_svg]:size-9">
-          <Logo to={ROUTES.pro.root} />
+        <div className="shrink-0 lg:w-[250px] lg:pl-4 [&_svg]:size-9">
+          <Logo to={ROUTES.pro.root} compact />
         </div>
-        <div className="ml-8 hidden items-center gap-3 rounded-full bg-[#eaf0fb] px-5 py-2 text-navy-800 md:flex">
+        <div className="ml-8 hidden items-center gap-3 rounded-full bg-[#eaf0fb] px-5 py-2 text-navy-800 lg:flex">
           <Building2 className="size-7 text-brand-600" />
           <span className="text-[17px] font-bold">{t('pro.space', { type: t(`schoolType.${ecole.type}`) })}</span>
         </div>
-        <div className="ml-auto flex items-center gap-1">
-          <LanguageSwitcher className="mr-1" />
+        <div className="ml-auto flex items-center gap-0.5 sm:gap-1">
+          <LanguageSwitcher className="sm:mr-1" />
           <NotificationsBell href={ROUTES.pro.settings('notifications')} />
           <Link to={ROUTES.pro.settings('a-propos')} aria-label={t('nav.help')} className="grid size-10 place-items-center rounded-full text-navy-800 hover:bg-brand-50">
             <CircleHelp className="size-5" />
