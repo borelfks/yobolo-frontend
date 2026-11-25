@@ -17,7 +17,6 @@ import {
   Mail,
   MapPin,
   Phone,
-  Send,
   ShieldCheck,
   Target,
   Timer,
@@ -186,7 +185,9 @@ export function PermisDetail() {
                       <CalendarDays className="size-6 text-brand-600" />
                       <span className="flex-1"><b>{t('licence.startsOn', { date: sessionStart(s.debut) })}</b> · {[sessionDays(t, s.horaires[0]), sessionHours(t, s.horaires[1])].join(' · ')} · {sessionDuration(t, s.duree)}</span>
                       <span className="rounded-full bg-emerald-50 px-3 py-1 font-semibold text-emerald-700">{t('common.places', { count: s.places })}</span>
+                      {/* Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) :
                       <Link to={ROUTES.enrollment(a.id, c)} className="inline-flex h-9 items-center gap-1.5 rounded-full bg-brand-600 px-4 text-[14px] font-semibold text-white">{t('common.enrol')} <ArrowRight className="size-4" /></Link>
+                      */}
                     </div>
                   ))}
                 </div>
@@ -231,10 +232,12 @@ function Aside({ aeId, code, contenu }: { aeId: string; code: PermisCode; conten
         <p className="mt-1 text-center text-[32px] font-extrabold text-navy-900">{fcfa(contenu.prix)}</p>
         <Checks items={t(`licence.content.${code}.included`, { returnObjects: true })} />
       </div>
+      {/* Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) :
       <Link to={ROUTES.enrollment(a.id, code)} className="flex h-12 items-center justify-center gap-3 rounded-xl bg-brand-600 text-[18px] font-semibold text-white shadow-md shadow-brand-600/25 hover:bg-brand-700">
         <Send className="size-6" />
         {t('common.enrolNow')}
       </Link>
+      */}
       <button type="button" onClick={() => (fav ? remove(`${aeId}:${code}`) : setOpen(true))} className="flex h-11 w-full items-center justify-center gap-2.5 rounded-xl border-2 border-brand-600/60 bg-white text-[16px] font-semibold text-navy-800 hover:bg-brand-50">
         <Heart className={cn('size-5', fav && 'fill-rose-500 text-rose-500')} />
         {fav ? t('common.inFavorites') : t('common.addToFavorites')}

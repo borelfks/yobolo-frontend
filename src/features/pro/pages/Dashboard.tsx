@@ -13,8 +13,8 @@ import { useMonEcole } from '@/features/auth/hooks/useSession'
 import { shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
 import { CheckCircle2 } from 'lucide-react'
-import { useAvisEtablissement, useFormations, useIndicateurs, usePreinscriptionsRecues } from '@/data/hooks'
-import { Badge } from '@/shared/components/ui/Badge'
+import { useAvisEtablissement, useIndicateurs } from '@/data/hooks'
+// Préinscription masquée (demande du porteur du projet, 2026-11-25) : import { Badge } from '@/shared/components/ui/Badge'
 
 export function Dashboard() {
   const { t } = useTranslation('pro')
@@ -23,8 +23,9 @@ export function Dashboard() {
   // Les avis de sa fiche qui attendent encore une réponse.
   const sansReponse = useAvisEtablissement(ecole.id).filter((a) => !a.reponse).length
   // Les préinscriptions envoyées par les candidats (les plus récentes d'abord).
-  const recues = [...usePreinscriptionsRecues(ecole.id)].sort((a, b) => b.envoyeeLe.localeCompare(a.envoyeeLe))
-  const toutes = useFormations()
+  // Préinscription masquée (demande du porteur du projet, 2026-11-25) :
+  // const recues = [...usePreinscriptionsRecues(ecole.id)].sort((a, b) => b.envoyeeLe.localeCompare(a.envoyeeLe))
+  // Préinscription masquée (demande du porteur du projet, 2026-11-25) : const toutes = useFormations()
   const infos = [
     { id: 'presentation', icon: <Building2 />, tone: 'blue' as const, to: ROUTES.pro.contents() },
     { id: 'admission', icon: <ShieldCheck />, tone: 'violet' as const, to: ROUTES.pro.contents('faq') },
@@ -80,6 +81,7 @@ export function Dashboard() {
               <Button to={ROUTES.pro.profile('medias')} variant="outline" size="sm">{t('dashboard.completion.finish')} <ArrowRight /></Button>
             </div>
           </Card>
+          {/* Préinscription masquée (demande du porteur du projet, 2026-11-25) :
           <Card className="p-5">
             <h2 className="flex items-center gap-2.5 text-lg font-bold text-navy-900">
               <GraduationCap className="size-5 text-brand-600" />
@@ -100,6 +102,7 @@ export function Dashboard() {
               </ul>
             )}
           </Card>
+          */}
           <Section title={t('dashboard.infos.title')} icon={<Layers />} action={<span className="text-xs text-muted">{t('dashboard.infos.lastUpdate', { date: shortDate(new Date(2026, 10, 10), { day: '2-digit', month: 'short', year: 'numeric' }) })}</span>}>
             <div className="grid gap-3 md:grid-cols-2">
               {infos.map((i) => (

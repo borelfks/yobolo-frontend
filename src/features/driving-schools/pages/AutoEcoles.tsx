@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
-import { Building2, Car, ChevronDown, ChevronUp, CircleCheck, Funnel, LayoutGrid, List, MapPin, RefreshCw, Search, Send, Star, Users } from 'lucide-react'
+import { Building2, Car, ChevronDown, ChevronUp, CircleCheck, Funnel, LayoutGrid, List, MapPin, RefreshCw, Search, Star, Users } from 'lucide-react'
 import { FavoriteModal } from '@/features/driving-schools/components/AutoEcoleBlocks'
 import { FavoriteButton } from '@/shared/components/ui/FavoriteButton'
 import { Hero } from '@/shared/components/ui/Hero'
@@ -233,6 +233,7 @@ export function AutoEcoles() {
                     <Link to={ROUTES.drivingSchool(a.id)} className="inline-flex h-10 flex-1 items-center justify-center rounded-full border-2 border-brand-600/60 text-[15px] font-semibold text-navy-800 hover:bg-brand-50">
                       {t('list.card.viewProfile')}
                     </Link>
+                    {/* Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) :
                     <Link
                       to={ROUTES.enrollment(a.id, a.permis.includes('B') ? 'B' : a.permis[0])}
                       className="inline-flex h-10 flex-1 items-center justify-center gap-2 rounded-full bg-brand-600 text-[15px] font-semibold text-white hover:bg-brand-700"
@@ -240,6 +241,7 @@ export function AutoEcoles() {
                       <Send className="size-4" />
                       {t('common.enrol')}
                     </Link>
+                    */}
                   </div>
                   <button type="button" onClick={() => setFav(a.id)} className="pt-1 text-left text-[12px] font-semibold text-brand-600 hover:underline">
                     {t('list.card.saveToFolder')}

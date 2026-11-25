@@ -22,7 +22,7 @@
   },
   "apercu": {
     "bonjour": "Hello, {{name}}!",
-    "texte": "Find your pre-registrations, driving school enrolments, reviews and notifications here.",
+    "texte": "Find your driving school enrolments and your reviews here.",
     "kpis": {
       "preinscriptions": "Pre-registrations",
       "permis": "Driving school enrolments",
@@ -155,7 +155,7 @@
   },
   "profil": {
     "titre": "My profile",
-    "texte": "This information pre-fills your pre-registrations and enrolments.",
+    "texte": "Your YIBOLO account information.",
     "photo": "Photo",
     "changerPhoto": "Change photo",
     "retirerPhoto": "Remove photo",

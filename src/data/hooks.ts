@@ -292,7 +292,8 @@ export function useVideos(cible: 'etablissement' | 'auto-ecole', cibleId: string
 }
 
 export function useNotificationsCompte(compteId: string | undefined) {
-  return useCollection('notificationsCompte').filter((n) => n.compteId === compteId || n.compteId === POUR_TOUS)
+  // Préinscription masquée (demande du porteur du projet, 2026-11-25) : ses notifications ne s'affichent plus.
+  return useCollection('notificationsCompte').filter((n) => (n.compteId === compteId || n.compteId === POUR_TOUS) && n.type !== 'preRegistration' && n.type !== 'session')
 }
 
 /** Les libellés des sujets de publication. */

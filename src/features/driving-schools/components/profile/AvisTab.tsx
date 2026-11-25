@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router'
 import { toast } from 'sonner'
 import { BadgeCheck, Building2, CalendarDays, ChevronRight, CircleGauge, Flag, Handshake, MessageCircle, PencilLine, Share2, Star, Users } from 'lucide-react'
 import { Heading } from '@/features/driving-schools/components/profile/ProfileParts'
@@ -11,13 +10,13 @@ import { Stars } from '@/shared/components/ui/StarRating'
 import { useAutoEcole, useAvisAutoEcole, useCriteresAvis, useRepartitionNotes } from '@/data/hooks'
 import { cn } from '@/shared/utils/cn'
 import { num } from '@/shared/utils/format'
-import { ROUTES } from '@/shared/utils/routes'
 import { MenuActions } from '@/shared/components/ui/MenuActions'
 import { Modal } from '@/shared/components/ui/Modal'
 import { data } from '@/data'
 import { partager } from '@/shared/utils/liens'
 import { useSession } from '@/features/auth/hooks/useSession'
 import { ajoutes, critereAJour, repartitionAJour } from '@/shared/utils/compteurs'
+import { ModaleAvis } from '@/features/schools/components/ModaleAvis'
 
 const critereIcons = [CircleGauge, Users, CalendarDays, Building2, Handshake]
 
@@ -25,6 +24,7 @@ const critereIcons = [CircleGauge, Users, CalendarDays, Building2, Handshake]
 export function AvisTab({ id }: { id: string }) {
   const { t } = useTranslation('driving-schools')
   const a = useAutoEcole(id)
+  const [donnerAvis, setDonnerAvis] = useState(false)
   // Répartition et critères de la maquette, plus les avis ajoutés sur cette auto-école.
   const nouveaux = ajoutes(useAvisAutoEcole(a.id).filter((x) => x.autoEcoleId === a.id))
   const repartitionAutoEcole = repartitionAJour(useRepartitionNotes('auto-ecole'), a.avis, nouveaux.map((x) => x.note))
@@ -73,10 +73,11 @@ export function AvisTab({ id }: { id: string }) {
             )
           })}
         </ul>
-        <Link to={ROUTES.drivingSchoolReview(a.id)} className="mt-4 flex h-12 items-center justify-center gap-3 rounded-xl bg-brand-600 text-[19px] font-semibold text-white hover:bg-brand-700">
+        <button type="button" onClick={() => setDonnerAvis(true)} className="mt-4 flex h-12 w-full items-center justify-center gap-3 rounded-xl bg-brand-600 text-[19px] font-semibold text-white hover:bg-brand-700">
           <PencilLine className="size-6" />
           {t('profile.reviews.give')}
-        </Link>
+        </button>
+        <ModaleAvis genre="auto-ecole" id={a.id} open={donnerAvis} onClose={() => setDonnerAvis(false)} />
       </div>
       <div className={cn(card, 'space-y-3 p-4')}>
         <div className="flex flex-wrap items-center justify-between gap-2">

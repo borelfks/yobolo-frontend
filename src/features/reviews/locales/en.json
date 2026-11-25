@@ -65,7 +65,8 @@
       "tropCourt": "Your comment must be at least 10 characters long.",
       "confirmAutoEcole": "Please confirm that you trained at this driving school.",
       "confirmEcole": "Please confirm that you trained at this institution.",
-      "merci": "Thank you! Your review will be published once checked by YIBOLO."
+      "merci": "Thank you! Your review will be published once checked by YIBOLO.",
+      "echec": "Your review could not be saved. Try again."
     },
     "notification": {
       "titre": "New review",

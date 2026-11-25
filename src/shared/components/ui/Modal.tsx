@@ -33,7 +33,7 @@ export function Modal({
       <div
         role="dialog"
         aria-modal="true"
-        className={cn('w-full rounded-3xl bg-white p-6 shadow-2xl', size === 'md' ? 'max-w-md' : 'max-w-2xl')}
+        className={cn('max-h-[calc(100dvh-2rem)] w-full overflow-y-auto overscroll-contain rounded-3xl bg-white p-5 shadow-2xl sm:p-6', size === 'md' ? 'max-w-md' : 'max-w-2xl')}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start gap-3">

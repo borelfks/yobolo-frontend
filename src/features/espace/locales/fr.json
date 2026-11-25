@@ -22,7 +22,7 @@
   },
   "apercu": {
     "bonjour": "Bonjour, {{name}} !",
-    "texte": "Retrouvez ici vos préinscriptions, vos inscriptions en auto-école, vos avis et vos notifications.",
+    "texte": "Retrouvez ici vos inscriptions en auto-école et vos avis.",
     "kpis": {
       "preinscriptions": "Préinscriptions",
       "permis": "Inscriptions en auto-école",
@@ -155,7 +155,7 @@
   },
   "profil": {
     "titre": "Mon profil",
-    "texte": "Ces informations préremplissent vos préinscriptions et vos inscriptions.",
+    "texte": "Les informations de votre compte YIBOLO.",
     "photo": "Photo",
     "changerPhoto": "Changer la photo",
     "retirerPhoto": "Retirer la photo",

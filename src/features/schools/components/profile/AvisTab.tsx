@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { Briefcase, ChevronDown, GraduationCap, MessageCircle, PencilLine, Star, ThumbsUp, Users } from 'lucide-react'
 import { Img } from '@/shared/components/ui/Img'
@@ -12,9 +11,8 @@ import { load, save } from '@/shared/utils/storage'
 import type { AvisEtablissement } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { num, shortDate } from '@/shared/utils/format'
-import { ROUTES } from '@/shared/utils/routes'
 import { notifier } from '@/shared/utils/notifications'
-import { slugOfType } from '@/features/schools/schoolTypes'
+import { ModaleAvis } from '@/features/schools/components/ModaleAvis'
 import { toast } from 'sonner'
 import { useSession } from '@/features/auth/hooks/useSession'
 import { ajoutes, repartitionAJour } from '@/shared/utils/compteurs'
@@ -63,6 +61,7 @@ const PAR_PAGE = 3
 export function AvisTab({ id }: { id: string }) {
   const { t } = useTranslation('schools')
   const e = useEtablissement(id)
+  const [donnerAvis, setDonnerAvis] = useState(false)
   const avis = useAvisEtablissement(e.id)
   // Répartition de la maquette, plus les avis ajoutés sur cet établissement.
   const repartitionNotes = repartitionAJour(useRepartitionNotes('etablissement'), e.avis, ajoutes(avis.filter((x) => x.etablissementId === e.id)).map((x) => x.note))
@@ -108,10 +107,11 @@ export function AvisTab({ id }: { id: string }) {
             </li>
           ))}
         </ul>
-        <Link to={ROUTES.schoolReview(slugOfType(e.type), e.id)} className="mt-5 flex h-12 items-center justify-center gap-2.5 rounded-full border-2 border-brand-600/70 text-[17px] font-semibold text-navy-800 hover:bg-brand-50">
+        <button type="button" onClick={() => setDonnerAvis(true)} className="mt-5 flex h-12 w-full items-center justify-center gap-2.5 rounded-full border-2 border-brand-600/70 text-[17px] font-semibold text-navy-800 hover:bg-brand-50">
           <PencilLine className="size-5" />
           {t('ecoleProfil.avis.giveReview')}
-        </Link>
+        </button>
+        <ModaleAvis genre="etablissement" id={e.id} open={donnerAvis} onClose={() => setDonnerAvis(false)} />
       </div>
       <div className="space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -167,7 +167,8 @@ function AvisLine({ r, ecole, peutRepondre }: { r: AvisEtablissement; ecole: str
         titre: t('ecoleProfil.avis.reply.notification.titre'),
         texte: t('ecoleProfil.avis.reply.notification.texte', { school: ecole }),
         quand: t('ecoleProfil.avis.reply.notification.quand'),
-        vers: ROUTES.espace('avis'),
+        // La fiche de l'établissement, onglet Avis, où la réponse est publiée.
+        vers: window.location.pathname,
       })
     setRepondre(false)
     toast.success(t('ecoleProfil.avis.reply.published'))

@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { CalendarDays, CircleCheck, Heart, PencilLine, Phone } from 'lucide-react'
+import { CalendarDays, CircleCheck, Heart, Phone } from 'lucide-react'
 import { Img } from '@/shared/components/ui/Img'
 import { useFavorites } from '@/shared/hooks/useFavorites'
 import { ecoleUrl } from '@/features/schools/schoolLinks'
@@ -9,7 +9,7 @@ import { useEtablissement } from '@/data/hooks'
 import type { Formation } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { num } from '@/shared/utils/format'
-import { ROUTES } from '@/shared/utils/routes'
+// Préinscription masquée (demande du porteur du projet, 2026-11-25) : import { ROUTES } from '@/shared/utils/routes'
 
 /** Colonne de droite du détail d'une formation : établissement, actions, prochaine rentrée. */
 export function FormationAside({ f, showRentree }: { f: Formation; showRentree: boolean }) {
@@ -35,10 +35,12 @@ export function FormationAside({ f, showRentree }: { f: Formation; showRentree: 
         </div>
       </Link>
       <div className={cn(card, 'space-y-2.5 p-3')}>
+        {/* Préinscription masquée (demande du porteur du projet, 2026-11-25) :
         <Link to={ROUTES.preRegistration(f.id)} className="flex h-10 items-center justify-center gap-2.5 rounded-full bg-sun-400 text-[16px] font-bold text-navy-950 hover:bg-sun-500">
           <PencilLine className="size-5" />
           {t('shared.preRegisterNow')}
         </Link>
+        */}
         <button type="button" onClick={() => toggle(f.id, 'formation')} className={btn}>
           <Heart className={cn('size-5', fav && 'fill-rose-500 text-rose-500')} />
           {fav ? t('shared.inFavorites') : t('shared.addToFavorites')}

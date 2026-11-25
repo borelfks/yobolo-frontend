@@ -26,9 +26,7 @@ const APPARENCE: Record<SujetNotification, { icone: LucideIcon; rond: string; pa
 /** La page qu'ouvre une notification : la sienne, sinon celle de son sujet. */
 function versDe(n: NotificationCompte) {
   if (n.vers) return n.vers
-  if (n.type === 'preRegistration') return ROUTES.espace('preinscriptions')
-  if (n.type === 'session') return ROUTES.espace('auto-ecole')
-  if (n.type === 'review') return ROUTES.espace('avis')
+  // Mon espace masqué pour la personne physique (demande du porteur du projet, 2026-11-25) : plus de page par défaut dans Mon espace.
   return undefined
 }
 

@@ -25,23 +25,30 @@ const EcolesHub = lazy(() => import('@/features/schools/pages/EcolesHub').then((
 const TypeListing = lazy(() => import('@/features/schools/pages/TypeListing').then((m) => ({ default: m.TypeListing })))
 const EcoleProfil = lazy(() => import('@/features/schools/pages/EcoleProfil').then((m) => ({ default: m.EcoleProfil })))
 const FormationDetail = lazy(() => import('@/features/schools/pages/FormationDetail').then((m) => ({ default: m.FormationDetail })))
-const Preinscription = lazy(() => import('@/features/schools/pages/Preinscription').then((m) => ({ default: m.Preinscription })))
+// Préinscription masquée (demande du porteur du projet, 2026-11-25) :
+// const Preinscription = lazy(() => import('@/features/schools/pages/Preinscription').then((m) => ({ default: m.Preinscription })))
 
 /* --- École : auto-écoles ---------------------------------------------------- */
 const AutoEcoles = lazy(() => import('@/features/driving-schools/pages/AutoEcoles').then((m) => ({ default: m.AutoEcoles })))
 const AutoEcoleProfil = lazy(() => import('@/features/driving-schools/pages/AutoEcoleProfil').then((m) => ({ default: m.AutoEcoleProfil })))
 const PermisDetail = lazy(() => import('@/features/driving-schools/pages/PermisDetail').then((m) => ({ default: m.PermisDetail })))
-const InscriptionAutoEcole = lazy(() => import('@/features/driving-schools/pages/InscriptionAutoEcole').then((m) => ({ default: m.InscriptionAutoEcole })))
-const ModifierInscription = lazy(() => import('@/features/driving-schools/pages/ModifierInscription').then((m) => ({ default: m.ModifierInscription })))
+// Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) :
+// const InscriptionAutoEcole = lazy(() => import('@/features/driving-schools/pages/InscriptionAutoEcole').then((m) => ({ default: m.InscriptionAutoEcole })))
+// Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) :
+// const ModifierInscription = lazy(() => import('@/features/driving-schools/pages/ModifierInscription').then((m) => ({ default: m.ModifierInscription })))
 
 /* --- Avis et favoris ------------------------------------------------------ */
-const DonnerAvis = lazy(() => import('@/features/reviews/pages/DonnerAvis').then((m) => ({ default: m.DonnerAvis })))
+// Donner mon avis : une fenêtre (ModaleAvis), plus une page (demande du porteur du projet, 2026-11-25) :
+// const DonnerAvis = lazy(() => import('@/features/reviews/pages/DonnerAvis').then((m) => ({ default: m.DonnerAvis })))
 const Favoris = lazy(() => import('@/features/favorites/pages/Favoris').then((m) => ({ default: m.Favoris })))
 
 /* --- Mon espace (personne physique) ----------------------------------------- */
-const MonEspace = lazy(() => import('@/features/espace/pages/MonEspace').then((m) => ({ default: m.MonEspace })))
-const DossierPreinscription = lazy(() => import('@/features/espace/pages/DossierPreinscription').then((m) => ({ default: m.DossierPreinscription })))
-const DossierInscription = lazy(() => import('@/features/espace/pages/DossierInscription').then((m) => ({ default: m.DossierInscription })))
+// Mon espace masqué pour la personne physique (demande du porteur du projet, 2026-11-25) :
+// const MonEspace = lazy(() => import('@/features/espace/pages/MonEspace').then((m) => ({ default: m.MonEspace })))
+// Préinscription masquée (demande du porteur du projet, 2026-11-25) :
+// const DossierPreinscription = lazy(() => import('@/features/espace/pages/DossierPreinscription').then((m) => ({ default: m.DossierPreinscription })))
+// Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) :
+// const DossierInscription = lazy(() => import('@/features/espace/pages/DossierInscription').then((m) => ({ default: m.DossierInscription })))
 const MesNotifications = lazy(() => import('@/features/espace/pages/MesNotifications').then((m) => ({ default: m.MesNotifications })))
 const MonProfil = lazy(() => import('@/features/espace/pages/MonProfil').then((m) => ({ default: m.MonProfil })))
 const MesParametres = lazy(() => import('@/features/espace/pages/MesParametres').then((m) => ({ default: m.MesParametres })))
@@ -88,21 +95,29 @@ export const router = createBrowserRouter([
           { path: P.publication, element: <PublicationLue /> },
           { path: ROUTES.schools, element: <EcolesHub /> },
           { path: ROUTES.favorites, element: <Favoris /> },
-          { path: P.espacePreinscription, element: <DossierPreinscription /> },
-          { path: P.espaceInscription, element: <DossierInscription /> },
-          { path: P.espace, element: <MonEspace /> },
+          // Préinscription masquée (demande du porteur du projet, 2026-11-25) :
+          // { path: P.espacePreinscription, element: <DossierPreinscription /> },
+          // Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) :
+          // { path: P.espaceInscription, element: <DossierInscription /> },
+          // Mon espace masqué pour la personne physique (demande du porteur du projet, 2026-11-25) :
+          // { path: P.espace, element: <MonEspace /> },
           { path: P.notifications, element: <MesNotifications /> },
           { path: P.profil, element: <MonProfil /> },
           { path: P.parametres, element: <MesParametres /> },
-          { path: P.preRegistration, element: <Preinscription /> },
+          // Préinscription masquée (demande du porteur du projet, 2026-11-25) :
+          // { path: P.preRegistration, element: <Preinscription /> },
           { path: P.training, element: <FormationDetail /> },
           { path: P.drivingSchools, element: <AutoEcoles /> },
-          { path: P.drivingSchoolReview, element: <DonnerAvis /> },
-          { path: P.enrollment, element: <InscriptionAutoEcole /> },
-          { path: P.editEnrollment, element: <ModifierInscription /> },
+          // Donner mon avis : une fenêtre (ModaleAvis), plus une page (demande du porteur du projet, 2026-11-25) :
+          // { path: P.drivingSchoolReview, element: <DonnerAvis /> },
+          // Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) :
+          // { path: P.enrollment, element: <InscriptionAutoEcole /> },
+          // Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) :
+          // { path: P.editEnrollment, element: <ModifierInscription /> },
           { path: P.license, element: <PermisDetail /> },
           { path: P.drivingSchool, element: <AutoEcoleProfil /> },
-          { path: P.schoolReview, element: <DonnerAvis /> },
+          // Donner mon avis : une fenêtre (ModaleAvis), plus une page (demande du porteur du projet, 2026-11-25) :
+          // { path: P.schoolReview, element: <DonnerAvis /> },
           { path: P.school, element: <EcoleProfil /> },
           { path: P.schoolType, element: <TypeListing /> },
           { path: ROUTES.consultation, element: <HorsPerimetre /> },

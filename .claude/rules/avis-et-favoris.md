@@ -1,7 +1,7 @@
 # Avis et favoris
 
 ## Avis
-1. On donne un avis sur un **établissement** (`/ecoles/:type/etablissement/:id/avis/nouveau`) ou une **auto-école** (`/ecoles/auto-ecoles/:id/avis/nouveau`), depuis l'onglet **Avis** (« Donner mon avis ») ou le menu du compte.
+1. On donne un avis sur un **établissement** ou une **auto-école** depuis l'onglet **Avis** de sa fiche : « Donner mon avis » ouvre une **fenêtre** (`ModaleAvis`, `features/schools/components/`), plus une page (décision du 2026-11-25).
 2. Le formulaire :
    - **note globale** obligatoire, 1 à 5 étoiles (Décevant, Moyen, Bien, Très bien, Excellent) ;
    - notes par **critère**, facultatives (5 critères pour une auto-école, 5 pour un établissement) ;

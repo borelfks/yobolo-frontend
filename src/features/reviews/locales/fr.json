@@ -65,7 +65,8 @@
       "tropCourt": "Votre commentaire doit compter au moins 10 caractères.",
       "confirmAutoEcole": "Confirmez avoir suivi une formation dans cette auto-école.",
       "confirmEcole": "Confirmez avoir suivi une formation dans cet établissement.",
-      "merci": "Merci ! Votre avis sera publié après vérification par YIBOLO."
+      "merci": "Merci ! Votre avis sera publié après vérification par YIBOLO.",
+      "echec": "Votre avis n’a pas pu être enregistré. Réessayez."
     },
     "notification": {
       "titre": "Nouvel avis",
