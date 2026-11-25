@@ -35,7 +35,7 @@ export function ActuModal({ open, onClose, actu }: { open: boolean; onClose: () 
     const champs = { titre: titre.trim(), categorie: CATEGORIES_ACTUALITE[categorie], statut }
     const id = actu
       ? (await data.update('actualites', actu.id, champs))?.id
-      : (await data.create('actualites', { ...champs, etablissementId: ecole.id, date: dateDuJour(), vues: 0, partages: 0, image: IMAGES_ACTUALITE[categorie] }, 'actualite')).id
+      : (await data.create('actualites', { ...champs, etablissementId: ecole.id, date: dateDuJour(), image: IMAGES_ACTUALITE[categorie] }, 'actualite')).id
     if (id && (limite || corps || saisis.texte !== undefined || saisis.limite !== undefined)) {
       await data.put('parametres', { id: ecole.id, valeurs: { ...reglages, ...prefixer(`actualite.${id}`, { limite, texte: corps }) } })
     }

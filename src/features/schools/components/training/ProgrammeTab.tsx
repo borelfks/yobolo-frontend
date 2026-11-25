@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { BookOpen, BookOpenText, Briefcase, CalendarDays, ChevronDown, ChevronUp, Clock, Layers, Sun } from 'lucide-react'
+import { BookOpen, BookOpenText, CalendarDays, ChevronDown, ChevronUp, Clock, Layers, Sun } from 'lucide-react'
 import { Heading } from '@/features/schools/components/training/TrainingUi'
 import { card, modeKey, soft } from '@/features/schools/components/training/trainingShared'
 import type { Formation } from '@/shared/types'
@@ -10,7 +10,7 @@ import { useProgramme } from '@/data/hooks'
 /** Onglet « Programme » d'une formation. */
 export function ProgrammeTab({ f }: { f: Formation }) {
   const { t } = useTranslation('schools')
-  const semestres = useProgramme()
+  const semestres = useProgramme(f.id)
   const years = [...new Set(semestres.map((s) => s.annee))]
   const [year, setYear] = useState(years[0])
   const [open, setOpen] = useState<string>('Semestre 1')
@@ -22,8 +22,8 @@ export function ProgrammeTab({ f }: { f: Formation }) {
         {[
           { icon: <Clock />, k: t('formationDetail.programme.duree'), v: t('shared.months', { count: f.dureeMois }) },
           { icon: <Sun className="fill-amber-300 text-amber-500" />, k: t('formationDetail.programme.cours'), v: t(`shared.modes.${modeKey[f.mode]}`) },
-          { icon: <Layers />, k: t('formationDetail.programme.volume'), v: t('formationDetail.programme.volumeValue') },
-          { icon: <Briefcase />, k: t('formationDetail.programme.stage'), v: t('formationDetail.programme.stageValue') },
+          // Le volume horaire : la somme des heures du programme publié (rien d'inventé sans programme).
+          ...(semestres.length ? [{ icon: <Layers />, k: t('formationDetail.programme.volume'), v: t('formationDetail.programme.hours', { count: semestres.reduce((n, s) => n + s.heures, 0) }) }] : []),
         ].map((r) => (
           <div key={r.k} className={cn(soft, 'flex items-center gap-3 px-3 py-2.5 text-[15.5px] text-navy-900 [&_svg]:size-6 [&_svg]:text-navy-800')}>
             {r.icon}
@@ -35,14 +35,15 @@ export function ProgrammeTab({ f }: { f: Formation }) {
       </div>
       <div className={cn(card, 'space-y-3 p-4')}>
         <Heading icon={<BookOpen />}>{t('formationDetail.programme.detailed')}</Heading>
-        <div className="grid grid-cols-2 gap-1 rounded-full border border-line p-1">
+        {semestres.length === 0 && <p className="rounded-xl bg-page px-4 py-3 text-[15px] text-muted">{t('formationDetail.programme.aucun')}</p>}
+        {years.length > 0 && <div className="grid grid-cols-2 gap-1 rounded-full border border-line p-1">
           {years.map((y, i) => (
             <button key={y} type="button" onClick={() => setYear(y)} className={cn('h-10 rounded-full text-[16px] font-semibold', year === y ? 'bg-brand-600 text-white' : 'text-navy-900 hover:bg-brand-50')}>
               {i + 1}
               <sup>{i === 0 ? t('formationDetail.programme.ordinalFirst') : t('formationDetail.programme.ordinalOther')}</sup> {t('formationDetail.programme.yearLabel', { range: i === 0 ? 'S1 – S2' : 'S3 – S4' })}
             </button>
           ))}
-        </div>
+        </div>}
         {semestres.filter((s) => s.annee === year).map((s) => {
           const isOpen = open === s.semestre
           return (

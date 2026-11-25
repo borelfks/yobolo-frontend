@@ -1,4 +1,4 @@
-import type { AutoEcole, AvisAutoEcole, AvisEtablissement, Etablissement, Formation, Indicateurs, InscriptionAutoEcole, PermisCode, TypeSlug } from '@/shared/types'
+import type { AutoEcole, AvisAutoEcole, AvisEtablissement, Etablissement, Evenement, Formation, InscriptionAutoEcole, PermisCode, ProvenanceVisite, TypeSlug } from '@/shared/types'
 import { dateDeCreation, POUR_TOUS, useCollection } from './index'
 
 /**
@@ -246,12 +246,15 @@ export function useDecoupage() {
 }
 
 /** Les albums de la galerie d'un établissement : une photo chacun (celle qui s'affiche). */
-export function useAlbums() {
-  return useCollection('albums').map((a) => ({ ...a, count: 1 }))
+export function useAlbums(etablissementId: string) {
+  return useCollection('albums')
+    .filter((a) => a.etablissementId === etablissementId)
+    .map((a) => ({ ...a, count: 1 }))
 }
 
-export function useProgramme() {
-  return useCollection('programme')
+/** Le programme (semestres) d'une formation : vide tant que l'établissement ne l'a pas donné. */
+export function useProgramme(formationId: string) {
+  return useCollection('programme').filter((s) => s.formationId === formationId)
 }
 
 /** Les permis (A à E), dans l'ordre de la base. */
@@ -272,47 +275,93 @@ export function useNotifications() {
   return useCollection('notifications')
 }
 
-export function useVisites() {
-  return useCollection('visites')
-}
-
-export function useSourcesVisites() {
-  return useCollection('sourcesVisites')
-}
-
-export function useSessionsActives() {
-  return useCollection('sessionsActives')
-}
-
-export function useActiviteSecurite() {
+/** Les événements de sécurité d'un compte (connexions, tentatives échouées, mots de passe changés), du plus récent au plus ancien. */
+export function useActiviteSecurite(compteId?: string) {
   return useCollection('activiteSecurite')
+    .filter((a) => a.compteId === compteId)
+    .toSorted((a, b) => b.le.localeCompare(a.le))
 }
 
-/** Les chiffres de l'espace pro d'un établissement (ceux de la maquette s'il n'en a pas). */
-/** Chiffres d'un établissement qui vient d'être créé : tout part de zéro. */
-const INDICATEURS_VIDES: Omit<Indicateurs, 'id'> = {
-  medias: 0,
-  completude: 0,
-  vues: { valeur: 0, tendance: 0 },
-  candidatures: { valeur: 0, tendance: 0 },
-  telechargements: { valeur: 0, tendance: 0 },
-  vuesFormations: [],
-  activites: [],
+/* --- Statistiques de l'espace pro : mesurées, jamais inventées ------------- */
+
+const JOUR = 86_400_000
+const PROVENANCES: ProvenanceVisite[] = ['annuaire', 'recherche', 'favoris', 'accueil', 'direct']
+
+/** Les événements réels des pages publiques d'un établissement (vues, téléchargements). */
+export function useEvenements(etablissementId: string) {
+  return useCollection('evenements').filter((e) => e.etablissementId === etablissementId)
+}
+
+const instantDe = (e: Pick<Evenement, 'le'>) => new Date(e.le).getTime()
+
+/** Nombre sur la période et progression (en %) par rapport à la période d'avant ; `null` s'il n'y avait rien avant. */
+function surLaPeriode(instants: number[], jours: number, maintenant: number) {
+  const debut = maintenant - jours * JOUR
+  const valeur = instants.filter((x) => x >= debut).length
+  const avant = instants.filter((x) => x >= debut - jours * JOUR && x < debut).length
+  return { valeur, tendance: avant > 0 ? Math.round(((valeur - avant) / avant) * 100) : null }
+}
+
+/** « 09:12 » */
+const heureDe = (x: number) => {
+  const d = new Date(x)
+  return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`
 }
 
 /**
- * Les chiffres d'un établissement : sa ligne s'il en a une, sinon ceux de la
- * maquette (ligne `*`) ; un établissement créé par un testeur part de zéro.
+ * Les statistiques d'un établissement sur les `jours` derniers jours, calculées
+ * à partir de ce qui s'est réellement passé : vues de sa fiche (et leur
+ * provenance), vues de ses formations, téléchargements de ses documents, avis
+ * reçus. Courbe jour par jour (semaine par semaine au-delà d'un mois).
  */
-export function indicateursDe(all: Indicateurs[], etablissementId: string): Indicateurs {
-  const propre = all.find((i) => i.id === etablissementId)
-  if (propre) return propre
-  if (dateDeCreation(etablissementId)) return { id: etablissementId, ...INDICATEURS_VIDES }
-  return all.find((i) => i.id === POUR_TOUS)!
-}
+export function useStatistiques(etablissementId: string, jours: number, maintenant: number) {
+  const evenements = useEvenements(etablissementId)
+  const avis = useAvisEtablissement(etablissementId)
+  const debut = maintenant - jours * JOUR
+  const vues = evenements.filter((e) => e.type === 'vue')
+  const telechargements = evenements.filter((e) => e.type === 'telechargement')
+  const dansLaPeriode = (e: Evenement) => instantDe(e) >= debut
 
-export function useIndicateurs(etablissementId: string) {
-  return indicateursDe(useCollection('indicateurs'), etablissementId)
+  // La courbe : un point par jour (par semaine au-delà de 31 jours), du plus ancien au plus récent.
+  const pas = jours > 31 ? 7 : 1
+  const fin = new Date(maintenant)
+  fin.setHours(24, 0, 0, 0)
+  const points = Math.ceil(jours / pas)
+  const serie = Array.from({ length: points }, (_, i) => {
+    const jusqua = fin.getTime() - (points - 1 - i) * pas * JOUR
+    const depuis = jusqua - pas * JOUR
+    return { id: String(depuis), le: new Date(depuis).toISOString(), value: vues.filter((v) => instantDe(v) >= depuis && instantDe(v) < jusqua).length }
+  })
+
+  const vuesPeriode = vues.filter(dansLaPeriode)
+  const sources = PROVENANCES.map((p) => ({ id: p, value: vuesPeriode.filter((v) => (v.provenance ?? 'direct') === p).length })).filter((x) => x.value > 0)
+  const vuesFormations: Record<string, number> = {}
+  for (const e of evenements.filter((x) => x.type === 'vueFormation' && dansLaPeriode(x) && x.formationId)) vuesFormations[e.formationId!] = (vuesFormations[e.formationId!] ?? 0) + 1
+
+  // Activité d'aujourd'hui et d'hier : avis reçus et téléchargements réels.
+  const minuit = new Date(maintenant)
+  minuit.setHours(0, 0, 0, 0)
+  const jourDe = (x: number) => (x >= minuit.getTime() ? 'today' : x >= minuit.getTime() - JOUR ? 'yesterday' : null)
+  const recents = [
+    ...avis.flatMap((a) => (dateDeCreation(a.id) ? [{ id: 'reviews' as const, x: dateDeCreation(a.id)!.getTime() }] : [])),
+    ...telechargements.map((e) => ({ id: 'downloads' as const, x: instantDe(e) })),
+  ]
+  const activites: { id: 'reviews' | 'downloads'; jour: 'today' | 'yesterday'; count: number; heure: string }[] = []
+  for (const jour of ['today', 'yesterday'] as const) {
+    for (const id of ['reviews', 'downloads'] as const) {
+      const siens = recents.filter((r) => r.id === id && jourDe(r.x) === jour)
+      if (siens.length) activites.push({ id, jour, count: siens.length, heure: heureDe(Math.max(...siens.map((r) => r.x))) })
+    }
+  }
+
+  return {
+    vues: surLaPeriode(vues.map(instantDe), jours, maintenant),
+    telechargements: surLaPeriode(telechargements.map(instantDe), jours, maintenant),
+    serie,
+    sources,
+    vuesFormations,
+    activites,
+  }
 }
 
 export function useMedias(etablissementId: string) {

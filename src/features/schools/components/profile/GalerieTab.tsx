@@ -14,7 +14,7 @@ const ALL = '__all__'
 
 /** Onglet « Galerie » de la fiche établissement. */
 export function GalerieTab({ id }: { id: string }) {
-  const albums = useAlbums()
+  const albums = useAlbums(id)
   const videoGalerie = useVideos('etablissement', id, 'galerie')[0]
   const [video, setVideo] = useState<number | null>(null)
   // Les médias de l'établissement (ajoutés depuis son espace pro, Profil › Médias).

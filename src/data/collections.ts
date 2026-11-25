@@ -11,9 +11,9 @@ import type {
   SignalementAvis,
   Video,
   ActiviteSecurite,
+  Evenement,
   CategorieGalerie,
   FormationPopulaire,
-  Indicateurs,
   MediaEtablissement,
   PhotoAutoEcole,
   TrancheFrais,
@@ -25,13 +25,10 @@ import type {
   Domaine,
   NotificationPro,
   PermisInfo,
-  PointVisites,
   Quartier,
   Region,
   RolePro,
   SemestreProgramme,
-  SessionActive,
-  SourceVisites,
   TuileAnnuaire,
   TypeEcoleInfo,
   Ville,
@@ -96,11 +93,8 @@ export type Collections = {
   criteresAvis: CritereAvis
   roles: RolePro
   notifications: NotificationPro
-  visites: PointVisites
-  sourcesVisites: SourceVisites
-  sessionsActives: SessionActive
   activiteSecurite: ActiviteSecurite
-  indicateurs: Indicateurs
+  evenements: Evenement
   medias: MediaEtablissement
   formationsPopulaires: FormationPopulaire
   tranchesFrais: TrancheFrais
@@ -160,11 +154,8 @@ export const COLLECTIONS = [
   'criteresAvis',
   'roles',
   'notifications',
-  'visites',
-  'sourcesVisites',
-  'sessionsActives',
   'activiteSecurite',
-  'indicateurs',
+  'evenements',
   'medias',
   'formationsPopulaires',
   'tranchesFrais',

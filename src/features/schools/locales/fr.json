@@ -463,9 +463,6 @@
       "duree": "Durée",
       "cours": "Cours",
       "volume": "Volume horaire",
-      "volumeValue": "~ 1 200 h",
-      "stage": "Stage en entreprise",
-      "stageValue": "2 à 3 mois",
       "detailed": "Programme détaillé",
       "ordinalFirst": "ère",
       "ordinalOther": "ème",
@@ -473,7 +470,8 @@
       "units_one": "{{count}} unités d’enseignement",
       "units_other": "{{count}} unités d’enseignement",
       "hours_one": "≈ {{count}} heures",
-      "hours_other": "≈ {{count}} heures"
+      "hours_other": "≈ {{count}} heures",
+      "aucun": "Le programme détaillé n’a pas encore été publié par l’établissement."
     },
     "admission": {
       "title": "Conditions d’admission",

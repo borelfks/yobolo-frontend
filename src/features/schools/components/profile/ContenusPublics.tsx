@@ -6,7 +6,7 @@ import { Img } from '@/shared/components/ui/Img'
 import { useActualites, useDocuments, useFaq, useFichiers } from '@/data/hooks'
 import { cn } from '@/shared/utils/cn'
 import { telecharger } from '@/shared/utils/fichiers'
-import { ajusterIndicateurs } from '@/shared/utils/compteurs'
+import { mesurer } from '@/shared/utils/mesures'
 
 /**
  * Ce que l'établissement publie depuis son espace pro (Contenus et
@@ -59,7 +59,7 @@ export function ContenusPublics({ sec, id }: { sec: 'actualites' | 'documents' |
                     onClick={() => {
                       if (!f) return toast(t('ecoleProfil.informations.contenus.noFile'))
                       telecharger(f.dataUrl, f.nom)
-                      void ajusterIndicateurs(id, { telechargements: 1, activite: 'downloads' })
+                      void mesurer({ type: 'telechargement', etablissementId: id, documentId: d.id })
                     }}
                     className="inline-flex h-9 items-center gap-2 rounded-full border-2 border-brand-600/60 px-4 text-[14px] font-semibold text-navy-800 hover:bg-brand-50"
                   >

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { Trans, useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
-import { CalendarDays, Copy, ExternalLink, Eye, Lightbulb, Pencil, Share2, Tag, Trash2 } from 'lucide-react'
+import { CalendarDays, Copy, ExternalLink, Lightbulb, Pencil, Tag, Trash2 } from 'lucide-react'
 import { Badge, StatusBadge } from '@/shared/components/ui/Badge'
 import { Button } from '@/shared/components/ui/Button'
 import { Card, Section } from '@/shared/components/ui/Card'
@@ -13,7 +13,7 @@ import { useMonEcole } from '@/features/auth/hooks/useSession'
 import { ActuModal } from '@/features/pro/components/ActuModal'
 import { data } from '@/data'
 import { useActualite, useParametres } from '@/data/hooks'
-import { num, shortDate } from '@/shared/utils/format'
+import { shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
 import { ecoleUrl } from '@/features/schools/schoolLinks'
 
@@ -51,19 +51,19 @@ export function Publication() {
             <h1 className="text-2xl text-navy-900">{a.titre}</h1>
             <p className="flex items-center gap-4 text-sm text-muted">
               <span className="flex items-center gap-1"><CalendarDays className="size-4" />{t('publication.publishedOn', { date: a.date })}</span>
-              <span className="flex items-center gap-1"><Eye className="size-4" />{t('publication.views', { count: a.vues })}</span>
             </p>
-            <p className="text-sm leading-relaxed text-ink/85">
-              {typeof corps === 'string' && corps ? corps : t('publication.body', { school: ecole.nom })}
-            </p>
+            {/* Seul le texte réellement saisi s'affiche (pas de texte de la maquette à la place). */}
+            {typeof corps === 'string' && corps && <p className="text-sm leading-relaxed text-ink/85">{corps}</p>}
             <div>
               <p className="mb-2 text-sm font-bold text-navy-900">{t('publication.fields')}</p>
               <div className="flex flex-wrap gap-2">{ecole.filieres.map((f) => <Badge key={f} tone="violet">{f}</Badge>)}</div>
             </div>
-            <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-brand-50 p-4">
-              <p className="text-sm"><Trans t={t} i18nKey="publication.deadline" values={{ date: shortDate(typeof limite === 'string' && limite ? limite : new Date(2026, 8, 30), { day: 'numeric', month: 'long', year: 'numeric' }) }} components={{ b: <b /> }} /></p>
-              <Button to={ecoleUrl(ecole, 'formations')}>{t('publication.signUp')}</Button>
-            </div>
+            {typeof limite === 'string' && limite && (
+              <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-brand-50 p-4">
+                <p className="text-sm"><Trans t={t} i18nKey="publication.deadline" values={{ date: shortDate(limite, { day: 'numeric', month: 'long', year: 'numeric' }) }} components={{ b: <b /> }} /></p>
+                <Button to={ecoleUrl(ecole, 'formations')}>{t('publication.signUp')}</Button>
+              </div>
+            )}
           </div>
         </Card>
         <aside className="space-y-4">
@@ -71,8 +71,6 @@ export function Publication() {
             <div className="divide-y divide-line">
               <InfoRow icon={<Tag />} label={t('publication.details.category')} value={categoryKey ? t(`contents.news.categories.${categoryKey}`) : a.categorie} />
               <InfoRow icon={<CalendarDays />} label={t('publication.details.date')} value={a.date} />
-              <InfoRow icon={<Eye />} label={t('publication.details.views')} value={num(a.vues)} />
-              <InfoRow icon={<Share2 />} label={t('publication.details.shares')} value={num(a.partages)} />
             </div>
           </Section>
           <Section title={t('publication.quickActions.title')}>

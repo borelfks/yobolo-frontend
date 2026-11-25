@@ -119,7 +119,7 @@ function ActuList() {
           <MenuActions
             label={t('contents.actions.more')}
             actions={[
-              { label: t('contents.newsList.duplicate'), icon: <Copy />, onClick: async () => { await data.create('actualites', { ...a, id: undefined, etablissementId: ecole.id, titre: `${a.titre}${t('contents.newsList.copySuffix')}`, statut: 'Brouillon', vues: 0, partages: 0 }, 'actualite'); toast.success(t('contents.newsList.duplicated')) } },
+              { label: t('contents.newsList.duplicate'), icon: <Copy />, onClick: async () => { await data.create('actualites', { ...a, id: undefined, etablissementId: ecole.id, titre: `${a.titre}${t('contents.newsList.copySuffix')}`, statut: 'Brouillon' }, 'actualite'); toast.success(t('contents.newsList.duplicated')) } },
               a.statut === 'Publiée'
                 ? { label: t('contents.newsList.unpublish'), icon: <EyeOff />, onClick: async () => { await data.update('actualites', a.id, { statut: 'Brouillon' }); toast.success(t('contents.newsList.unpublished')) } }
                 : { label: t('contents.newsList.publish'), icon: <Send />, onClick: async () => { await data.update('actualites', a.id, { statut: 'Publiée' }); toast.success(t('contents.newsList.published')) } },

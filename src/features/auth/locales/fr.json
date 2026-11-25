@@ -75,7 +75,7 @@
       "title": "Informations générales",
       "text": "Renseignez les informations de base de votre compte.",
       "fields": {
-        "nom": "Raison sociale / Nom et prénoms",
+        "nom": "Raison sociale",
         "telephone": "Téléphone",
         "email": "Email",
         "motDePasse": "Mot de passe",

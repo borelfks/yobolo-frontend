@@ -43,7 +43,6 @@ import { ROUTES } from '@/shared/utils/routes'
 import { MenuActions } from '@/shared/components/ui/MenuActions'
 import { Visionneuse } from '@/shared/components/ui/Visionneuse'
 import { lireFichier, lireImage, telecharger, TAILLE_MAX_DOCUMENT, TAILLE_MAX_PHOTO } from '@/shared/utils/fichiers'
-import { ajusterIndicateurs } from '@/shared/utils/compteurs'
 import type { Lieu } from '@/shared/types'
 import { SelectionGeographique } from '@/shared/components/forms/SelectionGeographique'
 import { villeDuLieu } from '@/shared/utils/geographie'
@@ -375,7 +374,6 @@ function Medias() {
     const video = fichier.type.startsWith('video/')
     if (fichier.size > (video ? TAILLE_MAX_DOCUMENT : TAILLE_MAX_PHOTO)) return void toast.error(t('profil.media.tooBig'))
     await data.create('medias', { etablissementId: ecole.id, src: await lireFichier(fichier), video }, 'media')
-    await ajusterIndicateurs(ecole.id, { medias: 1 })
     toast.success(t('profil.media.added', { name: fichier.name }))
   }
   return (
@@ -418,7 +416,7 @@ function Medias() {
                 className="absolute top-1.5 right-1.5 size-8 bg-white/90"
                 actions={[
                   { label: t('profil.media.view'), icon: <Eye />, onClick: () => setVue(i) },
-                  { label: t('profil.media.delete'), icon: <Trash2 />, danger: true, onClick: async () => { await data.remove('medias', m.id); await ajusterIndicateurs(ecole.id, { medias: -1 }); toast.success(t('profil.media.deleted')) } },
+                  { label: t('profil.media.delete'), icon: <Trash2 />, danger: true, onClick: async () => { await data.remove('medias', m.id); toast.success(t('profil.media.deleted')) } },
                 ]}
               />
             </div>

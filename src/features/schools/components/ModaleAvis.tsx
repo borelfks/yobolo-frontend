@@ -8,7 +8,6 @@ import { useSession } from '@/features/auth/hooks/useSession'
 import { Button } from '@/shared/components/ui/Button'
 import { Modal } from '@/shared/components/ui/Modal'
 import { cn } from '@/shared/utils/cn'
-import { ajusterIndicateurs } from '@/shared/utils/compteurs'
 
 /** Libellé de chaque note, de 1 à 5 étoiles. */
 const LIBELLES = ['decevant', 'moyen', 'bien', 'tresBien', 'excellent'] as const
@@ -103,7 +102,6 @@ export function ModaleAvis({ genre, id, open, onClose }: { genre: 'etablissement
         await data.create('avisAutoEcoles', { ...auteur, autoEcoleId: a.id, criteres: criteres.map((c) => notes[c.cle] ?? c.defaut) }, 'avis')
       } else {
         await data.create('avisEtablissements', { ...auteur, etablissementId: e.id, role: 'Étudiant', utile: 0 }, 'avis')
-        await ajusterIndicateurs(e.id, { activite: 'reviews' })
         await data.create('notifications', { etablissementId: e.id, type: 'avis', titre: t('donnerAvis.notification.titre'), texte: t('donnerAvis.notification.texte', { name: auteur.nom, note }), date: t('donnerAvis.aLInstant'), lu: false }, 'notification')
       }
       toast.success(t('donnerAvis.toasts.merci'))

@@ -75,7 +75,7 @@
       "title": "General information",
       "text": "Fill in the basic information for your account.",
       "fields": {
-        "nom": "Company name / Full name",
+        "nom": "Company name",
         "telephone": "Phone",
         "email": "Email",
         "motDePasse": "Password",

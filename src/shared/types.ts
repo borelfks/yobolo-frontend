@@ -267,8 +267,6 @@ export type Actualite = {
   date: string
   statut: 'Publiée' | 'Brouillon'
   categorie: string
-  vues: number
-  partages: number
   image: string
 }
 
@@ -360,30 +358,35 @@ export type Departement = { id: string; region: string; nom: string; chefLieu: s
 export type Arrondissement = { id: string; departement: string; nom: string; ville: string }
 /** Un lieu saisi avec la sélection géographique ; la ville se déduit de l'arrondissement. */
 export type Lieu = { region: string; departement: string; arrondissement: string; quartier: string }
-export type Album = { id: string; nom: string; image: string }
-export type SemestreProgramme = { id: string; annee: string; semestre: string; ue: string[]; heures: number }
+/** Un album de la galerie d'un établissement (une photo). */
+export type Album = { id: string; etablissementId: string; nom: string; image: string }
+/** Un semestre du programme d'une formation. */
+export type SemestreProgramme = { id: string; formationId: string; annee: string; semestre: string; ue: string[]; heures: number }
 export type PermisInfo = Permis & { id: PermisCode }
 /** Un critère d'avis d'auto-école ; sa note est la moyenne de celles des avis (calculée). */
 export type CritereAvis = { id: string; nom: string }
 export type RolePro = { id: string; nom: string; description: string }
 export type NotificationPro = { id: string; /** L'établissement destinataire (absent : tous, comme celles de la maquette). */ etablissementId?: string; type: string; titre: string; texte: string; date: string; lu: boolean }
-export type PointVisites = { id: string; label: string; value: number }
-export type SourceVisites = { id: string; name: string; value: number; color: string }
-export type SessionActive = { id: string; appareil: string; lieu: string; date: string; actuelle: boolean }
-export type ActiviteSecurite = { id: string; evenement: string; lieu: string; date: string; ok: boolean }
-/** Un chiffre et sa progression (en %). */
-export type ChiffreTendance = { valeur: number; tendance: number }
-/** Les chiffres de l'espace pro d'un établissement (`id` = établissement, '*' pour tous). */
-export type Indicateurs = {
+/** Un événement de sécurité d'un compte (connexion, tentative échouée, mot de passe changé). */
+export type ActiviteSecurite = { id: string; compteId: string; evenement: 'connexion' | 'echec' | 'motDePasse'; le: string; appareil: string; ok: boolean }
+
+/** D'où vient le visiteur d'une fiche (page précédente dans YIBOLO, sinon lien direct). */
+export type ProvenanceVisite = 'annuaire' | 'recherche' | 'favoris' | 'accueil' | 'direct'
+
+/**
+ * Ce qui se passe réellement sur les pages publiques d'un établissement, pour
+ * ses statistiques : une vue de sa fiche ou d'une formation, un téléchargement
+ * de document (décision du 2026-11-25 : vraies données).
+ */
+export type Evenement = {
   id: string
-  medias: number
-  completude: number
-  vues: ChiffreTendance
-  candidatures: ChiffreTendance
-  telechargements: ChiffreTendance
-  /** Vues des formations les plus consultées, dans l'ordre. */
-  vuesFormations: number[]
-  activites: { id: 'applications' | 'downloads' | 'reviews'; count: number; jour: 'today' | 'yesterday'; heure: string }[]
+  etablissementId: string
+  type: 'vue' | 'vueFormation' | 'telechargement'
+  formationId?: string
+  documentId?: string
+  provenance?: ProvenanceVisite
+  /** Quand (ISO). */
+  le: string
 }
 export type MediaEtablissement = { id: string; etablissementId: string; src: string; video: boolean }
 export type FormationPopulaire = { id: string; typeSlug: TypeSlug; titre: string; diplome: string; image: string; formationId: string }

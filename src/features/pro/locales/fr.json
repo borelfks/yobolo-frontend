@@ -29,7 +29,7 @@
     },
     "completion": {
       "title": "Complétude de votre profil",
-      "text": "Votre page est presque complète.",
+      "text": "Complétez votre page pour qu’elle donne envie aux candidats.",
       "steps": {
         "profile": "Profil",
         "trainings": "Formations",
@@ -37,12 +37,13 @@
         "gallery": "Galerie",
         "optimisation": "Optimisation"
       },
-      "remaining": "Plus que <b>1 étape</b> pour un profil optimal : optimisez votre page.",
-      "finish": "Finaliser"
+      "finish": "Finaliser",
+      "textComplete": "Votre page est complète.",
+      "remaining_one": "Plus que <b>1 étape</b> pour un profil complet : {{etape}}.",
+      "remaining_other": "Encore <b>{{count}} étapes</b> pour un profil complet ; la prochaine : {{etape}}."
     },
     "infos": {
       "title": "Informations à gérer",
-      "lastUpdate": "Dernière mise à jour : {{date}}",
       "presentation": {
         "label": "Présentation",
         "text": "Décrivez votre établissement"
@@ -66,7 +67,9 @@
       "contact": {
         "label": "Contact & localisation",
         "text": "Vos coordonnées et adresse"
-      }
+      },
+      "done": "Renseigné",
+      "todo": "À compléter"
     },
     "preview": {
       "title": "Aperçu de votre page publique",
@@ -368,7 +371,6 @@
     "export": "Exporter (PDF)",
     "kpis": {
       "views": "Vues de votre page",
-      "applications": "Candidatures / Préinscriptions",
       "downloads": "Téléchargements",
       "rating_one": "Note ({{count}} avis)",
       "rating_other": "Note ({{count}} avis)",
@@ -379,10 +381,11 @@
     "sources": {
       "title": "Sources des visites",
       "center": "{{total}} Visites",
-      "search": "Recherche YIBOLO",
-      "direct": "Lien direct",
-      "social": "Réseaux sociaux",
-      "others": "Autres"
+      "annuaire": "Annuaire",
+      "recherche": "Recherche",
+      "favoris": "Favoris",
+      "accueil": "Accueil",
+      "direct": "Lien direct"
     },
     "top": {
       "title": "Formations les plus consultées",
@@ -392,11 +395,18 @@
     },
     "activity": {
       "title": "Dernières activités",
-      "applications": "{{count}} nouvelles candidatures",
-      "downloads": "{{count}} téléchargements de documents",
-      "reviews": "{{count}} nouveaux avis (note moyenne : {{note}}/5)",
       "today": "aujourd’hui, {{time}}",
-      "yesterday": "hier, {{time}}"
+      "yesterday": "hier, {{time}}",
+      "downloads_one": "{{count}} téléchargement de document",
+      "downloads_other": "{{count}} téléchargements de documents",
+      "reviews_one": "{{count}} nouvel avis (note moyenne : {{note}}/5)",
+      "reviews_other": "{{count}} nouveaux avis (note moyenne : {{note}}/5)"
+    },
+    "empty": {
+      "visits": "Aucune visite de votre page sur cette période.",
+      "sources": "Les provenances apparaîtront dès la première visite.",
+      "top": "Aucune de vos formations n’a été consultée sur cette période.",
+      "activity": "Aucune activité aujourd’hui ni hier."
     }
   },
   "content": {
@@ -662,38 +672,18 @@
         "enabled": "Activée",
         "sessionsTitle": "Sessions actives",
         "currentSession": "Session actuelle",
-        "signOut": "Déconnecter",
-        "sessionClosed": "Session fermée",
-        "sessions": {
-          "0": {
-            "device": "Windows – Chrome",
-            "date": "Session actuelle"
-          },
-          "1": {
-            "device": "Android – Application",
-            "date": "Il y a 2 jours"
-          }
-        },
         "activityTitle": "Activité de sécurité récente",
-        "activity": {
-          "0": {
-            "event": "Connexion réussie",
-            "date": "Aujourd’hui, 09:12"
-          },
-          "1": {
-            "event": "Tentative échouée",
-            "date": "12 nov. 2026, 22:41"
-          },
-          "2": {
-            "event": "Mot de passe modifié",
-            "date": "02 nov. 2026"
-          }
-        },
         "wrongCurrent": "Le mot de passe actuel n’est pas le bon.",
         "mismatch": "Les deux nouveaux mots de passe ne sont pas identiques.",
         "twoFactorOn": "Double authentification activée",
         "twoFactorOff": "Double authentification désactivée",
-        "disabled": "Désactivée"
+        "disabled": "Désactivée",
+        "events": {
+          "connexion": "Connexion réussie",
+          "echec": "Tentative échouée",
+          "motDePasse": "Mot de passe modifié"
+        },
+        "noActivity": "Aucune activité enregistrée pour le moment."
       },
       "notifications": {
         "title": "Notifications",

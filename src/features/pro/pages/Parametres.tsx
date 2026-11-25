@@ -18,7 +18,6 @@ import {
   Laptop,
   Lightbulb,
   Lock,
-  LogOut,
   Mail,
   Moon,
   Phone,
@@ -47,11 +46,11 @@ import { Avatar } from '@/shared/components/ui/Avatar'
 import { ProHeader } from '@/features/pro/components/ProBlocks'
 import { ChoiceCard, Field, Input, Radio, Select, Switch } from '@/shared/components/forms/Fields'
 import { Tabs } from '@/shared/components/ui/Tabs'
-import { FormFooter, IconBtn, IconTile, Kpi, KpiGrid, Tip } from '@/shared/components/ui/Blocks'
+import { FormFooter, IconTile, Kpi, KpiGrid, Tip } from '@/shared/components/ui/Blocks'
 import { cn } from '@/shared/utils/cn'
 import { shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
-import { useActiviteSecurite, useNotifications, useParametres, useRoles, useSessionsActives, useUtilisateurs } from '@/data/hooks'
+import { useActiviteSecurite, useNotifications, useParametres, useRoles, useUtilisateurs } from '@/data/hooks'
 import { useMonEcole, useSession } from '@/features/auth/hooks/useSession'
 import { POUR_TOUS, data } from '@/data'
 import { MenuActions } from '@/shared/components/ui/MenuActions'
@@ -59,6 +58,7 @@ import { AssistanceModal } from '@/shared/components/ui/AssistanceModal'
 import { protegerMotDePasse, verifierMotDePasse } from '@/shared/utils/motDePasse'
 import { lireImage, TAILLE_MAX_PHOTO } from '@/shared/utils/fichiers'
 import { oui, prefixer, sousCles, texte, type Valeurs, dateDuJour } from '@/features/pro/proData'
+import { decrireAppareil } from '@/shared/utils/appareil'
 import { ChampMotDePasse } from '@/shared/components/forms/MotDePasse'
 
 /**
@@ -282,10 +282,10 @@ function Compte() {
 const masquer = (tel: string) => tel.replace(/(\d{2}) (\d{2})( \d{2})$/, '•• ••$3')
 
 function Securite() {
-  const sessionsActives = useSessionsActives()
-  const activiteSecurite = useActiviteSecurite()
   const { t } = useTranslation('pro', { keyPrefix: 'content' })
   const { account } = useSession()
+  // L'activité réelle du compte (connexions, tentatives échouées, mots de passe changés).
+  const activiteSecurite = useActiviteSecurite(account?.id)
   const r = useReglages('securite')
   const [actuel, setActuel] = useState('')
   const [pwd, setPwd] = useState('')
@@ -322,7 +322,7 @@ function Securite() {
                 if (score < 4) return void toast.error(t('settings.security.invalidPassword'))
                 if (pwd !== confirmation) return void toast.error(t('settings.security.mismatch'))
                 await data.update('comptes', account.id, { motDePasse: await protegerMotDePasse(pwd) })
-                await data.create('activiteSecurite', { evenement: 'Mot de passe modifié', lieu: '—', date: dateDuJour(), ok: true }, 'activite')
+                await data.create('activiteSecurite', { compteId: account.id, evenement: 'motDePasse', le: new Date().toISOString(), appareil: decrireAppareil(), ok: true }, 'activite')
                 setActuel('')
                 setPwd('')
                 setConfirmation('')
@@ -347,42 +347,30 @@ function Securite() {
             <Badge tone={r.oui('deuxFacteurs', true) ? 'green' : 'gray'} className="mt-3">{t(r.oui('deuxFacteurs', true) ? 'settings.security.enabled' : 'settings.security.disabled')}</Badge>
           </Section>
           <Section title={t('settings.security.sessionsTitle')} icon={<Laptop />}>
-            <div className="space-y-2.5">
-              {sessionsActives.map((s) => {
-                // Sessions de départ (session-active-1 et 2) : traduites ; une autre s'affiche telle quelle.
-                const n = /^session-active-([12])$/.exec(s.id)?.[1]
-                const i = n ? (Number(n) - 1) as 0 | 1 : null
-                return (
-                <div key={s.id} className="flex items-center gap-3 rounded-xl border border-line p-3 text-sm">
-                  <IconTile icon={s.actuelle ? <Laptop /> : <Smartphone />} tone="blue" size="sm" />
-                  <div className="flex-1">
-                    <p className="font-semibold">{i !== null ? t(`settings.security.sessions.${i}.device`) : s.appareil} – {s.lieu}</p>
-                    <p className="text-xs text-muted">{i !== null ? t(`settings.security.sessions.${i}.date`) : s.date}</p>
-                  </div>
-                  {s.actuelle ? <Badge tone="green">{t('settings.security.currentSession')}</Badge> : <IconBtn label={t('settings.security.signOut')} onClick={async () => { await data.remove('sessionsActives', s.id); toast.success(t('settings.security.sessionClosed')) }}><LogOut /></IconBtn>}
-                </div>
-                )
-              })}
+            {/* La session réelle : cet appareil et ce navigateur (une seule, sans serveur). */}
+            <div className="flex items-center gap-3 rounded-xl border border-line p-3 text-sm">
+              <IconTile icon={<Laptop />} tone="blue" size="sm" />
+              <p className="flex-1 font-semibold">{decrireAppareil()}</p>
+              <Badge tone="green">{t('settings.security.currentSession')}</Badge>
             </div>
           </Section>
         </div>
       </div>
       <Section title={t('settings.security.activityTitle')} icon={<ShieldCheck />}>
-        <div className="divide-y divide-line">
-          {activiteSecurite.map((a) => {
-            // Les lignes de départ (activite-1 à 3) ont leur traduction ; une ligne ajoutée s'affiche telle quelle.
-            const n = /^activite-([1-3])$/.exec(a.id)?.[1]
-            const cle = n ? (String(Number(n) - 1) as '0' | '1' | '2') : null
-            return (
-              <div key={a.id} className="flex items-center gap-3 py-3 text-sm">
+        {activiteSecurite.length === 0 ? (
+          <p className="rounded-xl bg-page px-4 py-3 text-sm text-muted">{t('settings.security.noActivity')}</p>
+        ) : (
+          <div className="divide-y divide-line">
+            {activiteSecurite.slice(0, 10).map((a) => (
+              <div key={a.id} className="flex flex-wrap items-center gap-x-3 gap-y-1 py-3 text-sm">
                 {a.ok ? <CheckCircle2 className="size-5 text-emerald-500" /> : <XCircle className="size-5 text-rose-500" />}
-                <span className="flex-1 font-semibold">{cle ? t(`settings.security.activity.${cle}.event`) : a.evenement}</span>
-                <span className="text-muted">{a.lieu}</span>
-                <span className="w-40 text-right text-muted">{cle ? t(`settings.security.activity.${cle}.date`) : a.date}</span>
+                <span className="flex-1 font-semibold">{t(`settings.security.events.${a.evenement}`)}</span>
+                <span className="text-muted">{a.appareil}</span>
+                <span className="text-right text-muted sm:w-44">{shortDate(a.le, { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
               </div>
-            )
-          })}
-        </div>
+            ))}
+          </div>
+        )}
       </Section>
     </div>
   )

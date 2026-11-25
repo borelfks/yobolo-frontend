@@ -12,7 +12,6 @@ import { useAutoEcole, useEtablissement } from '@/data/hooks'
 import { slugOfType, isTypeSlug } from '@/features/schools/schoolTypes'
 import { cn } from '@/shared/utils/cn'
 import { ROUTES } from '@/shared/utils/routes'
-import { ajusterIndicateurs } from '@/shared/utils/compteurs'
 
 const card = 'rounded-2xl border border-line bg-white shadow-[0_2px_10px_rgba(15,29,61,0.06)]'
 /** Libellé de chaque note, de 1 à 5 étoiles. */
@@ -125,7 +124,6 @@ export function DonnerAvis() {
       await data.create('avisAutoEcoles', { ...auteur, autoEcoleId: a.id, criteres: criteres.map((c) => sub[c.key] ?? c.defaut) }, 'avis')
     } else {
       await data.create('avisEtablissements', { ...auteur, etablissementId: e.id, role: 'Étudiant', utile: 0 }, 'avis')
-      await ajusterIndicateurs(e.id, { activite: 'reviews' })
       await data.create('notifications', { etablissementId: e.id, type: 'avis', titre: t('donnerAvis.notification.titre'), texte: t('donnerAvis.notification.texte', { name: auteur.nom, note }), date: t('donnerAvis.aLInstant'), lu: false }, 'notification')
     }
     toast.success(t('donnerAvis.toasts.merci'))

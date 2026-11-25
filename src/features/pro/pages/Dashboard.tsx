@@ -10,30 +10,41 @@ import { Ring } from '@/shared/components/ui/Progress'
 import { Stepper } from '@/shared/components/ui/Stepper'
 import { IconTile, Kpi, KpiGrid, PageTitle, QuickAction } from '@/shared/components/ui/Blocks'
 import { useMonEcole } from '@/features/auth/hooks/useSession'
-import { shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
-import { CheckCircle2 } from 'lucide-react'
-import { useAvisEtablissement, useIndicateurs } from '@/data/hooks'
+import { CheckCircle2, Circle } from 'lucide-react'
+import { useAvisEtablissement, useDocuments, useFaq, useMedias } from '@/data/hooks'
+import { etatDuProfil, ETAPES_PROFIL, INFOS_A_GERER, type EtapeProfil } from '@/features/pro/proStats'
 // Préinscription masquée (demande du porteur du projet, 2026-11-25) : import { Badge } from '@/shared/components/ui/Badge'
 
 export function Dashboard() {
   const { t } = useTranslation('pro')
   const { ecole } = useMonEcole()
-  const indicateurs = useIndicateurs(ecole.id)
+  // Ce que l'établissement a réellement publié : ses photos, ses documents, sa FAQ.
+  const medias = useMedias(ecole.id).length
+  const etat = etatDuProfil({ ecole, medias, documents: useDocuments(ecole.id).length, faq: useFaq(ecole.id).length })
   // Les avis de sa fiche qui attendent encore une réponse.
   const sansReponse = useAvisEtablissement(ecole.id).filter((a) => !a.reponse).length
   // Les préinscriptions envoyées par les candidats (les plus récentes d'abord).
   // Préinscription masquée (demande du porteur du projet, 2026-11-25) :
   // const recues = [...usePreinscriptionsRecues(ecole.id)].sort((a, b) => b.envoyeeLe.localeCompare(a.envoyeeLe))
   // Préinscription masquée (demande du porteur du projet, 2026-11-25) : const toutes = useFormations()
-  const infos = [
-    { id: 'presentation', icon: <Building2 />, tone: 'blue' as const, to: ROUTES.pro.contents() },
-    { id: 'admission', icon: <ShieldCheck />, tone: 'violet' as const, to: ROUTES.pro.contents('faq') },
-    { id: 'fees', icon: <Wallet />, tone: 'amber' as const, to: ROUTES.pro.trainings },
-    { id: 'calendar', icon: <CalendarDays />, tone: 'sky' as const, to: ROUTES.pro.contents('documents') },
-    { id: 'careers', icon: <Briefcase />, tone: 'violet' as const, to: ROUTES.pro.trainings },
-    { id: 'contact', icon: <Phone />, tone: 'blue' as const, to: ROUTES.pro.profile('coordonnees') },
-  ] as const
+  const apparence = {
+    presentation: { icon: <Building2 />, tone: 'blue' as const, to: ROUTES.pro.contents() },
+    admission: { icon: <ShieldCheck />, tone: 'violet' as const, to: ROUTES.pro.contents('faq') },
+    fees: { icon: <Wallet />, tone: 'amber' as const, to: ROUTES.pro.trainings },
+    calendar: { icon: <CalendarDays />, tone: 'sky' as const, to: ROUTES.pro.contents('documents') },
+    careers: { icon: <Briefcase />, tone: 'violet' as const, to: ROUTES.pro.trainings },
+    contact: { icon: <Phone />, tone: 'blue' as const, to: ROUTES.pro.profile('coordonnees') },
+  }
+  const infos = INFOS_A_GERER.map((id) => ({ id, fait: etat.infos[id], ...apparence[id] }))
+  // Où compléter chaque étape du profil.
+  const versEtape: Record<EtapeProfil, string> = {
+    profile: ROUTES.pro.profile(),
+    trainings: ROUTES.pro.newTraining,
+    info: ROUTES.pro.contents('faq'),
+    gallery: ROUTES.pro.profile('medias'),
+    optimisation: ROUTES.pro.profile('medias'),
+  }
   return (
     <div className="space-y-6">
       <PageTitle
@@ -50,36 +61,34 @@ export function Dashboard() {
       <KpiGrid>
         <Kpi icon={<GraduationCap />} label={t('dashboard.kpis.trainings')} value={ecole.formations} tone="blue" />
         <Kpi icon={<Layers />} label={t('dashboard.kpis.fields')} value={(ecole.principales ?? ecole.filieres).length} tone="green" />
-        <Kpi icon={<Images />} label={t('dashboard.kpis.media')} value={indicateurs.medias} tone="violet" />
-        <Kpi icon={<MessageSquareText />} label={t('dashboard.kpis.reviews')} value={ecole.avis} tone="amber" extra={<Rating value={ecole.note} className="text-sm" />} />
+        <Kpi icon={<Images />} label={t('dashboard.kpis.media')} value={medias} tone="violet" />
+        <Kpi icon={<MessageSquareText />} label={t('dashboard.kpis.reviews')} value={ecole.avis} tone="amber" extra={ecole.avis > 0 ? <Rating value={ecole.note} className="text-sm" /> : undefined} />
       </KpiGrid>
       <div className="grid gap-6 xl:grid-cols-[1fr_340px]">
         <div className="space-y-6">
           <Card className="p-5">
             <div className="flex flex-col gap-5 md:flex-row md:items-center">
-              <Ring value={indicateurs.completude} size={104} />
+              <Ring value={etat.completude} size={104} />
               <div className="flex-1">
                 <h2 className="text-xl font-bold text-navy-900">{t('dashboard.completion.title')}</h2>
-                <p className="text-sm text-muted">{t('dashboard.completion.text')}</p>
+                <p className="text-sm text-muted">{t(etat.restantes === 0 ? 'dashboard.completion.textComplete' : 'dashboard.completion.text')}</p>
                 <Stepper
-                  steps={[
-                    t('dashboard.completion.steps.profile'),
-                    t('dashboard.completion.steps.trainings'),
-                    t('dashboard.completion.steps.info'),
-                    t('dashboard.completion.steps.gallery'),
-                    t('dashboard.completion.steps.optimisation'),
-                  ]}
-                  current={4}
+                  steps={ETAPES_PROFIL.map((e) => t(`dashboard.completion.steps.${e}`))}
+                  current={etat.prochaine ? ETAPES_PROFIL.indexOf(etat.prochaine) : ETAPES_PROFIL.length}
                   tone="green"
                   className="mt-4"
                 />
               </div>
             </div>
-            <div className="mt-5 flex flex-wrap items-center gap-3 rounded-2xl bg-emerald-50 p-3 text-sm">
-              <Rocket className="size-5 text-emerald-600" />
-              <span className="flex-1"><Trans t={t} i18nKey="dashboard.completion.remaining" components={{ b: <b /> }} /></span>
-              <Button to={ROUTES.pro.profile('medias')} variant="outline" size="sm">{t('dashboard.completion.finish')} <ArrowRight /></Button>
-            </div>
+            {etat.prochaine && (
+              <div className="mt-5 flex flex-wrap items-center gap-3 rounded-2xl bg-emerald-50 p-3 text-sm">
+                <Rocket className="size-5 text-emerald-600" />
+                <span className="flex-1">
+                  <Trans t={t} i18nKey="dashboard.completion.remaining" values={{ count: etat.restantes, etape: t(`dashboard.completion.steps.${etat.prochaine}`) }} components={{ b: <b /> }} />
+                </span>
+                <Button to={versEtape[etat.prochaine]} variant="outline" size="sm">{t('dashboard.completion.finish')} <ArrowRight /></Button>
+              </div>
+            )}
           </Card>
           {/* Préinscription masquée (demande du porteur du projet, 2026-11-25) :
           <Card className="p-5">
@@ -103,7 +112,7 @@ export function Dashboard() {
             )}
           </Card>
           */}
-          <Section title={t('dashboard.infos.title')} icon={<Layers />} action={<span className="text-xs text-muted">{t('dashboard.infos.lastUpdate', { date: shortDate(new Date(2026, 10, 10), { day: '2-digit', month: 'short', year: 'numeric' }) })}</span>}>
+          <Section title={t('dashboard.infos.title')} icon={<Layers />}>
             <div className="grid gap-3 md:grid-cols-2">
               {infos.map((i) => (
                 <Link key={i.id} to={i.to} className="flex items-center gap-3 rounded-2xl border border-line p-3 transition-colors hover:bg-brand-50">
@@ -112,7 +121,11 @@ export function Dashboard() {
                     <p className="text-sm font-bold text-navy-900">{t(`dashboard.infos.${i.id}.label`)}</p>
                     <p className="truncate text-xs text-muted">{t(`dashboard.infos.${i.id}.text`)}</p>
                   </div>
-                  <CheckCircle2 className="size-5 text-emerald-500" />
+                  {i.fait ? (
+                    <CheckCircle2 className="size-5 text-emerald-500" aria-label={t('dashboard.infos.done')} />
+                  ) : (
+                    <Circle className="size-5 text-slate-300" aria-label={t('dashboard.infos.todo')} />
+                  )}
                   <ArrowRight className="size-4 text-muted" />
                 </Link>
               ))}

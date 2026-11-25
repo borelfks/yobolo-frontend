@@ -12,6 +12,8 @@ import { FraisTab } from '@/features/schools/components/training/FraisTab'
 import { DebouchesTab } from '@/features/schools/components/training/DebouchesTab'
 import { isTypeSlug, slugOfType } from '@/features/schools/schoolTypes'
 import { useEtablissement, useFormation } from '@/data/hooks'
+import { useSession } from '@/features/auth/hooks/useSession'
+import { useMesureALaVue } from '@/shared/hooks/useMesureALaVue'
 import { cn } from '@/shared/utils/cn'
 import { ROUTES } from '@/shared/utils/routes'
 
@@ -22,6 +24,9 @@ export function FormationDetail() {
   const { id, tab = '' } = useParams()
   const f = useFormation(id)
   const e = useEtablissement(f.etablissementId)
+  const { account } = useSession()
+  // Une vue de la formation, pour les statistiques de l'établissement.
+  useMesureALaVue(account?.ecoleId === e.id ? null : { type: 'vueFormation', etablissementId: e.id, formationId: f.id }, `formation-${f.id}`)
   const slug = slugOfType(e.type)
   const base = ROUTES.training(f.id)
   const tabs = [

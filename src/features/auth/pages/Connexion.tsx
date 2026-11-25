@@ -17,6 +17,10 @@ import { normaliserIdentifiant, verifierMotDePasse } from '@/shared/utils/motDeP
 import { cn } from '@/shared/utils/cn'
 import { ROUTES } from '@/shared/utils/routes'
 import type { Compte } from '@/shared/types'
+import { decrireAppareil } from '@/shared/utils/appareil'
+
+/** L'instant présent, en texte ISO (appelé hors du rendu). */
+const maintenant = () => new Date().toISOString()
 
 /** Champs plus hauts et plus arrondis que dans les formulaires de l'application, mêmes couleurs. */
 const champ = 'h-12 rounded-xl text-[15px]'
@@ -49,6 +53,8 @@ export function Connexion() {
     const cle = normaliserIdentifiant(identifiant)
     const compte = comptes.find((c) => normaliserIdentifiant(c.identifiant) === cle || normaliserIdentifiant(c.telephone) === cle)
     if (!compte || !(await verifierMotDePasse(compte.motDePasse, motDePasse))) {
+      // Une tentative échouée sur un compte existant figure dans son activité de sécurité.
+      if (compte) await data.create('activiteSecurite', { compteId: compte.id, evenement: 'echec', le: maintenant(), appareil: decrireAppareil(), ok: false }, 'activite')
       setError('root', { message: t('connexion.errors.invalid') })
       return
     }
@@ -76,6 +82,7 @@ export function Connexion() {
       return
     }
     signIn(compte, retenir)
+    await data.create('activiteSecurite', { compteId: compte.id, evenement: 'connexion', le: maintenant(), appareil: decrireAppareil(), ok: true }, 'activite')
     toast.success(t('connexion.welcome', { name: compte.name }))
     const publiees = compte.ecoleId ? await publierFormationsVerifiees(compte.ecoleId) : 0
     if (publiees > 0) toast.success(t('connexion.formationsPubliees', { count: publiees }))

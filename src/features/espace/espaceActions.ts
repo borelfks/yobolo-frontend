@@ -1,6 +1,5 @@
 import { data } from '@/data'
 import type { AvisAutoEcole, AvisEtablissement, InscriptionAutoEcole, Preinscription } from '@/shared/types'
-import { ajusterIndicateurs } from '@/shared/utils/compteurs'
 
 /**
  * Les démarches d'une personne physique depuis « Mon espace ». Chaque action
@@ -10,10 +9,9 @@ import { ajusterIndicateurs } from '@/shared/utils/compteurs'
 
 const maintenant = () => new Date().toISOString()
 
-/** Annule une préinscription : l'établissement est prévenu, ses candidatures baissent d'une. */
+/** Annule une préinscription : l'établissement est prévenu. */
 export async function annulerPreinscription(p: Preinscription, notification: { titre: string; texte: string; date: string }) {
   await data.update('preinscriptions', p.id, { statut: 'Annulée', annuleeLe: maintenant() })
-  await ajusterIndicateurs(p.etablissementId, { candidatures: -1 })
   await data.create('notifications', { etablissementId: p.etablissementId, type: 'candidature', ...notification, lu: false }, 'notification')
 }
 

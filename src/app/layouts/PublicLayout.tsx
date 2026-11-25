@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Link, NavLink, ScrollRestoration } from 'react-router'
+import { useEffect, useState } from 'react'
+import { Link, NavLink, ScrollRestoration, useLocation } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { Menu, X } from 'lucide-react'
 import { Logo } from '@/shared/components/ui/Logo'
@@ -11,6 +11,7 @@ import { cn } from '@/shared/utils/cn'
 import { RouteOutlet } from '@/app/routes/RouteOutlet'
 import { publicNav } from '@/app/layouts/navConfig'
 import { ROUTES } from '@/shared/utils/routes'
+import { noterPage } from '@/shared/utils/mesures'
 
 /** L'aide et les pages de loi (comme le pied de page de l'accueil). */
 const AIDE = [
@@ -22,6 +23,9 @@ export function PublicLayout() {
   const { t } = useTranslation('layout')
   const { account } = useSession()
   const [open, setOpen] = useState(false)
+  // La page affichée : une fiche ouverte ensuite saura d'où vient le visiteur (statistiques).
+  const { pathname, search } = useLocation()
+  useEffect(() => noterPage(pathname + search), [pathname, search])
   // Connecté, « Accueil » et le logo mènent à la page d'arrivée du compte (l'accueil connecté
   // pour l'utilisateur, l'espace pro pour une école) : la landing est réservée aux visiteurs.
   const accueil = account ? account.home : ROUTES.home

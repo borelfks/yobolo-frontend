@@ -463,9 +463,6 @@
       "duree": "Duration",
       "cours": "Classes",
       "volume": "Total hours",
-      "volumeValue": "~ 1,200 h",
-      "stage": "Work placement",
-      "stageValue": "2 to 3 months",
       "detailed": "Detailed curriculum",
       "ordinalFirst": "st",
       "ordinalOther": "nd",
@@ -473,7 +470,8 @@
       "units_one": "{{count}} teaching unit",
       "units_other": "{{count}} teaching units",
       "hours_one": "≈ {{count}} hour",
-      "hours_other": "≈ {{count}} hours"
+      "hours_other": "≈ {{count}} hours",
+      "aucun": "The detailed programme has not been published by the institution yet."
     },
     "admission": {
       "title": "Admission requirements",

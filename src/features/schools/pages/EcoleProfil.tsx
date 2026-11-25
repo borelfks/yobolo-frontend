@@ -11,6 +11,8 @@ import { AvisTab } from '@/features/schools/components/profile/AvisTab'
 import { GalerieTab } from '@/features/schools/components/profile/GalerieTab'
 import { isTypeSlug, slugOfType } from '@/features/schools/schoolTypes'
 import { useEtablissement } from '@/data/hooks'
+import { useSession } from '@/features/auth/hooks/useSession'
+import { useMesureALaVue } from '@/shared/hooks/useMesureALaVue'
 import { num } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
 import { PasEncoreDAvis } from '@/shared/components/ui/StarRating'
@@ -19,6 +21,9 @@ export function EcoleProfil() {
   const { t } = useTranslation('schools')
   const { id, tab = '' } = useParams()
   const e = useEtablissement(id)
+  const { account } = useSession()
+  // Une vue de la fiche, pour les statistiques de l'établissement.
+  useMesureALaVue(account?.ecoleId === e.id ? null : { type: 'vue', etablissementId: e.id }, `vue-${e.id}`)
   const slug = slugOfType(e.type)
   const base = ROUTES.school(slug, e.id)
   const typeLabel = isTypeSlug(slug) ? t(`shared.types.${slug}`) : t('shared.school')

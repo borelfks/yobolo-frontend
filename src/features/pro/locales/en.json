@@ -29,7 +29,7 @@
     },
     "completion": {
       "title": "Profile completeness",
-      "text": "Your page is almost complete.",
+      "text": "Complete your page so that it appeals to candidates.",
       "steps": {
         "profile": "Profile",
         "trainings": "Programmes",
@@ -37,12 +37,13 @@
         "gallery": "Gallery",
         "optimisation": "Optimisation"
       },
-      "remaining": "Only <b>1 step</b> left for an optimal profile: optimise your page.",
-      "finish": "Finish"
+      "finish": "Finish",
+      "textComplete": "Your page is complete.",
+      "remaining_one": "Only <b>1 step</b> left for a complete profile: {{etape}}.",
+      "remaining_other": "<b>{{count}} steps</b> left for a complete profile; next: {{etape}}."
     },
     "infos": {
       "title": "Information to manage",
-      "lastUpdate": "Last updated: {{date}}",
       "presentation": {
         "label": "Presentation",
         "text": "Describe your institution"
@@ -66,7 +67,9 @@
       "contact": {
         "label": "Contact & location",
         "text": "Your contact details and address"
-      }
+      },
+      "done": "Filled in",
+      "todo": "To complete"
     },
     "preview": {
       "title": "Overview of your public page",
@@ -368,7 +371,6 @@
     "export": "Export (PDF)",
     "kpis": {
       "views": "Views of your page",
-      "applications": "Applications / Pre-registrations",
       "downloads": "Downloads",
       "rating_one": "Rating ({{count}} review)",
       "rating_other": "Rating ({{count}} reviews)",
@@ -379,10 +381,11 @@
     "sources": {
       "title": "Visit sources",
       "center": "{{total}} Visits",
-      "search": "YIBOLO search",
-      "direct": "Direct link",
-      "social": "Social networks",
-      "others": "Others"
+      "annuaire": "Directory",
+      "recherche": "Search",
+      "favoris": "Favourites",
+      "accueil": "Home",
+      "direct": "Direct link"
     },
     "top": {
       "title": "Most viewed programmes",
@@ -392,11 +395,18 @@
     },
     "activity": {
       "title": "Latest activity",
-      "applications": "{{count}} new applications",
-      "downloads": "{{count}} document downloads",
-      "reviews": "{{count}} new reviews (average rating: {{note}}/5)",
       "today": "today, {{time}}",
-      "yesterday": "yesterday, {{time}}"
+      "yesterday": "yesterday, {{time}}",
+      "downloads_one": "{{count}} document download",
+      "downloads_other": "{{count}} document downloads",
+      "reviews_one": "{{count}} new review (average rating: {{note}}/5)",
+      "reviews_other": "{{count}} new reviews (average rating: {{note}}/5)"
+    },
+    "empty": {
+      "visits": "No visits to your page in this period.",
+      "sources": "Sources will appear from the first visit.",
+      "top": "None of your programmes was viewed in this period.",
+      "activity": "No activity today or yesterday."
     }
   },
   "content": {
@@ -662,38 +672,18 @@
         "enabled": "Enabled",
         "sessionsTitle": "Active sessions",
         "currentSession": "Current session",
-        "signOut": "Sign out",
-        "sessionClosed": "Session closed",
-        "sessions": {
-          "0": {
-            "device": "Windows – Chrome",
-            "date": "Current session"
-          },
-          "1": {
-            "device": "Android – App",
-            "date": "2 days ago"
-          }
-        },
         "activityTitle": "Recent security activity",
-        "activity": {
-          "0": {
-            "event": "Successful sign-in",
-            "date": "Today, 09:12"
-          },
-          "1": {
-            "event": "Failed attempt",
-            "date": "12 Nov 2026, 22:41"
-          },
-          "2": {
-            "event": "Password changed",
-            "date": "02 Nov 2026"
-          }
-        },
         "wrongCurrent": "The current password is incorrect.",
         "mismatch": "The two new passwords do not match.",
         "twoFactorOn": "Two-factor authentication enabled",
         "twoFactorOff": "Two-factor authentication disabled",
-        "disabled": "Disabled"
+        "disabled": "Disabled",
+        "events": {
+          "connexion": "Successful sign-in",
+          "echec": "Failed attempt",
+          "motDePasse": "Password changed"
+        },
+        "noActivity": "No activity recorded yet."
       },
       "notifications": {
         "title": "Notifications",
