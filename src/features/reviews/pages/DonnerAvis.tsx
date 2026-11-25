@@ -53,7 +53,7 @@ function StarRow({ value, onChange, size }: { value: number; onChange: (v: numbe
   return (
     <span className="inline-flex gap-0.5">
       {[1, 2, 3, 4, 5].map((i) => (
-        <button key={i} type="button" aria-label={t('donnerAvis.etoiles', { count: i })} onClick={() => onChange(i)}>
+        <button key={i} type="button" aria-label={t('donnerAvis.etoiles', { count: i })} onClick={() => onChange(i)} className="grid min-h-10 min-w-10 place-items-center">
           <Star className={cn(size, i <= value ? 'fill-amber-400 text-amber-400' : 'fill-[#c9d4ea] text-[#c9d4ea]')} />
         </button>
       ))}

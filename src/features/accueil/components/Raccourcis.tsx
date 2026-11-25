@@ -1,4 +1,4 @@
-import { Bell, GraduationCap, Heart, UserRound } from 'lucide-react'
+import { Bell, Heart, UserRound, X } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -9,28 +9,28 @@ import { useNotificationsCompte } from '@/data/hooks'
 import { useSession } from '@/features/auth/hooks/useSession'
 
 interface Raccourci {
-  cle: 'formations' | 'favoris' | 'notifications' | 'profil'
+  cle: 'favoris' | 'notifications' | 'profil'
   icone: LucideIcon
   rond: string
   plein?: boolean
-  vers: string
+  vers?: string
 }
 
 const RACCOURCIS: Raccourci[] = [
-  { cle: 'formations', icone: GraduationCap, rond: 'bg-brand-50 text-brand-600', vers: ROUTES.espace('preinscriptions') },
-  { cle: 'favoris', icone: Heart, rond: 'bg-teinte-rose text-rose-600', plein: true, vers: ROUTES.accueilEnregistres },
-  { cle: 'notifications', icone: Bell, rond: 'bg-teinte-emeraude text-emeraude', vers: ROUTES.espace('notifications') },
-  { cle: 'profil', icone: UserRound, rond: 'bg-teinte-violet text-violet', vers: ROUTES.espace('profil') },
+  { cle: 'favoris', icone: Heart, rond: 'bg-teinte-rose text-rose-600', plein: true },
+  { cle: 'notifications', icone: Bell, rond: 'bg-teinte-emeraude text-emeraude', vers: ROUTES.notifications },
+  { cle: 'profil', icone: UserRound, rond: 'bg-teinte-violet text-violet', vers: ROUTES.profil },
 ]
 
 const CLASSES_RACCOURCI =
   'flex h-full w-full items-center gap-1.5 rounded-lg border border-line bg-white p-2 text-left transition-colors hover:border-brand-600/30 hover:bg-page focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none'
 
 /**
- * Les quatre raccourcis de la colonne de droite (Raccourcis de yibolo-client).
- * « Mes favoris » est le fil filtré sur les publications mises de côté.
+ * Les trois raccourcis de la colonne de droite (Raccourcis de yibolo-client).
+ * « Mes favoris » filtre le fil sur les publications mises en favoris ; un
+ * second clic retire le filtre.
  */
-export function Raccourcis() {
+export function Raccourcis({ favoris, basculerFavoris }: { favoris: boolean; basculerFavoris: () => void }) {
   const { t } = useTranslation('accueil')
   const { account } = useSession()
   // Le nombre de notifications non lues, sur le raccourci.
@@ -42,7 +42,7 @@ export function Raccourcis() {
         {t('raccourcis.titre')}
       </h2>
 
-      <ul className="grid grid-cols-2 gap-2 @min-[38rem]:grid-cols-4">
+      <ul className="grid grid-cols-1 gap-2 @min-[30rem]:grid-cols-3">
         {RACCOURCIS.map(({ cle, icone: Icone, rond, plein, vers }) => {
           const contenu: ReactNode = (
             <>
@@ -50,17 +50,32 @@ export function Raccourcis() {
                 <Icone className="size-4" fill={plein ? 'currentColor' : 'none'} aria-hidden="true" />
               </span>
               <span className="flex min-w-0 flex-col leading-tight">
-                <span className="text-[0.6875rem] font-bold text-navy-900">{t(`raccourcis.${cle}`)}</span>
-                <span className="mt-0.5 text-[0.625rem] text-muted">{t(`raccourcis.${cle}Aide`)}</span>
+                <span className="text-xs font-bold text-navy-900">{t(`raccourcis.${cle}`)}</span>
+                <span className="mt-0.5 text-[0.6875rem] text-muted">{t(`raccourcis.${cle}Aide`)}</span>
               </span>
             </>
           )
+          if (!vers)
+            return (
+              <li key={cle}>
+                <button
+                  type="button"
+                  aria-pressed={favoris}
+                  title={favoris ? t('raccourcis.retirerFiltre') : undefined}
+                  onClick={basculerFavoris}
+                  className={cn(CLASSES_RACCOURCI, favoris && 'border-rose-300 bg-rose-50 hover:border-rose-400 hover:bg-rose-50')}
+                >
+                  {contenu}
+                  {favoris && <X className="ml-auto size-4 shrink-0 text-rose-600" aria-hidden="true" />}
+                </button>
+              </li>
+            )
           return (
             <li key={cle}>
               <Link to={vers} className={cn(CLASSES_RACCOURCI, 'relative')}>
                 {contenu}
                 {cle === 'notifications' && nonLues > 0 && (
-                  <span className="absolute top-1 right-1 grid size-4 place-items-center rounded-full bg-rose-500 text-[0.5625rem] font-bold text-white" aria-label={t('raccourcis.nonLues', { count: nonLues })}>
+                  <span className="absolute top-1/2 right-2 grid size-5 -translate-y-1/2 place-items-center rounded-full bg-rose-500 text-[0.625rem] font-bold text-white" aria-label={t('raccourcis.nonLues', { count: nonLues })}>
                     {nonLues}
                   </span>
                 )}

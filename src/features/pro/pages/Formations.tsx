@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
-import { ArrowUpDown, BadgeCheck, CalendarDays, ChevronDown, ChevronLeft, ChevronRight, CircleCheck, Clock, Copy, ExternalLink, EyeOff, FileText, GraduationCap, Layers, Pencil, Plus, Search, Send, Tag, Trash2 } from 'lucide-react'
+import { ArrowUpDown, CalendarDays, ChevronDown, ChevronLeft, ChevronRight, CircleCheck, Clock, Copy, ExternalLink, EyeOff, FileText, GraduationCap, Layers, Pencil, Plus, Search, Send, Tag, Trash2 } from 'lucide-react'
 import { ProHeader } from '@/features/pro/components/ProBlocks'
 import { useMonEcole } from '@/features/auth/hooks/useSession'
 import { cn } from '@/shared/utils/cn'
@@ -86,7 +86,7 @@ export function Formations() {
     const source = fiche(f.id)
     // Publiée pour la première fois : elle prend place dans le fil de l'accueil à cette date.
     if (source) await data.update('formations', f.id, statut === 'Publiée' && !source.publieeLe ? { statut, publieeLe: maintenant() } : { statut })
-    toast.success(t(statut === 'Brouillon' ? 'formations.menu.unpublished' : statut === 'Publiée' ? 'formations.menu.validated' : 'formations.menu.sentForReview', { name: f.nom }))
+    toast.success(t(statut === 'Brouillon' ? 'formations.menu.unpublished' : 'formations.menu.sentForReview', { name: f.nom }))
   }
   const dupliquer = async (f: Ligne) => {
     const id = newId(PREFIXE_FORMATION_CREEE)
@@ -187,7 +187,7 @@ export function Formations() {
                       </span>
                     </span>
                   </td>
-                  <td><span className={cn('rounded-full px-3.5 py-1 text-[13.5px]', chip[f.ton] ?? chip.blue)}>{f.filiere}</span></td>
+                  <td><span className={cn('rounded-full px-3.5 py-1 text-[13.5px] whitespace-nowrap', chip[f.ton] ?? chip.blue)}>{f.filiere}</span></td>
                   <td className="text-center">{f.diplome}</td>
                   <td>{duration(f.duree)}</td>
                   <td>{f.rentree === '—' ? <span className="pl-2">—</span> : <span className="inline-flex items-center gap-2"><CalendarDays className="size-5 text-brand-600" />{f.rentree}</span>}</td>
@@ -200,7 +200,6 @@ export function Formations() {
                         actions={[
                           { label: t('formations.menu.view'), icon: <ExternalLink />, hidden: !formations.some((x) => x.id === f.id), onClick: () => navigate(formationUrl(formations.find((x) => x.id === f.id)!)) },
                           { label: t('formations.menu.duplicate'), icon: <Copy />, onClick: () => dupliquer(f) },
-                          { label: t('formations.menu.validate'), icon: <BadgeCheck />, hidden: f.statut !== 'En attente', onClick: () => changerStatut(f, 'Publiée') },
                           f.statut === 'Brouillon'
                             ? { label: t('formations.menu.publish'), icon: <Send />, onClick: () => changerStatut(f, 'En attente') }
                             : { label: t('formations.menu.unpublish'), icon: <EyeOff />, onClick: () => changerStatut(f, 'Brouillon') },

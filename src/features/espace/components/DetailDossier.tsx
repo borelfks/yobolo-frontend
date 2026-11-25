@@ -9,6 +9,7 @@ import { telecharger } from '@/shared/utils/fichiers'
 /** Une liste « libellé : valeur » du dossier (les valeurs vides sont omises). */
 export function ChampsDossier({ titre, icone, champs }: { titre: string; icone: ReactNode; champs: { label: string; valeur?: string }[] }) {
   const remplis = champs.filter((c) => c.valeur)
+  if (remplis.length === 0) return null
   return (
     <Section title={titre} icon={icone}>
       <dl className="grid gap-x-6 gap-y-3 sm:grid-cols-2">

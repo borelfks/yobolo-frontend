@@ -35,13 +35,16 @@ import { Select } from '@/shared/components/forms/Fields'
 import { piecesAE, type PieceKey } from '@/features/driving-schools/autoEcoleRules'
 import { useInscriptionDraft } from '@/features/driving-schools/hooks/useInscriptionDraft'
 import { data } from '@/data'
-import { useAutoEcole, usePermisCatalogue, useQuartiers, useSessions, useVilles } from '@/data/hooks'
+import { useAutoEcole, useDecoupage, usePermisCatalogue, useSessions } from '@/data/hooks'
 import type { PermisCode } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { demoDate, fcfa, shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
+import { notifier } from '@/shared/utils/notifications'
 import { useSession } from '@/features/auth/hooks/useSession'
 import { joindrePiece } from '@/features/driving-schools/piecesJointes'
+import { SelectionGeographique } from '@/shared/components/forms/SelectionGeographique'
+import { lieuDe, villeDuLieu } from '@/shared/utils/geographie'
 
 const card = 'rounded-2xl border border-line bg-white shadow-[0_2px_10px_rgba(15,29,61,0.06)]'
 const field = 'h-10 w-full rounded-lg border border-[#c9d4ea] bg-white px-3.5 text-[14px] text-ink outline-none placeholder:text-ink/60 focus:border-brand-500 focus:ring-3 focus:ring-brand-100'
@@ -112,8 +115,7 @@ export function InscriptionAutoEcole() {
   const { account } = useSession()
   const sessions = useSessions()
   const permisCatalogue = usePermisCatalogue()
-  const villes = useVilles()
-  const quartiers = useQuartiers().map((q) => q.nom)
+  const { arrondissements } = useDecoupage()
   const { t } = useTranslation('driving-schools', { keyPrefix: 'enrollment' })
   const { id, code = 'B' } = useParams()
   const a = useAutoEcole(id)
@@ -208,7 +210,7 @@ export function InscriptionAutoEcole() {
                   </span>
                 </label>
               </div>
-              <div className="grid gap-4 sm:grid-cols-[1fr_0.95fr_1.1fr]">
+              <div className="grid gap-4">
                 <label>
                   <Label>{t('form.emailOptional')}</Label>
                   <span className="relative block">
@@ -216,8 +218,8 @@ export function InscriptionAutoEcole() {
                     <input type="email" className={cn(field, 'pl-10')} placeholder={t('form.emailPlaceholder')} value={d.email} onChange={(e) => update({ email: e.target.value })} />
                   </span>
                 </label>
-                <label><Label required>{t('form.city')}</Label><Select options={villes.map((x) => x.nom)} placeholder={t('form.cityPlaceholder')} value={d.ville} onChange={(e) => update({ ville: e.target.value })} className="h-10 rounded-lg border-[#c9d4ea]" /></label>
-                <label><Label required>{t('form.neighbourhood')}</Label><Select options={quartiers} placeholder={t('form.neighbourhoodPlaceholder')} value={d.quartier} onChange={(e) => update({ quartier: e.target.value })} className="h-10 rounded-lg border-[#c9d4ea]" /></label>
+                {/* Résidence : région → département → arrondissement (la ville s'en déduit), quartier. */}
+                <SelectionGeographique valeur={lieuDe(d)} onChange={(l) => update({ ...l, ville: villeDuLieu(l, arrondissements) })} />
               </div>
               <div className="border-t border-line pt-4">
                 <Heading icon={<Car />} className="text-[19px]">{t('inscription.infos.chosenTraining')}</Heading>
@@ -332,8 +334,8 @@ export function InscriptionAutoEcole() {
                     t={t}
                     i18nKey="inscription.recap.certify"
                     components={{
-                      conditions: <a href="#" onClick={(e) => e.preventDefault()} className="text-brand-600 underline" />,
-                      privacy: <a href="#" onClick={(e) => e.preventDefault()} className="text-brand-600 underline" />,
+                      conditions: <Link to={ROUTES.terms} className="text-brand-600 underline" />,
+                      privacy: <Link to={ROUTES.terms} className="text-brand-600 underline" />,
                     }}
                   />
                 </span>
@@ -360,7 +362,7 @@ export function InscriptionAutoEcole() {
                   // La session choisie compte une place de moins.
                   const session = sessions.find((s) => s.permis === p.code && s.debut === d.session)
                   if (session) await data.update('sessions', session.id, { places: Math.max(0, session.places - 1) })
-                  if (account) await data.create('notificationsCompte', { compteId: account.id, type: 'session', titre: t('notificationCandidat.titre'), texte: t('notificationCandidat.texte', { licence: p.code, school: a.nom }), quand: t('notificationCandidat.quand'), lu: false }, 'notif')
+                  if (account) await notifier(account.id, { type: 'session', titre: t('notificationCandidat.titre'), texte: t('notificationCandidat.texte', { licence: p.code, school: a.nom }), quand: t('notificationCandidat.quand'), vers: ROUTES.espace('auto-ecole') })
                   toast.success(t('toast.sent'))
                   setSent(true)
                 }}

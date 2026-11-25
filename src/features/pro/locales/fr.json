@@ -192,7 +192,7 @@
       "pending": "En vérification",
       "deleted": "Document supprimé",
       "none": "Aucun document pour le moment.",
-      "noFile": "Ce document de départ n’a pas de fichier joint dans la démo.",
+      "noFile": "Ce document n’est pas encore disponible au téléchargement.",
       "tooBig": "Fichier trop lourd : 3 Mo au maximum."
     },
     "media": {
@@ -275,9 +275,7 @@
       "duplicated": "« {{name}} » créée en brouillon",
       "sentForReview": "« {{name}} » envoyée pour validation par YIBOLO",
       "unpublished": "« {{name}} » repassée en brouillon",
-      "deleted": "« {{name}} » supprimée",
-      "validate": "Simuler la validation par YIBOLO",
-      "validated": "« {{name}} » validée par YIBOLO : elle est publiée"
+      "deleted": "« {{name}} » supprimée"
     }
   },
   "creer": {
@@ -503,7 +501,7 @@
         "preview": {
           "format": "Format",
           "download": "Télécharger",
-          "noFile": "Ce document de départ n’a pas de fichier joint dans la démo."
+          "noFile": "Ce document n’est pas encore disponible au téléchargement."
         },
         "menu": {
           "publish": "Publier",

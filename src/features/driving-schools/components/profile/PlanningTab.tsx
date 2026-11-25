@@ -22,7 +22,14 @@ export function PlanningTab({ id }: { id: string }) {
   const [sel, setSel] = useState<string[]>(['B'])
   const [session, setSession] = useState<string[]>(['next'])
   const codes = (['A', 'B', 'C', 'D', 'E'] as PermisCode[]).filter((c) => a.permis.includes(c))
-  const list = sessions.filter((s) => a.permis.includes(s.permis))
+  // « Prochaines sessions » : la première session de chaque permis ; « Sessions à venir » : les suivantes.
+  const premieres = new Set(codes.map((c) => sessions.find((s) => s.permis === c)?.id))
+  const list = sessions.filter(
+    (s) =>
+      a.permis.includes(s.permis) &&
+      (sel.length === 0 || sel.includes(s.permis)) &&
+      (session.length === 0 || session.length === sessionTypes.length || (session.includes('next') ? premieres.has(s.id) : !premieres.has(s.id))),
+  )
   const prochaine = sessions[0]
   return (
     <div className="grid gap-4 lg:grid-cols-[222px_1fr_296px]">
@@ -59,6 +66,11 @@ export function PlanningTab({ id }: { id: string }) {
               </tr>
             </thead>
             <tbody>
+              {list.length === 0 && (
+                <tr>
+                  <td colSpan={6} className="px-4 py-6 text-center text-muted">{t('profile.filters.aucuneSession')}</td>
+                </tr>
+              )}
               {list.map((s) => {
                 const p = permisCatalogue[s.permis]
                 return (

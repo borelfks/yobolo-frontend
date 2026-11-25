@@ -82,8 +82,8 @@ La maquette prévoit **4 profils** : **École / IPES** (institut, centre, auto-�
 - La session est gardée dans le navigateur (`yibolo:compte`).
 
 ### Menu du compte (avatar)
-- Compte école : **Mon espace professionnel** · Mes favoris · Changer de compte de démo · Se déconnecter.
-- Utilisateur : **Mon espace** · Mes favoris · **Donner un avis** · Changer de compte de démo · Se déconnecter. Sa cloche mène à Mon espace › Notifications.
+- Compte école : **Mon espace professionnel** · Mes favoris · Paramètres · Se déconnecter.
+- Utilisateur : **Mon espace** · Mon profil · Mes favoris · Paramètres · Se déconnecter. Sa cloche mène à **Notifications** (`/notifications`).
 - La cloche montre les notifications du compte (base), avec le nombre de non lues ; un clic marque comme lu. Dans l'espace pro, « Voir toutes les notifications » mène à Paramètres › Notifications.
 
 ---
@@ -99,7 +99,7 @@ La maquette prévoit **4 profils** : **École / IPES** (institut, centre, auto-�
 1. **Profil** : 4 cartes (École / IPES, Consultant, Entreprise, Personne physique). Seule **École / IPES** se choisit ; les trois autres sont grisées avec « Bientôt disponible » (décision du 2026-11-24).
 2. **Infos** (« Informations générales ») : raison sociale / nom et prénoms, téléphone, e-mail, région, ville, quartier, mot de passe (8 caractères au moins) et confirmation. Champs **préremplis** avec les valeurs de la maquette (IPC). Validation react-hook-form + zod.
 3. **Vérification** : documents à joindre. Personne physique : pièce d'identité. Autres profils : autorisation d'ouverture (école) ou justificatif d'activité, et NIU. Bouton « Soumettre pour vérification ».
-4. **« Votre compte est en cours de vérification »** : délai 24 à 48 heures, notification par e-mail et SMS, « Retour à la connexion ». Lien de démo « Simuler la validation par YIBOLO ».
+4. **« Votre compte est en cours de vérification »** : délai 24 à 48 heures, notification par e-mail et SMS, « Retour à la connexion ». La vérification par YIBOLO est faite quand l'école revient se connecter : « Compte validé ! ».
 5. **« Compte validé ! »** : « Se connecter à mon espace » ouvre le compte IPES (profil École) ou Utilisateur (autres profils).
 
 ---
@@ -115,13 +115,13 @@ La maquette prévoit **4 profils** : **École / IPES** (institut, centre, auto-�
 
 Copie de l'accueil connecté de **yibolo-client** (pas dans la maquette Word), aux couleurs de l'application (bleu, bleu nuit, Plus Jakarta Sans). Réservé aux comptes connectés (un visiteur est mené à `/connexion`). Un compte connecté qui ouvre `/` est mené à sa page d'arrivée (`account.home`) ; la landing reste réservée aux visiteurs.
 
-- **Trois colonnes** à partir de 1536 px : *Domaines d'expertise* (filtre, table `domainesExpertise`) · le fil · *Mes raccourcis*, *Offres d'emploi populaires* (les 3 dernières), *Vous êtes expert ?*. Sous 1536 px, les domaines passent en menu d'icônes en haut du fil (« Plus » pour la liste entière) ; sous 1280 px, les raccourcis remontent dans le fil, les offres et la carte expert passent dessous.
-- **Haut du fil**, collé sous la barre du site : recherche (mot clé), *Ville* (démo), *Type* (Toutes · Publications · Offres d'emploi · Formations), *Plus de filtres* (Tout le fil / Mes enregistrés ; Les plus récentes / Les plus lues), ⋮ (démo) ; les filtres choisis en pastilles. Filtres tenus dans l'adresse : `?genre=`, `?tri=lues`, `?vue=enregistres`, `?domaine=`, `?sujet=`, `?q=`.
-- **Bandeau** « Développez vos compétences avec les meilleurs experts » (« Découvrir les domaines » → `/ecoles`). **Zone « Partagez un conseil… »** et bouton « Publier une actualité » : fenêtre « Publier sur le fil » (titre, texte, 1 à 3 domaines, sujets ; publier ou enregistrer en brouillon, table `publications`).
-- **Fil** « Publications récentes » : onglets Toutes · Conseils (démo) · Actualités (démo) · Offres d'emploi · Formations ; cartes en grille (1 à 3 de front) : publications (`publications` : J'aime, Commenter (démo), Partager, menu ⋯ Enregistrer · Copier le lien · Signaler), offres (`offresEmploi`, « Voir l'offre » → `/emploi`), formations (`formations`, « Voir la formation »). 12 cartes, puis « Voir plus » (et au défilement) ; « Vous êtes à jour » à la fin. Une publication s'ouvre en fenêtre de lecture (`?publication=<id>`) et compte une lecture.
-- **À faire** : à l'arrivée, une fenêtre liste les gestes en attente du compte (`tachesAccueil`), une fois par session du navigateur.
-- **Raccourcis** : Mes formations (→ `/formations`, bientôt disponible), Mes favoris (→ « Mes enregistrés »), Mes notifications et Mon profil (démo).
-- **Bande du bas** : Formation continue · Conseils d'experts · Opportunités d'emploi · Réseau professionnel · Développement des compétences, et la devise « Ensemble pour un avenir meilleur ! ».
+- **Trois colonnes** à partir de 1536 px : *Domaines d'expertise* (filtre, table `domainesExpertise`) · le fil · *Mes raccourcis*. Sous 1536 px, les domaines passent en menu d'icônes en haut du fil (« Plus » pour la liste entière) ; sous 1280 px, les raccourcis remontent dans le fil (masqués sur téléphone). Rien de l'emploi ni de la Consultation sur l'accueil.
+- **Haut du fil**, collé sous la barre du site : la recherche seule (mot clé). **Plus de filtres** (ni Ville, ni « Plus de filtres », ni menu ⋮ ; décision du 2026-11-25). « Mes enregistrés » (raccourci « Mes favoris ») et un sujet touché sur une publication s'affichent en pastilles qu'on retire. Adresse : `?vue=enregistres`, `?domaine=`, `?sujet=`, `?q=`.
+- **Bandeau** « Développez vos compétences avec les meilleurs experts » (« Découvrir les domaines » → `/ecoles`). **Une personne physique ne publie pas** sur le fil (décision du 2026-11-24) : pas de zone « Partagez un conseil… », ni de « Mes publications » ; la carte « Vous êtes expert ? » mène à « Devenir consultant » (Consultation, bientôt disponible).
+- **Fil** « Publications récentes » : **uniquement les publications des experts** (décision du 2026-11-24 : ni offres d'emploi, ni formations, ni rien des écoles). Pas d'onglets ni de menu « Type ». Cartes en grille (1 à 3 de front) : J'aime, Commenter, Partager, menu ⋯ (Enregistrer · Copier le lien · Signaler). 12 cartes, puis « Voir plus » (et au défilement) ; « Vous êtes à jour » à la fin.
+- **Page d'une publication** (`/accueil/publications/:id`, comme la PublicationPage de yibolo-client) : lue comme un article — rubrique (premier sujet), titre, signature (auteur, date, minutes de lecture), visuel, barre d'actions (J'aime, Commenter, Enregistrer, Signaler), texte (le premier paragraphe en chapeau), sujets, commentaires (`#commentaires`) ; à droite : Partager (logos WhatsApp, Facebook, X, LinkedIn, copier le lien) et 5 publications similaires (une publication sans photo montre l'icône de son domaine). **Vues** : le chiffre de départ + une vue par compte qui ouvre la page (table `lectures`) ; rouvrir ne compte pas deux fois.
+- **Commentaires** (comme yibolo-client) : une pilule de saisie (Entrée envoie, Maj+Entrée va à la ligne) ; chaque commentaire en bulle, menu ⋯ (Modifier, Supprimer pour l'auteur ; Signaler pour les autres), « Répondre » (un seul niveau de réponses, le nom de la personne à qui l'on répond mis en avant), « Modifié ». Supprimer un commentaire qui a des réponses laisse « Ce commentaire a été supprimé. » et garde les réponses. Les nombres de commentaires (titre, barre d'actions, carte du fil) comptent les réponses, pas les supprimés. Adresse inconnue : « Cette publication n'est pas accessible ».
+- **Raccourcis** (trois) : Mes favoris (→ « Mes enregistrés »), Mes notifications (→ Mon espace › Notifications, avec le nombre de non lues), Mon profil (→ Mon espace › Mon profil). « Mes formations » est retiré (décision du 2026-11-24).
 
 ---
 
@@ -243,14 +243,25 @@ Trois sections, ouvertes depuis la validation : `formation` (changer d'auto-éco
 
 ---
 
+## 5 bis. Inscription, code et mot de passe oublié (comme yibolo-client)
+- **Personne physique** : Profil → **Vous** (civilité Monsieur / Madame / Mademoiselle, prénom, nom, nationalité, résidence) → **Votre accès** (téléphone +237, « Ce numéro est aussi mon numéro WhatsApp », e-mail facultatif, mot de passe de 8 caractères et confirmation, conditions générales) → **Code**. Le bon code crée le compte (validé) et l'ouvre sur `/accueil`. Sans e-mail, on se connecte avec son téléphone.
+- **École / IPES** : Profil → Infos (raison sociale, téléphone, e-mail, localisation, mot de passe) → **Code** → Vérification (pièces) → en cours de vérification → validé.
+- **Code (OTP)** : 6 cases, « Renvoyer le code » après 60 s (pas de choix SMS / WhatsApp, à la demande du porteur du projet). Sans serveur d'envoi, le code est affiché dans un encadré de démonstration.
+- **Code non saisi** : le compte est enregistré dès l'envoi du code (numéro non confirmé). S'il revient se connecter sans avoir saisi le code, l'écran « Confirmez votre numéro » lui envoie un nouveau code ; une fois confirmé, la personne arrive sur son accueil, l'école reprend l'inscription à l'étape des pièces.
+- **Sélection géographique** : Région → Département → Arrondissement (chaque liste dépend de la précédente, la ville se déduit : « Ville : Douala »), puis Quartier (texte libre, « Ex. : Bastos »).
+- **Mot de passe oublié** (`/mot-de-passe-oublie`) : numéro du compte → code → nouveau mot de passe → retour à la connexion.
+- Un numéro ou un e-mail déjà utilisé est refusé.
+
 ## 9 bis. Mon espace (personne physique) — `/mon-espace/:onglet?`
+
+Onglets : Aperçu · Mes préinscriptions · Mes permis · Mes avis (avec « À évaluer » : les lieux où la personne a un dossier, « Donner mon avis »). Pages à part, depuis le menu du compte : **Mon profil** (`/profil` ; la photo s'enregistre dès qu'elle est choisie, aussi depuis l'en-tête de Mon espace ; un nouveau numéro est confirmé par un code), **Paramètres** (`/parametres` ; Notifications : pour chaque sujet — préinscriptions, permis, réponses à mes avis, réponses à mes commentaires, nouveautés YIBOLO —, Application · SMS · E-mail ; mot de passe ; langue ; suppression du compte), **Notifications** (`/notifications`, à la manière de Facebook : « Toutes » / « Non lues », « Nouvelles » puis « Plus tôt », point bleu, « … » pour marquer lue / non lue ou supprimer, « … » du titre : tout marquer comme lu, paramètres). Une notification n'est créée que si la personne la veut « dans l'application » pour ce sujet (`notifier`, `src/shared/utils/notifications.ts`).
 La maquette ne montre pas cet espace : il reprend l'idée de l'espace personnel de yibolo-client, limité à l'univers École. **Pas de barre latérale** (décision du 2026-11-24) : le cadre public, un en-tête bleu (photo, nom, « Personne physique », e-mail, résidence, « Modifier mon profil ») et des onglets dans l'adresse.
 - **Aperçu** (sans segment) : préinscriptions et inscriptions actives, favoris, avis donnés ; les 5 dernières démarches ; notifications non lues ; profil complété à n % ; actions rapides.
 - **Mes préinscriptions** (`preinscriptions`) : formation, établissement, date, statut (Envoyée / Annulée) ; « Voir le dossier » (`/mon-espace/preinscriptions/:id` : champs saisis, pièces jointes à télécharger, liens vers la formation, l'établissement, « Donner mon avis ») ; « Annuler » (confirmation) : l'établissement est prévenu et ses candidatures baissent d'une.
 - **Mes permis** (`auto-ecole`) : inscriptions en auto-école, même principe (`/mon-espace/auto-ecole/:id`) ; l'annulation rend la place à la session.
 - **Mes avis** (`avis`) : les avis écrits par le compte, avec la réponse de l'établissement ; modifier (note, commentaire) ou supprimer : le nombre d'avis et la moyenne de la fiche suivent.
 - **Notifications** (`notifications`) : toutes, ou non lues ; marquer comme lue, tout marquer comme lu, supprimer (les siennes).
-- **Mon profil** (`profil`) : civilité, nom et prénom, date de naissance, téléphone, e-mail (identifiant, unique), région, ville, quartier, photo.
+- **Mon profil** (`profil`) : civilité, prénom, nom, nationalité, date de naissance, téléphone (WhatsApp), e-mail (facultatif ; identifiant s'il est donné), résidence avec la sélection géographique (région, département, arrondissement, quartier), photo.
 - **Paramètres** (`parametres`) : changer le mot de passe (actuel vérifié ; 8 caractères, une majuscule, un chiffre, un caractère spécial), langue, supprimer le compte (mot de passe demandé).
 - Après une préinscription ou une inscription envoyée par un compte connecté : « Voir mon dossier dans Mon espace ».
 - Un visiteur qui ouvre `/mon-espace` est mené à la connexion ; un compte école, à son espace professionnel.

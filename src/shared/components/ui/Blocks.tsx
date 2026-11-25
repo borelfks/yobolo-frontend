@@ -1,10 +1,8 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { toast } from 'sonner'
-import { ArrowLeft, Bot, CheckCircle2, Download, Eye, FileText, Info, Lightbulb, MoreVertical, Sparkles, TrendingUp } from 'lucide-react'
+import { ArrowLeft, CheckCircle2, Info, Lightbulb, TrendingUp } from 'lucide-react'
 import { cn } from '@/shared/utils/cn'
-import { Button } from '@/shared/components/ui/Button'
 import { Card } from '@/shared/components/ui/Card'
 
 const kpiTones = {
@@ -43,7 +41,7 @@ export function Kpi({
     <div className={cn('flex items-center gap-3.5 rounded-2xl border border-line bg-gradient-to-br p-4', from, to, className)}>
       <span className={cn('grid size-12 shrink-0 place-items-center rounded-2xl [&_svg]:size-6', bg, text)}>{icon}</span>
       <div className="min-w-0">
-        <p className="truncate text-sm font-medium text-muted">{label}</p>
+        <p className="line-clamp-2 text-sm leading-tight font-medium text-muted">{label}</p>
         <p className="flex flex-wrap items-baseline gap-x-2 text-2xl font-extrabold text-navy-900">
           {value}
           {extra && <span className="text-sm font-semibold text-muted">{extra}</span>}
@@ -98,46 +96,6 @@ export function BackLink({ to, children }: { to: string; children: ReactNode }) 
       <ArrowLeft className="size-4" />
       {children}
     </Link>
-  )
-}
-
-/** Carte violette « Assistant IA ». */
-export function AiCard({
-  title,
-  children,
-  action,
-  onAction,
-  className,
-}: {
-  title?: ReactNode
-  children: ReactNode
-  action?: string
-  onAction?: () => void
-  className?: string
-}) {
-  const { t } = useTranslation()
-  return (
-    <div className={cn('bg-ai-gradient rounded-2xl border border-violet-200 p-5', className)}>
-      <div className="flex items-center gap-2.5">
-        <span className="grid size-10 place-items-center rounded-xl bg-violet-600 text-white">
-          <Bot className="size-5" />
-        </span>
-        <h3 className="font-bold text-violet-900">{title === undefined ? t('blocks.ai.title') : title}</h3>
-        <Sparkles className="ml-auto size-4 text-violet-500" />
-      </div>
-      <div className="mt-3 space-y-2 text-sm text-violet-950/80">{children}</div>
-      {action && (
-        <Button
-          variant="violet"
-          size="sm"
-          className="mt-4 w-full"
-          onClick={onAction ?? (() => toast(t('blocks.ai.title'), { description: t('blocks.ai.toastText') }))}
-        >
-          <Sparkles />
-          {action}
-        </Button>
-      )}
-    </div>
   )
 }
 
@@ -199,49 +157,6 @@ export function InfoRow({ icon, label, value, className }: { icon?: ReactNode; l
   )
 }
 
-/** Ligne de document : icône type, nom, méta, actions. */
-export function FileRow({
-  name,
-  meta,
-  badge,
-  type = 'PDF',
-  actions,
-}: {
-  name: ReactNode
-  meta?: ReactNode
-  badge?: ReactNode
-  type?: string
-  actions?: ReactNode
-}) {
-  const { t } = useTranslation()
-  const color = { PDF: 'bg-rose-100 text-rose-600', XLSX: 'bg-emerald-100 text-emerald-600', DOCX: 'bg-brand-100 text-brand-600', PNG: 'bg-violet-100 text-violet-600', JPG: 'bg-violet-100 text-violet-600', PPTX: 'bg-orange-100 text-orange-600' }[type] ?? 'bg-slate-100 text-slate-600'
-  return (
-    <div className="flex items-center gap-3 rounded-xl border border-line bg-white p-3">
-      <span className={cn('grid size-10 shrink-0 place-items-center rounded-lg text-[10px] font-extrabold', color)}>
-        <FileText className="size-4" />
-      </span>
-      <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-semibold text-navy-900">{name}</p>
-        {meta && <p className="truncate text-xs text-muted">{meta}</p>}
-      </div>
-      {badge}
-      {actions ?? (
-        <div className="flex items-center gap-1 text-slate-500">
-          <IconBtn label={t('blocks.file.view')} onClick={() => toast(t('blocks.file.previewTitle'), { description: t('blocks.file.previewText') })}>
-            <Eye />
-          </IconBtn>
-          <IconBtn label={t('blocks.file.download')} onClick={() => toast.success(t('blocks.file.downloadStarted'))}>
-            <Download />
-          </IconBtn>
-          <IconBtn label={t('blocks.file.more')}>
-            <MoreVertical />
-          </IconBtn>
-        </div>
-      )}
-    </div>
-  )
-}
-
 export function IconBtn({ label, children, onClick, className }: { label: string; children: ReactNode; onClick?: () => void; className?: string }) {
   return (
     <button type="button" aria-label={label} title={label} onClick={onClick} className={cn('grid size-8 place-items-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-navy-900 [&_svg]:size-4', className)}>
@@ -252,7 +167,6 @@ export function IconBtn({ label, children, onClick, className }: { label: string
 
 /** Tuile d'action rapide (icône + libellé + chevron). */
 export function QuickAction({ icon, label, to, onClick, tone = 'neutral' }: { icon: ReactNode; label: ReactNode; to?: string; onClick?: () => void; tone?: 'neutral' | 'primary' }) {
-  const { t } = useTranslation()
   const cls = cn(
     'flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sm font-semibold transition-colors [&_svg]:size-5',
     tone === 'primary' ? 'bg-brand-600 text-white hover:bg-brand-700' : 'bg-white text-navy-900 ring-1 ring-line hover:bg-brand-50',
@@ -265,7 +179,7 @@ export function QuickAction({ icon, label, to, onClick, tone = 'neutral' }: { ic
       </Link>
     )
   return (
-    <button type="button" onClick={onClick ?? (() => toast(t('blocks.demoAction')))} className={cls}>
+    <button type="button" onClick={onClick} className={cls}>
       {icon}
       {label}
     </button>

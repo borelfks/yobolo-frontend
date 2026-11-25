@@ -1,33 +1,46 @@
 import { useState, type ReactNode } from 'react'
 import { Link } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { ArrowRight, Building2, CalendarDays, Car, CircleCheck, Folder, GraduationCap, Heart, Landmark, Lightbulb, MapPin, Star, Sun, Trash2 } from 'lucide-react'
+import { toast } from 'sonner'
+import { ArrowRight, Building2, CalendarDays, Car, CircleCheck, Folder, GraduationCap, Heart, Landmark, Lightbulb, MapPin, Megaphone, Star, Sun, Trash2 } from 'lucide-react'
 import { Hero } from '@/shared/components/ui/Hero'
 import { Img } from '@/shared/components/ui/Img'
 import { useFavorites } from '@/shared/hooks/useFavorites'
-import type { Favorite, ModeCours, PermisCode } from '@/shared/types'
+import type { Enregistrement, Favorite, ModeCours, PermisCode } from '@/shared/types'
 import { ecoleUrl, formationUrl } from '@/features/schools/schoolLinks'
-import { useAutoEcoles, useEtablissements, useFormations, usePermisCatalogue } from '@/data/hooks'
+import { useAutoEcoles, useEnregistrements, useEtablissements, useExperts, useFormations, usePermisCatalogue, usePublications } from '@/data/hooks'
+import { data } from '@/data'
+import { useSession } from '@/features/auth/hooks/useSession'
 import { cn } from '@/shared/utils/cn'
-import { fcfa, num } from '@/shared/utils/format'
+import { fcfa, num, shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
 
-type Filter = 'tous' | 'formation' | 'etablissement'
+type Filter = 'tous' | 'formation' | 'etablissement' | 'publication'
 
 const card = 'rounded-2xl border border-line bg-white shadow-[0_2px_10px_rgba(15,29,61,0.06)]'
 
 export function Favoris() {
   const { t } = useTranslation('favorites')
   const { favorites, remove, clear } = useFavorites()
+  const { account } = useSession()
+  // Les publications mises en favoris sur l'accueil (« Enregistrer ») : les mêmes favoris.
+  const publications = useEnregistrements(account?.id)
   const [filter, setFilter] = useState<Filter>('tous')
   const isFormation = (f: Favorite) => f.kind === 'formation' || f.kind === 'permis'
   const isEtab = (f: Favorite) => f.kind === 'etablissement' || f.kind === 'auto-ecole'
-  const list = favorites.filter((f) => filter === 'tous' || (filter === 'formation' ? isFormation(f) : isEtab(f)))
+  const list = filter === 'publication' ? [] : favorites.filter((f) => filter === 'tous' || (filter === 'formation' ? isFormation(f) : isEtab(f)))
+  const pubs = filter === 'tous' || filter === 'publication' ? publications : []
+  const total = list.length + pubs.length
   const menu: { key: Filter; label: string; count: number; icon: ReactNode }[] = [
-    { key: 'tous', label: t('favoris.filtres.tous'), count: favorites.length, icon: <Folder /> },
+    { key: 'tous', label: t('favoris.filtres.tous'), count: favorites.length + publications.length, icon: <Folder /> },
     { key: 'formation', label: t('favoris.filtres.formation'), count: favorites.filter(isFormation).length, icon: <GraduationCap /> },
     { key: 'etablissement', label: t('favoris.filtres.etablissement'), count: favorites.filter(isEtab).length, icon: <Building2 /> },
+    ...(account ? [{ key: 'publication' as const, label: t('favoris.filtres.publication'), count: publications.length, icon: <Megaphone /> }] : []),
   ]
+  const toutRetirer = async () => {
+    clear()
+    await Promise.all(publications.map((e) => data.remove('enregistrements', e.id)))
+  }
   return (
     <div className="mx-auto max-w-[1320px] space-y-5 px-5 py-4">
       <Hero
@@ -62,16 +75,16 @@ export function Favoris() {
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="flex items-center gap-3 text-[24px] font-bold text-navy-900">
-              <Heart className="size-7" /> {menu.find((m) => m.key === filter)?.label} ({list.length})
+              <Heart className="size-7" /> {menu.find((m) => m.key === filter)?.label} ({total})
             </h2>
-            {favorites.length > 0 && (
-              <button type="button" onClick={clear} className="inline-flex h-10 items-center gap-2 rounded-full border-2 border-brand-600/60 px-5 text-[16px] font-semibold text-navy-800 hover:bg-brand-50">
+            {favorites.length + publications.length > 0 && (
+              <button type="button" onClick={() => void toutRetirer()} className="inline-flex h-10 items-center gap-2 rounded-full border-2 border-brand-600/60 px-5 text-[16px] font-semibold text-navy-800 hover:bg-brand-50">
                 <Trash2 className="size-5" />
                 {t('favoris.toutSupprimer')}
               </button>
             )}
           </div>
-          {list.length === 0 && (
+          {total === 0 && (
             <div className={cn(card, 'p-10 text-center')}>
               <Heart className="mx-auto size-10 text-slate-300" />
               <p className="mt-3 font-semibold text-navy-900">{t('favoris.vide.titre')}</p>
@@ -83,6 +96,9 @@ export function Favoris() {
           )}
           {list.map((fav) => (
             <FavRow key={fav.id} fav={fav} onRemove={() => remove(fav.id)} />
+          ))}
+          {pubs.map((e) => (
+            <PublicationFavorite key={e.id} enregistrement={e} />
           ))}
         </div>
       </div>
@@ -196,6 +212,41 @@ function FavRow({ fav, onRemove }: { fav: Favorite; onRemove: () => void }) {
         </Link>
       </div>
       <button type="button" aria-label={t('row.retirer')} onClick={onRemove} className="absolute top-3 right-5">
+        <Heart className="size-7 fill-rose-600 text-rose-600" />
+      </button>
+    </div>
+  )
+}
+
+/** Une publication de l'accueil mise en favoris : titre, auteur, date ; le cœur la retire. */
+function PublicationFavorite({ enregistrement }: { enregistrement: Enregistrement }) {
+  const { t } = useTranslation('favorites')
+  const publication = usePublications().find((p) => p.id === enregistrement.publicationId)
+  const experts = useExperts()
+  if (!publication) return null
+  const auteur = experts.find((x) => x.id === publication.auteurId)?.nom
+  const titre = publication.titre || publication.texte.split('\n')[0]
+  const retirer = async () => {
+    await data.remove('enregistrements', enregistrement.id)
+    toast.success(t('row.publicationRetiree'))
+  }
+  return (
+    <div className={cn(card, 'relative flex flex-col gap-4 p-3 xl:flex-row xl:items-center')}>
+      <Img src={publication.image ?? ''} alt="" className="h-32 w-full rounded-xl xl:h-[100px] xl:w-[194px]" />
+      <div className="min-w-0 flex-1 space-y-1.5 pr-10">
+        <span className="inline-block rounded-full bg-violet-600 px-3 py-0.5 text-[13px] font-semibold text-white">{t('row.publication')}</span>
+        <Link to={ROUTES.publication(publication.id)} className="line-clamp-2 block text-[20px] font-bold text-navy-900 hover:text-brand-600">
+          {titre}
+        </Link>
+        <p className="text-[15px] text-muted">
+          {auteur} · {shortDate(publication.publieeLe, { day: '2-digit', month: 'short', year: 'numeric' })}
+        </p>
+      </div>
+      <Link to={ROUTES.publication(publication.id)} className="inline-flex h-10 items-center gap-2 self-start rounded-full border-2 border-brand-600/60 px-6 text-[15px] font-semibold whitespace-nowrap text-navy-800 hover:bg-brand-50 xl:self-center">
+        {t('row.lire')}
+        <ArrowRight className="size-5" />
+      </Link>
+      <button type="button" aria-label={t('row.retirer')} onClick={() => void retirer()} className="absolute top-3 right-5">
         <Heart className="size-7 fill-rose-600 text-rose-600" />
       </button>
     </div>

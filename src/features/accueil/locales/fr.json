@@ -1,24 +1,11 @@
 {
   "titre": "Accueil",
-  "genres": {
-    "tout": "Toutes",
-    "publication": "Publications",
-    "offre": "Offres d'emploi",
-    "formation": "Formations",
-    "conseils": "Conseils",
-    "actualites": "Actualités",
-    "actualite": "Actualités",
-    "conseil": "Conseils"
-  },
   "fil": {
     "titre": "Publications récentes"
   },
-  "onglets": {
-    "libelle": "Type de contenu"
-  },
   "bandeau": {
     "titre": "Développez vos compétences avec les meilleurs experts",
-    "texte": "Formations, conseils, opportunités d'emploi, un seul espace !",
+    "texte": "Formations et conseils d’experts, un seul espace !",
     "action": "Découvrir les domaines",
     "suivant": "Suivant",
     "carrousel": "Annonces de l’accueil",
@@ -26,65 +13,32 @@
   },
   "raccourcis": {
     "titre": "Mes raccourcis",
-    "formations": "Mes formations",
     "favoris": "Mes favoris",
     "notifications": "Mes notifications",
     "profil": "Mon profil",
-    "formationsAide": "Voir mes formations",
-    "favorisAide": "Voir mes favoris",
+    "favorisAide": "Filtrer le fil",
     "notificationsAide": "Voir mes notifications",
     "profilAide": "Gérer mon profil",
     "nonLues_one": "{{count}} notification non lue",
-    "nonLues_other": "{{count}} notifications non lues"
-  },
-  "offres": {
-    "titre": "Offres d'emploi populaires",
-    "voirTout": "Voir tout",
-    "voir": "Voir",
-    "vide": "Les offres publiées apparaîtront ici dès qu'elles seront en ligne.",
-    "voirLOffre": "Voir l'offre {{titre}}"
-  },
-  "expert": {
-    "titre": "Vous êtes expert ?",
-    "texte": "Partagez vos connaissances et aidez la communauté !",
-    "publier": "Publier une actualité",
-    "devenir": "Devenir consultant"
-  },
-  "bande": {
-    "libelle": "Ce que YIBOLO réunit",
-    "formationContinue": "Formation continue",
-    "conseils": "Conseils d'experts",
-    "emploi": "Opportunités d'emploi",
-    "reseau": "Réseau professionnel",
-    "competences": "Développement des compétences",
-    "devise": "Ensemble pour un avenir meilleur !"
-  },
-  "tris": {
-    "recentes": "Les plus récentes",
-    "lues": "Les plus lues"
+    "nonLues_other": "{{count}} notifications non lues",
+    "retirerFiltre": "Retirer le filtre"
   },
   "filtres": {
+    "actifs": "Filtres choisis",
+    "retirer": "Retirer le filtre {{filtre}}",
+    "mesEnregistres": "Mes favoris",
     "bouton": "Plus de filtres",
     "titre": "Filtrer le fil",
     "ordre": "Trier par",
     "reinitialiser": "Réinitialiser",
     "voir": "Voir les résultats",
-    "actifs": "Filtres choisis",
-    "retirer": "Retirer le filtre {{filtre}}",
     "vue": "Afficher",
     "toutLeFil": "Tout le fil",
-    "mesEnregistres": "Mes enregistrés",
-    "enregistresExplique": "Les publications que vous avez mises de côté, de la plus récemment enregistrée à la plus ancienne. Les domaines et la recherche s'y appliquent.",
-    "luesSeulementPublications": "Seules les publications ont des lecteurs : les offres et les formations ne s'affichent pas dans cet ordre.",
-    "ville": "Ville",
-    "type": "Type",
     "autres": "Autres options",
-    "mesPublications": "Mes publications",
-    "publicationsEnregistrees": "Publications enregistrées",
+    "publicationsEnregistrees": "Publications en favoris",
     "copierLaRecherche": "Copier le lien de cette recherche",
     "reinitialiserLesFiltres": "Réinitialiser les filtres",
-    "toutesLesVilles": "Toutes les villes",
-    "miennesExplique": "Les publications que vous avez écrites, de la plus récente à la plus ancienne."
+    "enregistresExplique": "Les publications que vous avez mises en favoris, de la plus récente à la plus ancienne. Les domaines et la recherche s’y appliquent."
   },
   "recherche": {
     "libelle": "Rechercher dans le fil",
@@ -93,13 +47,12 @@
   },
   "domaines": {
     "libelle": "Domaines",
-    "expertise": "Domaines d'expertise",
+    "expertise": "Domaines d’expertise",
     "tous": "Tous",
     "tousLesDomaines": "Tous les domaines",
     "plus": "Plus",
     "effacer": "Tout décocher",
-    "chercher": "Chercher un domaine",
-    "seulementLesPublications": "Les offres d'emploi et les formations ne sont pas rangées par domaine : seules les publications s'affichent."
+    "chercher": "Chercher un domaine"
   },
   "rubriques": {
     "pour": "Résultats pour « {{recherche}} »"
@@ -113,88 +66,25 @@
   "auteur": {
     "inconnu": "Un membre"
   },
-  "composer": {
-    "invite": "Partagez un conseil, une actualité, une réussite…",
-    "publier": "Publier",
-    "titrePublier": "Publier sur le fil",
-    "descriptionPublier": "Publiez-la tout de suite, ou enregistrez-la en brouillon pour la reprendre plus tard.",
-    "titreBrouillon": "Continuer le brouillon",
-    "descriptionBrouillon": "Vous seul le voyez. Il paraîtra sur le fil quand vous le publierez.",
-    "champTitre": "Titre",
-    "hintTitre": "{{max}} caractères au plus. Il s'affiche en gros sur le fil ; sans titre, la première phrase en tient lieu.",
-    "placeholderTitre": "Ce que le lecteur doit retenir",
-    "champTexte": "Texte",
-    "hintTexte_one": "{{count}} mot.",
-    "hintTexte_other": "{{count}} mots.",
-    "champDomaines": "Domaines",
-    "hintDomaines": "De 1 à {{max}}. Votre publication apparaît quand un lecteur choisit l'un d'eux.",
-    "champSujets": "Sujets",
-    "hintSujets": "Entrée pour ajouter. Reprendre un sujet déjà suivi aide les lecteurs à vous trouver.",
-    "placeholderSujets": "Ex. droit du travail",
-    "annuler": "Annuler",
-    "enregistrerLeBrouillon": "Enregistrer le brouillon",
-    "envoi": "Envoi…",
-    "publiee": "Publication en ligne.",
-    "brouillonEnregistre": "Brouillon enregistré.",
-    "erreurs": {
-      "texteRequis": "Une publication a besoin d'un texte.",
-      "tropDeSujets": "{{max}} sujets au plus.",
-      "sujetTropLong": "{{max}} caractères au plus par sujet.",
-      "titreTropLong": "{{max}} caractères au plus pour le titre.",
-      "brouillonVide": "Écrivez un titre ou quelques mots avant d'enregistrer le brouillon.",
-      "tropDeDomaines": "{{max}} domaines au plus.",
-      "domaineRequis": "Choisissez au moins un domaine.",
-      "envoiEchoue": "L'envoi n'a pas abouti."
-    }
-  },
-  "aFaire": {
-    "titre": "À faire",
-    "description": "Voici ce qui attend un geste de votre part.",
-    "plusTard": "Plus tard",
-    "paiementsAReprendre": {
-      "texte_one": "Reprenez 1 paiement de rendez-vous qui n'a pas abouti",
-      "texte_other": "Reprenez {{count}} paiements de rendez-vous qui n'ont pas abouti",
-      "aide_one": "Votre demande n'est envoyée au consultant qu'une fois payée.",
-      "aide_other": "Vos demandes ne sont envoyées aux consultants qu'une fois payées."
-    },
-    "reportsATrancher": {
-      "texte_one": "Répondez au changement de date proposé pour 1 rendez-vous",
-      "texte_other": "Répondez aux changements de date proposés pour {{count}} rendez-vous",
-      "aide_one": "Le consultant propose une autre date : acceptez-la ou refusez-la. D'ici là, le rendez-vous reste en attente.",
-      "aide_other": "Les consultants proposent d'autres dates : acceptez-les ou refusez-les. D'ici là, ces rendez-vous restent en attente."
-    },
-    "propositionsAExaminer": {
-      "texte_one": "Acceptez ou refusez 1 proposition de prestation",
-      "texte_other": "Acceptez ou refusez {{count}} propositions de prestation",
-      "aide_one": "Sans réponse, elle expire 7 jours après son envoi.",
-      "aide_other": "Sans réponse, chacune expire 7 jours après son envoi."
-    },
-    "rapportsAValider": {
-      "texte_one": "Validez 1 rapport reçu",
-      "texte_other": "Validez {{count}} rapports reçus",
-      "aide_one": "Sans réponse, il est validé automatiquement après 2 jours.",
-      "aide_other": "Sans réponse, chacun est validé automatiquement après 2 jours."
-    }
-  },
   "actions": {
-    "jaime": "J'aime",
+    "jaime": "J’aime",
     "voirPlus": "Voir plus",
-    "nePlusAimer": "Je n'aime plus",
+    "nePlusAimer": "Je n’aime plus",
     "commentaires_zero": "Commenter",
     "commentaires_one": "{{nombre}} commentaire",
     "commentaires_other": "{{nombre}} commentaires",
     "partager": "Partager",
     "enregistrer": "Enregistrer",
     "enregistree": "Enregistrée",
-    "retirerDesEnregistres": "Retirer des enregistrés",
+    "retirerDesEnregistres": "Retirer des favoris",
     "copierLeLien": "Copier le lien",
     "lienCopie": "Lien copié",
     "signaler": "Signaler",
-    "menu": "Plus d'options",
-    "ajouteeAuxEnregistres": "Ajoutée à vos enregistrés",
-    "retireeDesEnregistres": "Retirée de vos enregistrés",
-    "echecEnregistrement": "Impossible de l'enregistrer pour l'instant.",
-    "echecJaime": "Votre « J'aime » n'a pas été enregistré.",
+    "menu": "Plus d’options",
+    "ajouteeAuxEnregistres": "Ajoutée à vos favoris",
+    "retireeDesEnregistres": "Retirée de vos favoris",
+    "echecEnregistrement": "Impossible de l’enregistrer pour l’instant.",
+    "echecJaime": "Votre « J’aime » n’a pas été enregistré.",
     "lectures_one": "{{nombre}} lecture",
     "lectures_other": "{{nombre}} lectures",
     "commenter": "Commenter",
@@ -212,94 +102,65 @@
       "horsSujet": "Hors sujet"
     },
     "precision": "Précision (facultatif)",
-    "precisionAide": "Lue par le seul modérateur : ni l'auteur signalé ni le public n'y ont accès.",
+    "precisionAide": "Lue par le seul modérateur : ni l’auteur signalé ni le public n’y ont accès.",
     "annuler": "Annuler",
     "envoye": "Signalement transmis.",
     "dejaSignale": "Vous aviez déjà signalé ce contenu.",
-    "erreur": "Le signalement n'a pas abouti."
+    "erreur": "Le signalement n’a pas abouti.",
+    "titreCommentaire": "Signaler ce commentaire"
   },
   "lecture": {
     "sujets": "Sujets"
   },
-  "offre": {
-    "clotureLe": "Clôture le {{date}}",
-    "voir": "Voir l'offre",
-    "negociable": "Négociable",
-    "postuler": "Postuler",
-    "poste": "Le poste",
-    "message": "Message au recruteur",
-    "messageAide": "(facultatif)",
-    "messagePlaceholder": "Présentez-vous en quelques lignes…",
-    "candidatureEnvoyee": "Candidature envoyée",
-    "candidatureEnvoyeeBadge": "Candidature envoyée",
-    "envoyeeLe": "Envoyée le {{date}}",
-    "retirerCandidature": "Retirer ma candidature",
-    "candidatureRetiree": "Candidature retirée",
-    "cloturee": "Cette offre est clôturée : il n’est plus possible de postuler.",
-    "erreurs": {
-      "envoi": "La candidature n’a pas pu être enregistrée. Réessayez.",
-      "messageTropLong": "Le message compte au plus {{max}} caractères."
-    }
-  },
-  "contrats": {
-    "Cdi": "CDI",
-    "Cdd": "CDD",
-    "Stage": "Stage",
-    "Alternance": "Alternance",
-    "Mission": "Mission",
-    "Freelance": "Freelance"
-  },
-  "modes": {
-    "SurSite": "Sur site",
-    "Hybride": "Hybride",
-    "ADistance": "À distance"
-  },
-  "formation": {
-    "voir": "Voir la formation",
-    "prixParAn": "{{prix}} / an",
-    "duree_one": "{{count}} mois",
-    "duree_other": "{{count}} mois"
-  },
   "nature": {
-    "publication": "Publication",
-    "offre": "Offre d'emploi",
-    "formation": "Formation",
-    "actualite": "Actualité"
+    "publication": "Publication"
   },
   "vide": {
-    "titre": "Rien à lire pour l'instant",
-    "detail": "Les publications, les offres d'emploi et les formations apparaîtront ici dès qu'elles seront en ligne.",
-    "filtre": "Essayez d'autres mots, ou retirez un domaine.",
-    "enregistresTitre": "Aucune publication enregistrée",
-    "enregistresDetail": "Touchez l'icône d'enregistrement d'une publication pour la retrouver ici.",
+    "titre": "Rien à lire pour l’instant",
+    "detail": "Les publications apparaîtront ici dès qu’elles seront en ligne.",
+    "filtre": "Essayez d’autres mots, ou retirez un domaine.",
+    "enregistresTitre": "Aucune publication dans vos favoris",
+    "enregistresDetail": "Touchez « Enregistrer » sur une publication pour la retrouver ici.",
     "toutVoir": "Tout voir",
     "rechercheTitre": "Rien ne correspond à « {{recherche}} »"
   },
   "voirPlus": "Voir plus",
   "fin": "Vous êtes à jour",
   "bientot": "Bientôt disponible",
-  "actualite": {
-    "vues_one": "{{nombre}} vue",
-    "vues_other": "{{nombre}} vues",
-    "partages_one": "{{nombre}} partage",
-    "partages_other": "{{nombre}} partages",
-    "voir": "Voir l’établissement"
-  },
   "commentaires": {
-    "titre_one": "{{count}} commentaire",
-    "titre_other": "{{count}} commentaires",
     "aucun": "Aucun commentaire pour le moment : soyez le premier.",
-    "champ": "Votre commentaire",
     "placeholder": "Écrire un commentaire…",
     "envoyer": "Publier le commentaire",
     "publie": "Commentaire publié",
-    "supprimer": "Supprimer mon commentaire",
     "supprime": "Commentaire supprimé",
     "erreurs": {
       "vide": "Écrivez votre commentaire.",
       "tropLong": "Le commentaire compte au plus {{max}} caractères.",
       "envoi": "Le commentaire n’a pas pu être publié. Réessayez.",
       "suppression": "Le commentaire n’a pas pu être supprimé. Réessayez."
+    },
+    "enSonNomPropre": "Vous commentez en votre nom personnel.",
+    "voirPlus": "Voir plus de commentaires",
+    "modifie": "Commentaire modifié",
+    "reponsePubliee": "Réponse publiée",
+    "supprimeTexte": "Ce commentaire a été supprimé.",
+    "enregistrer": "Enregistrer",
+    "options": "Options du commentaire",
+    "modifier": "Modifier",
+    "supprimerCourt": "Supprimer",
+    "repondre": "Répondre",
+    "repondreA": "Répondre à {{nom}}…",
+    "modifieCourt": "Modifié",
+    "modifieLe": "modifié le {{date}}",
+    "confirmerSuppression": "Supprimer le commentaire ?",
+    "confirmerSuppressionDetail": "Il disparaît de la publication. Les réponses des autres restent visibles.",
+    "reste": "{{reste}} caractères restants.",
+    "echapPour": "Appuyez sur Échap pour",
+    "annulerMinuscule": "annuler",
+    "notification": {
+      "titre": "Nouvelle réponse",
+      "texte": "{{nom}} a répondu à votre commentaire.",
+      "quand": "À l’instant"
     }
   },
   "suppression": {
@@ -310,5 +171,28 @@
     "faite": "Publication supprimée",
     "echec": "La publication n’a pas pu être supprimée. Réessayez.",
     "menu": "Supprimer la publication"
+  },
+  "article": {
+    "fil": "Fil d’actualité",
+    "titrePage": "Publication",
+    "lecture_one": "{{count}} min de lecture",
+    "lecture_other": "{{count}} min de lecture",
+    "commentaires_one": "Commentaire ({{count}})",
+    "commentaires_other": "Commentaires ({{count}})",
+    "partager": "Partager",
+    "copierLeLien": "Copier le lien",
+    "lienCopie": "Lien copié",
+    "similaires": "Publications similaires",
+    "copieEchouee": "Le lien n’a pas pu être copié.",
+    "voirLAuteur": "Voir le profil de {{nom}}"
+  },
+  "introuvable": {
+    "titre": "Cette publication n’est pas accessible",
+    "detail": "Elle a été retirée du fil, ou l’adresse ne correspond à rien.",
+    "action": "Voir le fil"
+  },
+  "tris": {
+    "recentes": "Les plus récentes",
+    "lues": "Les plus lues"
   }
 }

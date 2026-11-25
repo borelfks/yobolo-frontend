@@ -63,7 +63,7 @@ const TYPES: TypeEcole[] = ['IPES', 'CFP', 'Auto-école', 'Autre']
 export function patchEtablissement(valeurs: Valeurs, agrementActuel?: Etablissement['agrement']): Partial<Etablissement> {
   const patch: Partial<Etablissement> = {}
   const s = (cle: string) => (typeof valeurs[cle] === 'string' ? (valeurs[cle] as string) : undefined)
-  const champs = ['nom', 'sigle', 'description', 'region', 'ville', 'quartier', 'telephone', 'email', 'anneeCreation', 'lieuDit', 'adresse'] as const
+  const champs = ['nom', 'sigle', 'description', 'region', 'departement', 'arrondissement', 'ville', 'quartier', 'telephone', 'email', 'anneeCreation', 'lieuDit', 'adresse'] as const
   for (const champ of champs) {
     const v = s(champ)
     if (v !== undefined) patch[champ] = v

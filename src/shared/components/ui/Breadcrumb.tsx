@@ -10,7 +10,7 @@ export function Breadcrumb({ items, className, light }: { items: Crumb[]; classN
   const { t } = useTranslation()
   return (
     <nav aria-label={t('breadcrumb.label')} className={cn('flex flex-wrap items-center gap-1.5 text-sm', light ? 'text-white/80' : 'text-muted', className)}>
-      <Link to={ROUTES.home} aria-label={t('breadcrumb.home')} className="hover:text-brand-600">
+      <Link to={ROUTES.home} aria-label={t('breadcrumb.home')} className="-m-2 grid place-items-center rounded-lg p-2 hover:text-brand-600">
         <Home className="size-4" />
       </Link>
       {items.map((c, i) => (

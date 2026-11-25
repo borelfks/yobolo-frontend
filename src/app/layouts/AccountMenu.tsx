@@ -1,12 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { Bell, CalendarCheck, CheckCircle2, ChevronDown, Database, FileCheck2, FileText, Heart, LayoutDashboard, LogOut, MessageSquare, Repeat, Star, UserRound, type LucideIcon } from 'lucide-react'
+import { Bell, CalendarCheck, CheckCircle2, ChevronDown, FileCheck2, FileText, Heart, LayoutDashboard, LogOut, MessageSquare, Settings, Star, UserRound, type LucideIcon } from 'lucide-react'
 import { Avatar } from '@/shared/components/ui/Avatar'
-import { TestDataDialog } from '@/app/layouts/TestDataDialog'
 import { useSession } from '@/features/auth/hooks/useSession'
 import { POUR_TOUS, data, useCollectionWhenReady } from '@/data'
-import { slugOfType } from '@/features/schools/schoolTypes'
 import { cn } from '@/shared/utils/cn'
 import { ROUTES } from '@/shared/utils/routes'
 
@@ -66,11 +64,11 @@ export function NotificationsBell({ light, href }: { light?: boolean; href?: str
         {count > 0 && <span className="absolute top-1 right-1 grid size-4 place-items-center rounded-full bg-rose-500 text-[10px] font-bold text-white">{count}</span>}
       </button>
       {open && (
-        <div className="absolute right-0 z-40 mt-2 w-80 max-w-[calc(100vw-2rem)] rounded-2xl border border-line bg-white p-2 shadow-xl">
+        <div className="absolute right-0 z-40 mt-2 w-80 max-w-[calc(100vw-2rem)] rounded-2xl border border-line bg-white p-2 shadow-xl max-sm:fixed max-sm:inset-x-3 max-sm:top-[72px] max-sm:right-3 max-sm:mt-0 max-sm:w-auto max-sm:max-w-none">
           <div className="flex items-center justify-between px-3 py-2">
             <p className="text-sm font-bold text-navy-900">{t('notifications.title')}</p>
             {count > 0 && (
-              <button type="button" onClick={() => void lire(items.filter((n) => !n.lu).map((n) => n.id))} className="text-xs font-semibold text-brand-600 hover:underline">
+              <button type="button" onClick={() => void lire(items.filter((n) => !n.lu).map((n) => n.id))} className="inline-flex min-h-9 items-center rounded-lg px-2 text-xs font-semibold text-brand-600 hover:bg-brand-50">
                 {t('notifications.markAllRead')}
               </button>
             )}
@@ -105,30 +103,12 @@ export function NotificationsBell({ light, href }: { light?: boolean; href?: str
   )
 }
 
-export function UserMenu({ withTestData = false }: { withTestData?: boolean }) {
+export function UserMenu() {
   const { t } = useTranslation('layout')
   const { account, signOut } = useSession()
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
-  const [testData, setTestData] = useState(false)
   const ref = useOutside(() => setOpen(false))
-  // « Donner un avis » : sur le dernier établissement ou la dernière auto-école où le compte s'est inscrit.
-  const preinscriptions = useCollectionWhenReady('preinscriptions')
-  const inscriptions = useCollectionWhenReady('inscriptionsAutoEcole')
-  const etablissements = useCollectionWhenReady('etablissements')
-  const dernieres = [
-    ...preinscriptions
-      .filter((p) => account && p.compteId === account.id)
-      .map((p) => {
-        const e = etablissements.find((x) => x.id === p.etablissementId)
-        const slug = e ? slugOfType(e.type) : 'auto-ecoles'
-        return { le: p.envoyeeLe, to: e && slug !== 'auto-ecoles' ? ROUTES.schoolReview(slug, e.id) : null }
-      }),
-    ...inscriptions.filter((i) => account && i.compteId === account.id).map((i) => ({ le: i.envoyeeLe, to: ROUTES.drivingSchoolReview(i.autoEcoleId) })),
-  ]
-    .filter((x) => x.to)
-    .sort((a, b) => b.le.localeCompare(a.le))
-  const avisVers = dernieres[0]?.to ?? null
   if (!account) return null
   const close = () => setOpen(false)
   const item = 'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-navy-900 hover:bg-brand-50 [&_svg]:size-4 [&_svg]:text-brand-600'
@@ -137,8 +117,8 @@ export function UserMenu({ withTestData = false }: { withTestData?: boolean }) {
       <button type="button" onClick={() => setOpen(!open)} className="flex items-center gap-2.5 rounded-full py-1 pr-2 pl-1 hover:bg-brand-50">
         <Avatar src={account.avatar} name={account.name} size={40} />
         <span className="hidden text-left leading-tight sm:block">
-          <span className="block text-sm font-bold text-navy-900">{account.name}</span>
-          <span className="block text-xs text-muted">{t(`demoAccounts.${account.role}.subtitle`)}</span>
+          <span className="block max-w-[10rem] truncate text-sm font-bold whitespace-nowrap text-navy-900">{account.name}</span>
+          <span className="block text-xs text-muted">{t(`roles.${account.role}`)}</span>
         </span>
         <ChevronDown className="size-4 text-muted" />
       </button>
@@ -151,38 +131,26 @@ export function UserMenu({ withTestData = false }: { withTestData?: boolean }) {
             </Link>
           )}
           {account.role === 'utilisateur' && (
-            <Link to={ROUTES.espace()} onClick={close} className={item}>
-              <UserRound />
-              {t('userMenu.mySpace')}
-            </Link>
+            <>
+              <Link to={ROUTES.espace()} onClick={close} className={item}>
+                <LayoutDashboard />
+                {t('userMenu.mySpace')}
+              </Link>
+              <Link to={ROUTES.profil} onClick={close} className={item}>
+                <UserRound />
+                {t('userMenu.profile')}
+              </Link>
+            </>
           )}
           <Link to={ROUTES.favorites} onClick={close} className={item}>
             <Heart />
             {t('userMenu.favorites')}
           </Link>
-          {account.role === 'utilisateur' && avisVers && (
-            <Link to={avisVers} onClick={close} className={item}>
-              <Star />
-              {t('userMenu.review')}
-            </Link>
-          )}
-          {withTestData && (
-            <button
-              type="button"
-              onClick={() => {
-                close()
-                setTestData(true)
-              }}
-              className={cn(item, 'w-full')}
-            >
-              <Database />
-              {t('testData.menu')}
-            </button>
-          )}
-          <Link to={ROUTES.signIn} onClick={close} className={item}>
-            <Repeat />
-            {t('userMenu.switchAccount')}
+          <Link to={account.role === 'utilisateur' ? ROUTES.parametres() : ROUTES.pro.settings()} onClick={close} className={item}>
+            <Settings />
+            {t('userMenu.settings')}
           </Link>
+          <div className="my-1 border-t border-line" />
           <button
             type="button"
             onClick={() => {
@@ -197,7 +165,6 @@ export function UserMenu({ withTestData = false }: { withTestData?: boolean }) {
           </button>
         </div>
       )}
-      {withTestData && <TestDataDialog open={testData} onClose={() => setTestData(false)} />}
     </div>
   )
 }

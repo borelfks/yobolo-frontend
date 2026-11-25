@@ -21,7 +21,8 @@ export function FormationsTab({ id }: { id: string }) {
   const [sel, setSel] = useState<string[]>([])
   const [types, setTypes] = useState<string[]>([])
   const codes = (['A', 'B', 'C', 'D', 'E'] as PermisCode[]).filter((c) => a.permis.includes(c))
-  const list = codes.filter((c) => sel.length === 0 || sel.includes(c))
+  // Chaque permis est une formation initiale : « Renforcement / Recyclage » seul n'en montre aucun.
+  const list = codes.filter((c) => (sel.length === 0 || sel.includes(c)) && (types.length === 0 || types.includes('initial')))
   return (
     <div className="grid gap-4 lg:grid-cols-[254px_1fr_316px]">
       <FilterBox
@@ -45,6 +46,7 @@ export function FormationsTab({ id }: { id: string }) {
           <Heading icon={<GraduationCap />}>{t('profile.trainings.title')}</Heading>
           <span className="text-[13px] text-navy-900">{t('profile.trainings.count', { count: list.length })}</span>
         </div>
+        {list.length === 0 && <p className="rounded-xl bg-page px-4 py-6 text-center text-sm text-muted">{t('profile.filters.aucuneFormation')}</p>}
         {list.map((c) => {
           const p = permisCatalogue[c]
           return (

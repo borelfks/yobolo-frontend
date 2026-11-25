@@ -9,7 +9,8 @@
     "filtres": {
       "tous": "Tous les favoris",
       "formation": "Formations",
-      "etablissement": "Établissements"
+      "etablissement": "Établissements",
+      "publication": "Publications"
     },
     "astuce": {
       "titre": "Astuce",
@@ -57,6 +58,9 @@
       "D": "≈ 2 à 3 mois",
       "E": "≈ 1 mois"
     },
-    "retirer": "Retirer des favoris"
+    "retirer": "Retirer des favoris",
+    "publication": "Publication",
+    "lire": "Lire",
+    "publicationRetiree": "Retirée de vos favoris"
   }
 }

@@ -49,21 +49,26 @@ export function PublicLayout() {
                 {t(l.labelKey)}
               </NavLink>
             ))}
+            {!account && (
+              <Button to={ROUTES.signUp} onClick={() => setOpen(false)} className="mt-1 sm:hidden">
+                {t('account.signUp')}
+              </Button>
+            )}
           </nav>
           <div className="ml-auto flex items-center gap-1 sm:gap-2 lg:ml-0">
-            <LanguageSwitcher />
+            <LanguageSwitcher menuSousEntete />
             {account ? (
               <>
-                <NotificationsBell href={account?.role === 'utilisateur' ? ROUTES.espace('notifications') : undefined} />
+                <NotificationsBell href={account?.role === 'utilisateur' ? ROUTES.notifications : undefined} />
                 <span className="hidden h-8 w-px bg-line sm:block" />
-                <UserMenu withTestData />
+                <UserMenu />
               </>
             ) : (
               <>
                 <Button to={ROUTES.signIn} variant="ghost" size="sm">
                   {t('account.signIn')}
                 </Button>
-                <Button to={ROUTES.signUp} size="sm">
+                <Button to={ROUTES.signUp} size="sm" className="max-sm:hidden">
                   {t('account.signUp')}
                 </Button>
               </>

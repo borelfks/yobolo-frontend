@@ -14,10 +14,7 @@
     "apercu": "Overview",
     "preinscriptions": "My pre-registrations ({{n}})",
     "autoEcole": "My licences ({{n}})",
-    "avis": "My reviews ({{n}})",
-    "notifications": "Notifications ({{n}})",
-    "profil": "My profile",
-    "parametres": "Settings"
+    "avis": "My reviews ({{n}})"
   },
   "statuts": {
     "Envoyée": "Sent",
@@ -126,21 +123,35 @@
     "erreurs": {
       "court": "The comment has at least 10 characters.",
       "echec": "The review could not be saved. Please try again."
+    },
+    "aEvaluer": {
+      "titre": "To review",
+      "texte": "You sent an application to these institutions: your review helps other candidates.",
+      "donner": "Give my review"
     }
   },
   "notifications": {
-    "titre": "My notifications",
+    "titre": "Notifications",
     "toutLire": "Mark all as read",
     "toutesLues": "All your notifications are read",
     "aucune": "No notifications yet.",
-    "nonLue": "Unread",
     "marquerLue": "Mark as read",
     "supprimer": "Delete",
     "supprimee": "Notification deleted",
     "filtres": {
-      "toutes": "All ({{n}})",
-      "nonLues": "Unread ({{n}})"
-    }
+      "toutes": "All",
+      "nonLues": "Unread"
+    },
+    "preferences": "Notification settings",
+    "marquerNonLue": "Mark as unread",
+    "groupes": {
+      "nouvelles": "New",
+      "plusTot": "Earlier"
+    },
+    "options": "Notification options",
+    "actions": "Notification actions",
+    "aucuneNonLue": "No unread notifications.",
+    "nonLue": "Unread"
   },
   "profil": {
     "titre": "My profile",
@@ -150,31 +161,36 @@
     "retirerPhoto": "Remove photo",
     "photoAide": "JPG or PNG, 2 MB maximum.",
     "civilite": "Title",
-    "civilites": {
-      "Monsieur": "Mr",
-      "Madame": "Mrs"
-    },
-    "nom": "Full name",
+    "nom": "Surname",
     "naissance": "Date of birth",
     "telephone": "Phone",
     "email": "Email",
-    "emailAide": "This is also your sign-in username.",
+    "emailAide": "Optional. With an email, you sign in with it; otherwise, with your phone.",
     "residence": "Residence",
-    "region": "Region",
-    "ville": "City",
-    "quartier": "Neighbourhood",
     "choisir": "Choose",
     "enregistrer": "Save",
     "enregistre": "Profile updated",
     "erreurs": {
-      "nom": "Enter your name (at least 2 characters).",
-      "telephone": "Enter a valid phone number (at least 9 digits).",
+      "nom": "Surname is required.",
+      "telephone": "The number has 9 digits, without a leading 0.",
       "email": "Enter a valid email address.",
       "emailPris": "This email address is already used by another account.",
       "photoType": "Choose an image (JPG or PNG).",
       "photoTaille": "Image too large: 2 MB maximum.",
       "photoLecture": "The image could not be read.",
-      "enregistrement": "The profile could not be saved. Please try again."
+      "enregistrement": "The profile could not be saved. Please try again.",
+      "prenom": "First name is required.",
+      "telephonePris": "This number is already used by another account."
+    },
+    "prenom": "First name",
+    "nationalite": "Nationality",
+    "whatsapp": "This number is also my WhatsApp number",
+    "photoMiseAJour": "Photo updated",
+    "photoRetiree": "Photo removed",
+    "telephoneAide": "A new number is confirmed with a code sent by text message.",
+    "code": {
+      "titre": "Confirm your new number",
+      "bouton": "Confirm and save"
     }
   },
   "parametres": {
@@ -213,6 +229,47 @@
       "confirmer": "Delete permanently",
       "faite": "Your account has been deleted",
       "faux": "Incorrect password."
+    },
+    "notifications": {
+      "titre": "Notifications",
+      "texte": "Choose, for each topic, how YIBOLO lets you know.",
+      "sujet": "Topic",
+      "canaux": {
+        "app": "App",
+        "sms": "Text",
+        "email": "Email"
+      },
+      "sujets": {
+        "preRegistration": {
+          "titre": "My pre-registrations",
+          "texte": "Application sent, received or processed by the institution."
+        },
+        "session": {
+          "titre": "My licences",
+          "texte": "Driving school enrolment, confirmed session."
+        },
+        "review": {
+          "titre": "Replies to my reviews",
+          "texte": "An institution replies to your review."
+        },
+        "message": {
+          "titre": "Replies to my comments",
+          "texte": "Someone replies to your comment on a post."
+        },
+        "info": {
+          "titre": "YIBOLO news",
+          "texte": "New features and important information."
+        }
+      },
+      "smsA": "Text messages are sent to {{numero}}.",
+      "emailA": "Emails are sent to {{email}}.",
+      "sansEmail": "Add an email in “My profile” to receive notifications by email.",
+      "enregistrees": "Preferences saved",
+      "echec": "Your preferences could not be saved. Try again."
     }
+  },
+  "pages": {
+    "profil": "My profile",
+    "parametres": "Settings"
   }
 }

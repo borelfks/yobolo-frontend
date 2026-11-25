@@ -99,7 +99,7 @@ export function AutoEcoles() {
           e.preventDefault()
           setQ(String(new FormData(e.currentTarget).get('q') ?? ''))
         }}
-        className={cn(card, 'grid gap-3 p-3 md:flex md:items-center')}
+        className={cn(card, 'grid gap-3 p-3 sm:grid-cols-2 lg:flex lg:items-center')}
       >
         <label className="relative flex-[1.4]">
           <Search className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-navy-900" />
@@ -140,7 +140,7 @@ export function AutoEcoles() {
                       onChange={(e) => setPermis(e.target.checked ? [...permis, p.code] : permis.filter((x) => x !== p.code))}
                       className="size-[18px] accent-brand-600"
                     />
-                    <Icon className="size-5 text-navy-800" />
+                    <Icon className="size-5 shrink-0 text-navy-800" />
                     {t('common.licenceTitle', { code: p.code, name: t(`permis.${p.code}.name`) })}
                   </label>
                 )

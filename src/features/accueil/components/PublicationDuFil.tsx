@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { toast } from 'sonner'
 import { data } from '@/data'
-import { useCommentaires } from '@/data/hooks'
 import { CLASSES_GESTE, titreEtExtrait } from '@/features/accueil/accueilFil'
 import { ConfirmerSuppression } from '@/features/accueil/components/ConfirmerSuppression'
 import {
@@ -24,12 +23,12 @@ import {
 } from '@/features/accueil/components/ElementsDuFil'
 import { ModaleSignalement } from '@/features/accueil/components/ModaleSignalement'
 import { useAuteur } from '@/features/accueil/hooks/useAuteur'
+import { useNombreDeCommentaires, useVues } from '@/features/accueil/hooks/useCompteursPublication'
 import { useEnregistrement } from '@/features/accueil/hooks/useEnregistrement'
 import { useJaime } from '@/features/accueil/hooks/useJaime'
 import { usePartage } from '@/features/accueil/hooks/usePartage'
-import { usePublicationOuverte } from '@/features/accueil/hooks/usePublicationOuverte'
 import { useSession } from '@/features/auth/hooks/useSession'
-import { Img } from '@/shared/components/ui/Img'
+import { VisuelPublication } from '@/features/accueil/components/article/VisuelPublication'
 import type { Publication } from '@/shared/types'
 import { num } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
@@ -46,9 +45,8 @@ function Chiffre({ icone, nombre, libelle }: { icone: ReactNode; nombre: number;
 
 /**
  * Une publication du fil (PublicationDuFil de yibolo-client). Le titre, le
- * visuel et « Voir plus » ouvrent la publication en lecture sur l'accueil
- * (il n'y a pas de page « publication » dans ce projet) ; « Commenter » l'ouvre
- * sur le champ de commentaire. L'auteur peut supprimer sa publication.
+ * visuel et « Voir plus » ouvrent sa page (`/accueil/publications/:id`) ;
+ * « Commenter » l'ouvre sur ses commentaires.
  */
 export function PublicationDuFil({ publication }: { publication: Publication }) {
   const { t } = useTranslation('accueil')
@@ -57,11 +55,11 @@ export function PublicationDuFil({ publication }: { publication: Publication }) 
   const jaime = useJaime(publication)
   const enregistrement = useEnregistrement(publication)
   const { partager, copierLeLien } = usePartage()
-  const { versLaLecture, compterUneLecture } = usePublicationOuverte()
   const [signalement, setSignalement] = useState(false)
   const [suppression, setSuppression] = useState(false)
   const { account } = useSession()
-  const commentaires = publication.commentaires + useCommentaires(publication.id).length
+  const commentaires = useNombreDeCommentaires(publication)
+  const vues = useVues(publication)
   const mienne = publication.auteurType === 'compte' && publication.auteurId === account?.id
 
   const supprimer = async () => {
@@ -78,9 +76,9 @@ export function PublicationDuFil({ publication }: { publication: Publication }) 
     }
   }
 
-  const vers = versLaLecture(publication.id)
-  const lien = ROUTES.accueilPublication(publication.id)
-  const ouvrir = () => compterUneLecture(publication)
+  // La publication s'ouvre sur sa page, qui compte la lecture (comme dans yibolo-client).
+  const vers = ROUTES.publication(publication.id)
+  const lien = vers
 
   return (
     <ArticleDuFil>
@@ -143,25 +141,32 @@ export function PublicationDuFil({ publication }: { publication: Publication }) 
       />
 
       <div className="flex flex-col gap-1">
-        <TitreDuFil vers={vers} onClick={ouvrir}>
+        <TitreDuFil vers={vers}>
           {titre}
         </TitreDuFil>
         {extrait && <ExtraitDuFil>{extrait}</ExtraitDuFil>}
       </div>
 
-      {publication.image && (
-        <VisuelDuFil vers={vers} onClick={ouvrir}>
-          <Img src={publication.image} alt="" className="aspect-[16/7] w-full" />
-        </VisuelDuFil>
-      )}
+      {/* Sans photo, l'icône du domaine sur sa teinte : les cartes gardent le même rythme. */}
+      <VisuelDuFil vers={vers}>
+        <VisuelPublication publication={publication} className="aspect-[16/7] w-full" />
+      </VisuelDuFil>
 
       <PiedDuFil>
         <ChiffresDuFil>
-          <Chiffre
-            icone={<Heart className="size-[0.8125rem] text-rose-600" fill="currentColor" aria-hidden="true" />}
-            nombre={jaime.nombre}
-            libelle={t('actions.jaimes', { count: jaime.nombre, nombre: num(jaime.nombre) })}
-          />
+          {/* Le cœur et son nombre : un vrai bouton « J'aime », sans ouvrir la publication. */}
+          <button
+            type="button"
+            aria-pressed={jaime.aime}
+            aria-label={jaime.aime ? t('actions.nePlusAimer') : t('actions.jaime')}
+            title={t('actions.jaimes', { count: jaime.nombre, nombre: num(jaime.nombre) })}
+            disabled={jaime.enCours}
+            onClick={() => void jaime.basculer()}
+            className="-mx-1.5 inline-flex min-h-8 items-center gap-1 rounded-md px-1.5 text-rose-600 transition-colors hover:bg-rose-50 focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none disabled:opacity-60"
+          >
+            <Heart className="size-[0.875rem] transition-transform active:scale-125 motion-reduce:transition-none" fill={jaime.aime ? 'currentColor' : 'none'} aria-hidden="true" />
+            <span className="text-muted">{num(jaime.nombre)}</span>
+          </button>
           <Chiffre
             icone={<MessageCircle className="size-[0.8125rem]" aria-hidden="true" />}
             nombre={commentaires}
@@ -169,10 +174,10 @@ export function PublicationDuFil({ publication }: { publication: Publication }) 
           />
           <Chiffre
             icone={<Eye className="size-[0.8125rem]" aria-hidden="true" />}
-            nombre={publication.lectures}
-            libelle={t('actions.lectures', { count: publication.lectures, nombre: num(publication.lectures) })}
+            nombre={vues.nombre}
+            libelle={t('actions.lectures', { count: vues.nombre, nombre: num(vues.nombre) })}
           />
-          <LienDuPied vers={vers} onClick={ouvrir}>
+          <LienDuPied vers={vers}>
             {t('actions.voirPlus')}
             <ArrowRight className="size-3.5" aria-hidden="true" />
           </LienDuPied>
@@ -188,7 +193,7 @@ export function PublicationDuFil({ publication }: { publication: Publication }) 
             disabled={jaime.enCours}
             onClick={() => void jaime.basculer()}
           />
-          <Link to={versLaLecture(publication.id, true)} onClick={ouvrir} className={`${CLASSES_GESTE} text-muted hover:text-ink`}>
+          <Link to={`${vers}#commentaires`} className={`${CLASSES_GESTE} text-muted hover:text-ink`}>
             <MessageCircle className="size-[0.8125rem] shrink-0" aria-hidden="true" />
             <span className="truncate">{t('actions.commenter')}</span>
           </Link>

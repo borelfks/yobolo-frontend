@@ -1,166 +1,187 @@
-import { useMemo, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { toast } from 'sonner'
-import { Camera, Save, Trash2, UserRound } from 'lucide-react'
+import { Save, UserRound } from 'lucide-react'
 import { data } from '@/data'
-import { useComptes, useQuartiers, useRegions, useVilles } from '@/data/hooks'
+import { useComptes, useDecoupage } from '@/data/hooks'
 import { useSession } from '@/features/auth/hooks/useSession'
-import { Field, Input, Select } from '@/shared/components/forms/Fields'
-import { Avatar } from '@/shared/components/ui/Avatar'
+import { chiffresDuNumero, formaterNumero, numeroValide } from '@/features/auth/authOtp'
+import { VerificationCode } from '@/features/auth/components/VerificationCode'
+import { PhotoDuCompte } from '@/features/espace/components/PhotoDuCompte'
+import { Checkbox, Field, Input, PhoneInput, Radio, Select } from '@/shared/components/forms/Fields'
+import { SelectionGeographique } from '@/shared/components/forms/SelectionGeographique'
 import { Button } from '@/shared/components/ui/Button'
 import { Section } from '@/shared/components/ui/Card'
-import { lireImage, TAILLE_MAX_PHOTO } from '@/shared/utils/fichiers'
+import { Modal } from '@/shared/components/ui/Modal'
+import type { Lieu } from '@/shared/types'
+import { villeDuLieu } from '@/shared/utils/geographie'
 import { normaliserIdentifiant } from '@/shared/utils/motDePasse'
-
-const CIVILITES = ['Monsieur', 'Madame'] as const
+import { CIVILITES, NATIONALITES } from '@/shared/utils/personne'
 
 /**
- * « Mon profil » : civilité, nom, date de naissance, téléphone, e-mail de
- * connexion, résidence et photo, enregistrés dans la table `comptes`. Ces
- * informations préremplissent les préinscriptions et les inscriptions.
+ * « Mon profil » : les informations demandées à l'inscription (comme dans
+ * yibolo-client) — civilité, prénom, nom, nationalité, résidence (région →
+ * département → arrondissement, quartier) —, plus la date de naissance, le
+ * téléphone (WhatsApp), l'e-mail et la photo. Enregistrés dans `comptes` ; ils
+ * préremplissent les préinscriptions et les inscriptions. La photo s'enregistre
+ * dès qu'elle est choisie ; un nouveau numéro est d'abord confirmé par un code.
  */
+type Valeurs = {
+  civilite: (typeof CIVILITES)[number]
+  prenom: string
+  nom: string
+  nationalite: string
+  naissance: string
+  telephone: string
+  whatsapp: boolean
+  email: string
+  region: string
+  departement: string
+  arrondissement: string
+  quartier: string
+}
+
 export function ProfilTab() {
   const { t } = useTranslation('espace')
+  const { t: tc } = useTranslation('common')
   const { account } = useSession()
   const comptes = useComptes()
-  const regions = useRegions()
-  const villes = useVilles()
-  const quartiers = useQuartiers()
-  const [photo, setPhoto] = useState(account?.avatar ?? '')
-  const choisir = useRef<HTMLInputElement>(null)
+  const { arrondissements } = useDecoupage()
+  // Les modifications en attente du code envoyé au nouveau numéro.
+  const [aConfirmer, setAConfirmer] = useState<Valeurs | null>(null)
 
   const schema = useMemo(
     () =>
       z.object({
-        civilite: z.enum(['', ...CIVILITES]),
-        nom: z.string().trim().min(2, t('profil.erreurs.nom')),
+        civilite: z.enum(CIVILITES),
+        prenom: z.string().trim().min(1, t('profil.erreurs.prenom')),
+        nom: z.string().trim().min(1, t('profil.erreurs.nom')),
+        nationalite: z.string(),
         naissance: z.string(),
-        telephone: z.string().trim().min(9, t('profil.erreurs.telephone')),
-        email: z.email(t('profil.erreurs.email')),
-        region: z.string(),
-        ville: z.string(),
-        quartier: z.string(),
+        telephone: z.string().refine(numeroValide, t('profil.erreurs.telephone')),
+        whatsapp: z.boolean(),
+        email: z.string().trim().refine((v) => v === '' || z.email().safeParse(v).success, t('profil.erreurs.email')),
+        region: z.string().min(1, tc('geographie.erreurs.region')),
+        departement: z.string().min(1, tc('geographie.erreurs.departement')),
+        arrondissement: z.string().min(1, tc('geographie.erreurs.arrondissement')),
+        quartier: z.string().trim().min(1, tc('geographie.erreurs.quartier')),
       }),
-    [t],
+    [t, tc],
   )
-  const { register, handleSubmit, formState, setError } = useForm({
+  // Un ancien compte n'a que « name » : le prénom et le nom s'en déduisent.
+  const [prenomDeduit = '', ...reste] = (account?.name ?? '').split(' ')
+  const { register, handleSubmit, formState, setError, watch, setValue } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
-      civilite: (account?.civilite ?? '') as '' | (typeof CIVILITES)[number],
-      nom: account?.name ?? '',
+      civilite: account?.civilite ?? 'Monsieur',
+      prenom: account?.prenom ?? prenomDeduit,
+      nom: account?.nom ?? reste.join(' '),
+      nationalite: account?.nationalite ?? '',
       naissance: account?.naissance ?? '',
-      telephone: account?.telephone ?? '',
-      email: account?.identifiant ?? '',
+      telephone: account ? chiffresDuNumero(account.telephone) : '',
+      whatsapp: account?.whatsapp ?? false,
+      email: account?.identifiant.includes('@') ? account.identifiant : '',
       region: account?.region ?? '',
-      ville: account?.ville ?? '',
+      departement: account?.departement ?? '',
+      arrondissement: account?.arrondissement ?? '',
       quartier: account?.quartier ?? '',
     },
   })
   if (!account) return null
 
-  const changerDePhoto = async (fichier?: File) => {
-    if (!fichier) return
-    if (!fichier.type.startsWith('image/')) return void toast.error(t('profil.erreurs.photoType'))
-    if (fichier.size > TAILLE_MAX_PHOTO) return void toast.error(t('profil.erreurs.photoTaille'))
-    try {
-      setPhoto(await lireImage(fichier))
-    } catch {
-      toast.error(t('profil.erreurs.photoLecture'))
-    }
+  const lieu: Lieu = { region: watch('region'), departement: watch('departement'), arrondissement: watch('arrondissement'), quartier: watch('quartier') }
+  const changerLieu = (l: Lieu) => {
+    for (const cle of ['region', 'departement', 'arrondissement', 'quartier'] as const) setValue(cle, l[cle], { shouldDirty: true, shouldValidate: formState.isSubmitted })
   }
 
-  const enregistrer = handleSubmit(async (v) => {
-    // L'e-mail est aussi l'identifiant de connexion : il reste unique.
-    if (comptes.some((c) => c.id !== account.id && normaliserIdentifiant(c.identifiant) === normaliserIdentifiant(v.email))) {
-      return setError('email', { message: t('profil.erreurs.emailPris') })
-    }
+  const sauver = async (v: Valeurs, telephoneVerifie?: boolean) => {
+    const telephone = formaterNumero(v.telephone)
     try {
       await data.update('comptes', account.id, {
-        civilite: v.civilite || undefined,
-        name: v.nom.trim(),
+        civilite: v.civilite,
+        prenom: v.prenom.trim(),
+        nom: v.nom.trim(),
+        name: `${v.prenom.trim()} ${v.nom.trim()}`,
+        nationalite: v.nationalite || undefined,
         naissance: v.naissance || undefined,
-        telephone: v.telephone.trim(),
-        identifiant: v.email.trim(),
-        region: v.region || undefined,
-        ville: v.ville || undefined,
-        quartier: v.quartier || undefined,
-        avatar: photo,
+        telephone,
+        ...(telephoneVerifie ? { telephoneVerifie } : {}),
+        whatsapp: v.whatsapp,
+        // L'e-mail (ou, sans e-mail, le téléphone) est l'identifiant de connexion.
+        identifiant: v.email.trim() || telephone,
+        region: v.region,
+        departement: v.departement,
+        arrondissement: v.arrondissement,
+        ville: villeDuLieu(v, arrondissements),
+        quartier: v.quartier.trim(),
       })
       toast.success(t('profil.enregistre'))
     } catch {
       toast.error(t('profil.erreurs.enregistrement'))
     }
+  }
+
+  const enregistrer = handleSubmit(async (v) => {
+    const autres = comptes.filter((c) => c.id !== account.id)
+    const identifiant = v.email.trim() || formaterNumero(v.telephone)
+    if (autres.some((c) => normaliserIdentifiant(c.identifiant) === normaliserIdentifiant(identifiant))) {
+      return setError('email', { message: t('profil.erreurs.emailPris') })
+    }
+    if (autres.some((c) => chiffresDuNumero(c.telephone) === chiffresDuNumero(v.telephone))) {
+      return setError('telephone', { message: t('profil.erreurs.telephonePris') })
+    }
+    // Un nouveau numéro : le code envoyé dessus le confirme avant l'enregistrement.
+    if (chiffresDuNumero(v.telephone) !== chiffresDuNumero(account.telephone)) return setAConfirmer(v)
+    await sauver(v)
   })
 
   const e = formState.errors
   return (
     <Section title={t('profil.titre')} subtitle={t('profil.texte')} icon={<UserRound />}>
       <form noValidate onSubmit={(ev) => void enregistrer(ev)} className="space-y-5">
-        <div className="flex flex-wrap items-center gap-4">
-          <Avatar src={photo || undefined} name={account.name} size={84} />
-          <div className="space-y-2">
-            <div className="flex flex-wrap gap-2">
-              <Button variant="outline" size="sm" onClick={() => choisir.current?.click()}>
-                <Camera aria-hidden="true" />
-                {t('profil.changerPhoto')}
-              </Button>
-              {photo && (
-                <Button variant="danger-outline" size="sm" onClick={() => setPhoto('')}>
-                  <Trash2 aria-hidden="true" />
-                  {t('profil.retirerPhoto')}
-                </Button>
-              )}
-            </div>
-            <p className="text-xs text-muted">{t('profil.photoAide')}</p>
-          </div>
-          <input
-            ref={choisir}
-            type="file"
-            accept="image/*"
-            className="sr-only"
-            aria-label={t('profil.changerPhoto')}
-            onChange={(ev) => {
-              void changerDePhoto(ev.target.files?.[0])
-              ev.target.value = ''
-            }}
-          />
-        </div>
+        <PhotoDuCompte compte={account} size={84} variante="profil" />
 
-        <div className="grid gap-4 md:grid-cols-[180px_1fr_200px]">
-          <Field label={t('profil.civilite')}>
-            <Select options={CIVILITES.map((c) => ({ value: c, label: t(`profil.civilites.${c}`) }))} placeholder={t('profil.choisir')} {...register('civilite')} />
+        <fieldset>
+          <legend className="mb-1.5 text-sm font-bold text-navy-900">{t('profil.civilite')}</legend>
+          <div className="flex flex-wrap gap-x-6 gap-y-2">
+            {CIVILITES.map((c) => (
+              <Radio key={c} value={c} label={tc(`personne.civilites.${c}`)} {...register('civilite')} />
+            ))}
+          </div>
+        </fieldset>
+        <div className="grid gap-4 md:grid-cols-2">
+          <Field label={t('profil.prenom')} required error={e.prenom?.message}>
+            <Input autoComplete="given-name" {...register('prenom')} />
           </Field>
           <Field label={t('profil.nom')} required error={e.nom?.message}>
-            <Input autoComplete="name" {...register('nom')} />
+            <Input autoComplete="family-name" {...register('nom')} />
+          </Field>
+          <Field label={t('profil.nationalite')}>
+            <Select options={NATIONALITES.map((n) => ({ value: n, label: tc(`personne.nationalites.${n}`) }))} placeholder={t('profil.choisir')} {...register('nationalite')} />
           </Field>
           <Field label={t('profil.naissance')}>
             <Input type="date" {...register('naissance')} />
           </Field>
-        </div>
-        <div className="grid gap-4 md:grid-cols-2">
-          <Field label={t('profil.telephone')} required error={e.telephone?.message}>
-            <Input type="tel" autoComplete="tel" {...register('telephone')} />
-          </Field>
-          <Field label={t('profil.email')} required hint={t('profil.emailAide')} error={e.email?.message}>
+          <div className="space-y-2">
+            <Field label={t('profil.telephone')} required hint={t('profil.telephoneAide')} error={e.telephone?.message}>
+              <PhoneInput autoComplete="tel" {...register('telephone')} />
+            </Field>
+            <Checkbox label={t('profil.whatsapp')} {...register('whatsapp')} />
+          </div>
+          <Field label={t('profil.email')} hint={t('profil.emailAide')} error={e.email?.message}>
             <Input type="email" autoComplete="email" {...register('email')} />
           </Field>
         </div>
         <fieldset className="space-y-2">
           <legend className="text-sm font-bold text-navy-900">{t('profil.residence')}</legend>
-          <div className="grid gap-4 md:grid-cols-3">
-            <Field label={t('profil.region')}>
-              <Select options={regions.map((r) => r.nom)} placeholder={t('profil.choisir')} {...register('region')} />
-            </Field>
-            <Field label={t('profil.ville')}>
-              <Select options={villes.map((v) => v.nom)} placeholder={t('profil.choisir')} {...register('ville')} />
-            </Field>
-            <Field label={t('profil.quartier')}>
-              <Select options={quartiers.map((q) => q.nom)} placeholder={t('profil.choisir')} {...register('quartier')} />
-            </Field>
-          </div>
+          <SelectionGeographique
+            valeur={lieu}
+            onChange={changerLieu}
+            erreurs={{ region: e.region?.message, departement: e.departement?.message, arrondissement: e.arrondissement?.message, quartier: e.quartier?.message }}
+          />
         </fieldset>
         <div className="flex justify-end">
           <Button type="submit" disabled={formState.isSubmitting}>
@@ -169,6 +190,18 @@ export function ProfilTab() {
           </Button>
         </div>
       </form>
+      <Modal open={!!aConfirmer} onClose={() => setAConfirmer(null)} title={t('profil.code.titre')}>
+        {aConfirmer && (
+          <VerificationCode
+            telephone={formaterNumero(aConfirmer.telephone)}
+            libelleBouton={t('profil.code.bouton')}
+            onVerifie={async () => {
+              await sauver(aConfirmer, true)
+              setAConfirmer(null)
+            }}
+          />
+        )}
+      </Modal>
     </Section>
   )
 }

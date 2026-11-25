@@ -35,3 +35,22 @@ export function normaliserIdentifiant(valeur: string) {
   if (v.includes('@')) return v
   return v.replace(/[\s.-]/g, '').replace(/^\+?237/, '')
 }
+
+/** Les quatre niveaux de solidité d'un mot de passe (libellés : common, `motDePasse.force.*`). */
+export const NIVEAUX_FORCE = ['faible', 'moyen', 'bon', 'excellent'] as const
+
+/**
+ * La solidité d'un mot de passe, de 0 (vide) à 4, comme dans yibolo-client :
+ * un point pour 8 caractères, un pour 12, un pour majuscules et minuscules,
+ * un pour un chiffre, un pour un caractère spécial (entre 1 et 4).
+ */
+export function forceDuMotDePasse(motDePasse: string) {
+  if (motDePasse.length === 0) return 0
+  let points = 0
+  if (motDePasse.length >= 8) points += 1
+  if (motDePasse.length >= 12) points += 1
+  if (/[a-z]/.test(motDePasse) && /[A-Z]/.test(motDePasse)) points += 1
+  if (/\d/.test(motDePasse)) points += 1
+  if (/[^A-Za-z0-9]/.test(motDePasse)) points += 1
+  return Math.max(1, Math.min(4, points))
+}

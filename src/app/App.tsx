@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 import { RouterProvider } from 'react-router'
 import { Toaster } from 'sonner'
+import { useTranslation } from 'react-i18next'
 import { ErrorBoundary } from '@/shared/components/errors/ErrorBoundary'
 import { PageLoader } from '@/shared/components/ui/PageLoader'
 import { router } from './routes'
@@ -10,6 +11,7 @@ import { router } from './routes'
  * et les messages éphémères.
  */
 export function App() {
+  const { t } = useTranslation('layout')
   return (
     <>
       <ErrorBoundary>
@@ -18,7 +20,7 @@ export function App() {
           <RouterProvider router={router} />
         </Suspense>
       </ErrorBoundary>
-      <Toaster position="top-right" richColors closeButton />
+      <Toaster position="top-right" richColors closeButton mobileOffset={12} toastOptions={{ closeButtonAriaLabel: t('toast.fermer') }} />
     </>
   )
 }

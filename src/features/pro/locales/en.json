@@ -192,7 +192,7 @@
       "pending": "Under review",
       "deleted": "Document deleted",
       "none": "No documents yet.",
-      "noFile": "This starting document has no attached file in the demo.",
+      "noFile": "This document is not yet available for download.",
       "tooBig": "File too large: 3 MB maximum."
     },
     "media": {
@@ -275,9 +275,7 @@
       "duplicated": "“{{name}}” created as a draft",
       "sentForReview": "“{{name}}” sent to YIBOLO for approval",
       "unpublished": "“{{name}}” moved back to draft",
-      "deleted": "“{{name}}” deleted",
-      "validate": "Simulate YIBOLO approval",
-      "validated": "“{{name}}” approved by YIBOLO: it is now published"
+      "deleted": "“{{name}}” deleted"
     }
   },
   "creer": {
@@ -503,7 +501,7 @@
         "preview": {
           "format": "Format",
           "download": "Download",
-          "noFile": "This starting document has no attached file in the demo."
+          "noFile": "This document is not yet available for download."
         },
         "menu": {
           "publish": "Publish",

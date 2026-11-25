@@ -205,6 +205,8 @@ export function Switch({
   label,
   description,
   className,
+  ariaLabel,
+  disabled,
 }: {
   defaultChecked?: boolean
   checked?: boolean
@@ -212,6 +214,9 @@ export function Switch({
   label?: ReactNode
   description?: ReactNode
   className?: string
+  /** Le nom lu par les lecteurs d'écran quand l'interrupteur n'a pas de libellé visible. */
+  ariaLabel?: string
+  disabled?: boolean
 }) {
   const [inner, setInner] = useState(defaultChecked ?? false)
   const on = checked ?? inner
@@ -224,8 +229,10 @@ export function Switch({
       type="button"
       role="switch"
       aria-checked={on}
+      aria-label={ariaLabel}
+      disabled={disabled}
       onClick={toggle}
-      className={cn('relative h-6 w-11 shrink-0 rounded-full transition-colors', on ? 'bg-brand-600' : 'bg-slate-300')}
+      className={cn('relative h-6 w-11 shrink-0 rounded-full transition-colors disabled:cursor-not-allowed disabled:opacity-50', on ? 'bg-brand-600' : 'bg-slate-300')}
     >
       <span className={cn('absolute top-0.5 size-5 rounded-full bg-white shadow transition-all', on ? 'left-[22px]' : 'left-0.5')} />
     </button>

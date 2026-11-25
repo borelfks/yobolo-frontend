@@ -59,6 +59,7 @@ import { AssistanceModal } from '@/shared/components/ui/AssistanceModal'
 import { protegerMotDePasse, verifierMotDePasse } from '@/shared/utils/motDePasse'
 import { lireImage, TAILLE_MAX_PHOTO } from '@/shared/utils/fichiers'
 import { oui, prefixer, sousCles, texte, type Valeurs, dateDuJour } from '@/features/pro/proData'
+import { ChampMotDePasse } from '@/shared/components/forms/MotDePasse'
 
 /**
  * Réglages d'une rubrique (`compte`, `preferences`, `notifications`) : valeurs
@@ -155,7 +156,7 @@ function SaveFooter({ onCancel, onSave }: { onCancel: () => void; onSave: () => 
   return (
     <FormFooter className="mt-6">
       <Button variant="neutral" onClick={() => { onCancel(); toast(t('settings.cancelled')) }}>{t('settings.cancel')}</Button>
-      <Button onClick={async () => { await onSave(); toast.success(t('settings.saved')) }}>{t('settings.save')}</Button>
+      <Button className="whitespace-nowrap" onClick={async () => { await onSave(); toast.success(t('settings.saved')) }}>{t('settings.save')}</Button>
     </FormFooter>
   )
 }
@@ -203,7 +204,7 @@ function Compte() {
             <Avatar src={account?.avatar} name={account?.name ?? ecole.nom} size={92} />
             <span className="absolute right-0 bottom-0 grid size-8 place-items-center rounded-full border-2 border-white bg-brand-600 text-white"><Camera className="size-4" /></span>
           </span>
-          <label className="inline-flex h-9 cursor-pointer items-center rounded-full border-2 border-brand-600/60 bg-white px-4 text-[14px] font-semibold text-navy-800">
+          <label className="inline-flex h-9 cursor-pointer items-center whitespace-nowrap rounded-full border-2 border-brand-600/60 bg-white px-4 text-[14px] font-semibold text-navy-800">
             {t('settings.account.changePhoto')}
             <input
               type="file"
@@ -265,7 +266,7 @@ function Compte() {
                 await r.enregistrer()
                 toast.success(t('settings.saved'))
               }}
-              className="inline-flex h-11 items-center gap-2.5 rounded-full bg-brand-600 px-6 text-[16px] font-semibold text-white"
+              className="inline-flex h-11 items-center gap-2.5 rounded-full bg-brand-600 px-6 text-[16px] font-semibold whitespace-nowrap text-white"
             >
               <Check className="size-5" strokeWidth={3} />
               {t('settings.save')}
@@ -301,8 +302,8 @@ function Securite() {
       <div className="grid gap-5 xl:grid-cols-2">
         <Section title={t('settings.security.changePassword')} icon={<Lock />}>
           <div className="space-y-4">
-            <Field label={t('settings.security.currentPassword')} required><Input type="password" autoComplete="current-password" value={actuel} onChange={(e) => setActuel(e.target.value)} /></Field>
-            <Field label={t('settings.security.newPassword')} required><Input type="password" autoComplete="new-password" value={pwd} onChange={(e) => setPwd(e.target.value)} /></Field>
+            <Field label={t('settings.security.currentPassword')} required><ChampMotDePasse autoComplete="current-password" value={actuel} onChange={(e) => setActuel(e.target.value)} /></Field>
+            <Field label={t('settings.security.newPassword')} required><ChampMotDePasse autoComplete="new-password" value={pwd} onChange={(e) => setPwd(e.target.value)} /></Field>
             <div className="flex gap-1">
               {[0, 1, 2, 3].map((i) => <span key={i} className={cn('h-1.5 flex-1 rounded-full', i < score ? (score < 3 ? 'bg-orange-400' : 'bg-emerald-500') : 'bg-slate-200')} />)}
             </div>
@@ -313,7 +314,7 @@ function Securite() {
                 </li>
               ))}
             </ul>
-            <Field label={t('settings.security.confirmPassword')} required><Input type="password" autoComplete="new-password" value={confirmation} onChange={(e) => setConfirmation(e.target.value)} /></Field>
+            <Field label={t('settings.security.confirmPassword')} required><ChampMotDePasse autoComplete="new-password" value={confirmation} onChange={(e) => setConfirmation(e.target.value)} /></Field>
             <Button
               onClick={async () => {
                 if (!account) return

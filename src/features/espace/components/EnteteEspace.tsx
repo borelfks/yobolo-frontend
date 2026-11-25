@@ -1,21 +1,21 @@
 import { useTranslation } from 'react-i18next'
 import { CircleCheck, Mail, MapPin, PencilLine } from 'lucide-react'
-import { Avatar } from '@/shared/components/ui/Avatar'
 import { Button } from '@/shared/components/ui/Button'
+import { PhotoDuCompte } from '@/features/espace/components/PhotoDuCompte'
 import type { Compte } from '@/shared/types'
 import { ROUTES } from '@/shared/utils/routes'
 
 /**
- * En-tête de « Mon espace » : la photo, le nom et la résidence du compte,
- * dans le bandeau bleu des fiches de l'univers École.
+ * En-tête de « Mon espace » : la photo (modifiable sur place), le nom et la
+ * résidence du compte, dans le bandeau bleu des fiches de l'univers École.
  */
 export function EnteteEspace({ compte }: { compte: Compte }) {
   const { t } = useTranslation('espace')
   const residence = [compte.ville, compte.quartier].filter(Boolean).join(' – ')
   return (
-    <section className="relative overflow-hidden rounded-[18px] bg-[linear-gradient(100deg,#0a2a86_0%,#1238a8_60%,#1a47c4_100%)] text-white">
+    <section className="relative overflow-hidden rounded-[18px] bg-gradient-to-r from-navy-900 via-navy-800 to-brand-700 text-white">
       <div className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:p-5">
-        <Avatar src={compte.avatar || undefined} name={compte.name} size={84} className="shrink-0 ring-4 ring-white/25" />
+        <PhotoDuCompte compte={compte} size={84} variante="entete" />
         <div className="min-w-0 flex-1 space-y-2">
           <div className="flex flex-wrap items-center gap-2.5">
             <h1 className="text-[22px] font-bold md:text-[27px]">{compte.name}</h1>
@@ -40,7 +40,7 @@ export function EnteteEspace({ compte }: { compte: Compte }) {
             )}
           </p>
         </div>
-        <Button to={ROUTES.espace('profil')} variant="white" size="sm" className="self-start sm:self-center">
+        <Button to={ROUTES.profil} variant="white" size="sm" className="self-start sm:self-center">
           <PencilLine aria-hidden="true" />
           {t('entete.modifier')}
         </Button>

@@ -14,10 +14,7 @@
     "apercu": "Aperçu",
     "preinscriptions": "Mes préinscriptions ({{n}})",
     "autoEcole": "Mes permis ({{n}})",
-    "avis": "Mes avis ({{n}})",
-    "notifications": "Notifications ({{n}})",
-    "profil": "Mon profil",
-    "parametres": "Paramètres"
+    "avis": "Mes avis ({{n}})"
   },
   "statuts": {
     "Envoyée": "Envoyée",
@@ -126,21 +123,35 @@
     "erreurs": {
       "court": "Le commentaire compte au moins 10 caractères.",
       "echec": "L’avis n’a pas pu être enregistré. Réessayez."
+    },
+    "aEvaluer": {
+      "titre": "À évaluer",
+      "texte": "Vous avez envoyé un dossier à ces établissements : votre avis aide les autres candidats.",
+      "donner": "Donner mon avis"
     }
   },
   "notifications": {
-    "titre": "Mes notifications",
+    "titre": "Notifications",
     "toutLire": "Tout marquer comme lu",
     "toutesLues": "Toutes vos notifications sont lues",
     "aucune": "Aucune notification pour le moment.",
-    "nonLue": "Non lue",
     "marquerLue": "Marquer comme lue",
     "supprimer": "Supprimer",
     "supprimee": "Notification supprimée",
     "filtres": {
-      "toutes": "Toutes ({{n}})",
-      "nonLues": "Non lues ({{n}})"
-    }
+      "toutes": "Toutes",
+      "nonLues": "Non lues"
+    },
+    "preferences": "Paramètres des notifications",
+    "marquerNonLue": "Marquer comme non lue",
+    "groupes": {
+      "nouvelles": "Nouvelles",
+      "plusTot": "Plus tôt"
+    },
+    "options": "Options des notifications",
+    "actions": "Actions de la notification",
+    "aucuneNonLue": "Aucune notification non lue.",
+    "nonLue": "Non lue"
   },
   "profil": {
     "titre": "Mon profil",
@@ -150,31 +161,36 @@
     "retirerPhoto": "Retirer la photo",
     "photoAide": "JPG ou PNG, 2 Mo au maximum.",
     "civilite": "Civilité",
-    "civilites": {
-      "Monsieur": "Monsieur",
-      "Madame": "Madame"
-    },
-    "nom": "Nom et prénom",
+    "nom": "Nom",
     "naissance": "Date de naissance",
     "telephone": "Téléphone",
     "email": "E-mail",
-    "emailAide": "C’est aussi votre identifiant de connexion.",
+    "emailAide": "Facultatif. Avec un e-mail, vous vous connectez avec lui ; sinon, avec votre téléphone.",
     "residence": "Résidence",
-    "region": "Région",
-    "ville": "Ville",
-    "quartier": "Quartier",
     "choisir": "Choisir",
     "enregistrer": "Enregistrer",
     "enregistre": "Profil mis à jour",
     "erreurs": {
-      "nom": "Indiquez votre nom (2 caractères au moins).",
-      "telephone": "Indiquez un numéro de téléphone valide (9 chiffres au moins).",
+      "nom": "Le nom est requis.",
+      "telephone": "Le numéro doit compter 9 chiffres, sans 0 devant.",
       "email": "Indiquez une adresse e-mail valide.",
       "emailPris": "Cette adresse e-mail est déjà utilisée par un autre compte.",
       "photoType": "Choisissez une image (JPG ou PNG).",
       "photoTaille": "Image trop lourde : 2 Mo au maximum.",
       "photoLecture": "L’image n’a pas pu être lue.",
-      "enregistrement": "Le profil n’a pas pu être enregistré. Réessayez."
+      "enregistrement": "Le profil n’a pas pu être enregistré. Réessayez.",
+      "prenom": "Le prénom est requis.",
+      "telephonePris": "Ce numéro est déjà utilisé par un autre compte."
+    },
+    "prenom": "Prénom",
+    "nationalite": "Nationalité",
+    "whatsapp": "Ce numéro est aussi mon numéro WhatsApp",
+    "photoMiseAJour": "Photo mise à jour",
+    "photoRetiree": "Photo retirée",
+    "telephoneAide": "Un nouveau numéro est confirmé par un code envoyé par SMS.",
+    "code": {
+      "titre": "Confirmez votre nouveau numéro",
+      "bouton": "Confirmer et enregistrer"
     }
   },
   "parametres": {
@@ -213,6 +229,47 @@
       "confirmer": "Supprimer définitivement",
       "faite": "Votre compte a été supprimé",
       "faux": "Mot de passe incorrect."
+    },
+    "notifications": {
+      "titre": "Notifications",
+      "texte": "Choisissez, pour chaque sujet, comment YIBOLO vous prévient.",
+      "sujet": "Sujet",
+      "canaux": {
+        "app": "Application",
+        "sms": "SMS",
+        "email": "E-mail"
+      },
+      "sujets": {
+        "preRegistration": {
+          "titre": "Mes préinscriptions",
+          "texte": "Dossier envoyé, reçu ou traité par l’établissement."
+        },
+        "session": {
+          "titre": "Mes permis",
+          "texte": "Inscription en auto-école, session confirmée."
+        },
+        "review": {
+          "titre": "Réponses à mes avis",
+          "texte": "Un établissement répond à votre avis."
+        },
+        "message": {
+          "titre": "Réponses à mes commentaires",
+          "texte": "Quelqu’un répond à votre commentaire sur une publication."
+        },
+        "info": {
+          "titre": "Nouveautés YIBOLO",
+          "texte": "Nouvelles fonctions et informations importantes."
+        }
+      },
+      "smsA": "Les SMS sont envoyés au {{numero}}.",
+      "emailA": "Les e-mails sont envoyés à {{email}}.",
+      "sansEmail": "Ajoutez un e-mail dans « Mon profil » pour recevoir les notifications par e-mail.",
+      "enregistrees": "Préférences enregistrées",
+      "echec": "Vos préférences n’ont pas pu être enregistrées. Réessayez."
     }
+  },
+  "pages": {
+    "profil": "Mon profil",
+    "parametres": "Paramètres"
   }
 }

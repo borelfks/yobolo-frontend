@@ -70,3 +70,6 @@ features/schools/
 6. Pas de code mort : supprimer ce qui n'est plus utilisé.
 7. **Pas de nouvelle dépendance sans accord.** Jamais de client d'API.
 8. `vite.config.ts` liste les bibliothèques à pré-compiler (`optimizeDeps.include`) : une nouvelle bibliothèque importée par une page chargée à la demande doit y être ajoutée (sinon « Invalid hook call »).
+
+## React Compiler et react-hook-form
+- **Toujours déstructurer** le résultat de `useForm` à l'appel (`const { register, formState, setError } = useForm(…)`), avec des alias s'il y a deux formulaires. Lire `form.formState.errors` sur l'objet entier laisse l'écran figé : le compilateur garde le rendu en cache (constaté le 2026-11-24 : les messages d'erreur ne s'affichaient pas).

@@ -19,7 +19,6 @@
   "footer": {
     "tagline": "La plateforme de formation, d’expertise et d’emploi en Afrique centrale.",
     "city": "Yaoundé, Cameroun",
-    "copyright": "© 2026 YIBOLO — Démonstration · Données fictives",
     "columns": {
       "school": "École",
       "institutions": "Établissements",
@@ -79,20 +78,6 @@
         "text": "Me Alain Tchana vous a répondu.",
         "when": "Il y a 2 jours"
       }
-    }
-  },
-  "demoAccounts": {
-    "utilisateur": {
-      "subtitle": "Utilisateur"
-    },
-    "ipes": {
-      "subtitle": "Administrateur"
-    },
-    "cfp": {
-      "subtitle": "Administrateur"
-    },
-    "autre": {
-      "subtitle": "Administrateur"
     }
   },
   "logo": {
@@ -161,20 +146,7 @@
     "aCompleter": "À compléter"
   },
   "blocks": {
-    "ai": {
-      "title": "Assistant IA",
-      "toastText": "Fonction de démonstration : les suggestions apparaîtront ici."
-    },
-    "tip": "Bon à savoir",
-    "file": {
-      "view": "Voir",
-      "download": "Télécharger",
-      "more": "Plus d'actions",
-      "previewTitle": "Aperçu du document",
-      "previewText": "Démonstration : le fichier s’ouvrirait ici.",
-      "downloadStarted": "Téléchargement lancé"
-    },
-    "demoAction": "Action de démonstration"
+    "tip": "Bon à savoir"
   },
   "fields": {
     "dropzone": {
@@ -213,6 +185,53 @@
     },
     "errors": {
       "message": "Le message compte au moins 10 caractères."
+    }
+  },
+  "geographie": {
+    "region": "Région",
+    "departement": "Département",
+    "arrondissement": "Arrondissement",
+    "quartier": "Quartier",
+    "choisirRegion": "Choisir une région",
+    "choisirDepartement": "Choisir un département",
+    "choisirArrondissement": "Choisir un arrondissement",
+    "dAbordRegion": "D’abord choisir une région",
+    "dAbordDepartement": "D’abord choisir un département",
+    "villeDeduite": "Ville : {{ville}}",
+    "exempleQuartier": "Ex. : Bastos",
+    "erreurs": {
+      "region": "Choisissez une région.",
+      "departement": "Choisissez un département.",
+      "arrondissement": "Choisissez un arrondissement.",
+      "quartier": "Indiquez votre quartier."
+    }
+  },
+  "personne": {
+    "civilites": {
+      "Monsieur": "Monsieur",
+      "Madame": "Madame",
+      "Mademoiselle": "Mademoiselle"
+    },
+    "nationalites": {
+      "Camerounaise": "Camerounaise",
+      "Tchadienne": "Tchadienne",
+      "Centrafricaine": "Centrafricaine",
+      "EquatoGuineenne": "Équato-guinéenne",
+      "Gabonaise": "Gabonaise",
+      "CongolaiseBrazzaville": "Congolaise (Brazzaville)",
+      "CongolaiseDrCongo": "Congolaise (RDC)"
+    }
+  },
+  "motDePasse": {
+    "afficher": "Afficher le mot de passe",
+    "masquer": "Masquer le mot de passe",
+    "force": {
+      "faible": "Faible",
+      "moyen": "Moyen",
+      "bon": "Bon",
+      "excellent": "Excellent",
+      "conseil": "Mélangez majuscules, chiffres et symboles pour le renforcer.",
+      "niveau": "Solidité du mot de passe : {{niveau}}"
     }
   }
 }

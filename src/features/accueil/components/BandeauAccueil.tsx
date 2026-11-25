@@ -12,8 +12,7 @@ import { ROUTES } from '@/shared/utils/routes'
 /** Où mène le bouton de chaque bandeau. */
 const VERS: Record<Bandeau['cible'], string> = {
   ecoles: ROUTES.schools,
-  offres: ROUTES.accueilGenre('offre'),
-  conseils: ROUTES.accueilGenre('conseil'),
+  conseils: ROUTES.accueil,
 }
 
 /**
@@ -49,16 +48,16 @@ export function BandeauAccueil() {
           aria-hidden="true"
           loading="eager"
           onError={() => setPhotosEnEchec((liste) => [...liste, actuel.id])}
-          className="absolute inset-y-0 right-0 -z-10 h-full w-full object-cover object-[80%_center] sm:w-[54%] sm:object-[85%_30%]"
+          className="absolute inset-y-0 right-0 -z-10 h-full w-full object-cover object-[80%_center] sm:w-[50%] sm:object-[85%_30%] sm:[mask-image:linear-gradient(to_right,transparent,black_30%)]"
         />
       )}
       <span
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-gradient-to-r from-navy-900 via-navy-900/90 to-navy-900/50 sm:via-navy-900/80 sm:via-44% sm:to-transparent sm:to-58%"
+        className="absolute inset-0 -z-10 bg-gradient-to-r from-navy-900 via-navy-900/90 to-navy-900/75 sm:from-navy-900 sm:from-45% sm:via-navy-900/40 sm:via-60% sm:to-transparent sm:to-80%"
       />
 
-      <div className="flex min-h-[9.5rem] items-center gap-4 px-5 py-5 sm:px-6">
-        <div className="flex max-w-[21rem] flex-col items-start gap-2" aria-live="polite">
+      <div className="flex min-h-[15rem] items-center gap-4 px-5 pt-5 pb-10 sm:min-h-[10.5rem] sm:px-6">
+        <div className="flex max-w-[21rem] flex-col items-start gap-2 sm:max-w-[min(21rem,46%)]" aria-live="polite">
           <h2 id="titre-bandeau-accueil" className="text-xl leading-tight font-bold text-balance text-white sm:text-[1.375rem]">
             {actuel.titre[langue]}
           </h2>
@@ -74,7 +73,7 @@ export function BandeauAccueil() {
             aria-label={t('bandeau.suivant')}
             title={t('bandeau.suivant')}
             onClick={() => setRang((rang + 1) % bandeaux.length)}
-            className="ml-auto hidden size-[2.25rem] shrink-0 items-center justify-center rounded-full bg-white/20 text-white transition-colors hover:bg-white/30 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none sm:flex"
+            className="absolute right-3 bottom-3 hidden size-10 items-center justify-center rounded-full bg-navy-900/60 text-white backdrop-blur-sm transition-colors hover:bg-navy-900/80 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none sm:flex"
           >
             <ChevronRight className="size-5" aria-hidden="true" />
           </button>
@@ -82,7 +81,7 @@ export function BandeauAccueil() {
       </div>
 
       {bandeaux.length > 1 && (
-        <div className="absolute right-0 bottom-1 left-0 flex justify-center sm:right-auto sm:left-6 sm:justify-start">
+        <div className="absolute right-0 bottom-0.5 left-0 flex justify-center sm:right-auto sm:left-4 sm:justify-start">
           {bandeaux.map((bandeau, position) => (
             <button
               key={bandeau.id}
@@ -90,7 +89,7 @@ export function BandeauAccueil() {
               aria-label={t('bandeau.aller', { rang: position + 1, total: bandeaux.length })}
               aria-current={position === rang % bandeaux.length ? 'true' : undefined}
               onClick={() => setRang(position)}
-              className="group grid size-6 place-items-center rounded-full focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+              className="group grid size-9 place-items-center rounded-full focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
             >
               <span className={cn('block h-1.5 rounded-full transition-all motion-reduce:transition-none', position === rang % bandeaux.length ? 'w-4 bg-white' : 'w-1.5 bg-white/50 group-hover:bg-white/80')} />
             </button>

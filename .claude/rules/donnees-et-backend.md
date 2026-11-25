@@ -18,7 +18,7 @@
 
 ## Les tables
 - **Modifiables par les testeurs** : `etablissements`, `formations`, `formationsPro`, `autoEcoles`, `sessions`, `avisEtablissements`, `avisAutoEcoles`, `actualites`, `documents`, `faq`, `utilisateurs`, `preinscriptions`, `inscriptionsAutoEcole`, `favoris`, `parametres`, `comptes`, et pour l'accueil connecté `publications` (publiées ou brouillons), `enregistrements` (« Mes enregistrés » d'un compte), `jaimes`, `signalements`, `commentaires` ; et `fichiers` (fichiers joints, data URL), `piecesEtablissement` (pièces d'agrément), `medias`, `notifications` / `notificationsCompte` (lu / non lu), `demandesAssistance`, `signalementsAvis`, `sessionsActives`, `activiteSecurite`.
-- **De référence** (lues par les écrans, modifiables dans `yibolo.sql`) : `typesEcole`, `tuilesAnnuaire`, `domaines`, `filieresCartes`, `diplomes`, `regions`, `villesRegion`, `villes`, `quartiers`, `repartitionNotes`, `albums`, `programme`, `permis`, `criteresAvis`, `roles`, `notifications`, `visites`, `sourcesVisites`, `sessionsActives`, `activiteSecurite`, `indicateurs`, `formationsPopulaires`, `tranchesFrais`, `categoriesGalerie`, `photosAutoEcole`, `videos` ; pour l'accueil connecté : `domainesExpertise`, `experts`, `offresEmploi`, `tachesAccueil` (fenêtre « À faire »).
+- **De référence** (lues par les écrans, modifiables dans `yibolo.sql`) : `typesEcole`, `tuilesAnnuaire`, `domaines`, `filieresCartes`, `diplomes`, `regions`, `villesRegion`, `villes`, `quartiers`, `repartitionNotes`, `albums`, `programme`, `permis`, `criteresAvis`, `roles`, `notifications`, `visites`, `sourcesVisites`, `sessionsActives`, `activiteSecurite`, `indicateurs`, `formationsPopulaires`, `tranchesFrais`, `categoriesGalerie`, `photosAutoEcole`, `videos` ; pour l'accueil connecté : `domainesExpertise`, `experts`, `bandeauxAccueil`, `sujetsPublication`.
 - Types dans `src/shared/types.ts`.
 - Les enregistrements de la maquette qui ne sont rattachés à aucun établissement précis portent `etablissementId: '*'` (`POUR_TOUS`) : ils s'affichent pour **tous** les établissements. Ce qu'un testeur crée porte le **vrai** identifiant.
 - Un élément ajouté s'affiche **avant** ceux de départ.
@@ -48,8 +48,8 @@
 3. Choisir `VITE_DATA_SOURCE=<nom>` (`.env.local` et Netlify).
 Aucun écran ne change.
 
-## Panneau « Données de test »
-Dans le menu du compte : **Exporter** (télécharge `yibolo-donnees-AAAA-MM-JJ.sqlite`, lisible avec DB Browser for SQLite), **Importer** (remplace la base par un fichier exporté), **Réinitialiser** (revient aux données de départ, après confirmation).
+## Plus de panneau « Données de test »
+Le panneau (exporter, importer, réinitialiser) est retiré de l'interface (décision du 2026-11-25 : rien ne parle de démonstration). `data.exportFile`, `importFile` et `reset` restent dans la couche de données.
 
 ## Ce qui reste dans le stockage local (`localStorage`)
 | Clé | Contenu |
@@ -64,3 +64,7 @@ La base SQLite est dans l'IndexedDB du navigateur (base `yibolo`, clé `base-sql
 ## Données de la maquette
 1. Les valeurs de départ (`yibolo.sql`) sont celles de la maquette (noms, chiffres, dates, textes). Les chiffres d'annuaire (532 IPES, 1 248 établissements…) sont **recopiés**, pas calculés.
 2. Les données restent **en français** : on ne modifie pas les données pour traduire (voir [traduction.md](traduction.md)).
+
+## Découpage territorial
+- Tables de référence `departements` (`id`, `region`, `nom`, `chefLieu`) et `arrondissements` (`id`, `departement`, `nom`, `ville`), reprises du fichier `decoupage-cameroun.csv` de yibolo-backend (58 départements, 360 arrondissements). Lecture : `useDecoupage()` ; tri et ville : `src/shared/utils/geographie.ts`.
+- Un lieu saisi garde `region`, `departement`, `arrondissement`, `quartier` et la `ville` déduite (pour l'affichage et les recherches existantes).

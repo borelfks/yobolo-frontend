@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BadgeCheck, ChevronDown, PencilLine, ThumbsUp } from 'lucide-react'
+import { BadgeCheck, PencilLine, ThumbsUp } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { Badge } from '@/shared/components/ui/Badge'
@@ -108,15 +108,5 @@ export function ReviewItem({ r }: { r: Review }) {
         </div>
       </div>
     </Card>
-  )
-}
-
-export function MoreButton({ label }: { label: string }) {
-  const { t } = useTranslation('reviews')
-  return (
-    <Button variant="neutral" className="w-full" onClick={() => toast(t('blocks.toasts.chargement'))}>
-      {label}
-      <ChevronDown />
-    </Button>
   )
 }

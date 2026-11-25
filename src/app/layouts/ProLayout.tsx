@@ -111,13 +111,13 @@ export function ProLayout() {
           <span className="text-[17px] font-bold">{t('pro.space', { type: t(`schoolType.${ecole.type}`) })}</span>
         </div>
         <div className="ml-auto flex items-center gap-0.5 sm:gap-1">
-          <LanguageSwitcher className="sm:mr-1" />
+          <LanguageSwitcher className="sm:mr-1" menuSousEntete />
           <NotificationsBell href={ROUTES.pro.settings('notifications')} />
           <Link to={ROUTES.pro.settings('a-propos')} aria-label={t('nav.help')} className="grid size-10 place-items-center rounded-full text-navy-800 hover:bg-brand-50">
             <CircleHelp className="size-5" />
           </Link>
           <span className="mx-1 hidden h-8 w-px bg-line sm:block" />
-          <UserMenu withTestData />
+          <UserMenu />
         </div>
       </header>
       <div className="flex">

@@ -1,4 +1,8 @@
 import type {
+  SujetPublication,
+  Lecture,
+  Arrondissement,
+  Departement,
   Commentaire,
   DemandeAssistance,
   Fichier,
@@ -52,12 +56,9 @@ import type {
   Enregistrement,
   Expert,
   Jaime,
-  OffreEmploi,
   Publication,
   Signalement,
-  TacheAccueil,
   BandeauAccueil,
-  Candidature,
 } from '@/shared/types'
 
 /**
@@ -92,6 +93,8 @@ export type Collections = {
   villesRegion: VilleRegion
   villes: Ville
   quartiers: Quartier
+  departements: Departement
+  arrondissements: Arrondissement
   repartitionNotes: RepartitionNote
   albums: Album
   programme: SemestreProgramme
@@ -113,11 +116,9 @@ export type Collections = {
   domainesExpertise: DomaineExpertise
   experts: Expert
   publications: Publication
-  offresEmploi: OffreEmploi
   enregistrements: Enregistrement
   jaimes: Jaime
   signalements: Signalement
-  tachesAccueil: TacheAccueil
   fichiers: Fichier
   piecesEtablissement: PieceEtablissement
   videos: Video
@@ -125,9 +126,10 @@ export type Collections = {
   demandesAssistance: DemandeAssistance
   signalementsAvis: SignalementAvis
   commentaires: Commentaire
-  // Accueil connecté : carrousel et candidatures
+  lectures: Lecture
+  sujetsPublication: SujetPublication
+  // Accueil connecté : carrousel
   bandeauxAccueil: BandeauAccueil
-  candidatures: Candidature
 }
 
 export type CollectionName = keyof Collections
@@ -158,6 +160,8 @@ export const COLLECTIONS = [
   'villesRegion',
   'villes',
   'quartiers',
+  'departements',
+  'arrondissements',
   'repartitionNotes',
   'albums',
   'programme',
@@ -178,11 +182,9 @@ export const COLLECTIONS = [
   'domainesExpertise',
   'experts',
   'publications',
-  'offresEmploi',
   'enregistrements',
   'jaimes',
   'signalements',
-  'tachesAccueil',
   'fichiers',
   'piecesEtablissement',
   'videos',
@@ -190,8 +192,9 @@ export const COLLECTIONS = [
   'demandesAssistance',
   'signalementsAvis',
   'commentaires',
+  'lectures',
+  'sujetsPublication',
   'bandeauxAccueil',
-  'candidatures',
 ] as const satisfies readonly CollectionName[]
 
 /** Identifiant des enregistrements de la maquette, visibles pour tous les établissements. */

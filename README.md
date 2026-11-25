@@ -21,7 +21,7 @@ Interface en français (et en anglais), prix en FCFA, contenus centrés sur le C
 
 - **Univers École réalisé** : IPES, CFP et Autres (même gabarit), auto-écoles, préinscription, inscription en auto-école, avis, favoris, et l'**espace professionnel** partagé par les IPES, CFP et Autres.
 - **Consultation** et **Emploi** : présents dans la navigation, avec une page « bientôt disponible ». Prochaine étape envisagée : l'univers **Consultation** (espace pro du consultant, 11 menus).
-- Les données de départ sont fictives, dans `src/data/depart/yibolo.sql` (aucune donnée n'est écrite dans le code). Ce que fait chaque testeur (formations, avis, préinscriptions, inscriptions, profil, contenus, favoris…) est enregistré dans **sa base SQLite, dans son navigateur** (`src/data/`). Menu du compte › **Données de test** : exporter un fichier `.sqlite` pour le partager, l'importer chez un collègue, ou tout réinitialiser.
+- Les données de départ sont fictives, dans `src/data/depart/yibolo.sql` (aucune donnée n'est écrite dans le code). Ce que fait chaque testeur (formations, avis, préinscriptions, inscriptions, profil, contenus, favoris…) est enregistré dans **sa base SQLite, dans son navigateur** (`src/data/`). Pour repartir des données de départ : vider les données du site dans le navigateur.
 
 ## Stack
 
@@ -69,7 +69,7 @@ Les comptes sont dans la base (table `comptes`). Mot de passe des comptes de dé
 | `contact@cfp-btp.cm` | École – CFP |
 | `contact@langues.cm` | École – Autre |
 
-On peut aussi se connecter avec le téléphone du compte. Un compte créé par « Créer un compte » est enregistré « en vérification » ; « Simuler la validation par YIBOLO » le valide, puis on se connecte avec son e-mail et son mot de passe.
+On peut aussi se connecter avec le téléphone du compte. Un compte École créé par « Créer un compte » est enregistré « en vérification » ; il est validé par YIBOLO quand il revient se connecter (écran « Compte validé ! »).
 
 Les comptes :
 
@@ -82,7 +82,7 @@ Les comptes :
 
 - À la première visite, on arrive **non connecté** : « Se connecter » sur la landing.
 - L'espace professionnel (`/pro/ecole`) n'est ouvert qu'aux comptes école ; les autres sont renvoyés à la connexion.
-- L'inscription (`/inscription`) se parcourt jusqu'au bout ; « Simuler la validation par YIBOLO » montre l'écran « Compte validé ! ».
+- L'inscription (`/inscription`) se parcourt jusqu'au bout ; une école se reconnecte pour voir « Compte validé ! ».
 
 ## Organisation du code
 

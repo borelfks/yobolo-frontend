@@ -87,8 +87,7 @@
       "entreprise": "Company"
     },
     "toasts": {
-      "merciRetour": "Thank you for your feedback",
-      "chargement": "Loading more reviews (demo)"
+      "merciRetour": "Thank you for your feedback"
     }
   }
 }

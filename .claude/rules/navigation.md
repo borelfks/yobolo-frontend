@@ -7,7 +7,7 @@ Les listes de liens des cadres sont dans `navConfig.ts`. Elles gardent des **cl�
 - **Espace pro** (`proNav`) : Tableau de bord · Profil de l'établissement · Formations · Contenus et informations · Statistiques · Paramètres.
   - **Sous-menus** (comme sur la maquette) : Formations › Gérer les formations, Créer une formation ; Contenus et informations › Contenus & actualités, Documents à télécharger, FAQ (Questions fréquentes).
   - « Tableau de bord » est `end` : il n'est pas actif sur les autres pages.
-- **Menu du compte** (avatar, `AccountMenu.tsx`) : Mon espace professionnel (compte école), Mon espace (utilisateur), Mes favoris, Donner un avis (utilisateur : sur le dernier établissement ou la dernière auto-école de ses préinscriptions / inscriptions ; absent sinon), Changer de compte, Données de test, Se déconnecter. **Cloche** : les notifications du compte dans la base (`notificationsCompte` ; espace pro : `notifications`), nombre de non lues, « Tout marquer comme lu ».
+- **Menu du compte** (avatar, `AccountMenu.tsx`) : des **lieux** seulement. Utilisateur : Mon espace · Mon profil · Mes favoris · Paramètres · Se déconnecter. Compte école : Mon espace professionnel · Mes favoris · Paramètres (ceux de l'espace pro) · Se déconnecter. Plus de « Données de test », de « Changer de compte » ni de « Donner un avis » (décision du 2026-11-25). **Cloche** : les notifications du compte (`notificationsCompte` ; espace pro : `notifications`), nombre de non lues, « Tout marquer comme lu », « Voir toutes » → `/notifications` (utilisateur).
 - Ajouter un menu ou une rubrique **seulement si la maquette le montre**.
 
 ## Cadres
@@ -21,10 +21,10 @@ Les listes de liens des cadres sont dans `navConfig.ts`. Elles gardent des **cl�
   - univers École : `/ecoles`, `/ecoles/:type` (`ipes`, `cfp`, `autres`), `/ecoles/:type/etablissement/:id`, `/ecoles/formations/:id`, `/ecoles/formations/:id/preinscription` ;
   - auto-écoles : `/ecoles/auto-ecoles`, `/ecoles/auto-ecoles/:id`, `…/permis/:code`, `…/permis/:code/inscription`, `…/inscription/modifier/:section` ;
   - avis : `…/avis/nouveau` ; favoris : `/favoris` ;
-  - Mon espace (personne physique) : `/mon-espace/:onglet?` (`preinscriptions`, `auto-ecole`, `avis`, `notifications`, `profil`, `parametres`), `/mon-espace/preinscriptions/:id`, `/mon-espace/auto-ecole/:id` ;
+  - Mon espace (personne physique) : `/mon-espace/:onglet?` (`preinscriptions`, `auto-ecole`, `avis`) ; pages à part : `/notifications`, `/profil`, `/parametres` (les anciennes adresses `/mon-espace/notifications|profil|parametres` y mènent), `/mon-espace/preinscriptions/:id`, `/mon-espace/auto-ecole/:id` ;
   - espace pro : `/pro/ecole`, `/pro/ecole/profil`, `/pro/ecole/formations`, `/pro/ecole/contenus`, `/pro/ecole/statistiques`, `/pro/ecole/parametres` ;
-  - `/connexion` (`?espace=ecole` présélectionne l'IPES), `/inscription`, `/consultation`, `/emploi` ;
-  - accueil de l'utilisateur connecté : `/accueil` (`ROUTES.accueil`, filtres du fil dans l'adresse : `?genre=`, `?tri=`, `?vue=enregistres`, `?domaine=`, `?sujet=`, `?q=`, `?publication=`).
+  - `/connexion` (`?espace=ecole` présélectionne l'IPES), `/mot-de-passe-oublie`, `/inscription`, `/consultation`, `/emploi` ;
+  - accueil de l'utilisateur connecté : `/accueil` (`ROUTES.accueil`, fil dans l'adresse : `?vue=enregistres`, `?domaine=`, `?sujet=`, `?q=`) ; une publication : `/accueil/publications/:id` (`ROUTES.publication`).
 - **`/` (la landing) est réservée aux visiteurs** : un compte connecté qui l'ouvre est mené à `account.home` (`/accueil` pour l'utilisateur, `/pro/ecole` pour une école) par `GardeAccueil` (`src/app/routes/GardeAccueil.tsx`), qui attend la base si un compte est gardé dans le navigateur. Un visiteur qui ouvre `/accueil` est mené à `/connexion`.
 - Une nouvelle page : ajouter son adresse à `ROUTES` **et** à `ROUTE_PATTERNS`, puis la route (chargée avec `lazy`) dans `index.tsx`, dans le bon cadre.
 

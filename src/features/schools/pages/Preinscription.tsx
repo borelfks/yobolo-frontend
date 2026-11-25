@@ -36,6 +36,7 @@ import { useEtablissement, useFormation } from '@/data/hooks'
 import { cn } from '@/shared/utils/cn'
 import { fcfa, shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
+import { notifier } from '@/shared/utils/notifications'
 import { lienWhatsApp, ouvrir } from '@/shared/utils/liens'
 import { useSession } from '@/features/auth/hooks/useSession'
 import { lireFichier, TAILLE_MAX_DOCUMENT } from '@/shared/utils/fichiers'
@@ -85,7 +86,10 @@ export function Preinscription() {
   }
   // Compte connecté : son nom, son téléphone et son e-mail préremplissent le formulaire.
   const { account } = useSession()
-  const [info, setInfo] = useState({ nom: '', prenom: account && !account.ecoleId ? account.name : '', sexe: '', naissance: '', nationalite: 'camerounaise', telephone: account?.telephone ?? '', email: account?.identifiant ?? '' })
+  // Une personne physique connectée : son profil préremplit la préinscription (nationalité ramenée aux choix de la maquette).
+  const moi = account && !account.ecoleId ? account : null
+  const nationalite: string = nationalites.find((x) => moi?.nationalite?.toLowerCase().startsWith(x)) ?? (moi?.nationalite ? 'autre' : 'camerounaise')
+  const [info, setInfo] = useState({ nom: moi?.nom ?? '', prenom: moi ? (moi.prenom ?? moi.name) : '', sexe: '', naissance: '', nationalite, telephone: account?.telephone ?? '', email: account?.identifiant.includes('@') ? account.identifiant : '' })
   const [parcours, setParcours] = useState<{ diplome: Diploma; serie: string; annee: string; etablissement: string; autre: boolean }>({ diplome: 'baccalaureat', serie: '', annee: '', etablissement: '', autre: false })
 
   if (sent) {
@@ -126,7 +130,7 @@ export function Preinscription() {
       // Les chiffres de l'établissement suivent (candidatures, activité du jour).
       await ajusterIndicateurs(e.id, { candidatures: 1, activite: 'applications' })
       // Le candidat connecté le retrouve dans ses notifications.
-      if (account) await data.create('notificationsCompte', { compteId: account.id, type: 'preRegistration', titre: t('preinscription.notificationCandidat.titre'), texte: t('preinscription.notificationCandidat.texte', { school: e.sigle || e.nom, training: f.nom }), quand: t('preinscription.notificationCandidat.quand'), lu: false }, 'notif')
+      if (account) await notifier(account.id, { type: 'preRegistration', titre: t('preinscription.notificationCandidat.titre'), texte: t('preinscription.notificationCandidat.texte', { school: e.sigle || e.nom, training: f.nom }), quand: t('preinscription.notificationCandidat.quand'), vers: ROUTES.espace('preinscriptions') })
       const cree = await data.create(
         'preinscriptions',
         {

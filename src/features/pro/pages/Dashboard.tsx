@@ -14,6 +14,7 @@ import { shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
 import { CheckCircle2 } from 'lucide-react'
 import { useAvisEtablissement, useFormations, useIndicateurs, usePreinscriptionsRecues } from '@/data/hooks'
+import { Badge } from '@/shared/components/ui/Badge'
 
 export function Dashboard() {
   const { t } = useTranslation('pro')
@@ -91,9 +92,9 @@ export function Dashboard() {
                 {recues.slice(0, 5).map((p) => (
                   <li key={p.id} className="flex flex-wrap items-center gap-x-3 gap-y-1 py-2.5 text-sm">
                     <b className="text-navy-900">{[p.donnees.prenom, p.donnees.nom].filter(Boolean).join(' ') || t('dashboard.applications.anonymous')}</b>
-                    <span className="min-w-0 flex-1 text-muted">{toutes.find((f) => f.id === p.formationId)?.nom ?? '—'}</span>
-                    <span className="text-xs text-muted">{shortDate(new Date(p.envoyeeLe), { day: '2-digit', month: 'short', year: 'numeric' })}</span>
-                    <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-700">{t('dashboard.applications.received')}</span>
+                    <span className="min-w-0 basis-full break-words text-muted sm:basis-auto sm:flex-1">{toutes.find((f) => f.id === p.formationId)?.nom ?? '—'}</span>
+                    <span className="shrink-0 text-xs text-muted">{shortDate(new Date(p.envoyeeLe), { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+                    <Badge tone="green">{t('dashboard.applications.received')}</Badge>
                   </li>
                 ))}
               </ul>

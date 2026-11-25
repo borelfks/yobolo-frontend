@@ -5,15 +5,18 @@ import { useTranslation } from 'react-i18next'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { toast } from 'sonner'
-import { ArrowRight, Eye, EyeOff, Lock, Mail } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Eye, EyeOff, Lock, Mail } from 'lucide-react'
 import { AuthShell } from '@/app/layouts/AuthLayout'
+import { data } from '@/data'
 import { useComptes } from '@/data/hooks'
-import { MotDePasseOublie } from '@/features/auth/components/MotDePasseOublie'
+import { VerificationCode } from '@/features/auth/components/VerificationCode'
+import { publierFormationsVerifiees, validerCompteEcole } from '@/features/auth/authComptes'
 import { useSession } from '@/features/auth/hooks/useSession'
 import { Checkbox, Input, Label } from '@/shared/components/forms/Fields'
 import { normaliserIdentifiant, verifierMotDePasse } from '@/shared/utils/motDePasse'
 import { cn } from '@/shared/utils/cn'
 import { ROUTES } from '@/shared/utils/routes'
+import type { Compte } from '@/shared/types'
 
 /** Champs plus hauts et plus arrondis que dans les formulaires de l'application, mêmes couleurs. */
 const champ = 'h-12 rounded-xl text-[15px]'
@@ -24,8 +27,9 @@ export function Connexion() {
   const navigate = useNavigate()
   const comptes = useComptes()
   const [show, setShow] = useState(false)
-  const [oubli, setOubli] = useState(false)
   const [retenir, setRetenir] = useState(false)
+  // Un compte dont le code reçu à l'inscription n'a jamais été saisi : on le redemande.
+  const [aConfirmer, setAConfirmer] = useState<Compte | null>(null)
   // Construit dans le composant (comme yibolo-client) : les messages suivent la langue.
   const schema = useMemo(
     () =>
@@ -48,14 +52,62 @@ export function Connexion() {
       setError('root', { message: t('connexion.errors.invalid') })
       return
     }
+    if (compte.telephoneVerifie === false) {
+      setAConfirmer(compte)
+      return
+    }
+    await ouvrir(compte)
+  }
+
+  /**
+   * Numéro confirmé : l'école sans établissement termine son inscription
+   * (pièces) ; l'école qui attendait sa vérification la voit faite (« Compte
+   * validé ! ») ; les autres entrent.
+   */
+  const ouvrir = async (compte: Compte) => {
+    if (compte.role !== 'utilisateur' && !compte.ecoleId) {
+      toast.success(t('connexion.confirmer.reprise'))
+      navigate(ROUTES.signUp, { state: { reprise: compte.id } })
+      return
+    }
     if (compte.statut !== 'Validé') {
-      setError('root', { message: t('connexion.errors.pending') })
+      const valide = await validerCompteEcole(compte)
+      navigate(ROUTES.signUp, { state: { valide: valide.id } })
       return
     }
     signIn(compte, retenir)
     toast.success(t('connexion.welcome', { name: compte.name }))
+    const publiees = compte.ecoleId ? await publierFormationsVerifiees(compte.ecoleId) : 0
+    if (publiees > 0) toast.success(t('connexion.formationsPubliees', { count: publiees }))
     navigate(compte.home)
   }
+
+  const numeroConfirme = async () => {
+    if (!aConfirmer) return
+    const confirme = await data.update('comptes', aConfirmer.id, { telephoneVerifie: true })
+    if (confirme) await ouvrir(confirme)
+  }
+
+  if (aConfirmer)
+    return (
+      <AuthShell>
+        <header>
+          <h1 className="text-[1.9rem] leading-tight font-extrabold tracking-tight text-navy-900">{t('connexion.confirmer.titre')}</h1>
+          <p className="mt-2 leading-relaxed text-muted">{t('connexion.confirmer.texte')}</p>
+        </header>
+        <div className="mt-8 space-y-4">
+          <VerificationCode telephone={aConfirmer.telephone} libelleBouton={t('connexion.confirmer.bouton')} onVerifie={numeroConfirme} />
+          <button
+            type="button"
+            onClick={() => setAConfirmer(null)}
+            className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border-2 border-brand-600/60 bg-white text-[15px] font-semibold text-navy-800 transition-colors hover:bg-brand-50"
+          >
+            <ArrowLeft className="size-4" aria-hidden />
+            {t('connexion.confirmer.retour')}
+          </button>
+        </div>
+      </AuthShell>
+    )
 
   return (
     <AuthShell>
@@ -82,13 +134,9 @@ export function Connexion() {
         <div>
           <div className="flex items-baseline justify-between gap-3 [&>label]:mb-1.5">
             <Label htmlFor="mot-de-passe">{t('connexion.password')}</Label>
-            <button
-              type="button"
-              onClick={() => setOubli(true)}
-              className="text-sm font-semibold text-brand-600 hover:underline"
-            >
+            <Link to={ROUTES.forgotPassword} className="text-sm font-semibold text-brand-600 hover:underline">
               {t('connexion.forgot.link')}
-            </button>
+            </Link>
           </div>
           <Input
             id="mot-de-passe"
@@ -148,7 +196,6 @@ export function Connexion() {
           {t('connexion.guest')}
         </Link>
       </p>
-      <MotDePasseOublie open={oubli} onClose={() => setOubli(false)} />
     </AuthShell>
   )
 }

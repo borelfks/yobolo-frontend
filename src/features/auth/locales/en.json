@@ -9,26 +9,7 @@
     "hide": "Hide",
     "remember": "Remember me",
     "forgot": {
-      "link": "Forgot your password?",
-      "title": "Forgotten password",
-      "intro": "Enter your account’s email or phone number: we will send you a code to choose a new password.",
-      "identifier": "Email or phone",
-      "sendCode": "Get a code",
-      "codeSent": "A verification code was sent by SMS to {{phone}}.",
-      "demoCode": "Demo without SMS: your code is",
-      "code": "Verification code",
-      "newPassword": "New password",
-      "confirmPassword": "Confirm password",
-      "save": "Save new password",
-      "done": "Password changed. Sign in with your new password.",
-      "errors": {
-        "identifier": "Enter your email or phone number.",
-        "unknown": "No account matches this email or phone.",
-        "code": "The code has 6 digits.",
-        "wrongCode": "This code is incorrect.",
-        "passwordLength": "The password must have at least 8 characters.",
-        "passwordMatch": "The two passwords do not match."
-      }
+      "link": "Forgot your password?"
     },
     "submit": "Sign in",
     "or": "Or",
@@ -37,10 +18,18 @@
     "welcome": "Welcome, {{name}}!",
     "errors": {
       "invalid": "Incorrect username or password.",
-      "pending": "Your account is being verified by YIBOLO. You will be notified as soon as it is approved.",
       "identifier": "Enter your email or phone number.",
       "password": "The password must have at least 6 characters."
-    }
+    },
+    "confirmer": {
+      "titre": "Confirm your number",
+      "texte": "Your account has been created, but the code sent by SMS has not been entered yet. Enter the new code to finish.",
+      "bouton": "Confirm and continue",
+      "retour": "Back to sign in",
+      "reprise": "Number confirmed. You still need to provide your institution’s documents."
+    },
+    "formationsPubliees_one": "Good news: 1 programme has been approved by YIBOLO and published.",
+    "formationsPubliees_other": "Good news: {{count}} programmes have been approved by YIBOLO and published."
   },
   "inscription": {
     "title": "Create an account",
@@ -48,7 +37,10 @@
       "profil": "Profile",
       "infos": "Details",
       "verification": "Verification",
-      "done": "Done"
+      "done": "Done",
+      "vous": "You",
+      "acces": "Your access",
+      "code": "Code"
     },
     "profiles": {
       "ecole": {
@@ -82,14 +74,10 @@
     "infos": {
       "title": "General information",
       "text": "Fill in the basic information for your account.",
-      "choose": "Choose",
       "fields": {
         "nom": "Company name / Full name",
         "telephone": "Phone",
         "email": "Email",
-        "region": "Region",
-        "ville": "City",
-        "quartier": "Neighbourhood",
         "motDePasse": "Password",
         "confirmation": "Confirm the password"
       }
@@ -100,19 +88,19 @@
       "required": "This field is required.",
       "phone": "Incomplete phone number.",
       "email": "Invalid email address.",
-      "region": "Choose a region.",
-      "city": "Choose a city.",
-      "district": "Choose a neighbourhood.",
       "passwordLength": "At least 8 characters.",
-      "passwordMatch": "The passwords do not match."
+      "passwordMatch": "The passwords do not match.",
+      "prenom": "First name is required.",
+      "nom": "Surname is required.",
+      "nationalite": "Choose your nationality.",
+      "phoneTaken": "This number is already used by another account.",
+      "phoneFormat": "The number has 9 digits, without a leading 0."
     },
     "verification": {
       "title": "Verification of your profile – {{profile}}",
       "text": "Attach the required documents to validate your account.",
       "docs": {
-        "cni": "Identity document (ID card or passport)",
         "autorisation": "Opening authorisation",
-        "justificatif": "Proof of activity",
         "niu": "NIU (Unique Identification Number)"
       },
       "formats": "PDF, JPG or PNG (max. 5 MB)",
@@ -129,14 +117,86 @@
       "delayValue": "24 to 48 hours",
       "notification": "Notification",
       "notificationValue": "Email and SMS",
-      "back": "Back to sign in",
-      "simulate": "Simulate approval by YIBOLO"
+      "back": "Back to sign in"
     },
     "validated": {
       "title": "Account approved!",
       "text1": "Your account has been successfully verified.",
       "text2": "You can now sign in and access your YIBOLO space.",
       "signIn": "Sign in to my space"
+    },
+    "vous": {
+      "title": "You",
+      "text": "Welcome. A few details to start."
+    },
+    "acces": {
+      "title": "Your access",
+      "text": "Your number protects your account: a code will be sent to you."
+    },
+    "code": {
+      "title": "Phone verification",
+      "text": "One last step: confirm your number."
+    },
+    "champs": {
+      "prenom": "First name",
+      "nom": "Surname",
+      "civilite": "Title",
+      "nationalite": "Nationality",
+      "choisirNationalite": "Choose your nationality",
+      "residence": "Residence",
+      "residenceAide": "Region, division and subdivision: the city is deduced from them.",
+      "telephone": "Phone",
+      "whatsapp": "This number is also my WhatsApp number",
+      "emailFacultatif": "Email (optional)",
+      "motDePasse": "Password",
+      "motDePasseAide": "At least 8 characters",
+      "confirmation": "Confirm the password",
+      "lieu": "Institution location"
+    },
+    "exemples": {
+      "prenom": "E.g. Aïcha",
+      "nom": "E.g. Mbarga",
+      "email": "E.g. aicha.mbarga@mail.com"
+    },
+    "cgu": "By creating an account, you accept the <lien>terms and conditions</lien>.",
+    "creer": "Create my account",
+    "bienvenue": "Welcome to YIBOLO, {{name}}!"
+  },
+  "otp": {
+    "titre": "Phone verification",
+    "envoye": "A verification code was sent to {{telephone}}.",
+    "champ": "Code received",
+    "chiffre": "Digit {{n}} of 6",
+    "verifier": "Verify",
+    "pasRecu": "Didn’t receive a code?",
+    "renvoyer": "Resend the code",
+    "renvoyerDans": "Resend the code in {{secondes}} s",
+    "renvoye": "A new code was sent to {{telephone}}.",
+    "verifie": "Your number is verified.",
+    "erreurs": {
+      "incomplet": "Enter the 6 digits of the code received.",
+      "invalide": "Incorrect or expired code."
+    },
+    "sms": "Text message from YIBOLO: your verification code is"
+  },
+  "oubli": {
+    "surtitre": "Forgot your password?",
+    "titre": "One code, and you’re back!",
+    "texte": "We send a code to your account’s number so you can choose a new password.",
+    "introNumero": "Enter your account’s phone number: a code will be sent to you.",
+    "telephone": "Phone",
+    "envoyer": "Get the code",
+    "nouveau": "New password",
+    "aide": "At least 8 characters",
+    "confirmation": "Confirm the password",
+    "changer": "Change my password",
+    "change": "Password changed. Sign in with the new one.",
+    "retour": "Back to sign in",
+    "erreurs": {
+      "telephone": "The number has 9 digits, without a leading 0.",
+      "inconnu": "No account matches this number.",
+      "motDePasse": "The password must have at least 8 characters.",
+      "different": "The passwords do not match."
     }
   }
 }

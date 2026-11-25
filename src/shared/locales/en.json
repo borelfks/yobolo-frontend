@@ -19,7 +19,6 @@
   "footer": {
     "tagline": "The platform for training, expertise and employment in Central Africa.",
     "city": "Yaoundé, Cameroon",
-    "copyright": "© 2026 YIBOLO — Demo · Fictitious data",
     "columns": {
       "school": "School",
       "institutions": "Institutions",
@@ -79,20 +78,6 @@
         "text": "Me Alain Tchana has replied to you.",
         "when": "2 days ago"
       }
-    }
-  },
-  "demoAccounts": {
-    "utilisateur": {
-      "subtitle": "User"
-    },
-    "ipes": {
-      "subtitle": "Administrator"
-    },
-    "cfp": {
-      "subtitle": "Administrator"
-    },
-    "autre": {
-      "subtitle": "Administrator"
     }
   },
   "logo": {
@@ -161,20 +146,7 @@
     "aCompleter": "To complete"
   },
   "blocks": {
-    "ai": {
-      "title": "AI Assistant",
-      "toastText": "Demo feature: suggestions will appear here."
-    },
-    "tip": "Good to know",
-    "file": {
-      "view": "View",
-      "download": "Download",
-      "more": "More actions",
-      "previewTitle": "Document preview",
-      "previewText": "Demo: the file would open here.",
-      "downloadStarted": "Download started"
-    },
-    "demoAction": "Demo action"
+    "tip": "Good to know"
   },
   "fields": {
     "dropzone": {
@@ -213,6 +185,53 @@
     },
     "errors": {
       "message": "The message must have at least 10 characters."
+    }
+  },
+  "geographie": {
+    "region": "Region",
+    "departement": "Division",
+    "arrondissement": "Subdivision",
+    "quartier": "Neighbourhood",
+    "choisirRegion": "Choose a region",
+    "choisirDepartement": "Choose a division",
+    "choisirArrondissement": "Choose a subdivision",
+    "dAbordRegion": "Choose a region first",
+    "dAbordDepartement": "Choose a division first",
+    "villeDeduite": "City: {{ville}}",
+    "exempleQuartier": "E.g. Bastos",
+    "erreurs": {
+      "region": "Choose a region.",
+      "departement": "Choose a division.",
+      "arrondissement": "Choose a subdivision.",
+      "quartier": "Enter your neighbourhood."
+    }
+  },
+  "personne": {
+    "civilites": {
+      "Monsieur": "Mr",
+      "Madame": "Mrs",
+      "Mademoiselle": "Miss"
+    },
+    "nationalites": {
+      "Camerounaise": "Cameroonian",
+      "Tchadienne": "Chadian",
+      "Centrafricaine": "Central African",
+      "EquatoGuineenne": "Equatorial Guinean",
+      "Gabonaise": "Gabonese",
+      "CongolaiseBrazzaville": "Congolese (Brazzaville)",
+      "CongolaiseDrCongo": "Congolese (DRC)"
+    }
+  },
+  "motDePasse": {
+    "afficher": "Show password",
+    "masquer": "Hide password",
+    "force": {
+      "faible": "Weak",
+      "moyen": "Fair",
+      "bon": "Good",
+      "excellent": "Excellent",
+      "conseil": "Mix capitals, numbers and symbols to strengthen it.",
+      "niveau": "Password strength: {{niveau}}"
     }
   }
 }

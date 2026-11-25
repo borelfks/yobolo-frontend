@@ -13,11 +13,12 @@ const MOTIFS: MotifDeSignalement[] = ['spam', 'proposHaineux', 'contenuTrompeur'
 const LONGUEUR_MAX_PRECISION = 1000
 
 /**
- * Signaler une publication (ModaleSignalement de yibolo-client) : un motif dans
- * une liste fermée et une précision facultative, enregistrés dans la table
- * `signalements`. Un compte ne signale qu'une fois la même publication.
+ * Signaler une publication ou un commentaire (ModaleSignalement de
+ * yibolo-client) : un motif dans une liste fermée et une précision facultative,
+ * enregistrés dans la table `signalements`. Un compte ne signale qu'une fois
+ * le même contenu.
  */
-export function ModaleSignalement({ ouverte, publicationId, onFermer }: { ouverte: boolean; publicationId: string; onFermer: () => void }) {
+export function ModaleSignalement({ ouverte, publicationId, commentaireId, onFermer }: { ouverte: boolean; publicationId: string; /** Un commentaire de la publication (sinon : la publication). */ commentaireId?: string; onFermer: () => void }) {
   const { t } = useTranslation('accueil')
   const { account } = useSession()
   const signalements = useCollection('signalements')
@@ -27,14 +28,14 @@ export function ModaleSignalement({ ouverte, publicationId, onFermer }: { ouvert
 
   const envoyer = async () => {
     if (!account) return
-    if (signalements.some((s) => s.compteId === account.id && s.publicationId === publicationId)) {
+    if (signalements.some((s) => s.compteId === account.id && s.publicationId === publicationId && s.commentaireId === commentaireId)) {
       toast(t('signalement.dejaSignale'))
       onFermer()
       return
     }
     setEnCours(true)
     try {
-      await data.create('signalements', { compteId: account.id, publicationId, motif, precision: precision.trim(), le: new Date().toISOString() }, 'signalement')
+      await data.create('signalements', { compteId: account.id, publicationId, commentaireId, motif, precision: precision.trim(), le: new Date().toISOString() }, 'signalement')
       toast.success(t('signalement.envoye'))
       setPrecision('')
       onFermer()
@@ -50,7 +51,7 @@ export function ModaleSignalement({ ouverte, publicationId, onFermer }: { ouvert
     <Modal
       open={ouverte}
       onClose={onFermer}
-      title={t('signalement.titre')}
+      title={commentaireId ? t('signalement.titreCommentaire') : t('signalement.titre')}
       footer={
         <>
           <Button variant="neutral" onClick={onFermer}>

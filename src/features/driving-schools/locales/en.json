@@ -102,7 +102,7 @@
       "location": "Location",
       "region": "Region",
       "city": "City",
-      "district": "Area",
+      "district": "Neighbourhood",
       "allRegions": "All regions",
       "allCities": "All cities",
       "allDistricts": "All neighbourhoods",
@@ -162,7 +162,9 @@
     },
     "filters": {
       "reset": "Reset",
-      "category": "Licence category"
+      "category": "Licence category",
+      "aucuneSession": "No session matches these filters.",
+      "aucuneFormation": "No programme matches these filters."
     },
     "overview": {
       "presentationTitle": "About us",

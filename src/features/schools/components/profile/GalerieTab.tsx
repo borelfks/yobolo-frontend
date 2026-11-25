@@ -71,7 +71,7 @@ export function GalerieTab({ id }: { id: string }) {
         </div>
       </div>
       {medias.length > 0 && (
-        <div className="space-y-3">
+        <div className="space-y-3 lg:col-span-full">
           <h2 className="flex items-center gap-2.5 text-[22px] font-bold text-navy-900">
             <ImageIcon className="size-7" /> {t('ecoleProfil.galerie.medias', { count: medias.length })}
           </h2>

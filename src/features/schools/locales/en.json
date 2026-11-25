@@ -364,7 +364,7 @@
         "noDocuments": "No documents published yet.",
         "noFaq": "No questions yet.",
         "download": "Download",
-        "noFile": "This starting document has no attached file in the demo."
+        "noFile": "This document is not yet available for download."
       }
     },
     "avis": {
@@ -404,7 +404,12 @@
         "cancel": "Cancel",
         "published": "Reply published",
         "removed": "Reply removed",
-        "tooShort": "Write your reply."
+        "tooShort": "Write your reply.",
+        "notification": {
+          "titre": "Reply to your review",
+          "texte": "{{school}} replied to your review.",
+          "quand": "Just now"
+        }
       }
     },
     "galerie": {

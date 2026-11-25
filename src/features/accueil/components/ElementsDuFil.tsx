@@ -74,17 +74,14 @@ export function EnTeteDuFil({ nom, photo, vers, pastille, nature, date, menu }: 
             {t(`badge.${pastille}`)}
           </span>
         </span>
-        <span className="truncate text-[0.6875rem] text-muted">
-          {date && (
-            <>
-              <time dateTime={date} title={dateHeureDuFil(date)}>
-                {dateRelativeDuFil(date)}
-              </time>
-              {' · '}
-            </>
-          )}
-          <span className={nature === 'publication' ? undefined : 'font-medium text-brand-700'}>{t(`nature.${nature}`)}</span>
-        </span>
+        {/* Le fil ne contient que des publications : la date seule, sans « · Publication ». */}
+        {date ? (
+          <time dateTime={date} title={dateHeureDuFil(date)} className="truncate text-xs text-muted">
+            {dateRelativeDuFil(date)}
+          </time>
+        ) : (
+          <span className="truncate text-xs text-muted">{t(`nature.${nature}`)}</span>
+        )}
       </div>
 
       {menu}
@@ -123,7 +120,7 @@ export function PiedDuFil({ children }: { children: ReactNode }) {
 
 /** La ligne des chiffres, au-dessus du filet : ce que la carte a déjà suscité. */
 export function ChiffresDuFil({ children }: { children: ReactNode }) {
-  return <div className="relative z-10 flex min-h-[1.5rem] items-center gap-3 text-[0.6875rem] text-muted tabular-nums">{children}</div>
+  return <div className="relative z-10 flex min-h-[1.5rem] items-center gap-3 text-xs text-muted tabular-nums">{children}</div>
 }
 
 /** Les gestes sous le filet, répartis sur toute la largeur de la carte. */
@@ -164,7 +161,7 @@ export function LienDuPied({ vers, onClick, children }: { vers: string; onClick?
     <Link
       to={vers}
       onClick={onClick}
-      className="relative z-10 ml-auto inline-flex shrink-0 items-center gap-1 rounded text-[0.6875rem] font-semibold text-brand-600 hover:underline focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none"
+      className="relative z-10 ml-auto inline-flex min-h-9 shrink-0 items-center gap-1 rounded text-xs font-semibold text-brand-600 hover:underline focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none"
     >
       {children}
     </Link>
@@ -180,7 +177,7 @@ export function MenuDuFil({ children }: { children: (fermer: () => void) => Reac
       titre={t('actions.menu')}
       align="end"
       bouton={<MoreHorizontal className="size-4" aria-hidden="true" />}
-      classesBouton="-mt-1 -mr-1 flex size-[1.75rem] shrink-0 items-center justify-center rounded-full text-muted transition-colors hover:bg-page hover:text-ink focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none data-[state=open]:bg-page"
+      classesBouton="-mt-1.5 -mr-1.5 flex size-9 shrink-0 items-center justify-center rounded-full text-muted transition-colors hover:bg-page hover:text-ink focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none data-[state=open]:bg-page"
       classesPanneau="min-w-[12rem] p-1"
     >
       {children}

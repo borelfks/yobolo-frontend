@@ -36,6 +36,9 @@ export type Etablissement = {
   sigle: string
   type: TypeEcole
   region: string
+  /** Département et arrondissement du découpage officiel (sélection géographique). */
+  departement?: string
+  arrondissement?: string
   ville: string
   quartier: string
   note: number
@@ -107,6 +110,8 @@ export type Permis = {
 }
 
 export type AutoEcole = {
+  /** Département du découpage officiel. */
+  departement?: string
   /** Nombre de photos annoncé dans l'aperçu. */
   nbPhotos?: number
   /** Rang parmi les premières cartes de l'annuaire École (absent : l'auto-école n'y figure pas). */
@@ -139,6 +144,9 @@ export type InscriptionDraft = {
   sexe: string
   telephone: string
   email: string
+  region?: string
+  departement?: string
+  arrondissement?: string
   ville: string
   quartier: string
   autoEcoleId: string
@@ -180,14 +188,26 @@ export type Compte = Account & {
   telephone: string
   /** « En vérification » après l'inscription, « Validé » après la validation par YIBOLO. */
   statut: 'Validé' | 'En vérification'
-  /** Profil d'une personne physique (Mon espace › Mon profil). */
-  civilite?: 'Monsieur' | 'Madame'
+  /** Profil d'une personne physique (Mon espace › Mon profil), comme dans yibolo-client. */
+  civilite?: 'Monsieur' | 'Madame' | 'Mademoiselle'
+  prenom?: string
+  nom?: string
+  nationalite?: string
   naissance?: string
   region?: string
+  departement?: string
+  arrondissement?: string
+  /** La ville, déduite de l'arrondissement. */
   ville?: string
   quartier?: string
+  /** Le numéro de téléphone est aussi le numéro WhatsApp. */
+  whatsapp?: boolean
+  /** Le numéro a été confirmé par le code (OTP) reçu à l'inscription. */
+  telephoneVerifie?: boolean
   /** Mot de passe haché : sha256(sel + ':' + mot de passe), en hexadécimal. */
   motDePasse: { sel: string; hash: string }
+  /** Comment être prévenu, par sujet (Mon espace › Paramètres). */
+  preferencesNotifications?: Partial<Record<SujetNotification, PreferenceNotification>>
 }
 
 /* --- Données enregistrées dans la base de test (src/data) ----------------- */
@@ -338,6 +358,12 @@ export type Region = { id: string; nom: string; ipes: number; chef: string; imag
 export type VilleRegion = { id: string; region: string; nom: string; ipes: number }
 export type Ville = { id: string; nom: string; region: string; ipes: number; image: string }
 export type Quartier = { id: string; nom: string }
+/** Le découpage officiel du Cameroun (repris de yibolo-backend) : région → département → arrondissement. */
+export type Departement = { id: string; region: string; nom: string; chefLieu: string }
+/** `ville` : la ville de l'arrondissement (« Douala III » → « Douala »). */
+export type Arrondissement = { id: string; departement: string; nom: string; ville: string }
+/** Un lieu saisi avec la sélection géographique ; la ville se déduit de l'arrondissement. */
+export type Lieu = { region: string; departement: string; arrondissement: string; quartier: string }
 export type RepartitionNote = { id: string; cible: 'etablissement' | 'auto-ecole'; etoiles: number; pct: number }
 export type Album = { id: string; nom: string; count: number; image: string }
 export type SemestreProgramme = { id: string; annee: string; semestre: string; ue: string[]; heures: number }
@@ -400,35 +426,11 @@ export type Publication = {
   statut: 'publiee' | 'brouillon'
 }
 
-export type TypeDeContrat = 'Cdi' | 'Cdd' | 'Stage' | 'Alternance' | 'Mission' | 'Freelance'
-export type ModeDeTravail = 'SurSite' | 'Hybride' | 'ADistance'
-
-/** Une offre d'emploi du fil et de « Offres d'emploi populaires ». */
-export type OffreEmploi = {
-  id: string
-  titre: string
-  lieu: string
-  typeDeContrat: TypeDeContrat
-  modeDeTravail: ModeDeTravail
-  remuneration: { affichage: 'Montants' | 'Negociable' | 'Masquee'; minimum?: number; maximum?: number }
-  publieurType: 'ecole' | 'entreprise'
-  publieurNom: string
-  /** L'établissement qui recrute (fiche publique), pour une école. */
-  etablissementId?: string
-  publieeLe: string
-  clotureeLe: string
-  /** Le poste et le profil recherché (fiche de l'offre). */
-  description?: string
-}
-
-/** Une candidature d'un compte à une offre d'emploi (« Postuler »). */
-export type Candidature = { id: string; compteId: string; offreId: string; message: string; le: string }
-
 /** Un texte de la base écrit en français et en anglais. */
 export type TexteTraduit = { fr: string; en: string }
 
 /** Un bandeau du carrousel de l'accueil connecté. `cible` : où mène son bouton. */
-export type BandeauAccueil = { id: string; titre: TexteTraduit; texte: TexteTraduit; action: TexteTraduit; cible: 'ecoles' | 'offres' | 'conseils'; image: string }
+export type BandeauAccueil = { id: string; titre: TexteTraduit; texte: TexteTraduit; action: TexteTraduit; cible: 'ecoles' | 'conseils'; image: string }
 
 /** Une publication mise de côté par un compte (« Mes enregistrés »). */
 export type Enregistrement = { id: string; compteId: string; publicationId: string; le: string }
@@ -439,12 +441,7 @@ export type Jaime = { id: string; compteId: string; publicationId: string }
 export type MotifDeSignalement = 'spam' | 'proposHaineux' | 'contenuTrompeur' | 'horsSujet'
 
 /** Un signalement envoyé à la modération. */
-export type Signalement = { id: string; compteId: string; publicationId: string; motif: MotifDeSignalement; precision: string; le: string }
-
-export type CleDeTache = 'paiementsAReprendre' | 'reportsATrancher' | 'propositionsAExaminer' | 'rapportsAValider'
-
-/** Ce qui attend un geste du compte (fenêtre « À faire » à l'arrivée sur l'accueil). */
-export type TacheAccueil = { id: string; compteId: string; cle: CleDeTache; nombre: number }
+export type Signalement = { id: string; compteId: string; publicationId: string; /** Un commentaire signalé (sinon : la publication). */ commentaireId?: string; motif: MotifDeSignalement; precision: string; le: string }
 
 /* --- Fichiers, vidéos, notifications, assistance, signalements, commentaires -- */
 
@@ -455,10 +452,34 @@ export type PieceEtablissement = { id: string; etablissementId: string; cle?: 'a
 /** Une vidéo (présentation ou galerie) d'un établissement ou d'une auto-école ; `cibleId` '*' : pour tous. */
 export type Video = { id: string; cible: 'etablissement' | 'auto-ecole'; cibleId: string; usage: 'presentation' | 'galerie'; titre: string; poster: string; src: string }
 /** Une notification de la cloche pour un compte. */
-export type NotificationCompte = { id: string; compteId: string; type: 'preRegistration' | 'session' | 'message' | 'review' | 'info'; titre: string; texte: string; quand: string; lu: boolean }
+export type NotificationCompte = { id: string; compteId: string; type: SujetNotification; titre: string; texte: string; quand: string; lu: boolean; /** La page qu'elle ouvre (sinon : celle de son sujet). */ vers?: string }
+
+/** Le sujet d'une notification : préinscription, permis, réponse à un avis, réponse à un commentaire, nouveauté YIBOLO. */
+export type SujetNotification = 'preRegistration' | 'session' | 'review' | 'message' | 'info'
+
+/** Les canaux choisis pour un sujet (Paramètres › Notifications). */
+export type PreferenceNotification = { app: boolean; sms: boolean; email: boolean }
 /** Une demande envoyée au support (« Assistance YIBOLO »). */
 export type DemandeAssistance = { id: string; compteId: string; sujet: string; message: string; envoyeeLe: string; statut: 'Envoyée' }
 /** Le signalement d'un avis. */
 export type SignalementAvis = { id: string; avisId: string; cible: 'etablissement' | 'auto-ecole'; compteId?: string; motif: string; le: string }
 /** Un commentaire sous une publication de l'accueil. */
-export type Commentaire = { id: string; publicationId: string; compteId: string; auteur: string; avatar: string; texte: string; le: string }
+export type Commentaire = {
+  id: string
+  publicationId: string
+  /** Une réponse : le commentaire auquel elle répond (un seul niveau, comme yibolo-client). */
+  parentId?: string
+  compteId: string
+  auteur: string
+  avatar: string
+  texte: string
+  le: string
+  /** Date de la dernière modification (ISO) : « Modifié ». */
+  modifieLe?: string
+  /** Supprimé par son auteur alors qu'il avait des réponses : « Ce commentaire a été supprimé ». */
+  supprime?: boolean
+}
+/** Le libellé d'un sujet de publication (« creation-entreprise » → « Création d’entreprise »). */
+export type SujetPublication = { id: string; nom: string }
+/** Une publication ouverte par un compte : une vue, comptée une seule fois par compte. */
+export type Lecture = { id: string; compteId: string; publicationId: string; le: string }

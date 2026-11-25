@@ -9,26 +9,7 @@
     "hide": "Masquer",
     "remember": "Se souvenir de moi",
     "forgot": {
-      "link": "Mot de passe oublié ?",
-      "title": "Mot de passe oublié",
-      "intro": "Saisissez l’e-mail ou le téléphone de votre compte : nous vous envoyons un code pour choisir un nouveau mot de passe.",
-      "identifier": "Email ou téléphone",
-      "sendCode": "Recevoir un code",
-      "codeSent": "Un code de vérification a été envoyé par SMS au {{phone}}.",
-      "demoCode": "Démonstration sans envoi de SMS : votre code est",
-      "code": "Code de vérification",
-      "newPassword": "Nouveau mot de passe",
-      "confirmPassword": "Confirmer le mot de passe",
-      "save": "Enregistrer le nouveau mot de passe",
-      "done": "Mot de passe modifié. Connectez-vous avec votre nouveau mot de passe.",
-      "errors": {
-        "identifier": "Saisissez votre e-mail ou votre téléphone.",
-        "unknown": "Aucun compte ne correspond à cet identifiant.",
-        "code": "Le code compte 6 chiffres.",
-        "wrongCode": "Ce code n’est pas le bon.",
-        "passwordLength": "Le mot de passe compte au moins 8 caractères.",
-        "passwordMatch": "Les deux mots de passe ne sont pas identiques."
-      }
+      "link": "Mot de passe oublié ?"
     },
     "submit": "Se connecter",
     "or": "Ou",
@@ -37,10 +18,18 @@
     "welcome": "Bienvenue, {{name}} !",
     "errors": {
       "invalid": "Identifiant ou mot de passe incorrect.",
-      "pending": "Votre compte est en cours de vérification par YIBOLO. Vous recevrez une notification dès qu’il sera validé.",
       "identifier": "Saisissez votre e-mail ou votre téléphone.",
       "password": "Le mot de passe compte au moins 6 caractères."
-    }
+    },
+    "confirmer": {
+      "titre": "Confirmez votre numéro",
+      "texte": "Votre compte est créé, mais le code reçu par SMS n’a pas encore été saisi. Saisissez le nouveau code pour terminer.",
+      "bouton": "Confirmer et continuer",
+      "retour": "Retour à la connexion",
+      "reprise": "Numéro confirmé. Il reste à fournir les pièces de votre établissement."
+    },
+    "formationsPubliees_one": "Bonne nouvelle : 1 formation a été validée par YIBOLO et publiée.",
+    "formationsPubliees_other": "Bonne nouvelle : {{count}} formations ont été validées par YIBOLO et publiées."
   },
   "inscription": {
     "title": "Créer un compte",
@@ -48,7 +37,10 @@
       "profil": "Profil",
       "infos": "Infos",
       "verification": "Vérification",
-      "done": "Terminé"
+      "done": "Terminé",
+      "vous": "Vous",
+      "acces": "Votre accès",
+      "code": "Code"
     },
     "profiles": {
       "ecole": {
@@ -82,14 +74,10 @@
     "infos": {
       "title": "Informations générales",
       "text": "Renseignez les informations de base de votre compte.",
-      "choose": "Choisir",
       "fields": {
         "nom": "Raison sociale / Nom et prénoms",
         "telephone": "Téléphone",
         "email": "Email",
-        "region": "Région",
-        "ville": "Ville",
-        "quartier": "Quartier",
         "motDePasse": "Mot de passe",
         "confirmation": "Confirmer le mot de passe"
       }
@@ -100,19 +88,19 @@
       "required": "Ce champ est obligatoire.",
       "phone": "Numéro de téléphone incomplet.",
       "email": "Adresse e-mail invalide.",
-      "region": "Choisissez une région.",
-      "city": "Choisissez une ville.",
-      "district": "Choisissez un quartier.",
       "passwordLength": "Au moins 8 caractères.",
-      "passwordMatch": "Les mots de passe ne correspondent pas."
+      "passwordMatch": "Les mots de passe ne correspondent pas.",
+      "prenom": "Le prénom est requis.",
+      "nom": "Le nom est requis.",
+      "nationalite": "Choisissez votre nationalité.",
+      "phoneTaken": "Ce numéro est déjà utilisé par un autre compte.",
+      "phoneFormat": "Le numéro doit compter 9 chiffres, sans 0 devant."
     },
     "verification": {
       "title": "Vérification de votre profil – {{profile}}",
       "text": "Joignez les documents requis pour valider votre compte.",
       "docs": {
-        "cni": "Pièce d’identité (CNI ou passeport)",
         "autorisation": "Autorisation d’ouverture",
-        "justificatif": "Justificatif d’activité",
         "niu": "NIU (Numéro d’Identification Unique)"
       },
       "formats": "PDF, JPG ou PNG (max. 5 Mo)",
@@ -129,14 +117,86 @@
       "delayValue": "24 à 48 heures",
       "notification": "Notification",
       "notificationValue": "Email et SMS",
-      "back": "Retour à la connexion",
-      "simulate": "Simuler la validation par YIBOLO"
+      "back": "Retour à la connexion"
     },
     "validated": {
       "title": "Compte validé !",
       "text1": "Votre compte a été vérifié avec succès.",
       "text2": "Vous pouvez maintenant vous connecter et accéder à votre espace YIBOLO.",
       "signIn": "Se connecter à mon espace"
+    },
+    "vous": {
+      "title": "Vous",
+      "text": "Bienvenue. Quelques informations pour commencer."
+    },
+    "acces": {
+      "title": "Votre accès",
+      "text": "Votre numéro protège votre compte : un code va vous être envoyé."
+    },
+    "code": {
+      "title": "Vérification du téléphone",
+      "text": "Plus qu’une étape : confirmez votre numéro."
+    },
+    "champs": {
+      "prenom": "Prénom",
+      "nom": "Nom",
+      "civilite": "Civilité",
+      "nationalite": "Nationalité",
+      "choisirNationalite": "Choisir votre nationalité",
+      "residence": "Résidence",
+      "residenceAide": "Région, département et arrondissement : la ville en est déduite.",
+      "telephone": "Téléphone",
+      "whatsapp": "Ce numéro est aussi mon numéro WhatsApp",
+      "emailFacultatif": "E-mail (facultatif)",
+      "motDePasse": "Mot de passe",
+      "motDePasseAide": "8 caractères minimum",
+      "confirmation": "Confirmer le mot de passe",
+      "lieu": "Localisation de l’établissement"
+    },
+    "exemples": {
+      "prenom": "Ex. : Aïcha",
+      "nom": "Ex. : Mbarga",
+      "email": "Ex. : aicha.mbarga@mail.com"
+    },
+    "cgu": "En créant un compte, vous acceptez les <lien>conditions générales d’utilisation</lien>.",
+    "creer": "Créer mon compte",
+    "bienvenue": "Bienvenue sur YIBOLO, {{name}} !"
+  },
+  "otp": {
+    "titre": "Vérification du téléphone",
+    "envoye": "Un code de vérification a été envoyé au {{telephone}}.",
+    "champ": "Code reçu",
+    "chiffre": "Chiffre {{n}} sur 6",
+    "verifier": "Vérifier",
+    "pasRecu": "Vous n’avez pas reçu de code ?",
+    "renvoyer": "Renvoyer le code",
+    "renvoyerDans": "Renvoyer le code dans {{secondes}} s",
+    "renvoye": "Un nouveau code a été envoyé au {{telephone}}.",
+    "verifie": "Votre numéro est vérifié.",
+    "erreurs": {
+      "incomplet": "Saisissez les 6 chiffres du code reçu.",
+      "invalide": "Code incorrect ou expiré."
+    },
+    "sms": "SMS de YIBOLO : votre code de vérification est"
+  },
+  "oubli": {
+    "surtitre": "Mot de passe oublié ?",
+    "titre": "Un code, et vous revoilà !",
+    "texte": "Nous envoyons un code au numéro de votre compte pour choisir un nouveau mot de passe.",
+    "introNumero": "Saisissez le numéro de téléphone de votre compte : un code vous sera envoyé.",
+    "telephone": "Téléphone",
+    "envoyer": "Recevoir le code",
+    "nouveau": "Nouveau mot de passe",
+    "aide": "8 caractères minimum",
+    "confirmation": "Confirmer le mot de passe",
+    "changer": "Changer mon mot de passe",
+    "change": "Mot de passe changé. Connectez-vous avec le nouveau.",
+    "retour": "Retour à la connexion",
+    "erreurs": {
+      "telephone": "Le numéro doit compter 9 chiffres, sans 0 devant.",
+      "inconnu": "Aucun compte ne correspond à ce numéro.",
+      "motDePasse": "Le mot de passe doit contenir au moins 8 caractères.",
+      "different": "Les mots de passe ne correspondent pas."
     }
   }
 }

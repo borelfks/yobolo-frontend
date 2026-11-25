@@ -364,7 +364,7 @@
         "noDocuments": "Aucun document publié pour le moment.",
         "noFaq": "Aucune question pour le moment.",
         "download": "Télécharger",
-        "noFile": "Ce document de départ n’a pas de fichier joint dans la démo."
+        "noFile": "Ce document n’est pas encore disponible au téléchargement."
       }
     },
     "avis": {
@@ -404,7 +404,12 @@
         "cancel": "Annuler",
         "published": "Réponse publiée",
         "removed": "Réponse retirée",
-        "tooShort": "Écrivez votre réponse."
+        "tooShort": "Écrivez votre réponse.",
+        "notification": {
+          "titre": "Réponse à votre avis",
+          "texte": "{{school}} a répondu à votre avis.",
+          "quand": "À l’instant"
+        }
       }
     },
     "galerie": {

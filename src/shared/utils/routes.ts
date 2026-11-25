@@ -16,11 +16,10 @@ export const ROUTES = {
   /** L'accueil d'un compte connecté (fil, raccourcis, offres) : un compte connecté qui ouvre « / » y est mené. */
   accueil: '/accueil',
   /** L'accueil connecté, ouvert sur « Mes enregistrés ». */
-  accueilEnregistres: '/accueil?vue=enregistres',
-  /** L'accueil connecté, ouvert sur une publication (lien à partager). */
-  accueilPublication: (id: string) => `/accueil?publication=${encodeURIComponent(id)}`,
-  /** L'accueil connecté, filtré sur un type (« offre », « conseil »…). */
-  accueilGenre: (genre: string) => `/accueil?genre=${encodeURIComponent(genre)}`,
+  /** Une publication seule, lue comme un article (PublicationPage de yibolo-client) : l'adresse qu'on partage. */
+  publication: (id: string) => `/accueil/publications/${encodeURIComponent(id)}`,
+  /** L'accueil connecté, filtré sur un sujet (« #ohada »). */
+  accueilSujet: (sujet: string) => `/accueil?sujet=${encodeURIComponent(sujet)}`,
   /** L'accueil connecté, ouvert sur la fiche d'une offre d'emploi. */
   accueilOffre: (id: string) => `/accueil?offre=${encodeURIComponent(id)}`,
   consultation: '/consultation',
@@ -32,6 +31,11 @@ export const ROUTES = {
   help: '/aide',
   terms: '/conditions',
   favorites: '/favoris',
+  /** Les notifications d'une personne physique : une page à elles. */
+  notifications: '/notifications',
+  /** Le profil et les paramètres d'une personne physique : des pages à eux (menu du compte). */
+  profil: '/profil',
+  parametres: (section?: string) => (section ? `/parametres#${section}` : '/parametres'),
   /** L'espace d'une personne physique (onglets dans l'adresse). */
   espace: (tab?: string) => withTab('/mon-espace', tab),
   /** Le détail d'une préinscription envoyée, dans l'espace personnel. */
@@ -64,6 +68,8 @@ export const ROUTES = {
   /** Connexion qui présélectionne un compte école. */
   signInSchool: '/connexion?espace=ecole',
   signUp: '/inscription',
+  /** Mot de passe oublié : numéro, code reçu (OTP), nouveau mot de passe. */
+  forgotPassword: '/mot-de-passe-oublie',
 
   // -- Espace professionnel École (IPES, CFP, Autres) -------------------------
   pro: {
@@ -83,7 +89,11 @@ export const ROUTES = {
 /** Motifs utilisés par la table des routes (src/app/routes/index.tsx). */
 export const ROUTE_PATTERNS = {
   accueil: 'accueil',
+  publication: 'accueil/publications/:id',
   espace: 'mon-espace/:tab?',
+  notifications: 'notifications',
+  profil: 'profil',
+  parametres: 'parametres',
   espacePreinscription: 'mon-espace/preinscriptions/:id',
   espaceInscription: 'mon-espace/auto-ecole/:id',
   schoolType: 'ecoles/:type/:tab?',

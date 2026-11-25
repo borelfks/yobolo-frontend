@@ -30,13 +30,15 @@ import {
 import { AEHeader } from '@/features/driving-schools/components/AutoEcoleBlocks'
 import { piecesAE, type PieceKey } from '@/features/driving-schools/autoEcoleRules'
 import { useInscriptionDraft } from '@/features/driving-schools/hooks/useInscriptionDraft'
-import { useAutoEcoles, useFichiers, usePermisCatalogue, useQuartiers, useSessions, useVilles } from '@/data/hooks'
+import { useAutoEcoles, useDecoupage, useFichiers, usePermisCatalogue, useSessions } from '@/data/hooks'
 import type { PermisCode } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { demoDate, fcfa } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
 import { joindrePiece } from '@/features/driving-schools/piecesJointes'
 import { telecharger } from '@/shared/utils/fichiers'
+import { SelectionGeographique } from '@/shared/components/forms/SelectionGeographique'
+import { lieuDe, villeDuLieu } from '@/shared/utils/geographie'
 
 const card = 'rounded-2xl border border-line bg-white shadow-[0_2px_10px_rgba(15,29,61,0.06)]'
 const field = 'h-11 w-full rounded-lg border border-[#c9d4ea] bg-white px-3.5 text-[15px] text-ink outline-none focus:border-brand-500 focus:ring-3 focus:ring-brand-100'
@@ -94,8 +96,7 @@ function Checks({ items }: { items: string[] }) {
 
 export function ModifierInscription() {
   const permisCatalogue = usePermisCatalogue()
-  const villes = useVilles()
-  const quartiers = useQuartiers().map((q) => q.nom)
+  const { arrondissements } = useDecoupage()
   const { t } = useTranslation('driving-schools', { keyPrefix: 'enrollment' })
   const { id, code = 'B', section = 'infos' } = useParams()
   const autoEcoles = useAutoEcoles()
@@ -248,8 +249,7 @@ export function ModifierInscription() {
                   <label><Label required>{t('form.sex')}</Label><IconSelect icon={<UserRound />} value={form.sexe || 'Féminin'} options={sexes.map((x) => ({ value: x.value, label: t(`sex.${x.key}`) }))} onChange={(v) => setForm({ ...form, sexe: v })} /></label>
                   <label><Label required>{t('form.phone')}</Label><input className={field} placeholder="6 70 12 34 56" value={form.telephone} onChange={(e) => setForm({ ...form, telephone: e.target.value })} /></label>
                   <label><Label>{t('form.email')}</Label><input className={field} placeholder={t('form.emailPlaceholder')} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></label>
-                  <label><Label required>{t('form.city')}</Label><IconSelect icon={<Building2 />} value={form.ville || 'Yaoundé'} options={villes.map((x) => ({ value: x.nom, label: x.nom }))} onChange={(v) => setForm({ ...form, ville: v })} /></label>
-                  <label><Label required>{t('form.neighbourhood')}</Label><IconSelect icon={<MapPin />} value={form.quartier || 'Bastos'} options={quartiers.map((x) => ({ value: x, label: x }))} onChange={(v) => setForm({ ...form, quartier: v })} /></label>
+                  <SelectionGeographique valeur={lieuDe(form)} onChange={(l) => setForm({ ...form, ...l, ville: villeDuLieu(l, arrondissements) })} className="sm:col-span-2" />
                 </div>
               </div>
             )}

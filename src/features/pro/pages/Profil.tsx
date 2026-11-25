@@ -36,7 +36,7 @@ import { Img } from '@/shared/components/ui/Img'
 import { LinkTabs } from '@/shared/components/ui/Tabs'
 import { useMonEcole } from '@/features/auth/hooks/useSession'
 import { data } from '@/data'
-import { useFichiers, useMedias, useParametres, usePiecesEtablissement, useQuartiers, useRegions, useVilles } from '@/data/hooks'
+import { useDecoupage, useFichiers, useMedias, useParametres, usePiecesEtablissement } from '@/data/hooks'
 import { cn } from '@/shared/utils/cn'
 import { num } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
@@ -44,6 +44,9 @@ import { MenuActions } from '@/shared/components/ui/MenuActions'
 import { Visionneuse } from '@/shared/components/ui/Visionneuse'
 import { lireFichier, lireImage, telecharger, TAILLE_MAX_DOCUMENT, TAILLE_MAX_PHOTO } from '@/shared/utils/fichiers'
 import { ajusterIndicateurs, compterDansLAnnuaire } from '@/shared/utils/compteurs'
+import type { Lieu } from '@/shared/types'
+import { SelectionGeographique } from '@/shared/components/forms/SelectionGeographique'
+import { villeDuLieu } from '@/shared/utils/geographie'
 
 const typeOptions = [
   { value: 'IPES', labelKey: 'ipes' },
@@ -236,20 +239,27 @@ function Infos({ form }: { form: ProfilForm }) {
 }
 
 function Coordonnees({ form }: { form: ProfilForm }) {
-  const regions = useRegions()
-  const villes = useVilles()
-  const quartiers = useQuartiers().map((q) => q.nom)
+  const { arrondissements } = useDecoupage()
   const { t } = useTranslation('pro')
   const { ecole } = useMonEcole()
-  const quartier = form.texte('quartier', ecole.quartier)
+  // Le lieu, avec la sélection géographique : région → département → arrondissement (la ville s'en déduit), quartier.
+  const lieu: Lieu = {
+    region: form.texte('region', ecole.region),
+    departement: form.texte('departement', ecole.departement ?? ''),
+    arrondissement: form.texte('arrondissement', ecole.arrondissement ?? ''),
+    quartier: form.texte('quartier', ecole.quartier),
+  }
+  const changerLieu = (l: Lieu) => {
+    for (const cle of ['region', 'departement', 'arrondissement', 'quartier'] as const) form.changer(cle, l[cle])
+    const ville = villeDuLieu(l, arrondissements)
+    if (ville) form.changer('ville', ville)
+  }
   const site = `www.${ecole.sigle.toLowerCase().replace(/\s+/g, '')}.cm`
   return (
     <div className="grid gap-4 xl:grid-cols-[1fr_405px]">
       <ProCard title={t('profil.contact.title')} icon={<Contact />}>
         <div className="grid gap-x-5 gap-y-3 md:grid-cols-2">
-          <label><ProLabel required>{t('profil.contact.region')}</ProLabel><SelectBox value={form.texte('region', ecole.region)} onChange={(v) => form.changer('region', v)} options={opts(regions.map((r) => r.nom))} /></label>
-          <label><ProLabel required>{t('profil.contact.city')}</ProLabel><SelectBox value={form.texte('ville', ecole.ville)} onChange={(v) => form.changer('ville', v)} options={opts(villes.map((v) => v.nom))} /></label>
-          <label><ProLabel required>{t('profil.contact.neighbourhood')}</ProLabel><SelectBox value={quartier} onChange={(v) => form.changer('quartier', v)} options={opts([...new Set([quartier, ...quartiers])])} /></label>
+          <SelectionGeographique valeur={lieu} onChange={changerLieu} className="md:col-span-2" />
           <label><ProLabel>{t('profil.contact.locality')}</ProLabel><input className={proInput} value={form.texte('lieuDit', ecole.lieuDit ?? '')} onChange={(e) => form.changer('lieuDit', e.target.value)} /></label>
           <label className="md:col-span-2"><ProLabel required>{t('profil.contact.address')}</ProLabel><IconInput icon={<MapPin />} value={form.texte('adresse', ecole.adresse ?? '')} onChange={(v) => form.changer('adresse', v)} /></label>
           <label><ProLabel required>{t('profil.contact.phone')}</ProLabel><IconInput icon={<Phone />} value={form.texte('telephone', ecole.telephone)} onChange={(v) => form.changer('telephone', v)} /></label>
@@ -314,7 +324,7 @@ function Agrement({ form }: { form: ProfilForm }) {
             <div key={d.id} className="flex items-center gap-3 rounded-xl bg-[#f3f6fc] px-3 py-2">
               <span className="grid h-10 w-9 place-items-center rounded-md bg-rose-600 text-[10px] font-extrabold text-white">{(d.nom.split('.').pop() || 'PDF').toUpperCase().slice(0, 4)}</span>
               <span className="min-w-0 flex-1 leading-tight">
-                <b className="block truncate text-[15px] text-navy-900">{d.cle ? t(`profil.documents.items.${d.cle}`) : d.nom}</b>
+                <b className="line-clamp-2 block text-[15px] leading-snug text-navy-900">{d.cle ? t(`profil.documents.items.${d.cle}`) : d.nom}</b>
                 <span className="text-[13px] text-navy-900">{t('profil.documents.fileSize', { size: d.taille })}</span>
               </span>
               {d.statut === 'Validé' ? (

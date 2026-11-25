@@ -67,7 +67,7 @@ export function ApercuTab() {
         <Kpi icon={<Heart />} label={t('apercu.kpis.favoris')} value={favorites.length} tone="violet" />
         <Kpi icon={<Star />} label={t('apercu.kpis.avis')} value={nbAvis} tone="amber" />
       </KpiGrid>
-      <div className="grid gap-4 lg:grid-cols-[1fr_340px]">
+      <div className="grid items-start gap-4 lg:grid-cols-[1fr_340px]">
         <Section title={t('apercu.activite')} icon={<History />}>
           {demarches.length === 0 ? (
             <div className="space-y-3 rounded-xl bg-page p-4 text-sm text-muted">
@@ -81,15 +81,19 @@ export function ApercuTab() {
             <ul className="divide-y divide-line">
               {demarches.map((d) => (
                 <li key={d.id}>
-                  <Link to={d.vers} className="flex items-center gap-3 py-3 hover:bg-page/60">
+                  <Link to={d.vers} className="flex items-center gap-3 rounded-lg py-3 hover:bg-page/60">
                     <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand-50 text-brand-600 [&_svg]:size-5">{d.icone}</span>
-                    <span className="min-w-0 flex-1">
-                      <span className="block truncate font-semibold text-navy-900">{d.titre}</span>
-                      <span className="block truncate text-[13px] text-muted">
-                        {d.genre} · {d.lieu} · {shortDate(d.le, { day: '2-digit', month: 'short', year: 'numeric' })}
+                    <span className="flex min-w-0 flex-1 flex-col gap-1 sm:flex-row sm:items-center sm:gap-3">
+                      <span className="min-w-0 flex-1">
+                        <span className="line-clamp-2 font-semibold text-navy-900 sm:line-clamp-1">{d.titre}</span>
+                        <span className="line-clamp-2 text-[13px] text-muted sm:line-clamp-1">
+                          {d.genre} · {d.lieu} · {shortDate(d.le, { day: '2-digit', month: 'short', year: 'numeric' })}
+                        </span>
+                      </span>
+                      <span className="self-start sm:self-center">
+                        <StatutDossier statut={d.statut} />
                       </span>
                     </span>
-                    <StatutDossier statut={d.statut} />
                     <ChevronRight className="size-4 shrink-0 text-muted" aria-hidden="true" />
                   </Link>
                 </li>
@@ -103,7 +107,7 @@ export function ApercuTab() {
               <Bell className="size-5 text-brand-600" aria-hidden="true" />
               {t('apercu.notifications', { count: nonLues })}
             </p>
-            <Button to={ROUTES.espace('notifications')} variant="outline" size="sm">
+            <Button to={ROUTES.notifications} variant="outline" size="sm">
               {t('apercu.voirNotifications')}
             </Button>
             <div className="border-t border-line pt-3">
@@ -116,7 +120,7 @@ export function ApercuTab() {
               <QuickAction tone="primary" icon={<GraduationCap />} label={t('apercu.trouverFormation')} to={ROUTES.schools} />
               <QuickAction icon={<Car />} label={t('apercu.trouverAutoEcole')} to={ROUTES.drivingSchools} />
               <QuickAction icon={<Heart />} label={t('apercu.voirFavoris')} to={ROUTES.favorites} />
-              <QuickAction icon={<UserRound />} label={t('apercu.completerProfil')} to={ROUTES.espace('profil')} />
+              <QuickAction icon={<UserRound />} label={t('apercu.completerProfil')} to={ROUTES.profil} />
             </div>
           </Section>
         </div>

@@ -4,15 +4,16 @@ import { useTranslation } from 'react-i18next'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { toast } from 'sonner'
-import { ExternalLink, MessageSquareReply, PencilLine, Star, Trash2 } from 'lucide-react'
-import { useAutoEcoles, useEtablissements, useMesAvis } from '@/data/hooks'
+import { Car, ExternalLink, GraduationCap, MessageSquareReply, PencilLine, Star, Trash2 } from 'lucide-react'
+import { useAutoEcoles, useEtablissements, useMesAvis, useMesInscriptions } from '@/data/hooks'
 import { useSession } from '@/features/auth/hooks/useSession'
 import { ecoleUrl } from '@/features/schools/schoolLinks'
+import { slugOfType } from '@/features/schools/schoolTypes'
 import { modifierAvis, supprimerAvis } from '@/features/espace/espaceActions'
 import { AucunDossier } from '@/features/espace/components/Dossiers'
 import { Field, Textarea } from '@/shared/components/forms/Fields'
 import { Button } from '@/shared/components/ui/Button'
-import { Card } from '@/shared/components/ui/Card'
+import { Card, Section } from '@/shared/components/ui/Card'
 import { Modal } from '@/shared/components/ui/Modal'
 import { StarInput, Stars } from '@/shared/components/ui/StarRating'
 import type { AvisAutoEcole, AvisEtablissement } from '@/shared/types'
@@ -20,7 +21,11 @@ import { ROUTES } from '@/shared/utils/routes'
 
 type Cible = { genre: 'etablissement'; avis: AvisEtablissement } | { genre: 'auto-ecole'; avis: AvisAutoEcole }
 
-/** « Mes avis » : ceux que le compte a donnés, avec la réponse de l'établissement ; modifiables et supprimables. */
+/**
+ * « Mes avis » : « À évaluer » (les établissements et auto-écoles où le compte
+ * a un dossier, sans avis encore : « Donner mon avis »), puis les avis donnés,
+ * avec la réponse de l'établissement ; modifiables et supprimables.
+ */
 export function MesAvisTab() {
   const { t } = useTranslation('espace')
   const { account } = useSession()
@@ -53,9 +58,10 @@ export function MesAvisTab() {
     }
   }
 
-  if (liste.length === 0) return <AucunDossier texte={`${t('avis.aucun')} ${t('avis.conseil')}`} action={t('dossiers.trouverFormation')} vers={ROUTES.schools} />
   return (
     <div className="space-y-3">
+      <AEvaluer />
+      {liste.length === 0 && <AucunDossier texte={`${t('avis.aucun')} ${t('avis.conseil')}`} action={t('dossiers.trouverFormation')} vers={ROUTES.schools} />}
       {liste.map((c) => (
         <Card key={c.avis.id} className="space-y-2 p-4">
           <div className="flex flex-wrap items-center justify-between gap-2">
@@ -110,6 +116,47 @@ export function MesAvisTab() {
         <p className="text-sm text-navy-900">{t('avis.supprimerTexte')}</p>
       </Modal>
     </div>
+  )
+}
+
+/** Les lieux où le compte a envoyé un dossier et qu'il n'a pas encore évalués. */
+function AEvaluer() {
+  const { t } = useTranslation('espace')
+  const { account } = useSession()
+  const { preinscriptions, inscriptionsAutoEcole } = useMesInscriptions(account?.id)
+  const mes = useMesAvis(account?.id)
+  const etablissements = useEtablissements()
+  const autoEcoles = useAutoEcoles()
+  const lieux = [
+    ...[...new Set(preinscriptions.map((p) => p.etablissementId))]
+      .filter((id) => !mes.etablissements.some((a) => a.etablissementId === id))
+      .flatMap((id) => {
+        const e = etablissements.find((x) => x.id === id)
+        return e ? [{ id: e.id, nom: e.nom, icone: <GraduationCap />, vers: ROUTES.schoolReview(slugOfType(e.type), e.id) }] : []
+      }),
+    ...[...new Set(inscriptionsAutoEcole.map((i) => i.autoEcoleId))]
+      .filter((id) => !mes.autoEcoles.some((a) => a.autoEcoleId === id))
+      .flatMap((id) => {
+        const a = autoEcoles.find((x) => x.id === id)
+        return a ? [{ id: a.id, nom: a.nom, icone: <Car />, vers: ROUTES.drivingSchoolReview(a.id) }] : []
+      }),
+  ]
+  if (lieux.length === 0) return null
+  return (
+    <Section title={t('avis.aEvaluer.titre')} subtitle={t('avis.aEvaluer.texte')} icon={<Star />}>
+      <ul className="divide-y divide-line">
+        {lieux.map((l) => (
+          <li key={l.id} className="flex flex-wrap items-center gap-3 py-2.5">
+            <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand-50 text-brand-600 [&_svg]:size-5">{l.icone}</span>
+            <span className="min-w-0 flex-1 font-semibold text-navy-900">{l.nom}</span>
+            <Button to={l.vers} size="sm">
+              <Star aria-hidden="true" />
+              {t('avis.aEvaluer.donner')}
+            </Button>
+          </li>
+        ))}
+      </ul>
+    </Section>
   )
 }
 

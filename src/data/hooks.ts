@@ -148,6 +148,11 @@ export function useQuartiers() {
   return useCollection('quartiers')
 }
 
+/** Le découpage officiel : départements et arrondissements (sélection géographique). */
+export function useDecoupage() {
+  return { regions: useCollection('regions'), departements: useCollection('departements'), arrondissements: useCollection('arrondissements') }
+}
+
 export function useRepartitionNotes(cible: 'etablissement' | 'auto-ecole') {
   return useCollection('repartitionNotes').filter((r) => r.cible === cible)
 }
@@ -260,15 +265,6 @@ export function usePublications() {
   return useCollection('publications').filter((p) => p.statut === 'publiee')
 }
 
-/** Le brouillon de publication d'un compte, s'il en a un. */
-export function useBrouillonPublication(compteId?: string) {
-  return useCollection('publications').find((p) => p.statut === 'brouillon' && p.auteurType === 'compte' && p.auteurId === compteId)
-}
-
-export function useOffresEmploi() {
-  return useCollection('offresEmploi')
-}
-
 /** Ce qu'un compte a mis de côté, du plus récemment enregistré au plus ancien. */
 export function useEnregistrements(compteId?: string) {
   return useCollection('enregistrements')
@@ -278,10 +274,6 @@ export function useEnregistrements(compteId?: string) {
 
 export function useJaimes() {
   return useCollection('jaimes')
-}
-
-export function useTachesAccueil(compteId?: string) {
-  return useCollection('tachesAccueil').filter((t) => t.compteId === compteId)
 }
 
 /* --- Fichiers, pièces, vidéos, notifications, commentaires ------------------ */
@@ -303,30 +295,26 @@ export function useNotificationsCompte(compteId: string | undefined) {
   return useCollection('notificationsCompte').filter((n) => n.compteId === compteId || n.compteId === POUR_TOUS)
 }
 
+/** Les libellés des sujets de publication. */
+export function useSujetsPublication() {
+  return useCollection('sujetsPublication')
+}
+
+/** Les vues des publications (une par compte et par publication). */
+export function useLectures() {
+  return useCollection('lectures')
+}
+
 export function useCommentaires(publicationId: string) {
   return useCollection('commentaires').filter((c) => c.publicationId === publicationId)
 }
 
-/* --- Accueil connecté : carrousel, candidatures, actualités du fil --------- */
+/* --- Accueil connecté : carrousel ------------------------------------------- */
 
 export function useBandeauxAccueil() {
   return useCollection('bandeauxAccueil')
 }
 
-/** Les candidatures d'un compte aux offres d'emploi. */
-export function useCandidatures(compteId?: string) {
-  return useCollection('candidatures').filter((c) => c.compteId === compteId)
-}
-
-/** Les actualités publiées par un établissement précis (celles « pour tous » de la maquette n'ont pas d'auteur). */
-export function useActualitesPubliees() {
-  return useCollection('actualites').filter((a) => a.statut === 'Publiée' && a.etablissementId !== POUR_TOUS)
-}
-
-/** Tous les commentaires (pour compter ceux de chaque publication du fil). */
-export function useTousLesCommentaires() {
-  return useCollection('commentaires')
-}
 
 /** Les avis écrits par un compte (Mon espace › Mes avis). */
 export function useMesAvis(compteId?: string) {

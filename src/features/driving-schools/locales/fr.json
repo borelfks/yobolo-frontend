@@ -162,7 +162,9 @@
     },
     "filters": {
       "reset": "Réinitialiser",
-      "category": "Catégorie de permis"
+      "category": "Catégorie de permis",
+      "aucuneSession": "Aucune session ne correspond à ces filtres.",
+      "aucuneFormation": "Aucune formation ne correspond à ces filtres."
     },
     "overview": {
       "presentationTitle": "Présentation",

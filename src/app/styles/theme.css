@@ -31,8 +31,6 @@
      n'est pas repris : le nom sert déjà ici (texte gris) ; la landing n'utilise
      que « muted-foreground ». */
   --font-client: 'Geist', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  /* La devise manuscrite de l'accueil connecté (Caveat n'est pas hébergée ici : police cursive du système). */
-  --font-manuscrite: 'Caveat', 'Segoe Script', 'Bradley Hand', cursive;
   --text-caption3: 0.6875rem;
   --text-caption3--line-height: 1.3;
 
@@ -63,6 +61,11 @@
   --color-teinte-emeraude: #e7f5ec;
   --color-teinte-violet: #f1ebfd;
   --color-teinte-rose: #fce8f1;
+
+  /* Couleurs des logos des réseaux sociaux (partage d'une publication), comme yibolo-client. */
+  --color-reseau-whatsapp: #25d366;
+  --color-reseau-facebook: #1877f2;
+  --color-reseau-linkedin: #0a66c2;
 
   /* Menus déroulants (sélecteur de langue), comme yibolo-client. */
   --animate-menu-entree: menu-entree 120ms ease-out;

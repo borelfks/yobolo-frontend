@@ -87,8 +87,7 @@
       "entreprise": "Entreprise"
     },
     "toasts": {
-      "merciRetour": "Merci pour votre retour",
-      "chargement": "Chargement d’autres avis (démo)"
+      "merciRetour": "Merci pour votre retour"
     }
   }
 }

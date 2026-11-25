@@ -1,14 +1,15 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { toast } from 'sonner'
-import { Check, Globe, KeyRound, Trash2, X } from 'lucide-react'
+import { BellRing, Check, Globe, KeyRound, Trash2, X } from 'lucide-react'
 import { data } from '@/data'
 import { useSession } from '@/features/auth/hooks/useSession'
-import { Field, Input, Select } from '@/shared/components/forms/Fields'
+import { Field, Select, Switch } from '@/shared/components/forms/Fields'
+import { masquerNumero } from '@/features/auth/authOtp'
 import { Button } from '@/shared/components/ui/Button'
 import { Section } from '@/shared/components/ui/Card'
 import { Modal } from '@/shared/components/ui/Modal'
@@ -16,6 +17,9 @@ import { LANGUES, langueActive } from '@/i18n'
 import { cn } from '@/shared/utils/cn'
 import { protegerMotDePasse, verifierMotDePasse } from '@/shared/utils/motDePasse'
 import { ROUTES } from '@/shared/utils/routes'
+import { CANAUX_NOTIFICATION, preferenceDe, SUJETS_NOTIFICATION } from '@/shared/utils/notifications'
+import type { SujetNotification } from '@/shared/types'
+import { ChampMotDePasse, JaugeMotDePasse } from '@/shared/components/forms/MotDePasse'
 
 /** Les règles d'un nouveau mot de passe (les mêmes que dans l'espace pro). */
 const REGLES = [
@@ -25,16 +29,95 @@ const REGLES = [
   { cle: 'special', ok: (m: string) => /[^A-Za-z0-9]/.test(m) },
 ] as const
 
-/** « Paramètres » : mot de passe, langue, suppression du compte. */
+/** « Paramètres » : notifications, mot de passe, langue, suppression du compte. */
 export function ParametresTab() {
+  const { hash } = useLocation()
+  // « Préférences » de la page Mes notifications mène directement à la section.
+  useEffect(() => {
+    if (hash === '#notifications') document.getElementById('notifications')?.scrollIntoView({ block: 'start' })
+  }, [hash])
   return (
-    <div className="grid gap-4 lg:grid-cols-2">
-      <MotDePasse />
-      <div className="space-y-4">
-        <Langue />
-        <Suppression />
+    <div className="space-y-4">
+      <Notifications />
+      <div className="grid gap-4 lg:grid-cols-2">
+        <MotDePasse />
+        <div className="space-y-4">
+          <Langue />
+          <Suppression />
+        </div>
       </div>
     </div>
+  )
+}
+
+/**
+ * Comment être prévenu, sujet par sujet : dans l'application (page Mes
+ * notifications), par SMS (au numéro du compte), par e-mail (s'il y en a un).
+ * Enregistré dans `comptes` à chaque changement ; rien sur l'emploi ni la
+ * Consultation (décision du 2026-11-25).
+ */
+function Notifications() {
+  const { t } = useTranslation('espace')
+  const { account } = useSession()
+  if (!account) return null
+  const aUnEmail = account.identifiant.includes('@')
+
+  const changer = async (sujet: SujetNotification, canal: (typeof CANAUX_NOTIFICATION)[number], valeur: boolean) => {
+    const suite = { ...account.preferencesNotifications, [sujet]: { ...preferenceDe(account, sujet), [canal]: valeur } }
+    try {
+      await data.update('comptes', account.id, { preferencesNotifications: suite })
+      toast.success(t('parametres.notifications.enregistrees'), { id: 'preferences-notifications' })
+    } catch {
+      toast.error(t('parametres.notifications.echec'))
+    }
+  }
+
+  return (
+    <section id="notifications" className="scroll-mt-24">
+      <Section title={t('parametres.notifications.titre')} subtitle={t('parametres.notifications.texte')} icon={<BellRing />}>
+        <div role="table" aria-label={t('parametres.notifications.titre')} className="text-sm">
+          <div role="row" className="hidden grid-cols-[minmax(0,1fr)_repeat(3,6.5rem)] items-end gap-2 border-b border-line pb-2 text-xs font-semibold text-muted sm:grid">
+            <span role="columnheader">{t('parametres.notifications.sujet')}</span>
+            {CANAUX_NOTIFICATION.map((c) => (
+              <span key={c} role="columnheader" className="text-center">
+                {t(`parametres.notifications.canaux.${c}`)}
+              </span>
+            ))}
+          </div>
+          {SUJETS_NOTIFICATION.map((sujet) => {
+            const pref = preferenceDe(account, sujet)
+            return (
+              <div key={sujet} role="row" className="grid gap-2 border-b border-line py-3 last:border-0 sm:grid-cols-[minmax(0,1fr)_repeat(3,6.5rem)] sm:items-center">
+                <div role="rowheader">
+                  <p className="font-semibold text-navy-900">{t(`parametres.notifications.sujets.${sujet}.titre`)}</p>
+                  <p className="text-xs text-muted">{t(`parametres.notifications.sujets.${sujet}.texte`)}</p>
+                </div>
+                <div className="flex gap-5 sm:contents">
+                  {CANAUX_NOTIFICATION.map((canal) => {
+                    const indisponible = canal === 'email' && !aUnEmail
+                    return (
+                      <div key={canal} role="cell" className="flex flex-col items-center gap-1">
+                        <span className="text-[11px] font-semibold text-muted sm:hidden">{t(`parametres.notifications.canaux.${canal}`)}</span>
+                        <Switch
+                          checked={pref[canal] && !indisponible}
+                          disabled={indisponible}
+                          ariaLabel={`${t(`parametres.notifications.sujets.${sujet}.titre`)} : ${t(`parametres.notifications.canaux.${canal}`)}`}
+                          onChange={(v) => void changer(sujet, canal, v)}
+                        />
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+        <ul className="mt-3 space-y-1 text-xs text-muted">
+          <li>{t('parametres.notifications.smsA', { numero: masquerNumero(account.telephone) })}</li>
+          <li>{aUnEmail ? t('parametres.notifications.emailA', { email: account.identifiant }) : t('parametres.notifications.sansEmail')}</li>
+        </ul>
+      </Section>
+    </section>
   )
 }
 
@@ -66,10 +149,11 @@ function MotDePasse() {
     <Section title={t('parametres.motDePasse.titre')} icon={<KeyRound />}>
       <form noValidate onSubmit={(ev) => void changer(ev)} className="space-y-4">
         <Field label={t('parametres.motDePasse.actuel')} required error={e.actuel?.message}>
-          <Input type="password" autoComplete="current-password" {...register('actuel')} />
+          <ChampMotDePasse autoComplete="current-password" {...register('actuel')} />
         </Field>
         <Field label={t('parametres.motDePasse.nouveau')} required error={e.nouveau?.message}>
-          <Input type="password" autoComplete="new-password" {...register('nouveau')} />
+          <ChampMotDePasse autoComplete="new-password" {...register('nouveau')} />
+          <JaugeMotDePasse motDePasse={nouveau} />
         </Field>
         <ul className="grid grid-cols-2 gap-1.5 text-[13px]">
           {REGLES.map((r) => {
@@ -83,7 +167,7 @@ function MotDePasse() {
           })}
         </ul>
         <Field label={t('parametres.motDePasse.confirmation')} required error={e.confirmation?.message}>
-          <Input type="password" autoComplete="new-password" {...register('confirmation')} />
+          <ChampMotDePasse autoComplete="new-password" {...register('confirmation')} />
         </Field>
         <div className="flex justify-end">
           <Button type="submit" disabled={formState.isSubmitting}>
@@ -152,8 +236,7 @@ function Suppression() {
       >
         <p className="text-sm text-navy-900">{t('parametres.suppression.confirmerTexte')}</p>
         <Field label={t('parametres.suppression.motDePasse')} error={erreur} className="mt-3">
-          <Input
-            type="password"
+          <ChampMotDePasse
             autoComplete="current-password"
             value={motDePasse}
             onChange={(ev) => {

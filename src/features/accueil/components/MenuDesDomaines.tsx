@@ -93,7 +93,7 @@ function Rond({ icone: Icone, choisi, teinte }: { icone: LucideIcon; choisi: boo
 
 function Libelle({ children, choisi }: { children: string; choisi: boolean }) {
   return (
-    <span className={cn('w-full truncate text-center text-xs', choisi ? 'font-semibold text-brand-700' : 'font-medium text-muted group-hover/domaine:text-ink')}>
+    <span className={cn('line-clamp-2 w-full text-center text-[0.6875rem] leading-tight hyphens-auto sm:text-xs', choisi ? 'font-semibold text-brand-700' : 'font-medium text-muted group-hover/domaine:text-ink')}>
       {children}
     </span>
   )

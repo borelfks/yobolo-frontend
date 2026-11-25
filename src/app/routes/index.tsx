@@ -12,11 +12,13 @@ import { ROUTES, ROUTE_PATTERNS } from '@/shared/utils/routes'
 const Home = lazy(() => import('@/features/landing/pages/Home').then((m) => ({ default: m.Home })))
 const HorsPerimetre = lazy(() => import('@/features/landing/pages/HorsPerimetre').then((m) => ({ default: m.HorsPerimetre })))
 const Accueil = lazy(() => import('@/features/accueil/pages/Accueil').then((m) => ({ default: m.Accueil })))
+const PublicationLue = lazy(() => import('@/features/accueil/pages/PublicationLue').then((m) => ({ default: m.PublicationLue })))
 const NotFound = lazy(() => import('@/app/NotFound').then((m) => ({ default: m.NotFound })))
 
 /* --- Authentification ----------------------------------------------------- */
 const Connexion = lazy(() => import('@/features/auth/pages/Connexion').then((m) => ({ default: m.Connexion })))
 const Inscription = lazy(() => import('@/features/auth/pages/Inscription').then((m) => ({ default: m.Inscription })))
+const MotDePasseOublie = lazy(() => import('@/features/auth/pages/MotDePasseOublie').then((m) => ({ default: m.MotDePasseOublie })))
 
 /* --- École : IPES, CFP, Autres -------------------------------------------- */
 const EcolesHub = lazy(() => import('@/features/schools/pages/EcolesHub').then((m) => ({ default: m.EcolesHub })))
@@ -40,6 +42,9 @@ const Favoris = lazy(() => import('@/features/favorites/pages/Favoris').then((m)
 const MonEspace = lazy(() => import('@/features/espace/pages/MonEspace').then((m) => ({ default: m.MonEspace })))
 const DossierPreinscription = lazy(() => import('@/features/espace/pages/DossierPreinscription').then((m) => ({ default: m.DossierPreinscription })))
 const DossierInscription = lazy(() => import('@/features/espace/pages/DossierInscription').then((m) => ({ default: m.DossierInscription })))
+const MesNotifications = lazy(() => import('@/features/espace/pages/MesNotifications').then((m) => ({ default: m.MesNotifications })))
+const MonProfil = lazy(() => import('@/features/espace/pages/MonProfil').then((m) => ({ default: m.MonProfil })))
+const MesParametres = lazy(() => import('@/features/espace/pages/MesParametres').then((m) => ({ default: m.MesParametres })))
 
 /* --- Espace professionnel École ------------------------------------------- */
 const Dashboard = lazy(() => import('@/features/pro/pages/Dashboard').then((m) => ({ default: m.Dashboard })))
@@ -65,6 +70,7 @@ export const router = createBrowserRouter([
     children: [
       { path: ROUTES.signIn, element: <Connexion /> },
       { path: ROUTES.signUp, element: <Inscription /> },
+      { path: ROUTES.forgotPassword, element: <MotDePasseOublie /> },
       // La landing, copiée de yibolo-client : son propre cadre (en-tête flottant, pied de page).
       // Réservée aux visiteurs : un compte connecté est mené à sa page d'arrivée (GardeAccueil).
       {
@@ -79,11 +85,15 @@ export const router = createBrowserRouter([
         element: <PublicLayout />,
         children: [
           { path: P.accueil, element: <Accueil /> },
+          { path: P.publication, element: <PublicationLue /> },
           { path: ROUTES.schools, element: <EcolesHub /> },
           { path: ROUTES.favorites, element: <Favoris /> },
           { path: P.espacePreinscription, element: <DossierPreinscription /> },
           { path: P.espaceInscription, element: <DossierInscription /> },
           { path: P.espace, element: <MonEspace /> },
+          { path: P.notifications, element: <MesNotifications /> },
+          { path: P.profil, element: <MonProfil /> },
+          { path: P.parametres, element: <MesParametres /> },
           { path: P.preRegistration, element: <Preinscription /> },
           { path: P.training, element: <FormationDetail /> },
           { path: P.drivingSchools, element: <AutoEcoles /> },

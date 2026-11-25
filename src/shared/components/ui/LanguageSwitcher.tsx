@@ -12,6 +12,8 @@ const DECLENCHEUR_SUR_PHOTO =
   'inline-flex h-10 items-center gap-2 rounded-full px-3 text-white ring-offset-background transition-colors hover:bg-white/15 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:outline-none data-[state=open]:bg-white/15'
 const MENU =
   'absolute top-full right-0 z-50 mt-2 w-[16rem] max-w-[calc(100vw-1.5rem)] origin-top-right overflow-hidden rounded-xl bg-popover text-popover-foreground shadow-[0_5px_15px_rgb(0_0_0/0.08),0_15px_35px_-5px_rgb(25_28_33/0.2)] ring-1 ring-foreground/10 animate-menu-entree'
+/** Sur téléphone : posé sous l'en-tête, avec une marge de chaque côté. */
+const MENU_SOUS_ENTETE = 'max-sm:fixed max-sm:inset-x-3 max-sm:top-[72px] max-sm:right-3 max-sm:mt-0 max-sm:w-auto max-sm:max-w-none'
 const LIGNE =
   'flex w-full cursor-pointer items-center gap-4 px-4 py-3 text-sm font-medium text-muted-foreground outline-none select-none transition-colors hover:bg-survol hover:text-foreground focus-visible:bg-survol focus-visible:text-foreground'
 
@@ -21,7 +23,7 @@ const LIGNE =
  * Le choix est gardé dans le navigateur (src/i18n, clé « yibolo:langue »).
  * `light` : posé sur une photo sombre, le déclencheur passe en blanc.
  */
-export function LanguageSwitcher({ light, className }: { light?: boolean; className?: string }) {
+export function LanguageSwitcher({ light, className, menuSousEntete = false }: { light?: boolean; className?: string; /** Sur téléphone, le menu s'ouvre sous l'en-tête, sur toute la largeur (il ne sort plus de l'écran). */ menuSousEntete?: boolean }) {
   const { t, i18n } = useTranslation('common')
   const active = langueActive(i18n.language)
   const [open, setOpen] = useState(false)
@@ -57,7 +59,7 @@ export function LanguageSwitcher({ light, className }: { light?: boolean; classN
         <span className="hidden text-xs font-semibold tracking-wide uppercase sm:inline">{active}</span>
       </button>
       {open && (
-        <div role="menu" className={MENU}>
+        <div role="menu" className={clsx(MENU, menuSousEntete && MENU_SOUS_ENTETE)}>
           {LANGUES.map(({ code, libelleCle }, index) => (
             <button
               key={code}

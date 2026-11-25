@@ -13,6 +13,7 @@ import type { AvisEtablissement } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { num, shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
+import { notifier } from '@/shared/utils/notifications'
 import { slugOfType } from '@/features/schools/schoolTypes'
 import { toast } from 'sonner'
 import { useSession } from '@/features/auth/hooks/useSession'
@@ -136,7 +137,7 @@ export function AvisTab({ id }: { id: string }) {
           ))}
         </div>
         {list.slice(0, visibles).map((r) => (
-          <AvisLine key={r.id} r={r} peutRepondre={account?.ecoleId === e.id} />
+          <AvisLine key={r.id} r={r} ecole={e.sigle || e.nom} peutRepondre={account?.ecoleId === e.id} />
         ))}
         {list.length === 0 && <p className="rounded-2xl border border-line bg-white p-5 text-center text-[15px] text-muted">{t('ecoleProfil.avis.none')}</p>}
         {list.length > visibles && (
@@ -152,13 +153,22 @@ export function AvisTab({ id }: { id: string }) {
   )
 }
 
-function AvisLine({ r, peutRepondre }: { r: AvisEtablissement; peutRepondre: boolean }) {
+function AvisLine({ r, ecole, peutRepondre }: { r: AvisEtablissement; ecole: string; peutRepondre: boolean }) {
   const { t } = useTranslation('schools')
   const [repondre, setRepondre] = useState(false)
   const [texte, setTexte] = useState(r.reponse?.texte ?? '')
   const publier = async () => {
     if (texte.trim().length < 2) return void toast.error(t('ecoleProfil.avis.reply.tooShort'))
     await data.update('avisEtablissements', r.id, { reponse: { texte: texte.trim(), le: shortDate(new Date(), { day: '2-digit', month: 'short', year: 'numeric' }) } })
+    // L'auteur de l'avis est prévenu, s'il a un compte (une première réponse seulement).
+    if (r.compteId && !r.reponse)
+      await notifier(r.compteId, {
+        type: 'review',
+        titre: t('ecoleProfil.avis.reply.notification.titre'),
+        texte: t('ecoleProfil.avis.reply.notification.texte', { school: ecole }),
+        quand: t('ecoleProfil.avis.reply.notification.quand'),
+        vers: ROUTES.espace('avis'),
+      })
     setRepondre(false)
     toast.success(t('ecoleProfil.avis.reply.published'))
   }
