@@ -177,7 +177,6 @@
     },
     "villes": {
       "panel": "Cities by Region",
-      "otherRegions": "Other regions",
       "title": "Cities – {{court}} ({{n}})",
       "sort": {
         "count": "Number of {{court}}",

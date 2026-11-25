@@ -2,10 +2,10 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Briefcase, ChevronDown, GraduationCap, MessageCircle, PencilLine, Star, ThumbsUp, Users } from 'lucide-react'
 import { Img } from '@/shared/components/ui/Img'
-import { Stars } from '@/shared/components/ui/StarRating'
+import { Stars, PasEncoreDAvis } from '@/shared/components/ui/StarRating'
 import { Select } from '@/shared/components/forms/Fields'
 import { card } from '@/features/schools/components/profile/profileShared'
-import { useAvisEtablissement, useEtablissement, useRepartitionNotes } from '@/data/hooks'
+import { useAvisEtablissement, useEtablissement, useRepartitionEtablissement } from '@/data/hooks'
 import { data } from '@/data'
 import { load, save } from '@/shared/utils/storage'
 import type { AvisEtablissement } from '@/shared/types'
@@ -15,7 +15,6 @@ import { notifier } from '@/shared/utils/notifications'
 import { ModaleAvis } from '@/features/schools/components/ModaleAvis'
 import { toast } from 'sonner'
 import { useSession } from '@/features/auth/hooks/useSession'
-import { ajoutes, repartitionAJour } from '@/shared/utils/compteurs'
 
 /** Rôle d'un auteur d'avis (valeur fixe des données) → fin de sa clé de traduction. */
 const roleKeys = {
@@ -63,8 +62,8 @@ export function AvisTab({ id }: { id: string }) {
   const e = useEtablissement(id)
   const [donnerAvis, setDonnerAvis] = useState(false)
   const avis = useAvisEtablissement(e.id)
-  // Répartition de la maquette, plus les avis ajoutés sur cet établissement.
-  const repartitionNotes = repartitionAJour(useRepartitionNotes('etablissement'), e.avis, ajoutes(avis.filter((x) => x.etablissementId === e.id)).map((x) => x.note))
+  // Répartition tirée des avis de cet établissement.
+  const repartitionNotes = useRepartitionEtablissement(e.id)
   // L'établissement connecté répond à ses avis depuis sa fiche publique.
   const { account } = useSession()
   const [f, setF] = useState<Filtre>('tous')
@@ -86,12 +85,20 @@ export function AvisTab({ id }: { id: string }) {
         <div className="mt-2 flex items-center justify-center gap-3">
           <Laurel />
           <div className="text-center">
-            <p className="flex items-baseline gap-1 text-[44px] leading-none font-extrabold text-navy-900">
-              <Star className="mr-1 size-9 self-center fill-amber-400 text-amber-400" />
-              {num(e.note)}
-              <span className="text-[24px] font-semibold">/5</span>
-            </p>
-            <p className="mt-1 text-[14px] text-ink">{t('shared.ratingCount', { count: e.avis })}</p>
+            {e.avis > 0 ? (
+              <>
+                <p className="flex items-baseline gap-1 text-[44px] leading-none font-extrabold text-navy-900">
+                  <Star className="mr-1 size-9 self-center fill-amber-400 text-amber-400" />
+                  {num(e.note)}
+                  <span className="text-[24px] font-semibold">/5</span>
+                </p>
+                <p className="mt-1 text-[14px] text-ink">{t('shared.ratingCount', { count: e.avis })}</p>
+              </>
+            ) : (
+              <p className="py-3 text-[17px] text-navy-900">
+                <PasEncoreDAvis />
+              </p>
+            )}
           </div>
           <Laurel flip />
         </div>

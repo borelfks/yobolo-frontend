@@ -9,6 +9,7 @@ import { useEtablissement } from '@/data/hooks'
 import type { Formation } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { num } from '@/shared/utils/format'
+import { PasEncoreDAvis } from '@/shared/components/ui/StarRating'
 // Préinscription masquée (demande du porteur du projet, 2026-11-25) : import { ROUTES } from '@/shared/utils/routes'
 
 /** Colonne de droite du détail d'une formation : établissement, actions, prochaine rentrée. */
@@ -26,7 +27,7 @@ export function FormationAside({ f, showRentree }: { f: Formation; showRentree: 
           <p className="text-[17px] leading-tight font-bold text-navy-900">{e.nom}</p>
           <p className="flex items-center gap-1.5 text-[14px] text-navy-900">
             <span className="text-amber-400">★</span>
-            {num(e.note)}/5 {t('shared.ratingCount', { count: e.avis })}
+            {e.avis > 0 ? `${num(e.note)}/5 ${t('shared.ratingCount', { count: e.avis })}` : <PasEncoreDAvis />}
           </p>
           <span className="inline-flex items-center gap-1 rounded-full bg-emerald-600 px-2.5 py-0.5 text-[13px] font-semibold text-white">
             <CircleCheck className="size-4 fill-white text-emerald-600" />

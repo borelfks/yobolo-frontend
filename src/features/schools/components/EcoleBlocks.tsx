@@ -16,6 +16,7 @@ import { ecoleUrl, formationUrl, modeKey, modeStyle, schoolTypeKey, useModeLabel
 import { cn } from '@/shared/utils/cn'
 import { fcfa, num } from '@/shared/utils/format'
 import { lienCarte, ouvrir } from '@/shared/utils/liens'
+import { PasEncoreDAvis } from '@/shared/components/ui/StarRating'
 
 export function VerifiedBadge({ label, light }: { label?: string; light?: boolean }) {
   const { t } = useTranslation('schools')
@@ -66,7 +67,13 @@ export function EcoleCard({ e }: { e: Etablissement }) {
         <div className="flex flex-wrap items-center gap-x-2 text-[13px] text-ink/80">
           <span className="inline-flex items-center gap-1">
             <Star className="size-4 fill-amber-400 text-amber-400" />
-            <b className="text-navy-950">{num(e.note)}</b> {t('blocks.card.reviews', { count: e.avis })}
+            {e.avis > 0 ? (
+              <>
+                <b className="text-navy-950">{num(e.note)}</b> {t('blocks.card.reviews', { count: e.avis })}
+              </>
+            ) : (
+              <PasEncoreDAvis />
+            )}
           </span>
           <span className="text-line">|</span>
           <span className="inline-flex items-center gap-1">

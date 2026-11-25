@@ -9,34 +9,34 @@ import { useTypeLabels } from '@/features/schools/components/listing/useTypeLabe
 import { Img } from '@/shared/components/ui/Img'
 import type { TypeSlug } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
+import { num } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
-import { useRegions, useTypeEcole, useVilles, useVillesRegion } from '@/data/hooks'
+import { useEtablissementsParLieu, useEtablissements, useVilles } from '@/data/hooks'
 
 /** Onglet Villes : arbre régions → villes à gauche, tuiles de villes à droite. */
 export function VillesTab({ type }: { type: TypeSlug }) {
   const { t } = useTranslation('schools')
   const { court } = useTypeLabels(type)
-  const cfg = useTypeEcole(type)
-  const totalIpes = useTypeEcole('ipes').count
-  const regions = useRegions()
-  const villes = useVilles()
-  // Villes de chaque région détaillée, regroupées par région.
+  const { total, parRegion, parVille } = useEtablissementsParLieu(type)
+  const photos = useVilles()
+  const etablissements = useEtablissements()
+  // Les villes où le type a au moins un établissement, avec leur région et leur vrai nombre.
+  const villes = Object.entries(parVille).map(([nom, ipes]) => {
+    const photo = photos.find((v) => v.nom === nom)
+    return { id: nom, nom, ipes, region: photo?.region ?? etablissements.find((e) => e.ville === nom)?.region ?? '', image: photo?.image ?? '' }
+  })
   const villesParRegion: Record<string, { nom: string; ipes: number }[]> = {}
-  for (const v of useVillesRegion()) (villesParRegion[v.region] ??= []).push(v)
-  // Les nombres sont ceux des IPES : pour un autre type, ils sont ramenés à son total.
-  const ratio = cfg.count / totalIpes
-  const n = (x: number) => Math.max(1, Math.round(x * ratio))
-  const [openRegion, setOpenRegion] = useState('Centre')
+  for (const v of villes) (villesParRegion[v.region] ??= []).push(v)
+  const n = num
+  const [openRegion, setOpenRegion] = useState(Object.keys(parRegion)[0] ?? '')
   const [checked, setChecked] = useState<string[]>([])
   const [tri, setTri] = useState(0)
   // Les villes cochées dans l'arbre filtrent les tuiles ; tri par nombre ou par nom.
   const cochees = checked.length ? villes.filter((v) => checked.includes(v.nom)) : villes
   const villesAffichees = tri === 1 ? [...cochees].sort((a, b) => a.nom.localeCompare(b.nom)) : [...cochees].sort((a, b) => b.ipes - a.ipes)
-  const regionCount = (r: string) => regions.find((x) => x.nom === r)?.ipes ?? 0
-  const detaillees = Object.keys(villesParRegion).map((r) => ({ nom: r, count: regionCount(r) }))
-  // « Autres régions » : le reste des IPES, hors régions détaillées.
-  const autres = totalIpes - detaillees.reduce((s, r) => s + r.count, 0)
-  const arbre = [...detaillees, { nom: t('listing.villes.otherRegions'), count: autres }]
+  const arbre = Object.entries(parRegion)
+    .map(([nom, count]) => ({ nom, count }))
+    .sort((a, b) => b.count - a.count)
   return (
     <div className="space-y-4">
       <ListSearch type={type} />
@@ -81,7 +81,7 @@ export function VillesTab({ type }: { type: TypeSlug }) {
           </ul>
         </SidePanel>
         <div className="space-y-3">
-          <ResultsHeader title={t('listing.villes.title', { court, n: cfg.count })} sort={[t('listing.villes.sort.count', { court }), t('listing.villes.sort.name')]} tri={tri} onTri={setTri} />
+          <ResultsHeader title={t('listing.villes.title', { court, n: total })} sort={[t('listing.villes.sort.count', { court }), t('listing.villes.sort.name')]} tri={tri} onTri={setTri} />
           <div className="grid gap-3.5 sm:grid-cols-2 xl:grid-cols-4">
             {villesAffichees.map((v) => (
               <Link key={v.nom} to={`${ROUTES.schoolType(type)}?${new URLSearchParams({ ville: v.nom })}`} className="group overflow-hidden rounded-xl border border-line bg-white shadow-[0_2px_8px_rgba(15,29,61,0.06)] transition-shadow hover:shadow-lg">

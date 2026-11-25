@@ -23,13 +23,11 @@ import type {
   CritereAvis,
   DiplomeType,
   Domaine,
-  FiliereCarte,
   NotificationPro,
   PermisInfo,
   PointVisites,
   Quartier,
   Region,
-  RepartitionNote,
   RolePro,
   SemestreProgramme,
   SessionActive,
@@ -37,7 +35,6 @@ import type {
   TuileAnnuaire,
   TypeEcoleInfo,
   Ville,
-  VilleRegion,
   AutoEcole,
   AvisAutoEcole,
   AvisEtablissement,
@@ -87,15 +84,12 @@ export type Collections = {
   typesEcole: TypeEcoleInfo
   tuilesAnnuaire: TuileAnnuaire
   domaines: Domaine
-  filieresCartes: FiliereCarte
   diplomes: DiplomeType
   regions: Region
-  villesRegion: VilleRegion
   villes: Ville
   quartiers: Quartier
   departements: Departement
   arrondissements: Arrondissement
-  repartitionNotes: RepartitionNote
   albums: Album
   programme: SemestreProgramme
   permis: PermisInfo
@@ -154,15 +148,12 @@ export const COLLECTIONS = [
   'typesEcole',
   'tuilesAnnuaire',
   'domaines',
-  'filieresCartes',
   'diplomes',
   'regions',
-  'villesRegion',
   'villes',
   'quartiers',
   'departements',
   'arrondissements',
-  'repartitionNotes',
   'albums',
   'programme',
   'permis',

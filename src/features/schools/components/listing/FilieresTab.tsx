@@ -10,7 +10,7 @@ import type { TypeSlug } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { num } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
-import { useDomaines, useFilieresCartes, useTypeEcole } from '@/data/hooks'
+import { useDomaines, useTypeEcole } from '@/data/hooks'
 
 /** Valeur interne de la ligne « Toutes les filières » (son icône est déduite de ce nom). */
 const ALL = 'Toutes les filières'
@@ -21,15 +21,13 @@ export function FilieresTab({ type }: { type: TypeSlug }) {
   const { pluriel } = useTypeLabels(type)
   const doms = useDomaines(type)
   const cfg = useTypeEcole(type)
-  const filieresDuType = useFilieresCartes(type)
   const [sel, setSel] = useState(ALL)
   const [q, setQ] = useState('')
   const [tri, setTri] = useState(0)
   const navigate = useNavigate()
   const allLabel = t('listing.filieres.all')
-  const base = filieresDuType.length
-    ? filieresDuType
-    : doms.filter((d) => !d.nom.startsWith('Autres')).map((d) => ({ nom: d.nom, ecoles: d.ecoles, formations: d.formations }))
+  // Les domaines qui ont au moins une formation publiée (chiffres calculés).
+  const base = doms.map((d) => ({ nom: d.nom, ecoles: d.ecoles, formations: d.formations }))
   const trouvees = base.filter((c) => c.nom.toLowerCase().includes(q.toLowerCase()))
   // Tri : popularité (établissements), nom, nombre de formations.
   const cartes = [...trouvees].sort((a, b) => (tri === 1 ? a.nom.localeCompare(b.nom) : tri === 2 ? b.formations - a.formations : b.ecoles - a.ecoles))

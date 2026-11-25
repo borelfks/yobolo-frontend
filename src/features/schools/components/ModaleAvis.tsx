@@ -61,7 +61,7 @@ function Etoiles({ valeur, onChange, taille, compact }: { valeur: number; onChan
  * d'une auto-école (décision du 2026-11-25 : plus de page à part). Note
  * globale obligatoire, critères facultatifs, commentaire de 10 caractères au
  * moins, confirmation d'avoir suivi une formation. L'avis est enregistré, la
- * note et le nombre d'avis suivent, l'établissement est prévenu.
+ * note et le nombre d'avis, calculés, suivent ; l'établissement est prévenu.
  */
 export function ModaleAvis({ genre, id, open, onClose }: { genre: 'etablissement' | 'auto-ecole'; id: string; open: boolean; onClose: () => void }) {
   const { t } = useTranslation('reviews')
@@ -99,14 +99,10 @@ export function ModaleAvis({ genre, id, open, onClose }: { genre: 'etablissement
     try {
       // Auteur : le compte connecté, sinon « Visiteur ». La date est un texte, comme les avis de la maquette.
       const auteur = { compteId: account?.id, nom: account?.name ?? t('donnerAvis.visiteur'), avatar: account?.avatar ?? '', date: t('donnerAvis.aLInstant'), note, texte: texte.trim() }
-      // La note moyenne et le nombre d'avis suivent le nouvel avis.
-      const moyenne = (n: number, total: number) => Math.round(((n * total + note) / (total + 1)) * 10) / 10
       if (ae) {
         await data.create('avisAutoEcoles', { ...auteur, autoEcoleId: a.id, criteres: criteres.map((c) => notes[c.cle] ?? c.defaut) }, 'avis')
-        await data.update('autoEcoles', a.id, { avis: a.avis + 1, note: moyenne(a.note, a.avis) })
       } else {
         await data.create('avisEtablissements', { ...auteur, etablissementId: e.id, role: 'Étudiant', utile: 0 }, 'avis')
-        await data.update('etablissements', e.id, { avis: e.avis + 1, note: moyenne(e.note, e.avis) })
         await ajusterIndicateurs(e.id, { activite: 'reviews' })
         await data.create('notifications', { etablissementId: e.id, type: 'avis', titre: t('donnerAvis.notification.titre'), texte: t('donnerAvis.notification.texte', { name: auteur.nom, note }), date: t('donnerAvis.aLInstant'), lu: false }, 'notification')
       }

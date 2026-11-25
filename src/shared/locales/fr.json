@@ -100,7 +100,8 @@
     "reviews_one": "({{n}} avis)",
     "reviews_other": "({{n}} avis)",
     "stars_one": "{{count}} étoile",
-    "stars_other": "{{count}} étoiles"
+    "stars_other": "{{count}} étoiles",
+    "aucun": "Pas encore d’avis"
   },
   "favorites": {
     "add": "Ajouter aux favoris",

@@ -24,37 +24,17 @@ export async function annulerInscription(i: InscriptionAutoEcole) {
   if (session) await data.update('sessions', session.id, { places: session.places + 1 })
 }
 
-/** Moyenne arrondie au dixième, comme les notes de la maquette. */
-const arrondi = (n: number) => Math.round(n * 10) / 10
-
 type Cible = { genre: 'etablissement'; avis: AvisEtablissement } | { genre: 'auto-ecole'; avis: AvisAutoEcole }
 
-/** La fiche notée (établissement ou auto-école) : son nombre d'avis et sa note. */
-async function fiche(c: Cible) {
-  if (c.genre === 'etablissement') {
-    const e = (await data.list('etablissements')).find((x) => x.id === c.avis.etablissementId)
-    return e && { maj: (patch: { avis: number; note: number }) => data.update('etablissements', e.id, patch), avis: e.avis, note: e.note }
-  }
-  const a = (await data.list('autoEcoles')).find((x) => x.id === c.avis.autoEcoleId)
-  return a && { maj: (patch: { avis: number; note: number }) => data.update('autoEcoles', a.id, patch), avis: a.avis, note: a.note }
-}
-
-/** Modifie la note et le commentaire d'un avis ; la moyenne de la fiche suit. */
+/** Modifie la note et le commentaire d'un avis ; la moyenne de la fiche, calculée, suit seule. */
 export async function modifierAvis(c: Cible, note: number, texte: string) {
-  const f = await fiche(c)
   if (c.genre === 'etablissement') await data.update('avisEtablissements', c.avis.id, { note, texte })
   else await data.update('avisAutoEcoles', c.avis.id, { note, texte })
-  if (f && f.avis > 0) await f.maj({ avis: f.avis, note: arrondi((f.note * f.avis - c.avis.note + note) / f.avis) })
 }
 
-/** Supprime un avis ; la fiche compte un avis de moins et sa moyenne suit. */
+/** Supprime un avis ; le nombre d'avis et la moyenne de la fiche, calculés, suivent seuls. */
 export async function supprimerAvis(c: Cible) {
-  const f = await fiche(c)
   await data.remove(c.genre === 'etablissement' ? 'avisEtablissements' : 'avisAutoEcoles', c.avis.id)
-  if (f) {
-    const reste = Math.max(0, f.avis - 1)
-    await f.maj({ avis: reste, note: reste > 0 ? arrondi((f.note * f.avis - c.avis.note) / reste) : 0 })
-  }
 }
 
 /** Part du profil remplie (Aperçu) : les champs de « Mon profil ». */

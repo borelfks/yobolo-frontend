@@ -43,10 +43,11 @@ import { ROUTES } from '@/shared/utils/routes'
 import { MenuActions } from '@/shared/components/ui/MenuActions'
 import { Visionneuse } from '@/shared/components/ui/Visionneuse'
 import { lireFichier, lireImage, telecharger, TAILLE_MAX_DOCUMENT, TAILLE_MAX_PHOTO } from '@/shared/utils/fichiers'
-import { ajusterIndicateurs, compterDansLAnnuaire } from '@/shared/utils/compteurs'
+import { ajusterIndicateurs } from '@/shared/utils/compteurs'
 import type { Lieu } from '@/shared/types'
 import { SelectionGeographique } from '@/shared/components/forms/SelectionGeographique'
 import { villeDuLieu } from '@/shared/utils/geographie'
+import { PasEncoreDAvis } from '@/shared/components/ui/StarRating'
 
 const typeOptions = [
   { value: 'IPES', labelKey: 'ipes' },
@@ -122,13 +123,8 @@ export function Profil() {
     await data.put('parametres', { id: ecole.id, valeurs: { ...reglages, ...prefixer('profil', valeurs) } })
     const patch = patchEtablissement(valeurs, ecole.agrement)
     if (publier && Object.keys(patch).length > 0) {
+      // L'annuaire le compte au bon endroit de lui-même (chiffres calculés).
       await data.update('etablissements', ecole.id, patch)
-      // Un autre type, une autre région ou une autre ville : l'annuaire compte l'établissement au bon endroit.
-      const apres = { type: patch.type ?? ecole.type, region: patch.region ?? ecole.region, ville: patch.ville ?? ecole.ville }
-      if (apres.type !== ecole.type || apres.region !== ecole.region || apres.ville !== ecole.ville) {
-        await compterDansLAnnuaire(ecole, -1)
-        await compterDansLAnnuaire(apres, 1)
-      }
     }
     setSaisie({})
   }
@@ -170,7 +166,7 @@ function Banniere() {
         <p className="text-[16px] text-white/90">{t('profil.banner.tagline')}</p>
         <p className="mt-3 flex flex-wrap items-center gap-x-6 text-[16px]">
           <span className="inline-flex items-center gap-1.5"><MapPin className="size-5 fill-white text-navy-800" />{ecole.ville} – {ecole.quartier}</span>
-          <span className="inline-flex items-center gap-1.5"><Star className="size-5 fill-amber-400 text-amber-400" />{t('profil.banner.rating', { note: num(ecole.note), count: ecole.avis })}</span>
+          <span className="inline-flex items-center gap-1.5"><Star className="size-5 fill-amber-400 text-amber-400" />{ecole.avis > 0 ? t('profil.banner.rating', { note: num(ecole.note), count: ecole.avis }) : <PasEncoreDAvis />}</span>
         </p>
       </div>
       <div className="relative hidden w-[277px] shrink-0 md:block">

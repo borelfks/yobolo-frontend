@@ -27,7 +27,8 @@ export function DiplomesTab({ type }: { type: TypeSlug }) {
   const navigate = useNavigate()
   const cfg = useTypeEcole(type)
   const domaines = useDomaines(type)
-  const dips = useDiplomes(type)
+  // Seuls les diplômes auxquels mène au moins une formation publiée.
+  const dips = useDiplomes(type).filter((d) => d.count > 0)
   const villes = useVilles()
   const [checked, setChecked] = useState<string[]>([])
   const formations = useFormations()

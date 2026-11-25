@@ -22,7 +22,7 @@ import { readFile, writeFile } from './indexedDbFile'
  */
 
 /** À augmenter quand les données de départ (src/mocks) ou le schéma changent : les bases des testeurs sont alors refaites. */
-export const VERSION_DONNEES = '12'
+export const VERSION_DONNEES = '13'
 const CLE_FICHIER = 'base-sqlite'
 const EXTENSION = 'sqlite'
 

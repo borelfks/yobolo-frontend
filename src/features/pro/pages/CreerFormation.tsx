@@ -16,7 +16,6 @@ import type { Formation, FormationPro, StatutPublication } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { num } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
-import { ajusterNombreFormations } from '@/shared/utils/compteurs'
 
 /** Valeurs fixes des listes : enregistrées telles quelles, affichées via une clé de traduction. */
 const LEVELS = ['none', 'probatoire', 'bac', 'btsHnd', 'licence'] as const
@@ -116,8 +115,6 @@ export function CreerFormation() {
     const champs = { nom: intitule, code, filiere, diplome, duree: `${duree} mois`, rentree, statut }
     if (ligne) await data.update('formationsPro', fid, champs)
     else await data.create('formationsPro', { id: fid, etablissementId: ecole.id, ton: 'blue', ...champs } satisfies FormationPro)
-    // Une nouvelle formation : l'établissement en compte une de plus.
-    if (!formation && !ligne) await ajusterNombreFormations(ecole.id, 1)
     await data.put('parametres', {
       id: ecole.id,
       valeurs: { ...reglages, ...prefixer(`formation.${fid}`, { niveau, modes: modes.join(','), rentree, inscription, scolarite, paiement, description, validation }) },

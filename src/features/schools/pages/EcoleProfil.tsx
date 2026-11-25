@@ -13,6 +13,7 @@ import { isTypeSlug, slugOfType } from '@/features/schools/schoolTypes'
 import { useEtablissement } from '@/data/hooks'
 import { num } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
+import { PasEncoreDAvis } from '@/shared/components/ui/StarRating'
 
 export function EcoleProfil() {
   const { t } = useTranslation('schools')
@@ -47,7 +48,13 @@ export function EcoleProfil() {
             <p className="flex flex-wrap items-center gap-x-4 text-[16px]">
               <span className="inline-flex items-center gap-1.5">
                 <Star className="size-5 fill-amber-400 text-amber-400" />
-                <b>{num(e.note)}</b>/5 {t('shared.ratingCount', { count: e.avis })}
+                {e.avis > 0 ? (
+                  <>
+                    <b>{num(e.note)}</b>/5 {t('shared.ratingCount', { count: e.avis })}
+                  </>
+                ) : (
+                  <PasEncoreDAvis />
+                )}
               </span>
               <span className="h-5 w-px bg-white/40" />
               <span className="inline-flex items-center gap-1.5">

@@ -13,7 +13,7 @@
 | Fil d'Ariane | `Breadcrumb` ; `ProHeader` (pro) ; `AEHeader` (auto-école) | |
 | Onglets | `LinkTabs` (dans l'adresse), `Tabs` (état local), `FilterPills` | onglets faits à la main |
 | Étapes | `Stepper`, `ArrowSteps` | |
-| Note | `Stars`, `Rating` (« ★ 4,7 (286 avis) »), `StarInput` (saisie) | étoiles recopiées |
+| Note | `Stars`, `Rating` (« ★ 4,7 (3 avis) »), `PasEncoreDAvis` (sans avis), `StarInput` (saisie) | étoiles recopiées, « 0/5 » |
 | Note moyenne + répartition · un avis | `RatingSummary`, `ReviewItem`, `MoreButton` (`features/reviews/components/ReviewBlocks.tsx`) | |
 | Favori | `FavoriteButton` ; `FavoriteModal` (choix du dossier) | cœur fait à la main |
 | Chiffres et petits blocs | `Kpi`, `KpiGrid`, `PageTitle`, `BackLink`, `AiCard`, `Tip`, `Checklist`, `InfoRow`, `FileRow`, `IconBtn`, `QuickAction`, `FormFooter`, `IconTile`, `EmptyNote` (`shared/components/ui/Blocks.tsx`) | |

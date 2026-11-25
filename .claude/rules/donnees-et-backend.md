@@ -18,7 +18,7 @@
 
 ## Les tables
 - **Modifiables par les testeurs** : `etablissements`, `formations`, `formationsPro`, `autoEcoles`, `sessions`, `avisEtablissements`, `avisAutoEcoles`, `actualites`, `documents`, `faq`, `utilisateurs`, `preinscriptions`, `inscriptionsAutoEcole`, `favoris`, `parametres`, `comptes`, et pour l'accueil connecté `publications` (publiées ou brouillons), `enregistrements` (« Mes enregistrés » d'un compte), `jaimes`, `signalements`, `commentaires` ; et `fichiers` (fichiers joints, data URL), `piecesEtablissement` (pièces d'agrément), `medias`, `notifications` / `notificationsCompte` (lu / non lu), `demandesAssistance`, `signalementsAvis`, `sessionsActives`, `activiteSecurite`.
-- **De référence** (lues par les écrans, modifiables dans `yibolo.sql`) : `typesEcole`, `tuilesAnnuaire`, `domaines`, `filieresCartes`, `diplomes`, `regions`, `villesRegion`, `villes`, `quartiers`, `repartitionNotes`, `albums`, `programme`, `permis`, `criteresAvis`, `roles`, `notifications`, `visites`, `sourcesVisites`, `sessionsActives`, `activiteSecurite`, `indicateurs`, `formationsPopulaires`, `tranchesFrais`, `categoriesGalerie`, `photosAutoEcole`, `videos` ; pour l'accueil connecté : `domainesExpertise`, `experts`, `bandeauxAccueil`, `sujetsPublication`.
+- **De référence** (lues par les écrans, modifiables dans `yibolo.sql`) : `typesEcole`, `tuilesAnnuaire`, `domaines`, `diplomes`, `regions`, `villes`, `quartiers`, `albums`, `programme`, `permis`, `criteresAvis`, `roles`, `notifications`, `visites`, `sourcesVisites`, `sessionsActives`, `activiteSecurite`, `indicateurs`, `formationsPopulaires`, `tranchesFrais`, `categoriesGalerie`, `photosAutoEcole`, `videos` ; pour l'accueil connecté : `domainesExpertise`, `experts`, `bandeauxAccueil`, `sujetsPublication`.
 - Types dans `src/shared/types.ts`.
 - Les enregistrements de la maquette qui ne sont rattachés à aucun établissement précis portent `etablissementId: '*'` (`POUR_TOUS`) : ils s'affichent pour **tous** les établissements. Ce qu'un testeur crée porte le **vrai** identifiant.
 - Un élément ajouté s'affiche **avant** ceux de départ.
@@ -32,11 +32,12 @@
 5. `shared/` peut importer `@/data`. `src/data/` n'importe ni `features/` ni `app/`.
 6. **La landing n'utilise pas la base et ne doit pas être modifiée.**
 
-## Compteurs (décision du 2026-11-24 : « calculs cohérents »)
-- Un chiffre part de **celui de la maquette** et **suit les actions** : maquette + ajouts − retraits. On ne recalcule jamais un chiffre de la maquette à partir des lignes de la base.
-- Écrire un compteur : `ajusterIndicateurs`, `ajusterNombreFormations`, `compterDansLAnnuaire` (`src/shared/utils/compteurs.ts`), à côté de l'écriture qui le fait varier.
-- Afficher : `repartitionAJour` / `critereAJour` (avis), `ajoutes()` (éléments ajoutés par les testeurs, reconnus par `dateDeCreation(id)` de `src/data/index.ts`).
-- Un établissement créé par un testeur part de zéro (`indicateursDe`) ; inscrit, il reste caché et non compté (`enVerification`) jusqu'à la validation par YIBOLO.
+## Chiffres : calculés à partir de la base (décision du 2026-11-25 : « je veux les vraies données »)
+- **Aucun chiffre de l'univers École n'est recopié de la maquette.** Tout est calculé dans `src/data/hooks.ts` à partir des lignes : note et nombre d'avis d'un établissement ou d'une auto-école (moyenne de ses avis), répartition des étoiles et notes par critère, nombre de formations publiées, nombre d'établissements par type (annuaire, onglets), par région et par ville (`useEtablissementsParLieu`), domaines et diplômes (formations publiées qui y mènent), nombre de photos.
+- Les hooks rendent les objets avec leurs chiffres (`useEtablissements`, `useAutoEcoles`, `useTypesEcole`, `useTuilesAnnuaire`, `useDomaines`, `useDiplomes`, `useRepartitionEtablissement`, `useRepartitionAutoEcole`, `useCriteresAutoEcole`) : un écran n'écrit jamais un chiffre dans la base, il écrit la ligne (un avis, une formation) et le chiffre suit seul.
+- Sans avis : « Pas encore d'avis » (`PasEncoreDAvis`), jamais « 0/5 ». Un domaine, un diplôme, une région ou une ville sans établissement ni formation ne s'affiche pas.
+- Un chiffre que la base ne connaît pas ne s'affiche pas (ex. nombre de candidats « formés » d'une auto-école, masqué).
+- Reste en compteurs « maquette + actions » : les chiffres de l'**espace pro** (vues, candidatures, téléchargements, activités : `ajusterIndicateurs`, `src/shared/utils/compteurs.ts`), à revoir plus tard.
 
 ## Changer une donnée de départ
 1. Modifier `src/data/depart/yibolo.sql` (une ligne = un élément, en JSON).
@@ -62,7 +63,7 @@ Le panneau (exporter, importer, réinitialiser) est retiré de l'interface (déc
 La base SQLite est dans l'IndexedDB du navigateur (base `yibolo`, clé `base-sqlite`). Vider les données du navigateur ou la navigation privée la font perdre : exporter pour garder une copie.
 
 ## Données de la maquette
-1. Les valeurs de départ (`yibolo.sql`) sont celles de la maquette (noms, chiffres, dates, textes). Les chiffres d'annuaire (532 IPES, 1 248 établissements…) sont **recopiés**, pas calculés.
+1. Les valeurs de départ (`yibolo.sql`) sont celles de la maquette (noms, dates, textes, photos) ; elles ne contiennent **aucun chiffre calculable** (notes, nombres d'avis, de formations, d'établissements) : ces chiffres sont calculés.
 2. Les données restent **en français** : on ne modifie pas les données pour traduire (voir [traduction.md](traduction.md)).
 
 ## Découpage territorial

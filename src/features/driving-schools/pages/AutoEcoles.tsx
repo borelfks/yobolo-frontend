@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
-import { Building2, Car, ChevronDown, ChevronUp, CircleCheck, Funnel, LayoutGrid, List, MapPin, RefreshCw, Search, Star, Users } from 'lucide-react'
+import { Building2, Car, ChevronDown, ChevronUp, CircleCheck, Funnel, LayoutGrid, List, MapPin, RefreshCw, Search, Star } from 'lucide-react'
 import { FavoriteModal } from '@/features/driving-schools/components/AutoEcoleBlocks'
 import { FavoriteButton } from '@/shared/components/ui/FavoriteButton'
 import { Hero } from '@/shared/components/ui/Hero'
@@ -14,6 +14,7 @@ import type { PermisCode } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { num } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
+import { PasEncoreDAvis } from '@/shared/components/ui/StarRating'
 
 /** Auto-écoles par page. */
 const PAR_PAGE = 9
@@ -213,9 +214,11 @@ export function AutoEcoles() {
                   <Link to={ROUTES.drivingSchool(a.id)} className="text-[18px] font-bold text-navy-900 hover:text-brand-600">{a.nom}</Link>
                   <p className="flex items-center gap-1.5 text-[14px] text-navy-900"><MapPin className="size-4" />{a.ville} – {a.quartier}</p>
                   <p className="flex items-center gap-3 border-b border-line pb-2.5 text-[14px] text-navy-900">
-                    <span className="inline-flex items-center gap-1.5"><Star className="size-5 fill-amber-400 text-amber-400" /><b>{num(a.note)}</b> {t('common.reviews', { count: a.avis })}</span>
+                    <span className="inline-flex items-center gap-1.5"><Star className="size-5 fill-amber-400 text-amber-400" />{a.avis > 0 ? <><b>{num(a.note)}</b> {t('common.reviews', { count: a.avis })}</> : <PasEncoreDAvis />}</span>
+                    {/* Nombre de « formés » masqué : la base ne le connaît pas (vrais chiffres, 2026-11-25) :
                     <span className="h-5 w-px bg-line" />
                     <span className="inline-flex items-center gap-1.5"><Users className="size-5 text-brand-600" />{t('list.card.trained', { value: num(a.formes) })}</span>
+                    */}
                   </p>
                   <p className="pt-1 text-[13px] font-bold text-navy-900">{t('list.card.licences')}</p>
                   <div className="flex flex-wrap gap-2">

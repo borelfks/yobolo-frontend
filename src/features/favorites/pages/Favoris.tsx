@@ -14,6 +14,7 @@ import { useSession } from '@/features/auth/hooks/useSession'
 import { cn } from '@/shared/utils/cn'
 import { fcfa, num, shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
+import { PasEncoreDAvis } from '@/shared/components/ui/StarRating'
 
 type Filter = 'tous' | 'formation' | 'etablissement' | 'publication'
 
@@ -166,7 +167,7 @@ function FavRow({ fav, onRemove }: { fav: Favorite; onRemove: () => void }) {
     left = <p className="flex items-center gap-2 text-[15px] text-navy-900"><MapPin className="size-5" />{e.ville} – {e.quartier}</p>
     right = (
       <div className="space-y-2">
-        <p className="flex items-center gap-1.5 text-[16px] text-navy-900"><Star className="size-5 fill-amber-400 text-amber-400" />{t('row.note', { note: num(e.note), count: e.avis })}</p>
+        <p className="flex items-center gap-1.5 text-[16px] text-navy-900"><Star className="size-5 fill-amber-400 text-amber-400" />{e.avis > 0 ? t('row.note', { note: num(e.note), count: e.avis }) : <PasEncoreDAvis />}</p>
         <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-700 px-3 py-1 text-[14px] font-semibold text-white">
           <CircleCheck className="size-5 fill-white text-emerald-700" />
           {t('row.etablissementVerifie')}
@@ -177,7 +178,7 @@ function FavRow({ fav, onRemove }: { fav: Favorite; onRemove: () => void }) {
     const a = autoEcoleDe(fav.id)
     ;[image, badge, title, to, cta] = [a.image, t('row.badges.etablissement'), a.nom, ROUTES.drivingSchool(a.id), t('row.voirEtablissement')]
     left = <p className="flex items-center gap-2 text-[15px] text-navy-900"><MapPin className="size-5" />{a.ville} – {a.quartier}</p>
-    right = <p className="flex items-center gap-1.5 text-[16px] text-navy-900"><Star className="size-5 fill-amber-400 text-amber-400" />{t('row.note', { note: num(a.note), count: a.avis })}</p>
+    right = <p className="flex items-center gap-1.5 text-[16px] text-navy-900"><Star className="size-5 fill-amber-400 text-amber-400" />{a.avis > 0 ? t('row.note', { note: num(a.note), count: a.avis }) : <PasEncoreDAvis />}</p>
   } else if (fav.kind === 'permis') {
     const [aeId, code] = fav.id.split(':')
     const a = autoEcoleDe(aeId)

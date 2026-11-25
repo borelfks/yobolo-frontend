@@ -24,7 +24,7 @@
 ## Confiance
 - Badge **« Établissement vérifié »** (vert) pour les établissements, **« Agréée »** pour les auto-écoles.
 - Les avis sont publiés **après vérification par YIBOLO** ; l'auteur confirme avoir suivi une formation.
-- Chiffres et notes affichés = **ceux de la maquette** au départ, jamais inventés ni recalculés ; ensuite ils **suivent les actions** des testeurs (maquette + ajouts − retraits, voir [donnees-et-backend.md](donnees-et-backend.md) › Compteurs).
+- Chiffres et notes affichés = **calculés à partir de la base** (décision du 2026-11-25) : moyenne des vrais avis, nombre réel de formations et d'établissements. Sans avis : « Pas encore d'avis ».
 
 ## Argent
 - Montants en **FCFA**, entiers, écrits avec `fcfa()` : « 450 000 FCFA ».

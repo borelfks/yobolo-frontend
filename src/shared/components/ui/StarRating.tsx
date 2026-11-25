@@ -19,9 +19,16 @@ export function Stars({ value, size = 'sm', showValue, count }: { value: number;
   )
 }
 
-/** Note compacte « ★ 4,7 (286 avis) ». */
+/** « Pas encore d'avis » : à la place d'une note quand une fiche n'a aucun avis (chiffres calculés). */
+export function PasEncoreDAvis({ className }: { className?: string }) {
+  const { t } = useTranslation()
+  return <span className={cn('italic opacity-80', className)}>{t('rating.aucun')}</span>
+}
+
+/** Note compacte « ★ 4,7 (286 avis) » ; sans avis : « Pas encore d'avis ». */
 export function Rating({ value, count, className }: { value: number; count?: number; className?: string }) {
   const { t } = useTranslation()
+  if (count === 0) return <PasEncoreDAvis className={cn('text-sm text-muted', className)} />
   return (
     <span className={cn('inline-flex items-center gap-1 text-sm', className)}>
       <Star className="size-4 fill-amber-400 text-amber-400" />

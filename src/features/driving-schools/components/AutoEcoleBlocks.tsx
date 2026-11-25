@@ -8,7 +8,8 @@ import { useAutoEcole, usePermisCatalogue } from '@/data/hooks'
 import type { PermisCode } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { fcfa, num } from '@/shared/utils/format'
-import { BadgeCheck, Building2, Car, ChevronDown, CircleCheck, Coins, Folder, Heart, MapPin, Star, Users, X } from 'lucide-react'
+import { BadgeCheck, Building2, Car, ChevronDown, CircleCheck, Coins, Folder, Heart, MapPin, Star, X } from 'lucide-react'
+import { PasEncoreDAvis } from '@/shared/components/ui/StarRating'
 
 export function PermisPill({ code, withLabel }: { code: PermisCode; withLabel?: boolean }) {
   const { t } = useTranslation('driving-schools')
@@ -83,13 +84,21 @@ export function AEHeader({
                 <p className="flex flex-wrap items-center gap-x-6 text-[16px]">
                   <span className="inline-flex items-center gap-1.5">
                     <Star className="size-6 fill-amber-400 text-amber-400" />
-                    <b>{num(a.note)}/5</b> {t('common.reviews', { count: a.avis })}
+                    {a.avis > 0 ? (
+                      <>
+                        <b>{num(a.note)}/5</b> {t('common.reviews', { count: a.avis })}
+                      </>
+                    ) : (
+                      <PasEncoreDAvis />
+                    )}
                   </span>
+                  {/* Nombre de « formés » masqué : la base ne le connaît pas (vrais chiffres, 2026-11-25) :
                   <span className="h-6 w-px bg-white/30" />
                   <span className="inline-flex items-center gap-2 text-white/90">
                     <Users className="size-6 text-brand-200" />
                     {t('header.trained', { value: num(a.formes) })}
                   </span>
+                  */}
                 </p>
               </>
             )}

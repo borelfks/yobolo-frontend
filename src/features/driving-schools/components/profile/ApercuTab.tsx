@@ -75,7 +75,7 @@ export function ApercuTab({ id }: { id: string }) {
         </div>
         <div className={cn(card, 'p-4')}>
           <div className="flex items-center justify-between">
-            <Heading icon={<Images />}>{t('profile.overview.gallery', { count: a.nbPhotos ?? photos.length })}</Heading>
+            <Heading icon={<Images />}>{t('profile.overview.gallery', { count: photos.length })}</Heading>
             <Link to={ROUTES.drivingSchool(a.id, 'galerie')} className="inline-flex items-center gap-2 text-[15px] font-semibold text-brand-600 underline underline-offset-4">
               {t('profile.overview.seeGallery')} <ArrowRight className="size-5" />
             </Link>

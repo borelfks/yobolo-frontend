@@ -13,7 +13,6 @@ import { PREFIXE_FORMATION_CREEE } from '@/features/pro/proData'
 import type { StatutPublication } from '@/shared/types'
 import { ROUTES } from '@/shared/utils/routes'
 import { MenuActions } from '@/shared/components/ui/MenuActions'
-import { ajusterNombreFormations } from '@/shared/utils/compteurs'
 
 /** L'instant présent, en texte ISO (appelé hors du rendu). */
 const maintenant = () => new Date().toISOString()
@@ -94,15 +93,12 @@ export function Formations() {
     const source = fiche(f.id)
     if (source) await data.create('formations', { ...source, id, nom, etablissementId: ecole.id, statut: 'Brouillon', publieeLe: undefined })
     await data.create('formationsPro', { id, etablissementId: ecole.id, nom, code: f.code, filiere: f.filiere, ton: f.ton, diplome: f.diplome, duree: f.duree, rentree: f.rentree, statut: 'Brouillon' })
-    // L'établissement compte une formation de plus (fiche, tableau de bord).
-    await ajusterNombreFormations(ecole.id, 1)
     toast.success(t('formations.menu.duplicated', { name: nom }))
   }
   const supprimer = async (f: Ligne) => {
     if (enregistree(f.id)) await data.remove('formationsPro', f.id)
     if (fiche(f.id)) await data.remove('formations', f.id)
-    // Une formation de moins, et elle quitte les favoris.
-    await ajusterNombreFormations(ecole.id, -1)
+    // Elle quitte aussi les favoris.
     if ((await data.list('favoris')).some((x) => x.id === f.id)) await data.remove('favoris', f.id)
     toast.success(t('formations.menu.deleted', { name: f.nom }))
   }

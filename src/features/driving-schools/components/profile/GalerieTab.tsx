@@ -35,7 +35,9 @@ export function GalerieTab({ id }: { id: string }) {
               className={cn('inline-flex h-10 items-center gap-2 rounded-full px-5 text-[14.5px] font-semibold [&_svg]:size-5', cat === c.id ? 'bg-brand-600 text-white' : 'bg-[#eef3fc] text-navy-900 hover:bg-brand-100')}
             >
               {c.icon}
-              {t(`profile.gallery.cats.${c.id}`)} ({c.count})
+              {t(`profile.gallery.cats.${c.id}`)}
+              {/* Seule « Toutes » a un nombre réel : les photos n'ont pas de catégorie dans la base. */}
+              {c.id === 'all' && ` (${photos.length})`}
             </button>
           ))}
         </div>
@@ -60,7 +62,7 @@ export function GalerieTab({ id }: { id: string }) {
         <div className={cn(card, 'p-4')}>
           <Heading icon={<Images />}>{t('profile.gallery.sideTitle')}</Heading>
           <ul className="mt-3 space-y-3.5 border-t border-line pt-3 text-[15px] text-navy-900 [&_svg]:size-6 [&_svg]:text-brand-600">
-            <li className="flex items-center gap-3"><ImageIcon />{t('profile.gallery.photos', { count: cats.find((c) => c.id === 'all')?.count ?? photos.length })}</li>
+            <li className="flex items-center gap-3"><ImageIcon />{t('profile.gallery.photos', { count: photos.length })}</li>
             <li className="flex items-center gap-3"><PlayCircle />{t('profile.gallery.videos', { count: videos.length })}</li>
             <li className="flex items-center gap-3"><Building2 />{t('profile.gallery.centre')}</li>
             <li className="flex items-center gap-3"><Car />{t('profile.gallery.vehicles')}</li>

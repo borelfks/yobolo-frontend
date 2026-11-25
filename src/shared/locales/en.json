@@ -100,7 +100,8 @@
     "reviews_one": "({{n}} review)",
     "reviews_other": "({{n}} reviews)",
     "stars_one": "{{count}} star",
-    "stars_other": "{{count}} stars"
+    "stars_other": "{{count}} stars",
+    "aucun": "No reviews yet"
   },
   "favorites": {
     "add": "Add to favourites",

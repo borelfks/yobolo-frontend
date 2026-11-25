@@ -9,8 +9,9 @@ import { useTypeLabels } from '@/features/schools/components/listing/useTypeLabe
 import { Img } from '@/shared/components/ui/Img'
 import type { TypeSlug } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
+import { num } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
-import { useRegions, useTypeEcole } from '@/data/hooks'
+import { useEtablissementsParLieu, useRegions } from '@/data/hooks'
 
 /** Valeur interne de la ligne « Toutes les régions ». */
 const ALL = 'Toutes les régions'
@@ -19,12 +20,12 @@ const ALL = 'Toutes les régions'
 export function RegionsTab({ type }: { type: TypeSlug }) {
   const { t } = useTranslation('schools')
   const { court, pluriel } = useTypeLabels(type)
-  const cfg = useTypeEcole(type)
-  const totalIpes = useTypeEcole('ipes').count
+  const { total, parRegion } = useEtablissementsParLieu(type)
+  // Les régions où le type a au moins un établissement, avec leur vrai nombre.
   const regions = useRegions()
-  // Les nombres par région sont ceux des IPES : pour un autre type, ils sont ramenés à son total.
-  const ratio = cfg.count / totalIpes
-  const n = (x: number) => Math.max(1, Math.round(x * ratio))
+    .map((r) => ({ ...r, ipes: parRegion[r.nom] ?? 0 }))
+    .filter((r) => r.ipes > 0)
+  const n = num
   const [sel, setSel] = useState(ALL)
   const [tri, setTri] = useState(0)
   const choisies = sel === ALL ? regions : regions.filter((r) => r.nom === sel)
@@ -36,7 +37,7 @@ export function RegionsTab({ type }: { type: TypeSlug }) {
       <div className="grid gap-5 lg:grid-cols-[236px_1fr]">
         <SidePanel title={t('listing.regions.panel')} icon={<MapIcon />} className="[&>p]:text-[16px]">
           <ul className="space-y-0.5">
-            {[{ nom: ALL, ipes: totalIpes }, ...regions].map((r, i) => (
+            {[{ nom: ALL, ipes: total }, ...regions].map((r, i) => (
               <li key={r.nom}>
                 <button
                   type="button"
@@ -52,7 +53,7 @@ export function RegionsTab({ type }: { type: TypeSlug }) {
           </ul>
         </SidePanel>
         <div className="space-y-3">
-          <ResultsHeader title={t('listing.found', { n: cfg.count, pluriel })} sort={[t('listing.villes.sort.count', { court: pluriel }), t('listing.villes.sort.name')]} tri={tri} onTri={setTri} />
+          <ResultsHeader title={t('listing.found', { n: total, pluriel })} sort={[t('listing.villes.sort.count', { court: pluriel }), t('listing.villes.sort.name')]} tri={tri} onTri={setTri} />
           <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
             {shown.map((r) => (
               <Link key={r.nom} to={`${ROUTES.schoolType(type)}?${new URLSearchParams({ region: r.nom })}`} className="group overflow-hidden rounded-xl border border-line bg-white shadow-[0_2px_8px_rgba(15,29,61,0.06)] transition-shadow hover:shadow-lg">

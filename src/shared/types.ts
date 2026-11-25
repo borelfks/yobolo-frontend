@@ -112,8 +112,6 @@ export type Permis = {
 export type AutoEcole = {
   /** Département du découpage officiel. */
   departement?: string
-  /** Nombre de photos annoncé dans l'aperçu. */
-  nbPhotos?: number
   /** Rang parmi les premières cartes de l'annuaire École (absent : l'auto-école n'y figure pas). */
   vedette?: number
   id: string
@@ -352,11 +350,9 @@ export type TypeEcoleInfo = { id: TypeSlug; type: TypeEcole; count: number; fili
 /** Nombre affiché sur une tuile de l'annuaire École (`toutes`, `IPES`, `CFP`, `Auto-école`, `Autre`). */
 export type TuileAnnuaire = { id: string; count: number }
 export type Domaine = { id: string; typeSlug: TypeSlug; nom: string; count: number; ecoles: number; formations: number }
-export type FiliereCarte = { id: string; typeSlug: TypeSlug; nom: string; ecoles: number; formations: number }
 export type DiplomeType = { id: string; typeSlug: TypeSlug; nom: string; count: number }
-export type Region = { id: string; nom: string; ipes: number; chef: string; image: string }
-export type VilleRegion = { id: string; region: string; nom: string; ipes: number }
-export type Ville = { id: string; nom: string; region: string; ipes: number; image: string }
+export type Region = { id: string; nom: string; chef: string; image: string }
+export type Ville = { id: string; nom: string; region: string; image: string }
 export type Quartier = { id: string; nom: string }
 /** Le découpage officiel du Cameroun (repris de yibolo-backend) : région → département → arrondissement. */
 export type Departement = { id: string; region: string; nom: string; chefLieu: string }
@@ -364,11 +360,11 @@ export type Departement = { id: string; region: string; nom: string; chefLieu: s
 export type Arrondissement = { id: string; departement: string; nom: string; ville: string }
 /** Un lieu saisi avec la sélection géographique ; la ville se déduit de l'arrondissement. */
 export type Lieu = { region: string; departement: string; arrondissement: string; quartier: string }
-export type RepartitionNote = { id: string; cible: 'etablissement' | 'auto-ecole'; etoiles: number; pct: number }
-export type Album = { id: string; nom: string; count: number; image: string }
+export type Album = { id: string; nom: string; image: string }
 export type SemestreProgramme = { id: string; annee: string; semestre: string; ue: string[]; heures: number }
 export type PermisInfo = Permis & { id: PermisCode }
-export type CritereAvis = { id: string; nom: string; note: number }
+/** Un critère d'avis d'auto-école ; sa note est la moyenne de celles des avis (calculée). */
+export type CritereAvis = { id: string; nom: string }
 export type RolePro = { id: string; nom: string; description: string }
 export type NotificationPro = { id: string; /** L'établissement destinataire (absent : tous, comme celles de la maquette). */ etablissementId?: string; type: string; titre: string; texte: string; date: string; lu: boolean }
 export type PointVisites = { id: string; label: string; value: number }
@@ -391,8 +387,8 @@ export type Indicateurs = {
 }
 export type MediaEtablissement = { id: string; etablissementId: string; src: string; video: boolean }
 export type FormationPopulaire = { id: string; typeSlug: TypeSlug; titre: string; diplome: string; image: string; formationId: string }
-export type TrancheFrais = { id: 'lt250' | 'from250to500' | 'from500to750' | 'from750to1000' | 'gt1000'; count: number }
-export type CategorieGalerie = { id: 'all' | 'centre' | 'vehicles' | 'classes' | 'exams'; count: number }
+export type TrancheFrais = { id: 'lt250' | 'from250to500' | 'from500to750' | 'from750to1000' | 'gt1000' }
+export type CategorieGalerie = { id: 'all' | 'centre' | 'vehicles' | 'classes' | 'exams' }
 export type PhotoAutoEcole = { id: string; autoEcoleId: string; usage: 'apercu' | 'galerie'; image: string }
 
 /* --- Accueil de l'utilisateur connecté (copie de l'accueil de yibolo-client) --- */

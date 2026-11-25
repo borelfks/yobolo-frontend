@@ -6,8 +6,8 @@ import { Heading } from '@/features/driving-schools/components/profile/ProfilePa
 import { card, criteriaKeys, reviewDate } from '@/features/driving-schools/components/profile/profileUtils'
 import { Avatar } from '@/shared/components/ui/Avatar'
 import { Img } from '@/shared/components/ui/Img'
-import { Stars } from '@/shared/components/ui/StarRating'
-import { useAutoEcole, useAvisAutoEcole, useCriteresAvis, useRepartitionNotes } from '@/data/hooks'
+import { Stars, PasEncoreDAvis } from '@/shared/components/ui/StarRating'
+import { useAutoEcole, useAvisAutoEcole, useCriteresAutoEcole, useRepartitionAutoEcole } from '@/data/hooks'
 import { cn } from '@/shared/utils/cn'
 import { num } from '@/shared/utils/format'
 import { MenuActions } from '@/shared/components/ui/MenuActions'
@@ -15,7 +15,6 @@ import { Modal } from '@/shared/components/ui/Modal'
 import { data } from '@/data'
 import { partager } from '@/shared/utils/liens'
 import { useSession } from '@/features/auth/hooks/useSession'
-import { ajoutes, critereAJour, repartitionAJour } from '@/shared/utils/compteurs'
 import { ModaleAvis } from '@/features/schools/components/ModaleAvis'
 
 const critereIcons = [CircleGauge, Users, CalendarDays, Building2, Handshake]
@@ -25,10 +24,9 @@ export function AvisTab({ id }: { id: string }) {
   const { t } = useTranslation('driving-schools')
   const a = useAutoEcole(id)
   const [donnerAvis, setDonnerAvis] = useState(false)
-  // Répartition et critères de la maquette, plus les avis ajoutés sur cette auto-école.
-  const nouveaux = ajoutes(useAvisAutoEcole(a.id).filter((x) => x.autoEcoleId === a.id))
-  const repartitionAutoEcole = repartitionAJour(useRepartitionNotes('auto-ecole'), a.avis, nouveaux.map((x) => x.note))
-  const criteresAvis = useCriteresAvis().map((c, i) => ({ ...c, note: critereAJour(c.note, a.avis, nouveaux.flatMap((x) => (x.criteres?.[i] ? [x.criteres[i]] : []))) }))
+  // Répartition et critères tirés des avis de cette auto-école.
+  const repartitionAutoEcole = useRepartitionAutoEcole(a.id)
+  const criteresAvis = useCriteresAutoEcole(a.id)
   const [tri, setTri] = useState<'recents' | 'mieuxNotes'>('recents')
   const [signale, setSignale] = useState<string | null>(null)
   const [motif, setMotif] = useState<'inappropriate' | 'false' | 'spam' | 'other'>('inappropriate')
@@ -41,12 +39,20 @@ export function AvisTab({ id }: { id: string }) {
       <div className={cn(card, 'h-fit p-4')}>
         <Heading icon={<Star className="!fill-none" />}>{t('profile.reviews.overall')}</Heading>
         <div className="text-center">
-          <p className="text-[44px] leading-tight font-extrabold text-navy-900">
-            {num(a.note)}
-            <span className="text-[28px] font-semibold">/5</span>
-          </p>
-          <Stars value={a.note} size="lg" />
-          <p className="mt-1 text-[15px] text-brand-700">{t('profile.reviews.basedOn', { count: a.avis })}</p>
+          {a.avis > 0 ? (
+            <>
+              <p className="text-[44px] leading-tight font-extrabold text-navy-900">
+                {num(a.note)}
+                <span className="text-[28px] font-semibold">/5</span>
+              </p>
+              <Stars value={a.note} size="lg" />
+              <p className="mt-1 text-[15px] text-brand-700">{t('profile.reviews.basedOn', { count: a.avis })}</p>
+            </>
+          ) : (
+            <p className="py-4 text-[17px] text-navy-900">
+              <PasEncoreDAvis />
+            </p>
+          )}
         </div>
         <ul className="mt-3 space-y-1 border-b border-line pb-3">
           {repartitionAutoEcole.map((r, i) => (

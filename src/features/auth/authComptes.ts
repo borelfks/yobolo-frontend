@@ -1,20 +1,16 @@
 import { data, dateDeCreation } from '@/data'
 import type { Compte } from '@/shared/types'
-import { compterDansLAnnuaire } from '@/shared/utils/compteurs'
 
 /**
  * La vérification d'une école par YIBOLO (24 à 48 heures, annoncées sur
  * l'écran d'attente) est faite quand l'école revient se connecter : le compte
- * passe « Validé », l'établissement devient visible et entre dans les chiffres
- * de l'annuaire.
+ * passe « Validé » et l'établissement devient visible (et compté).
  */
 export async function validerCompteEcole(compte: Compte) {
   const valide = (await data.update('comptes', compte.id, { statut: 'Validé' })) ?? compte
   const e = compte.ecoleId ? (await data.list('etablissements')).find((x) => x.id === compte.ecoleId) : undefined
-  if (e?.enVerification) {
-    await data.update('etablissements', e.id, { enVerification: false })
-    await compterDansLAnnuaire(e, 1)
-  }
+  // Visible du public : l'annuaire le compte de lui-même (chiffres calculés).
+  if (e?.enVerification) await data.update('etablissements', e.id, { enVerification: false })
   return valide
 }
 
