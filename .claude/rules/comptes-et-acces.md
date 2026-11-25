@@ -22,7 +22,7 @@
 1. **Profil** : École / IPES, Consultant, Entreprise, Personne physique. **École / IPES** et **Personne physique** sont ouverts ; Consultant et Entreprise affichent « Bientôt disponible » (décisions du 2026-11-24).
 2. **Infos** : raison sociale ou nom, téléphone, e-mail, région, ville, quartier, mot de passe (8 caractères) + confirmation.
 3. **Vérification** : pièces selon le profil (pièce d'identité ; ou autorisation d'ouverture / justificatif d'activité + NIU).
-4. **En cours de vérification** (24 à 48 heures, notification par e-mail et SMS), puis **Compte validé !** La vérification par YIBOLO est faite quand l'école revient se connecter : écran « Compte validé ! », puis son espace (`validerCompteEcole`, `features/auth/authComptes.ts`). Le compte est **enregistré dans la base** à l'envoi du code, statut « En vérification » ; son établissement l'est à « Soumettre pour vérification » ;  Un e-mail déjà utilisé est refusé.
+4. **« Soumettre pour vérification »** : le compte et son établissement sont enregistrés, et l'école **entre directement dans son espace professionnel** (`validerCompteEcole`, `features/auth/authComptes.ts`) ; plus d'écran « en cours de vérification » ni « Compte validé ! » (décision du 2026-11-25). Le compte est enregistré dès l'envoi du code ; un e-mail déjà utilisé est refusé.
 
 ## Accès
 | Situation | Résultat |

@@ -76,11 +76,8 @@ export function Connexion() {
       navigate(ROUTES.signUp, { state: { reprise: compte.id } })
       return
     }
-    if (compte.statut !== 'Validé') {
-      const valide = await validerCompteEcole(compte)
-      navigate(ROUTES.signUp, { state: { valide: valide.id } })
-      return
-    }
+    // Une école dont l'inscription attendait encore la vérification entre directement dans son espace.
+    if (compte.statut !== 'Validé') compte = await validerCompteEcole(compte)
     signIn(compte, retenir)
     await data.create('activiteSecurite', { compteId: compte.id, evenement: 'connexion', le: maintenant(), appareil: decrireAppareil(), ok: true }, 'activite')
     toast.success(t('connexion.welcome', { name: compte.name }))

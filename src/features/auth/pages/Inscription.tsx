@@ -13,7 +13,7 @@ import { Checkbox, Field, Input, PhoneInput, Radio, Select } from '@/shared/comp
 import { SelectionGeographique } from '@/shared/components/forms/SelectionGeographique'
 import { useSession } from '@/features/auth/hooks/useSession'
 import { VerificationCode } from '@/features/auth/components/VerificationCode'
-import { EcranAttente, EcranValide } from '@/features/auth/components/EcransInscription'
+import { validerCompteEcole } from '@/features/auth/authComptes'
 import { chiffresDuNumero, formaterNumero, numeroValide } from '@/features/auth/authOtp'
 import { cn } from '@/shared/utils/cn'
 import { ROUTES } from '@/shared/utils/routes'
@@ -83,18 +83,14 @@ export function Inscription() {
   const { t: tc } = useTranslation('common')
   const comptes = useComptes()
   // Une école dont le numéro vient d'être confirmé à la connexion reprend ici, à l'étape des pièces.
-  // … ou une école vérifiée par YIBOLO, à sa connexion : l'écran « Compte validé ! ».
-  const { reprise, valide } = (useLocation().state as { reprise?: string; valide?: string } | null) ?? {}
+  const reprise = (useLocation().state as { reprise?: string } | null)?.reprise
   const [brouillon, setBrouillon] = useState<Compte | null>(() => comptes.find((c) => c.id === reprise) ?? null)
   const [profil, setProfil] = useState<Profil>('ecole')
   const [etape, setEtape] = useState<Etape>(brouillon ? 'verification' : 'profil')
-  const [done, setDone] = useState<'attente' | 'valide' | null>(valide ? 'valide' : null)
   const [pieces, setPieces] = useState<Record<string, string>>({})
   const { signIn } = useSession()
   const navigate = useNavigate()
   const { arrondissements } = useDecoupage()
-  // Le compte École validé (écran « Compte validé ! »).
-  const [compte] = useState<Compte | null>(() => comptes.find((c) => c.id === valide) ?? null)
   const [envoi, setEnvoi] = useState(false)
   const etapes = ETAPES[profil === 'personne' ? 'personne' : 'ecole']
   // Le compte en cours de création (le sien) ne compte pas comme « déjà utilisé ».
@@ -275,7 +271,9 @@ export function Inscription() {
 
   /**
    * École, « Soumettre pour vérification » : l'établissement est enregistré et
-   * rattaché au compte, en attente de validation par YIBOLO.
+   * rattaché au compte, et l'école entre directement dans son espace
+   * professionnel (décision du 2026-11-25 : plus d'écran « en cours de
+   * vérification »).
    */
   const soumettreEcole = async () => {
     if (!brouillon) return
@@ -305,18 +303,17 @@ export function Inscription() {
         },
         'etablissement',
       )
-      await data.update('comptes', brouillon.id, { ecoleId: etablissement.id })
-      toast.success(t('inscription.verification.sent'))
-      setDone('attente')
+      const rattache = (await data.update('comptes', brouillon.id, { ecoleId: etablissement.id })) ?? { ...brouillon, ecoleId: etablissement.id }
+      const valide = await validerCompteEcole(rattache)
+      signIn(valide)
+      toast.success(t('connexion.welcome', { name: valide.name }))
+      navigate(valide.home)
     } catch {
       toast.error(t('inscription.errors.saveFailed'))
     } finally {
       setEnvoi(false)
     }
   }
-
-  if (done === 'attente') return <EcranAttente />
-  if (done === 'valide') return <EcranValide compte={compte} />
 
   const ep = etatP.errors
   const ee = etatE.errors

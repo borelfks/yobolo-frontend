@@ -99,7 +99,7 @@ La maquette prévoit **4 profils** : **École / IPES** (institut, centre, auto-�
 1. **Profil** : 4 cartes (École / IPES, Consultant, Entreprise, Personne physique). Seule **École / IPES** se choisit ; les trois autres sont grisées avec « Bientôt disponible » (décision du 2026-11-24).
 2. **Infos** (« Informations générales ») : raison sociale / nom et prénoms, téléphone, e-mail, région, ville, quartier, mot de passe (8 caractères au moins) et confirmation. Champs **préremplis** avec les valeurs de la maquette (IPC). Validation react-hook-form + zod.
 3. **Vérification** : documents à joindre. Personne physique : pièce d'identité. Autres profils : autorisation d'ouverture (école) ou justificatif d'activité, et NIU. Bouton « Soumettre pour vérification ».
-4. **« Votre compte est en cours de vérification »** : délai 24 à 48 heures, notification par e-mail et SMS, « Retour à la connexion ». La vérification par YIBOLO est faite quand l'école revient se connecter : « Compte validé ! ».
+4. **« Soumettre pour vérification »** : l'école entre directement dans son espace professionnel (décision du 2026-11-25 : plus d'écran « en cours de vérification » ni « Compte validé ! »).
 5. **« Compte validé ! »** : « Se connecter à mon espace » ouvre le compte IPES (profil École) ou Utilisateur (autres profils).
 
 ---

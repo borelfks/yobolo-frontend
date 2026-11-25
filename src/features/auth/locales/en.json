@@ -106,24 +106,7 @@
       "formats": "PDF, JPG or PNG (max. 5 MB)",
       "import": "Upload",
       "confidential": "Your documents are confidential and will be checked by the YIBOLO team before your account is activated.",
-      "submit": "Submit for verification",
-      "sent": "Application sent for verification"
-    },
-    "pending": {
-      "title": "Your account is being verified",
-      "text1": "We are reviewing your information and documents.",
-      "text2": "You will receive an email and SMS notification once it is approved.",
-      "delay": "Processing time",
-      "delayValue": "24 to 48 hours",
-      "notification": "Notification",
-      "notificationValue": "Email and SMS",
-      "back": "Back to sign in"
-    },
-    "validated": {
-      "title": "Account approved!",
-      "text1": "Your account has been successfully verified.",
-      "text2": "You can now sign in and access your YIBOLO space.",
-      "signIn": "Sign in to my space"
+      "submit": "Submit for verification"
     },
     "vous": {
       "title": "You",
