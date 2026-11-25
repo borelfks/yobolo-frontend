@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react'
-import { Link } from 'react-router'
+import { Link, Navigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { ArrowRight, Building2, CalendarDays, Car, CircleCheck, Folder, GraduationCap, Heart, Landmark, Lightbulb, MapPin, Megaphone, Star, Sun, Trash2 } from 'lucide-react'
@@ -27,6 +27,8 @@ export function Favoris() {
   // Les publications mises en favoris sur l'accueil (« Enregistrer ») : les mêmes favoris.
   const publications = useEnregistrements(account?.id)
   const [filter, setFilter] = useState<Filter>('tous')
+  // Pas de favoris pour un compte école (décision du 2026-11-25) : il retourne à l'accueil.
+  if (account && account.role !== 'utilisateur') return <Navigate to={ROUTES.accueil} replace />
   const isFormation = (f: Favorite) => f.kind === 'formation' || f.kind === 'permis'
   const isEtab = (f: Favorite) => f.kind === 'etablissement' || f.kind === 'auto-ecole'
   const list = filter === 'publication' ? [] : favorites.filter((f) => filter === 'tous' || (filter === 'formation' ? isFormation(f) : isEtab(f)))

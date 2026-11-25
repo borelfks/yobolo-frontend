@@ -83,7 +83,7 @@ export function Connexion() {
     toast.success(t('connexion.welcome', { name: compte.name }))
     const publiees = compte.ecoleId ? await publierFormationsVerifiees(compte.ecoleId) : 0
     if (publiees > 0) toast.success(t('connexion.formationsPubliees', { count: publiees }))
-    navigate(compte.home)
+    navigate(ROUTES.accueil)
   }
 
   const numeroConfirme = async () => {

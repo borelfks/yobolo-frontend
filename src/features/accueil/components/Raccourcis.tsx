@@ -35,6 +35,11 @@ export function Raccourcis({ favoris, basculerFavoris }: { favoris: boolean; bas
   const { account } = useSession()
   // Le nombre de notifications non lues, sur le raccourci.
   const nonLues = useNotificationsCompte(account?.id).filter((n) => !n.lu).length
+  // Une école : pas de favoris ; ses notifications et son profil sont dans son espace pro.
+  const ecole = !!account && account.role !== 'utilisateur'
+  const raccourcis = ecole
+    ? RACCOURCIS.filter((r) => r.cle !== 'favoris').map((r) => ({ ...r, vers: r.cle === 'profil' ? ROUTES.pro.profile() : ROUTES.pro.settings('notifications') }))
+    : RACCOURCIS
 
   return (
     <section aria-labelledby="titre-raccourcis" className="@container flex flex-col gap-3">
@@ -42,8 +47,8 @@ export function Raccourcis({ favoris, basculerFavoris }: { favoris: boolean; bas
         {t('raccourcis.titre')}
       </h2>
 
-      <ul className="grid grid-cols-1 gap-2 @min-[30rem]:grid-cols-3">
-        {RACCOURCIS.map(({ cle, icone: Icone, rond, plein, vers }) => {
+      <ul className={cn('grid grid-cols-1 gap-2', raccourcis.length === 3 ? '@min-[30rem]:grid-cols-3' : '@min-[30rem]:grid-cols-2')}>
+        {raccourcis.map(({ cle, icone: Icone, rond, plein, vers }) => {
           const contenu: ReactNode = (
             <>
               <span className={cn('relative flex size-[1.875rem] shrink-0 items-center justify-center rounded-full', rond)}>

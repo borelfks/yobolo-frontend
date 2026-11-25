@@ -130,14 +130,17 @@ export function ArticlePublication({ publication }: { publication: Publication }
             nombre={nombreDeCommentaires}
             onClick={() => commentaires.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
           />
-          <ActionDArticle
-            icone={<Bookmark className="size-4" aria-hidden="true" fill={enregistrement.enregistree ? 'currentColor' : 'none'} />}
-            libelle={enregistrement.enregistree ? t('actions.enregistree') : t('actions.enregistrer')}
-            actif={enregistrement.enregistree}
-            aria-pressed={enregistrement.enregistree}
-            disabled={enregistrement.enCours}
-            onClick={() => void enregistrement.basculer()}
-          />
+          {/* « Enregistrer » (mettre en favoris) : pour les personnes physiques seulement. */}
+          {account?.role === 'utilisateur' && (
+            <ActionDArticle
+              icone={<Bookmark className="size-4" aria-hidden="true" fill={enregistrement.enregistree ? 'currentColor' : 'none'} />}
+              libelle={enregistrement.enregistree ? t('actions.enregistree') : t('actions.enregistrer')}
+              actif={enregistrement.enregistree}
+              aria-pressed={enregistrement.enregistree}
+              disabled={enregistrement.enCours}
+              onClick={() => void enregistrement.basculer()}
+            />
+          )}
           {signalable && (
             <ActionDArticle
               icone={<Flag className="size-4" aria-hidden="true" />}

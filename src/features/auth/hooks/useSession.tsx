@@ -3,6 +3,7 @@ import { load, loadSession, save, saveSession } from '@/shared/utils/storage'
 import { useCollectionWhenReady, useDataReady } from '@/data'
 import type { Compte } from '@/shared/types'
 import { useEtablissement, useFormationsOf } from '@/data/hooks'
+import { ROUTES } from '@/shared/utils/routes'
 
 type SessionValue = {
   /** Le compte connecté (table `comptes`), ou null pour un visiteur. */
@@ -18,6 +19,8 @@ type SessionValue = {
 
 const SessionContext = createContext<SessionValue | null>(null)
 
+const avecAccueil = (c: Compte | null): Compte | null => (c ? { ...c, home: ROUTES.accueil } : null)
+
 /**
  * La session garde seulement l'identifiant du compte (clé `yibolo:compte`) ; le compte lui-même est lu dans la base.
  * « Se souvenir de moi » : dans le stockage local (reste après fermeture) ; sinon dans le stockage de la visite.
@@ -28,7 +31,8 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const comptes = useCollectionWhenReady('comptes')
   const pret = useDataReady()
   const value: SessionValue = {
-    account: comptes.find((c) => c.id === compteId) ?? null,
+    // Tous les comptes arrivent sur l'accueil connecté ; une école ouvre son espace pro depuis le menu (décision du 2026-11-25).
+    account: avecAccueil(comptes.find((c) => c.id === compteId) ?? null),
     pret,
     compteId,
     signIn: (compte, retenir = true) => {

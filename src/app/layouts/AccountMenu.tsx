@@ -125,7 +125,7 @@ export function UserMenu() {
       {open && (
         <div className="absolute right-0 z-40 mt-2 w-64 rounded-2xl border border-line bg-white p-2 shadow-xl">
           {account.role !== 'utilisateur' && (
-            <Link to={account.home} onClick={close} className={item}>
+            <Link to={ROUTES.pro.root} onClick={close} className={item}>
               <LayoutDashboard />
               {t('userMenu.proSpace')}
             </Link>
@@ -144,10 +144,13 @@ export function UserMenu() {
               </Link>
             </>
           )}
-          <Link to={ROUTES.favorites} onClick={close} className={item}>
-            <Heart />
-            {t('userMenu.favorites')}
-          </Link>
+          {/* « Mes favoris » : pour les personnes physiques seulement (décision du 2026-11-25). */}
+          {account.role === 'utilisateur' && (
+            <Link to={ROUTES.favorites} onClick={close} className={item}>
+              <Heart />
+              {t('userMenu.favorites')}
+            </Link>
+          )}
           <Link to={account.role === 'utilisateur' ? ROUTES.parametres() : ROUTES.pro.settings()} onClick={close} className={item}>
             <Settings />
             {t('userMenu.settings')}

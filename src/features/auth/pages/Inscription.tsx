@@ -307,7 +307,7 @@ export function Inscription() {
       const valide = await validerCompteEcole(rattache)
       signIn(valide)
       toast.success(t('connexion.welcome', { name: valide.name }))
-      navigate(valide.home)
+      navigate(ROUTES.accueil)
     } catch {
       toast.error(t('inscription.errors.saveFailed'))
     } finally {

@@ -7,6 +7,7 @@ import { ChoixDuMenu, SeparateurDuMenu } from '@/features/accueil/components/Ele
 import { MenuDesDomaines } from '@/features/accueil/components/MenuDesDomaines'
 import type { FiltresDuFil } from '@/features/accueil/hooks/useFiltresDuFil'
 import { usePartage } from '@/features/accueil/hooks/usePartage'
+import { useSession } from '@/features/auth/hooks/useSession'
 import type { Publication } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { ROUTES } from '@/shared/utils/routes'
@@ -156,6 +157,9 @@ function ChampDeRecherche({ recherche, onRecherche }: { recherche: string; onRec
 function BoutonFiltres({ filtres, nombre, changer }: { filtres: FiltresDuFil; nombre: number; changer: (suite: Partial<FiltresDuFil>) => void }) {
   const { t } = useTranslation('accueil')
   const { tri, enregistres } = filtres
+  // « Mes favoris » : pour les personnes physiques seulement.
+  const { account } = useSession()
+  const favoris = account?.role === 'utilisateur'
 
   return (
     <Deroulant
@@ -189,6 +193,7 @@ function BoutonFiltres({ filtres, nombre, changer }: { filtres: FiltresDuFil; no
             )}
           </div>
 
+          {favoris && (
           <div role="group" aria-label={t('filtres.vue')} className="grid grid-cols-2 gap-1 rounded-xl bg-page p-1">
             {([false, true] as const).map((vue) => (
               <button
@@ -206,6 +211,7 @@ function BoutonFiltres({ filtres, nombre, changer }: { filtres: FiltresDuFil; no
               </button>
             ))}
           </div>
+          )}
 
           {enregistres ? (
             <p className="text-xs leading-relaxed text-muted">{t('filtres.enregistresExplique')}</p>
@@ -253,6 +259,8 @@ function Choix({ choisi, onClick, children }: { choisi: boolean; onClick: () => 
 
 /** Le menu ⋮ : ses publications enregistrées, le lien de la recherche en cours à partager, et réinitialiser les filtres. */
 function MenuAutres({ filtres, changer, filtre, toutVoir }: { filtres: FiltresDuFil; changer: (suite: Partial<FiltresDuFil>) => void; filtre: boolean; toutVoir: () => void }) {
+  const { account } = useSession()
+  const favoris = account?.role === 'utilisateur'
   const { t } = useTranslation('accueil')
   const { copierLeLien } = usePartage()
 
@@ -267,15 +275,17 @@ function MenuAutres({ filtres, changer, filtre, toutVoir }: { filtres: FiltresDu
     >
       {(fermer) => (
         <>
-          <ChoixDuMenu
-            onClick={() => {
-              fermer()
-              changer({ enregistres: !filtres.enregistres })
-            }}
-          >
-            <Bookmark aria-hidden="true" />
-            {filtres.enregistres ? t('filtres.toutLeFil') : t('filtres.publicationsEnregistrees')}
-          </ChoixDuMenu>
+          {favoris && (
+            <ChoixDuMenu
+              onClick={() => {
+                fermer()
+                changer({ enregistres: !filtres.enregistres })
+              }}
+            >
+              <Bookmark aria-hidden="true" />
+              {filtres.enregistres ? t('filtres.toutLeFil') : t('filtres.publicationsEnregistrees')}
+            </ChoixDuMenu>
+          )}
           <ChoixDuMenu
             onClick={() => {
               fermer()

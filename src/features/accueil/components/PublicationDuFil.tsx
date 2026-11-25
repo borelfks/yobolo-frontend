@@ -93,15 +93,18 @@ export function PublicationDuFil({ publication }: { publication: Publication }) 
           <MenuDuFil>
             {(fermer) => (
               <>
-                <ChoixDuMenu
-                  onClick={() => {
-                    fermer()
-                    void enregistrement.basculer()
-                  }}
-                >
-                  <Bookmark aria-hidden="true" />
-                  {enregistrement.enregistree ? t('actions.retirerDesEnregistres') : t('actions.enregistrer')}
-                </ChoixDuMenu>
+                {/* « Enregistrer » (mettre en favoris) : pour les personnes physiques seulement. */}
+                {account?.role === 'utilisateur' && (
+                  <ChoixDuMenu
+                    onClick={() => {
+                      fermer()
+                      void enregistrement.basculer()
+                    }}
+                  >
+                    <Bookmark aria-hidden="true" />
+                    {enregistrement.enregistree ? t('actions.retirerDesEnregistres') : t('actions.enregistrer')}
+                  </ChoixDuMenu>
+                )}
                 <ChoixDuMenu
                   onClick={() => {
                     fermer()

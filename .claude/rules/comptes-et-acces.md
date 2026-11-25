@@ -4,10 +4,11 @@
 | Rôle | Nom | Établissement | Première page |
 |---|---|---|---|
 | `utilisateur` | Jean Dupont (personne physique) | — | `/accueil` |
-| `ipes` | IPC Yaoundé | `ipc` | `/pro/ecole` |
-| `cfp` | CFP du BTP | `cfp-btp` | `/pro/ecole` |
-| `autre` | Centre Linguistique | `langues` | `/pro/ecole` |
+| `ipes` | IPC Yaoundé | `ipc` | `/accueil` |
+| `cfp` | CFP du BTP | `cfp-btp` | `/accueil` |
+| `autre` | Centre Linguistique | `langues` | `/accueil` |
 
+- **Tous les comptes arrivent sur l'accueil connecté** (`account.home` = `/accueil`, `useSession`) ; une école ouvre son espace pro avec « Mon espace professionnel » (menu du compte). Pas de « Mes favoris » pour une école.
 - **Un compte = un espace.** Pas de changement de rôle : on change de compte en se déconnectant puis en se reconnectant.
 - Session : `useSession()` (`features/auth/hooks/useSession.tsx`) garde l'identifiant du compte sous `yibolo:compte` ; le compte est lu dans la base. À la première visite : **visiteur non connecté**.
 - L'établissement de l'espace pro : `useMonEcole()` (celui du compte ; l'IPC par défaut).
