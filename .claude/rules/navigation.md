@@ -4,6 +4,7 @@
 Les listes de liens des cadres sont dans `navConfig.ts`. Elles gardent des **clés de traduction** (`labelKey`, namespace `common`) et des adresses de `ROUTES` ; le texte est résolu par `t` dans le cadre.
 - **Pages publiques** (`publicNav`) : Accueil · École · Consultation · Emploi. La rubrique active est une pilule bleu nuit. Pour un compte connecté, « Accueil » et le logo mènent à sa page d'arrivée (`account.home`).
 - **Pied de page** (pages publiques) : la partie basse de celui de l'accueil (logo et devise, Aide · Conditions, copyright), en bleu nuit, sans la vague ni la phrase de la marque (décision du 2026-11-24).
+- **Compte école** : « École » (barre publique) mène à son espace pro ; les listes d'écoles et d'auto-écoles le renvoient vers son espace (`GardeListing`, `src/app/routes/`) ; dans l'espace pro, le bouton « Accueil » et le logo ramènent à l'accueil connecté.
 - **Espace pro** (`proNav`) : Tableau de bord · Profil de l'établissement · Formations · Contenus et informations · Statistiques · Paramètres.
   - **Sous-menus** (comme sur la maquette) : Formations › Gérer les formations, Créer une formation ; Contenus et informations › Contenus & actualités, Documents à télécharger, FAQ (Questions fréquentes).
   - « Tableau de bord » est `end` : il n'est pas actif sur les autres pages.

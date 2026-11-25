@@ -26,10 +26,11 @@ export function PublicLayout() {
   // La page affichée : une fiche ouverte ensuite saura d'où vient le visiteur (statistiques).
   const { pathname, search } = useLocation()
   useEffect(() => noterPage(pathname + search), [pathname, search])
-  // Connecté, « Accueil » et le logo mènent à la page d'arrivée du compte (l'accueil connecté
-  // pour l'utilisateur, l'espace pro pour une école) : la landing est réservée aux visiteurs.
+  // Connecté, « Accueil » et le logo mènent à l'accueil connecté : la landing est réservée aux visiteurs.
+  // Pour une école, « École » mène à son espace professionnel (elle ne voit pas la liste des écoles).
   const accueil = account ? account.home : ROUTES.home
-  const vers = (to: string) => (to === ROUTES.home ? accueil : to)
+  const ecole = !!account && account.role !== 'utilisateur'
+  const vers = (to: string) => (to === ROUTES.home ? accueil : ecole && to === ROUTES.schools ? ROUTES.pro.root : to)
   return (
     <div className="app-cadre flex min-h-dvh flex-col">
       <ScrollRestoration />

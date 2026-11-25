@@ -4,6 +4,7 @@ import { LandingLayout } from '@/app/layouts/LandingLayout'
 import { PublicLayout } from '@/app/layouts/PublicLayout'
 import { ProLayout } from '@/app/layouts/ProLayout'
 import { GardeAccueil } from '@/app/routes/GardeAccueil'
+import { GardeListing } from '@/app/routes/GardeListing'
 // Chargée d'emblée : elle sert d'écran de secours si une route plante.
 import { ErrorPage } from '@/app/ErrorPage'
 import { ROUTES, ROUTE_PATTERNS } from '@/shared/utils/routes'
@@ -93,7 +94,7 @@ export const router = createBrowserRouter([
         children: [
           { path: P.accueil, element: <Accueil /> },
           { path: P.publication, element: <PublicationLue /> },
-          { path: ROUTES.schools, element: <EcolesHub /> },
+          { path: ROUTES.schools, element: <GardeListing><EcolesHub /></GardeListing> },
           { path: ROUTES.favorites, element: <Favoris /> },
           // Préinscription masquée (demande du porteur du projet, 2026-11-25) :
           // { path: P.espacePreinscription, element: <DossierPreinscription /> },
@@ -107,7 +108,7 @@ export const router = createBrowserRouter([
           // Préinscription masquée (demande du porteur du projet, 2026-11-25) :
           // { path: P.preRegistration, element: <Preinscription /> },
           { path: P.training, element: <FormationDetail /> },
-          { path: P.drivingSchools, element: <AutoEcoles /> },
+          { path: P.drivingSchools, element: <GardeListing><AutoEcoles /></GardeListing> },
           // Donner mon avis : une fenêtre (ModaleAvis), plus une page (demande du porteur du projet, 2026-11-25) :
           // { path: P.drivingSchoolReview, element: <DonnerAvis /> },
           // Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) :
@@ -119,7 +120,7 @@ export const router = createBrowserRouter([
           // Donner mon avis : une fenêtre (ModaleAvis), plus une page (demande du porteur du projet, 2026-11-25) :
           // { path: P.schoolReview, element: <DonnerAvis /> },
           { path: P.school, element: <EcoleProfil /> },
-          { path: P.schoolType, element: <TypeListing /> },
+          { path: P.schoolType, element: <GardeListing><TypeListing /></GardeListing> },
           { path: ROUTES.consultation, element: <HorsPerimetre /> },
           { path: ROUTES.emploi, element: <HorsPerimetre /> },
           { path: ROUTES.courses, element: <HorsPerimetre /> },

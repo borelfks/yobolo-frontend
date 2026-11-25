@@ -30,7 +30,8 @@
       "faq": "FAQ (Questions fréquentes)",
       "statistics": "Statistiques",
       "settings": "Paramètres"
-    }
+    },
+    "backHome": "Accueil"
   },
   "schoolType": {
     "IPES": "IPES",
@@ -53,7 +54,8 @@
     "signOut": "Se déconnecter",
     "mySpace": "Mon espace",
     "settings": "Paramètres",
-    "profile": "Mon profil"
+    "profile": "Mon profil",
+    "home": "Accueil"
   },
   "authLayout": {
     "home": "Accueil",

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { Bell, CalendarCheck, CheckCircle2, ChevronDown, FileCheck2, FileText, Heart, LayoutDashboard, LogOut, MessageSquare, Settings, Star, UserRound, type LucideIcon } from 'lucide-react'
+import { Bell, CalendarCheck, CheckCircle2, ChevronDown, FileCheck2, FileText, Heart, House, LayoutDashboard, LogOut, MessageSquare, Settings, Star, UserRound, type LucideIcon } from 'lucide-react'
 import { Avatar } from '@/shared/components/ui/Avatar'
 import { useSession } from '@/features/auth/hooks/useSession'
 import { POUR_TOUS, data, useCollectionWhenReady } from '@/data'
@@ -125,10 +125,16 @@ export function UserMenu() {
       {open && (
         <div className="absolute right-0 z-40 mt-2 w-64 rounded-2xl border border-line bg-white p-2 shadow-xl">
           {account.role !== 'utilisateur' && (
-            <Link to={ROUTES.pro.root} onClick={close} className={item}>
-              <LayoutDashboard />
-              {t('userMenu.proSpace')}
-            </Link>
+            <>
+              <Link to={ROUTES.accueil} onClick={close} className={item}>
+                <House />
+                {t('userMenu.home')}
+              </Link>
+              <Link to={ROUTES.pro.root} onClick={close} className={item}>
+                <LayoutDashboard />
+                {t('userMenu.proSpace')}
+              </Link>
+            </>
           )}
           {account.role === 'utilisateur' && (
             <>

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, Navigate, NavLink, ScrollRestoration, useLocation } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { BadgeCheck, Building2, ChevronDown, CircleHelp, Headphones, Menu, X } from 'lucide-react'
+import { BadgeCheck, Building2, ChevronDown, CircleHelp, Headphones, Menu, X, House } from 'lucide-react'
 import { Logo } from '@/shared/components/ui/Logo'
 import { LanguageSwitcher } from '@/shared/components/ui/LanguageSwitcher'
 import { NotificationsBell, UserMenu } from '@/app/layouts/AccountMenu'
@@ -104,13 +104,22 @@ export function ProLayout() {
           <Menu className="size-5" />
         </button>
         <div className="shrink-0 lg:w-[250px] lg:pl-4">
-          <Logo to={ROUTES.pro.root} />
+          <Logo to={ROUTES.accueil} />
         </div>
         <div className="ml-8 hidden items-center gap-3 rounded-full bg-[#eaf0fb] px-5 py-2 text-navy-800 lg:flex">
           <Building2 className="size-7 text-brand-600" />
           <span className="text-[17px] font-bold">{t('pro.space', { type: t(`schoolType.${ecole.type}`) })}</span>
         </div>
         <div className="ml-auto flex items-center gap-0.5 sm:gap-1">
+          {/* Retour à l'espace de tous les jours : l'accueil connecté. */}
+          <Link
+            to={ROUTES.accueil}
+            aria-label={t('pro.backHome')}
+            className="mr-1 inline-flex h-10 items-center gap-2 rounded-full border border-brand-600/40 bg-white px-3 text-[14px] font-semibold text-navy-800 transition-colors hover:border-brand-600 hover:bg-brand-50 sm:px-4"
+          >
+            <House className="size-[18px] text-brand-600" aria-hidden="true" />
+            <span className="max-sm:hidden">{t('pro.backHome')}</span>
+          </Link>
           <LanguageSwitcher className="sm:mr-1" menuSousEntete />
           <NotificationsBell href={ROUTES.pro.settings('notifications')} />
           <Link to={ROUTES.pro.settings('a-propos')} aria-label={t('nav.help')} className="grid size-10 place-items-center rounded-full text-navy-800 hover:bg-brand-50">

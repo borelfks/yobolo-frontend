@@ -2,6 +2,7 @@ import { ChevronRight } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useBandeauxAccueil } from '@/data/hooks'
+import { useSession } from '@/features/auth/hooks/useSession'
 import { LogoMark } from '@/shared/components/ui/Logo'
 import { Button } from '@/shared/components/ui/Button'
 import { langueActive } from '@/i18n'
@@ -24,6 +25,8 @@ const VERS: Record<Bandeau['cible'], string> = {
 export function BandeauAccueil() {
   const { t, i18n } = useTranslation('accueil')
   const bandeaux = useBandeauxAccueil()
+  const { account } = useSession()
+  const ecole = !!account && account.role !== 'utilisateur'
   const [rang, setRang] = useState(0)
   const [photosEnEchec, setPhotosEnEchec] = useState<string[]>([])
 
@@ -62,9 +65,12 @@ export function BandeauAccueil() {
             {actuel.titre[langue]}
           </h2>
           <p className="text-[0.8125rem] leading-relaxed text-white/85">{actuel.texte[langue]}</p>
-          <Button to={VERS[actuel.cible]} size="sm" className="mt-1.5 h-8 rounded-md px-4">
-            {actuel.action[langue]}
-          </Button>
+          {/* Une école ne voit pas la liste des écoles : pas de bouton qui y mène. */}
+          {!(ecole && actuel.cible === 'ecoles') && (
+            <Button to={VERS[actuel.cible]} size="sm" className="mt-1.5 h-8 rounded-md px-4">
+              {actuel.action[langue]}
+            </Button>
+          )}
         </div>
 
         {bandeaux.length > 1 && (
