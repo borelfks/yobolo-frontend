@@ -10,7 +10,6 @@ import { AuthShell } from '@/app/layouts/AuthLayout'
 import { data } from '@/data'
 import { useComptes } from '@/data/hooks'
 import { VerificationCode } from '@/features/auth/components/VerificationCode'
-import { publierFormationsVerifiees, validerCompteEcole } from '@/features/auth/authComptes'
 import { useSession } from '@/features/auth/hooks/useSession'
 import { Checkbox, Input, Label } from '@/shared/components/forms/Fields'
 import { normaliserIdentifiant, verifierMotDePasse } from '@/shared/utils/motDePasse'
@@ -67,8 +66,7 @@ export function Connexion() {
 
   /**
    * Numéro confirmé : l'école sans établissement termine son inscription
-   * (pièces) ; l'école qui attendait sa vérification la voit faite (« Compte
-   * validé ! ») ; les autres entrent.
+   * (pièces) ; les autres entrent (pas de validation par YIBOLO).
    */
   const ouvrir = async (compte: Compte) => {
     if (compte.role !== 'utilisateur' && !compte.ecoleId) {
@@ -76,13 +74,9 @@ export function Connexion() {
       navigate(ROUTES.signUp, { state: { reprise: compte.id } })
       return
     }
-    // Une école dont l'inscription attendait encore la vérification entre directement dans son espace.
-    if (compte.statut !== 'Validé') compte = await validerCompteEcole(compte)
     signIn(compte, retenir)
     await data.create('activiteSecurite', { compteId: compte.id, evenement: 'connexion', le: maintenant(), appareil: decrireAppareil(), ok: true }, 'activite')
     toast.success(t('connexion.welcome', { name: compte.name }))
-    const publiees = compte.ecoleId ? await publierFormationsVerifiees(compte.ecoleId) : 0
-    if (publiees > 0) toast.success(t('connexion.formationsPubliees', { count: publiees }))
     navigate(ROUTES.accueil)
   }
 

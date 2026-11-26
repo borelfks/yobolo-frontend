@@ -27,16 +27,14 @@
       "bouton": "Confirmer et continuer",
       "retour": "Retour à la connexion",
       "reprise": "Numéro confirmé. Il reste à fournir les pièces de votre établissement."
-    },
-    "formationsPubliees_one": "Bonne nouvelle : 1 formation a été validée par YIBOLO et publiée.",
-    "formationsPubliees_other": "Bonne nouvelle : {{count}} formations ont été validées par YIBOLO et publiées."
+    }
   },
   "inscription": {
     "title": "Créer un compte",
     "steps": {
       "profil": "Profil",
       "infos": "Infos",
-      "verification": "Vérification",
+      "verification": "Documents",
       "done": "Terminé",
       "vous": "Vous",
       "acces": "Votre accès",
@@ -97,16 +95,16 @@
       "phoneFormat": "Le numéro doit compter 9 chiffres, sans 0 devant."
     },
     "verification": {
-      "title": "Vérification de votre profil – {{profile}}",
-      "text": "Joignez les documents requis pour valider votre compte.",
+      "title": "Documents de votre établissement – {{profile}}",
+      "text": "Joignez les documents requis pour créer votre compte.",
       "docs": {
         "autorisation": "Autorisation d’ouverture",
         "niu": "NIU (Numéro d’Identification Unique)"
       },
       "formats": "PDF, JPG ou PNG (max. 5 Mo)",
       "import": "Importer",
-      "confidential": "Vos documents sont confidentiels et seront vérifiés par l’équipe YIBOLO avant l’activation de votre compte.",
-      "submit": "Soumettre pour vérification"
+      "confidential": "Vos documents sont confidentiels : seule l’équipe YIBOLO peut les consulter.",
+      "submit": "Créer mon compte"
     },
     "vous": {
       "title": "Vous",

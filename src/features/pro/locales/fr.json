@@ -12,7 +12,6 @@
   },
   "status": {
     "published": "Publiée",
-    "pending": "En attente",
     "draft": "Brouillon"
   },
   "duration_one": "{{count}} mois",
@@ -190,9 +189,8 @@
       "add": "Ajouter un document",
       "formats": "PDF, JPG ou PNG (Max. 10 Mo)",
       "choose": "Choisir un fichier",
-      "sent": "{{name}} envoyé pour vérification",
+      "sent": "{{name}} ajouté",
       "fileSize": "Fichier · {{size}}",
-      "pending": "En vérification",
       "deleted": "Document supprimé",
       "none": "Aucun document pour le moment.",
       "noFile": "Ce document n’est pas encore disponible au téléchargement.",
@@ -239,7 +237,6 @@
     "kpis": {
       "total": "Formations",
       "published": "Publiées",
-      "pending": "En attente",
       "draft": "Brouillon"
     },
     "search": "Rechercher une formation...",
@@ -271,14 +268,14 @@
     "menu": {
       "view": "Voir la page publique",
       "duplicate": "Dupliquer",
-      "publish": "Envoyer pour validation",
+      "publish": "Publier",
       "unpublish": "Dépublier (brouillon)",
       "delete": "Supprimer",
       "copySuffix": " (copie)",
       "duplicated": "« {{name}} » créée en brouillon",
-      "sentForReview": "« {{name}} » envoyée pour validation par YIBOLO",
       "unpublished": "« {{name}} » repassée en brouillon",
-      "deleted": "« {{name}} » supprimée"
+      "deleted": "« {{name}} » supprimée",
+      "published": "« {{name}} » publiée"
     }
   },
   "creer": {
@@ -339,11 +336,11 @@
     },
     "actions": {
       "saveContinue": "Enregistrer et continuer",
-      "sentForReview": "Formation envoyée pour validation par YIBOLO",
       "saveDraft": "Enregistrer en brouillon",
       "draftSaved": "Brouillon enregistré",
       "preview": "Aperçu",
-      "cancel": "Annuler"
+      "cancel": "Annuler",
+      "published": "Formation publiée"
     },
     "preview": {
       "title": "Aperçu de la fiche formation",
@@ -724,11 +721,6 @@
             "title": "Rappel – Rentrée académique",
             "text": "La rentrée a lieu dans 15 jours : pensez à mettre à jour le calendrier.",
             "date": "Hier"
-          },
-          "validation": {
-            "title": "Formation validée",
-            "text": "Votre formation « Marketing et Communication » a été validée par YIBOLO.",
-            "date": "12 nov. 2026"
           }
         }
       },

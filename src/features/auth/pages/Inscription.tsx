@@ -13,7 +13,6 @@ import { Checkbox, Field, Input, PhoneInput, Radio, Select } from '@/shared/comp
 import { SelectionGeographique } from '@/shared/components/forms/SelectionGeographique'
 import { useSession } from '@/features/auth/hooks/useSession'
 import { VerificationCode } from '@/features/auth/components/VerificationCode'
-import { validerCompteEcole } from '@/features/auth/authComptes'
 import { chiffresDuNumero, formaterNumero, numeroValide } from '@/features/auth/authOtp'
 import { cn } from '@/shared/utils/cn'
 import { ROUTES } from '@/shared/utils/routes'
@@ -240,7 +239,7 @@ export function Inscription() {
         ville: villeDuLieu(v, arrondissements),
         quartier: v.quartier.trim(),
         telephoneVerifie: false,
-        statut: 'En vérification',
+        statut: 'Validé',
         motDePasse: await protegerMotDePasse(v.motDePasse),
       })
       setEtape('code')
@@ -270,10 +269,9 @@ export function Inscription() {
   }
 
   /**
-   * École, « Soumettre pour vérification » : l'établissement est enregistré et
-   * rattaché au compte, et l'école entre directement dans son espace
-   * professionnel (décision du 2026-11-25 : plus d'écran « en cours de
-   * vérification »).
+   * École, « Créer mon compte » : l'établissement est enregistré et rattaché au
+   * compte, et l'école entre directement dans son espace professionnel (pas de
+   * validation par YIBOLO, décision du 2026-11-27).
    */
   const soumettreEcole = async () => {
     if (!brouillon) return
@@ -299,14 +297,12 @@ export function Inscription() {
           telephone: brouillon.telephone,
           email: brouillon.identifiant,
           rentree: '',
-          enVerification: true,
         },
         'etablissement',
       )
       const rattache = (await data.update('comptes', brouillon.id, { ecoleId: etablissement.id })) ?? { ...brouillon, ecoleId: etablissement.id }
-      const valide = await validerCompteEcole(rattache)
-      signIn(valide)
-      toast.success(t('connexion.welcome', { name: valide.name }))
+      signIn(rattache)
+      toast.success(t('connexion.welcome', { name: rattache.name }))
       navigate(ROUTES.accueil)
     } catch {
       toast.error(t('inscription.errors.saveFailed'))

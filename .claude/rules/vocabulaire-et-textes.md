@@ -31,7 +31,7 @@
 
 **Menus de l'espace pro (libellés exacts) :** Tableau de bord · Profil de l'établissement · Formations (Gérer les formations, Créer une formation) · Contenus et informations (Contenus & actualités, Documents à télécharger, FAQ (Questions fréquentes)) · Statistiques · Paramètres.
 
-**Statuts d'une formation (libellés exacts) :** Publiée · En attente · Brouillon.
+**Statuts d'une formation (libellés exacts) :** Publiée · Brouillon (plus de « En attente » : pas de validation par YIBOLO, décision du 2026-11-27).
 
 **Modes de cours :** Jour · Soir · Jour & Soir (« Cours du jour », « Cours du soir »). Les modes affichés suivent la capture de chaque écran, même s'ils se contredisent.
 

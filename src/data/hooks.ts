@@ -49,7 +49,6 @@ export function useEtablissements() {
   const avis = useCollection('avisEtablissements')
   const formations = useCollection('formations')
   return useCollection('etablissements')
-    .filter((e) => !e.enVerification)
     .map((e) => avecChiffres(e, avis, formations))
 }
 

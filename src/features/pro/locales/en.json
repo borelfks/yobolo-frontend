@@ -12,7 +12,6 @@
   },
   "status": {
     "published": "Published",
-    "pending": "Pending",
     "draft": "Draft"
   },
   "duration_one": "{{count}} month",
@@ -190,9 +189,8 @@
       "add": "Add a document",
       "formats": "PDF, JPG or PNG (Max. 10 MB)",
       "choose": "Choose a file",
-      "sent": "{{name}} sent for verification",
+      "sent": "{{name}} added",
       "fileSize": "File · {{size}}",
-      "pending": "Under review",
       "deleted": "Document deleted",
       "none": "No documents yet.",
       "noFile": "This document is not yet available for download.",
@@ -239,7 +237,6 @@
     "kpis": {
       "total": "Programmes",
       "published": "Published",
-      "pending": "Pending",
       "draft": "Draft"
     },
     "search": "Search for a programme...",
@@ -271,14 +268,14 @@
     "menu": {
       "view": "View public page",
       "duplicate": "Duplicate",
-      "publish": "Send for approval",
+      "publish": "Publish",
       "unpublish": "Unpublish (draft)",
       "delete": "Delete",
       "copySuffix": " (copy)",
       "duplicated": "“{{name}}” created as a draft",
-      "sentForReview": "“{{name}}” sent to YIBOLO for approval",
       "unpublished": "“{{name}}” moved back to draft",
-      "deleted": "“{{name}}” deleted"
+      "deleted": "“{{name}}” deleted",
+      "published": "“{{name}}” published"
     }
   },
   "creer": {
@@ -339,11 +336,11 @@
     },
     "actions": {
       "saveContinue": "Save and continue",
-      "sentForReview": "Programme sent to YIBOLO for approval",
       "saveDraft": "Save as draft",
       "draftSaved": "Draft saved",
       "preview": "Preview",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "published": "Programme published"
     },
     "preview": {
       "title": "Programme page preview",
@@ -724,11 +721,6 @@
             "title": "Reminder – Academic intake",
             "text": "The intake is in 15 days: remember to update the calendar.",
             "date": "Yesterday"
-          },
-          "validation": {
-            "title": "Programme approved",
-            "text": "Your programme “Marketing et Communication” has been approved by YIBOLO.",
-            "date": "12 Nov 2026"
           }
         }
       },

@@ -15,15 +15,15 @@
 
 ## Connexion (`/connexion`)
 1. Identifiant (e-mail ou téléphone) + mot de passe, validés par zod ; n'importe quelles valeurs valides sont acceptées.
-2. L'identifiant (e-mail ou téléphone) et le mot de passe sont **vérifiés dans la base** (mot de passe haché, `shared/utils/motDePasse.ts`). Comptes de départ : `jean.dupont@exemple.cm` (Personne physique), `contact@ipc.cm` (École – IPES), `contact@cfp-btp.cm` (École – CFP), `contact@langues.cm` (École – Autre), tous avec le mot de passe `yibolo2026`. Erreurs : « Identifiant ou mot de passe incorrect. », « Votre compte est en cours de vérification par YIBOLO… ».
+2. L'identifiant (e-mail ou téléphone) et le mot de passe sont **vérifiés dans la base** (mot de passe haché, `shared/utils/motDePasse.ts`). Comptes de départ : `jean.dupont@exemple.cm` (Personne physique), `contact@ipc.cm` (École – IPES), `contact@cfp-btp.cm` (École – CFP), `contact@langues.cm` (École – Autre), tous avec le mot de passe `yibolo2026`. Erreur : « Identifiant ou mot de passe incorrect. ».
 3. Après connexion : message « Bienvenue, … ! » et arrivée sur la première page du compte.
 4. « Mot de passe oublié ? » : page `/mot-de-passe-oublie` (comme yibolo-client) : numéro du compte → code à 6 chiffres (affiché à l'écran, faute de SMS sans serveur) → nouveau mot de passe enregistré (haché). « Se souvenir de moi » coché : la session reste après fermeture du navigateur ; sinon elle s'arrête (stockage de la visite). « Continuer sans compte » mène à l'accueil.
 
 ## Inscription (`/inscription`)
 1. **Profil** : École / IPES, Consultant, Entreprise, Personne physique. **École / IPES** et **Personne physique** sont ouverts ; Consultant et Entreprise affichent « Bientôt disponible » (décisions du 2026-11-24).
 2. **Infos** : raison sociale ou nom, téléphone, e-mail, région, ville, quartier, mot de passe (8 caractères) + confirmation.
-3. **Vérification** : pièces selon le profil (pièce d'identité ; ou autorisation d'ouverture / justificatif d'activité + NIU).
-4. **« Soumettre pour vérification »** : le compte et son établissement sont enregistrés, et l'école **entre directement dans son espace professionnel** (`validerCompteEcole`, `features/auth/authComptes.ts`) ; plus d'écran « en cours de vérification » ni « Compte validé ! » (décision du 2026-11-25). Le compte est enregistré dès l'envoi du code ; un e-mail déjà utilisé est refusé.
+3. **Documents** (obligatoires) : pièces selon le profil (pièce d'identité ; ou autorisation d'ouverture / justificatif d'activité + NIU).
+4. **« Créer mon compte »** : le compte (statut « Validé ») et son établissement sont enregistrés, et l'école **entre directement dans son espace professionnel**. **Pas de validation par YIBOLO** (décision du 2026-11-27). Le compte est enregistré dès l'envoi du code ; un e-mail déjà utilisé est refusé.
 
 ## Accès
 | Situation | Résultat |
@@ -46,10 +46,10 @@
 - Annuler un dossier, modifier ou supprimer un avis tient les compteurs à jour (`features/espace/espaceActions.ts`).
 
 ## Inscription (comme yibolo-client)
-- Personne physique : Profil → Vous → Votre accès → Code ; le compte est enregistré à l'envoi du code (`telephoneVerifie: false`) et connecté au bon code. École : Profil → Infos → Code → Vérification (pièces) → validation simulée.
+- Personne physique : Profil → Vous → Votre accès → Code ; le compte est enregistré à l'envoi du code (`telephoneVerifie: false`) et connecté au bon code. École : Profil → Infos → Code → Documents (pièces, obligatoires) → espace pro, sans validation.
 - Code OTP : `features/auth/components/VerificationCode.tsx` (6 cases, renvoi après 60 s, `authOtp.ts`).
 - Code jamais saisi : la connexion affiche « Confirmez votre numéro » (nouveau code) ; puis la personne entre, l'école reprend `/inscription` à l'étape des pièces (`state.reprise`).
 - Lieu : `SelectionGeographique` (région → département → arrondissement → quartier).
 
-## Formations en attente
-- Une formation « Envoyée pour validation » (« En attente ») est publiée par YIBOLO quand l'établissement revient se connecter (`publierFormationsVerifiees`) ; celles de la maquette gardent leur statut. Plus de « Simuler la validation ».
+## Formations : pas de validation
+- Une formation enregistrée par l'établissement est **publiée tout de suite** (« Publiée ») ou gardée en « Brouillon » ; le statut « En attente » n'existe plus (décision du 2026-11-27). Une pièce d'agrément ajoutée est « Validé » tout de suite.

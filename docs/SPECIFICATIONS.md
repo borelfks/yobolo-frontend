@@ -33,7 +33,7 @@ La maquette distingue **deux espaces totalement différents** pour chaque type d
 
 Une modification faite par l'établissement dans son espace pro doit être **répercutée sur sa fiche publique**, éventuellement **après validation par YIBOLO** pour les informations sensibles ou réglementaires.
 
-Dans la démo, les deux espaces ne sont pas reliés : une modification dans l'espace pro affiche un message (« Formation envoyée pour validation par YIBOLO », « Modifications enregistrées ») mais **ne change pas** la fiche publique.
+Dans la démo, les deux espaces ne sont pas reliés : une modification dans l'espace pro affiche un message (« Formation publiée », « Modifications enregistrées ») mais **ne change pas** la fiche publique.
 
 ---
 
@@ -98,8 +98,8 @@ La maquette prévoit **4 profils** : **École / IPES** (institut, centre, auto-�
 **Créer un compte :**
 1. **Profil** : 4 cartes (École / IPES, Consultant, Entreprise, Personne physique). Seule **École / IPES** se choisit ; les trois autres sont grisées avec « Bientôt disponible » (décision du 2026-11-24).
 2. **Infos** (« Informations générales ») : raison sociale / nom et prénoms, téléphone, e-mail, région, ville, quartier, mot de passe (8 caractères au moins) et confirmation. Champs **préremplis** avec les valeurs de la maquette (IPC). Validation react-hook-form + zod.
-3. **Vérification** : documents à joindre. Personne physique : pièce d'identité. Autres profils : autorisation d'ouverture (école) ou justificatif d'activité, et NIU. Bouton « Soumettre pour vérification ».
-4. **« Soumettre pour vérification »** : l'école entre directement dans son espace professionnel (décision du 2026-11-25 : plus d'écran « en cours de vérification » ni « Compte validé ! »).
+3. **Documents** (obligatoires) : documents à joindre. Personne physique : pièce d'identité. Autres profils : autorisation d'ouverture (école) ou justificatif d'activité, et NIU. Bouton « Créer mon compte ».
+4. **« Créer mon compte »** : l'école entre directement dans son espace professionnel ; le compte est actif tout de suite, sans validation par YIBOLO (décision du 2026-11-27).
 5. **« Compte validé ! »** : « Se connecter à mon espace » ouvre le compte IPES (profil École) ou Utilisateur (autres profils).
 
 ---
@@ -245,7 +245,7 @@ Trois sections, ouvertes depuis la validation : `formation` (changer d'auto-éco
 
 ## 5 bis. Inscription, code et mot de passe oublié (comme yibolo-client)
 - **Personne physique** : Profil → **Vous** (civilité Monsieur / Madame / Mademoiselle, prénom, nom, nationalité, résidence) → **Votre accès** (téléphone +237, « Ce numéro est aussi mon numéro WhatsApp », e-mail facultatif, mot de passe de 8 caractères et confirmation, conditions générales) → **Code**. Le bon code crée le compte (validé) et l'ouvre sur `/accueil`. Sans e-mail, on se connecte avec son téléphone.
-- **École / IPES** : Profil → Infos (raison sociale, téléphone, e-mail, localisation, mot de passe) → **Code** → Vérification (pièces) → en cours de vérification → validé.
+- **École / IPES** : Profil → Infos (raison sociale, téléphone, e-mail, localisation, mot de passe) → **Code** → Documents (pièces, obligatoires) → espace professionnel (pas de validation par YIBOLO).
 - **Code (OTP)** : 6 cases, « Renvoyer le code » après 60 s (pas de choix SMS / WhatsApp, à la demande du porteur du projet). Sans serveur d'envoi, le code est affiché dans un encadré de démonstration.
 - **Code non saisi** : le compte est enregistré dès l'envoi du code (numéro non confirmé). S'il revient se connecter sans avoir saisi le code, l'écran « Confirmez votre numéro » lui envoie un nouveau code ; une fois confirmé, la personne arrive sur son accueil, l'école reprend l'inscription à l'étape des pièces.
 - **Sélection géographique** : Région → Département → Arrondissement (chaque liste dépend de la précédente, la ville se déduit : « Ville : Douala »), puis Quartier (texte libre, « Ex. : Bastos »).
@@ -276,8 +276,8 @@ Un seul espace pour les **IPES, CFP et Autres**. Cadre : barre du haut (logo, «
 |---|---|---|
 | **Tableau de bord** | `/pro/ecole` | « Bienvenue sur votre espace professionnel », chiffres (formations, filières, avis, photos / vidéos), complétude du profil, **informations à gérer** (Présentation, Conditions d'admission, Frais & paiement, Calendrier académique, Débouchés, Contact & localisation), actions rapides |
 | **Profil de l'établissement** | `/pro/ecole/profil/:onglet?` | Informations générales (bannière, statut et visibilité, chiffres clés) · **Coordonnées** (`coordonnees`, avec aperçu de la page publique) · **Agrément & documents** (`agrement`) · **Médias** (`medias` : logo, photos, vidéo) |
-| **Formations** › Gérer les formations | `/pro/ecole/formations` | tableau : formation, filière, diplôme, durée, prochaine rentrée, statut (**Publiée**, **En attente**, **Brouillon**), actions ; filtres, tri, pagination |
-| **Formations** › Créer une formation | `/pro/ecole/formations/nouvelle` · `…/:id/modifier` | 4 blocs : Informations générales, Organisation, Frais, Description ; « Enregistrer et continuer » (envoi pour validation par YIBOLO), « Enregistrer en brouillon », « Aperçu », « Annuler » |
+| **Formations** › Gérer les formations | `/pro/ecole/formations` | tableau : formation, filière, diplôme, durée, prochaine rentrée, statut (**Publiée**, **Brouillon**), actions (« Publier » un brouillon, « Dépublier ») ; filtres, tri, pagination |
+| **Formations** › Créer une formation | `/pro/ecole/formations/nouvelle` · `…/:id/modifier` | 4 blocs : Informations générales, Organisation, Frais, Description ; « Enregistrer et continuer » (publiée tout de suite, sans validation par YIBOLO), « Enregistrer en brouillon », « Aperçu », « Annuler » |
 | **Contenus et informations** | `/pro/ecole/contenus/:onglet?` | Présentation · **Actualités** (`actualites`, nouvelle actualité, page « Voir ma publication » `…/actualites/:id`) · **Documents** à télécharger (`documents`) · **FAQ** (`faq`, ajouter une question) |
 | **Statistiques** | `/pro/ecole/statistiques` | période (7 jours, 30 jours, 6 mois), évolution des visites, sources des visites, formations les plus consultées, dernières activités, export PDF (message) |
 | **Paramètres** | `/pro/ecole/parametres/:section?` | Compte et accès · Sécurité (mot de passe avec 4 critères, 2FA, sessions, activité) · Notifications · Préférences · **Utilisateurs** (`utilisateurs`, rôles, « Inviter un utilisateur » `…/utilisateurs/inviter`) · À propos |

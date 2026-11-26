@@ -88,7 +88,7 @@ export function CreerFormation() {
   const [apercu, setApercu] = useState(false)
   /**
    * Enregistre la formation (fiche) et sa ligne du tableau « Gérer les formations ».
-   * Envoyée : « En attente » de validation par YIBOLO ; sinon « Brouillon ».
+   * « Publiée » tout de suite (pas de validation par YIBOLO) ; sinon « Brouillon ».
    */
   const enregistrer = async (statut: StatutPublication) => {
     const fid = id ?? newId(PREFIXE_FORMATION_CREEE)
@@ -110,6 +110,8 @@ export function CreerFormation() {
       rentree,
       statut,
       description,
+      // Publiée pour la première fois : elle prend place dans le fil de l'accueil à cette date.
+      publieeLe: statut === 'Publiée' ? (formation?.publieeLe ?? new Date().toISOString()) : formation?.publieeLe,
     }
     await data.put('formations', fiche)
     const champs = { nom: intitule, code, filiere, diplome, duree: `${duree} mois`, rentree, statut }
@@ -216,7 +218,7 @@ export function CreerFormation() {
             </ul>
           </div>
           <div className={cn(proCard, 'space-y-2.5 p-3')}>
-            <button type="button" onClick={async () => { await enregistrer('En attente'); toast.success(t('creer.actions.sentForReview')); navigate(ROUTES.pro.trainings) }} className={cn(side, 'bg-brand-600 text-white hover:bg-brand-700')}><Check className="size-5" strokeWidth={3} />{t('creer.actions.saveContinue')}</button>
+            <button type="button" onClick={async () => { await enregistrer('Publiée'); toast.success(t('creer.actions.published')); navigate(ROUTES.pro.trainings) }} className={cn(side, 'bg-brand-600 text-white hover:bg-brand-700')}><Check className="size-5" strokeWidth={3} />{t('creer.actions.saveContinue')}</button>
             <button type="button" onClick={async () => { await enregistrer('Brouillon'); toast.success(t('creer.actions.draftSaved')); navigate(ROUTES.pro.trainings) }} className={cn(side, 'border-2 border-brand-600/60 text-navy-800 hover:bg-brand-50')}><Save className="size-5" />{t('creer.actions.saveDraft')}</button>
             <button type="button" onClick={() => setApercu(true)} className={cn(side, 'border-2 border-brand-600/60 text-navy-800 hover:bg-brand-50')}><Eye className="size-5" />{t('creer.actions.preview')}</button>
             <button type="button" onClick={() => navigate(ROUTES.pro.trainings)} className={cn(side, 'border-2 border-brand-600/60 text-navy-800 hover:bg-brand-50')}><X className="size-5" />{t('creer.actions.cancel')}</button>

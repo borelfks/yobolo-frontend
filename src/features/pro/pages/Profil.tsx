@@ -281,11 +281,11 @@ function Agrement({ form }: { form: ProfilForm }) {
   const { ecole } = useMonEcole()
   const docs = usePiecesEtablissement(ecole.id)
   const fichiers = useFichiers()
-  // Une pièce envoyée est gardée dans la base (fichier + ligne « En vérification »), en attendant la validation par YIBOLO.
+  // Une pièce ajoutée est gardée dans la base (fichier + ligne) ; pas de validation par YIBOLO (décision du 2026-11-27).
   const envoyer = async (fichier: File) => {
     if (fichier.size > TAILLE_MAX_DOCUMENT) return void toast.error(t('profil.documents.tooBig'))
     const f = await data.create('fichiers', { nom: fichier.name, type: fichier.type, taille: fichier.size, dataUrl: await lireFichier(fichier) }, 'fichier')
-    await data.create('piecesEtablissement', { etablissementId: ecole.id, nom: fichier.name, taille: tailleFichier(fichier.size), statut: 'En vérification', fichierId: f.id }, 'piece')
+    await data.create('piecesEtablissement', { etablissementId: ecole.id, nom: fichier.name, taille: tailleFichier(fichier.size), statut: 'Validé', fichierId: f.id }, 'piece')
     toast.success(t('profil.documents.sent', { name: fichier.name }))
   }
   const ouvrirPiece = (fichierId?: string) => {
@@ -322,11 +322,7 @@ function Agrement({ form }: { form: ProfilForm }) {
                 <b className="line-clamp-2 block text-[15px] leading-snug text-navy-900">{d.cle ? t(`profil.documents.items.${d.cle}`) : d.nom}</b>
                 <span className="text-[13px] text-navy-900">{t('profil.documents.fileSize', { size: d.taille })}</span>
               </span>
-              {d.statut === 'Validé' ? (
-                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-[13px] font-semibold text-emerald-700"><CircleCheck className="size-4 fill-emerald-600 text-white" />{t('profil.documents.validated')}</span>
-              ) : (
-                <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 text-[13px] font-semibold text-amber-700">{t('profil.documents.pending')}</span>
-              )}
+              <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-[13px] font-semibold text-emerald-700"><CircleCheck className="size-4 fill-emerald-600 text-white" />{t('profil.documents.validated')}</span>
               <button type="button" aria-label={t('profil.documents.view')} onClick={() => ouvrirPiece(d.fichierId)} className="text-brand-600"><Eye className="size-5" /></button>
               <button
                 type="button"

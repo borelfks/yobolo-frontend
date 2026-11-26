@@ -22,7 +22,7 @@
 - Types dans `src/shared/types.ts`.
 - Les enregistrements de la maquette qui ne sont rattachés à aucun établissement précis portent `etablissementId: '*'` (`POUR_TOUS`) : ils s'affichent pour **tous** les établissements. Ce qu'un testeur crée porte le **vrai** identifiant.
 - Un élément ajouté s'affiche **avant** ceux de départ.
-- **Comptes** (`comptes`) : e-mail, téléphone, rôle, établissement géré, statut (`Validé` / `En vérification`), mot de passe **haché** (`sha256(sel + ':' + mot de passe)`, `src/shared/utils/motDePasse.ts`). Voir [comptes-et-acces.md](comptes-et-acces.md).
+- **Comptes** (`comptes`) : e-mail, téléphone, rôle, établissement géré, statut (`Validé` : actif dès l'inscription, pas de validation par YIBOLO), mot de passe **haché** (`sha256(sel + ':' + mot de passe)`, `src/shared/utils/motDePasse.ts`). Voir [comptes-et-acces.md](comptes-et-acces.md).
 
 ## Règles pour les écrans
 1. **Toute donnée** affichée vient d'un hook de `@/data/hooks` (ou de `useCollection` de `@/data`). **Jamais de tableau de données, de chiffre ou d'image de contenu écrit dans un composant.** Ce qui reste dans le code, c'est la **configuration** : correspondance adresses ↔ types d'école (`features/schools/schoolTypes.ts`), icônes et couleurs, images décoratives des bandeaux, valeurs par défaut d'un nouvel élément.

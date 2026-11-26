@@ -27,16 +27,14 @@
       "bouton": "Confirm and continue",
       "retour": "Back to sign in",
       "reprise": "Number confirmed. You still need to provide your institution’s documents."
-    },
-    "formationsPubliees_one": "Good news: 1 programme has been approved by YIBOLO and published.",
-    "formationsPubliees_other": "Good news: {{count}} programmes have been approved by YIBOLO and published."
+    }
   },
   "inscription": {
     "title": "Create an account",
     "steps": {
       "profil": "Profile",
       "infos": "Details",
-      "verification": "Verification",
+      "verification": "Documents",
       "done": "Done",
       "vous": "You",
       "acces": "Your access",
@@ -97,16 +95,16 @@
       "phoneFormat": "The number has 9 digits, without a leading 0."
     },
     "verification": {
-      "title": "Verification of your profile – {{profile}}",
-      "text": "Attach the required documents to validate your account.",
+      "title": "Your institution’s documents – {{profile}}",
+      "text": "Attach the required documents to create your account.",
       "docs": {
         "autorisation": "Opening authorisation",
         "niu": "NIU (Unique Identification Number)"
       },
       "formats": "PDF, JPG or PNG (max. 5 MB)",
       "import": "Upload",
-      "confidential": "Your documents are confidential and will be checked by the YIBOLO team before your account is activated.",
-      "submit": "Submit for verification"
+      "confidential": "Your documents are confidential: only the YIBOLO team can see them.",
+      "submit": "Create my account"
     },
     "vous": {
       "title": "You",

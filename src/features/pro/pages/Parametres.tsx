@@ -11,7 +11,6 @@ import {
   CheckCircle2,
   ChevronRight,
   Download,
-  FileCheck2,
   FileText,
   Headphones,
   Info,
@@ -381,11 +380,10 @@ const notifIcon: Record<string, { icon: React.ReactNode; tone: 'green' | 'violet
   document: { icon: <Download />, tone: 'violet' },
   avis: { icon: <Star />, tone: 'amber' },
   rappel: { icon: <CalendarClock />, tone: 'sky' },
-  validation: { icon: <FileCheck2 />, tone: 'blue' },
 }
 
 /** Types de notifications des données de démo (clés de traduction). */
-const NOTIF_TYPES = ['candidature', 'document', 'avis', 'rappel', 'validation'] as const
+const NOTIF_TYPES = ['candidature', 'document', 'avis', 'rappel'] as const
 type NotifType = (typeof NOTIF_TYPES)[number]
 const isNotifType = (type: string): type is NotifType => (NOTIF_TYPES as readonly string[]).includes(type)
 

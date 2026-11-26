@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
-import { ArrowUpDown, CalendarDays, ChevronDown, ChevronLeft, ChevronRight, CircleCheck, Clock, Copy, ExternalLink, EyeOff, FileText, GraduationCap, Layers, Pencil, Plus, Search, Send, Tag, Trash2 } from 'lucide-react'
+import { ArrowUpDown, CalendarDays, ChevronDown, ChevronLeft, ChevronRight, CircleCheck, Copy, ExternalLink, EyeOff, FileText, GraduationCap, Layers, Pencil, Plus, Search, Send, Tag, Trash2 } from 'lucide-react'
 import { ProHeader } from '@/features/pro/components/ProBlocks'
 import { useMonEcole } from '@/features/auth/hooks/useSession'
 import { cn } from '@/shared/utils/cn'
@@ -27,7 +27,7 @@ const chip: Record<string, string> = {
 }
 
 /** Statut d'une formation (valeur des données) → clé de traduction. */
-const statusKey = (s: string) => (s === 'Publiée' ? 'published' : s === 'En attente' ? 'pending' : 'draft')
+const statusKey = (s: string) => (s === 'Publiée' ? 'published' : 'draft')
 
 /** « 24 mois » (valeur des données) → durée traduite ; toute autre valeur reste telle quelle. */
 function useDuration() {
@@ -42,7 +42,6 @@ function Statut({ s }: { s: string }) {
   const { t } = useTranslation('pro')
   const label = t(`status.${statusKey(s)}`)
   if (s === 'Publiée') return <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-[13px] font-semibold text-emerald-700"><CircleCheck className="size-4 fill-emerald-600 text-white" />{label}</span>
-  if (s === 'En attente') return <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-3 py-1 text-[13px] font-semibold text-amber-700"><Clock className="size-4" />{label}</span>
   return <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1 text-[13px] font-semibold text-slate-700"><FileText className="size-4" />{label}</span>
 }
 
@@ -85,7 +84,7 @@ export function Formations() {
     const source = fiche(f.id)
     // Publiée pour la première fois : elle prend place dans le fil de l'accueil à cette date.
     if (source) await data.update('formations', f.id, statut === 'Publiée' && !source.publieeLe ? { statut, publieeLe: maintenant() } : { statut })
-    toast.success(t(statut === 'Brouillon' ? 'formations.menu.unpublished' : 'formations.menu.sentForReview', { name: f.nom }))
+    toast.success(t(statut === 'Brouillon' ? 'formations.menu.unpublished' : 'formations.menu.published', { name: f.nom }))
   }
   const dupliquer = async (f: Ligne) => {
     const id = newId(PREFIXE_FORMATION_CREEE)
@@ -114,7 +113,6 @@ export function Formations() {
   const kpis = [
     { n: base.length, l: t('formations.kpis.total'), icon: <GraduationCap />, c: 'bg-[#e8f0ff]', ic: 'bg-[#d6e3ff] text-brand-600' },
     { n: count('Publiée'), l: t('formations.kpis.published'), icon: <CircleCheck />, c: 'bg-[#e5f7ea]', ic: 'bg-[#cdeed8] text-emerald-600', t: 'text-emerald-700' },
-    { n: count('En attente'), l: t('formations.kpis.pending'), icon: <Clock />, c: 'bg-[#fff4dd]', ic: 'bg-[#ffe7b8] text-amber-600', t: 'text-amber-700' },
     { n: count('Brouillon'), l: t('formations.kpis.draft'), icon: <FileText />, c: 'bg-[#f1ebff]', ic: 'bg-[#e1d4ff] text-violet-600' },
   ]
   return (
@@ -131,7 +129,7 @@ export function Formations() {
           </Link>
         }
       />
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-3">
         {kpis.map((k) => (
           <div key={k.l} className={cn('flex items-center gap-4 rounded-2xl px-5 py-4 shadow-sm', k.c)}>
             <span className={cn('grid size-14 place-items-center rounded-full [&_svg]:size-8', k.ic)}>{k.icon}</span>
@@ -148,7 +146,7 @@ export function Formations() {
           <input value={q} onChange={(e) => { setQ(e.target.value); setPage(1) }} placeholder={t('formations.search')} className="h-11 w-full rounded-full border border-[#c9d4ea] bg-white pr-4 pl-11 text-[14.5px] outline-none focus:ring-3 focus:ring-brand-100" />
         </label>
         <FilterSelect icon={<Layers />} label={t('formations.filters.field')} allLabel={t('formations.filters.allFem')} options={[...new Set(base.map((f) => f.filiere))].map((o) => ({ value: o, label: o }))} value={filiere} onChange={(v) => { setFiliere(v); setPage(1) }} />
-        <FilterSelect icon={<Tag />} label={t('formations.filters.status')} allLabel={t('formations.filters.allMasc')} options={['Publiée', 'En attente', 'Brouillon'].map((o) => ({ value: o, label: t(`status.${statusKey(o)}`) }))} value={statut} onChange={(v) => { setStatut(v); setPage(1) }} />
+        <FilterSelect icon={<Tag />} label={t('formations.filters.status')} allLabel={t('formations.filters.allMasc')} options={['Publiée', 'Brouillon'].map((o) => ({ value: o, label: t(`status.${statusKey(o)}`) }))} value={statut} onChange={(v) => { setStatut(v); setPage(1) }} />
         <label className="relative flex h-11 items-center gap-2.5 rounded-full border border-[#c9d4ea] bg-white px-4 text-[14.5px] text-navy-900">
           <ArrowUpDown className="size-5" />
           <span className="flex-1 truncate whitespace-nowrap text-[14px]">{t('formations.filters.sort')}</span>
@@ -197,7 +195,7 @@ export function Formations() {
                           { label: t('formations.menu.view'), icon: <ExternalLink />, hidden: !formations.some((x) => x.id === f.id), onClick: () => navigate(formationUrl(formations.find((x) => x.id === f.id)!)) },
                           { label: t('formations.menu.duplicate'), icon: <Copy />, onClick: () => dupliquer(f) },
                           f.statut === 'Brouillon'
-                            ? { label: t('formations.menu.publish'), icon: <Send />, onClick: () => changerStatut(f, 'En attente') }
+                            ? { label: t('formations.menu.publish'), icon: <Send />, onClick: () => changerStatut(f, 'Publiée') }
                             : { label: t('formations.menu.unpublish'), icon: <EyeOff />, onClick: () => changerStatut(f, 'Brouillon') },
                           { label: t('formations.menu.delete'), icon: <Trash2 />, danger: true, onClick: () => supprimer(f) },
                         ]}

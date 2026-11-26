@@ -29,8 +29,6 @@ export type Etablissement = {
   agrement?: { numero: string; date: string; autorite: string; expiration: string; niu: string; rccm: string }
   /** Rang parmi les premières cartes de l'annuaire École (absent : après). */
   vedette?: number
-  /** Inscrit par un compte, en attente de la validation par YIBOLO : pas encore visible du public ni compté. */
-  enVerification?: boolean
   id: string
   nom: string
   sigle: string
@@ -75,7 +73,7 @@ export type Formation = {
   fraisInscription: number
   fraisAn: number
   rentree: string
-  statut: 'Publiée' | 'En attente' | 'Brouillon'
+  statut: 'Publiée' | 'Brouillon'
   image: string
   description: string
 }
@@ -184,8 +182,8 @@ export type Compte = Account & {
   /** E-mail de connexion. */
   identifiant: string
   telephone: string
-  /** « En vérification » après l'inscription, « Validé » après la validation par YIBOLO. */
-  statut: 'Validé' | 'En vérification'
+  /** Toujours « Validé » : un compte est actif dès son inscription (décision du 2026-11-27 : pas de validation par YIBOLO). */
+  statut: 'Validé'
   /** Profil d'une personne physique (Mon espace › Mon profil), comme dans yibolo-client. */
   civilite?: 'Monsieur' | 'Madame' | 'Mademoiselle'
   prenom?: string
@@ -215,7 +213,7 @@ export type Compte = Account & {
  * comme avant. Ceux créés par les testeurs portent le vrai identifiant.
  */
 
-export type StatutPublication = 'Publiée' | 'En attente' | 'Brouillon'
+export type StatutPublication = 'Publiée' | 'Brouillon'
 
 /** Une ligne du tableau « Gérer les formations » de l'espace pro. */
 export type FormationPro = {
@@ -447,7 +445,7 @@ export type Signalement = { id: string; compteId: string; publicationId: string;
 /** Un fichier joint par un testeur, enregistré dans la base (data URL). */
 export type Fichier = { id: string; nom: string; type: string; taille: number; dataUrl: string }
 /** Une pièce officielle d'un établissement (Profil › Documents officiels). `cle` : pièce attendue ; `nom` : fichier envoyé. */
-export type PieceEtablissement = { id: string; etablissementId: string; cle?: 'authorisation' | 'statutes' | 'niu'; nom: string; taille: string; statut: 'Validé' | 'En vérification'; fichierId?: string }
+export type PieceEtablissement = { id: string; etablissementId: string; cle?: 'authorisation' | 'statutes' | 'niu'; nom: string; taille: string; statut: 'Validé'; fichierId?: string }
 /** Une vidéo (présentation ou galerie) d'un établissement ou d'une auto-école ; `cibleId` '*' : pour tous. */
 export type Video = { id: string; cible: 'etablissement' | 'auto-ecole'; cibleId: string; usage: 'presentation' | 'galerie'; titre: string; poster: string; src: string }
 /** Une notification de la cloche pour un compte. */
