@@ -88,7 +88,7 @@ export function Preinscription() {
   // Une personne physique connectée : son profil préremplit la préinscription (nationalité ramenée aux choix de la maquette).
   const moi = account && !account.ecoleId ? account : null
   const nationalite: string = nationalites.find((x) => moi?.nationalite?.toLowerCase().startsWith(x)) ?? (moi?.nationalite ? 'autre' : 'camerounaise')
-  const [info, setInfo] = useState({ nom: moi?.nom ?? '', prenom: moi ? (moi.prenom ?? moi.name) : '', sexe: '', naissance: '', nationalite, telephone: account?.telephone ?? '', email: account?.identifiant.includes('@') ? account.identifiant : '' })
+  const [info, setInfo] = useState({ nom: moi?.nom ?? '', prenom: moi ? (moi.prenom ?? moi.name) : '', sexe: '', naissance: '', nationalite, telephone: (account?.telephone ?? '').replace(/^\+237\s*/, ''), email: account?.identifiant.includes('@') ? account.identifiant : '' })
   const [parcours, setParcours] = useState<{ diplome: Diploma; serie: string; annee: string; etablissement: string; autre: boolean }>({ diplome: 'baccalaureat', serie: '', annee: '', etablissement: '', autre: false })
 
   if (sent) {
@@ -321,7 +321,7 @@ export function Preinscription() {
                 </div>
                 <RecapBlock icon={<UserRound className="fill-brand-600" />} title={t('preinscription.recap.personal')} onEdit={() => setStep(0)}>
                   <span><b>{t('preinscription.recap.nom')}</b> {nomComplet}</span>
-                  <span><b>{t('preinscription.recap.telephone')}</b> +237 {info.telephone || '6 90 12 34 56'}</span>
+                  <span><b>{t('preinscription.recap.telephone')}</b> {info.telephone ? `+237 ${info.telephone}` : '—'}</span>
                   <span><b>{t('preinscription.recap.email')}</b> {info.email || 'thierry.ndjon@gmail.com'}</span>
                 </RecapBlock>
                 <RecapBlock icon={<GraduationCap />} title={t('preinscription.recap.parcours')} onEdit={() => setStep(1)}>

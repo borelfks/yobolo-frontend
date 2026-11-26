@@ -68,6 +68,7 @@ Les comptes sont dans la base (table `comptes`). Mot de passe des comptes de dé
 | `contact@ipc.cm` | École – IPES |
 | `contact@cfp-btp.cm` | École – CFP |
 | `contact@langues.cm` | École – Autre |
+| `contact@conduiteplus.cm` | Auto-école (Conduite Plus) |
 
 On peut aussi se connecter avec le téléphone du compte. Un compte École créé par « Créer un compte » est enregistré « en vérification » ; il est validé par YIBOLO quand il revient se connecter (écran « Compte validé ! »).
 

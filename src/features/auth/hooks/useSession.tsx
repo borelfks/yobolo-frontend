@@ -1,8 +1,8 @@
 import { createContext, use, useState, type ReactNode } from 'react'
 import { load, loadSession, save, saveSession } from '@/shared/utils/storage'
 import { useCollectionWhenReady, useDataReady } from '@/data'
-import type { Compte } from '@/shared/types'
-import { useEtablissement, useFormationsOf } from '@/data/hooks'
+import type { AutoEcole, Compte, Etablissement } from '@/shared/types'
+import { useAutoEcoles, useEtablissement, useFormationsOf } from '@/data/hooks'
 import { ROUTES } from '@/shared/utils/routes'
 
 type SessionValue = {
@@ -55,9 +55,50 @@ export function useSession() {
   return ctx
 }
 
-/** L'établissement de l'espace pro : celui du compte connecté. */
+/**
+ * Une auto-école vue comme un établissement : l'espace professionnel (cadre,
+ * en-têtes, paramètres, statistiques, notifications) la gère par les mêmes
+ * champs. Ses pages propres (permis, planning, inscriptions) lisent l'auto-école elle-même.
+ */
+function commeEtablissement(a: AutoEcole): Etablissement {
+  return {
+    id: a.id,
+    nom: a.nom,
+    sigle: '',
+    type: 'Auto-école',
+    region: a.region,
+    departement: a.departement,
+    arrondissement: a.arrondissement,
+    ville: a.ville,
+    quartier: a.quartier,
+    note: a.note,
+    avis: a.avis,
+    image: a.image,
+    vignette: a.logo,
+    logo: a.logo,
+    filieres: [],
+    formations: 0,
+    description: a.description ?? '',
+    telephone: a.telephone,
+    email: a.email,
+    rentree: '',
+    anneeCreation: a.creation ? String(a.creation) : undefined,
+    adresse: a.adresse,
+    agrement: a.agrement,
+    enVerification: a.enVerification,
+  }
+}
+
+/**
+ * L'établissement de l'espace pro : celui du compte connecté. Pour un compte
+ * auto-école, `autoEcole` est sa fiche et `ecole` la même, vue comme un établissement.
+ */
 export function useMonEcole() {
   const { account } = useSession()
-  const ecole = useEtablissement(account?.ecoleId)
-  return { ecole, formations: useFormationsOf(ecole.id) }
+  const etablissement = useEtablissement(account?.ecoleId)
+  const autoEcoles = useAutoEcoles()
+  const formations = useFormationsOf(etablissement.id)
+  const autoEcole = account?.role === 'auto-ecole' ? autoEcoles.find((a) => a.id === account.ecoleId) : undefined
+  if (autoEcole) return { ecole: commeEtablissement(autoEcole), formations: [], autoEcole }
+  return { ecole: etablissement, formations, autoEcole: undefined }
 }

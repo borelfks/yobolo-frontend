@@ -9,7 +9,7 @@ import { ArrowLeft, ArrowRight, Building2, Check, CircleCheck, FileText, IdCard,
 import { AuthCard } from '@/app/layouts/AuthLayout'
 import { Badge } from '@/shared/components/ui/Badge'
 import { Img } from '@/shared/components/ui/Img'
-import { Checkbox, Field, Input, PhoneInput, Radio, Select } from '@/shared/components/forms/Fields'
+import { Checkbox, ChoiceCard, Field, Input, PhoneInput, Radio, Select } from '@/shared/components/forms/Fields'
 import { SelectionGeographique } from '@/shared/components/forms/SelectionGeographique'
 import { useSession } from '@/features/auth/hooks/useSession'
 import { VerificationCode } from '@/features/auth/components/VerificationCode'
@@ -19,7 +19,7 @@ import { cn } from '@/shared/utils/cn'
 import { ROUTES } from '@/shared/utils/routes'
 import { useComptes, useDecoupage } from '@/data/hooks'
 import { data } from '@/data'
-import type { Compte, Lieu } from '@/shared/types'
+import type { Compte, Etablissement, Lieu, Role } from '@/shared/types'
 import { normaliserIdentifiant, protegerMotDePasse } from '@/shared/utils/motDePasse'
 import { villeDuLieu } from '@/shared/utils/geographie'
 import { CIVILITES, NATIONALITES } from '@/shared/utils/personne'
@@ -61,7 +61,18 @@ function Steps({ etapes, current }: { etapes: Etape[]; current: number }) {
   )
 }
 
-const primaire = 'inline-flex min-h-11 py-2 leading-tight text-center items-center justify-center gap-2 rounded-full bg-brand-600 text-[16px] font-semibold text-white hover:bg-brand-700 disabled:opacity-60'
+/**
+ * Le type choisi à la création fixe le rôle du compte et la fiche créée :
+ * un établissement (annuaire IPES, CFP ou Autres) ou une auto-école (liste
+ * des auto-écoles), chacun avec son espace professionnel.
+ */
+const TYPES_ECOLE = ['IPES', 'CFP', 'Autre', 'Auto-école'] as const
+type TypeInscription = (typeof TYPES_ECOLE)[number]
+const ROLE_DU_TYPE: Record<TypeInscription, Role> = { IPES: 'ipes', CFP: 'cfp', Autre: 'autre', 'Auto-école': 'auto-ecole' }
+const typeDuRole = (role?: Role): TypeInscription | '' => TYPES_ECOLE.find((x) => ROLE_DU_TYPE[x] === role) ?? ''
+const estTypeEcole = (v: string): v is TypeInscription => (TYPES_ECOLE as readonly string[]).includes(v)
+
+const primaire ='inline-flex min-h-11 py-2 leading-tight text-center items-center justify-center gap-2 rounded-full bg-brand-600 text-[16px] font-semibold text-white hover:bg-brand-700 disabled:opacity-60'
 const secondaire = 'inline-flex min-h-11 py-2 leading-tight items-center justify-center gap-2 rounded-full border-2 border-brand-600/60 text-[16px] font-semibold text-navy-800 hover:bg-brand-50'
 
 function Navigation({ onRetour, suivant, onSuivant, type = 'button' }: { onRetour: () => void; suivant: string; onSuivant?: () => void; type?: 'button' | 'submit' }) {
@@ -143,6 +154,7 @@ export function Inscription() {
     () =>
       z
         .object({
+          type: z.string().refine(estTypeEcole, t('inscription.errors.type')),
           nom: z.string().trim().min(2, t('inscription.errors.required')),
           telephone: z.string().refine(numeroValide, t('inscription.errors.phoneFormat')),
           email: z.email(t('inscription.errors.email')),
@@ -161,6 +173,7 @@ export function Inscription() {
     mode: 'onTouched',
     // Une reprise après la connexion repart des informations déjà enregistrées (sauf le mot de passe).
     defaultValues: {
+      type: typeDuRole(brouillon?.role) as string,
       nom: brouillon?.name ?? '',
       telephone: brouillon ? chiffresDuNumero(brouillon.telephone).slice(-9) : '',
       email: brouillon?.identifiant ?? '',
@@ -229,7 +242,7 @@ export function Inscription() {
       await enregistrerBrouillon({
         identifiant: v.email.trim(),
         telephone: formaterNumero(v.telephone),
-        role: 'ipes',
+        role: estTypeEcole(v.type) ? ROLE_DU_TYPE[v.type] : 'ipes',
         name: v.nom.trim(),
         subtitle: 'Administrateur',
         avatar: '',
@@ -279,12 +292,42 @@ export function Inscription() {
     if (!brouillon) return
     setEnvoi(true)
     try {
+      // Une auto-école : sa fiche dans la liste des auto-écoles ; elle choisit ensuite ses permis, tarifs et sessions dans son espace.
+      if (brouillon.role === 'auto-ecole') {
+        const autoEcole = await data.create(
+          'autoEcoles',
+          {
+            nom: brouillon.name,
+            region: brouillon.region ?? '',
+            departement: brouillon.departement,
+            arrondissement: brouillon.arrondissement,
+            ville: brouillon.ville ?? '',
+            quartier: brouillon.quartier ?? '',
+            note: 0,
+            avis: 0,
+            formes: 0,
+            image: '/images/maquette/ecoles-hero.jpg',
+            permis: ['B'],
+            creation: 0,
+            telephone: brouillon.telephone,
+            email: brouillon.identifiant,
+            site: '—',
+          },
+          'auto-ecole',
+        )
+        const rattache = (await data.update('comptes', brouillon.id, { ecoleId: autoEcole.id })) ?? { ...brouillon, ecoleId: autoEcole.id }
+        const valide = await validerCompteEcole(rattache)
+        signIn(valide)
+        toast.success(t('connexion.welcome', { name: valide.name }))
+        navigate(ROUTES.pro.root)
+        return
+      }
       const etablissement = await data.create(
         'etablissements',
         {
           nom: brouillon.name,
           sigle: '',
-          type: 'IPES',
+          type: (typeDuRole(brouillon.role) || 'IPES') as Etablissement['type'],
           region: brouillon.region ?? '',
           departement: brouillon.departement,
           arrondissement: brouillon.arrondissement,
@@ -460,6 +503,24 @@ export function Inscription() {
           className="mt-6 space-y-4"
         >
           {titreEtape(t('inscription.infos.title'), t('inscription.infos.text'))}
+          <fieldset>
+            <legend className="mb-1.5 text-sm font-bold text-navy-900">
+              {t('inscription.infos.fields.type')} <span className="text-rose-500">*</span>
+            </legend>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {TYPES_ECOLE.map((x) => (
+                <ChoiceCard
+                  key={x}
+                  selected={watchE('type') === x}
+                  onClick={() => setE('type', x, { shouldValidate: true })}
+                  title={t(`inscription.infos.types.${x}.title`)}
+                  description={t(`inscription.infos.types.${x}.text`)}
+                  className="p-3.5"
+                />
+              ))}
+            </div>
+            {ee.type?.message && <p className="mt-1 text-xs font-medium text-rose-600">{ee.type.message}</p>}
+          </fieldset>
           <Field label={t('inscription.infos.fields.nom')} required error={ee.nom?.message}>
             <Input icon={<Building2 />} {...registerE('nom')} />
           </Field>

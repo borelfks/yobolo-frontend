@@ -8,7 +8,7 @@ import { AreaTrend, Donut } from '@/shared/components/ui/Charts'
 import { PasEncoreDAvis } from '@/shared/components/ui/StarRating'
 import { useMonEcole } from '@/features/auth/hooks/useSession'
 import { cn } from '@/shared/utils/cn'
-import { useStatistiques } from '@/data/hooks'
+import { useDossiersPreinscription, useInscriptionsRecues, useStatistiques } from '@/data/hooks'
 import type { ProvenanceVisite } from '@/shared/types'
 import { num, shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
@@ -41,7 +41,9 @@ const ACTIVITE_FONDS = { downloads: 'bg-[#f1ebff]', reviews: 'bg-[#e8f0ff]' }
  */
 export function Statistiques() {
   const { t } = useTranslation('pro')
-  const { ecole, formations } = useMonEcole()
+  const { ecole, formations, autoEcole } = useMonEcole()
+  const inscriptions = useInscriptionsRecues(ecole.id)
+  const preinscriptions = useDossiersPreinscription(ecole.id)
   const [jours, setJours] = useState<number>(30)
   // L'instant de référence, fixé à l'ouverture de la page.
   const [maintenant] = useState(() => Date.now())
@@ -54,10 +56,15 @@ export function Statistiques() {
     .sort((a, b) => b.vues - a.vues)
     .slice(0, 3)
   const tendance = (x: number | null) => (x === null ? undefined : x)
+  const dansLaPeriode = (le: string) => maintenant - new Date(le).getTime() <= jours * 86_400_000
+  const recues = (autoEcole ? inscriptions : preinscriptions).filter((d) => dansLaPeriode(d.envoyeeLe)).length
 
   const kpis = [
     { v: num(stats.vues.valeur), l: t('stats.kpis.views'), tendance: tendance(stats.vues.tendance), icon: <Users />, c: 'bg-[#e8f0ff]', ic: 'bg-[#d6e3ff] text-brand-600' },
-    { v: num(stats.telechargements.valeur), l: t('stats.kpis.downloads'), tendance: tendance(stats.telechargements.tendance), icon: <FileText />, c: 'bg-[#fff4dd]', ic: 'bg-[#ffe7b8] text-amber-600' },
+    // Les demandes reçues sur la période (img17 : « Candidatures / Préinscriptions ») ; une auto-école reçoit des inscriptions.
+    { v: num(recues), l: t(autoEcole ? 'stats.kpis.enrollments' : 'stats.kpis.applications'), tendance: undefined, icon: <GraduationCap />, c: 'bg-[#e5f7ea]', ic: 'bg-[#cdeed8] text-emerald-600' },
+    // Une auto-école n'a pas de documents à télécharger.
+    ...(autoEcole ? [] : [{ v: num(stats.telechargements.valeur), l: t('stats.kpis.downloads'), tendance: tendance(stats.telechargements.tendance), icon: <FileText />, c: 'bg-[#fff4dd]', ic: 'bg-[#ffe7b8] text-amber-600' }]),
     {
       v: ecole.avis > 0 ? t('stats.kpis.outOf5', { note: num(ecole.note) }) : <PasEncoreDAvis className="text-[17px]" />,
       l: t('stats.kpis.rating', { count: ecole.avis }),
@@ -97,7 +104,7 @@ export function Statistiques() {
           </div>
         }
       />
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className={cn('grid gap-4 sm:grid-cols-2', kpis.length === 4 ? 'xl:grid-cols-4' : 'lg:grid-cols-3')}>
         {kpis.map((k) => (
           <div key={k.l} className={cn('flex items-center gap-4 rounded-2xl px-4 py-3.5 shadow-sm', k.c)}>
             <span className={cn('grid size-14 shrink-0 place-items-center rounded-full [&_svg]:size-8', k.ic)}>{k.icon}</span>
@@ -140,7 +147,8 @@ export function Statistiques() {
           )}
         </div>
       </div>
-      <div className="grid gap-4 xl:grid-cols-[1.05fr_1fr]">
+      <div className={cn('grid gap-4', !autoEcole && 'xl:grid-cols-[1.05fr_1fr]')}>
+        {!autoEcole && (
         <div className={cn(proCard, 'p-4')}>
           <h2 className="flex items-center gap-2.5 text-[19px] font-bold text-navy-900"><GraduationCap className="size-6 text-brand-600" />{t('stats.top.title')}</h2>
           {top.length === 0 ? (
@@ -160,6 +168,7 @@ export function Statistiques() {
             {t('stats.top.all')} <ArrowRight className="size-5" />
           </Link>
         </div>
+        )}
         <div className={cn(proCard, 'p-4')}>
           <h2 className="flex items-center gap-2.5 text-[19px] font-bold text-navy-900"><Clock className="size-6 text-brand-600" />{t('stats.activity.title')}</h2>
           {stats.activites.length === 0 ? (

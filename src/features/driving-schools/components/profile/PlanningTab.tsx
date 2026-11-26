@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-// Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) : import { Link } from 'react-router'
-import { CalendarDays, Car, Clock, Hourglass, Info } from 'lucide-react'
+import { Link } from 'react-router'
+import { ArrowRight, CalendarDays, Car, Clock, Hourglass, Info, Send } from 'lucide-react'
 import { CheckLine, FilterBox, GreenCheck, Heading } from '@/features/driving-schools/components/profile/ProfileParts'
-import { card, permisShortName, sessionDays, sessionDuration, sessionHours, sessionStart } from '@/features/driving-schools/components/profile/profileUtils'
+import { card, inscrireHref, permisShortName, sessionDays, sessionDuration, sessionHours, sessionStart } from '@/features/driving-schools/components/profile/profileUtils'
 import { Img } from '@/shared/components/ui/Img'
-import { useAutoEcole, usePermisCatalogue, useSessions } from '@/data/hooks'
+import { useAutoEcole, usePermisDe, useSessionsDe } from '@/data/hooks'
 import type { PermisCode } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { shortDate } from '@/shared/utils/format'
@@ -15,10 +15,10 @@ const tipKeys = ['code', 'flexible', 'groups', 'open'] as const
 
 /** Onglet « Planning » de la fiche d'une auto-école. */
 export function PlanningTab({ id }: { id: string }) {
-  const permisCatalogue = usePermisCatalogue()
+  const permisCatalogue = usePermisDe(id)
   const { t } = useTranslation('driving-schools')
   const a = useAutoEcole(id)
-  const sessions = useSessions()
+  const sessions = useSessionsDe(id)
   const [sel, setSel] = useState<string[]>(['B'])
   const [session, setSession] = useState<string[]>(['next'])
   const codes = (['A', 'B', 'C', 'D', 'E'] as PermisCode[]).filter((c) => a.permis.includes(c))
@@ -89,11 +89,9 @@ export function PlanningTab({ id }: { id: string }) {
                     <td><span className="inline-flex items-center gap-1.5"><Hourglass className="size-5 text-brand-600" />{sessionDuration(t, s.duree)}</span></td>
                     <td><span className="rounded-full bg-emerald-50 px-3 py-1 font-semibold text-emerald-700">{t('common.places', { count: s.places })}</span></td>
                     <td className="pr-3 text-right">
-                      {/* Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) :
                       <Link to={inscrireHref(a, s.permis)} className="inline-flex h-9 items-center gap-1.5 rounded-full bg-brand-600 px-4 text-[13.5px] font-semibold text-white hover:bg-brand-700">
                         {t('common.enrol')} <ArrowRight className="size-4" />
                       </Link>
-                      */}
                     </td>
                   </tr>
                 )
@@ -108,12 +106,10 @@ export function PlanningTab({ id }: { id: string }) {
           <p className="rounded-xl bg-[#dcf5e4] py-3 text-center text-[24px] font-extrabold text-navy-900">{shortDate(new Date(2026, 10, 15), { day: 'numeric', month: 'long', year: 'numeric' })}</p>
           <p className="flex items-center gap-2.5 text-[15px] text-navy-900"><Car className="size-5 text-navy-800" />{t('common.licenceTitle', { code: prochaine.permis, name: t(`permis.${prochaine.permis}.name`) })}</p>
           <p className="flex items-center gap-2.5 text-[15px] text-navy-900"><Clock className="size-5 text-navy-800" />{t('sessions.daysHours', { days: sessionDays(t, prochaine.horaires[0]), hours: sessionHours(t, prochaine.horaires[1]) })}</p>
-          {/* Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) :
           <Link to={inscrireHref(a, prochaine.permis)} className="flex h-12 items-center justify-center gap-3 rounded-xl bg-brand-600 text-[17px] font-semibold text-white hover:bg-brand-700">
             <Send className="size-5" />
             {t('common.enrolNow')}
           </Link>
-          */}
         </div>
         <div className={cn(card, 'p-4')}>
           <Heading icon={<Info />}>{t('profile.schedule.goodToKnow')}</Heading>

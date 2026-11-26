@@ -27,12 +27,13 @@ export function ApercuTab({ id }: { id: string }) {
             <div className={cn(card, 'p-4')}>
               <Heading icon={<Info />}>{t('profile.overview.presentationTitle')}</Heading>
               <p className="mt-2 text-[15px] leading-snug text-navy-900">
-                {t('profile.overview.presentation', { name: a.nom, licences: a.permis.slice().sort().join(', ') })}
+                {/* La présentation écrite par l'auto-école (espace pro), sinon la phrase de la maquette. */}
+                {a.description || t('profile.overview.presentation', { name: a.nom, licences: a.permis.slice().sort().join(', ') })}
               </p>
             </div>
             <dl className={cn(card, 'divide-y divide-line px-4 py-1 text-[13.5px]')}>
               {[
-                { icon: <CalendarDays />, k: t('profile.overview.facts.founded'), v: a.creation },
+                { icon: <CalendarDays />, k: t('profile.overview.facts.founded'), v: a.creation || '—' },
                 { icon: <MapPin />, k: t('profile.overview.facts.location'), v: `${a.ville} – ${a.quartier}` },
                 { icon: <Clock />, k: t('profile.overview.facts.hours'), v: t('profile.overview.facts.hoursValue') },
                 { icon: <BadgeCheck />, k: t('profile.overview.facts.status'), v: <span className="rounded-full bg-emerald-600 px-3.5 py-0.5 font-semibold text-white">{t('common.approved')}</span> },

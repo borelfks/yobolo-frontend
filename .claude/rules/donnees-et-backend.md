@@ -67,6 +67,11 @@ La base SQLite est dans l'IndexedDB du navigateur (base `yibolo`, clé `base-sql
 1. Les valeurs de départ (`yibolo.sql`) sont celles de la maquette (noms, dates, textes, photos) ; elles ne contiennent **aucun chiffre calculable** (notes, nombres d'avis, de formations, d'établissements) : ces chiffres sont calculés.
 2. Les données restent **en français** : on ne modifie pas les données pour traduire (voir [traduction.md](traduction.md)).
 
+## Auto-écoles et dossiers
+- `autoEcoles.tarifs` : prix fixés par l'auto-école (sinon ceux du catalogue `permis`) ; lecture `usePermisDe(autoEcoleId)`.
+- `sessions.autoEcoleId` : chaque session appartient à une auto-école ; lecture `useSessionsDe(autoEcoleId)` (dans l'ordre du calendrier).
+- `preinscriptions` / `inscriptionsAutoEcole` : `statut` (`StatutDossier`) et `echanges` (messages de l'établissement et du candidat).
+
 ## Découpage territorial
 - Tables de référence `departements` (`id`, `region`, `nom`, `chefLieu`) et `arrondissements` (`id`, `departement`, `nom`, `ville`), reprises du fichier `decoupage-cameroun.csv` de yibolo-backend (58 départements, 360 arrondissements). Lecture : `useDecoupage()` ; tri et ville : `src/shared/utils/geographie.ts`.
 - Un lieu saisi garde `region`, `departement`, `arrondissement`, `quartier` et la `ville` déduite (pour l'affichage et les recherches existantes).

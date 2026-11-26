@@ -292,7 +292,21 @@
       "send": "Envoyer le signalement",
       "reported": "Merci : l’avis a été signalé à YIBOLO.",
       "linkCopied": "Lien copié",
-      "shared": "Partagé"
+      "shared": "Partagé",
+      "reply": {
+        "reply": "Répondre",
+        "edit": "Modifier la réponse",
+        "remove": "Retirer la réponse",
+        "label": "Votre réponse",
+        "placeholder": "Remerciez l’élève ou apportez une précision…",
+        "publish": "Publier la réponse",
+        "published": "Réponse publiée",
+        "removed": "Réponse retirée",
+        "tooShort": "Écrivez une réponse.",
+        "notificationTitre": "Réponse à votre avis",
+        "notificationTexte": "{{school}} a répondu à votre avis.",
+        "quand": "À l’instant"
+      }
     }
   },
   "licence": {
@@ -721,6 +735,11 @@
       "titre": "Inscription envoyée",
       "texte": "Votre inscription au permis {{licence}} a été envoyée à {{school}}.",
       "quand": "À l’instant"
+    },
+    "notificationAutoEcole": {
+      "titre": "Nouvelle inscription",
+      "texte": "{{name}} demande une inscription au permis {{licence}}.",
+      "anonyme": "Un candidat"
     }
   }
 }

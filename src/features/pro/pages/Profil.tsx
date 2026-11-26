@@ -31,7 +31,7 @@ import {
 } from 'lucide-react'
 import { ProCard, ProFooter, ProHeader, ProLabel } from '@/features/pro/components/ProBlocks'
 import { proInput } from '@/features/pro/proStyles'
-import { type Valeurs, patchEtablissement, prefixer, sousCles, tailleFichier } from '@/features/pro/proData'
+import { type Valeurs, ANNEE_CREATION_MIN, anneeCreationMax, anneeCreationValide, patchEtablissement, prefixer, sousCles, tailleFichier } from '@/features/pro/proData'
 import { Img } from '@/shared/components/ui/Img'
 import { LinkTabs } from '@/shared/components/ui/Tabs'
 import { useMonEcole } from '@/features/auth/hooks/useSession'
@@ -69,11 +69,11 @@ function SelectBox({ value, onChange, options, icon }: { value: string; onChange
   )
 }
 
-function IconInput({ icon, value, onChange, placeholder }: { icon: ReactNode; value: string; onChange: (v: string) => void; placeholder?: string }) {
+function IconInput({ icon, value, onChange, placeholder, inputMode, maxLength, invalide }: { icon: ReactNode; value: string; onChange: (v: string) => void; placeholder?: string; inputMode?: 'numeric'; maxLength?: number; invalide?: boolean }) {
   return (
     <span className="relative block">
       <span className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-navy-800 [&_svg]:size-5">{icon}</span>
-      <input value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} className={cn(proInput, 'pl-11')} />
+      <input value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} inputMode={inputMode} maxLength={maxLength} aria-invalid={invalide || undefined} className={cn(proInput, 'pl-11', invalide && 'border-rose-500 focus:border-rose-500')} />
     </span>
   )
 }
@@ -119,6 +119,11 @@ export function Profil() {
   // Brouillon : gardé dans les réglages. Publication : la fiche publique change aussi (champs du type Etablissement).
   const enregistrer = async (publier: boolean) => {
     const valeurs = { ...enregistres, ...saisie }
+    const annee = valeurs.anneeCreation
+    if (typeof annee === 'string' && !anneeCreationValide(annee)) {
+      toast.error(t('profil.general.foundedInvalid', { min: ANNEE_CREATION_MIN, max: anneeCreationMax() }))
+      return false
+    }
     await data.put('parametres', { id: ecole.id, valeurs: { ...reglages, ...prefixer('profil', valeurs) } })
     const patch = patchEtablissement(valeurs, ecole.agrement)
     if (publier && Object.keys(patch).length > 0) {
@@ -184,7 +189,9 @@ function Infos({ form }: { form: ProfilForm }) {
   const { t } = useTranslation('pro')
   const { ecole, formations } = useMonEcole()
   const publie = form.oui('publie', true)
-  const texte = form.texte('description', ecole.description.replace(/^L'Institut Professionnel du Centre \(IPC\) est un établissement/, 'Établissement'))
+  const annee = form.texte('anneeCreation', ecole.anneeCreation ?? '')
+  const anneeOk = anneeCreationValide(annee)
+  const texte =form.texte('description', ecole.description.replace(/^L'Institut Professionnel du Centre \(IPC\) est un établissement/, 'Établissement'))
   return (
     <div className="grid gap-4 xl:grid-cols-[1fr_340px]">
       <ProCard title={t('profil.general.title')} icon={<Info />}>
@@ -192,7 +199,12 @@ function Infos({ form }: { form: ProfilForm }) {
           <label><ProLabel required>{t('profil.general.name')}</ProLabel><input className={proInput} value={form.texte('nom', ecole.nom.replace(/ \([^)]*\)$/, ''))} onChange={(e) => form.changer('nom', e.target.value)} /></label>
           <label><ProLabel required>{t('profil.general.acronym')}</ProLabel><input className={proInput} value={form.texte('sigle', ecole.sigle)} onChange={(e) => form.changer('sigle', e.target.value)} /></label>
           <label><ProLabel required>{t('profil.general.type')}</ProLabel><SelectBox value={form.texte('type', ecole.type)} onChange={(v) => form.changer('type', v)} options={typeOptions.map((o) => ({ value: o.value, label: t(`profil.types.${o.labelKey}`) }))} /></label>
-          <label><ProLabel>{t('profil.general.founded')}</ProLabel><IconInput icon={<Calendar />} value={form.texte('anneeCreation', ecole.anneeCreation ?? '')} onChange={(v) => form.changer('anneeCreation', v)} /></label>
+          <label>
+            <ProLabel>{t('profil.general.founded')}</ProLabel>
+            {/* Chiffres seulement, 4 au plus : une année, rien d'autre. */}
+            <IconInput icon={<Calendar />} value={annee} onChange={(v) => form.changer('anneeCreation', v.replace(/\D/g, '').slice(0, 4))} placeholder={t('profil.general.foundedPlaceholder')} inputMode="numeric" maxLength={4} invalide={!anneeOk} />
+            {!anneeOk && <span className="mt-1 block text-xs font-medium text-rose-600">{t('profil.general.foundedInvalid', { min: ANNEE_CREATION_MIN, max: anneeCreationMax() })}</span>}
+          </label>
           <label className="md:col-span-2">
             <ProLabel required>{t('profil.general.presentation')}</ProLabel>
             <span className="relative block">
@@ -401,7 +413,7 @@ function Medias() {
           <h2 className="flex items-center gap-2.5 text-[19px] font-bold text-navy-900"><Layers className="size-6 text-brand-600" />{t('profil.media.gallery')}</h2>
           <div className="flex gap-2">
             {([['toutes', 'all'], ['photos', 'photos'], ['videos', 'videos']] as const).map(([k, l]) => (
-              <button key={k} type="button" onClick={() => setF(k)} className={cn('h-8 rounded-full px-4 text-[13.5px] font-semibold', f === k ? 'bg-brand-600 text-white' : 'border border-line bg-white text-navy-900')}>{t(`profil.media.filters.${l}`)}</button>
+              <button key={k} type="button" onClick={() => setF(k)} className={cn('h-8 rounded-full px-4 text-[13.5px] font-semibold', f === k ? 'bg-brand-600 text-white' : 'border border-line bg-white text-navy-900')}>{t(`profil.media.filters.${l}`, { count: l === 'all' ? items.length : items.filter((x) => (l === 'videos' ? x.video : !x.video)).length })}</button>
             ))}
           </div>
         </div>

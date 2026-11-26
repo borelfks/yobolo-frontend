@@ -7,7 +7,7 @@ YIBOLO est une plateforme de **formation, d'expertise et d'emploi en Afrique cen
 
 Ce dépôt est **un front seul** : il transforme la **maquette Word du client** (`C:\Users\USER\Documents\yibolo\NOUVEAU DESIGN YIBOLO.docx`, environ 150 captures) en interface qui fonctionne, avec des **données de démonstration** enregistrées pour chaque testeur dans une **base SQLite dans le navigateur** (`src/data/`, données de départ dans `src/data/depart/yibolo.sql`). **Rien n'est écrit en dur dans le code.**
 
-- **Réalisé :** l'univers **École** : IPES, CFP et Autres (même gabarit), auto-écoles, l'**espace professionnel** partagé par les IPES, CFP et Autres, l'accueil connecté et **Mon espace** de la personne physique (`/mon-espace`, onglets, sans barre latérale).
+- **Réalisé :** l'univers **École** : IPES, CFP et Autres (même gabarit), auto-écoles, l'**espace professionnel** partagé par les IPES, CFP et Autres, celui des **auto-écoles** (même cadre ; permis et tarifs, planning, inscriptions), la **gestion des préinscriptions et inscriptions** (étude, complément, acceptation, refus), l'accueil connecté et **Mon espace** de la personne physique (`/mon-espace`, onglets, sans barre latérale).
 - **Pas encore réalisé :** Consultation et Emploi (page « bientôt disponible »). Prochaine étape envisagée : l'univers **Consultation**.
 
 - Ce que fait l'app, écran par écran : [docs/SPECIFICATIONS.md](docs/SPECIFICATIONS.md)
@@ -36,7 +36,7 @@ npm run i18n:check   # mêmes clés en français et en anglais
 npm run build        # vérification des types puis build de production
 npm run preview      # sert le build
 ```
-Comptes de démo (table `comptes` de la base) : `jean.dupont@exemple.cm` (Personne physique), `contact@ipc.cm` (École – IPES), `contact@cfp-btp.cm` (École – CFP), `contact@langues.cm` (École – Autre), tous avec le mot de passe `yibolo2026`. Un compte créé par « Créer un compte » s'enregistre aussi dans la base.
+Comptes de démo (table `comptes` de la base) : `jean.dupont@exemple.cm` (Personne physique), `contact@ipc.cm` (École – IPES), `contact@cfp-btp.cm` (École – CFP), `contact@langues.cm` (École – Autre), `contact@conduiteplus.cm` (Auto-école), tous avec le mot de passe `yibolo2026`. Un compte créé par « Créer un compte » s'enregistre aussi dans la base.
 
 ## Repères dans le code
 Code rangé **par fonctionnalité**, sur le modèle d'Autopia (détail : README › Organisation du code, et `.claude/rules/code-et-architecture.md`).

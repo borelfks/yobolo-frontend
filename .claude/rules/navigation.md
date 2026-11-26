@@ -8,6 +8,8 @@ Les listes de liens des cadres sont dans `navConfig.ts`. Elles gardent des **cl�
 - **Espace pro** (`proNav`) : Tableau de bord · Profil de l'établissement · Formations · Contenus et informations · Statistiques · Paramètres.
   - **Sous-menus** (comme sur la maquette) : Formations › Gérer les formations, Créer une formation ; Contenus et informations › Contenus & actualités, Documents à télécharger, FAQ (Questions fréquentes).
   - « Tableau de bord » est `end` : il n'est pas actif sur les autres pages.
+  - **Préinscriptions** (`/pro/ecole/preinscriptions`) : ajoutée à la demande du porteur du projet (2026-11-26).
+- **Espace pro d'une auto-école** (`proNavAutoEcole`) : Tableau de bord · Profil de l'auto-école · Permis & tarifs (`/pro/ecole/permis`) · Planning des sessions (`/pro/ecole/planning`) · Inscriptions (`/pro/ecole/inscriptions`) · Statistiques · Paramètres.
 - **Menu du compte** (avatar, `AccountMenu.tsx`) : des **lieux** seulement. Utilisateur : Mon espace · Mon profil · Mes favoris · Paramètres · Se déconnecter. Compte école : Mon espace professionnel · Mes favoris · Paramètres (ceux de l'espace pro) · Se déconnecter. Plus de « Données de test », de « Changer de compte » ni de « Donner un avis » (décision du 2026-11-25). **Cloche** : les notifications du compte (`notificationsCompte` ; espace pro : `notifications`), nombre de non lues, « Tout marquer comme lu », « Voir toutes » → `/notifications` (utilisateur).
 - Ajouter un menu ou une rubrique **seulement si la maquette le montre**.
 

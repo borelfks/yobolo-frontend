@@ -29,9 +29,15 @@
       "documents": "Downloadable documents",
       "faq": "FAQ (Frequent questions)",
       "statistics": "Statistics",
-      "settings": "Settings"
+      "settings": "Settings",
+      "preRegistrations": "Pre-registrations",
+      "enrollments": "Enrolments",
+      "profileAE": "Driving school profile",
+      "licences": "Licences & prices",
+      "planning": "Session schedule"
     },
-    "backHome": "Home"
+    "backHome": "Home",
+    "approved": "Approved driving school"
   },
   "schoolType": {
     "IPES": "IPES",
@@ -107,6 +113,7 @@
     "utilisateur": "User",
     "ipes": "Administrator",
     "cfp": "Administrator",
-    "autre": "Administrator"
+    "autre": "Administrator",
+    "auto-ecole": "Administrator"
   }
 }

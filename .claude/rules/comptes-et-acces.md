@@ -7,6 +7,7 @@
 | `ipes` | IPC Yaoundé | `ipc` | `/accueil` |
 | `cfp` | CFP du BTP | `cfp-btp` | `/accueil` |
 | `autre` | Centre Linguistique | `langues` | `/accueil` |
+| `auto-ecole` | Auto-École Conduite Plus | `conduite-plus` (table `autoEcoles`) | `/accueil` |
 
 - **Tous les comptes arrivent sur l'accueil connecté** (`account.home` = `/accueil`, `useSession`) ; une école ouvre son espace pro avec « Mon espace professionnel » (menu du compte). Pas de « Mes favoris » pour une école.
 - **Un compte = un espace.** Pas de changement de rôle : on change de compte en se déconnectant puis en se reconnectant.
@@ -15,13 +16,13 @@
 
 ## Connexion (`/connexion`)
 1. Identifiant (e-mail ou téléphone) + mot de passe, validés par zod ; n'importe quelles valeurs valides sont acceptées.
-2. L'identifiant (e-mail ou téléphone) et le mot de passe sont **vérifiés dans la base** (mot de passe haché, `shared/utils/motDePasse.ts`). Comptes de départ : `jean.dupont@exemple.cm` (Personne physique), `contact@ipc.cm` (École – IPES), `contact@cfp-btp.cm` (École – CFP), `contact@langues.cm` (École – Autre), tous avec le mot de passe `yibolo2026`. Erreurs : « Identifiant ou mot de passe incorrect. », « Votre compte est en cours de vérification par YIBOLO… ».
+2. L'identifiant (e-mail ou téléphone) et le mot de passe sont **vérifiés dans la base** (mot de passe haché, `shared/utils/motDePasse.ts`). Comptes de départ : `jean.dupont@exemple.cm` (Personne physique), `contact@ipc.cm` (École – IPES), `contact@cfp-btp.cm` (École – CFP), `contact@langues.cm` (École – Autre), `contact@conduiteplus.cm` (Auto-école), tous avec le mot de passe `yibolo2026`. Erreurs : « Identifiant ou mot de passe incorrect. », « Votre compte est en cours de vérification par YIBOLO… ».
 3. Après connexion : message « Bienvenue, … ! » et arrivée sur la première page du compte.
 4. « Mot de passe oublié ? » : page `/mot-de-passe-oublie` (comme yibolo-client) : numéro du compte → code à 6 chiffres (affiché à l'écran, faute de SMS sans serveur) → nouveau mot de passe enregistré (haché). « Se souvenir de moi » coché : la session reste après fermeture du navigateur ; sinon elle s'arrête (stockage de la visite). « Continuer sans compte » mène à l'accueil.
 
 ## Inscription (`/inscription`)
 1. **Profil** : École / IPES, Consultant, Entreprise, Personne physique. **École / IPES** et **Personne physique** sont ouverts ; Consultant et Entreprise affichent « Bientôt disponible » (décisions du 2026-11-24).
-2. **Infos** : raison sociale ou nom, téléphone, e-mail, région, ville, quartier, mot de passe (8 caractères) + confirmation.
+2. **Infos** : type d'établissement (IPES, CFP, Autre ou Auto-école : il fixe le rôle `ipes` / `cfp` / `autre` / `auto-ecole` ; une auto-école est créée dans `autoEcoles`, les autres dans `etablissements`), raison sociale ou nom, téléphone, e-mail, région, ville, quartier, mot de passe (8 caractères) + confirmation.
 3. **Vérification** : pièces selon le profil (pièce d'identité ; ou autorisation d'ouverture / justificatif d'activité + NIU).
 4. **« Soumettre pour vérification »** : le compte et son établissement sont enregistrés, et l'école **entre directement dans son espace professionnel** (`validerCompteEcole`, `features/auth/authComptes.ts`) ; plus d'écran « en cours de vérification » ni « Compte validé ! » (décision du 2026-11-25). Le compte est enregistré dès l'envoi du code ; un e-mail déjà utilisé est refusé.
 
@@ -53,3 +54,11 @@
 
 ## Formations en attente
 - Une formation « Envoyée pour validation » (« En attente ») est publiée par YIBOLO quand l'établissement revient se connecter (`publierFormationsVerifiees`) ; celles de la maquette gardent leur statut. Plus de « Simuler la validation ».
+
+## Dossiers (préinscriptions, inscriptions en auto-école)
+- L'établissement les traite dans son espace pro (`/pro/ecole/preinscriptions` ; auto-école : `/pro/ecole/inscriptions`) ; le candidat les suit dans Mon espace.
+- Statuts et actions : `src/shared/utils/dossiers.ts` (`deciderDossier`, `completerDossier`). Chaque décision crée une notification pour le candidat (`notifier`) ; un complément crée une notification pour l'établissement.
+
+## Compte auto-école
+- `useMonEcole()` rend `autoEcole` (sa fiche) et `ecole` (la même, vue comme un établissement) : le cadre, les paramètres et les statistiques fonctionnent sans changement.
+- Les pages propres à un type sont aiguillées par `SelonEspace` (`src/app/routes/`) ; l'autre type est renvoyé au tableau de bord.

@@ -73,6 +73,7 @@ La maquette prévoit **4 profils** : **École / IPES** (institut, centre, auto-�
 | `ipes` | IPC Yaoundé (établissement `ipc`) | `/pro/ecole` | espace pro « IPES » |
 | `cfp` | CFP du BTP (établissement `cfp-btp`) | `/pro/ecole` | espace pro « CFP » |
 | `autre` | Centre Linguistique (établissement `langues`) | `/pro/ecole` | espace pro « Autre » |
+| `auto-ecole` | Auto-École Conduite Plus (auto-école `conduite-plus`) | `/pro/ecole` | espace pro « Auto-école » |
 
 - **Un compte = un espace.** Les trois comptes école partagent **le même espace pro** ; seuls le nom, le type affiché (« Espace professionnel – IPES / CFP / Autre ») et les données de l'établissement changent (`useMonEcole`).
 - **Garde de l'espace pro** : un compte sans établissement (`ecoleId`) qui ouvre `/pro/ecole…` est renvoyé vers `/connexion?espace=ecole`.
@@ -97,7 +98,7 @@ La maquette prévoit **4 profils** : **École / IPES** (institut, centre, auto-�
 
 **Créer un compte :**
 1. **Profil** : 4 cartes (École / IPES, Consultant, Entreprise, Personne physique). Seule **École / IPES** se choisit ; les trois autres sont grisées avec « Bientôt disponible » (décision du 2026-11-24).
-2. **Infos** (« Informations générales ») : raison sociale / nom et prénoms, téléphone, e-mail, région, ville, quartier, mot de passe (8 caractères au moins) et confirmation. Champs **préremplis** avec les valeurs de la maquette (IPC). Validation react-hook-form + zod.
+2. **Infos** (« Informations générales ») : **type d'établissement** (IPES, CFP ou Autre, obligatoire : il fixe le rôle du compte et l'annuaire où l'école apparaît), raison sociale / nom et prénoms, téléphone, e-mail, région, ville, quartier, mot de passe (8 caractères au moins) et confirmation. Champs **préremplis** avec les valeurs de la maquette (IPC). Validation react-hook-form + zod.
 3. **Vérification** : documents à joindre. Personne physique : pièce d'identité. Autres profils : autorisation d'ouverture (école) ou justificatif d'activité, et NIU. Bouton « Soumettre pour vérification ».
 4. **« Soumettre pour vérification »** : l'école entre directement dans son espace professionnel (décision du 2026-11-25 : plus d'écran « en cours de vérification » ni « Compte validé ! »).
 5. **« Compte validé ! »** : « Se connecter à mon espace » ouvre le compte IPES (profil École) ou Utilisateur (autres profils).
@@ -283,6 +284,26 @@ Un seul espace pour les **IPES, CFP et Autres**. Cadre : barre du haut (logo, «
 | **Paramètres** | `/pro/ecole/parametres/:section?` | Compte et accès · Sécurité (mot de passe avec 4 critères, 2FA, sessions, activité) · Notifications · Préférences · **Utilisateurs** (`utilisateurs`, rôles, « Inviter un utilisateur » `…/utilisateurs/inviter`) · À propos |
 
 Dans la barre latérale, **Formations** et **Contenus et informations** ont des sous-menus (comme sur la maquette) : Gérer les formations / Créer une formation ; Contenus & actualités / Documents à télécharger / FAQ.
+
+**Préinscriptions** (`/pro/ecole/preinscriptions`, détail `…/preinscriptions/:id`) : rubrique ajoutée à la demande du porteur du projet (2026-11-26), absente de la maquette. Chiffres (dossiers, à traiter, en cours, acceptés, refusés), recherche, filtres (formation, statut), tableau ; le détail montre le candidat, son parcours, ses pièces, le **suivi du dossier** (messages) et **Traiter le dossier** : Mettre à l'étude · Demander un complément (message obligatoire) · Accepter · Refuser (motif obligatoire) · Rouvrir un dossier clos ; **Contacter le candidat** (appel, WhatsApp, e-mail). Chaque décision prévient le candidat (notification), qui la lit dans Mon espace.
+
+### 10 bis. Espace professionnel Auto-école — `/pro/ecole`
+
+Même cadre et mêmes adresses que l'espace École (la page affichée dépend du compte, `SelonEspace`) ; menu propre (`proNavAutoEcole`) :
+
+| Menu | Adresse | Contenu |
+|---|---|---|
+| **Tableau de bord** | `/pro/ecole` | inscriptions à traiter, sessions à venir, permis proposés, avis ; dernières inscriptions, prochaines sessions, aperçu de la fiche, actions rapides |
+| **Profil de l'auto-école** | `/pro/ecole/profil/:onglet?` | Informations générales (nom, année de création vérifiée, présentation) · Coordonnées (lieu, adresse, téléphone, e-mail, site) · Agrément & documents (autorité MINTRANSPORTS) · Médias (logo, couverture, galerie) |
+| **Permis & tarifs** | `/pro/ecole/permis` | permis enseignés (interrupteur) et prix (10 000 à 3 000 000 FCFA) ; la fiche publique, les tarifs, la page du permis et l'inscription suivent |
+| **Planning des sessions** | `/pro/ecole/planning` | sessions (permis, date de début à venir, jours, heures, durée, places) : ajouter, modifier, supprimer (pas si des élèves y sont inscrits) |
+| **Inscriptions** | `/pro/ecole/inscriptions` · `…/:id` | comme les Préinscriptions ; un refus rend la place à la session |
+| **Statistiques** · **Paramètres** | comme l'espace École | sans « Formations les plus consultées » ; « Inscriptions reçues » au lieu des téléchargements |
+
+Les écrans de l'auto-école ne sont pas dans la maquette : ils reprennent le cadre et les composants de l'espace pro (img5 à img24) et le contenu de la fiche publique d'une auto-école (img55 à img64).
+
+### 10 ter. Statut d'un dossier (préinscription, inscription)
+Envoyée → En cours d'étude → Complément demandé (le candidat répond depuis Mon espace, avec une pièce s'il veut ; le dossier redevient « Envoyée ») → Acceptée ou Refusée. Le candidat peut annuler tant que le dossier n'est pas tranché. Logique : `src/shared/utils/dossiers.ts`.
 
 ---
 

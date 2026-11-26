@@ -3,20 +3,25 @@ import { Link, useParams } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import {
+  Award,
   Bold,
+  BookOpen,
   CalendarDays,
-  ChevronDown,
   ChevronRight,
   CircleCheck,
   CircleHelp,
   CloudUpload,
+  Coins,
   Copy,
   Download,
   Eye,
   EyeOff,
   FileText,
   Folder,
+  GraduationCap,
+  Info,
   Italic,
+  Layers,
   Lightbulb,
   Link2,
   List,
@@ -24,6 +29,7 @@ import {
   Megaphone,
   Pencil,
   Plus,
+  School,
   Search,
   Send,
   Trash2,
@@ -35,6 +41,7 @@ import { proCard, proInput } from '@/features/pro/proStyles'
 import { CATEGORIE_DOCUMENT, dateDuJour, decoupeFichier, tailleFichier, texte } from '@/features/pro/proData'
 import { Img } from '@/shared/components/ui/Img'
 import { Modal } from '@/shared/components/ui/Modal'
+import { Pagination } from '@/shared/components/ui/Pagination'
 import { Select } from '@/shared/components/forms/Fields'
 import { LinkTabs } from '@/shared/components/ui/Tabs'
 import { useMonEcole } from '@/features/auth/hooks/useSession'
@@ -51,6 +58,14 @@ const catTone: Record<string, string> = {
   Admission: 'bg-[#e1f6e8] text-emerald-700',
   Règlement: 'bg-[#efe6ff] text-violet-700',
   Calendrier: 'bg-orange-50 text-orange-700',
+}
+
+/** Couleur des catégories de la FAQ (img15). */
+const faqTone: Record<string, string> = {
+  Admission: 'bg-[#efe6ff] text-violet-700',
+  Formation: 'bg-[#e1f6e8] text-emerald-700',
+  'Frais et paiement': 'bg-orange-50 text-orange-700',
+  Diplômes: 'bg-[#e3ecff] text-brand-700',
 }
 
 /** Statuts des données de démo → clé de traduction. */
@@ -82,13 +97,15 @@ export function Contenus() {
     { value: 'faq', label: t('contents.tabs.faq'), icon: <CircleHelp /> },
   ]
   const current = tabs.find((x) => x.value === tab) ?? tabs[0]
+  // Documents et FAQ ont leur propre titre (img14, img15).
+  const entete = tab === 'documents' ? { icon: <Folder />, cle: 'documents' as const } : tab === 'faq' ? { icon: <CircleHelp />, cle: 'faq' as const } : null
   return (
     <div className="space-y-3.5">
       <ProHeader
-        crumbs={[{ label: t('contents.title'), to: ROUTES.pro.contents() }, ...(tab ? [{ label: current.label }] : [])]}
-        icon={<FileText />}
-        title={t('contents.title')}
-        subtitle={t('contents.subtitle')}
+        crumbs={[{ label: t('contents.title'), to: ROUTES.pro.contents() }, ...(tab ? [{ label: entete ? t(`contents.headers.${entete.cle}.title`) : current.label }] : [])]}
+        icon={entete?.icon ?? <FileText />}
+        title={entete ? t(`contents.headers.${entete.cle}.title`) : t('contents.title')}
+        subtitle={entete ? t(`contents.headers.${entete.cle}.subtitle`) : t('contents.subtitle')}
       />
       <LinkTabs items={tabs} base={ROUTES.pro.contents()} variant="block" className="[&>a]:h-12 [&>a]:text-[17px]" />
       {tab === '' && <Presentation />}
@@ -235,6 +252,8 @@ function Actualites() {
   )
 }
 
+const DOCS_PAR_PAGE = 8
+
 function Documents() {
   const { t } = useTranslation('pro', { keyPrefix: 'content' })
   const { ecole } = useMonEcole()
@@ -242,6 +261,9 @@ function Documents() {
   const [apercu, setApercu] = useState<DocumentPro | null>(null)
   const [renomme, setRenomme] = useState<DocumentPro | null>(null)
   const [nouveauNom, setNouveauNom] = useState('')
+  const [q, setQ] = useState('')
+  const [categorie, setCategorie] = useState('')
+  const [page, setPage] = useState(1)
   // Le fichier est gardé dans la base (table fichiers) ; le document est ajouté en brouillon.
   const fichiers = useFichiers()
   const ajouter = async (fichier: File) => {
@@ -255,67 +277,106 @@ function Documents() {
     const key = DOC_CATEGORY_KEYS[c]
     return key ? t(`contents.documents.categories.${key}`) : c
   }
+  const filtres = documentsPro.filter((d) => d.nom.toLowerCase().includes(q.trim().toLowerCase()) && (!categorie || d.categorie === categorie))
+  const pages = Math.max(1, Math.ceil(filtres.length / DOCS_PAR_PAGE))
+  const visibles = filtres.slice((page - 1) * DOCS_PAR_PAGE, page * DOCS_PAR_PAGE)
+  const choisir = (
+    <input type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx" className="sr-only" onChange={(e) => { const fichier = e.target.files?.[0]; if (fichier) void ajouter(fichier); e.target.value = '' }} />
+  )
   return (
-    <div className="space-y-4">
-      <div className="grid gap-4 xl:grid-cols-[1fr_380px]">
-        <label className="flex cursor-pointer flex-col items-center justify-center gap-1 rounded-2xl border-2 border-dashed border-[#9fb4e3] bg-white py-6 text-center">
-          <CloudUpload className="size-10 text-brand-600" />
-          <b className="text-[17px] text-navy-900">{t('contents.documents.addTitle')}</b>
-          <span className="text-[13.5px] text-navy-900">{t('contents.documents.addHint')}</span>
-          <input type="file" className="sr-only" onChange={(e) => { const fichier = e.target.files?.[0]; if (fichier) void ajouter(fichier); e.target.value = '' }} />
-        </label>
-        <ProCard title={t('contents.documents.suggestedTypes')} icon={<Lightbulb />}>
-          <div className="flex flex-wrap gap-2">
-            {DOCUMENT_TYPES.map((type) => <span key={type} className="rounded-full bg-[#e3ecff] px-3 py-1 text-[13.5px] font-medium text-brand-700">{t(`contents.documents.types.${type}`)}</span>)}
+    <div className="grid gap-4 lg:grid-cols-[250px_1fr]">
+      <div className="space-y-4">
+        <div className={cn(proCard, 'p-4')}>
+          <label className="flex cursor-pointer flex-col items-center gap-1 rounded-2xl border-2 border-dashed border-[#9fb4e3] bg-white px-3 py-5 text-center">
+            <CloudUpload className="size-10 text-brand-600" aria-hidden="true" />
+            <b className="text-[16px] text-navy-900">{t('contents.documents.addShort')}</b>
+            <span className="text-[13px] text-navy-900">{t('contents.documents.formats')}</span>
+            {choisir}
+          </label>
+          <label className="mt-3 flex h-10 cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-brand-600/60 text-[15px] font-semibold text-navy-800 hover:bg-brand-50">
+            <Plus className="size-5" aria-hidden="true" />
+            {t('contents.documents.choose')}
+            {choisir}
+          </label>
+        </div>
+        <div className={cn(proCard, 'bg-[#f3f6fc] p-4')}>
+          <p className="flex items-center gap-2 text-[14.5px] font-bold text-navy-900">
+            <Info className="size-5 fill-brand-600 text-white" aria-hidden="true" />
+            {t('contents.documents.suggestedTypes')}
+          </p>
+          <ul className="mt-2 list-disc space-y-1 pl-9 text-[14px] text-navy-900">
+            {DOCUMENT_TYPES.map((type) => <li key={type}>{t(`contents.documents.types.${type}`)}</li>)}
+          </ul>
+        </div>
+      </div>
+      <div className="min-w-0 space-y-3">
+        <div className="grid gap-3 sm:grid-cols-[1.4fr_1fr]">
+          <label className="relative">
+            <Search className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-navy-900" aria-hidden="true" />
+            <input value={q} onChange={(e) => { setQ(e.target.value); setPage(1) }} placeholder={t('contents.documents.searchPlaceholder')} aria-label={t('contents.documents.searchPlaceholder')} className="h-11 w-full rounded-full border border-[#c9d4ea] bg-white pr-4 pl-11 text-[14.5px] focus:ring-3 focus:ring-brand-100" />
+          </label>
+          <Select
+            aria-label={t('contents.documents.table.category')}
+            value={categorie}
+            onChange={(e) => { setCategorie(e.target.value); setPage(1) }}
+            className="h-11 rounded-full"
+            options={[{ value: '', label: t('contents.documents.allCategories') }, ...[...new Set(documentsPro.map((d) => d.categorie))].map((c) => ({ value: c, label: categoryLabel(c) }))]}
+          />
+        </div>
+        <div className={cn(proCard, 'overflow-hidden')}>
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[760px] text-[14.5px] text-navy-900">
+              <thead>
+                <tr className="bg-[#eef3fc] text-left font-bold">
+                  <th className="w-12 py-3 pl-4"><input type="checkbox" aria-label={t('contents.documents.selectAll')} className="size-4 accent-brand-600" /></th>
+                  <th>{t('contents.documents.table.name')}</th>
+                  <th>{t('contents.documents.table.category')}</th>
+                  <th>{t('contents.documents.table.size')}</th>
+                  <th>{t('contents.documents.table.publishedAt')}</th>
+                  <th>{t('contents.documents.table.status')}</th>
+                  <th className="pr-4 text-center">{t('contents.documents.table.actions')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {visibles.map((d) => (
+                  <tr key={d.id} className="border-t border-line">
+                    <td className="py-2.5 pl-4"><input type="checkbox" aria-label={d.nom} className="size-4 accent-brand-600" /></td>
+                    <td>
+                      <span className="flex items-center gap-3">
+                        <span className={cn('grid h-9 w-8 place-items-center rounded-md text-[9.5px] font-extrabold text-white', d.type === 'PDF' ? 'bg-rose-600' : d.type === 'XLSX' ? 'bg-emerald-600' : 'bg-brand-600')}>{d.type}</span>
+                        <b>{d.nom}</b>
+                      </span>
+                    </td>
+                    <td><span className={cn('rounded-full px-3 py-1 text-[13px]', catTone[d.categorie] ?? 'bg-slate-100')}>{categoryLabel(d.categorie)}</span></td>
+                    <td>{d.taille}</td>
+                    <td><span className="inline-flex items-center gap-1.5"><CalendarDays className="size-4 text-brand-600" aria-hidden="true" />{d.date}</span></td>
+                    <td><StatutPill s={d.statut} /></td>
+                    <td className="pr-4">
+                      <div className="flex justify-center gap-2">
+                        <button type="button" aria-label={t('contents.actions.view')} onClick={() => setApercu(d)} className="grid size-9 place-items-center rounded-lg bg-[#eef3fc] text-navy-800"><Eye className="size-4" /></button>
+                        <MenuActions
+                          label={t('contents.actions.more')}
+                          actions={[
+                            d.statut === 'Publié'
+                              ? { label: t('contents.documents.menu.unpublish'), icon: <EyeOff />, onClick: async () => { await data.update('documents', d.id, { statut: 'Brouillon' }); toast.success(t('contents.documents.menu.unpublished', { name: d.nom })) } }
+                              : { label: t('contents.documents.menu.publish'), icon: <Send />, onClick: async () => { await data.update('documents', d.id, { statut: 'Publié' }); toast.success(t('contents.documents.menu.published', { name: d.nom })) } },
+                            { label: t('contents.documents.menu.rename'), icon: <Pencil />, onClick: () => (setRenomme(d), setNouveauNom(d.nom)) },
+                            { label: t('contents.documents.menu.delete'), icon: <Trash2 />, danger: true, onClick: async () => { await data.remove('documents', d.id); toast.success(t('contents.documents.menu.deleted', { name: d.nom })) } },
+                          ]}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-        </ProCard>
+          {filtres.length === 0 && <p className="border-t border-line px-4 py-4 text-center text-sm text-muted">{t(documentsPro.length === 0 ? 'contents.documents.empty' : 'contents.documents.noMatch')}</p>}
+          <div className="border-t border-line px-4 pb-3">
+            <Pagination label={<b className="text-navy-900">{t('contents.documents.count', { count: filtres.length })}</b>} pages={pages} page={page} onChange={setPage} />
+          </div>
+        </div>
       </div>
-      <div className="overflow-x-auto rounded-2xl border border-line bg-white shadow-[0_2px_10px_rgba(15,29,61,0.06)]">
-        <table className="w-full min-w-[760px] text-[14.5px] text-navy-900">
-          <thead>
-            <tr className="bg-[#eef3fc] text-left font-bold">
-              <th className="py-3 pl-5">{t('contents.documents.table.document')}</th>
-              <th>{t('contents.documents.table.category')}</th>
-              <th>{t('contents.documents.table.size')}</th>
-              <th>{t('contents.documents.table.publishedAt')}</th>
-              <th>{t('contents.documents.table.status')}</th>
-              <th className="pr-5 text-center">{t('contents.documents.table.actions')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {documentsPro.map((d) => (
-              <tr key={d.id} className="border-t border-line">
-                <td className="py-3 pl-5">
-                  <span className="flex items-center gap-3">
-                    <span className={cn('grid h-10 w-9 place-items-center rounded-md text-[10px] font-extrabold text-white', d.type === 'PDF' ? 'bg-rose-600' : d.type === 'XLSX' ? 'bg-emerald-600' : 'bg-brand-600')}>{d.type}</span>
-                    <b>{d.nom}</b>
-                  </span>
-                </td>
-                <td><span className={cn('rounded-full px-3 py-1 text-[13px]', catTone[d.categorie] ?? 'bg-slate-100')}>{categoryLabel(d.categorie)}</span></td>
-                <td>{d.taille}</td>
-                <td>{d.date}</td>
-                <td><StatutPill s={d.statut} /></td>
-                <td className="pr-5">
-                  <div className="flex justify-center gap-2">
-                    <button type="button" aria-label={t('contents.actions.view')} onClick={() => setApercu(d)} className="grid size-9 place-items-center rounded-lg bg-[#eef3fc] text-navy-800"><Eye className="size-4" /></button>
-                    <MenuActions
-                      label={t('contents.actions.more')}
-                      actions={[
-                        d.statut === 'Publié'
-                          ? { label: t('contents.documents.menu.unpublish'), icon: <EyeOff />, onClick: async () => { await data.update('documents', d.id, { statut: 'Brouillon' }); toast.success(t('contents.documents.menu.unpublished', { name: d.nom })) } }
-                          : { label: t('contents.documents.menu.publish'), icon: <Send />, onClick: async () => { await data.update('documents', d.id, { statut: 'Publié' }); toast.success(t('contents.documents.menu.published', { name: d.nom })) } },
-                        { label: t('contents.documents.menu.rename'), icon: <Pencil />, onClick: () => (setRenomme(d), setNouveauNom(d.nom)) },
-                        { label: t('contents.documents.menu.delete'), icon: <Trash2 />, danger: true, onClick: async () => { await data.remove('documents', d.id); toast.success(t('contents.documents.menu.deleted', { name: d.nom })) } },
-                      ]}
-                    />
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className="text-[15px] text-navy-900">{t('contents.documents.count', { count: documentsPro.length })}</p>
       <Modal open={apercu !== null} onClose={() => setApercu(null)} title={apercu?.nom ?? ''} icon={<FileText className="mt-0.5 size-5 text-brand-600" />}>
         {apercu && (
           <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-[14.5px] text-navy-900">
@@ -371,10 +432,19 @@ function Documents() {
   )
 }
 
+/** L'icône de chaque catégorie de la FAQ (img15). */
+const FAQ_ICONES: Record<string, React.ReactNode> = {
+  Toutes: <GraduationCap />,
+  Admission: <School />,
+  Formation: <BookOpen />,
+  'Frais et paiement': <Coins />,
+  Diplômes: <Award />,
+}
+
 function Faq() {
   const { t } = useTranslation('pro', { keyPrefix: 'content' })
   const [cat, setCat] = useState('Toutes')
-  const [open, setOpen] = useState<number | null>(0)
+  const [open, setOpen] = useState<string | null>(null)
   const [q, setQ] = useState('')
   const { ecole } = useMonEcole()
   const faq = useFaq(ecole.id)
@@ -406,49 +476,60 @@ function Faq() {
     const key = FAQ_CATEGORY_KEYS[c]
     return key ? t(`contents.faq.categories.${key}`) : c
   }
-  const categoryOptions = (values: string[]) => values.map((c) => ({ value: c, label: categoryLabel(c) }))
+  const nombre = (c: string) => (c === 'Toutes' ? faq.length : faq.filter((f) => f.categorie === c).length)
   return (
-    <div className="grid gap-4 lg:grid-cols-[260px_1fr]">
-      <ProCard title={t('contents.faq.categoriesTitle')} icon={<Folder />} className="h-fit">
-        <div className="space-y-1.5">
-          {['Toutes', ...cats].map((c) => (
-            <button key={c} type="button" onClick={() => setCat(c)} className={cn('flex h-10 w-full items-center justify-between rounded-xl px-3 text-[15px] font-semibold', cat === c ? 'bg-brand-600 text-white' : 'bg-[#f0f4fc] text-navy-900 hover:bg-brand-50')}>
-              {categoryLabel(c)}
-              <span className="font-medium">({c === 'Toutes' ? faq.length : faq.filter((f) => f.categorie === c).length})</span>
-            </button>
-          ))}
+    <div className="grid gap-4 lg:grid-cols-[250px_1fr]">
+      <div className="space-y-4">
+        <button type="button" onClick={() => ouvrir(null)} className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand-600 text-[16px] font-semibold text-white hover:bg-brand-700">
+          <Plus className="size-5" />
+          {t('contents.faq.add')}
+        </button>
+        <div className={cn(proCard, 'p-3')}>
+          <p className="flex items-center gap-2 px-1 pb-2 text-[16px] font-bold text-navy-900">
+            <Layers className="size-5 text-brand-600" aria-hidden="true" />
+            {t('contents.faq.categoriesTitle')}
+          </p>
+          <div className="space-y-1">
+            {['Toutes', ...cats].map((c) => (
+              <button key={c} type="button" onClick={() => setCat(c)} className={cn('flex h-10 w-full items-center gap-2.5 rounded-xl px-3 text-left text-[14.5px] text-navy-900 [&>svg]:size-5 [&>svg]:text-navy-800', cat === c ? 'bg-[#e6eeff] font-bold' : 'hover:bg-slate-50')}>
+                {FAQ_ICONES[c]}
+                {c === 'Toutes' ? t('contents.faq.allQuestions', { count: nombre(c) }) : `${categoryLabel(c)} (${nombre(c)})`}
+              </button>
+            ))}
+          </div>
         </div>
-      </ProCard>
-      <ProCard
-        title={t('contents.faq.count', { count: list.length })}
-        icon={<CircleHelp />}
-        action={<button type="button" onClick={() => ouvrir(null)} className="inline-flex h-10 items-center gap-2 rounded-full bg-brand-600 px-4 text-[15px] font-semibold text-white"><Plus className="size-5" />{t('contents.faq.add')}</button>}
-      >
-        <div className="mb-3 grid gap-3 sm:grid-cols-[1fr_220px]">
+      </div>
+      <div className="min-w-0 space-y-3">
+        <div className="grid gap-3 sm:grid-cols-[1.4fr_1fr]">
           <label className="relative">
-            <Search className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-navy-900" />
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t('contents.faq.searchPlaceholder')} className="h-10 w-full rounded-full border border-[#c9d4ea] pr-4 pl-11 text-[14.5px] outline-none" />
+            <Search className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-navy-900" aria-hidden="true" />
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t('contents.faq.searchPlaceholder')} aria-label={t('contents.faq.searchPlaceholder')} className="h-11 w-full rounded-full border border-[#c9d4ea] bg-white pr-4 pl-11 text-[14.5px] focus:ring-3 focus:ring-brand-100" />
           </label>
-          <Select aria-label={t('contents.faq.categoryAria')} options={categoryOptions(['Toutes', ...cats])} value={cat} onChange={(e) => setCat(e.target.value)} className="h-10 rounded-full" />
+          <Select aria-label={t('contents.faq.categoryAria')} options={['Toutes', ...cats].map((c) => ({ value: c, label: c === 'Toutes' ? t('contents.faq.filterAll') : categoryLabel(c) }))} value={cat} onChange={(e) => setCat(e.target.value)} className="h-11 rounded-full" />
         </div>
-        <div className="space-y-2.5">
-          {list.map((f, i) => (
-            <div key={f.id} className="rounded-xl border border-line">
-              {/* Sur téléphone, la question prend toute la ligne ; catégorie, statut et crayon passent dessous. */}
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 px-3 py-3 sm:flex-nowrap sm:px-4">
-                <button type="button" onClick={() => setOpen(open === i ? null : i)} className="flex min-w-0 flex-1 basis-full items-center gap-2 text-left text-[15px] font-bold text-navy-900 sm:basis-auto">
-                  <ChevronDown className={cn('size-5 shrink-0 transition-transform', open === i && 'rotate-180')} />
+        <div className={cn(proCard, 'divide-y divide-line p-2')}>
+          {list.length === 0 && <p className="px-3 py-4 text-center text-sm text-muted">{t(faq.length === 0 ? 'contents.faq.empty' : 'contents.faq.noMatch')}</p>}
+          {list.map((f) => (
+            <div key={f.id}>
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 px-2 py-2.5 sm:flex-nowrap">
+                <button type="button" aria-expanded={open === f.id} onClick={() => setOpen(open === f.id ? null : f.id)} className="flex min-w-0 flex-1 basis-full items-center gap-2 text-left text-[15px] font-bold text-navy-900 sm:basis-auto">
+                  <ChevronRight className={cn('size-5 shrink-0 transition-transform', open === f.id && 'rotate-90')} />
                   {f.q}
                 </button>
-                <span className="rounded-full bg-[#e3ecff] px-3 py-0.5 text-[12.5px] font-medium text-brand-700">{categoryLabel(f.categorie)}</span>
+                <span className={cn('rounded-full px-3 py-0.5 text-[12.5px] font-medium whitespace-nowrap', faqTone[f.categorie] ?? 'bg-[#e3ecff] text-brand-700')}>{categoryLabel(f.categorie)}</span>
                 <StatutPill s="Publié" />
                 <button type="button" aria-label={t('contents.actions.edit')} onClick={() => ouvrir(f)} className="grid size-8 place-items-center rounded-lg border border-line"><Pencil className="size-4" /></button>
+                <MenuActions
+                  label={t('contents.actions.more')}
+                  actions={[{ label: t('contents.faq.delete'), icon: <Trash2 />, danger: true, onClick: async () => { await data.remove('faq', f.id); toast.success(t('contents.faq.deleted')) } }]}
+                />
               </div>
-              {open === i && <p className="border-t border-line px-4 py-3 text-[14.5px] text-navy-900">{f.r}</p>}
+              {open === f.id && <p className="px-9 pb-3 text-[14.5px] text-navy-900">{f.r}</p>}
             </div>
           ))}
         </div>
-      </ProCard>
+        <p className="text-[15px] font-semibold text-navy-900">{t('contents.faq.count', { count: list.length })}</p>
+      </div>
       <Modal
         open={adding}
         onClose={() => setAdding(false)}
@@ -462,8 +543,8 @@ function Faq() {
       >
         <div className="space-y-4">
           <label className="block"><ProLabel required>{t('contents.faq.form.question')}</ProLabel><input className={proInput} value={question} onChange={(e) => setQuestion(e.target.value)} /></label>
-          <label className="block"><ProLabel required>{t('contents.faq.form.category')}</ProLabel><Select options={categoryOptions(cats)} value={categorie} onChange={(e) => setCategorie(e.target.value)} className="h-10" /></label>
-          <label className="block"><ProLabel required>{t('contents.faq.form.answer')}</ProLabel><textarea rows={4} value={reponse} onChange={(e) => setReponse(e.target.value)} className="w-full rounded-lg border border-[#c9d4ea] px-3.5 py-2.5 text-[15px] outline-none" /></label>
+          <label className="block"><ProLabel required>{t('contents.faq.form.category')}</ProLabel><Select options={cats.map((c) => ({ value: c, label: categoryLabel(c) }))} value={categorie} onChange={(e) => setCategorie(e.target.value)} className="h-10" /></label>
+          <label className="block"><ProLabel required>{t('contents.faq.form.answer')}</ProLabel><textarea rows={4} value={reponse} onChange={(e) => setReponse(e.target.value)} className="w-full rounded-lg border border-[#c9d4ea] px-3.5 py-2.5 text-[15px]" /></label>
         </div>
       </Modal>
     </div>

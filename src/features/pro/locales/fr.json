@@ -89,7 +89,7 @@
       "title_other": "Préinscriptions reçues ({{count}})",
       "none": "Aucune préinscription reçue pour le moment.",
       "anonymous": "Candidat",
-      "received": "Reçue"
+      "manage": "Gérer"
     }
   },
   "profil": {
@@ -136,6 +136,8 @@
       "acronym": "Sigle",
       "type": "Type d’établissement",
       "founded": "Année de création",
+      "foundedPlaceholder": "Ex. : 2005",
+      "foundedInvalid": "Indiquez une année valide, entre {{min}} et {{max}}.",
       "presentation": "Présentation (courte)"
     },
     "visibility": {
@@ -210,9 +212,9 @@
       "logoSize": "Taille recommandée : 500 × 500 px",
       "gallery": "Galerie médias",
       "filters": {
-        "all": "Toutes (12)",
-        "photos": "Photos (10)",
-        "videos": "Vidéos (2)"
+        "all": "Toutes ({{count}})",
+        "photos": "Photos ({{count}})",
+        "videos": "Vidéos ({{count}})"
       },
       "video": "Vidéo",
       "photo": "Photo",
@@ -375,7 +377,9 @@
       "rating_one": "Note ({{count}} avis)",
       "rating_other": "Note ({{count}} avis)",
       "outOf5": "{{note}} / 5",
-      "trend": "+{{value}} %"
+      "trend": "+{{value}} %",
+      "enrollments": "Inscriptions reçues",
+      "applications": "Candidatures / Préinscriptions"
     },
     "visits": "Évolution des visites",
     "sources": {
@@ -484,7 +488,7 @@
         "addTitle": "Ajouter un document à télécharger",
         "addHint": "Glissez-déposez ou cliquez pour sélectionner — PDF, DOCX, XLSX, PPTX (Max. 20 Mo)",
         "added": "{{name}} ajouté en brouillon",
-        "suggestedTypes": "Types suggérés",
+        "suggestedTypes": "Types de documents suggérés",
         "types": {
           "brochure": "Brochure",
           "admission": "Conditions d’admission",
@@ -498,7 +502,8 @@
           "size": "Taille",
           "publishedAt": "Date de publication",
           "status": "Statut",
-          "actions": "Actions"
+          "actions": "Actions",
+          "name": "Nom du document"
         },
         "categories": {
           "brochure": "Brochure",
@@ -506,7 +511,7 @@
           "rules": "Règlement",
           "calendar": "Calendrier"
         },
-        "count_one": "{{count}} documents",
+        "count_one": "{{count}} document",
         "count_other": "{{count}} documents",
         "preview": {
           "format": "Format",
@@ -526,11 +531,19 @@
           "renamed": "Document renommé : « {{name}} »",
           "deleted": "« {{name}} » supprimé"
         },
-        "tooBig": "Fichier trop lourd : 3 Mo au maximum."
+        "tooBig": "Fichier trop lourd : 3 Mo au maximum.",
+        "addShort": "Ajouter un document",
+        "formats": "PDF, DOCX, XLSX ou PPTX (Max. 20 Mo)",
+        "choose": "Choisir un fichier",
+        "searchPlaceholder": "Rechercher un document...",
+        "allCategories": "Catégorie : Toutes",
+        "selectAll": "Tout sélectionner",
+        "empty": "Aucun document pour le moment.",
+        "noMatch": "Aucun document ne correspond à ces critères."
       },
       "faq": {
         "categoriesTitle": "Catégories",
-        "count_one": "{{count}} questions",
+        "count_one": "{{count}} question",
         "count_other": "{{count}} questions",
         "add": "Ajouter une question",
         "searchPlaceholder": "Rechercher une question...",
@@ -549,6 +562,22 @@
           "training": "Formation",
           "fees": "Frais et paiement",
           "diplomas": "Diplômes"
+        },
+        "allQuestions": "Toutes les questions ({{count}})",
+        "filterAll": "Catégorie : Toutes",
+        "delete": "Supprimer la question",
+        "deleted": "Question supprimée",
+        "empty": "Aucune question pour le moment.",
+        "noMatch": "Aucune question ne correspond à ces critères."
+      },
+      "headers": {
+        "documents": {
+          "title": "Documents à télécharger",
+          "subtitle": "Ajoutez, gérez et publiez les documents utiles aux candidats et partenaires."
+        },
+        "faq": {
+          "title": "FAQ (Questions fréquentes)",
+          "subtitle": "Gérez les questions et réponses les plus utiles pour vos candidats."
         }
       }
     },
@@ -588,23 +617,23 @@
     "roles": {
       "admin": {
         "name": "Administrateur",
-        "description": "Accès complet à l’espace et aux paramètres"
+        "description": "Accès complet (paramètres, utilisateurs, contenus, etc.)."
       },
       "academicLead": {
         "name": "Responsable pédagogique",
-        "description": "Formations, programmes, candidatures"
+        "description": "Gère les formations, programmes et candidatures."
       },
       "communication": {
         "name": "Communication",
-        "description": "Actualités, événements, médias"
+        "description": "Publie les actualités, événements et médias."
       },
       "secretariat": {
         "name": "Secrétariat",
-        "description": "Préinscriptions, dossiers des apprenants"
+        "description": "Gère les préinscriptions et les dossiers des apprenants."
       },
       "readOnly": {
         "name": "Consultation",
-        "description": "Lecture seule"
+        "description": "Accès en lecture seule aux informations autorisées."
       }
     },
     "settings": {
@@ -659,7 +688,7 @@
         "newPassword": "Nouveau mot de passe",
         "confirmPassword": "Confirmer le mot de passe",
         "rules": {
-          "length": "8 caractères minimum",
+          "length": "Au moins 8 caractères",
           "uppercase": "Une majuscule",
           "digit": "Un chiffre",
           "special": "Un caractère spécial"
@@ -667,7 +696,7 @@
         "invalidPassword": "Le mot de passe ne respecte pas tous les critères.",
         "passwordUpdated": "Mot de passe mis à jour",
         "update": "Mettre à jour",
-        "twoFactorTitle": "Double authentification (2FA)",
+        "twoFactorTitle": "Authentification à deux facteurs (2FA)",
         "phoneCode": "Code par téléphone",
         "enabled": "Activée",
         "sessionsTitle": "Sessions actives",
@@ -683,7 +712,11 @@
           "echec": "Tentative échouée",
           "motDePasse": "Mot de passe modifié"
         },
-        "noActivity": "Aucune activité enregistrée pour le moment."
+        "noActivity": "Aucune activité enregistrée pour le moment.",
+        "changePasswordHint": "Choisissez un mot de passe fort pour sécuriser votre compte.",
+        "twoFactorHint": "Ajoutez une couche de sécurité supplémentaire.",
+        "twoFactorText": "Sécurisez votre compte avec un code de vérification envoyé sur votre téléphone.",
+        "sessionsHint": "Appareils connectés à votre compte."
       },
       "notifications": {
         "title": "Notifications",
@@ -692,7 +725,9 @@
         "tabs": {
           "all": "Toutes",
           "unread": "Non lues",
-          "read": "Lues"
+          "read": "Lues",
+          "allCount": "Toutes ({{count}})",
+          "unreadCount": "Non lues ({{count}})"
         },
         "unread": "Non lue",
         "settingsTitle": "Paramètres de notifications",
@@ -703,7 +738,7 @@
           "reminders": "Rappels et échéances",
           "news": "Actualités YIBOLO"
         },
-        "tipText": "Répondez aux candidatures sous 48 h : c’est le premier critère de satisfaction des candidats.",
+        "tipText": "Activez les notifications essentielles pour ne manquer aucune candidature ni information importante.",
         "items": {
           "candidature": {
             "title": "Nouvelle candidature",
@@ -730,19 +765,24 @@
             "text": "Votre formation « Marketing et Communication » a été validée par YIBOLO.",
             "date": "12 nov. 2026"
           }
-        }
+        },
+        "more": "Plus d’actions",
+        "empty": "Aucune notification pour le moment.",
+        "range_one": "{{from}} – {{to}} sur {{count}} notification",
+        "range_other": "{{from}} – {{to}} sur {{count}} notifications",
+        "settingsHint": "Choisissez les alertes que vous souhaitez recevoir."
       },
       "preferences": {
         "publishingTitle": "Publication des contenus",
         "autoPublish": "Publication automatique",
-        "autoPublishHint": "Vos contenus sont publiés dès leur validation",
+        "autoPublishHint": "Publier mes formations, actualités et documents dès validation.",
         "manualPublish": "Publication manuelle",
-        "manualPublishHint": "Vous choisissez le moment de la mise en ligne",
+        "manualPublishHint": "Relire et publier moi-même chaque contenu.",
         "visibilityTitle": "Visibilité de l’établissement",
         "showContacts": "Afficher les contacts",
         "showAddress": "Afficher l’adresse",
         "showReviews": "Afficher les avis",
-        "hideFees": "Masquer les frais de formation",
+        "hideFees": "Masquer les frais",
         "languageTitle": "Langue de l’interface",
         "themeTitle": "Thème d’affichage",
         "themes": {
@@ -750,7 +790,16 @@
           "sombre": "Sombre",
           "systeme": "Système"
         },
-        "darkSoon": "Le thème sombre arrive dans une prochaine version."
+        "darkSoon": "Le thème sombre arrive dans une prochaine version.",
+        "publishingHint": "Définissez comment vos contenus sont publiés sur YIBOLO.",
+        "visibilityHint": "Choisissez les informations affichées sur votre page publique.",
+        "showContactsSub": "(Téléphone, e-mail)",
+        "showAddressSub": "et la localisation",
+        "showReviewsSub": "des apprenants",
+        "hideFeesSub": "de formation",
+        "languageHint": "Choisissez la langue d’utilisation.",
+        "themeHint": "Personnalisez l’apparence de votre espace.",
+        "save": "Enregistrer les préférences"
       },
       "users": {
         "kpis": {
@@ -796,13 +845,16 @@
           "invitedOn": "Invité le {{date}}",
           "remove": "Retirer de l’espace",
           "removed": "{{name}} n’a plus accès à l’espace"
-        }
+        },
+        "selectAll": "Tout sélectionner",
+        "range_one": "{{from}} – {{to}} sur {{count}} utilisateur",
+        "range_other": "{{from}} – {{to}} sur {{count}} utilisateurs"
       },
       "about": {
         "tagline": "La plateforme qui connecte la formation, l’expertise, l’emploi et le financement en Afrique centrale.",
         "pillars": "Formez-vous · Consultez des experts · Recrutez · Trouvez un financement",
         "missionTitle": "Notre mission",
-        "missionText": "Rendre visible chaque établissement de qualité et aider chaque apprenant à trouver la formation qui lui ouvrira un métier.",
+        "missionText": "Faciliter l’accès à la formation de qualité, à l’expertise, à l’emploi et au financement, pour le développement des compétences et l’insertion professionnelle.",
         "valuesTitle": "Nos valeurs",
         "values": {
           "professionalism": "Professionnalisme",
@@ -810,18 +862,50 @@
           "inclusion": "Inclusion",
           "innovation": "Innovation"
         },
-        "supportTitle": "Assistance",
+        "supportTitle": "Assistance et support",
         "contactSupport": "Contacter le support",
         "helpCenter": "Centre d’aide (FAQ)",
         "documentsTitle": "Documents utiles",
         "documents": {
-          "terms": "Conditions générales d’utilisation",
-          "sales": "Conditions générales de vente",
+          "terms": "Conditions Générales d’Utilisation (CGU)",
+          "sales": "Conditions Générales de Vente (CGV)",
           "privacy": "Politique de confidentialité"
         },
         "version": "Version <b>{{version}}</b>",
         "upToDate": "À jour",
-        "lastUpdate": "Dernière mise à jour : {{date}}"
+        "lastUpdate": "Dernière mise à jour : {{date}}",
+        "spaceTitle": "Votre espace professionnel",
+        "space": {
+          "trainings": "Gérez vos formations et actualités",
+          "documents": "Publiez vos documents",
+          "applications": "Suivez vos candidatures",
+          "performance": "Analysez vos performances"
+        },
+        "supportText": "Une question, un besoin d’aide ? Notre équipe est à votre écoute.",
+        "versionTitle": "Version de l’application",
+        "product": "YIBOLO – Espace professionnel"
+      },
+      "headers": {
+        "security": {
+          "title": "Sécurité",
+          "subtitle": "Renforcez la protection de votre compte et contrôlez vos accès."
+        },
+        "notifications": {
+          "title": "Notifications",
+          "subtitle": "Consultez vos alertes et configurez les notifications que vous souhaitez recevoir."
+        },
+        "preferences": {
+          "title": "Préférences",
+          "subtitle": "Personnalisez le fonctionnement de votre espace et la publication de vos contenus."
+        },
+        "users": {
+          "title": "Utilisateurs",
+          "subtitle": "Gérez les membres de votre établissement et leurs droits d’accès."
+        },
+        "about": {
+          "title": "À propos",
+          "subtitle": "Informations sur YIBOLO, l’application et l’assistance."
+        }
       }
     },
     "invite": {
@@ -831,19 +915,246 @@
         "current": "Inviter un utilisateur"
       },
       "title": "Inviter un utilisateur",
-      "subtitle": "Donnez accès à votre espace à un membre de votre équipe.",
+      "subtitle": "Ajoutez un collaborateur à votre espace et définissez ses droits d’accès.",
       "name": "Nom et prénom",
-      "namePlaceholder": "Ex. Claire Ndongo",
+      "namePlaceholder": "Ex. : Marie NGO",
       "phone": "Téléphone",
       "email": "E-mail (optionnel)",
-      "emailPlaceholder": "prenom.nom@ecole.cm",
+      "emailPlaceholder": "exemple@ipc.cm",
       "role": "Rôle",
-      "tip": "L’invitation est envoyée par e-mail ou SMS. La personne crée son mot de passe en suivant le lien reçu.",
+      "tip": "L’utilisateur recevra une invitation (par e-mail ou SMS) pour activer son compte et accéder à l’espace de l’établissement.",
       "cancel": "Annuler",
       "send": "Envoyer l’invitation",
       "nameRequired": "Indiquez le nom de la personne invitée.",
       "sent": "Invitation envoyée à {{name}} ({{role}})",
-      "rolesTitle": "Rôles disponibles"
+      "rolesTitle": "Rôles disponibles",
+      "infoTitle": "Informations de l’utilisateur",
+      "accessTitle": "Rôle et accès"
+    }
+  },
+  "dossiers": {
+    "anonyme": "Candidat",
+    "preinscriptions": {
+      "crumb": "Préinscriptions",
+      "title": "Préinscriptions reçues",
+      "subtitle": "Étudiez les dossiers des candidats, demandez un complément, acceptez ou refusez.",
+      "objet": "Formation"
+    },
+    "inscriptions": {
+      "crumb": "Inscriptions",
+      "title": "Inscriptions reçues",
+      "subtitle": "Étudiez les demandes des élèves, demandez un complément, acceptez ou refusez.",
+      "objet": "Permis"
+    },
+    "kpis": {
+      "total": "Dossiers",
+      "aTraiter": "À traiter",
+      "enCours": "En cours",
+      "acceptes": "Acceptés",
+      "refuses": "Refusés"
+    },
+    "search": "Rechercher un candidat...",
+    "tous": "{{label}} : toutes",
+    "tousStatuts": "Statut : tous",
+    "table": {
+      "candidat": "Candidat",
+      "envoyee": "Envoyée le",
+      "statut": "Statut",
+      "actions": "Actions",
+      "voir": "Voir le dossier",
+      "traiter": "Traiter"
+    },
+    "aucun": "Aucune demande reçue pour l’instant. Les dossiers des candidats s’afficheront ici.",
+    "vide": "Aucun dossier ne correspond à ces critères.",
+    "count_one": "{{shown}} sur {{total}} dossier",
+    "count_other": "{{shown}} sur {{total}} dossiers",
+    "detail": {
+      "crumb": "Dossier",
+      "title": "Dossier du candidat",
+      "envoyeeLe": "Envoyée le {{date}}",
+      "frais": "Frais : {{prix}} / an",
+      "prix": "Prix du permis : {{prix}}",
+      "session": "Session du {{date}}",
+      "candidat": "Le candidat",
+      "parcours": "Le parcours",
+      "introuvable": "Ce dossier est introuvable.",
+      "retour": "Retour aux dossiers"
+    },
+    "champs": {
+      "nom": "Nom",
+      "prenom": "Prénom",
+      "sexe": "Sexe",
+      "naissance": "Date de naissance",
+      "nationalite": "Nationalité",
+      "telephone": "Téléphone",
+      "email": "E-mail",
+      "ville": "Ville",
+      "quartier": "Quartier",
+      "diplome": "Diplôme",
+      "serie": "Série",
+      "annee": "Année d’obtention",
+      "etablissementOrigine": "Établissement d’origine",
+      "session": "Session",
+      "permis": "Permis"
+    },
+    "contact": {
+      "titre": "Contacter le candidat",
+      "appeler": "Appeler",
+      "whatsapp": "WhatsApp",
+      "email": "E-mail"
+    },
+    "decision": {
+      "titre": "Traiter le dossier",
+      "statut": "Statut actuel :",
+      "etude": "Mettre à l’étude",
+      "complement": "Demander un complément",
+      "accepter": "Accepter",
+      "refuser": "Refuser",
+      "annule": "Le candidat a annulé ce dossier.",
+      "clos": "Ce dossier est clos. Vous pouvez le rouvrir pour l’étudier à nouveau.",
+      "rouvrir": "Rouvrir le dossier",
+      "annuler": "Annuler",
+      "confirmer": "Confirmer",
+      "requis": "Écrivez votre message au candidat.",
+      "faite": "Décision enregistrée : le candidat est prévenu.",
+      "echec": "La décision n’a pas pu être enregistrée. Réessayez.",
+      "fenetre": {
+        "etude": {
+          "titre": "Mettre le dossier à l’étude",
+          "texte": "Le candidat sera prévenu que son dossier est en cours d’étude.",
+          "label": "Message au candidat (facultatif)",
+          "exemple": "Ex. : Nous étudions votre dossier, réponse sous 72 heures."
+        },
+        "complement": {
+          "titre": "Demander un complément",
+          "texte": "Dites au candidat ce qu’il doit fournir : il pourra répondre et joindre une pièce depuis son espace.",
+          "label": "Ce qu’il faut fournir",
+          "exemple": "Ex. : Merci de joindre votre relevé de notes du Baccalauréat."
+        },
+        "accepter": {
+          "titre": "Accepter le dossier",
+          "texte": "Le candidat sera prévenu que sa demande est acceptée.",
+          "label": "Message au candidat (facultatif)",
+          "exemple": "Ex. : Bienvenue ! Présentez-vous à l’accueil avant le 6 octobre pour finaliser l’inscription."
+        },
+        "refuser": {
+          "titre": "Refuser le dossier",
+          "texte": "Le candidat sera prévenu du refus et de son motif.",
+          "label": "Motif du refus",
+          "exemple": "Ex. : Les places de cette session sont complètes."
+        }
+      }
+    },
+    "notification": {
+      "titres": {
+        "enEtude": "Dossier à l’étude",
+        "complement": "Complément demandé",
+        "acceptee": "Dossier accepté",
+        "refusee": "Dossier refusé"
+      },
+      "texte": "{{school}} – {{objet}} : ouvrez votre dossier pour lire le message.",
+      "quand": "À l’instant"
+    }
+  },
+  "autoEcole": {
+    "permis": "Permis {{code}}",
+    "dashboard": {
+      "subtitle": "Suivez vos inscriptions, vos sessions et votre fiche publique.",
+      "kpis": {
+        "aTraiter": "Inscriptions à traiter",
+        "sessions": "Sessions à venir",
+        "permis": "Permis proposés"
+      },
+      "inscriptions_one": "Inscription reçue ({{count}})",
+      "inscriptions_other": "Inscriptions reçues ({{count}})",
+      "aucuneInscription": "Aucune inscription reçue pour le moment.",
+      "prochaines": "Prochaines sessions",
+      "voirPlanning": "Voir le planning",
+      "places_one": "{{count}} place",
+      "places_other": "{{count}} places",
+      "tarifs": "Modifier mes tarifs"
+    },
+    "profil": {
+      "crumb": "Profil de l’auto-école",
+      "title": "Profil de l’auto-école",
+      "subtitle": "Renseignez et mettez à jour les informations de votre auto-école.",
+      "nom": "Nom de l’auto-école",
+      "presentationAide": "Laissée vide, votre fiche affiche une présentation automatique avec vos permis.",
+      "agreee": "Auto-école agréée",
+      "permis": "Permis enseignés",
+      "gererPermis": "Gérer les permis et tarifs",
+      "adresseExemple": "Ex. : Carrefour Bastos, face Pharmacie Centrale",
+      "enregistrer": "Enregistrer et publier",
+      "enregistre": "Profil enregistré : votre fiche publique est à jour.",
+      "erreurs": {
+        "nom": "Indiquez le nom de l’auto-école.",
+        "lieu": "Complétez la localisation.",
+        "telephone": "Numéro de 9 chiffres, sans 0 devant.",
+        "email": "Adresse e-mail invalide.",
+        "formulaire": "Certaines informations sont à corriger (voir les onglets)."
+      },
+      "media": {
+        "logo": "Logo",
+        "couverture": "Photo de couverture",
+        "changer": "Changer",
+        "galerie_one": "Galerie ({{count}} photo)",
+        "galerie_other": "Galerie ({{count}} photos)",
+        "ajouter": "Ajouter une photo",
+        "vide": "Aucune photo pour l’instant.",
+        "ajoute": "Image enregistrée",
+        "retirer": "Retirer la photo",
+        "retiree": "Photo retirée"
+      }
+    },
+    "tarifs": {
+      "crumb": "Permis & tarifs",
+      "title": "Permis & tarifs",
+      "subtitle": "Choisissez les permis que vous enseignez et fixez leur prix.",
+      "propose": "Proposer le permis {{code}}",
+      "prix": "Prix du permis (formation complète)",
+      "prixInvalide": "Indiquez un prix entre {{min}} et {{max}}.",
+      "aucun": "Proposez au moins un permis.",
+      "noteTitre": "Sur votre fiche publique",
+      "note": "Les permis proposés et leurs prix s’affichent dans l’Aperçu, les onglets Formation & Permis et Tarifs, sur la fiche de chaque permis et dans le formulaire d’inscription.",
+      "enregistrer": "Enregistrer les tarifs",
+      "enregistre": "Tarifs enregistrés : votre fiche publique est à jour."
+    },
+    "planning": {
+      "crumb": "Planning des sessions",
+      "title": "Planning des sessions",
+      "subtitle": "Programmez vos sessions de formation : elles s’affichent sur votre fiche et dans le formulaire d’inscription.",
+      "ajouter": "Ajouter une session",
+      "modifierTitre": "Modifier la session",
+      "modifier": "Modifier",
+      "supprimer": "Supprimer",
+      "enregistrer": "Enregistrer",
+      "aucune": "Aucune session programmée.",
+      "passee": "passée",
+      "complete": "Complète",
+      "jours": "Jours",
+      "heureDebut": "Heure de début",
+      "heureFin": "Heure de fin",
+      "colonnes": {
+        "permis": "Permis",
+        "debut": "Date de début",
+        "horaires": "Jours et horaires",
+        "duree": "Durée",
+        "places": "Places restantes",
+        "inscrits": "Inscrits",
+        "actions": "Actions"
+      },
+      "ajoutee": "Session ajoutée",
+      "modifiee": "Session modifiée",
+      "supprimee": "Session supprimée",
+      "supprimerImpossible": "Des élèves sont inscrits à cette session : traitez d’abord leurs inscriptions.",
+      "confirmerTitre": "Supprimer cette session ?",
+      "confirmerTexte": "Elle disparaîtra de votre fiche publique et du formulaire d’inscription.",
+      "erreurs": {
+        "permis": "Choisissez un permis.",
+        "debut": "Choisissez une date à venir.",
+        "places": "Entre 1 et 60 places.",
+        "heures": "L’heure de fin doit suivre l’heure de début."
+      }
     }
   }
 }

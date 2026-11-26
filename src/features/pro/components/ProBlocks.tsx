@@ -60,10 +60,11 @@ export function ProCard({ title, icon, subtitle, action, children, className }: 
  * Pied de formulaire : Annuler · Enregistrer en brouillon · Enregistrer et publier.
  * `onSave` enregistre (brouillon ou publication) avant le message ; `onCancel` remet le formulaire.
  */
-export function ProFooter({ onCancel, onSave }: { onCancel?: () => void; onSave?: (publier: boolean) => Promise<void> | void }) {
+export function ProFooter({ onCancel, onSave }: { onCancel?: () => void; onSave?: (publier: boolean) => Promise<void | boolean> | void | boolean }) {
   const { t } = useTranslation('pro')
   const save = async (publier: boolean) => {
-    await onSave?.(publier)
+    // `false` : l'enregistrement est refusé (saisie invalide), la page a déjà dit pourquoi.
+    if ((await onSave?.(publier)) === false) return
     toast.success(t(publier ? 'footer.published' : 'footer.draftSaved'))
   }
   return (

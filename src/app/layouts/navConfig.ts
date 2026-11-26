@@ -1,6 +1,6 @@
 import type { ComponentType } from 'react'
 import type { ParseKeys } from 'i18next'
-import { BarChart3, Briefcase, Building2, GraduationCap, Home, Layers, Settings, UserRound } from 'lucide-react'
+import { BarChart3, Briefcase, Building2, CalendarDays, Car, GraduationCap, Home, Inbox, Layers, Settings, UserRound } from 'lucide-react'
 import { ROUTES } from '@/shared/utils/routes'
 
 /**
@@ -39,6 +39,8 @@ export const proNav: ProNavItem[] = [
       { labelKey: 'pro.nav.newTraining', to: ROUTES.pro.newTraining },
     ],
   },
+  // Préinscriptions reçues : pas dans la maquette, demandé par le porteur du projet (2026-11-26).
+  { labelKey: 'pro.nav.preRegistrations', to: ROUTES.pro.preRegistrations, icon: Inbox },
   {
     labelKey: 'pro.nav.contents',
     to: ROUTES.pro.contents(),
@@ -49,6 +51,21 @@ export const proNav: ProNavItem[] = [
       { labelKey: 'pro.nav.faq', to: ROUTES.pro.contents('faq') },
     ],
   },
+  { labelKey: 'pro.nav.statistics', to: ROUTES.pro.statistics, icon: BarChart3 },
+  { labelKey: 'pro.nav.settings', to: ROUTES.pro.settings(), icon: Settings },
+]
+
+/**
+ * Menu de l'espace professionnel d'une auto-école : même cadre et mêmes
+ * rubriques que la maquette de l'espace IPES (img5), adaptées à ce que montre
+ * la fiche publique d'une auto-école (img55 à img64) : permis et tarifs, planning.
+ */
+export const proNavAutoEcole: ProNavItem[] = [
+  { labelKey: 'pro.nav.dashboard', to: ROUTES.pro.root, icon: Home, end: true },
+  { labelKey: 'pro.nav.profileAE', to: ROUTES.pro.profile(), icon: Building2 },
+  { labelKey: 'pro.nav.licences', to: ROUTES.pro.licences, icon: Car },
+  { labelKey: 'pro.nav.planning', to: ROUTES.pro.planning, icon: CalendarDays },
+  { labelKey: 'pro.nav.enrollments', to: ROUTES.pro.enrollments, icon: Inbox },
   { labelKey: 'pro.nav.statistics', to: ROUTES.pro.statistics, icon: BarChart3 },
   { labelKey: 'pro.nav.settings', to: ROUTES.pro.settings(), icon: Settings },
 ]

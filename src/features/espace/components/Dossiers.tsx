@@ -1,18 +1,14 @@
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CalendarDays, Eye, XCircle } from 'lucide-react'
-import { Badge } from '@/shared/components/ui/Badge'
+import { BadgeDossier } from '@/shared/components/ui/BadgeDossier'
 import { Button } from '@/shared/components/ui/Button'
 import { Card } from '@/shared/components/ui/Card'
 import { Img } from '@/shared/components/ui/Img'
 import { Modal } from '@/shared/components/ui/Modal'
 import { shortDate } from '@/shared/utils/format'
-
-/** Statut d'un dossier, par le texte et la couleur. */
-export function StatutDossier({ statut }: { statut: 'Envoyée' | 'Annulée' }) {
-  const { t } = useTranslation('espace')
-  return <Badge tone={statut === 'Annulée' ? 'gray' : 'green'}>{t(`statuts.${statut}`)}</Badge>
-}
+import { dossierOuvert } from '@/shared/utils/dossiers'
+import type { StatutDossier } from '@/shared/types'
 
 /** Une ligne de « Mes préinscriptions » ou de « Mes permis ». */
 export function LigneDossier({
@@ -31,7 +27,7 @@ export function LigneDossier({
   sousTitre: ReactNode
   envoyeeLe: string
   annuleeLe?: string
-  statut: 'Envoyée' | 'Annulée'
+  statut: StatutDossier
   extra?: ReactNode
   vers: string
   onAnnuler: () => void
@@ -44,7 +40,7 @@ export function LigneDossier({
       <div className="min-w-0 flex-1 space-y-1">
         <div className="flex flex-wrap items-center gap-2">
           <p className="font-bold text-navy-900">{titre}</p>
-          <StatutDossier statut={statut} />
+          <BadgeDossier statut={statut} />
         </div>
         <p className="text-sm text-muted">{sousTitre}</p>
         <p className="flex flex-wrap items-center gap-x-3 text-[13px] text-navy-800">
@@ -60,7 +56,7 @@ export function LigneDossier({
           <Eye aria-hidden="true" />
           {t('dossiers.voir')}
         </Button>
-        {statut === 'Envoyée' && (
+        {dossierOuvert(statut) && (
           <Button variant="danger-outline" size="sm" onClick={onAnnuler}>
             <XCircle aria-hidden="true" />
             {t('dossiers.annuler')}

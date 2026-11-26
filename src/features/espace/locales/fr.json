@@ -16,13 +16,9 @@
     "autoEcole": "Mes permis ({{n}})",
     "avis": "Mes avis ({{n}})"
   },
-  "statuts": {
-    "Envoyée": "Envoyée",
-    "Annulée": "Annulée"
-  },
   "apercu": {
     "bonjour": "Bonjour, {{name}} !",
-    "texte": "Retrouvez ici vos inscriptions en auto-école et vos avis.",
+    "texte": "Retrouvez ici vos préinscriptions, vos inscriptions en auto-école, vos avis et vos notifications.",
     "kpis": {
       "preinscriptions": "Préinscriptions",
       "permis": "Inscriptions en auto-école",
@@ -64,9 +60,6 @@
     "detailPermis": "Mon inscription au permis {{code}}",
     "candidat": "Le candidat",
     "parcours": "Le parcours",
-    "pieces": "Pièces jointes",
-    "aucunePiece": "Aucune pièce jointe.",
-    "telecharger": "Télécharger",
     "formation": "Formation",
     "etablissement": "Établissement",
     "autoEcole": "Auto-école",
@@ -155,7 +148,7 @@
   },
   "profil": {
     "titre": "Mon profil",
-    "texte": "Les informations de votre compte YIBOLO.",
+    "texte": "Ces informations préremplissent vos préinscriptions et vos inscriptions.",
     "photo": "Photo",
     "changerPhoto": "Changer la photo",
     "retirerPhoto": "Retirer la photo",
@@ -271,5 +264,20 @@
   "pages": {
     "profil": "Mon profil",
     "parametres": "Paramètres"
+  },
+  "complement": {
+    "titre": "Compléter mon dossier",
+    "demande": "Demande de l’établissement :",
+    "message": "Votre réponse",
+    "exemple": "Ex. : Voici mon relevé de notes du Baccalauréat.",
+    "joindre": "Joindre une pièce",
+    "formats": "PDF, JPG ou PNG (max. 3 Mo)",
+    "envoyer": "Envoyer le complément",
+    "envoye": "Complément envoyé à l’établissement",
+    "echec": "Le complément n’a pas pu être envoyé. Réessayez.",
+    "tropLourd": "La pièce dépasse 3 Mo.",
+    "erreurTexte": "Écrivez un court message.",
+    "notificationTitre": "Dossier complété",
+    "notificationTexte": "{{name}} a complété son dossier ({{objet}})."
   }
 }

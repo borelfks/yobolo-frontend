@@ -75,11 +75,30 @@
       "title": "Informations générales",
       "text": "Renseignez les informations de base de votre compte.",
       "fields": {
+        "type": "Type d’établissement",
         "nom": "Nom de l’établissement",
         "telephone": "Téléphone",
         "email": "Email",
         "motDePasse": "Mot de passe",
         "confirmation": "Confirmer le mot de passe"
+      },
+      "types": {
+        "IPES": {
+          "title": "IPES",
+          "text": "Institut Privé d’Enseignement Supérieur"
+        },
+        "CFP": {
+          "title": "CFP",
+          "text": "Centre de Formation Professionnelle"
+        },
+        "Autre": {
+          "title": "Autre",
+          "text": "Langues, informatique, couture, etc."
+        },
+        "Auto-école": {
+          "title": "Auto-école",
+          "text": "Formation au permis de conduire (A, B, C, D)"
+        }
       }
     },
     "errors": {
@@ -94,7 +113,8 @@
       "nom": "Le nom est requis.",
       "nationalite": "Choisissez votre nationalité.",
       "phoneTaken": "Ce numéro est déjà utilisé par un autre compte.",
-      "phoneFormat": "Le numéro doit compter 9 chiffres, sans 0 devant."
+      "phoneFormat": "Le numéro doit compter 9 chiffres, sans 0 devant.",
+      "type": "Choisissez le type de votre établissement."
     },
     "verification": {
       "title": "Vérification de votre profil – {{profile}}",

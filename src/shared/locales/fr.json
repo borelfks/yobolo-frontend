@@ -234,5 +234,25 @@
       "conseil": "Mélangez majuscules, chiffres et symboles pour le renforcer.",
       "niveau": "Solidité du mot de passe : {{niveau}}"
     }
+  },
+  "dossier": {
+    "statuts": {
+      "envoyee": "Envoyée",
+      "enEtude": "En cours d’étude",
+      "complement": "Complément demandé",
+      "acceptee": "Acceptée",
+      "refusee": "Refusée",
+      "annulee": "Annulée"
+    },
+    "fil": {
+      "titre": "Suivi du dossier",
+      "vide": "Aucun message pour l’instant.",
+      "vous": "Vous",
+      "etablissement": "L’établissement",
+      "candidat": "Le candidat",
+      "telecharger": "Télécharger"
+    },
+    "pieces": "Pièces jointes",
+    "aucunePiece": "Aucune pièce jointe."
   }
 }

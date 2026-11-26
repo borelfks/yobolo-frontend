@@ -4,7 +4,7 @@ import { permisIcon } from '@/features/driving-schools/autoEcoleRules'
 import { Breadcrumb, type Crumb } from '@/shared/components/ui/Breadcrumb'
 import { Img } from '@/shared/components/ui/Img'
 import { useFavorites } from '@/shared/hooks/useFavorites'
-import { useAutoEcole, usePermisCatalogue } from '@/data/hooks'
+import { useAutoEcole, usePermisDe } from '@/data/hooks'
 import type { PermisCode } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { fcfa, num } from '@/shared/utils/format'
@@ -113,7 +113,7 @@ const defaultFolders = { 'Mes formations': 'myTrainings', 'Mes établissements':
 
 /** Modale « Ajouter aux favoris » avec choix du dossier (img72). */
 export function FavoriteModal({ open, onClose, aeId, code }: { open: boolean; onClose: () => void; aeId: string; code?: PermisCode }) {
-  const permisCatalogue = usePermisCatalogue()
+  const permisCatalogue = usePermisDe(aeId)
   const { t } = useTranslation('driving-schools')
   const { add, folders } = useFavorites()
   const [folder, setFolder] = useState('Mes formations')

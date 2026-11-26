@@ -30,7 +30,7 @@ import {
 import { AEHeader } from '@/features/driving-schools/components/AutoEcoleBlocks'
 import { piecesAE, type PieceKey } from '@/features/driving-schools/autoEcoleRules'
 import { useInscriptionDraft } from '@/features/driving-schools/hooks/useInscriptionDraft'
-import { useAutoEcoles, useDecoupage, useFichiers, usePermisCatalogue, useSessions } from '@/data/hooks'
+import { useAutoEcoles, useDecoupage, useFichiers, usePermisDe, useSessionsDe } from '@/data/hooks'
 import type { PermisCode } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { demoDate, fcfa } from '@/shared/utils/format'
@@ -95,12 +95,12 @@ function Checks({ items }: { items: string[] }) {
 }
 
 export function ModifierInscription() {
-  const permisCatalogue = usePermisCatalogue()
   const { arrondissements } = useDecoupage()
   const { t } = useTranslation('driving-schools', { keyPrefix: 'enrollment' })
   const { id, code = 'B', section = 'infos' } = useParams()
+  const permisCatalogue = usePermisDe(id ?? '')
   const autoEcoles = useAutoEcoles()
-  const sessions = useSessions()
+  const sessions = useSessionsDe(id ?? '')
   /** Comme avant : un identifiant inconnu donne la première auto-école. */
   const trouverAutoEcole = (x?: string) => autoEcoles.find((e) => e.id === x) ?? autoEcoles[0]!
   const a = trouverAutoEcole(id)

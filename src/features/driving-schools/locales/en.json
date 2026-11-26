@@ -292,7 +292,21 @@
       "send": "Send report",
       "reported": "Thank you: the review has been reported to YIBOLO.",
       "linkCopied": "Link copied",
-      "shared": "Shared"
+      "shared": "Shared",
+      "reply": {
+        "reply": "Reply",
+        "edit": "Edit reply",
+        "remove": "Remove reply",
+        "label": "Your reply",
+        "placeholder": "Thank the learner or add a clarification…",
+        "publish": "Publish reply",
+        "published": "Reply published",
+        "removed": "Reply removed",
+        "tooShort": "Write a reply.",
+        "notificationTitre": "Reply to your review",
+        "notificationTexte": "{{school}} replied to your review.",
+        "quand": "Just now"
+      }
     }
   },
   "licence": {
@@ -721,6 +735,11 @@
       "titre": "Enrolment sent",
       "texte": "Your licence {{licence}} enrolment was sent to {{school}}.",
       "quand": "Just now"
+    },
+    "notificationAutoEcole": {
+      "titre": "New enrolment",
+      "texte": "{{name}} is asking to enrol for licence {{licence}}.",
+      "anonyme": "An applicant"
     }
   }
 }

@@ -21,6 +21,7 @@
 | Progression | `Progress`, `Ring` | |
 | Recherche | `SearchField`, `SearchPanel`, `InlineSearch` | `<input type="search">` à la main |
 | Listes École | `EcoleCard`, `FormationRow`, `ResultsHeader`, `FilterPanel`, `CountList`, `MapBox`, `SidePanel`, `IconCountList`, `ArrowDot` | carte d'établissement recopiée |
+| Dossier (préinscription, inscription) | `BadgeDossier` (statut), `FilDossier` (suivi), `ChampsDossier`, `PiecesDossier` (`shared/components/ui/`) ; espace pro : `ListeDossiers`, `DecisionDossier`, `ContactCandidat`, `DossierEnTete` (`features/pro/components/`) | statut ou liste refaits à la main |
 | Fenêtre | `Modal` | `window.confirm`, `alert()` |
 | Pagination | `Pagination` | |
 | Personne · image | `Avatar` · `Img` | `<img>` sans `alt` |

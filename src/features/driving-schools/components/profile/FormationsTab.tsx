@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
-import { ChevronRight, Clock, Coins, GraduationCap } from 'lucide-react'
+import { ArrowRight, CalendarDays, ChevronRight, Clock, Coins, GraduationCap } from 'lucide-react'
 import { CheckLine, FilterBox, Heading, WhyCard } from '@/features/driving-schools/components/profile/ProfileParts'
-import { card, permisShortName } from '@/features/driving-schools/components/profile/profileUtils'
+import { card, inscrireHref, permisShortName } from '@/features/driving-schools/components/profile/profileUtils'
 import { Img } from '@/shared/components/ui/Img'
-import { useAutoEcole, usePermisCatalogue } from '@/data/hooks'
+import { useAutoEcole, usePermisDe } from '@/data/hooks'
 import type { PermisCode } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { fcfa } from '@/shared/utils/format'
@@ -15,7 +15,7 @@ const trainingTypes = ['initial', 'refresher'] as const
 
 /** Onglet « Formations & Permis » de la fiche d'une auto-école. */
 export function FormationsTab({ id }: { id: string }) {
-  const permisCatalogue = usePermisCatalogue()
+  const permisCatalogue = usePermisDe(id)
   const { t } = useTranslation('driving-schools')
   const a = useAutoEcole(id)
   const [sel, setSel] = useState<string[]>([])
@@ -70,7 +70,6 @@ export function FormationsTab({ id }: { id: string }) {
       </div>
       <div className="space-y-4">
         <WhyCard />
-        {/* Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) :
         <Link to={inscrireHref(a)} className="flex items-center gap-4 rounded-2xl bg-[linear-gradient(120deg,#1f55e6,#2f6bff)] p-5 text-white shadow-lg shadow-brand-600/30">
           <span className="flex-1">
             <span className="flex items-center gap-2.5 text-[20px] font-bold"><CalendarDays className="size-7" />{t('common.enrolNow')}</span>
@@ -78,7 +77,6 @@ export function FormationsTab({ id }: { id: string }) {
           </span>
           <span className="grid size-11 place-items-center rounded-full bg-white text-brand-600"><ArrowRight className="size-6" /></span>
         </Link>
-        */}
       </div>
     </div>
   )

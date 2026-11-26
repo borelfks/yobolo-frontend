@@ -5,7 +5,7 @@ import { BadgeCheck, Building2, ChevronDown, CircleHelp, Headphones, Menu, X, Ho
 import { Logo } from '@/shared/components/ui/Logo'
 import { LanguageSwitcher } from '@/shared/components/ui/LanguageSwitcher'
 import { NotificationsBell, UserMenu } from '@/app/layouts/AccountMenu'
-import { proNav } from '@/app/layouts/navConfig'
+import { proNav, proNavAutoEcole } from '@/app/layouts/navConfig'
 import { RouteOutlet } from '@/app/routes/RouteOutlet'
 import { Img } from '@/shared/components/ui/Img'
 import { AssistanceModal } from '@/shared/components/ui/AssistanceModal'
@@ -18,7 +18,9 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   const { account } = useSession()
   const [assistance, setAssistance] = useState(false)
   const { pathname } = useLocation()
-  const { ecole } = useMonEcole()
+  const { ecole, autoEcole } = useMonEcole()
+  // Une auto-école a son propre menu (permis, planning, inscriptions).
+  const menu = autoEcole ? proNavAutoEcole : proNav
   return (
     <div className="flex h-full flex-col gap-5 overflow-y-auto bg-[linear-gradient(180deg,#0f2c7a_0%,#0b2366_45%,#0a1f5c_100%)] px-3 py-5 text-white">
       <Link to={ROUTES.pro.profile()} onClick={onNavigate} className="flex items-center gap-2.5 px-1">
@@ -27,13 +29,13 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
           <p className="text-[14px] leading-tight font-semibold">{ecole.nom}</p>
           <span className="mt-1.5 inline-flex items-center gap-1 rounded-full bg-emerald-600 px-2 py-0.5 text-[11px] font-semibold whitespace-nowrap">
             <BadgeCheck className="size-4 fill-white text-emerald-600" />
-            {t('pro.verified')}
+            {autoEcole ? t('pro.approved') : t('pro.verified')}
           </span>
         </div>
         <ChevronDown className="size-4 text-white/80" />
       </Link>
       <nav className="flex flex-col gap-1">
-        {proNav.map((item) => {
+        {menu.map((item) => {
           const inSection = item.children ? pathname.startsWith(item.to) : false
           const open = !!item.children && (inSection || item.to === ROUTES.pro.trainings || pathname === ROUTES.pro.root)
           return (

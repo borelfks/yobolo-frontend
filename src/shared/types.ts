@@ -130,6 +130,16 @@ export type AutoEcole = {
   site: string
   adresse?: string
   logo?: string
+  /** Présentation écrite par l'auto-école (espace pro) ; sans elle, la phrase de la maquette. */
+  description?: string
+  /** Arrondissement du découpage officiel (sélection géographique). */
+  arrondissement?: string
+  /** Prix de chaque permis fixé par l'auto-école (espace pro › Permis & tarifs) ; sans lui, le prix du catalogue. */
+  tarifs?: Partial<Record<PermisCode, number>>
+  /** Agrément (espace pro › Profil › Agrément) : numéro, date, autorité (MINTRANSPORTS), expiration, NIU, RCCM. */
+  agrement?: Etablissement['agrement']
+  /** Inscrite par un compte : visible du public dès la validation de son compte. */
+  enVerification?: boolean
 }
 
 /* --- Inscription en auto-école --------------------------------------------- */
@@ -165,7 +175,7 @@ export type Favorite = { id: string; kind: FavoriteKind; folder: string; /** Vig
 /* --- Comptes ---------------------------------------------------------------- */
 
 /** Le rôle d'un compte : un compte = un espace. */
-export type Role = 'utilisateur' | 'ipes' | 'cfp' | 'autre'
+export type Role = 'utilisateur' | 'ipes' | 'cfp' | 'autre' | 'auto-ecole'
 
 /** Ce que l'interface affiche du compte connecté. */
 export type Account = {
@@ -233,6 +243,8 @@ export type FormationPro = {
 
 export type SessionAutoEcole = {
   id: string
+  /** L'auto-école qui l'organise. */
+  autoEcoleId: string
   permis: PermisCode
   debut: string
   horaires: string[]
@@ -305,6 +317,26 @@ export type UtilisateurPro = {
 }
 
 /** Une préinscription envoyée depuis la fiche d'une formation. */
+/**
+ * Où en est un dossier (préinscription ou inscription en auto-école) :
+ * envoyé par le candidat, étudié, complété à la demande de l'établissement,
+ * puis accepté ou refusé ; le candidat peut l'annuler tant qu'il n'est pas tranché.
+ */
+export type StatutDossier = 'Envoyée' | 'En étude' | 'Complément demandé' | 'Acceptée' | 'Refusée' | 'Annulée'
+
+/** Un message sur un dossier : décision ou demande de l'établissement, complément du candidat. */
+export type EchangeDossier = {
+  de: 'etablissement' | 'candidat'
+  texte: string
+  /** Date (ISO). */
+  le: string
+  /** Le statut que ce message a donné au dossier. */
+  statut: StatutDossier
+  /** Une pièce jointe (table `fichiers`). */
+  fichierId?: string
+  fichierNom?: string
+}
+
 export type Preinscription = {
   id: string
   /** Le compte connecté qui l'a envoyée (absent : visiteur). */
@@ -313,9 +345,11 @@ export type Preinscription = {
   etablissementId: string
   /** Date d'envoi (ISO). */
   envoyeeLe: string
-  statut: 'Envoyée' | 'Annulée'
+  statut: StatutDossier
   /** Date d'annulation par le candidat (ISO). */
   annuleeLe?: string
+  /** Les messages échangés avec l'établissement, du plus ancien au plus récent. */
+  echanges?: EchangeDossier[]
   /** Les champs saisis, tels quels. */
   donnees: Record<string, string>
 }
@@ -328,9 +362,11 @@ export type InscriptionAutoEcole = {
   autoEcoleId: string
   permis: PermisCode
   envoyeeLe: string
-  statut: 'Envoyée' | 'Annulée'
+  statut: StatutDossier
   /** Date d'annulation par le candidat (ISO). */
   annuleeLe?: string
+  /** Les messages échangés avec l'auto-école, du plus ancien au plus récent. */
+  echanges?: EchangeDossier[]
   donnees: InscriptionDraft
 }
 

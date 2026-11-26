@@ -89,7 +89,7 @@
       "title_other": "Pre-registrations received ({{count}})",
       "none": "No pre-registrations received yet.",
       "anonymous": "Candidate",
-      "received": "Received"
+      "manage": "Manage"
     }
   },
   "profil": {
@@ -136,6 +136,8 @@
       "acronym": "Acronym",
       "type": "Type of institution",
       "founded": "Year founded",
+      "foundedPlaceholder": "E.g. 2005",
+      "foundedInvalid": "Enter a valid year, between {{min}} and {{max}}.",
       "presentation": "Presentation (short)"
     },
     "visibility": {
@@ -210,9 +212,9 @@
       "logoSize": "Recommended size: 500 × 500 px",
       "gallery": "Media gallery",
       "filters": {
-        "all": "All (12)",
-        "photos": "Photos (10)",
-        "videos": "Videos (2)"
+        "all": "All ({{count}})",
+        "photos": "Photos ({{count}})",
+        "videos": "Videos ({{count}})"
       },
       "video": "Video",
       "photo": "Photo",
@@ -375,7 +377,9 @@
       "rating_one": "Rating ({{count}} review)",
       "rating_other": "Rating ({{count}} reviews)",
       "outOf5": "{{note}} / 5",
-      "trend": "+{{value}}%"
+      "trend": "+{{value}}%",
+      "enrollments": "Enrolments received",
+      "applications": "Applications / Pre-registrations"
     },
     "visits": "Visits over time",
     "sources": {
@@ -484,7 +488,7 @@
         "addTitle": "Add a downloadable document",
         "addHint": "Drag and drop or click to select — PDF, DOCX, XLSX, PPTX (Max. 20 MB)",
         "added": "{{name}} added as a draft",
-        "suggestedTypes": "Suggested types",
+        "suggestedTypes": "Suggested document types",
         "types": {
           "brochure": "Brochure",
           "admission": "Admission requirements",
@@ -498,7 +502,8 @@
           "size": "Size",
           "publishedAt": "Publication date",
           "status": "Status",
-          "actions": "Actions"
+          "actions": "Actions",
+          "name": "Document name"
         },
         "categories": {
           "brochure": "Brochure",
@@ -526,7 +531,15 @@
           "renamed": "Document renamed: “{{name}}”",
           "deleted": "“{{name}}” deleted"
         },
-        "tooBig": "File too large: 3 MB maximum."
+        "tooBig": "File too large: 3 MB maximum.",
+        "addShort": "Add a document",
+        "formats": "PDF, DOCX, XLSX or PPTX (Max. 20 MB)",
+        "choose": "Choose a file",
+        "searchPlaceholder": "Search for a document...",
+        "allCategories": "Category: All",
+        "selectAll": "Select all",
+        "empty": "No documents yet.",
+        "noMatch": "No document matches these filters."
       },
       "faq": {
         "categoriesTitle": "Categories",
@@ -549,6 +562,22 @@
           "training": "Programme",
           "fees": "Fees and payment",
           "diplomas": "Diplomas"
+        },
+        "allQuestions": "All questions ({{count}})",
+        "filterAll": "Category: All",
+        "delete": "Delete the question",
+        "deleted": "Question deleted",
+        "empty": "No questions yet.",
+        "noMatch": "No question matches these filters."
+      },
+      "headers": {
+        "documents": {
+          "title": "Documents to download",
+          "subtitle": "Add, manage and publish documents useful to applicants and partners."
+        },
+        "faq": {
+          "title": "FAQ (Frequently asked questions)",
+          "subtitle": "Manage the most useful questions and answers for your applicants."
         }
       }
     },
@@ -588,23 +617,23 @@
     "roles": {
       "admin": {
         "name": "Administrator",
-        "description": "Full access to the space and settings"
+        "description": "Full access (settings, users, content, etc.)."
       },
       "academicLead": {
         "name": "Academic manager",
-        "description": "Programmes, curricula, applications"
+        "description": "Manages programmes, syllabuses and applications."
       },
       "communication": {
         "name": "Communication",
-        "description": "News, events, media"
+        "description": "Publishes news, events and media."
       },
       "secretariat": {
         "name": "Secretariat",
-        "description": "Pre-registrations, learner files"
+        "description": "Manages pre-registrations and learners’ files."
       },
       "readOnly": {
         "name": "Read-only",
-        "description": "Read-only access"
+        "description": "Read-only access to authorised information."
       }
     },
     "settings": {
@@ -683,7 +712,11 @@
           "echec": "Failed attempt",
           "motDePasse": "Password changed"
         },
-        "noActivity": "No activity recorded yet."
+        "noActivity": "No activity recorded yet.",
+        "changePasswordHint": "Choose a strong password to secure your account.",
+        "twoFactorHint": "Add an extra layer of security.",
+        "twoFactorText": "Secure your account with a verification code sent to your phone.",
+        "sessionsHint": "Devices signed in to your account."
       },
       "notifications": {
         "title": "Notifications",
@@ -692,7 +725,9 @@
         "tabs": {
           "all": "All",
           "unread": "Unread",
-          "read": "Read"
+          "read": "Read",
+          "allCount": "All ({{count}})",
+          "unreadCount": "Unread ({{count}})"
         },
         "unread": "Unread",
         "settingsTitle": "Notification settings",
@@ -703,7 +738,7 @@
           "reminders": "Reminders and deadlines",
           "news": "YIBOLO news"
         },
-        "tipText": "Reply to applications within 48 h: it is the top satisfaction criterion for applicants.",
+        "tipText": "Turn on the essential notifications so you never miss an application or important information.",
         "items": {
           "candidature": {
             "title": "New application",
@@ -730,19 +765,24 @@
             "text": "Your programme “Marketing et Communication” has been approved by YIBOLO.",
             "date": "12 Nov 2026"
           }
-        }
+        },
+        "more": "More actions",
+        "empty": "No notifications yet.",
+        "range_one": "{{from}} – {{to}} of {{count}} notification",
+        "range_other": "{{from}} – {{to}} of {{count}} notifications",
+        "settingsHint": "Choose the alerts you want to receive."
       },
       "preferences": {
         "publishingTitle": "Content publishing",
         "autoPublish": "Automatic publishing",
-        "autoPublishHint": "Your content is published as soon as it is approved",
+        "autoPublishHint": "Publish my programmes, news and documents as soon as they are approved.",
         "manualPublish": "Manual publishing",
-        "manualPublishHint": "You choose when it goes online",
+        "manualPublishHint": "Review and publish each item myself.",
         "visibilityTitle": "Institution visibility",
         "showContacts": "Show contact details",
         "showAddress": "Show address",
         "showReviews": "Show reviews",
-        "hideFees": "Hide tuition fees",
+        "hideFees": "Hide the fees",
         "languageTitle": "Interface language",
         "themeTitle": "Display theme",
         "themes": {
@@ -750,7 +790,16 @@
           "sombre": "Dark",
           "systeme": "System"
         },
-        "darkSoon": "The dark theme is coming in a future version."
+        "darkSoon": "The dark theme is coming in a future version.",
+        "publishingHint": "Define how your content is published on YIBOLO.",
+        "visibilityHint": "Choose the information shown on your public page.",
+        "showContactsSub": "(Phone, email)",
+        "showAddressSub": "and location",
+        "showReviewsSub": "from learners",
+        "hideFeesSub": "for programmes",
+        "languageHint": "Choose the language you use.",
+        "themeHint": "Customise how your space looks.",
+        "save": "Save preferences"
       },
       "users": {
         "kpis": {
@@ -796,13 +845,16 @@
           "invitedOn": "Invited on {{date}}",
           "remove": "Remove from space",
           "removed": "{{name}} no longer has access to the space"
-        }
+        },
+        "selectAll": "Select all",
+        "range_one": "{{from}} – {{to}} of {{count}} user",
+        "range_other": "{{from}} – {{to}} of {{count}} users"
       },
       "about": {
         "tagline": "The platform connecting training, expertise, employment and funding in Central Africa.",
         "pillars": "Get trained · Consult experts · Recruit · Find funding",
         "missionTitle": "Our mission",
-        "missionText": "Make every quality institution visible and help every learner find the programme that leads to a career.",
+        "missionText": "Make quality training, expertise, employment and funding accessible, for skills development and professional integration.",
         "valuesTitle": "Our values",
         "values": {
           "professionalism": "Professionalism",
@@ -810,18 +862,50 @@
           "inclusion": "Inclusion",
           "innovation": "Innovation"
         },
-        "supportTitle": "Support",
+        "supportTitle": "Help and support",
         "contactSupport": "Contact support",
         "helpCenter": "Help centre (FAQ)",
         "documentsTitle": "Useful documents",
         "documents": {
-          "terms": "General terms of use",
-          "sales": "General terms of sale",
+          "terms": "Terms of Use",
+          "sales": "Terms of Sale",
           "privacy": "Privacy policy"
         },
         "version": "Version <b>{{version}}</b>",
         "upToDate": "Up to date",
-        "lastUpdate": "Last updated: {{date}}"
+        "lastUpdate": "Last updated: {{date}}",
+        "spaceTitle": "Your professional space",
+        "space": {
+          "trainings": "Manage your programmes and news",
+          "documents": "Publish your documents",
+          "applications": "Follow your applications",
+          "performance": "Analyse your performance"
+        },
+        "supportText": "A question or need help? Our team is here for you.",
+        "versionTitle": "Application version",
+        "product": "YIBOLO – Professional space"
+      },
+      "headers": {
+        "security": {
+          "title": "Security",
+          "subtitle": "Strengthen your account’s protection and control access."
+        },
+        "notifications": {
+          "title": "Notifications",
+          "subtitle": "View your alerts and choose the notifications you want to receive."
+        },
+        "preferences": {
+          "title": "Preferences",
+          "subtitle": "Customise how your space works and how your content is published."
+        },
+        "users": {
+          "title": "Users",
+          "subtitle": "Manage your institution’s members and their access rights."
+        },
+        "about": {
+          "title": "About",
+          "subtitle": "Information about YIBOLO, the application and support."
+        }
       }
     },
     "invite": {
@@ -831,19 +915,246 @@
         "current": "Invite a user"
       },
       "title": "Invite a user",
-      "subtitle": "Give a member of your team access to your space.",
+      "subtitle": "Add a colleague to your space and set their access rights.",
       "name": "Full name",
-      "namePlaceholder": "E.g. Claire Ndongo",
+      "namePlaceholder": "E.g. Marie NGO",
       "phone": "Phone",
       "email": "Email (optional)",
-      "emailPlaceholder": "firstname.lastname@school.cm",
+      "emailPlaceholder": "example@ipc.cm",
       "role": "Role",
-      "tip": "The invitation is sent by email or SMS. The person creates their password by following the link received.",
+      "tip": "The user will receive an invitation (by email or SMS) to activate their account and access the institution’s space.",
       "cancel": "Cancel",
       "send": "Send invitation",
       "nameRequired": "Enter the name of the person invited.",
       "sent": "Invitation sent to {{name}} ({{role}})",
-      "rolesTitle": "Available roles"
+      "rolesTitle": "Available roles",
+      "infoTitle": "User information",
+      "accessTitle": "Role and access"
+    }
+  },
+  "dossiers": {
+    "anonyme": "Applicant",
+    "preinscriptions": {
+      "crumb": "Pre-registrations",
+      "title": "Pre-registrations received",
+      "subtitle": "Review applications, ask for more information, accept or decline.",
+      "objet": "Programme"
+    },
+    "inscriptions": {
+      "crumb": "Enrolments",
+      "title": "Enrolments received",
+      "subtitle": "Review learners’ requests, ask for more information, accept or decline.",
+      "objet": "Licence"
+    },
+    "kpis": {
+      "total": "Applications",
+      "aTraiter": "To process",
+      "enCours": "In progress",
+      "acceptes": "Accepted",
+      "refuses": "Declined"
+    },
+    "search": "Search for an applicant...",
+    "tous": "{{label}}: all",
+    "tousStatuts": "Status: all",
+    "table": {
+      "candidat": "Applicant",
+      "envoyee": "Sent on",
+      "statut": "Status",
+      "actions": "Actions",
+      "voir": "View application",
+      "traiter": "Process"
+    },
+    "aucun": "No requests received yet. Applications will appear here.",
+    "vide": "No application matches these filters.",
+    "count_one": "{{shown}} of {{total}} application",
+    "count_other": "{{shown}} of {{total}} applications",
+    "detail": {
+      "crumb": "Application",
+      "title": "Applicant’s file",
+      "envoyeeLe": "Sent on {{date}}",
+      "frais": "Fees: {{prix}} / year",
+      "prix": "Licence price: {{prix}}",
+      "session": "Session of {{date}}",
+      "candidat": "The applicant",
+      "parcours": "Background",
+      "introuvable": "This application cannot be found.",
+      "retour": "Back to applications"
+    },
+    "champs": {
+      "nom": "Surname",
+      "prenom": "First name",
+      "sexe": "Sex",
+      "naissance": "Date of birth",
+      "nationalite": "Nationality",
+      "telephone": "Phone",
+      "email": "Email",
+      "ville": "City",
+      "quartier": "Neighbourhood",
+      "diplome": "Diploma",
+      "serie": "Stream",
+      "annee": "Year obtained",
+      "etablissementOrigine": "Previous school",
+      "session": "Session",
+      "permis": "Licence"
+    },
+    "contact": {
+      "titre": "Contact the applicant",
+      "appeler": "Call",
+      "whatsapp": "WhatsApp",
+      "email": "Email"
+    },
+    "decision": {
+      "titre": "Process the application",
+      "statut": "Current status:",
+      "etude": "Mark as under review",
+      "complement": "Ask for more information",
+      "accepter": "Accept",
+      "refuser": "Decline",
+      "annule": "The applicant cancelled this application.",
+      "clos": "This application is closed. You can reopen it to review it again.",
+      "rouvrir": "Reopen the application",
+      "annuler": "Cancel",
+      "confirmer": "Confirm",
+      "requis": "Write your message to the applicant.",
+      "faite": "Decision saved: the applicant has been notified.",
+      "echec": "The decision could not be saved. Try again.",
+      "fenetre": {
+        "etude": {
+          "titre": "Mark the application as under review",
+          "texte": "The applicant will be told their application is under review.",
+          "label": "Message to the applicant (optional)",
+          "exemple": "E.g. We are reviewing your application and will reply within 72 hours."
+        },
+        "complement": {
+          "titre": "Ask for more information",
+          "texte": "Tell the applicant what to provide: they can reply and attach a document from their space.",
+          "label": "What to provide",
+          "exemple": "E.g. Please attach your Baccalaureate transcript."
+        },
+        "accepter": {
+          "titre": "Accept the application",
+          "texte": "The applicant will be told their request has been accepted.",
+          "label": "Message to the applicant (optional)",
+          "exemple": "E.g. Welcome! Come to reception before 6 October to finalise your registration."
+        },
+        "refuser": {
+          "titre": "Decline the application",
+          "texte": "The applicant will be told about the decision and the reason.",
+          "label": "Reason for declining",
+          "exemple": "E.g. This session is fully booked."
+        }
+      }
+    },
+    "notification": {
+      "titres": {
+        "enEtude": "Application under review",
+        "complement": "More information requested",
+        "acceptee": "Application accepted",
+        "refusee": "Application declined"
+      },
+      "texte": "{{school}} – {{objet}}: open your application to read the message.",
+      "quand": "Just now"
+    }
+  },
+  "autoEcole": {
+    "permis": "Licence {{code}}",
+    "dashboard": {
+      "subtitle": "Follow your enrolments, your sessions and your public page.",
+      "kpis": {
+        "aTraiter": "Enrolments to process",
+        "sessions": "Upcoming sessions",
+        "permis": "Licences offered"
+      },
+      "inscriptions_one": "Enrolment received ({{count}})",
+      "inscriptions_other": "Enrolments received ({{count}})",
+      "aucuneInscription": "No enrolments received yet.",
+      "prochaines": "Upcoming sessions",
+      "voirPlanning": "View the schedule",
+      "places_one": "{{count}} place",
+      "places_other": "{{count}} places",
+      "tarifs": "Edit my prices"
+    },
+    "profil": {
+      "crumb": "Driving school profile",
+      "title": "Driving school profile",
+      "subtitle": "Fill in and update your driving school’s information.",
+      "nom": "Driving school name",
+      "presentationAide": "Left empty, your page shows an automatic presentation with your licences.",
+      "agreee": "Approved driving school",
+      "permis": "Licences taught",
+      "gererPermis": "Manage licences and prices",
+      "adresseExemple": "E.g. Bastos crossroads, opposite Central Pharmacy",
+      "enregistrer": "Save and publish",
+      "enregistre": "Profile saved: your public page is up to date.",
+      "erreurs": {
+        "nom": "Enter the driving school’s name.",
+        "lieu": "Complete the location.",
+        "telephone": "9-digit number, without a leading 0.",
+        "email": "Invalid email address.",
+        "formulaire": "Some information needs correcting (see the tabs)."
+      },
+      "media": {
+        "logo": "Logo",
+        "couverture": "Cover photo",
+        "changer": "Change",
+        "galerie_one": "Gallery ({{count}} photo)",
+        "galerie_other": "Gallery ({{count}} photos)",
+        "ajouter": "Add a photo",
+        "vide": "No photos yet.",
+        "ajoute": "Image saved",
+        "retirer": "Remove the photo",
+        "retiree": "Photo removed"
+      }
+    },
+    "tarifs": {
+      "crumb": "Licences & prices",
+      "title": "Licences & prices",
+      "subtitle": "Choose the licences you teach and set their price.",
+      "propose": "Offer licence {{code}}",
+      "prix": "Licence price (full course)",
+      "prixInvalide": "Enter a price between {{min}} and {{max}}.",
+      "aucun": "Offer at least one licence.",
+      "noteTitre": "On your public page",
+      "note": "The licences offered and their prices appear in the Overview, the Training & Licences and Prices tabs, on each licence page and in the enrolment form.",
+      "enregistrer": "Save prices",
+      "enregistre": "Prices saved: your public page is up to date."
+    },
+    "planning": {
+      "crumb": "Session schedule",
+      "title": "Session schedule",
+      "subtitle": "Schedule your training sessions: they appear on your page and in the enrolment form.",
+      "ajouter": "Add a session",
+      "modifierTitre": "Edit the session",
+      "modifier": "Edit",
+      "supprimer": "Delete",
+      "enregistrer": "Save",
+      "aucune": "No sessions scheduled.",
+      "passee": "past",
+      "complete": "Full",
+      "jours": "Days",
+      "heureDebut": "Start time",
+      "heureFin": "End time",
+      "colonnes": {
+        "permis": "Licence",
+        "debut": "Start date",
+        "horaires": "Days and times",
+        "duree": "Duration",
+        "places": "Places left",
+        "inscrits": "Enrolled",
+        "actions": "Actions"
+      },
+      "ajoutee": "Session added",
+      "modifiee": "Session updated",
+      "supprimee": "Session deleted",
+      "supprimerImpossible": "Learners are enrolled in this session: process their enrolments first.",
+      "confirmerTitre": "Delete this session?",
+      "confirmerTexte": "It will disappear from your public page and from the enrolment form.",
+      "erreurs": {
+        "permis": "Choose a licence.",
+        "debut": "Choose a future date.",
+        "places": "Between 1 and 60 places.",
+        "heures": "The end time must come after the start time."
+      }
     }
   }
 }

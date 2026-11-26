@@ -35,7 +35,7 @@ import { Select } from '@/shared/components/forms/Fields'
 import { piecesAE, type PieceKey } from '@/features/driving-schools/autoEcoleRules'
 import { useInscriptionDraft } from '@/features/driving-schools/hooks/useInscriptionDraft'
 import { data } from '@/data'
-import { useAutoEcole, useDecoupage, usePermisCatalogue, useSessions } from '@/data/hooks'
+import { useAutoEcole, useDecoupage, usePermisDe, useSessionsDe } from '@/data/hooks'
 import type { PermisCode } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { demoDate, fcfa, shortDate } from '@/shared/utils/format'
@@ -111,13 +111,16 @@ function Steps({ step }: { step: number }) {
   )
 }
 
+/** La date du jour, comme dans les notifications de l'espace pro (appelée hors du rendu). */
+const aujourdhui = () => shortDate(new Date(), { day: '2-digit', month: 'short', year: 'numeric' })
+
 export function InscriptionAutoEcole() {
   const { account } = useSession()
-  const sessions = useSessions()
-  const permisCatalogue = usePermisCatalogue()
   const { arrondissements } = useDecoupage()
   const { t } = useTranslation('driving-schools', { keyPrefix: 'enrollment' })
   const { id, code = 'B' } = useParams()
+  const sessions = useSessionsDe(id ?? '')
+  const permisCatalogue = usePermisDe(id ?? '')
   const a = useAutoEcole(id)
   const p = permisCatalogue[code as PermisCode] ?? permisCatalogue.B
   const [d, update] = useInscriptionDraft(a.id, p.code)
@@ -362,6 +365,8 @@ export function InscriptionAutoEcole() {
                   // La session choisie compte une place de moins.
                   const session = sessions.find((s) => s.permis === p.code && s.debut === d.session)
                   if (session) await data.update('sessions', session.id, { places: Math.max(0, session.places - 1) })
+                  // L'auto-école est prévenue (cloche de son espace pro, Inscriptions reçues).
+                  await data.create('notifications', { etablissementId: a.id, type: 'candidature', titre: t('notificationAutoEcole.titre'), texte: t('notificationAutoEcole.texte', { name: `${d.prenom} ${d.nom}`.trim() || t('notificationAutoEcole.anonyme'), licence: p.code }), date: aujourdhui(), lu: false }, 'notification')
                   if (account) await notifier(account.id, { type: 'session', titre: t('notificationCandidat.titre'), texte: t('notificationCandidat.texte', { licence: p.code, school: a.nom }), quand: t('notificationCandidat.quand'), vers: ROUTES.espace('auto-ecole') })
                   toast.success(t('toast.sent'))
                   setSent(true)

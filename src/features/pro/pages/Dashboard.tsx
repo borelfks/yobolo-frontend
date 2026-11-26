@@ -11,10 +11,11 @@ import { Stepper } from '@/shared/components/ui/Stepper'
 import { IconTile, Kpi, KpiGrid, PageTitle, QuickAction } from '@/shared/components/ui/Blocks'
 import { useMonEcole } from '@/features/auth/hooks/useSession'
 import { ROUTES } from '@/shared/utils/routes'
+import { shortDate } from '@/shared/utils/format'
 import { CheckCircle2, Circle } from 'lucide-react'
-import { useAvisEtablissement, useDocuments, useFaq, useMedias } from '@/data/hooks'
+import { useAvisEtablissement, useDocuments, useFaq, useFormations, useMedias, usePreinscriptionsRecues } from '@/data/hooks'
 import { etatDuProfil, ETAPES_PROFIL, INFOS_A_GERER, type EtapeProfil } from '@/features/pro/proStats'
-// Préinscription masquée (demande du porteur du projet, 2026-11-25) : import { Badge } from '@/shared/components/ui/Badge'
+import { BadgeDossier } from '@/shared/components/ui/BadgeDossier'
 
 export function Dashboard() {
   const { t } = useTranslation('pro')
@@ -25,9 +26,8 @@ export function Dashboard() {
   // Les avis de sa fiche qui attendent encore une réponse.
   const sansReponse = useAvisEtablissement(ecole.id).filter((a) => !a.reponse).length
   // Les préinscriptions envoyées par les candidats (les plus récentes d'abord).
-  // Préinscription masquée (demande du porteur du projet, 2026-11-25) :
-  // const recues = [...usePreinscriptionsRecues(ecole.id)].sort((a, b) => b.envoyeeLe.localeCompare(a.envoyeeLe))
-  // Préinscription masquée (demande du porteur du projet, 2026-11-25) : const toutes = useFormations()
+  const recues = [...usePreinscriptionsRecues(ecole.id)].sort((a, b) => b.envoyeeLe.localeCompare(a.envoyeeLe))
+  const toutes = useFormations()
   const apparence = {
     presentation: { icon: <Building2 />, tone: 'blue' as const, to: ROUTES.pro.contents() },
     admission: { icon: <ShieldCheck />, tone: 'violet' as const, to: ROUTES.pro.contents('faq') },
@@ -90,28 +90,33 @@ export function Dashboard() {
               </div>
             )}
           </Card>
-          {/* Préinscription masquée (demande du porteur du projet, 2026-11-25) :
           <Card className="p-5">
-            <h2 className="flex items-center gap-2.5 text-lg font-bold text-navy-900">
-              <GraduationCap className="size-5 text-brand-600" />
-              {t('dashboard.applications.title', { count: recues.length })}
-            </h2>
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <h2 className="flex items-center gap-2.5 text-lg font-bold text-navy-900">
+                <GraduationCap className="size-5 text-brand-600" />
+                {t('dashboard.applications.title', { count: recues.length })}
+              </h2>
+              {recues.length > 0 && (
+                <Button to={ROUTES.pro.preRegistrations} variant="outline" size="sm">
+                  {t('dashboard.applications.manage')} <ArrowRight />
+                </Button>
+              )}
+            </div>
             {recues.length === 0 ? (
               <p className="mt-3 rounded-xl bg-[#f3f6fc] px-4 py-3 text-sm text-muted">{t('dashboard.applications.none')}</p>
             ) : (
               <ul className="mt-3 divide-y divide-line">
                 {recues.slice(0, 5).map((p) => (
                   <li key={p.id} className="flex flex-wrap items-center gap-x-3 gap-y-1 py-2.5 text-sm">
-                    <b className="text-navy-900">{[p.donnees.prenom, p.donnees.nom].filter(Boolean).join(' ') || t('dashboard.applications.anonymous')}</b>
+                    <Link to={ROUTES.pro.preRegistration(p.id)} className="font-bold text-navy-900 hover:text-brand-600">{[p.donnees.prenom, p.donnees.nom].filter(Boolean).join(' ') || t('dashboard.applications.anonymous')}</Link>
                     <span className="min-w-0 basis-full break-words text-muted sm:basis-auto sm:flex-1">{toutes.find((f) => f.id === p.formationId)?.nom ?? '—'}</span>
                     <span className="shrink-0 text-xs text-muted">{shortDate(new Date(p.envoyeeLe), { day: '2-digit', month: 'short', year: 'numeric' })}</span>
-                    <Badge tone="green">{t('dashboard.applications.received')}</Badge>
+                    <BadgeDossier statut={p.statut} />
                   </li>
                 ))}
               </ul>
             )}
           </Card>
-          */}
           <Section title={t('dashboard.infos.title')} icon={<Layers />}>
             <div className="grid gap-3 md:grid-cols-2">
               {infos.map((i) => (

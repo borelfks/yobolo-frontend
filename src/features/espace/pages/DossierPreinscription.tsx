@@ -8,8 +8,13 @@ import { useSession } from '@/features/auth/hooks/useSession'
 import { ecoleUrl, formationUrl } from '@/features/schools/schoolLinks'
 import { slugOfType } from '@/features/schools/schoolTypes'
 import { annulerPreinscription } from '@/features/espace/espaceActions'
-import { ConfirmerAnnulation, StatutDossier } from '@/features/espace/components/Dossiers'
-import { ChampsDossier, DossierIntrouvable, PiecesDossier } from '@/features/espace/components/DetailDossier'
+import { ConfirmerAnnulation } from '@/features/espace/components/Dossiers'
+import { BadgeDossier } from '@/shared/components/ui/BadgeDossier'
+import { dernierMessage, dossierOuvert } from '@/shared/utils/dossiers'
+import { FilDossier } from '@/shared/components/ui/FilDossier'
+import { CompleterDossier } from '@/features/espace/components/CompleterDossier'
+import { DossierIntrouvable } from '@/features/espace/components/DetailDossier'
+import { ChampsDossier, PiecesDossier } from '@/shared/components/ui/DetailDossier'
 import { Breadcrumb } from '@/shared/components/ui/Breadcrumb'
 import { Button } from '@/shared/components/ui/Button'
 import { Card } from '@/shared/components/ui/Card'
@@ -80,7 +85,7 @@ export function DossierPreinscription() {
             <div className="min-w-0 flex-1 space-y-1.5">
               <div className="flex flex-wrap items-center gap-2">
                 <h1 className="text-[22px] font-bold text-navy-900">{f?.nom ?? titre}</h1>
-                <StatutDossier statut={p.statut} />
+                <BadgeDossier statut={p.statut} />
               </div>
               <p className="flex items-center gap-1.5 text-[15px] text-navy-900">
                 <Building2 className="size-4 text-brand-600" aria-hidden="true" />
@@ -118,13 +123,15 @@ export function DossierPreinscription() {
                 {t('dossiers.donnerAvis')}
               </Button>
             )}
-            {p.statut === 'Envoyée' && (
+            {dossierOuvert(p.statut) && (
               <Button variant="danger-outline" size="sm" onClick={() => setAnnuler(true)}>
                 <XCircle aria-hidden="true" />
                 {t('dossiers.annuler')}
               </Button>
             )}
           </div>
+          {p.statut === 'Complément demandé' && <CompleterDossier dossier={{ genre: 'preinscription', dossier: p }} demande={dernierMessage(p.echanges)} nomCandidat={account.name} objet={f?.nom ?? ''} />}
+          {(p.echanges?.length ?? 0) > 0 && <FilDossier echanges={p.echanges ?? []} vue="candidat" />}
           <div className="grid gap-4 lg:grid-cols-2">
             <ChampsDossier titre={t('dossiers.candidat')} icone={<UserRound />} champs={[champ('nom'), champ('prenom'), champ('sexe'), champ('naissance'), champ('nationalite'), champ('telephone'), champ('email')]} />
             <ChampsDossier titre={t('dossiers.parcours')} icone={<School />} champs={[champ('diplome'), champ('serie'), champ('annee'), champ('etablissementOrigine')]} />

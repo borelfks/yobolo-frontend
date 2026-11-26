@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useSearchParams } from 'react-router'
 import { toast } from 'sonner'
 import { BadgeCheck, Building2, CalendarDays, ChevronRight, CircleGauge, Flag, Handshake, MessageCircle, PencilLine, Share2, Star, Users } from 'lucide-react'
 import { Heading } from '@/features/driving-schools/components/profile/ProfileParts'
@@ -9,7 +10,9 @@ import { Img } from '@/shared/components/ui/Img'
 import { Stars, PasEncoreDAvis } from '@/shared/components/ui/StarRating'
 import { useAutoEcole, useAvisAutoEcole, useCriteresAutoEcole, useRepartitionAutoEcole } from '@/data/hooks'
 import { cn } from '@/shared/utils/cn'
-import { num } from '@/shared/utils/format'
+import { num, shortDate } from '@/shared/utils/format'
+import { notifier } from '@/shared/utils/notifications'
+import type { AvisAutoEcole } from '@/shared/types'
 import { MenuActions } from '@/shared/components/ui/MenuActions'
 import { Modal } from '@/shared/components/ui/Modal'
 import { data } from '@/data'
@@ -17,13 +20,17 @@ import { partager } from '@/shared/utils/liens'
 import { useSession } from '@/features/auth/hooks/useSession'
 import { ModaleAvis } from '@/features/schools/components/ModaleAvis'
 
+/** La date du jour, comme celle des réponses de la maquette (appelée hors du rendu). */
+const aujourdhui = () => shortDate(new Date(), { day: '2-digit', month: 'short', year: 'numeric' })
+
 const critereIcons = [CircleGauge, Users, CalendarDays, Building2, Handshake]
 
 /** Onglet « Avis » de la fiche d'une auto-école. */
 export function AvisTab({ id }: { id: string }) {
   const { t } = useTranslation('driving-schools')
   const a = useAutoEcole(id)
-  const [donnerAvis, setDonnerAvis] = useState(false)
+  // « Donner un avis » depuis Mon espace arrive ici avec ?donner=1 : la fenêtre s'ouvre d'emblée.
+  const [donnerAvis, setDonnerAvis] = useState(useSearchParams()[0].get('donner') === '1')
   // Répartition et critères tirés des avis de cette auto-école.
   const repartitionAutoEcole = useRepartitionAutoEcole(a.id)
   const criteresAvis = useCriteresAutoEcole(a.id)
@@ -115,12 +122,7 @@ export function AvisTab({ id }: { id: string }) {
                 {r.note}/5
               </p>
               <p className="mt-1 text-[14px] text-navy-900">{r.texte}</p>
-              {r.reponse && (
-                <div className="mt-2 rounded-xl border-l-4 border-brand-600 bg-[#f3f6fc] px-3 py-2 text-[13.5px] text-navy-900">
-                  <p className="font-semibold text-brand-700">{t('profile.reviews.replyFrom')} · <span className="font-normal text-muted">{r.reponse.le}</span></p>
-                  <p>{r.reponse.texte}</p>
-                </div>
-              )}
+              <ReponseAvis r={r} nomAutoEcole={a.nom} peutRepondre={account?.role === 'auto-ecole' && account.ecoleId === a.id} />
             </div>
             <MenuActions
               label={t('profile.reviews.more')}
@@ -167,5 +169,53 @@ export function AvisTab({ id }: { id: string }) {
         </div>
       </Modal>
     </div>
+  )
+}
+
+/**
+ * La réponse de l'auto-école à un avis : affichée à tous ; l'auto-école
+ * connectée peut répondre, modifier ou retirer sa réponse. L'auteur est prévenu.
+ */
+function ReponseAvis({ r, nomAutoEcole, peutRepondre }: { r: AvisAutoEcole; nomAutoEcole: string; peutRepondre: boolean }) {
+  const { t } = useTranslation('driving-schools')
+  const [edition, setEdition] = useState(false)
+  const [texte, setTexte] = useState(r.reponse?.texte ?? '')
+  const publier = async () => {
+    if (texte.trim().length < 2) return void toast.error(t('profile.reviews.reply.tooShort'))
+    await data.update('avisAutoEcoles', r.id, { reponse: { texte: texte.trim(), le: aujourdhui() } })
+    if (r.compteId && !r.reponse)
+      await notifier(r.compteId, { type: 'review', titre: t('profile.reviews.reply.notificationTitre'), texte: t('profile.reviews.reply.notificationTexte', { school: nomAutoEcole }), quand: t('profile.reviews.reply.quand'), vers: window.location.pathname })
+    setEdition(false)
+    toast.success(t('profile.reviews.reply.published'))
+  }
+  const retirer = async () => {
+    await data.update('avisAutoEcoles', r.id, { reponse: undefined })
+    setTexte('')
+    toast.success(t('profile.reviews.reply.removed'))
+  }
+  return (
+    <>
+      {r.reponse && !edition && (
+        <div className="mt-2 rounded-xl border-l-4 border-brand-600 bg-[#f3f6fc] px-3 py-2 text-[13.5px] text-navy-900">
+          <p className="font-semibold text-brand-700">{t('profile.reviews.replyFrom')} · <span className="font-normal text-muted">{r.reponse.le}</span></p>
+          <p>{r.reponse.texte}</p>
+        </div>
+      )}
+      {peutRepondre && !edition && (
+        <div className="mt-2 flex gap-3">
+          <button type="button" onClick={() => setEdition(true)} className="text-[14px] font-semibold text-brand-600 hover:underline">{r.reponse ? t('profile.reviews.reply.edit') : t('profile.reviews.reply.reply')}</button>
+          {r.reponse && <button type="button" onClick={() => void retirer()} className="text-[14px] font-semibold text-rose-600 hover:underline">{t('profile.reviews.reply.remove')}</button>}
+        </div>
+      )}
+      {edition && (
+        <div className="mt-2 space-y-2">
+          <textarea value={texte} onChange={(ev) => setTexte(ev.target.value)} rows={3} aria-label={t('profile.reviews.reply.label')} placeholder={t('profile.reviews.reply.placeholder')} className="w-full rounded-xl border border-line p-3 text-[14px] focus:border-brand-500 focus:ring-3 focus:ring-brand-100" />
+          <div className="flex gap-2">
+            <button type="button" onClick={() => void publier()} className="h-9 rounded-full bg-brand-600 px-5 text-[14px] font-semibold text-white hover:bg-brand-700">{t('profile.reviews.reply.publish')}</button>
+            <button type="button" onClick={() => (setEdition(false), setTexte(r.reponse?.texte ?? ''))} className="h-9 rounded-full border border-line px-5 text-[14px] font-semibold text-navy-800">{t('profile.reviews.cancel')}</button>
+          </div>
+        </div>
+      )}
+    </>
   )
 }

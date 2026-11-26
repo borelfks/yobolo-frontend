@@ -1,4 +1,6 @@
 import { useTranslation } from 'react-i18next'
+import { useSession } from '@/features/auth/hooks/useSession'
+import { useMesureALaVue } from '@/shared/hooks/useMesureALaVue'
 import { Link, useParams } from 'react-router'
 import { CalendarDays, Car, Coins, Home, Image as ImageIcon, Star } from 'lucide-react'
 import { AEHeader } from '@/features/driving-schools/components/AutoEcoleBlocks'
@@ -17,6 +19,9 @@ export function AutoEcoleProfil() {
   const { t } = useTranslation('driving-schools')
   const { id, tab = '' } = useParams()
   const a = useAutoEcole(id)
+  const { account } = useSession()
+  // Une vue de la fiche, pour les statistiques de l'auto-école (pas celles qu'elle fait elle-même).
+  useMesureALaVue(account?.ecoleId === a.id ? null : { type: 'vue', etablissementId: a.id }, `vue-${a.id}`)
   const base = ROUTES.drivingSchool(a.id)
   const tabs = [
     { value: '', label: t('profile.tabs.overview'), icon: <Home /> },

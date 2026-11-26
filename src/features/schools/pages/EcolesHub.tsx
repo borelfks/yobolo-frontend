@@ -43,8 +43,8 @@ export function EcolesHub() {
   const list = trierEtablissements(filtrerEtablissements(etablissements, q, criteres, formations), tri, formations)
   // Les cartes mises en avant (champ « vedette » de la base), établissements et
   // auto-écoles mêlés, dans leur ordre ; puis le reste de l'annuaire.
-  const autoEcolesVedettes: Etablissement[] = autoEcoles
-    .filter((a) => a.vedette !== undefined)
+  // Toutes les auto-écoles comptent dans « Toutes les écoles » : celles mises en avant d'abord, les autres après les établissements.
+  const autoEcolesCartes: Etablissement[] = autoEcoles
     .map((a) => ({
       id: a.id,
       nom: a.nom,
@@ -64,13 +64,13 @@ export function EcolesHub() {
       rentree: '',
       vedette: a.vedette,
     }))
-  const vedettes = [...etablissements.filter((e) => e.vedette !== undefined), ...autoEcolesVedettes].sort((a, b) => a.vedette! - b.vedette!)
+  const vedettes = [...etablissements.filter((e) => e.vedette !== undefined), ...autoEcolesCartes.filter((a) => a.vedette !== undefined)].sort((a, b) => a.vedette! - b.vedette!)
   // Sans recherche ni tri : les cartes mises en avant d'abord ; sinon, les résultats (les auto-écoles mises en avant suivent le critère « type »).
   const cards =
     !recherche && tri === 'pertinence'
-      ? [...vedettes, ...etablissements.filter((e) => e.vedette === undefined)]
+      ? [...vedettes, ...etablissements.filter((e) => e.vedette === undefined), ...autoEcolesCartes.filter((a) => a.vedette === undefined)]
       : criteres.type === 'Auto-école'
-        ? autoEcolesVedettes.filter((a) => (!criteres.region || a.region === criteres.region) && (!q || a.nom.toLowerCase().includes(q.toLowerCase())))
+        ? autoEcolesCartes.filter((a) => (!criteres.region || a.region === criteres.region) && (!q || a.nom.toLowerCase().includes(q.toLowerCase())))
         : list
   const { pages, page: courante, elements } = pageDe(cards, page, PAR_PAGE)
   return (

@@ -3,11 +3,16 @@ import { Navigate, useParams } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { CalendarDays, Car, ExternalLink, Star, UserRound, XCircle } from 'lucide-react'
-import { useAutoEcoles, useMesInscriptions, usePermisCatalogue } from '@/data/hooks'
+import { useAutoEcoles, useMesInscriptions, usePermisDe } from '@/data/hooks'
 import { useSession } from '@/features/auth/hooks/useSession'
 import { annulerInscription } from '@/features/espace/espaceActions'
-import { ConfirmerAnnulation, StatutDossier } from '@/features/espace/components/Dossiers'
-import { ChampsDossier, DossierIntrouvable, PiecesDossier } from '@/features/espace/components/DetailDossier'
+import { ConfirmerAnnulation } from '@/features/espace/components/Dossiers'
+import { BadgeDossier } from '@/shared/components/ui/BadgeDossier'
+import { dernierMessage, dossierOuvert } from '@/shared/utils/dossiers'
+import { FilDossier } from '@/shared/components/ui/FilDossier'
+import { CompleterDossier } from '@/features/espace/components/CompleterDossier'
+import { DossierIntrouvable } from '@/features/espace/components/DetailDossier'
+import { ChampsDossier, PiecesDossier } from '@/shared/components/ui/DetailDossier'
 import { Breadcrumb } from '@/shared/components/ui/Breadcrumb'
 import { Button } from '@/shared/components/ui/Button'
 import { Card } from '@/shared/components/ui/Card'
@@ -24,7 +29,7 @@ export function DossierInscription() {
   const { account } = useSession()
   const i = useMesInscriptions(account?.id).inscriptionsAutoEcole.find((x) => x.id === id)
   const a = useAutoEcoles().find((x) => x.id === i?.autoEcoleId)
-  const catalogue = usePermisCatalogue()
+  const catalogue = usePermisDe(i?.autoEcoleId ?? '')
   const permis = i ? catalogue[i.permis] : undefined
   const [annuler, setAnnuler] = useState(false)
   if (!account) return <Navigate to={ROUTES.signIn} replace />
@@ -56,7 +61,7 @@ export function DossierInscription() {
             <div className="min-w-0 flex-1 space-y-1.5">
               <div className="flex flex-wrap items-center gap-2">
                 <h1 className="text-[22px] font-bold text-navy-900">{t('dossiers.detailPermis', { code: i.permis })}</h1>
-                <StatutDossier statut={i.statut} />
+                <BadgeDossier statut={i.statut} />
               </div>
               <p className="flex items-center gap-1.5 text-[15px] text-navy-900">
                 <Car className="size-4 text-brand-600" aria-hidden="true" />
@@ -85,13 +90,15 @@ export function DossierInscription() {
               <Star aria-hidden="true" />
               {t('dossiers.donnerAvis')}
             </Button>
-            {i.statut === 'Envoyée' && (
+            {dossierOuvert(i.statut) && (
               <Button variant="danger-outline" size="sm" onClick={() => setAnnuler(true)}>
                 <XCircle aria-hidden="true" />
                 {t('dossiers.annuler')}
               </Button>
             )}
           </div>
+          {i.statut === 'Complément demandé' && <CompleterDossier dossier={{ genre: 'inscription', dossier: i }} demande={dernierMessage(i.echanges)} nomCandidat={account.name} objet={t('dossiers.permis', { code: i.permis })} />}
+          {(i.echanges?.length ?? 0) > 0 && <FilDossier echanges={i.echanges ?? []} vue="candidat" />}
           <ChampsDossier
             titre={t('dossiers.candidat')}
             icone={<UserRound />}

@@ -49,7 +49,8 @@ export const ROUTES = {
   schoolType: (type: string, tab?: string) => withTab(`/ecoles/${type}`, tab),
   /** Fiche publique d'un établissement, avec son onglet. */
   school: (type: string, id: string, tab?: string) => withTab(`/ecoles/${type}/etablissement/${id}`, tab),
-  schoolReview: (type: string, id: string) => `/ecoles/${type}/etablissement/${id}/avis/nouveau`,
+  /** Donner un avis : l'onglet Avis de la fiche, la fenêtre « Donner mon avis » ouverte. */
+  schoolReview: (type: string, id: string) => `/ecoles/${type}/etablissement/${id}/avis?donner=1`,
   /** Détail d'une formation, avec son onglet. */
   training: (id: string, tab?: string) => withTab(`/ecoles/formations/${id}`, tab),
   preRegistration: (id: string) => `/ecoles/formations/${id}/preinscription`,
@@ -57,7 +58,8 @@ export const ROUTES = {
   // -- Univers École : auto-écoles -------------------------------------------
   drivingSchools: '/ecoles/auto-ecoles',
   drivingSchool: (id: string, tab?: string) => withTab(`/ecoles/auto-ecoles/${id}`, tab),
-  drivingSchoolReview: (id: string) => `/ecoles/auto-ecoles/${id}/avis/nouveau`,
+  /** Donner un avis : l'onglet Avis de la fiche, la fenêtre « Donner mon avis » ouverte. */
+  drivingSchoolReview: (id: string) => `/ecoles/auto-ecoles/${id}/avis?donner=1`,
   /** Fiche d'un permis dans une auto-école, avec son onglet. */
   license: (id: string, code: string, tab?: string) => withTab(`/ecoles/auto-ecoles/${id}/permis/${code}`, tab),
   enrollment: (id: string, code: string) => `/ecoles/auto-ecoles/${id}/permis/${code}/inscription`,
@@ -83,6 +85,15 @@ export const ROUTES = {
     statistics: '/pro/ecole/statistiques',
     settings: (section?: string) => withTab('/pro/ecole/parametres', section),
     inviteUser: '/pro/ecole/parametres/utilisateurs/inviter',
+    /** Les préinscriptions reçues (école) et le détail d'un dossier. */
+    preRegistrations: '/pro/ecole/preinscriptions',
+    preRegistration: (id: string) => `/pro/ecole/preinscriptions/${id}`,
+    /** Les inscriptions reçues (auto-école) et le détail d'un dossier. */
+    enrollments: '/pro/ecole/inscriptions',
+    enrollment: (id: string) => `/pro/ecole/inscriptions/${id}`,
+    /** Auto-école : permis et tarifs, planning des sessions. */
+    licences: '/pro/ecole/permis',
+    planning: '/pro/ecole/planning',
   },
 } as const
 
@@ -118,5 +129,11 @@ export const ROUTE_PATTERNS = {
     statistics: 'statistiques',
     inviteUser: 'parametres/utilisateurs/inviter',
     settings: 'parametres/:section?',
+    preRegistrations: 'preinscriptions',
+    preRegistration: 'preinscriptions/:id',
+    enrollments: 'inscriptions',
+    enrollment: 'inscriptions/:id',
+    licences: 'permis',
+    planning: 'planning',
   },
 } as const

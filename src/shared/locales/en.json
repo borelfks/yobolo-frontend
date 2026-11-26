@@ -234,5 +234,25 @@
       "conseil": "Mix capitals, numbers and symbols to strengthen it.",
       "niveau": "Password strength: {{niveau}}"
     }
+  },
+  "dossier": {
+    "statuts": {
+      "envoyee": "Sent",
+      "enEtude": "Under review",
+      "complement": "More information requested",
+      "acceptee": "Accepted",
+      "refusee": "Declined",
+      "annulee": "Cancelled"
+    },
+    "fil": {
+      "titre": "Application follow-up",
+      "vide": "No messages yet.",
+      "vous": "You",
+      "etablissement": "The institution",
+      "candidat": "The applicant",
+      "telecharger": "Download"
+    },
+    "pieces": "Attached documents",
+    "aucunePiece": "No attached document."
   }
 }

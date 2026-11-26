@@ -2,9 +2,7 @@ import { data } from '@/data'
 import type { Compte, NotificationCompte, PreferenceNotification, SujetNotification } from '@/shared/types'
 
 /** Les sujets dont un compte est prévenu (Paramètres › Notifications). Rien sur l'emploi ni la Consultation. */
-// Préinscription masquée (demande du porteur du projet, 2026-11-25) : 'preRegistration' retiré de la liste.
-// Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) : 'session' retiré de la liste.
-export const SUJETS_NOTIFICATION: SujetNotification[] = ['review', 'message', 'info']
+export const SUJETS_NOTIFICATION: SujetNotification[] = ['preRegistration', 'session', 'review', 'message', 'info']
 
 /** Les canaux : dans l'application, par SMS, par e-mail. */
 export const CANAUX_NOTIFICATION = ['app', 'sms', 'email'] as const

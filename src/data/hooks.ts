@@ -1,5 +1,6 @@
 import type { AutoEcole, AvisAutoEcole, AvisEtablissement, Etablissement, Evenement, Formation, InscriptionAutoEcole, PermisCode, ProvenanceVisite, TypeSlug } from '@/shared/types'
 import { dateDeCreation, POUR_TOUS, useCollection } from './index'
+import { dateDeDemo } from '@/shared/utils/format'
 
 /**
  * Lectures par sujet, pour les écrans : toutes les données viennent de la
@@ -147,6 +148,16 @@ export function useParametres(etablissementId: string) {
   return useCollection('parametres').find((p) => p.id === etablissementId)?.valeurs ?? {}
 }
 
+/** Tous les dossiers de préinscription d'un établissement, annulés compris (espace pro › Préinscriptions). */
+export function useDossiersPreinscription(etablissementId: string) {
+  return useCollection('preinscriptions').filter((p) => p.etablissementId === etablissementId)
+}
+
+/** Toutes les inscriptions reçues par une auto-école, annulées comprises (espace pro › Inscriptions). */
+export function useInscriptionsRecues(autoEcoleId: string) {
+  return useCollection('inscriptionsAutoEcole').filter((i) => i.autoEcoleId === autoEcoleId)
+}
+
 /** Les préinscriptions reçues par un établissement (pas celles que le candidat a annulées). */
 export function usePreinscriptionsRecues(etablissementId: string) {
   return useCollection('preinscriptions').filter((p) => p.etablissementId === etablissementId && p.statut !== 'Annulée')
@@ -265,6 +276,31 @@ export function usePermisListe() {
 /** Les permis indexés par code (`permis.B`…). */
 export function usePermisCatalogue() {
   return Object.fromEntries(usePermisListe().map((p) => [p.code, p])) as Record<PermisCode, (ReturnType<typeof usePermisListe>)[number]>
+}
+
+/**
+ * Les permis au prix d'une auto-école : le prix qu'elle a fixé (espace pro ›
+ * Permis & tarifs), sinon celui du catalogue (et, sur la fiche d'un permis,
+ * celui de la maquette).
+ */
+export function usePermisDe(autoEcoleId: string) {
+  const catalogue = usePermisCatalogue()
+  const tarifs = useCollection('autoEcoles').find((a) => a.id === autoEcoleId)?.tarifs ?? {}
+  return Object.fromEntries(
+    Object.entries(catalogue).map(([code, p]) => {
+      const prix = tarifs[code as PermisCode]
+      return [code, prix === undefined ? p : { ...p, prix, prixFiche: prix }]
+    }),
+  ) as typeof catalogue
+}
+
+/** Les sessions d'une auto-école : les siennes (espace pro › Planning des sessions). */
+export function useSessionsDe(autoEcoleId: string) {
+  // Dans l'ordre du calendrier : la première de chaque permis est sa « prochaine session ».
+  const jour = (texte: string) => dateDeDemo(texte)?.getTime() ?? Number.POSITIVE_INFINITY
+  return useCollection('sessions')
+    .filter((s) => s.autoEcoleId === autoEcoleId)
+    .sort((a, b) => jour(a.debut) - jour(b.debut))
 }
 
 export function useRoles() {
@@ -426,8 +462,7 @@ export function useVideos(cible: 'etablissement' | 'auto-ecole', cibleId: string
 }
 
 export function useNotificationsCompte(compteId: string | undefined) {
-  // Préinscription masquée (demande du porteur du projet, 2026-11-25) : ses notifications ne s'affichent plus.
-  return useCollection('notificationsCompte').filter((n) => (n.compteId === compteId || n.compteId === POUR_TOUS) && n.type !== 'preRegistration' && n.type !== 'session')
+  return useCollection('notificationsCompte').filter((n) => n.compteId === compteId || n.compteId === POUR_TOUS)
 }
 
 /** Les libellés des sujets de publication. */

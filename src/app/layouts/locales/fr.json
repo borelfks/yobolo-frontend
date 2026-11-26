@@ -29,9 +29,15 @@
       "documents": "Documents à télécharger",
       "faq": "FAQ (Questions fréquentes)",
       "statistics": "Statistiques",
-      "settings": "Paramètres"
+      "settings": "Paramètres",
+      "preRegistrations": "Préinscriptions",
+      "enrollments": "Inscriptions",
+      "profileAE": "Profil de l’auto-école",
+      "licences": "Permis & tarifs",
+      "planning": "Planning des sessions"
     },
-    "backHome": "Accueil"
+    "backHome": "Accueil",
+    "approved": "Auto-école agréée"
   },
   "schoolType": {
     "IPES": "IPES",
@@ -107,6 +113,7 @@
     "utilisateur": "Utilisateur",
     "ipes": "Administrateur",
     "cfp": "Administrateur",
-    "autre": "Administrateur"
+    "autre": "Administrateur",
+    "auto-ecole": "Administrateur"
   }
 }

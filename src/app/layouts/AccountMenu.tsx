@@ -49,7 +49,7 @@ export function NotificationsBell({ light, href }: { light?: boolean; href?: str
   const collection = account?.ecoleId ? ('notifications' as const) : ('notificationsCompte' as const)
   const items = account?.ecoleId
     ? pro.filter((n) => !n.etablissementId || n.etablissementId === account.ecoleId).map((n) => ({ id: n.id, type: n.type, titre: n.titre, texte: n.texte, quand: n.date, lu: n.lu }))
-    : perso.filter((n) => (n.compteId === account?.id || n.compteId === POUR_TOUS) && n.type !== 'preRegistration' && n.type !== 'session').map((n) => ({ id: n.id, type: n.type, titre: n.titre, texte: n.texte, quand: n.quand, lu: n.lu }))
+    : perso.filter((n) => n.compteId === account?.id || n.compteId === POUR_TOUS).map((n) => ({ id: n.id, type: n.type, titre: n.titre, texte: n.texte, quand: n.quand, lu: n.lu }))
   const count = items.filter((n) => !n.lu).length
   const lire = (ids: string[]) => Promise.all(ids.map((id) => data.update(collection, id, { lu: true })))
   return (
@@ -138,12 +138,10 @@ export function UserMenu() {
           )}
           {account.role === 'utilisateur' && (
             <>
-              {/* Mon espace masqué pour la personne physique (demande du porteur du projet, 2026-11-25) :
               <Link to={ROUTES.espace()} onClick={close} className={item}>
                 <LayoutDashboard />
                 {t('userMenu.mySpace')}
               </Link>
-              */}
               <Link to={ROUTES.profil} onClick={close} className={item}>
                 <UserRound />
                 {t('userMenu.profile')}

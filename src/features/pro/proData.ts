@@ -55,6 +55,23 @@ export function sousCles(prefixe: string, valeurs: Valeurs): Valeurs {
 
 const TYPES: TypeEcole[] = ['IPES', 'CFP', 'Auto-école', 'Autre']
 
+/** Plus ancienne année de création acceptée. */
+export const ANNEE_CREATION_MIN = 1900
+
+/** Plus récente année de création acceptée : l'année en cours. */
+export const anneeCreationMax = (maintenant = new Date()) => maintenant.getFullYear()
+
+/**
+ * L'année de création est facultative ; saisie, elle compte 4 chiffres et se
+ * situe entre 1900 et l'année en cours (pas d'établissement créé dans le futur).
+ */
+export function anneeCreationValide(v: string, maintenant = new Date()) {
+  if (v.trim() === '') return true
+  if (!/^\d{4}$/.test(v.trim())) return false
+  const annee = Number(v)
+  return annee >= ANNEE_CREATION_MIN && annee <= anneeCreationMax(maintenant)
+}
+
 /**
  * Champs du formulaire « Profil » qui existent dans la fiche publique
  * (type Etablissement) : publiés, ils changent la fiche. Les autres

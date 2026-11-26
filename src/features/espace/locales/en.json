@@ -16,13 +16,9 @@
     "autoEcole": "My licences ({{n}})",
     "avis": "My reviews ({{n}})"
   },
-  "statuts": {
-    "Envoyée": "Sent",
-    "Annulée": "Cancelled"
-  },
   "apercu": {
     "bonjour": "Hello, {{name}}!",
-    "texte": "Find your driving school enrolments and your reviews here.",
+    "texte": "Find your pre-registrations, driving school enrolments, reviews and notifications here.",
     "kpis": {
       "preinscriptions": "Pre-registrations",
       "permis": "Driving school enrolments",
@@ -64,9 +60,6 @@
     "detailPermis": "My licence {{code}} enrolment",
     "candidat": "The applicant",
     "parcours": "Education",
-    "pieces": "Attached documents",
-    "aucunePiece": "No attached document.",
-    "telecharger": "Download",
     "formation": "Programme",
     "etablissement": "Institution",
     "autoEcole": "Driving school",
@@ -155,7 +148,7 @@
   },
   "profil": {
     "titre": "My profile",
-    "texte": "Your YIBOLO account information.",
+    "texte": "This information pre-fills your pre-registrations and enrolments.",
     "photo": "Photo",
     "changerPhoto": "Change photo",
     "retirerPhoto": "Remove photo",
@@ -271,5 +264,20 @@
   "pages": {
     "profil": "My profile",
     "parametres": "Settings"
+  },
+  "complement": {
+    "titre": "Complete my application",
+    "demande": "Request from the institution:",
+    "message": "Your reply",
+    "exemple": "E.g. Here is my Baccalaureate transcript.",
+    "joindre": "Attach a document",
+    "formats": "PDF, JPG or PNG (max. 3 MB)",
+    "envoyer": "Send the information",
+    "envoye": "Information sent to the institution",
+    "echec": "The information could not be sent. Try again.",
+    "tropLourd": "The document is larger than 3 MB.",
+    "erreurTexte": "Write a short message.",
+    "notificationTitre": "Application completed",
+    "notificationTexte": "{{name}} completed their application ({{objet}})."
   }
 }

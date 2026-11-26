@@ -75,11 +75,30 @@
       "title": "General information",
       "text": "Fill in the basic information for your account.",
       "fields": {
+        "type": "Type of institution",
         "nom": "Institution name",
         "telephone": "Phone",
         "email": "Email",
         "motDePasse": "Password",
         "confirmation": "Confirm the password"
+      },
+      "types": {
+        "IPES": {
+          "title": "IPES",
+          "text": "Private Higher Education Institute"
+        },
+        "CFP": {
+          "title": "CFP",
+          "text": "Vocational Training Centre"
+        },
+        "Autre": {
+          "title": "Other",
+          "text": "Languages, IT, sewing, etc."
+        },
+        "Auto-école": {
+          "title": "Driving school",
+          "text": "Driving licence training (A, B, C, D)"
+        }
       }
     },
     "errors": {
@@ -94,7 +113,8 @@
       "nom": "Surname is required.",
       "nationalite": "Choose your nationality.",
       "phoneTaken": "This number is already used by another account.",
-      "phoneFormat": "The number has 9 digits, without a leading 0."
+      "phoneFormat": "The number has 9 digits, without a leading 0.",
+      "type": "Choose your institution’s type."
     },
     "verification": {
       "title": "Verification of your profile – {{profile}}",

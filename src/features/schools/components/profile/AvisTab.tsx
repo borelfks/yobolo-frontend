@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useSearchParams } from 'react-router'
 import { Briefcase, ChevronDown, GraduationCap, MessageCircle, PencilLine, Star, ThumbsUp, Users } from 'lucide-react'
 import { Img } from '@/shared/components/ui/Img'
 import { Stars, PasEncoreDAvis } from '@/shared/components/ui/StarRating'
@@ -60,7 +61,8 @@ const PAR_PAGE = 3
 export function AvisTab({ id }: { id: string }) {
   const { t } = useTranslation('schools')
   const e = useEtablissement(id)
-  const [donnerAvis, setDonnerAvis] = useState(false)
+  // « Donner un avis » depuis Mon espace arrive ici avec ?donner=1 : la fenêtre s'ouvre d'emblée.
+  const [donnerAvis, setDonnerAvis] = useState(useSearchParams()[0].get('donner') === '1')
   const avis = useAvisEtablissement(e.id)
   // Répartition tirée des avis de cet établissement.
   const repartitionNotes = useRepartitionEtablissement(e.id)

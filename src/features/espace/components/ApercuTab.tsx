@@ -4,7 +4,7 @@ import { Bell, Car, ChevronRight, FileText, GraduationCap, Heart, History, Searc
 import { useAutoEcoles, useEtablissements, useFormations, useMesAvis, useMesInscriptions, useNotificationsCompte } from '@/data/hooks'
 import { useSession } from '@/features/auth/hooks/useSession'
 import { completude } from '@/features/espace/espaceActions'
-import { StatutDossier } from '@/features/espace/components/Dossiers'
+import { BadgeDossier } from '@/shared/components/ui/BadgeDossier'
 import { Button } from '@/shared/components/ui/Button'
 import { Card, Section } from '@/shared/components/ui/Card'
 import { Kpi, KpiGrid, QuickAction } from '@/shared/components/ui/Blocks'
@@ -91,7 +91,7 @@ export function ApercuTab() {
                         </span>
                       </span>
                       <span className="self-start sm:self-center">
-                        <StatutDossier statut={d.statut} />
+                        <BadgeDossier statut={d.statut} />
                       </span>
                     </span>
                     <ChevronRight className="size-4 shrink-0 text-muted" aria-hidden="true" />

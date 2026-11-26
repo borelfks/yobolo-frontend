@@ -38,6 +38,21 @@ export function demoDate(value: string) {
   return shortDate(new Date(Number(m[3]), month, Number(m[1])), { day: '2-digit', month: m[2]!.endsWith('.') ? 'short' : 'long', year: 'numeric' })
 }
 
+/** Une date écrite en français dans les données (« 15 nov. 2026 », « 15 novembre 2026 ») → Date ; null si ce n'est pas une date. */
+export function dateDeDemo(value: string): Date | null {
+  const m = /^(\d{1,2}) (\S+) (\d{4})$/.exec(value.trim())
+  const month = m ? MOIS[m[2]!.toLowerCase()] : undefined
+  return !m || month === undefined ? null : new Date(Number(m[3]), month, Number(m[1]))
+}
+
+/** Mois abrégés des données (format de la maquette). */
+const MOIS_COURTS = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.']
+
+/** Une date → le texte enregistré dans les données, comme ceux de la maquette (« 05 janv. 2027 ») ; affiché ensuite avec demoDate. */
+export function texteDeDate(d: Date) {
+  return `${String(d.getDate()).padStart(2, '0')} ${MOIS_COURTS[d.getMonth()]} ${d.getFullYear()}`
+}
+
 /** Photo de démonstration stable, tirée d'une graine. */
 export function photo(seed: string, w = 640, h = 420) {
   return `https://picsum.photos/seed/yibolo-${encodeURIComponent(seed)}/${w}/${h}`
