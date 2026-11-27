@@ -65,7 +65,10 @@ const Statistiques = lazy(() => import('@/modules/ecole/espace-pro/pages/Statist
 const Parametres = lazy(() => import('@/modules/ecole/espace-pro/pages/Parametres').then((m) => ({ default: m.Parametres })))
 const InviterUtilisateur = lazy(() => import('@/modules/ecole/espace-pro/pages/InviterUtilisateur').then((m) => ({ default: m.InviterUtilisateur })))
 
-const DesignSystem = lazy(() => import('@/modules/design-system/pages/DesignSystem').then((m) => ({ default: m.DesignSystem })))
+// Le design system n'existe qu'en développement : le build ne contient pas son fichier.
+const routesDeDeveloppement = import.meta.env.DEV
+  ? [{ path: ROUTES.designSystem, Component: lazy(() => import('@/modules/design-system/pages/DesignSystem').then((m) => ({ default: m.DesignSystem }))) }]
+  : []
 
 const P = ROUTE_PATTERNS
 
@@ -78,8 +81,7 @@ export const router = createBrowserRouter([
   {
     errorElement: <ErrorPage />,
     children: [
-      // Le design system : en développement seulement (absent du site publié).
-      ...(import.meta.env.DEV ? [{ path: ROUTES.designSystem, element: <DesignSystem /> }] : []),
+      ...routesDeDeveloppement,
       { path: ROUTES.signIn, element: <Connexion /> },
       { path: ROUTES.signUp, element: <Inscription /> },
       { path: ROUTES.forgotPassword, element: <MotDePasseOublie /> },
