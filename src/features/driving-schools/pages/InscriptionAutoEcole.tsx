@@ -206,7 +206,7 @@ export function InscriptionAutoEcole() {
                       <span aria-hidden className="flex h-3.5 w-5 overflow-hidden rounded-[2px]"><span className="w-1/3 bg-emerald-600" /><span className="w-1/3 bg-rose-600" /><span className="w-1/3 bg-sun-400" /></span>
                       +237 <span className="text-xs">▾</span>
                     </span>
-                    <input className="min-w-0 flex-1 px-3 text-[14px] outline-none" placeholder="6 70 12 34 56" value={d.telephone} onChange={(e) => update({ telephone: e.target.value })} />
+                    <input className="min-w-0 flex-1 px-3 text-[14px] outline-none" placeholder="670 12 34 56" value={d.telephone} onChange={(e) => update({ telephone: e.target.value })} />
                   </span>
                 </label>
               </div>
@@ -296,7 +296,7 @@ export function InscriptionAutoEcole() {
                 <RecapCard icon={<UserRound />} title={t('inscription.recap.personal')} edit={ROUTES.editEnrollment(a.id, p.code, 'infos')}>
                   <Row k={t('inscription.recap.fullName')} v={`${v(d.nom.toUpperCase(), 'MBOG')} ${v(d.prenom, 'Pauline Aline')}`} />
                   <Row k={t('inscription.recap.birthDate')} v={naissance} />
-                  <Row k={t('inscription.recap.phone')} v={`+237 ${v(d.telephone, '6 70 12 34 56')}`} />
+                  <Row k={t('inscription.recap.phone')} v={`+237 ${v(d.telephone, '670 12 34 56')}`} />
                   <Row k={t('inscription.recap.email')} v={v(d.email, 'pauline.mbog@gmail.com')} />
                   <Row k={t('inscription.recap.location')} v={`${v(d.ville, 'Yaoundé')} – ${v(d.quartier, 'Bastos')}`} />
                 </RecapCard>

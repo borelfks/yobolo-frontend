@@ -12,9 +12,9 @@ import { Select } from '@/shared/components/forms/Fields'
 import type { Etablissement, Formation } from '@/shared/types'
 import { typeTone } from '@/features/schools/schoolTypes'
 import { useEtablissement } from '@/data/hooks'
-import { ecoleUrl, formationUrl, modeKey, modeStyle, schoolTypeKey, useModeLabel } from '@/features/schools/schoolLinks'
+import { ecoleUrl, formationUrl, modeStyle, schoolTypeKey, useModeLabel } from '@/features/schools/schoolLinks'
 import { cn } from '@/shared/utils/cn'
-import { fcfa, num } from '@/shared/utils/format'
+import { num } from '@/shared/utils/format'
 import { lienCarte, ouvrir } from '@/shared/utils/liens'
 import { PasEncoreDAvis } from '@/shared/components/ui/StarRating'
 
@@ -103,8 +103,8 @@ export function EcoleCard({ e }: { e: Etablissement }) {
   )
 }
 
-/** Ligne de formation (img30, img31) : photo, titre, établissement, pastilles, frais, détails, favori. */
-export function FormationRow({ f, showEcole = true, chips = 'frais' }: { f: Formation; showEcole?: boolean; chips?: 'frais' | 'cours' }) {
+/** Ligne de formation (img31) : photo, titre, établissement, pastilles, détails, favori. */
+export function FormationRow({ f, showEcole = true }: { f: Formation; showEcole?: boolean }) {
   const { t } = useTranslation('schools')
   const modeLabel = useModeLabel()
   const e = useEtablissement(f.etablissementId)
@@ -134,31 +134,18 @@ export function FormationRow({ f, showEcole = true, chips = 'frais' }: { f: Form
           </p>
         )}
         <div className="flex flex-wrap items-center gap-2 text-[13px]">
-          {chips === 'frais' ? (
-            <>
-              <span className="rounded-lg bg-[#e8efff] px-3 py-1 font-medium text-navy-800">{f.diplome}</span>
-              <span className="rounded-lg bg-[#efe8ff] px-3 py-1 font-medium text-navy-800">{t(`modes.${modeKey[f.mode]}`)}</span>
-            </>
-          ) : (
-            <span className={cn('inline-flex items-center gap-1.5 rounded-lg px-3 py-1 font-medium [&_svg]:size-4', modePill)}>
-              {m.icon}
-              {f.mode === 'Jour & Soir' ? t('blocks.formationRow.dayAndEvening') : modeLabel(f.mode)}
-            </span>
-          )}
+          <span className={cn('inline-flex items-center gap-1.5 rounded-lg px-3 py-1 font-medium [&_svg]:size-4', modePill)}>
+            {m.icon}
+            {f.mode === 'Jour & Soir' ? t('blocks.formationRow.dayAndEvening') : modeLabel(f.mode)}
+          </span>
           <span className="inline-flex items-center gap-1.5 px-1 text-navy-900">
             <CalendarDays className="size-4 text-navy-800" />
             {t('blocks.formationRow.months', { count: f.dureeMois })}
           </span>
         </div>
       </div>
-      <div className="flex items-center gap-4 border-line sm:min-w-[310px] sm:self-stretch sm:border-l sm:pl-5">
-        <div>
-          <p className="text-[13px] text-navy-900">{t('blocks.formationRow.fees')}</p>
-          <p className="mt-1 rounded-full bg-[#e8efff] px-4 py-1.5 text-[17px] font-extrabold text-navy-800">
-            {fcfa(f.fraisAn)} <span className="text-[15px] font-bold">{t('blocks.formationRow.perYear')}</span>
-          </p>
-        </div>
-        <Link to={formationUrl(f)} className="mt-5 ml-auto inline-flex h-10 items-center gap-1.5 rounded-full bg-brand-600 px-5 text-[13px] font-semibold text-white hover:bg-brand-700">
+      <div className="flex items-center gap-4 border-line sm:self-stretch sm:border-l sm:pl-5 sm:pr-10">
+        <Link to={formationUrl(f)} className="ml-auto inline-flex h-10 items-center gap-1.5 rounded-full bg-brand-600 px-5 text-[13px] font-semibold text-white hover:bg-brand-700">
           {t('blocks.formationRow.seeDetails')}
           <ArrowRight className="size-4" />
         </Link>
@@ -240,7 +227,7 @@ export function SearchPanel({
 /** `tri` : l'index de l'option choisie dans `sort` (ou dans les tris par défaut) ; `onTri` la change. */
 export function ResultsHeader({ title, sort, tri = 0, onTri, children }: { title: ReactNode; sort?: string[]; tri?: number; onTri?: (index: number) => void; children?: ReactNode }) {
   const { t } = useTranslation('schools')
-  const options = sort ?? [t('blocks.results.sort.pertinence'), t('blocks.results.sort.bestRated'), t('blocks.results.sort.feesAsc'), t('blocks.results.sort.newest')]
+  const options = sort ?? [t('blocks.results.sort.pertinence'), t('blocks.results.sort.bestRated'), t('blocks.results.sort.newest')]
   return (
     <div className="flex flex-wrap items-center justify-between gap-3">
       <h2 className="text-[19px] font-bold text-navy-950">{title}</h2>

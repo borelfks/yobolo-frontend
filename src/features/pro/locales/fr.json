@@ -51,10 +51,6 @@
         "label": "Conditions d’admission",
         "text": "Définissez les critères et pièces"
       },
-      "fees": {
-        "label": "Frais & paiement",
-        "text": "Renseignez les tarifs et modalités"
-      },
       "calendar": {
         "label": "Calendrier académique",
         "text": "Indiquez la rentrée et les dates clés"
@@ -110,7 +106,7 @@
       },
       "accreditation": {
         "title": "Agrément & documents",
-        "subtitle": "Renseignez les informations d’agrément et téléchargez vos documents officiels."
+        "subtitle": "Vos accords de création et d’ouverture et votre NIU, chacun avec son document."
       },
       "media": {
         "title": "Médias (logo, photos, vidéos)",
@@ -135,6 +131,7 @@
       "acronym": "Sigle",
       "type": "Type d’établissement",
       "founded": "Année de création",
+      "foundedPick": "Choisir l’année",
       "presentation": "Présentation (courte)"
     },
     "visibility": {
@@ -159,40 +156,39 @@
       "optional": "(optionnel)",
       "email": "E-mail",
       "website": "Site web",
+      "websitePlaceholder": "Ex. : www.monecole.cm",
+      "phonePlaceholder": "+237 6XX XX XX XX",
+      "noWebsite": {
+        "title": "Vous n’avez pas encore de site web ?",
+        "text": "YIBOLO peut le créer pour vous.",
+        "cta": "Être contacté",
+        "later": "Plus tard",
+        "sent": "Demande envoyée : l’équipe YIBOLO vous contactera.",
+        "subject": "Création d’un site web",
+        "message": "Nous n’avons pas de site web et souhaitons que YIBOLO le crée pour nous."
+      },
       "preview": "Aperçu des coordonnées (page publique)",
       "map": "Plan d’accès"
     },
     "accreditation": {
-      "title": "Informations d’agrément",
-      "authorisation": "Autorisation d’ouverture / Agrément",
-      "issueDate": "Date de délivrance",
-      "authority": "Autorité de délivrance",
-      "otherAuthority": "Autre",
-      "expiry": "Date d’expiration",
-      "ifApplicable": "(si applicable)",
+      "title": "Accords de création et d’ouverture",
+      "intro": "Chaque accord est délivré par une autorité (MINESUP, MINEFOP…) et a son document. Ajoutez-en autant que nécessaire.",
+      "niuTitle": "Identifiant fiscal",
       "taxNumber": "Numéro de contribuable (NIU)",
-      "rccm": "RCCM",
+      "niuExample": "Ex. : M123456789012",
+      "niuMissing": "Certificat du NIU manquant",
       "verified": "Établissement vérifié",
       "verifiedText": "Vos documents ont été contrôlés et validés par YIBOLO.",
-      "compliant": "✓ Conforme"
+      "compliant": "✓ Conforme",
+      "fixErrors": "Corrigez les champs en rouge avant d’enregistrer."
     },
     "documents": {
-      "title": "Documents officiels",
       "items": {
-        "authorisation": "Autorisation d’ouverture",
-        "statutes": "Statuts de l’établissement",
         "niu": "Certificat du NIU"
       },
-      "validated": "Validé",
       "view": "Voir",
-      "delete": "Supprimer",
-      "add": "Ajouter un document",
-      "formats": "PDF, JPG ou PNG (Max. 10 Mo)",
-      "choose": "Choisir un fichier",
       "sent": "{{name}} ajouté",
       "fileSize": "Fichier · {{size}}",
-      "deleted": "Document supprimé",
-      "none": "Aucun document pour le moment.",
       "noFile": "Ce document n’est pas encore disponible au téléchargement.",
       "tooBig": "Fichier trop lourd : 3 Mo au maximum."
     },
@@ -254,7 +250,7 @@
       "field": "Filière",
       "diploma": "Diplôme",
       "duration": "Durée",
-      "nextIntake": "Prochaine rentrée",
+      "nextIntake": "Date limite d’inscription",
       "status": "Statut",
       "actions": "Actions",
       "select": "Sélectionner {{name}}",
@@ -287,52 +283,51 @@
     "blocks": {
       "general": "Informations générales",
       "organisation": "Organisation de la formation",
-      "fees": "Frais de formation",
       "description": "Description (aperçu)"
     },
     "fields": {
-      "title": "Intitulé de la formation",
-      "diploma": "Diplôme préparé",
-      "field": "Filière",
-      "level": "Niveau",
+      "diploma": "Diplôme",
+      "sector": "Secteur",
+      "domain": "Domaine",
+      "speciality": "Spécialité",
+      "option": "Option",
+      "level": "Niveau requis",
       "duration": "Durée",
-      "mode": "Mode de cours",
-      "intake": "Prochaine rentrée",
-      "registrationFee": "Frais d’inscription (FCFA)",
-      "tuition": "Frais de scolarité / an (FCFA)",
-      "payment": "Mode de paiement",
-      "presentation": "Présentation courte de la formation"
+      "mode": "Type de cours",
+      "deadline": "Date limite d’inscription",
+      "presentation": "Présentation courte de la formation",
+      "choose": "Choisir",
+      "optional": "Facultatif",
+      "noOption": "Aucune option pour cette spécialité",
+      "sectorFirst": "Choisissez d’abord le secteur",
+      "domainFirst": "Choisissez d’abord le domaine",
+      "fieldGroup": "Filière : {{name}}"
     },
     "levels": {
       "none": "Aucun",
       "probatoire": "Probatoire",
-      "bac": "Bac",
+      "bac": "Baccalauréat",
       "btsHnd": "BTS / HND",
       "licence": "Licence"
     },
     "modes": {
       "day": "Jour",
-      "evening": "Soir",
-      "workStudy": "Alternance"
-    },
-    "payments": {
-      "several": "Plusieurs options",
-      "once": "En une fois",
-      "twoInstalments": "En deux tranches",
-      "monthly": "Mensuel"
+      "evening": "Soir"
     },
     "progress": {
       "title": "Progression de création",
       "percent": "{{pct}} %",
       "general": "Informations générales",
       "organisation": "Organisation de la formation",
-      "fees": "Frais de formation",
-      "description": "Description et validation"
+      "description": "Description (aperçu)",
+      "done": "Fait",
+      "todo": "À faire"
     },
     "tips": {
       "title": "Bon à savoir",
       "required": "Les champs marqués d’un <red>*</red> sont obligatoires.",
-      "next": "Vous pourrez ensuite compléter le programme, les conditions d’admission et les débouchés."
+      "accurate": "Renseignez des informations exactes et à jour.",
+      "published": "La formation est publiée dès que vous l’enregistrez."
     },
     "actions": {
       "saveContinue": "Enregistrer et continuer",
@@ -346,13 +341,20 @@
       "title": "Aperçu de la fiche formation",
       "untitled": "Formation sans intitulé",
       "diploma": "Diplôme",
-      "field": "Filière",
+      "field": "Secteur › Domaine › Filière",
       "duration": "Durée",
       "months_one": "{{count}} mois",
       "months_other": "{{count}} mois",
       "mode": "Cours",
-      "intake": "Prochaine rentrée",
-      "fees": "Frais de scolarité / an"
+      "deadline": "Date limite d’inscription"
+    },
+    "name": {
+      "label": "Votre formation s’affichera ainsi",
+      "empty": "Choisissez le diplôme, le secteur, le domaine et la spécialité : le nom de la formation se compose tout seul."
+    },
+    "errors": {
+      "incomplete": "Complétez les champs obligatoires avant de publier.",
+      "noSpeciality": "Choisissez au moins la spécialité pour enregistrer le brouillon."
     }
   },
   "stats": {
@@ -478,35 +480,39 @@
         }
       },
       "documents": {
-        "addTitle": "Ajouter un document à télécharger",
-        "addHint": "Glissez-déposez ou cliquez pour sélectionner — PDF, DOCX, XLSX, PPTX (Max. 20 Mo)",
-        "added": "{{name}} ajouté en brouillon",
-        "suggestedTypes": "Types suggérés",
+        "intro": "Les documents publiés s’affichent sur votre page. Importez chaque document sur sa ligne : vous savez toujours ce qui manque.",
+        "formats": "PDF, Word, Excel ou image · 3 Mo max.",
+        "added": "« {{name}} » ajouté et publié",
+        "view": "Voir « {{name}} »",
+        "tooBig": "Fichier trop lourd : 3 Mo au maximum.",
         "types": {
-          "brochure": "Brochure",
-          "admission": "Conditions d’admission",
-          "documentsList": "Liste des pièces",
-          "rules": "Règlement intérieur",
-          "calendar": "Calendrier académique"
+          "brochure": {
+            "title": "Brochure",
+            "desc": "La présentation de l’établissement et de ses formations."
+          },
+          "admission": {
+            "title": "Dossier de candidature",
+            "desc": "La fiche à remplir pour se porter candidat."
+          },
+          "pieces": {
+            "title": "Pièces à fournir",
+            "desc": "La liste des documents demandés aux candidats."
+          },
+          "rules": {
+            "title": "Règlement intérieur",
+            "desc": "Les règles de vie et de scolarité."
+          },
+          "calendar": {
+            "title": "Calendrier académique",
+            "desc": "Rentrée, examens, vacances."
+          }
         },
-        "table": {
-          "document": "Document",
-          "category": "Catégorie",
-          "size": "Taille",
-          "publishedAt": "Date de publication",
-          "status": "Statut",
-          "actions": "Actions"
-        },
-        "categories": {
-          "brochure": "Brochure",
-          "admission": "Admission",
-          "rules": "Règlement",
-          "calendar": "Calendrier"
-        },
-        "count_one": "{{count}} documents",
-        "count_other": "{{count}} documents",
         "preview": {
+          "type": "Type",
           "format": "Format",
+          "size": "Taille",
+          "date": "Ajouté le",
+          "status": "Statut",
           "download": "Télécharger",
           "noFile": "Ce document n’est pas encore disponible au téléchargement."
         },
@@ -521,9 +527,26 @@
           "published": "« {{name}} » publié",
           "unpublished": "« {{name}} » repassé en brouillon",
           "renamed": "Document renommé : « {{name}} »",
-          "deleted": "« {{name}} » supprimé"
+          "deleted": "« {{name}} » supprimé",
+          "actions": "Actions pour « {{name}} »"
         },
-        "tooBig": "Fichier trop lourd : 3 Mo au maximum."
+        "title": "Documents à télécharger",
+        "progress": "{{done}} sur {{total}} documents ajoutés",
+        "missing": "Pas encore ajouté",
+        "present": "Ajouté",
+        "import": "Importer",
+        "replace": "Remplacer",
+        "replaced": "« {{name}} » remplacé",
+        "others": {
+          "title": "Autres documents",
+          "desc": "Tout autre document utile aux candidats (bourses, tenue, transport…).",
+          "add": "Ajouter un autre document",
+          "one": "Autre document"
+        },
+        "status": {
+          "published": "Publié",
+          "draft": "Brouillon"
+        }
       },
       "faq": {
         "categoriesTitle": "Catégories",
@@ -544,7 +567,6 @@
           "all": "Toutes",
           "admission": "Admission",
           "training": "Formation",
-          "fees": "Frais et paiement",
           "diplomas": "Diplômes"
         }
       }
@@ -734,7 +756,6 @@
         "showContacts": "Afficher les contacts",
         "showAddress": "Afficher l’adresse",
         "showReviews": "Afficher les avis",
-        "hideFees": "Masquer les frais de formation",
         "languageTitle": "Langue de l’interface",
         "themeTitle": "Thème d’affichage",
         "themes": {

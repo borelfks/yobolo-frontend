@@ -22,7 +22,7 @@
 ## Inscription (`/inscription`)
 1. **Profil** : École / IPES, Consultant, Entreprise, Personne physique. **École / IPES** et **Personne physique** sont ouverts ; Consultant et Entreprise affichent « Bientôt disponible » (décisions du 2026-11-24).
 2. **Infos** : raison sociale ou nom, téléphone, e-mail, région, ville, quartier, mot de passe (8 caractères) + confirmation.
-3. **Documents** (obligatoires) : pièces selon le profil (pièce d'identité ; ou autorisation d'ouverture / justificatif d'activité + NIU).
+3. **Documents** (obligatoires) : école : au moins un accord de création et un accord d'ouverture, chacun avec son autorité, son numéro, ses dates et son document (`ListeAccords`, table `accordsEtablissement`), puis le NIU et son certificat.
 4. **« Créer mon compte »** : le compte (statut « Validé ») et son établissement sont enregistrés, et l'école **entre directement dans son espace professionnel**. **Pas de validation par YIBOLO** (décision du 2026-11-27). Le compte est enregistré dès l'envoi du code ; un e-mail déjà utilisé est refusé.
 
 ## Accès

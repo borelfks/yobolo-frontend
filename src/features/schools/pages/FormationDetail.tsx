@@ -1,6 +1,6 @@
-import { Link, useParams } from 'react-router'
+import { Link, Navigate, useParams } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { CalendarDays, Coins, GraduationCap, Landmark, List, MapPin, Users } from 'lucide-react'
+import { CalendarDays, GraduationCap, Landmark, List, MapPin, Users } from 'lucide-react'
 import { Breadcrumb } from '@/shared/components/ui/Breadcrumb'
 import { Img } from '@/shared/components/ui/Img'
 import { ecoleUrl } from '@/features/schools/schoolLinks'
@@ -8,7 +8,6 @@ import { FormationAside } from '@/features/schools/components/training/Formation
 import { DetailsTab } from '@/features/schools/components/training/DetailsTab'
 import { ProgrammeTab } from '@/features/schools/components/training/ProgrammeTab'
 import { AdmissionTab } from '@/features/schools/components/training/AdmissionTab'
-import { FraisTab } from '@/features/schools/components/training/FraisTab'
 import { DebouchesTab } from '@/features/schools/components/training/DebouchesTab'
 import { isTypeSlug, slugOfType } from '@/features/schools/schoolTypes'
 import { useEtablissement, useFormation } from '@/data/hooks'
@@ -33,9 +32,10 @@ export function FormationDetail() {
     { value: '', label: t('formationDetail.tabs.details'), icon: <List /> },
     { value: 'programme', label: t('formationDetail.tabs.programme'), icon: <GraduationCap /> },
     { value: 'admission', label: t('formationDetail.tabs.admission'), icon: <CalendarDays /> },
-    { value: 'frais', label: t('formationDetail.tabs.frais'), icon: <Coins /> },
     { value: 'debouches', label: t('formationDetail.tabs.debouches'), icon: <Users /> },
   ]
+  // Un onglet qui n'existe plus (comme l'ancien « Frais & paiement ») ramène aux détails.
+  if (tab && !tabs.some((x) => x.value === tab)) return <Navigate to={base} replace />
   const current = tabs.find((x) => x.value === tab) ?? tabs[0]
   return (
     <div className="mx-auto max-w-[1320px] space-y-3.5 px-5 py-4">
@@ -91,7 +91,6 @@ export function FormationDetail() {
           {tab === '' && <DetailsTab f={f} />}
           {tab === 'programme' && <ProgrammeTab f={f} />}
           {tab === 'admission' && <AdmissionTab f={f} />}
-          {tab === 'frais' && <FraisTab f={f} />}
           {tab === 'debouches' && <DebouchesTab f={f} />}
         </div>
         <FormationAside f={f} showRentree={tab !== 'programme'} />

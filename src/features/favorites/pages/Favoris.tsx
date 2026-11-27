@@ -140,14 +140,6 @@ function FavRow({ fav, onRemove }: { fav: Favorite; onRemove: () => void }) {
   let right: ReactNode = null
   let to: string = ROUTES.schools
   let cta = t('row.voirDetails')
-  const price = (n: number) => (
-    <>
-      <p className="text-[14px] text-navy-900">{t('row.fraisFormation')}</p>
-      <p className="mt-1 rounded-full bg-[#e8efff] px-4 py-1.5 text-[18px] font-extrabold text-navy-800">
-        {fcfa(n)} <span className="text-[14px] font-bold">{t('row.parAn')}</span>
-      </p>
-    </>
-  )
   const formation = fav.kind === 'formation' ? formations.find((x) => x.id === fav.id) : undefined
   if (formation) {
     const f = formation
@@ -162,7 +154,6 @@ function FavRow({ fav, onRemove }: { fav: Favorite; onRemove: () => void }) {
         </p>
       </>
     )
-    right = price(f.fraisAn)
   } else if (fav.kind === 'etablissement' && etablissements.some((x) => x.id === fav.id)) {
     const e = etablissementDe(fav.id)
     ;[image, badge, title, to, cta] = [fav.vignette ?? e.image, t('row.badges.etablissement'), e.nom, ecoleUrl(e), t('row.voirEtablissement')]

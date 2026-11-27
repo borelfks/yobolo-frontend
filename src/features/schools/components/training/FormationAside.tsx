@@ -8,7 +8,7 @@ import { card } from '@/features/schools/components/training/trainingShared'
 import { useEtablissement } from '@/data/hooks'
 import type { Formation } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
-import { num } from '@/shared/utils/format'
+import { num, shortDate } from '@/shared/utils/format'
 import { PasEncoreDAvis } from '@/shared/components/ui/StarRating'
 // Préinscription masquée (demande du porteur du projet, 2026-11-25) : import { ROUTES } from '@/shared/utils/routes'
 
@@ -59,8 +59,9 @@ export function FormationAside({ f, showRentree }: { f: Formation; showRentree: 
         <div className="relative flex items-center gap-3 overflow-hidden rounded-2xl border border-line bg-[#eef3fc] p-4">
           <CalendarDays className="size-8 text-brand-600" />
           <div>
-            <p className="text-[14px] text-navy-900">{t('formationDetail.aside.nextIntake')}</p>
-            <p className="text-[20px] font-bold text-navy-900">{e.rentree}</p>
+            {/* Une formation du nouveau formulaire a sa date limite d'inscription ; sinon, la rentrée de l'établissement. */}
+            <p className="text-[14px] text-navy-900">{f.dateLimite ? t('formationDetail.aside.deadline') : t('formationDetail.aside.nextIntake')}</p>
+            <p className="text-[20px] font-bold text-navy-900">{f.dateLimite ? shortDate(f.dateLimite, { day: '2-digit', month: 'long', year: 'numeric' }) : e.rentree}</p>
           </div>
           <CalendarDays className="absolute right-3 size-14 text-brand-200" strokeWidth={1.4} />
         </div>

@@ -109,7 +109,7 @@ export function DiplomesTab({ type }: { type: TypeSlug }) {
             <h3 className="flex items-center gap-2 text-[20px] font-bold text-navy-950">
               <Flame className="size-6 fill-orange-500 text-orange-500" /> {t('listing.diplomes.popular')}
             </h3>
-            <Link to={ROUTES.schoolType(type, 'frais')} className="text-[15px] font-semibold text-brand-600 underline underline-offset-4">
+            <Link to={ROUTES.schoolType(type, 'cours')} className="text-[15px] font-semibold text-brand-600 underline underline-offset-4">
               {t('listing.diplomes.seeAll')}
             </Link>
           </div>

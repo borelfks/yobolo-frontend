@@ -13,7 +13,6 @@ import { modeKey } from '@/features/schools/components/training/trainingShared'
 import { useEtablissement, useFormationsOf } from '@/data/hooks'
 import type { Formation } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
-import { fcfa } from '@/shared/utils/format'
 
 function FormationLine({ f }: { f: Formation }) {
   const { t } = useTranslation('schools')
@@ -50,14 +49,8 @@ function FormationLine({ f }: { f: Formation }) {
           </span>
         </p>
       </div>
-      <div className="flex items-center gap-4 border-line sm:min-w-[400px] sm:self-stretch sm:border-l sm:pl-7">
-        <div>
-          <p className="text-[14px] text-navy-900">{t('ecoleProfil.formations.fees')}</p>
-          <p className="mt-1 rounded-full bg-[#e8efff] px-4 py-1.5 text-[18px] font-extrabold text-navy-800">
-            {fcfa(f.fraisAn)} <span className="text-[15px] font-bold">{t('shared.perYear')}</span>
-          </p>
-        </div>
-        <Link to={formationUrl(f)} className="mt-5 ml-auto inline-flex h-10 items-center gap-2 rounded-full bg-brand-600 px-5 text-[14px] font-semibold text-white hover:bg-brand-700">
+      <div className="flex items-center gap-4 border-line sm:self-stretch sm:border-l sm:pl-7 sm:pr-10">
+        <Link to={formationUrl(f)} className="ml-auto inline-flex h-10 items-center gap-2 rounded-full bg-brand-600 px-5 text-[14px] font-semibold text-white hover:bg-brand-700">
           {t('ecoleProfil.formations.seeDetails')}
           <ArrowRight className="size-4" />
         </Link>
@@ -113,7 +106,7 @@ export function FormationsTab({ id }: { id: string }) {
           </h2>
           <span className="flex items-center gap-2 text-sm">
             {t('shared.sortBy')}
-            <span className="w-44"><Select aria-label={t('shared.sortByAria')} options={[t('ecoleProfil.formations.sort.pertinence'), t('ecoleProfil.formations.sort.fraisCroissants'), t('ecoleProfil.formations.sort.duree')]} className="h-10" /></span>
+            <span className="w-44"><Select aria-label={t('shared.sortByAria')} options={[t('ecoleProfil.formations.sort.pertinence'), t('ecoleProfil.formations.sort.duree')]} className="h-10" /></span>
           </span>
         </div>
         <div className="grid gap-3 md:grid-cols-[1.1fr_1fr_1fr_1fr]">

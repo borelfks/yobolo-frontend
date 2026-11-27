@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 import { Trans, useTranslation } from 'react-i18next'
-import { ArrowRight, BadgeCheck, BookOpen, Briefcase, Building2, CalendarDays, ExternalLink, Eye, GraduationCap, ImagePlus, Images, Layers, MapPin, Megaphone, MessageSquareText, PencilLine, Phone, Plus, Rocket, ShieldCheck, Wallet, Zap } from 'lucide-react'
+import { ArrowRight, BadgeCheck, BookOpen, Briefcase, Building2, CalendarDays, ExternalLink, Eye, GraduationCap, ImagePlus, Images, Layers, MapPin, Megaphone, MessageSquareText, PencilLine, Phone, Plus, Rocket, ShieldCheck, Zap } from 'lucide-react'
 import { ecoleUrl } from '@/features/schools/schoolLinks'
 import { Button } from '@/shared/components/ui/Button'
 import { Card, Section } from '@/shared/components/ui/Card'
@@ -31,7 +31,6 @@ export function Dashboard() {
   const apparence = {
     presentation: { icon: <Building2 />, tone: 'blue' as const, to: ROUTES.pro.contents() },
     admission: { icon: <ShieldCheck />, tone: 'violet' as const, to: ROUTES.pro.contents('faq') },
-    fees: { icon: <Wallet />, tone: 'amber' as const, to: ROUTES.pro.trainings },
     calendar: { icon: <CalendarDays />, tone: 'sky' as const, to: ROUTES.pro.contents('documents') },
     careers: { icon: <Briefcase />, tone: 'violet' as const, to: ROUTES.pro.trainings },
     contact: { icon: <Phone />, tone: 'blue' as const, to: ROUTES.pro.profile('coordonnees') },

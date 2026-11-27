@@ -51,10 +51,6 @@
         "label": "Admission requirements",
         "text": "Set the criteria and documents"
       },
-      "fees": {
-        "label": "Fees & payment",
-        "text": "Enter your prices and terms"
-      },
       "calendar": {
         "label": "Academic calendar",
         "text": "Give the intake and key dates"
@@ -110,7 +106,7 @@
       },
       "accreditation": {
         "title": "Accreditation & documents",
-        "subtitle": "Enter the accreditation information and upload your official documents."
+        "subtitle": "Your establishment and opening approvals and your NIU, each with its document."
       },
       "media": {
         "title": "Media (logo, photos, videos)",
@@ -135,6 +131,7 @@
       "acronym": "Acronym",
       "type": "Type of institution",
       "founded": "Year founded",
+      "foundedPick": "Choose the year",
       "presentation": "Presentation (short)"
     },
     "visibility": {
@@ -159,40 +156,39 @@
       "optional": "(optional)",
       "email": "Email",
       "website": "Website",
+      "websitePlaceholder": "E.g. www.myschool.cm",
+      "phonePlaceholder": "+237 6XX XX XX XX",
+      "noWebsite": {
+        "title": "No website yet?",
+        "text": "YIBOLO can build one for you.",
+        "cta": "Contact me",
+        "later": "Later",
+        "sent": "Request sent: the YIBOLO team will be in touch.",
+        "subject": "Website creation",
+        "message": "We do not have a website and would like YIBOLO to build one for us."
+      },
       "preview": "Contact details preview (public page)",
       "map": "Access map"
     },
     "accreditation": {
-      "title": "Accreditation information",
-      "authorisation": "Opening authorisation / Accreditation",
-      "issueDate": "Date of issue",
-      "authority": "Issuing authority",
-      "otherAuthority": "Other",
-      "expiry": "Expiry date",
-      "ifApplicable": "(if applicable)",
+      "title": "Establishment and opening approvals",
+      "intro": "Each approval is issued by an authority (MINESUP, MINEFOP…) and has its document. Add as many as needed.",
+      "niuTitle": "Tax identifier",
       "taxNumber": "Taxpayer number (NIU)",
-      "rccm": "RCCM",
+      "niuExample": "E.g. M123456789012",
+      "niuMissing": "NIU certificate missing",
       "verified": "Verified institution",
       "verifiedText": "Your documents have been checked and approved by YIBOLO.",
-      "compliant": "✓ Compliant"
+      "compliant": "✓ Compliant",
+      "fixErrors": "Fix the fields in red before saving."
     },
     "documents": {
-      "title": "Official documents",
       "items": {
-        "authorisation": "Opening authorisation",
-        "statutes": "Institution’s articles",
         "niu": "NIU certificate"
       },
-      "validated": "Approved",
       "view": "View",
-      "delete": "Delete",
-      "add": "Add a document",
-      "formats": "PDF, JPG or PNG (Max. 10 MB)",
-      "choose": "Choose a file",
       "sent": "{{name}} added",
       "fileSize": "File · {{size}}",
-      "deleted": "Document deleted",
-      "none": "No documents yet.",
       "noFile": "This document is not yet available for download.",
       "tooBig": "File too large: 3 MB maximum."
     },
@@ -254,7 +250,7 @@
       "field": "Field of study",
       "diploma": "Diploma",
       "duration": "Duration",
-      "nextIntake": "Next intake",
+      "nextIntake": "Application deadline",
       "status": "Status",
       "actions": "Actions",
       "select": "Select {{name}}",
@@ -287,52 +283,51 @@
     "blocks": {
       "general": "General information",
       "organisation": "Programme organisation",
-      "fees": "Tuition fees",
       "description": "Description (overview)"
     },
     "fields": {
-      "title": "Programme title",
-      "diploma": "Diploma awarded",
-      "field": "Field of study",
-      "level": "Level",
+      "diploma": "Diploma",
+      "sector": "Sector",
+      "domain": "Domain",
+      "speciality": "Speciality",
+      "option": "Option",
+      "level": "Entry level",
       "duration": "Duration",
       "mode": "Class schedule",
-      "intake": "Next intake",
-      "registrationFee": "Registration fee (FCFA)",
-      "tuition": "Tuition fees / year (FCFA)",
-      "payment": "Payment method",
-      "presentation": "Short presentation of the programme"
+      "deadline": "Application deadline",
+      "presentation": "Short description of the programme",
+      "choose": "Choose",
+      "optional": "Optional",
+      "noOption": "No option for this speciality",
+      "sectorFirst": "Choose the sector first",
+      "domainFirst": "Choose the domain first",
+      "fieldGroup": "Field of study: {{name}}"
     },
     "levels": {
       "none": "None",
       "probatoire": "Probatoire",
-      "bac": "Bac",
+      "bac": "Baccalaureate",
       "btsHnd": "BTS / HND",
       "licence": "Bachelor’s"
     },
     "modes": {
       "day": "Day",
-      "evening": "Evening",
-      "workStudy": "Work-study"
-    },
-    "payments": {
-      "several": "Several options",
-      "once": "In one payment",
-      "twoInstalments": "In two instalments",
-      "monthly": "Monthly"
+      "evening": "Evening"
     },
     "progress": {
       "title": "Creation progress",
       "percent": "{{pct}}%",
       "general": "General information",
       "organisation": "Programme organisation",
-      "fees": "Tuition fees",
-      "description": "Description and approval"
+      "description": "Description (preview)",
+      "done": "Done",
+      "todo": "To do"
     },
     "tips": {
       "title": "Good to know",
       "required": "Fields marked with <red>*</red> are required.",
-      "next": "You can then complete the curriculum, admission requirements and career prospects."
+      "accurate": "Enter accurate, up-to-date information.",
+      "published": "The programme goes live as soon as you save it."
     },
     "actions": {
       "saveContinue": "Save and continue",
@@ -346,13 +341,20 @@
       "title": "Programme page preview",
       "untitled": "Untitled programme",
       "diploma": "Diploma",
-      "field": "Field of study",
+      "field": "Sector › Domain › Field of study",
       "duration": "Duration",
       "months_one": "{{count}} month",
       "months_other": "{{count}} months",
       "mode": "Classes",
-      "intake": "Next intake",
-      "fees": "Tuition fees / year"
+      "deadline": "Application deadline"
+    },
+    "name": {
+      "label": "Your programme will appear as",
+      "empty": "Choose the diploma, sector, domain and speciality: the programme name builds itself."
+    },
+    "errors": {
+      "incomplete": "Fill in the required fields before publishing.",
+      "noSpeciality": "Choose at least the speciality to save the draft."
     }
   },
   "stats": {
@@ -478,37 +480,41 @@
         }
       },
       "documents": {
-        "addTitle": "Add a downloadable document",
-        "addHint": "Drag and drop or click to select — PDF, DOCX, XLSX, PPTX (Max. 20 MB)",
-        "added": "{{name}} added as a draft",
-        "suggestedTypes": "Suggested types",
+        "intro": "Published documents appear on your page. Upload each document on its own line: you always know what is missing.",
+        "formats": "PDF, Word, Excel or image · 3 MB max.",
+        "added": "“{{name}}” added and published",
+        "view": "View “{{name}}”",
+        "tooBig": "File too large: 3 MB maximum.",
         "types": {
-          "brochure": "Brochure",
-          "admission": "Admission requirements",
-          "documentsList": "Required documents",
-          "rules": "Internal regulations",
-          "calendar": "Academic calendar"
+          "brochure": {
+            "title": "Brochure",
+            "desc": "An overview of the institution and its programmes."
+          },
+          "admission": {
+            "title": "Application form",
+            "desc": "The form to fill in to apply."
+          },
+          "pieces": {
+            "title": "Required documents",
+            "desc": "The list of documents asked of applicants."
+          },
+          "rules": {
+            "title": "Internal rules",
+            "desc": "Rules of conduct and study."
+          },
+          "calendar": {
+            "title": "Academic calendar",
+            "desc": "Intake, exams, holidays."
+          }
         },
-        "table": {
-          "document": "Document",
-          "category": "Category",
-          "size": "Size",
-          "publishedAt": "Publication date",
-          "status": "Status",
-          "actions": "Actions"
-        },
-        "categories": {
-          "brochure": "Brochure",
-          "admission": "Admission",
-          "rules": "Regulations",
-          "calendar": "Calendar"
-        },
-        "count_one": "{{count}} document",
-        "count_other": "{{count}} documents",
         "preview": {
+          "type": "Type",
           "format": "Format",
+          "size": "Size",
+          "date": "Added on",
+          "status": "Status",
           "download": "Download",
-          "noFile": "This document is not yet available for download."
+          "noFile": "This document is not available for download yet."
         },
         "menu": {
           "publish": "Publish",
@@ -521,9 +527,26 @@
           "published": "“{{name}}” published",
           "unpublished": "“{{name}}” moved back to draft",
           "renamed": "Document renamed: “{{name}}”",
-          "deleted": "“{{name}}” deleted"
+          "deleted": "“{{name}}” deleted",
+          "actions": "Actions for “{{name}}”"
         },
-        "tooBig": "File too large: 3 MB maximum."
+        "title": "Downloadable documents",
+        "progress": "{{done}} of {{total}} documents added",
+        "missing": "Not added yet",
+        "present": "Added",
+        "import": "Upload",
+        "replace": "Replace",
+        "replaced": "“{{name}}” replaced",
+        "others": {
+          "title": "Other documents",
+          "desc": "Any other document useful to applicants (scholarships, uniform, transport…).",
+          "add": "Add another document",
+          "one": "Other document"
+        },
+        "status": {
+          "published": "Published",
+          "draft": "Draft"
+        }
       },
       "faq": {
         "categoriesTitle": "Categories",
@@ -544,7 +567,6 @@
           "all": "All",
           "admission": "Admission",
           "training": "Programme",
-          "fees": "Fees and payment",
           "diplomas": "Diplomas"
         }
       }
@@ -734,7 +756,6 @@
         "showContacts": "Show contact details",
         "showAddress": "Show address",
         "showReviews": "Show reviews",
-        "hideFees": "Hide tuition fees",
         "languageTitle": "Interface language",
         "themeTitle": "Display theme",
         "themes": {

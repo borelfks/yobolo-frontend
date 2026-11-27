@@ -10,6 +10,7 @@ import { Field, Input, PhoneInput, Radio, Select } from '@/shared/components/for
 import { FormFooter, PageTitle, Tip } from '@/shared/components/ui/Blocks'
 import { ROUTES } from '@/shared/utils/routes'
 import { useMonEcole } from '@/features/auth/hooks/useSession'
+import { numeroPropre } from '@/features/auth/authOtp'
 import { data } from '@/data'
 import { useRoles } from '@/data/hooks'
 
@@ -60,7 +61,7 @@ export function InviterUtilisateur() {
                 // Invitation pas encore acceptée : « En attente » (statut connu des badges), pas encore de connexion.
                 await data.create(
                   'utilisateurs',
-                  { etablissementId: ecole.id, nom: nom.trim(), role, telephone: telephone.trim() ? `+237 ${telephone.trim()}` : '', email: email.trim(), statut: 'En attente', connexion: '—', avatar: '' },
+                  { etablissementId: ecole.id, nom: nom.trim(), role, telephone: telephone.trim() ? numeroPropre(telephone) : '', email: email.trim(), statut: 'En attente', connexion: '—', avatar: '' },
                   'utilisateur',
                 )
                 toast.success(t('invite.sent', { name: nom, role: roleName(role) }))

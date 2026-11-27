@@ -28,3 +28,9 @@ export function telecharger(dataUrl: string, nom: string) {
   const lien = Object.assign(document.createElement('a'), { href: dataUrl, download: nom })
   lien.click()
 }
+
+/** Taille d'un fichier au format des données : « 480 Ko », « 2,4 Mo ». */
+export function tailleFichier(octets: number) {
+  if (octets < 1024 * 1024) return `${Math.max(1, Math.round(octets / 1024))} Ko`
+  return `${(octets / 1024 / 1024).toFixed(1).replace('.', ',')} Mo`
+}

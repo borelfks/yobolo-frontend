@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ArrowRight, Award, Briefcase, Building2, CalendarDays, CircleHelp, FileDown, GraduationCap, Info, Newspaper, Layers, Mail, Map as MapIcon, MapPin, Phone, Sun, Target, Trophy, Users, Wallet } from 'lucide-react'
+import { ArrowRight, Award, Briefcase, Building2, CalendarDays, CircleHelp, FileDown, GraduationCap, Info, Newspaper, Layers, Mail, Map as MapIcon, MapPin, Phone, Sun, Target, Trophy, Users } from 'lucide-react'
 import { ActionButtons } from '@/features/schools/components/profile/ActionButtons'
 import { ContenusPublics } from '@/features/schools/components/profile/ContenusPublics'
 import { card } from '@/features/schools/components/profile/profileShared'
@@ -8,7 +8,7 @@ import { useEtablissement, useFormationsOf } from '@/data/hooks'
 import { cn } from '@/shared/utils/cn'
 import { lienCarte, ouvrir } from '@/shared/utils/liens'
 
-type SectionInfo = 'admission' | 'frais' | 'calendrier' | 'contact'
+type SectionInfo = 'admission' | 'calendrier' | 'contact'
 /** Rubriques alimentées par l'espace pro de l'établissement (Contenus et informations). */
 type SectionContenu = 'actualites' | 'documents' | 'faq'
 type SectionId = 'presentation' | SectionInfo | SectionContenu
@@ -16,7 +16,6 @@ type SectionId = 'presentation' | SectionInfo | SectionContenu
 const sections: { id: SectionId; icon: ReactNode }[] = [
   { id: 'presentation', icon: <Info /> },
   { id: 'admission', icon: <GraduationCap /> },
-  { id: 'frais', icon: <Wallet /> },
   { id: 'calendrier', icon: <CalendarDays /> },
   { id: 'contact', icon: <MapPin /> },
   { id: 'actualites', icon: <Newspaper /> },
@@ -157,12 +156,6 @@ function InfoSection({ sec, id }: { sec: SectionInfo; id: string }) {
       [r('selection'), r('selectionValue')],
       [r('periode'), r('periodeValue')],
       [r('pieces'), r('piecesValue')],
-    ],
-    frais: [
-      [r('fraisInscription'), r('fraisInscriptionValue')],
-      [r('fraisScolarite'), r('fraisScolariteValue')],
-      [r('modalites'), r('modalitesValue')],
-      [r('paiement'), r('paiementValue')],
     ],
     calendrier: [
       [r('ouverture'), r('ouvertureValue')],

@@ -25,6 +25,7 @@
 | Pagination | `Pagination` | |
 | Personne · image | `Avatar` · `Img` | `<img>` sans `alt` |
 | Lieu (région → département → arrondissement → quartier) | `SelectionGeographique` (`shared/components/forms/`) | région / ville / quartier en listes séparées |
+| Accords de création / d'ouverture : une liste de blocs · un bloc (autorité, numéro, dates, document) | `ListeAccords`, `ChampsAccord` (`shared/components/forms/`) ; règles et enregistrement : `shared/utils/accords.ts` | champs d'agrément recopiés |
 | Mot de passe (œil afficher / masquer) · solidité | `ChampMotDePasse`, `JaugeMotDePasse` (`shared/components/forms/MotDePasse.tsx`) | `<Input type="password">` sans bascule |
 | Code reçu par SMS (OTP) | `VerificationCode` (`features/auth/components/`) | champ de code fait à la main |
 | Champs | `Label`, `Field`, `Input`, `Select`, `Textarea`, `RichText`, `Checkbox`, `Radio`, `Switch`, `Segmented`, `ChoiceCard`, `Dropzone`, `ChipsInput`, `PhoneInput` (`shared/components/forms/Fields.tsx`) ; pro : `ProLabel`, `proInput` | `<input>` brut |

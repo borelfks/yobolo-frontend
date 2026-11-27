@@ -25,8 +25,10 @@ export type Etablissement = {
   /** Lieu-dit et adresse complète (Profil › Coordonnées). */
   lieuDit?: string
   adresse?: string
-  /** Agrément et identifiants officiels (Profil › Agrément). */
-  agrement?: { numero: string; date: string; autorite: string; expiration: string; niu: string; rccm: string }
+  /** Site web (Profil › Coordonnées) ; absent : l’établissement n’en a pas. */
+  siteWeb?: string
+  /** Numéro de contribuable (Profil › Agrément & documents). Les accords d'ouverture sont dans la table `accordsEtablissement`. */
+  niu?: string
   /** Rang parmi les premières cartes de l'annuaire École (absent : après). */
   vedette?: number
   id: string
@@ -70,9 +72,12 @@ export type Formation = {
   niveau: string
   dureeMois: number
   mode: ModeCours
-  fraisInscription: number
-  fraisAn: number
   rentree: string
+  /** Spécialité et option de la nomenclature (table `nomenclatureFormations`) ; le nom est composé à partir d'elles. */
+  specialiteId?: string
+  optionId?: string
+  /** Date limite d'inscription (AAAA-MM-JJ). */
+  dateLimite?: string
   statut: 'Publiée' | 'Brouillon'
   image: string
   description: string
@@ -226,6 +231,8 @@ export type FormationPro = {
   diplome: string
   duree: string
   rentree: string
+  /** Date limite d'inscription (AAAA-MM-JJ), pour les formations créées avec le nouveau formulaire. */
+  dateLimite?: string
   statut: StatutPublication
 }
 
@@ -388,7 +395,6 @@ export type Evenement = {
 }
 export type MediaEtablissement = { id: string; etablissementId: string; src: string; video: boolean }
 export type FormationPopulaire = { id: string; typeSlug: TypeSlug; titre: string; diplome: string; image: string; formationId: string }
-export type TrancheFrais = { id: 'lt250' | 'from250to500' | 'from500to750' | 'from750to1000' | 'gt1000' }
 export type CategorieGalerie = { id: 'all' | 'centre' | 'vehicles' | 'classes' | 'exams' }
 export type PhotoAutoEcole = { id: string; autoEcoleId: string; usage: 'apercu' | 'galerie'; image: string }
 
@@ -444,8 +450,21 @@ export type Signalement = { id: string; compteId: string; publicationId: string;
 
 /** Un fichier joint par un testeur, enregistré dans la base (data URL). */
 export type Fichier = { id: string; nom: string; type: string; taille: number; dataUrl: string }
-/** Une pièce officielle d'un établissement (Profil › Documents officiels). `cle` : pièce attendue ; `nom` : fichier envoyé. */
-export type PieceEtablissement = { id: string; etablissementId: string; cle?: 'authorisation' | 'statutes' | 'niu'; nom: string; taille: string; statut: 'Validé'; fichierId?: string }
+/** Une pièce officielle d'un établissement : aujourd'hui le certificat du NIU (Profil › Agrément & documents). `nom` : fichier envoyé. */
+export type PieceEtablissement = { id: string; etablissementId: string; cle?: 'niu'; nom: string; taille: string; statut: 'Validé'; fichierId?: string }
+/**
+ * Un accord d'un établissement : de création (`nature` « creation ») ou d'ouverture (« ouverture »).
+ * Il peut en avoir plusieurs de chaque, délivrés par des autorités différentes (MINESUP, MINEFOP…),
+ * chacun avec son document.
+ * `autorite` : un sigle de AUTORITES (`shared/utils/accords.ts`) ou le nom saisi pour « Autre ».
+ * Dates au format AAAA-MM-JJ ; sans `expireLe`, l'accord n'expire pas.
+ */
+export type NatureAccord = 'creation' | 'ouverture'
+/** Un élément de la nomenclature des formations : secteur › domaine › filière › spécialité › option. */
+export type NiveauNomenclature = 'secteur' | 'domaine' | 'filiere' | 'specialite' | 'option'
+export type ElementNomenclature = { id: string; niveau: NiveauNomenclature; nom: string; parentId?: string }
+
+export type AccordEtablissement = { id: string; etablissementId: string; nature: NatureAccord; autorite: string; numero: string; delivreLe: string; expireLe?: string; fichierId?: string; nomFichier?: string; taille?: string }
 /** Une vidéo (présentation ou galerie) d'un établissement ou d'une auto-école ; `cibleId` '*' : pour tous. */
 export type Video = { id: string; cible: 'etablissement' | 'auto-ecole'; cibleId: string; usage: 'presentation' | 'galerie'; titre: string; poster: string; src: string }
 /** Une notification de la cloche pour un compte. */

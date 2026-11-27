@@ -1,6 +1,6 @@
 import { Navigate, useParams } from 'react-router'
 import { useTranslation } from 'react-i18next'
-import { Building2, CalendarDays, Coins, Database, FileBadge, GraduationCap, Layers, MapPin } from 'lucide-react'
+import { Building2, CalendarDays, FileBadge, GraduationCap, Layers, MapPin } from 'lucide-react'
 import { Hero } from '@/shared/components/ui/Hero'
 import { LinkTabs } from '@/shared/components/ui/Tabs'
 import { DiplomesTab } from '@/features/schools/components/listing/DiplomesTab'
@@ -19,7 +19,6 @@ const heroImages: Record<string, string> = {
   diplomes: '/images/maquette/hero-diplomes.jpg',
   regions: '/images/maquette/hero-regions.jpg',
   villes: '/images/maquette/hero-villes.jpg',
-  frais: '/images/maquette/ipes-hero.jpg',
   cours: '/images/maquette/ipes-hero.jpg',
 }
 
@@ -39,16 +38,16 @@ export function TypeListing() {
     { value: 'diplomes', label: t('listing.tabs.diplomes'), icon: <FileBadge /> },
     { value: 'regions', label: t('listing.tabs.regions'), icon: <MapPin /> },
     { value: 'villes', label: t('listing.tabs.villes'), icon: <Building2 /> },
-    { value: 'frais', label: t('listing.tabs.frais'), icon: <Coins /> },
     { value: 'cours', label: t('listing.tabs.cours'), icon: <CalendarDays /> },
   ]
+  // Un onglet qui n'existe plus (comme l'ancien « Frais ») ramène à la liste.
+  if (tab && !tabs.some((x) => x.value === tab)) return <Navigate to={base} replace />
   const titles: Record<string, [string, string | undefined, string]> = {
     '': [court, long, t('listing.titles.liste.subtitle')],
     filieres: [t('listing.titles.filieres.title', { pluriel }), undefined, t('listing.titles.filieres.subtitle', { long })],
     diplomes: [t('listing.titles.diplomes.title', { pluriel }), undefined, t('listing.titles.diplomes.subtitle')],
     regions: [t('listing.titles.regions.title', { court }), undefined, t('listing.titles.regions.subtitle', { pluriel })],
     villes: [t('listing.titles.villes.title', { court }), undefined, t('listing.titles.villes.subtitle', { pluriel })],
-    frais: [t('listing.titles.frais.title', { court }), undefined, t('listing.titles.frais.subtitle', { long })],
     cours: [t('listing.titles.cours.title', { court }), undefined, t('listing.titles.cours.subtitle')],
   }
   const [title, title2, subtitle] = titles[tab] ?? titles['']
@@ -57,7 +56,7 @@ export function TypeListing() {
     <div className="mx-auto max-w-[1320px] space-y-4 px-5 py-4">
       <Hero
         crumbs={[{ label: t('listing.crumb'), to: ROUTES.schools }, { label: court, to: base }, ...(tab ? [{ label: tabs.find((x) => x.value === tab)?.label as string }] : [])]}
-        icon={tab === 'frais' ? <Database /> : tabIcon}
+        icon={tabIcon}
         image={heroImages[tab] ?? '/images/maquette/ipes-hero.jpg'}
         title={title}
         title2={title2}
@@ -69,8 +68,7 @@ export function TypeListing() {
       {tab === 'diplomes' && <DiplomesTab type={type} />}
       {tab === 'regions' && <RegionsTab type={type} />}
       {tab === 'villes' && <VillesTab type={type} />}
-      {tab === 'frais' && <FormationsTab type={type} mode="frais" />}
-      {tab === 'cours' && <FormationsTab type={type} mode="cours" />}
+      {tab === 'cours' && <FormationsTab type={type} />}
     </div>
   )
 }

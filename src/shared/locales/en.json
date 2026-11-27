@@ -234,5 +234,64 @@
       "conseil": "Mix capitals, numbers and symbols to strengthen it.",
       "niveau": "Password strength: {{niveau}}"
     }
+  },
+  "accords": {
+    "autorites": {
+      "MINESUP": "MINESUP — Higher Education",
+      "MINEFOP": "MINEFOP — Employment and Vocational Training",
+      "MINT": "MINT — Transport",
+      "MINSANTE": "MINSANTE — Public Health",
+      "Autre": "Other authority"
+    },
+    "champs": {
+      "autorite": "Issuing authority",
+      "numero": "Approval number",
+      "numeroExemple": "E.g. No. 184/MINESUP/DDES",
+      "autre": "Name of the authority",
+      "autreExemple": "E.g. MINJEC",
+      "delivreLe": "Date of issue",
+      "expireLe": "Expiry date",
+      "facultatif": "(optional)",
+      "expireAide": "Leave blank if it does not expire.",
+      "document": "Approval document",
+      "formats": "PDF, JPG or PNG (max. 3 MB)",
+      "importer": "Upload",
+      "remplacer": "Replace",
+      "voir": "View the document"
+    },
+    "erreurs": {
+      "autorite": "Choose the authority.",
+      "autre": "Enter the name of the authority.",
+      "numero": "Enter the approval number.",
+      "delivreLe": "Enter the date of issue.",
+      "expireLe": "The expiry date must be after the date of issue.",
+      "document": "Attach the approval document.",
+      "tropLourd": "The document is over 3 MB: choose a lighter file."
+    },
+    "dates": {
+      "delivre": "Issued on {{date}}",
+      "expire": "Expires on {{date}}",
+      "sansExpiration": "No expiry date"
+    },
+    "etats": {
+      "enCours": "Valid",
+      "bientot": "Expiring soon",
+      "expire": "Expired"
+    },
+    "retirer": "Remove",
+    "natures": {
+      "creation": {
+        "titre": "Establishment approvals",
+        "aide": "The authorisation to establish the institution, issued by the supervising authority.",
+        "bloc": "Establishment approval {{n}}",
+        "ajouter": "Add another establishment approval"
+      },
+      "ouverture": {
+        "titre": "Opening approvals",
+        "aide": "The authorisation to open the institution and welcome learners.",
+        "bloc": "Opening approval {{n}}",
+        "ajouter": "Add another opening approval"
+      }
+    }
   }
 }

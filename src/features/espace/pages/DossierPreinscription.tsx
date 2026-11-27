@@ -14,7 +14,7 @@ import { Breadcrumb } from '@/shared/components/ui/Breadcrumb'
 import { Button } from '@/shared/components/ui/Button'
 import { Card } from '@/shared/components/ui/Card'
 import { Img } from '@/shared/components/ui/Img'
-import { fcfa, shortDate } from '@/shared/utils/format'
+import { shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
 
 const DATE = { day: '2-digit', month: 'long', year: 'numeric' } as const
@@ -91,11 +91,6 @@ export function DossierPreinscription() {
                   <CalendarDays className="size-4" aria-hidden="true" />
                   {p.statut === 'Annulée' && p.annuleeLe ? t('dossiers.annuleeLe', { date: shortDate(p.annuleeLe, DATE) }) : t('dossiers.envoyeeLe', { date: shortDate(p.envoyeeLe, DATE) })}
                 </span>
-                {f && (
-                  <span>
-                    {t('dossiers.frais')} : <b className="text-navy-900">{fcfa(f.fraisAn)}</b>
-                  </span>
-                )}
               </p>
             </div>
           </Card>

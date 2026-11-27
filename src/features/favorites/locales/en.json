@@ -30,8 +30,6 @@
     },
     "voirDetails": "View details",
     "voirEtablissement": "View institution",
-    "fraisFormation": "Tuition fees",
-    "parAn": "/ year",
     "dureeMois_one": "{{count}} month",
     "dureeMois_other": "{{count}} months",
     "modes": {

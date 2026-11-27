@@ -9,6 +9,7 @@ import { cn } from '@/shared/utils/cn'
 import { useFormations, useFormationsPro } from '@/data/hooks'
 import { data, newId } from '@/data'
 import { formationUrl } from '@/features/schools/schoolLinks'
+import { shortDate } from '@/shared/utils/format'
 import { PREFIXE_FORMATION_CREEE } from '@/features/pro/proData'
 import type { StatutPublication } from '@/shared/types'
 import { ROUTES } from '@/shared/utils/routes'
@@ -71,7 +72,7 @@ export function Formations() {
     ...propres,
     ...formations
       .filter((f) => !propres.some((p) => p.id === f.id))
-      .map((f) => ({ id: f.id, nom: f.nom, code: f.code, filiere: f.filiere, ton: 'blue', diplome: f.diplome, duree: `${f.dureeMois} mois`, rentree: f.rentree, statut: f.statut })),
+      .map((f) => ({ id: f.id, nom: f.nom, code: f.code, filiere: f.filiere, ton: 'blue', diplome: f.diplome, duree: `${f.dureeMois} mois`, rentree: f.rentree, dateLimite: f.dateLimite, statut: f.statut })),
   ]
   const navigate = useNavigate()
   const toutes = useFormations()
@@ -184,7 +185,7 @@ export function Formations() {
                   <td><span className={cn('rounded-full px-3.5 py-1 text-[13.5px] whitespace-nowrap', chip[f.ton] ?? chip.blue)}>{f.filiere}</span></td>
                   <td className="text-center">{f.diplome}</td>
                   <td>{duration(f.duree)}</td>
-                  <td>{f.rentree === '—' ? <span className="pl-2">—</span> : <span className="inline-flex items-center gap-2"><CalendarDays className="size-5 text-brand-600" />{f.rentree}</span>}</td>
+                  <td>{f.dateLimite ? <span className="inline-flex items-center gap-2 whitespace-nowrap"><CalendarDays className="size-5 text-brand-600" />{shortDate(f.dateLimite, { day: '2-digit', month: 'short', year: 'numeric' })}</span> : f.rentree === '—' ? <span className="pl-2">—</span> : <span className="inline-flex items-center gap-2"><CalendarDays className="size-5 text-brand-600" />{f.rentree}</span>}</td>
                   <td><Statut s={f.statut} /></td>
                   <td className="pr-5">
                     <div className="flex justify-center gap-2">

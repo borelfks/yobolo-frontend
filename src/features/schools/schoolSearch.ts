@@ -9,17 +9,14 @@ import type { Etablissement, Formation, TypeEcole } from '@/shared/types'
 /** Critères de la barre de recherche ; une valeur vide = tous. */
 export type Criteres = { region?: string; ville?: string; filiere?: string; niveau?: string; type?: TypeEcole | '' }
 
-/** Ordre des tris par défaut de `ResultsHeader` : Pertinence, Mieux notés, Frais croissants, Plus récents. */
-export const TRIS = ['pertinence', 'bestRated', 'feesAsc', 'newest'] as const
+/** Ordre des tris par défaut de `ResultsHeader` : Pertinence, Mieux notés, Plus récents. */
+export const TRIS = ['pertinence', 'bestRated', 'newest'] as const
 export type Tri = (typeof TRIS)[number]
 
 const contient = (texte: string, q: string) => texte.toLowerCase().includes(q.trim().toLowerCase())
 
 /** Les formations publiées d'un établissement. */
 const formationsDe = (e: Etablissement, formations: Formation[]) => formations.filter((f) => f.etablissementId === e.id && f.statut === 'Publiée')
-
-/** Le plus petit montant annuel des formations d'un établissement (sans formation : en dernier). */
-export const fraisMin = (e: Etablissement, formations: Formation[]) => Math.min(...formationsDe(e, formations).map((f) => f.fraisAn), Number.POSITIVE_INFINITY)
 
 export function filtrerEtablissements(liste: Etablissement[], q: string, c: Criteres, formations: Formation[]) {
   return liste.filter((e) => {
@@ -36,10 +33,9 @@ export function filtrerEtablissements(liste: Etablissement[], q: string, c: Crit
 }
 
 /** Trie sans modifier la liste. « Pertinence » et « Plus récents » gardent l'ordre de la base (les ajouts d'abord). */
-export function trierEtablissements(liste: Etablissement[], tri: Tri, formations: Formation[]) {
+export function trierEtablissements(liste: Etablissement[], tri: Tri) {
   const copie = [...liste]
   if (tri === 'bestRated') return copie.sort((a, b) => b.note - a.note || b.avis - a.avis)
-  if (tri === 'feesAsc') return copie.sort((a, b) => fraisMin(a, formations) - fraisMin(b, formations))
   return copie
 }
 

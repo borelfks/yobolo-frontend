@@ -10,7 +10,6 @@ import {
   CircleCheck,
   ClipboardPen,
   Clock,
-  Coins,
   Eye,
   FileText,
   GraduationCap,
@@ -34,7 +33,7 @@ import { modeKey } from '@/features/schools/components/training/trainingShared'
 import { data } from '@/data'
 import { useEtablissement, useFormation } from '@/data/hooks'
 import { cn } from '@/shared/utils/cn'
-import { fcfa, shortDate } from '@/shared/utils/format'
+import { shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
 import { notifier } from '@/shared/utils/notifications'
 import { lienWhatsApp, ouvrir } from '@/shared/utils/liens'
@@ -185,13 +184,6 @@ export function Preinscription() {
                 <li className="flex items-center gap-3"><GraduationCap /><b>{t('preinscription.aside.diplome')}</b> : {f.diplome}</li>
                 <li className="flex items-center gap-3"><Clock /><b>{t('preinscription.aside.duree')}</b> : {t('shared.months', { count: f.dureeMois })}</li>
                 <li className="flex items-center gap-3"><Sun className="fill-amber-300 !text-amber-500" /><b>{t('preinscription.aside.cours')}</b> : {t(`shared.modes.${modeKey[f.mode]}`)}</li>
-                <li className="flex items-start gap-3">
-                  <Coins />
-                  <span>
-                    <b>{t('preinscription.aside.fees')}</b>
-                    <span className="block text-[18px] font-bold text-brand-600">{fcfa(f.fraisAn)} {t('shared.perYear')}</span>
-                  </span>
-                </li>
               </ul>
             </div>
           </div>
@@ -321,7 +313,7 @@ export function Preinscription() {
                 </div>
                 <RecapBlock icon={<UserRound className="fill-brand-600" />} title={t('preinscription.recap.personal')} onEdit={() => setStep(0)}>
                   <span><b>{t('preinscription.recap.nom')}</b> {nomComplet}</span>
-                  <span><b>{t('preinscription.recap.telephone')}</b> +237 {info.telephone || '6 90 12 34 56'}</span>
+                  <span><b>{t('preinscription.recap.telephone')}</b> +237 {info.telephone || '690 12 34 56'}</span>
                   <span><b>{t('preinscription.recap.email')}</b> {info.email || 'thierry.ndjon@gmail.com'}</span>
                 </RecapBlock>
                 <RecapBlock icon={<GraduationCap />} title={t('preinscription.recap.parcours')} onEdit={() => setStep(1)}>

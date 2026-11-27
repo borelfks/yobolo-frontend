@@ -33,7 +33,7 @@ export function ListeTab({ type }: { type: TypeSlug }) {
   const tri = (TRIS as readonly string[]).includes(params.get('tri') ?? '') ? (params.get('tri') as Tri) : 'pertinence'
   const recherche = Boolean(q || Object.values(criteres).some(Boolean))
   const tous = useEtablissements().filter((e) => e.type === cfg.type)
-  const list = trierEtablissements(filtrerEtablissements(tous, q, criteres, formations), tri, formations)
+  const list = trierEtablissements(filtrerEtablissements(tous, q, criteres, formations), tri)
   const { pages, page, elements } = pageDe(list, Number(params.get('page') ?? 1), PAR_PAGE)
   const changer = (valeurs: Record<string, string>) =>
     setParams((p) => {

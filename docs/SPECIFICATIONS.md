@@ -98,7 +98,7 @@ La maquette prévoit **4 profils** : **École / IPES** (institut, centre, auto-�
 **Créer un compte :**
 1. **Profil** : 4 cartes (École / IPES, Consultant, Entreprise, Personne physique). Seule **École / IPES** se choisit ; les trois autres sont grisées avec « Bientôt disponible » (décision du 2026-11-24).
 2. **Infos** (« Informations générales ») : raison sociale / nom et prénoms, téléphone, e-mail, région, ville, quartier, mot de passe (8 caractères au moins) et confirmation. Champs **préremplis** avec les valeurs de la maquette (IPC). Validation react-hook-form + zod.
-3. **Documents** (obligatoires) : documents à joindre. Personne physique : pièce d'identité. Autres profils : autorisation d'ouverture (école) ou justificatif d'activité, et NIU. Bouton « Créer mon compte ».
+3. **Documents** (obligatoires) : documents à joindre. Personne physique : pièce d'identité. École : un ou plusieurs **accords de création** puis un ou plusieurs **accords d'ouverture** (autorité, numéro, date de délivrance, date d'expiration facultative, document de l'accord ; « Ajouter un autre accord… »), puis le NIU et son certificat. Bouton « Créer mon compte ».
 4. **« Créer mon compte »** : l'école entre directement dans son espace professionnel ; le compte est actif tout de suite, sans validation par YIBOLO (décision du 2026-11-27).
 5. **« Compte validé ! »** : « Se connecter à mon espace » ouvre le compte IPES (profil École) ou Utilisateur (autres profils).
 
@@ -133,10 +133,10 @@ Le menu École comprend : **IPES**, **CFP**, **Auto-écoles** et **Autres**. IPE
 - Bandeau « Écoles & Centres de formation ».
 - **5 tuiles** : Toutes les écoles (1 248), IPES (532), CFP (286), Auto-écoles (126), Autres (304).
 - « Rechercher une école » (localisation, type d'école) ; la recherche filtre les cartes par nom.
-- « 1 248 établissements trouvés » : cartes d'établissement (les 4 de la maquette d'abord), pagination réelle ; recherche par région et type, tri (pertinence, mieux notés, frais croissants).
+- « 1 248 établissements trouvés » : cartes d'établissement (les 4 de la maquette d'abord), pagination réelle ; recherche par région et type, tri (pertinence, mieux notés, plus récents).
 
 ### 7.2 Espace public d'un type (IPES, CFP, Autres) — `/ecoles/:type/:onglet?`
-`:type` = `ipes`, `cfp` ou `autres`. La maquette prévoit **7 menus**, faits en onglets portés par l'adresse :
+`:type` = `ipes`, `cfp` ou `autres`. La maquette prévoyait 7 menus ; l'onglet « Frais » est retiré (décision du 2026-11-27). **6 onglets**, portés par l'adresse :
 
 | Onglet | Adresse | Contenu |
 |---|---|---|
@@ -145,8 +145,7 @@ Le menu École comprend : **IPES**, **CFP**, **Auto-écoles** et **Autres**. IPE
 | **Diplômes** | `…/diplomes` | niveaux de diplôme, diplômes disponibles |
 | **Régions** | `…/regions` | les 10 régions du Cameroun, établissements par région |
 | **Villes** | `…/villes` | villes par région, nombre d'établissements |
-| **Frais** | `…/frais` | formations et frais, filtre par tranche (moins de 250 000 FCFA … plus de 1 000 000 FCFA) |
-| **Cours (Jour/Soir)** | `…/cours` | formations par mode de cours (Jour, Soir, Jour & Soir) |
+| **Cours (Jour/Soir)** | `…/cours` | formations par mode de cours (Jour, Soir, Jour & Soir), tri Pertinence · Plus récentes |
 
 Chaque carte d'établissement mène à sa fiche (« Voir les informations »).
 
@@ -156,20 +155,19 @@ En-tête : photo du bâtiment, nom, badge « Établissement vérifié », type, 
 | Onglet | Adresse | Contenu |
 |---|---|---|
 | **Aperçu** | `…/etablissement/ipc` | vidéo de présentation (message), présentation, filières principales, formations, contact |
-| **Formations (12)** | `…/formations` | formations de l'établissement : diplôme, mode de cours, frais |
-| **Informations** | `…/informations` | Présentation · Conditions d'admission · Frais & paiements · Calendrier académique · Contact & localisation |
+| **Formations (12)** | `…/formations` | formations de l'établissement : diplôme, mode de cours |
+| **Informations** | `…/informations` | Présentation · Conditions d'admission · Calendrier académique · Contact & localisation |
 | **Avis (286)** | `…/avis` | note globale, répartition, filtres (Tous, Étudiants, Anciens étudiants, Entreprises), avis, « Donner mon avis » |
 | **Galerie** | `…/galerie` | albums photos |
 
 ### 7.4 Détail d'une formation — `/ecoles/formations/:id/:onglet?`
-Depuis une formation, l'utilisateur peut **Préinscrire maintenant**, **Ajouter aux favoris** ou contacter l'établissement. La maquette prévoit **5 menus** :
+Depuis une formation, l'utilisateur peut **Préinscrire maintenant**, **Ajouter aux favoris** ou contacter l'établissement. La maquette prévoyait 5 menus ; « Frais & paiement » est retiré (décision du 2026-11-27). **4 onglets** :
 
 | Onglet | Adresse | Contenu |
 |---|---|---|
-| **Détails** | `/ecoles/formations/f-cg-ipc` | diplôme, durée, cours, frais ; présentation, objectifs, métiers |
+| **Détails** | `/ecoles/formations/f-cg-ipc` | diplôme, durée, cours ; présentation, objectifs, métiers |
 | **Programme** | `…/programme` | aperçu et programme détaillé par semestre |
 | **Conditions d'admission** | `…/admission` | conditions, pièces à fournir |
-| **Frais & paiement** | `…/frais` | frais d'inscription et de formation, ce que couvrent les frais, modalités (remise de 5 % en une fois) |
 | **Débouchés** | `…/debouches` | métiers accessibles, secteurs qui recrutent, évolution de carrière |
 
 Colonne de droite : l'établissement (badge vérifié), prochaine rentrée, actions.
@@ -274,11 +272,11 @@ Un seul espace pour les **IPES, CFP et Autres**. Cadre : barre du haut (logo, «
 
 | Menu | Adresse | Contenu |
 |---|---|---|
-| **Tableau de bord** | `/pro/ecole` | « Bienvenue sur votre espace professionnel », chiffres (formations, filières, avis, photos / vidéos), complétude du profil, **informations à gérer** (Présentation, Conditions d'admission, Frais & paiement, Calendrier académique, Débouchés, Contact & localisation), actions rapides |
-| **Profil de l'établissement** | `/pro/ecole/profil/:onglet?` | Informations générales (bannière, statut et visibilité, chiffres clés) · **Coordonnées** (`coordonnees`, avec aperçu de la page publique) · **Agrément & documents** (`agrement`) · **Médias** (`medias` : logo, photos, vidéo) |
+| **Tableau de bord** | `/pro/ecole` | « Bienvenue sur votre espace professionnel », chiffres (formations, filières, avis, photos / vidéos), complétude du profil, **informations à gérer** (Présentation, Conditions d'admission, Calendrier académique, Débouchés, Contact & localisation), actions rapides |
+| **Profil de l'établissement** | `/pro/ecole/profil/:onglet?` | Informations générales (bannière, année de création en liste, statut et visibilité, chiffres clés) · **Coordonnées** (`coordonnees`, numéros au format « +237 690 12 34 56 », site web ; enregistré sans site web : fenêtre « Pas encore de site web ? » (« Plus tard » · « Être contacté ») ; aperçu de la page publique) · **Agrément & documents** (`agrement` : accords de création et accords d’ouverture, remplis sur la page, chacun avec son document ; NIU et son certificat) · **Médias** (`medias` : logo, photos, vidéo) |
 | **Formations** › Gérer les formations | `/pro/ecole/formations` | tableau : formation, filière, diplôme, durée, prochaine rentrée, statut (**Publiée**, **Brouillon**), actions (« Publier » un brouillon, « Dépublier ») ; filtres, tri, pagination |
-| **Formations** › Créer une formation | `/pro/ecole/formations/nouvelle` · `…/:id/modifier` | 4 blocs : Informations générales, Organisation, Frais, Description ; « Enregistrer et continuer » (publiée tout de suite, sans validation par YIBOLO), « Enregistrer en brouillon », « Aperçu », « Annuler » |
-| **Contenus et informations** | `/pro/ecole/contenus/:onglet?` | Présentation · **Actualités** (`actualites`, nouvelle actualité, page « Voir ma publication » `…/actualites/:id`) · **Documents** à télécharger (`documents`) · **FAQ** (`faq`, ajouter une question) |
+| **Formations** › Créer une formation | `/pro/ecole/formations/nouvelle` · `…/:id/modifier` | nom composé automatiquement (« Diplôme Spécialité – option … », affiché en direct) ; 3 blocs : Informations générales (Diplôme, Secteur, Domaine, Spécialité par filière, Option, Niveau requis), Organisation (Durée, Jour / Soir, Date limite d’inscription), Description ; « Enregistrer et continuer » (publiée tout de suite, sans validation par YIBOLO), « Enregistrer en brouillon », « Aperçu », « Annuler » |
+| **Contenus et informations** | `/pro/ecole/contenus/:onglet?` | Présentation · **Actualités** (`actualites`, nouvelle actualité, page « Voir ma publication » `…/actualites/:id`) · **Documents** à télécharger (`documents` : liste de contrôle, une ligne par document attendu — brochure, dossier de candidature, pièces à fournir, règlement intérieur, calendrier — « Importer » ou « Remplacer », progression ; puis « Autres documents » ; publié tout de suite) · **FAQ** (`faq`, ajouter une question) |
 | **Statistiques** | `/pro/ecole/statistiques` | période (7 jours, 30 jours, 6 mois), évolution des visites, sources des visites, formations les plus consultées, dernières activités, export PDF (message) |
 | **Paramètres** | `/pro/ecole/parametres/:section?` | Compte et accès · Sécurité (mot de passe avec 4 critères, 2FA, sessions, activité) · Notifications · Préférences · **Utilisateurs** (`utilisateurs`, rôles, « Inviter un utilisateur » `…/utilisateurs/inviter`) · À propos |
 

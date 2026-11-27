@@ -2,7 +2,7 @@
   "connexion": {
     "title": "Sign in",
     "subtitle": "Good to see you again! Sign in to get back to your space.",
-    "identifierPlaceholder": "you@example.cm or 6 90 12 34 56",
+    "identifierPlaceholder": "you@example.cm or 690 12 34 56",
     "identifier": "Email or phone",
     "password": "Password",
     "show": "Show",
@@ -97,14 +97,16 @@
     "verification": {
       "title": "Your institution’s documents – {{profile}}",
       "text": "Attach the required documents to create your account.",
-      "docs": {
-        "autorisation": "Opening authorisation",
-        "niu": "NIU (Unique Identification Number)"
-      },
-      "formats": "PDF, JPG or PNG (max. 5 MB)",
-      "import": "Upload",
       "confidential": "Your documents are confidential: only the YIBOLO team can see them.",
-      "submit": "Create my account"
+      "submit": "Create my account",
+      "niuTitle": "Taxpayer number",
+      "niu": "Taxpayer number (NIU)",
+      "niuExample": "E.g. M123456789012",
+      "certificat": "NIU certificate",
+      "errors": {
+        "niu": "Enter your taxpayer number.",
+        "certificat": "Attach the NIU certificate."
+      }
     },
     "vous": {
       "title": "You",

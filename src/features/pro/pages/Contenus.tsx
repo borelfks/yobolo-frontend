@@ -9,10 +9,7 @@ import {
   ChevronRight,
   CircleCheck,
   CircleHelp,
-  CloudUpload,
   Copy,
-  Download,
-  Eye,
   EyeOff,
   FileText,
   Folder,
@@ -31,35 +28,25 @@ import {
 } from 'lucide-react'
 import { ProCard, ProFooter, ProHeader, ProLabel } from '@/features/pro/components/ProBlocks'
 import { ActuModal } from '@/features/pro/components/ActuModal'
+import { DocumentsATelecharger } from '@/features/pro/components/DocumentsATelecharger'
 import { proCard, proInput } from '@/features/pro/proStyles'
-import { CATEGORIE_DOCUMENT, dateDuJour, decoupeFichier, tailleFichier, texte } from '@/features/pro/proData'
+import { texte } from '@/features/pro/proData'
 import { Img } from '@/shared/components/ui/Img'
 import { Modal } from '@/shared/components/ui/Modal'
 import { Select } from '@/shared/components/forms/Fields'
 import { LinkTabs } from '@/shared/components/ui/Tabs'
 import { useMonEcole } from '@/features/auth/hooks/useSession'
 import { data } from '@/data'
-import { useActualites, useDocuments, useFaq, useFichiers, useParametres } from '@/data/hooks'
-import { lireFichier, telecharger, TAILLE_MAX_DOCUMENT } from '@/shared/utils/fichiers'
-import type { DocumentPro, QuestionFaq } from '@/shared/types'
+import { useActualites, useDocuments, useFaq, useParametres } from '@/data/hooks'
+import type { QuestionFaq } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { ROUTES } from '@/shared/utils/routes'
 import { MenuActions } from '@/shared/components/ui/MenuActions'
 
-const catTone: Record<string, string> = {
-  Brochure: 'bg-[#e3ecff] text-brand-700',
-  Admission: 'bg-[#e1f6e8] text-emerald-700',
-  Règlement: 'bg-[#efe6ff] text-violet-700',
-  Calendrier: 'bg-orange-50 text-orange-700',
-}
-
 /** Statuts des données de démo → clé de traduction. */
 const STATUS_KEYS: Record<string, 'publishedF' | 'published' | 'draft' | undefined> = { Publiée: 'publishedF', Publié: 'published', Brouillon: 'draft' }
-/** Catégories des documents (données de démo) → clé de traduction. */
-const DOC_CATEGORY_KEYS: Record<string, 'brochure' | 'admission' | 'rules' | 'calendar' | undefined> = { Brochure: 'brochure', Admission: 'admission', Règlement: 'rules', Calendrier: 'calendar' }
 /** Catégories de la FAQ (données de démo) → clé de traduction. */
-const FAQ_CATEGORY_KEYS: Record<string, 'admission' | 'training' | 'fees' | 'diplomas' | undefined> = { Admission: 'admission', Formation: 'training', 'Frais et paiement': 'fees', Diplômes: 'diplomas' }
-const DOCUMENT_TYPES = ['brochure', 'admission', 'documentsList', 'rules', 'calendar'] as const
+const FAQ_CATEGORY_KEYS: Record<string, 'admission' | 'training' | 'diplomas' | undefined> = { Admission: 'admission', Formation: 'training', Diplômes: 'diplomas' }
 
 function StatutPill({ s }: { s: string }) {
   const { t } = useTranslation('pro', { keyPrefix: 'content' })
@@ -93,7 +80,7 @@ export function Contenus() {
       <LinkTabs items={tabs} base={ROUTES.pro.contents()} variant="block" className="[&>a]:h-12 [&>a]:text-[17px]" />
       {tab === '' && <Presentation />}
       {tab === 'actualites' && <Actualites />}
-      {tab === 'documents' && <Documents />}
+      {tab === 'documents' && <DocumentsATelecharger />}
       {tab === 'faq' && <Faq />}
     </div>
   )
@@ -235,142 +222,6 @@ function Actualites() {
   )
 }
 
-function Documents() {
-  const { t } = useTranslation('pro', { keyPrefix: 'content' })
-  const { ecole } = useMonEcole()
-  const documentsPro = useDocuments(ecole.id)
-  const [apercu, setApercu] = useState<DocumentPro | null>(null)
-  const [renomme, setRenomme] = useState<DocumentPro | null>(null)
-  const [nouveauNom, setNouveauNom] = useState('')
-  // Le fichier est gardé dans la base (table fichiers) ; le document est ajouté en brouillon.
-  const fichiers = useFichiers()
-  const ajouter = async (fichier: File) => {
-    if (fichier.size > TAILLE_MAX_DOCUMENT) return void toast.error(t('contents.documents.tooBig'))
-    const { nom, type } = decoupeFichier(fichier.name)
-    const f = await data.create('fichiers', { nom: fichier.name, type: fichier.type, taille: fichier.size, dataUrl: await lireFichier(fichier) }, 'fichier')
-    await data.create('documents', { etablissementId: ecole.id, nom, type, categorie: CATEGORIE_DOCUMENT, taille: tailleFichier(fichier.size), date: dateDuJour(), statut: 'Brouillon', fichierId: f.id }, 'document')
-    toast.success(t('contents.documents.added', { name: fichier.name }))
-  }
-  const categoryLabel = (c: string) => {
-    const key = DOC_CATEGORY_KEYS[c]
-    return key ? t(`contents.documents.categories.${key}`) : c
-  }
-  return (
-    <div className="space-y-4">
-      <div className="grid gap-4 xl:grid-cols-[1fr_380px]">
-        <label className="flex cursor-pointer flex-col items-center justify-center gap-1 rounded-2xl border-2 border-dashed border-[#9fb4e3] bg-white py-6 text-center">
-          <CloudUpload className="size-10 text-brand-600" />
-          <b className="text-[17px] text-navy-900">{t('contents.documents.addTitle')}</b>
-          <span className="text-[13.5px] text-navy-900">{t('contents.documents.addHint')}</span>
-          <input type="file" className="sr-only" onChange={(e) => { const fichier = e.target.files?.[0]; if (fichier) void ajouter(fichier); e.target.value = '' }} />
-        </label>
-        <ProCard title={t('contents.documents.suggestedTypes')} icon={<Lightbulb />}>
-          <div className="flex flex-wrap gap-2">
-            {DOCUMENT_TYPES.map((type) => <span key={type} className="rounded-full bg-[#e3ecff] px-3 py-1 text-[13.5px] font-medium text-brand-700">{t(`contents.documents.types.${type}`)}</span>)}
-          </div>
-        </ProCard>
-      </div>
-      <div className="overflow-x-auto rounded-2xl border border-line bg-white shadow-[0_2px_10px_rgba(15,29,61,0.06)]">
-        <table className="w-full min-w-[760px] text-[14.5px] text-navy-900">
-          <thead>
-            <tr className="bg-[#eef3fc] text-left font-bold">
-              <th className="py-3 pl-5">{t('contents.documents.table.document')}</th>
-              <th>{t('contents.documents.table.category')}</th>
-              <th>{t('contents.documents.table.size')}</th>
-              <th>{t('contents.documents.table.publishedAt')}</th>
-              <th>{t('contents.documents.table.status')}</th>
-              <th className="pr-5 text-center">{t('contents.documents.table.actions')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {documentsPro.map((d) => (
-              <tr key={d.id} className="border-t border-line">
-                <td className="py-3 pl-5">
-                  <span className="flex items-center gap-3">
-                    <span className={cn('grid h-10 w-9 place-items-center rounded-md text-[10px] font-extrabold text-white', d.type === 'PDF' ? 'bg-rose-600' : d.type === 'XLSX' ? 'bg-emerald-600' : 'bg-brand-600')}>{d.type}</span>
-                    <b>{d.nom}</b>
-                  </span>
-                </td>
-                <td><span className={cn('rounded-full px-3 py-1 text-[13px]', catTone[d.categorie] ?? 'bg-slate-100')}>{categoryLabel(d.categorie)}</span></td>
-                <td>{d.taille}</td>
-                <td>{d.date}</td>
-                <td><StatutPill s={d.statut} /></td>
-                <td className="pr-5">
-                  <div className="flex justify-center gap-2">
-                    <button type="button" aria-label={t('contents.actions.view')} onClick={() => setApercu(d)} className="grid size-9 place-items-center rounded-lg bg-[#eef3fc] text-navy-800"><Eye className="size-4" /></button>
-                    <MenuActions
-                      label={t('contents.actions.more')}
-                      actions={[
-                        d.statut === 'Publié'
-                          ? { label: t('contents.documents.menu.unpublish'), icon: <EyeOff />, onClick: async () => { await data.update('documents', d.id, { statut: 'Brouillon' }); toast.success(t('contents.documents.menu.unpublished', { name: d.nom })) } }
-                          : { label: t('contents.documents.menu.publish'), icon: <Send />, onClick: async () => { await data.update('documents', d.id, { statut: 'Publié' }); toast.success(t('contents.documents.menu.published', { name: d.nom })) } },
-                        { label: t('contents.documents.menu.rename'), icon: <Pencil />, onClick: () => (setRenomme(d), setNouveauNom(d.nom)) },
-                        { label: t('contents.documents.menu.delete'), icon: <Trash2 />, danger: true, onClick: async () => { await data.remove('documents', d.id); toast.success(t('contents.documents.menu.deleted', { name: d.nom })) } },
-                      ]}
-                    />
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className="text-[15px] text-navy-900">{t('contents.documents.count', { count: documentsPro.length })}</p>
-      <Modal open={apercu !== null} onClose={() => setApercu(null)} title={apercu?.nom ?? ''} icon={<FileText className="mt-0.5 size-5 text-brand-600" />}>
-        {apercu && (
-          <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-[14.5px] text-navy-900">
-            <dt className="font-semibold">{t('contents.documents.table.category')}</dt><dd>{categoryLabel(apercu.categorie)}</dd>
-            <dt className="font-semibold">{t('contents.documents.preview.format')}</dt><dd>{apercu.type}</dd>
-            <dt className="font-semibold">{t('contents.documents.table.size')}</dt><dd>{apercu.taille}</dd>
-            <dt className="font-semibold">{t('contents.documents.table.publishedAt')}</dt><dd>{apercu.date}</dd>
-            <dt className="font-semibold">{t('contents.documents.table.status')}</dt><dd><StatutPill s={apercu.statut} /></dd>
-          </dl>
-        )}
-        {apercu && (() => {
-          const f = fichiers.find((x) => x.id === apercu.fichierId)
-          return f ? (
-            <div className="mt-4 space-y-3">
-              {f.type.startsWith('image/') && <img src={f.dataUrl} alt={apercu.nom} className="max-h-72 w-full rounded-xl object-contain" />}
-              {f.type === 'application/pdf' && <iframe src={f.dataUrl} title={apercu.nom} className="h-72 w-full rounded-xl border border-line" />}
-              <button type="button" onClick={() => telecharger(f.dataUrl, f.nom)} className="inline-flex h-10 items-center gap-2 rounded-full bg-brand-600 px-5 font-semibold text-white"><Download className="size-4" />{t('contents.documents.preview.download')}</button>
-            </div>
-          ) : (
-            <p className="mt-4 rounded-xl bg-[#f3f6fc] px-3 py-2.5 text-[13.5px] text-muted">{t('contents.documents.preview.noFile')}</p>
-          )
-        })()}
-      </Modal>
-      <Modal
-        open={renomme !== null}
-        onClose={() => setRenomme(null)}
-        title={t('contents.documents.menu.rename')}
-        footer={
-          <>
-            <button type="button" onClick={() => setRenomme(null)} className="h-10 rounded-full border-2 border-brand-600/60 px-5 font-semibold text-navy-800">{t('contents.documents.menu.cancel')}</button>
-            <button
-              type="button"
-              disabled={!nouveauNom.trim()}
-              onClick={async () => {
-                if (!renomme) return
-                await data.update('documents', renomme.id, { nom: nouveauNom.trim() })
-                toast.success(t('contents.documents.menu.renamed', { name: nouveauNom.trim() }))
-                setRenomme(null)
-              }}
-              className="h-10 rounded-full bg-brand-600 px-5 font-semibold text-white disabled:opacity-50"
-            >
-              {t('contents.documents.menu.save')}
-            </button>
-          </>
-        }
-      >
-        <label className="block">
-          <span className="mb-1 block text-[14.5px] font-bold text-navy-900">{t('contents.documents.menu.newName')}</span>
-          <input value={nouveauNom} onChange={(e) => setNouveauNom(e.target.value)} className={proInput} />
-        </label>
-      </Modal>
-    </div>
-  )
-}
-
 function Faq() {
   const { t } = useTranslation('pro', { keyPrefix: 'content' })
   const [cat, setCat] = useState('Toutes')
@@ -383,7 +234,7 @@ function Faq() {
   const [edition, setEdition] = useState<QuestionFaq | null>(null)
   const [question, setQuestion] = useState('')
   const [reponse, setReponse] = useState('')
-  const cats = ['Admission', 'Formation', 'Frais et paiement', 'Diplômes']
+  const cats = ['Admission', 'Formation', 'Diplômes']
   const [categorie, setCategorie] = useState(cats[0] ?? '')
   const ouvrir = (f: QuestionFaq | null) => {
     setEdition(f)

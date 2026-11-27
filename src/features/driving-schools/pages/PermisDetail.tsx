@@ -224,7 +224,7 @@ function Aside({ aeId, code, contenu }: { aeId: string; code: PermisCode; conten
   const { isFavorite, remove } = useFavorites()
   const [open, setOpen] = useState(false)
   const fav = isFavorite(`${aeId}:${code}`)
-  const whatsapp = '+237 6 90 45 67 89'
+  const whatsapp = '+237 690 45 67 89'
   return (
     <aside className="space-y-4">
       <div className={cn(card, 'p-4')}>

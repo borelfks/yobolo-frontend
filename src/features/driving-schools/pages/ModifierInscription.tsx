@@ -247,7 +247,7 @@ export function ModifierInscription() {
                     </span>
                   </label>
                   <label><Label required>{t('form.sex')}</Label><IconSelect icon={<UserRound />} value={form.sexe || 'Féminin'} options={sexes.map((x) => ({ value: x.value, label: t(`sex.${x.key}`) }))} onChange={(v) => setForm({ ...form, sexe: v })} /></label>
-                  <label><Label required>{t('form.phone')}</Label><input className={field} placeholder="6 70 12 34 56" value={form.telephone} onChange={(e) => setForm({ ...form, telephone: e.target.value })} /></label>
+                  <label><Label required>{t('form.phone')}</Label><input className={field} placeholder="670 12 34 56" value={form.telephone} onChange={(e) => setForm({ ...form, telephone: e.target.value })} /></label>
                   <label><Label>{t('form.email')}</Label><input className={field} placeholder={t('form.emailPlaceholder')} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></label>
                   <SelectionGeographique valeur={lieuDe(form)} onChange={(l) => setForm({ ...form, ...l, ville: villeDuLieu(l, arrondissements) })} className="sm:col-span-2" />
                 </div>

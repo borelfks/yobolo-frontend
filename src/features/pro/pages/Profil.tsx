@@ -22,7 +22,6 @@ import {
   MapPin,
   Pencil,
   Phone,
-  Plus,
   ShieldCheck,
   Star,
   Trash2,
@@ -31,18 +30,21 @@ import {
 } from 'lucide-react'
 import { ProCard, ProFooter, ProHeader, ProLabel } from '@/features/pro/components/ProBlocks'
 import { proInput } from '@/features/pro/proStyles'
-import { type Valeurs, patchEtablissement, prefixer, sousCles, tailleFichier } from '@/features/pro/proData'
+import { type Valeurs, patchEtablissement, prefixer, sousCles } from '@/features/pro/proData'
 import { Img } from '@/shared/components/ui/Img'
 import { LinkTabs } from '@/shared/components/ui/Tabs'
-import { useMonEcole } from '@/features/auth/hooks/useSession'
-import { data } from '@/data'
-import { useDecoupage, useFichiers, useMedias, useParametres, usePiecesEtablissement } from '@/data/hooks'
+import { useMonEcole, useSession } from '@/features/auth/hooks/useSession'
+import { numeroPropre } from '@/features/auth/authOtp'
+import { ModaleSiteWeb } from '@/features/pro/components/ModaleSiteWeb'
+import { AgrementEtDocuments, type ControleAccords } from '@/features/pro/components/AgrementEtDocuments'
+import { data, useCollection } from '@/data'
+import { useDecoupage, useMedias, useParametres } from '@/data/hooks'
 import { cn } from '@/shared/utils/cn'
 import { num } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
 import { MenuActions } from '@/shared/components/ui/MenuActions'
 import { Visionneuse } from '@/shared/components/ui/Visionneuse'
-import { lireFichier, lireImage, telecharger, TAILLE_MAX_DOCUMENT, TAILLE_MAX_PHOTO } from '@/shared/utils/fichiers'
+import { lireFichier, lireImage, TAILLE_MAX_DOCUMENT, TAILLE_MAX_PHOTO } from '@/shared/utils/fichiers'
 import type { Lieu } from '@/shared/types'
 import { SelectionGeographique } from '@/shared/components/forms/SelectionGeographique'
 import { villeDuLieu } from '@/shared/utils/geographie'
@@ -69,16 +71,19 @@ function SelectBox({ value, onChange, options, icon }: { value: string; onChange
   )
 }
 
-function IconInput({ icon, value, onChange, placeholder }: { icon: ReactNode; value: string; onChange: (v: string) => void; placeholder?: string }) {
+function IconInput({ icon, value, onChange, onBlur, placeholder, type }: { icon: ReactNode; value: string; onChange: (v: string) => void; onBlur?: (v: string) => void; placeholder?: string; type?: string }) {
   return (
     <span className="relative block">
       <span className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-navy-800 [&_svg]:size-5">{icon}</span>
-      <input value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} className={cn(proInput, 'pl-11')} />
+      <input type={type} value={value} onChange={(e) => onChange(e.target.value)} onBlur={onBlur && ((e) => onBlur(e.target.value))} placeholder={placeholder} className={cn(proInput, 'pl-11')} />
     </span>
   )
 }
 
 const opts = (xs: string[]) => xs.map((x) => ({ value: x, label: x }))
+
+/** Les années proposées pour la création de l'établissement : de cette année à 1950. */
+const ANNEES = Array.from({ length: new Date().getFullYear() - 1949 }, (_, i) => String(new Date().getFullYear() - i))
 
 /**
  * Le formulaire du profil, partagé par les onglets : la valeur saisie (pas
@@ -100,6 +105,11 @@ export function Profil() {
   const reglages = useParametres(ecole.id)
   const enregistres = sousCles('profil', reglages)
   const [saisie, setSaisie] = useState<Valeurs>({})
+  // Fenêtre « Pas encore de site web ? », proposée une fois par visite, après un enregistrement sans site web.
+  const { account } = useSession()
+  const demandes = useCollection('demandesAssistance')
+  const [proposerSite, setProposerSite] = useState(false)
+  const [sitePropose, setSitePropose] = useState(false)
   const lire = (cle: string) => saisie[cle] ?? enregistres[cle]
   const form: ProfilForm = {
     texte: (cle, defaut) => {
@@ -117,15 +127,25 @@ export function Profil() {
     },
   }
   // Brouillon : gardé dans les réglages. Publication : la fiche publique change aussi (champs du type Etablissement).
+  // L'onglet Agrément : ses accords d'ouverture s'enregistrent avec le reste (rien si une erreur reste à corriger).
+  const accordsRef = useRef<ControleAccords>(null)
   const enregistrer = async (publier: boolean) => {
+    if (accordsRef.current && !(await accordsRef.current.enregistrer())) return false
     const valeurs = { ...enregistres, ...saisie }
     await data.put('parametres', { id: ecole.id, valeurs: { ...reglages, ...prefixer('profil', valeurs) } })
-    const patch = patchEtablissement(valeurs, ecole.agrement)
+    const patch = patchEtablissement(valeurs)
     if (publier && Object.keys(patch).length > 0) {
       // L'annuaire le compte au bon endroit de lui-même (chiffres calculés).
       await data.update('etablissements', ecole.id, patch)
     }
     setSaisie({})
+    const site = typeof valeurs.siteWeb === 'string' ? valeurs.siteWeb : (ecole.siteWeb ?? '')
+    const dejaDemande = !!account && demandes.some((d) => d.compteId === account.id && d.sujet === t('profil.contact.noWebsite.subject', { lng: 'fr' }))
+    if (!site.trim() && !dejaDemande && !sitePropose) {
+      setProposerSite(true)
+      setSitePropose(true)
+    }
+    return true
   }
   const tabs = [
     { value: '', label: t('profil.tabs.general'), icon: <FileText /> },
@@ -147,9 +167,10 @@ export function Profil() {
       <LinkTabs items={tabs} base={ROUTES.pro.profile()} variant="block" className="[&>a]:h-11 [&>a]:rounded-full [&>a]:text-[15px]" />
       {tab === '' && <Infos form={form} />}
       {tab === 'coordonnees' && <Coordonnees form={form} />}
-      {tab === 'agrement' && <Agrement form={form} />}
+      {tab === 'agrement' && <AgrementEtDocuments ref={accordsRef} niu={form.texte('niu', ecole.niu ?? '')} changerNiu={(v) => form.changer('niu', v)} />}
       {tab === 'medias' && <Medias />}
-      <ProFooter onCancel={() => setSaisie({})} onSave={enregistrer} />
+      <ProFooter onCancel={() => { setSaisie({}); accordsRef.current?.annuler() }} onSave={enregistrer} />
+      <ModaleSiteWeb open={proposerSite} onClose={() => setProposerSite(false)} />
     </div>
   )
 }
@@ -192,7 +213,7 @@ function Infos({ form }: { form: ProfilForm }) {
           <label><ProLabel required>{t('profil.general.name')}</ProLabel><input className={proInput} value={form.texte('nom', ecole.nom.replace(/ \([^)]*\)$/, ''))} onChange={(e) => form.changer('nom', e.target.value)} /></label>
           <label><ProLabel required>{t('profil.general.acronym')}</ProLabel><input className={proInput} value={form.texte('sigle', ecole.sigle)} onChange={(e) => form.changer('sigle', e.target.value)} /></label>
           <label><ProLabel required>{t('profil.general.type')}</ProLabel><SelectBox value={form.texte('type', ecole.type)} onChange={(v) => form.changer('type', v)} options={typeOptions.map((o) => ({ value: o.value, label: t(`profil.types.${o.labelKey}`) }))} /></label>
-          <label><ProLabel>{t('profil.general.founded')}</ProLabel><IconInput icon={<Calendar />} value={form.texte('anneeCreation', ecole.anneeCreation ?? '')} onChange={(v) => form.changer('anneeCreation', v)} /></label>
+          <label><ProLabel>{t('profil.general.founded')}</ProLabel><SelectBox icon={<Calendar />} value={form.texte('anneeCreation', ecole.anneeCreation ?? '')} onChange={(v) => form.changer('anneeCreation', v)} options={[{ value: '', label: t('profil.general.foundedPick') }, ...opts(ANNEES)]} /></label>
           <label className="md:col-span-2">
             <ProLabel required>{t('profil.general.presentation')}</ProLabel>
             <span className="relative block">
@@ -249,7 +270,8 @@ function Coordonnees({ form }: { form: ProfilForm }) {
     const ville = villeDuLieu(l, arrondissements)
     if (ville) form.changer('ville', ville)
   }
-  const site = `www.${ecole.sigle.toLowerCase().replace(/\s+/g, '')}.cm`
+  const site = form.texte('siteWeb', ecole.siteWeb ?? '')
+  const siteEnregistre = form.enregistre('siteWeb', ecole.siteWeb ?? '')
   return (
     <div className="grid gap-4 xl:grid-cols-[1fr_405px]">
       <ProCard title={t('profil.contact.title')} icon={<Contact />}>
@@ -257,10 +279,11 @@ function Coordonnees({ form }: { form: ProfilForm }) {
           <SelectionGeographique valeur={lieu} onChange={changerLieu} className="md:col-span-2" />
           <label><ProLabel>{t('profil.contact.locality')}</ProLabel><input className={proInput} value={form.texte('lieuDit', ecole.lieuDit ?? '')} onChange={(e) => form.changer('lieuDit', e.target.value)} /></label>
           <label className="md:col-span-2"><ProLabel required>{t('profil.contact.address')}</ProLabel><IconInput icon={<MapPin />} value={form.texte('adresse', ecole.adresse ?? '')} onChange={(v) => form.changer('adresse', v)} /></label>
-          <label><ProLabel required>{t('profil.contact.phone')}</ProLabel><IconInput icon={<Phone />} value={form.texte('telephone', ecole.telephone)} onChange={(v) => form.changer('telephone', v)} /></label>
-          <label><ProLabel>{t('profil.contact.phone2')} <span className="font-normal">{t('profil.contact.optional')}</span></ProLabel><IconInput icon={<Phone />} value={form.texte('telephone2', '+237 6 75 43 21 09')} onChange={(v) => form.changer('telephone2', v)} /></label>
+          {/* Le numéro se remet au format « +237 690 12 34 56 » quand on quitte le champ. */}
+          <label><ProLabel required>{t('profil.contact.phone')}</ProLabel><IconInput type="tel" icon={<Phone />} value={form.texte('telephone', ecole.telephone)} onChange={(v) => form.changer('telephone', v)} onBlur={(v) => form.changer('telephone', numeroPropre(v))} placeholder={t('profil.contact.phonePlaceholder')} /></label>
+          <label><ProLabel>{t('profil.contact.phone2')} <span className="font-normal">{t('profil.contact.optional')}</span></ProLabel><IconInput type="tel" icon={<Phone />} value={form.texte('telephone2', '')} onChange={(v) => form.changer('telephone2', v)} onBlur={(v) => form.changer('telephone2', numeroPropre(v))} placeholder={t('profil.contact.phonePlaceholder')} /></label>
           <label><ProLabel required>{t('profil.contact.email')}</ProLabel><IconInput icon={<Mail />} value={form.texte('email', ecole.email)} onChange={(v) => form.changer('email', v)} /></label>
-          <label><ProLabel>{t('profil.contact.website')} <span className="font-normal">{t('profil.contact.optional')}</span></ProLabel><IconInput icon={<Globe />} value={form.texte('siteWeb', site)} onChange={(v) => form.changer('siteWeb', v)} /></label>
+          <label><ProLabel>{t('profil.contact.website')} <span className="font-normal">{t('profil.contact.optional')}</span></ProLabel><IconInput icon={<Globe />} value={site} onChange={(v) => form.changer('siteWeb', v)} placeholder={t('profil.contact.websitePlaceholder')} /></label>
         </div>
       </ProCard>
       <ProCard title={t('profil.contact.preview')} icon={<Eye />} className="[&_h2]:text-[17px]">
@@ -268,85 +291,9 @@ function Coordonnees({ form }: { form: ProfilForm }) {
           <li className="flex items-center gap-3"><MapPin className="fill-brand-600 !text-white" />{form.enregistre('lieuDit', 'Avenue Germaine')}, {ecole.quartier} – {ecole.ville} ({ecole.region})</li>
           <li className="flex items-center gap-3"><Phone />{ecole.telephone}</li>
           <li className="flex items-center gap-3"><Mail />{ecole.email}</li>
-          <li className="flex items-center gap-3"><Globe />{form.enregistre('siteWeb', site)}</li>
+          {siteEnregistre && <li className="flex items-center gap-3"><Globe />{siteEnregistre}</li>}
         </ul>
         <Img src="/images/maquette/pro-carte.jpg" alt={t('profil.contact.map')} className="mt-3 h-[188px] w-full rounded-xl" />
-      </ProCard>
-    </div>
-  )
-}
-
-function Agrement({ form }: { form: ProfilForm }) {
-  const { t } = useTranslation('pro')
-  const { ecole } = useMonEcole()
-  const docs = usePiecesEtablissement(ecole.id)
-  const fichiers = useFichiers()
-  // Une pièce ajoutée est gardée dans la base (fichier + ligne) ; pas de validation par YIBOLO (décision du 2026-11-27).
-  const envoyer = async (fichier: File) => {
-    if (fichier.size > TAILLE_MAX_DOCUMENT) return void toast.error(t('profil.documents.tooBig'))
-    const f = await data.create('fichiers', { nom: fichier.name, type: fichier.type, taille: fichier.size, dataUrl: await lireFichier(fichier) }, 'fichier')
-    await data.create('piecesEtablissement', { etablissementId: ecole.id, nom: fichier.name, taille: tailleFichier(fichier.size), statut: 'Validé', fichierId: f.id }, 'piece')
-    toast.success(t('profil.documents.sent', { name: fichier.name }))
-  }
-  const ouvrirPiece = (fichierId?: string) => {
-    const f = fichiers.find((x) => x.id === fichierId)
-    if (f) telecharger(f.dataUrl, f.nom)
-    else toast(t('profil.documents.noFile'))
-  }
-  return (
-    <div className="grid gap-4 xl:grid-cols-[1fr_430px]">
-      <ProCard title={t('profil.accreditation.title')} icon={<Award />}>
-        <div className="grid gap-x-6 gap-y-3 md:grid-cols-[1.45fr_1fr]">
-          <label><ProLabel required>{t('profil.accreditation.authorisation')}</ProLabel><input className={proInput} value={form.texte('agrement', ecole.agrement?.numero ?? '')} onChange={(e) => form.changer('agrement', e.target.value)} /></label>
-          <label><ProLabel required>{t('profil.accreditation.issueDate')}</ProLabel><IconInput icon={<Calendar />} value={form.texte('agrementDate', ecole.agrement?.date ?? '')} onChange={(v) => form.changer('agrementDate', v)} /></label>
-          <label><ProLabel required>{t('profil.accreditation.authority')}</ProLabel><SelectBox value={form.texte('agrementAutorite', ecole.agrement?.autorite ?? '')} onChange={(v) => form.changer('agrementAutorite', v)} options={[...opts(['MINEFOP', 'MINESUP', 'MINTRANSPORTS']), { value: 'Autre', label: t('profil.accreditation.otherAuthority') }]} /></label>
-          <label><ProLabel>{t('profil.accreditation.expiry')} <span className="font-normal">{t('profil.accreditation.ifApplicable')}</span></ProLabel><IconInput icon={<Calendar />} value={form.texte('agrementExpiration', ecole.agrement?.expiration ?? '')} onChange={(v) => form.changer('agrementExpiration', v)} /></label>
-          <label><ProLabel required>{t('profil.accreditation.taxNumber')}</ProLabel><input className={proInput} value={form.texte('niu', ecole.agrement?.niu ?? '')} onChange={(e) => form.changer('niu', e.target.value)} /></label>
-          <label><ProLabel required>{t('profil.accreditation.rccm')}</ProLabel><input className={proInput} value={form.texte('rccm', ecole.agrement?.rccm ?? '')} onChange={(e) => form.changer('rccm', e.target.value)} /></label>
-        </div>
-        <div className="mt-4 flex items-center gap-3 rounded-xl bg-[#e5f7ea] px-4 py-3">
-          <CircleCheck className="size-8 fill-emerald-600 text-white" />
-          <div className="flex-1">
-            <p className="text-[17px] font-bold text-emerald-700">{t('profil.accreditation.verified')}</p>
-            <p className="text-[14px] text-navy-900">{t('profil.accreditation.verifiedText')}</p>
-          </div>
-          <span className="inline-flex items-center gap-1.5 rounded-full border-2 border-emerald-600 bg-white px-4 py-1 text-[15px] font-semibold text-emerald-700">{t('profil.accreditation.compliant')}</span>
-        </div>
-      </ProCard>
-      <ProCard title={t('profil.documents.title')} icon={<Upload />}>
-        <div className="space-y-2">
-          {docs.map((d) => (
-            <div key={d.id} className="flex items-center gap-3 rounded-xl bg-[#f3f6fc] px-3 py-2">
-              <span className="grid h-10 w-9 place-items-center rounded-md bg-rose-600 text-[10px] font-extrabold text-white">{(d.nom.split('.').pop() || 'PDF').toUpperCase().slice(0, 4)}</span>
-              <span className="min-w-0 flex-1 leading-tight">
-                <b className="line-clamp-2 block text-[15px] leading-snug text-navy-900">{d.cle ? t(`profil.documents.items.${d.cle}`) : d.nom}</b>
-                <span className="text-[13px] text-navy-900">{t('profil.documents.fileSize', { size: d.taille })}</span>
-              </span>
-              <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-[13px] font-semibold text-emerald-700"><CircleCheck className="size-4 fill-emerald-600 text-white" />{t('profil.documents.validated')}</span>
-              <button type="button" aria-label={t('profil.documents.view')} onClick={() => ouvrirPiece(d.fichierId)} className="text-brand-600"><Eye className="size-5" /></button>
-              <button
-                type="button"
-                aria-label={t('profil.documents.delete')}
-                onClick={async () => {
-                  await data.remove('piecesEtablissement', d.id)
-                  if (d.fichierId) await data.remove('fichiers', d.fichierId)
-                  toast.success(t('profil.documents.deleted'))
-                }}
-                className="text-rose-600"
-              >
-                <Trash2 className="size-5" />
-              </button>
-            </div>
-          ))}
-          {docs.length === 0 && <p className="rounded-xl bg-[#f3f6fc] px-3 py-3 text-[14px] text-muted">{t('profil.documents.none')}</p>}
-        </div>
-        <label className="mt-3 flex cursor-pointer flex-col items-center gap-1 rounded-xl border-2 border-dashed border-[#9fb4e3] py-4 text-center">
-          <CloudUpload className="size-8 text-brand-600" />
-          <b className="text-[16px] text-navy-900">{t('profil.documents.add')}</b>
-          <span className="text-[13px] text-navy-900">{t('profil.documents.formats')}</span>
-          <span className="mt-1 inline-flex h-10 items-center gap-2 rounded-full border-2 border-brand-600/60 px-8 text-[15px] font-semibold text-navy-800"><Plus className="size-5" />{t('profil.documents.choose')}</span>
-          <input type="file" accept=".pdf,.jpg,.jpeg,.png" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; e.target.value = ''; if (f) void envoyer(f) }} />
-        </label>
       </ProCard>
     </div>
   )

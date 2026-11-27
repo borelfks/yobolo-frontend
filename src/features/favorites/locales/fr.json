@@ -30,8 +30,6 @@
     },
     "voirDetails": "Voir les détails",
     "voirEtablissement": "Voir l’établissement",
-    "fraisFormation": "Frais de formation",
-    "parAn": "/ an",
     "dureeMois_one": "{{count}} mois",
     "dureeMois_other": "{{count}} mois",
     "modes": {

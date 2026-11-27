@@ -40,7 +40,7 @@ export function EcolesHub() {
   const [tri, setTri] = useState<Tri>('pertinence')
   const [page, setPage] = useState(1)
   const recherche = Boolean(q || Object.values(criteres).some(Boolean))
-  const list = trierEtablissements(filtrerEtablissements(etablissements, q, criteres, formations), tri, formations)
+  const list = trierEtablissements(filtrerEtablissements(etablissements, q, criteres, formations), tri)
   // Les cartes mises en avant (champ « vedette » de la base), établissements et
   // auto-écoles mêlés, dans leur ordre ; puis le reste de l'annuaire.
   const autoEcolesVedettes: Etablissement[] = autoEcoles

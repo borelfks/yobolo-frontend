@@ -234,5 +234,64 @@
       "conseil": "Mélangez majuscules, chiffres et symboles pour le renforcer.",
       "niveau": "Solidité du mot de passe : {{niveau}}"
     }
+  },
+  "accords": {
+    "autorites": {
+      "MINESUP": "MINESUP — Enseignement supérieur",
+      "MINEFOP": "MINEFOP — Emploi et formation professionnelle",
+      "MINT": "MINT — Transports",
+      "MINSANTE": "MINSANTE — Santé publique",
+      "Autre": "Autre autorité"
+    },
+    "champs": {
+      "autorite": "Autorité qui l’a délivré",
+      "numero": "Numéro de l’accord",
+      "numeroExemple": "Ex. : N° 184/MINESUP/DDES",
+      "autre": "Nom de l’autorité",
+      "autreExemple": "Ex. : MINJEC",
+      "delivreLe": "Date de délivrance",
+      "expireLe": "Date d’expiration",
+      "facultatif": "(facultatif)",
+      "expireAide": "Laissez vide s’il n’expire pas.",
+      "document": "Document de l’accord",
+      "formats": "PDF, JPG ou PNG (max. 3 Mo)",
+      "importer": "Importer",
+      "remplacer": "Remplacer",
+      "voir": "Voir le document"
+    },
+    "erreurs": {
+      "autorite": "Choisissez l’autorité.",
+      "autre": "Indiquez le nom de l’autorité.",
+      "numero": "Indiquez le numéro de l’accord.",
+      "delivreLe": "Indiquez la date de délivrance.",
+      "expireLe": "La date d’expiration doit être après la date de délivrance.",
+      "document": "Joignez le document de l’accord.",
+      "tropLourd": "Le document dépasse 3 Mo : choisissez un fichier plus léger."
+    },
+    "dates": {
+      "delivre": "Délivré le {{date}}",
+      "expire": "Expire le {{date}}",
+      "sansExpiration": "Sans date d’expiration"
+    },
+    "etats": {
+      "enCours": "En cours",
+      "bientot": "Expire bientôt",
+      "expire": "Expiré"
+    },
+    "retirer": "Retirer",
+    "natures": {
+      "creation": {
+        "titre": "Accords de création",
+        "aide": "L’autorisation de créer l’établissement, délivrée par l’autorité de tutelle.",
+        "bloc": "Accord de création {{n}}",
+        "ajouter": "Ajouter un autre accord de création"
+      },
+      "ouverture": {
+        "titre": "Accords d’ouverture",
+        "aide": "L’autorisation d’ouvrir l’établissement et d’accueillir des apprenants.",
+        "bloc": "Accord d’ouverture {{n}}",
+        "ajouter": "Ajouter un autre accord d’ouverture"
+      }
+    }
   }
 }

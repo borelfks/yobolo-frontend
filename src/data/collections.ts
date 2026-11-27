@@ -8,6 +8,8 @@ import type {
   Fichier,
   NotificationCompte,
   PieceEtablissement,
+  AccordEtablissement,
+  ElementNomenclature,
   SignalementAvis,
   Video,
   ActiviteSecurite,
@@ -16,7 +18,6 @@ import type {
   FormationPopulaire,
   MediaEtablissement,
   PhotoAutoEcole,
-  TrancheFrais,
   Actualite,
   Album,
   Compte,
@@ -97,7 +98,6 @@ export type Collections = {
   evenements: Evenement
   medias: MediaEtablissement
   formationsPopulaires: FormationPopulaire
-  tranchesFrais: TrancheFrais
   categoriesGalerie: CategorieGalerie
   photosAutoEcole: PhotoAutoEcole
   // Accueil de l'utilisateur connecté
@@ -109,6 +109,8 @@ export type Collections = {
   signalements: Signalement
   fichiers: Fichier
   piecesEtablissement: PieceEtablissement
+  accordsEtablissement: AccordEtablissement
+  nomenclatureFormations: ElementNomenclature
   videos: Video
   notificationsCompte: NotificationCompte
   demandesAssistance: DemandeAssistance
@@ -158,7 +160,6 @@ export const COLLECTIONS = [
   'evenements',
   'medias',
   'formationsPopulaires',
-  'tranchesFrais',
   'categoriesGalerie',
   'photosAutoEcole',
   'domainesExpertise',
@@ -169,6 +170,8 @@ export const COLLECTIONS = [
   'signalements',
   'fichiers',
   'piecesEtablissement',
+  'accordsEtablissement',
+  'nomenclatureFormations',
   'videos',
   'notificationsCompte',
   'demandesAssistance',

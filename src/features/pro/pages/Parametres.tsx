@@ -51,6 +51,7 @@ import { shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
 import { useActiviteSecurite, useNotifications, useParametres, useRoles, useUtilisateurs } from '@/data/hooks'
 import { useMonEcole, useSession } from '@/features/auth/hooks/useSession'
+import { numeroPropre } from '@/features/auth/authOtp'
 import { POUR_TOUS, data } from '@/data'
 import { MenuActions } from '@/shared/components/ui/MenuActions'
 import { AssistanceModal } from '@/shared/components/ui/AssistanceModal'
@@ -193,7 +194,7 @@ function Compte() {
           {title(<UserRound />, t('settings.account.title'), t('settings.account.subtitle'))}
           <div className="mt-3 grid gap-x-5 gap-y-3 md:grid-cols-2">
             <label><span className="mb-1 block text-[14.5px] font-bold text-navy-900">{t('settings.account.name')} <span className="text-rose-500">*</span></span><input className={cn(input, 'pl-3.5')} value={r.texte('nom', account?.name ?? ecole.nom)} onChange={(e) => r.changer('nom', e.target.value)} /></label>
-            <label><span className="mb-1 block text-[14.5px] font-bold text-navy-900">{t('settings.account.phone')} <span className="text-rose-500">*</span></span><span className="relative block"><Phone className="pointer-events-none absolute top-1/2 left-3.5 size-5 -translate-y-1/2 text-navy-800" /><input className={input} value={r.texte('telephone', account?.telephone ?? ecole.telephone)} onChange={(e) => r.changer('telephone', e.target.value)} /></span></label>
+            <label><span className="mb-1 block text-[14.5px] font-bold text-navy-900">{t('settings.account.phone')} <span className="text-rose-500">*</span></span><span className="relative block"><Phone className="pointer-events-none absolute top-1/2 left-3.5 size-5 -translate-y-1/2 text-navy-800" /><input className={input} value={r.texte('telephone', account?.telephone ?? ecole.telephone)} onChange={(e) => r.changer('telephone', e.target.value)} onBlur={(e) => r.changer('telephone', numeroPropre(e.target.value))} /></span></label>
             <label><span className="mb-1 block text-[14.5px] font-bold text-navy-900">{t('settings.account.email')} <span className="text-rose-500">*</span></span><span className="relative block"><Mail className="pointer-events-none absolute top-1/2 left-3.5 size-5 -translate-y-1/2 text-navy-800" /><input className={input} value={r.texte('email', account?.identifiant ?? ecole.email)} onChange={(e) => r.changer('email', e.target.value)} /></span></label>
             <label><span className="mb-1 block text-[14.5px] font-bold text-navy-900">{t('settings.account.role')}</span><span className="relative block"><Users className="pointer-events-none absolute top-1/2 left-3.5 size-5 -translate-y-1/2 text-navy-800" /><select className={cn(input, 'appearance-none')} value={r.texte('role', account?.subtitle ?? '')} onChange={(e) => r.changer('role', e.target.value)}>{roles.map((r) => <option key={r.nom} value={r.nom}>{roleName(r.nom)}</option>)}</select></span></label>
           </div>
@@ -261,7 +262,7 @@ function Compte() {
               type="button"
               onClick={async () => {
                 // Le nom, le téléphone et l'e-mail sont ceux du compte (table comptes) ; le reste, des réglages.
-                if (account) await data.update('comptes', account.id, { name: r.texte('nom', account.name).trim() || account.name, telephone: r.texte('telephone', account.telephone), identifiant: r.texte('email', account.identifiant).trim() || account.identifiant })
+                if (account) await data.update('comptes', account.id, { name: r.texte('nom', account.name).trim() || account.name, telephone: numeroPropre(r.texte('telephone', account.telephone)), identifiant: r.texte('email', account.identifiant).trim() || account.identifiant })
                 await r.enregistrer()
                 toast.success(t('settings.saved'))
               }}
@@ -277,7 +278,7 @@ function Compte() {
   )
 }
 
-/** « +237 6 77 12 34 56 » → « +237 6 77 •• •• 56 ». */
+/** « +237 677 12 34 56 » → « +237 677 •• •• 56 ». */
 const masquer = (tel: string) => tel.replace(/(\d{2}) (\d{2})( \d{2})$/, '•• ••$3')
 
 function Securite() {
@@ -471,7 +472,6 @@ function Preferences() {
           <Switch label={t('settings.preferences.showContacts')} {...visibilite('contacts', true)} />
           <Switch label={t('settings.preferences.showAddress')} {...visibilite('adresse', true)} />
           <Switch label={t('settings.preferences.showReviews')} {...visibilite('avis', true)} />
-          <Switch label={t('settings.preferences.hideFees')} {...visibilite('masquerFrais', false)} />
         </div>
       </Section>
       <div className="grid gap-5 md:grid-cols-2">

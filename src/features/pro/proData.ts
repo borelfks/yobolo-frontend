@@ -17,10 +17,6 @@ export function dateDuJour(d = new Date()) {
 }
 
 /** Taille d'un fichier au format des données : « 480 Ko », « 2,4 Mo ». */
-export function tailleFichier(octets: number) {
-  if (octets < 1024 * 1024) return `${Math.max(1, Math.round(octets / 1024))} Ko`
-  return `${(octets / 1024 / 1024).toFixed(1).replace('.', ',')} Mo`
-}
 
 /** « Brochure.pdf » → { nom: « Brochure », type: « PDF » } (colonne « type » des documents). */
 export function decoupeFichier(fichier: string) {
@@ -58,23 +54,18 @@ const TYPES: TypeEcole[] = ['IPES', 'CFP', 'Auto-école', 'Autre']
 /**
  * Champs du formulaire « Profil » qui existent dans la fiche publique
  * (type Etablissement) : publiés, ils changent la fiche. Les autres
- * (année de création, lieu-dit, agrément…) restent dans les réglages.
+ * restent dans les réglages. Les accords d'ouverture ont leur propre table (`accordsEtablissement`).
  */
-export function patchEtablissement(valeurs: Valeurs, agrementActuel?: Etablissement['agrement']): Partial<Etablissement> {
+export function patchEtablissement(valeurs: Valeurs): Partial<Etablissement> {
   const patch: Partial<Etablissement> = {}
   const s = (cle: string) => (typeof valeurs[cle] === 'string' ? (valeurs[cle] as string) : undefined)
-  const champs = ['nom', 'sigle', 'description', 'region', 'departement', 'arrondissement', 'ville', 'quartier', 'telephone', 'email', 'anneeCreation', 'lieuDit', 'adresse'] as const
+  const champs = ['nom', 'sigle', 'description', 'region', 'departement', 'arrondissement', 'ville', 'quartier', 'telephone', 'email', 'anneeCreation', 'lieuDit', 'adresse', 'siteWeb', 'niu'] as const
   for (const champ of champs) {
     const v = s(champ)
     if (v !== undefined) patch[champ] = v
   }
   const type = TYPES.find((x) => x === s('type'))
   if (type) patch.type = type
-  // Agrément : les six champs de l'onglet, rangés ensemble dans la fiche.
-  const cles = { numero: 'agrement', date: 'agrementDate', autorite: 'agrementAutorite', expiration: 'agrementExpiration', niu: 'niu', rccm: 'rccm' } as const
-  if (Object.values(cles).some((c) => s(c) !== undefined)) {
-    patch.agrement = Object.fromEntries(Object.entries(cles).map(([k, c]) => [k, s(c) ?? agrementActuel?.[k as keyof typeof cles] ?? ''])) as NonNullable<Etablissement['agrement']>
-  }
   return patch
 }
 
@@ -90,9 +81,12 @@ export function modeCours(modes: string[]): ModeCours {
   return jour && soir ? 'Jour & Soir' : soir ? 'Soir' : 'Jour'
 }
 
-/** « 450 000 » ou « 450,000 » → 450000. */
-export function montant(saisie: string) {
-  return Number(saisie.replace(/\D/g, '')) || 0
+/**
+ * Le nom d'une formation, composé à partir de ses choix (il n'y a plus d'intitulé à saisir) :
+ * « BTS Comptabilité et Gestion des entreprises », « BTS Génie thermique et Énergie – option Froid et Climatisation ».
+ */
+export function nomFormation(diplome: string, specialite: string, option?: string) {
+  return `${diplome} ${specialite}`.trim() + (option ? ` – option ${option}` : '')
 }
 
 /** Code d'une nouvelle formation, sur le modèle de la maquette : « BTS Comptabilité & Gestion » → « BTS-CG ». */
@@ -121,5 +115,3 @@ export const IMAGES_ACTUALITE = {
   results: '/images/maquette/actu-ceremonie.jpg',
 } as const
 
-/** Catégorie donnée aux documents ajoutés (le formulaire ne la demande pas). */
-export const CATEGORIE_DOCUMENT = 'Brochure'

@@ -52,7 +52,7 @@
 | CFP (Centres de Formation Professionnelle) | CFP (Vocational Training Centres) |
 | Autres | Others |
 | Formation · Filière · Diplôme | Programme · Field of study · Diploma |
-| Frais / Frais de formation · / an · mois | Fees / Tuition fees · / year · months |
+| Frais (auto-écoles) · mois | Fees · months |
 | Cours du jour / du soir | Day classes / Evening classes |
 | Rentrée · Débouchés · Conditions d’admission | Intake · Career prospects · Admission requirements |
 | Préinscription / Préinscrire | Pre-registration / Pre-register |

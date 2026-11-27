@@ -5,7 +5,7 @@ export const ETAPES_PROFIL = ['profile', 'trainings', 'info', 'gallery', 'optimi
 export type EtapeProfil = (typeof ETAPES_PROFIL)[number]
 
 /** Les informations à gérer du tableau de bord. */
-export const INFOS_A_GERER = ['presentation', 'admission', 'fees', 'calendar', 'careers', 'contact'] as const
+export const INFOS_A_GERER = ['presentation', 'admission', 'calendar', 'careers', 'contact'] as const
 export type InfoAGerer = (typeof INFOS_A_GERER)[number]
 
 type Contenu = { ecole: Etablissement; medias: number; documents: number; faq: number }
@@ -29,7 +29,6 @@ export function etatDuProfil({ ecole, medias, documents, faq }: Contenu) {
   const infos: Record<InfoAGerer, boolean> = {
     presentation: rempli(ecole.description),
     admission: faq > 0,
-    fees: ecole.formations > 0,
     calendar: rempli(ecole.rentree) || documents > 0,
     careers: ecole.formations > 0,
     contact,

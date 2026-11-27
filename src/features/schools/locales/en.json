@@ -49,8 +49,6 @@
       "dayAndEvening": "Day & evening",
       "months_one": "{{count}} month",
       "months_other": "{{count}} months",
-      "fees": "Tuition fees",
-      "perYear": "/ year",
       "seeDetails": "See details"
     },
     "results": {
@@ -59,7 +57,6 @@
       "sort": {
         "pertinence": "Relevance",
         "bestRated": "Top rated",
-        "feesAsc": "Lowest fees",
         "newest": "Most recent"
       }
     },
@@ -102,7 +99,6 @@
       "diplomes": "Diplomas",
       "regions": "Regions",
       "villes": "Cities",
-      "frais": "Fees",
       "cours": "Classes (Day/Evening)"
     },
     "titles": {
@@ -124,10 +120,6 @@
       "villes": {
         "title": "{{court}} by City",
         "subtitle": "Find {{pluriel}} and their programmes in every city of Cameroon."
-      },
-      "frais": {
-        "title": "Tuition fees ({{court}})",
-        "subtitle": "Compare programme costs at {{long}} in Cameroon."
       },
       "cours": {
         "title": "{{court}} – Classes (Day/Evening)",
@@ -186,27 +178,15 @@
     },
     "formations": {
       "searchPlaceholder": "Search for a programme, {{item}}...",
-      "filterFees": "Filter fees",
-      "feeRange": "Fee range (per year)",
-      "courseType": "Class type",
       "courseMode": "Class schedule",
       "allCourses": "All classes",
       "day": "Day classes",
       "evening": "Evening classes",
       "dayEvening": "Day & evening",
-      "tranches": {
-        "lt250": "Under 250,000 FCFA",
-        "from250to500": "250,000 – 500,000 FCFA",
-        "from500to750": "500,000 – 750,000 FCFA",
-        "from750to1000": "750,000 – 1,000,000 FCFA",
-        "gt1000": "Over 1,000,000 FCFA"
-      },
-      "titleFrais": "Programmes and fees ({{n}} results)",
       "titleCours": "{{n}} programmes available",
       "sort": {
-        "feesAsc": "Fees: low to high",
-        "feesDesc": "Fees: high to low",
-        "pertinence": "Relevance"
+        "pertinence": "Relevance",
+        "newest": "Newest"
       },
       "empty": "No programmes in this selection.",
       "shown": "{{n}} programmes shown"
@@ -222,7 +202,6 @@
     "addToFavorites": "Add to favourites",
     "months_one": "{{count}} month",
     "months_other": "{{count}} months",
-    "perYear": "/ year",
     "sortBy": "Sort by:",
     "sortByAria": "Sort by",
     "types": {
@@ -278,7 +257,6 @@
       "ourTrainings": "Our programmes ({{n}})",
       "sort": {
         "pertinence": "Relevance",
-        "fraisCroissants": "Lowest fees",
         "duree": "Duration"
       },
       "searchPlaceholder": "Search for a programme...",
@@ -287,14 +265,12 @@
       "diplome": "Diploma",
       "tous": "All",
       "cours": "Classes",
-      "fees": "Tuition fees",
       "seeDetails": "See details"
     },
     "informations": {
       "sections": {
         "presentation": "Presentation",
         "admission": "Admission requirements",
-        "frais": "Fees & payments",
         "calendrier": "Academic calendar",
         "contact": "Contact & location",
         "actualites": "News",
@@ -337,14 +313,6 @@
         "periodeValue": "1 Jul – 30 Sep 2026",
         "pieces": "Documents",
         "piecesValue": "Diploma, transcripts, ID card, 4 photos",
-        "fraisInscription": "Registration fees",
-        "fraisInscriptionValue": "50,000 FCFA",
-        "fraisScolarite": "Tuition fees",
-        "fraisScolariteValue": "From 450,000 to 750,000 FCFA / year",
-        "modalites": "Payment terms",
-        "modalitesValue": "In full (–5%), 2 instalments or monthly",
-        "paiement": "Payment",
-        "paiementValue": "Orange Money, MTN MoMo, Express Union",
         "ouverture": "Applications open",
         "ouvertureValue": "1 July 2026",
         "cloture": "Applications close",
@@ -424,14 +392,14 @@
       "details": "Details",
       "programme": "Curriculum",
       "admission": "Admission requirements",
-      "frais": "Fees & payment",
       "debouches": "Career prospects"
     },
     "breadcrumbFormations": "Programmes",
     "badge": "Programme",
     "aside": {
       "contact": "Contact the institution",
-      "nextIntake": "Next intake"
+      "nextIntake": "Next intake",
+      "deadline": "Application deadline"
     },
     "jobs": {
       "comptable": "Accountant",
@@ -444,7 +412,6 @@
       "diplome": "Diploma",
       "duree": "Duration",
       "cours": "Classes",
-      "fees": "Tuition fees",
       "presentationTitle": "About the programme",
       "presentationText": "The {{name}} trains senior technicians able to manage the accounting, financial operations and management control of an organisation.",
       "objectives": "Objectives",
@@ -493,38 +460,6 @@
       "goodToKnow": "Good to know",
       "incomplete": "Incomplete applications will not be accepted."
     },
-    "frais": {
-      "title": "Programme fees",
-      "inscription": "Registration fees",
-      "scolarite": "Tuition fees",
-      "perYear": "(per year)",
-      "total": "Total cost of the programme",
-      "years_one": "({{count}} year)",
-      "years_other": "({{count}} years)",
-      "payment": "Payment terms",
-      "once": "Payment in full",
-      "discount": "5% discount",
-      "twoInstalments": "Payment in 2 instalments",
-      "twoInstalmentsDesc": "50% on registration, 50% mid-year",
-      "monthly": "Monthly payment",
-      "monthlyDesc": "12 monthly payments of {{amount}}",
-      "covers": "What the fees cover",
-      "coverTiles": {
-        "cours1": "Classes and",
-        "cours2": "materials",
-        "tp1": "Practical",
-        "tp2": "work",
-        "encadrement1": "Teaching",
-        "encadrement2": "supervision",
-        "stage1": "Internship",
-        "stage2": "follow-up"
-      },
-      "goodToKnow": "Good to know",
-      "tips": {
-        "t1": "Tuition fees can be paid by Mobile Money (Orange, MTN, Express Union).",
-        "t2": "An official receipt is issued after each payment."
-      }
-    },
     "debouches": {
       "jobsTitle": "Accessible careers",
       "jobsIntro": "After a {{name}}, you can work in particular as:",
@@ -571,7 +506,6 @@
       "diplome": "Diploma",
       "duree": "Duration",
       "cours": "Classes",
-      "fees": "Tuition fees:",
       "question": "Any questions?",
       "whatsappAria": "WhatsApp",
       "whatsappMessage": "Hello, I would like information about the “{{formation}}” programme."
@@ -609,7 +543,7 @@
         "autre": "Other"
       },
       "telephone": "Phone",
-      "telephonePlaceholder": "6 XX XX XX XX",
+      "telephonePlaceholder": "6XX XX XX XX",
       "email": "Email",
       "emailPlaceholder": "your@email.com"
     },

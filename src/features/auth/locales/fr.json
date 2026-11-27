@@ -2,7 +2,7 @@
   "connexion": {
     "title": "Connexion",
     "subtitle": "Heureux de vous revoir ! Connectez-vous pour retrouver votre espace.",
-    "identifierPlaceholder": "vous@exemple.cm ou 6 90 12 34 56",
+    "identifierPlaceholder": "vous@exemple.cm ou 690 12 34 56",
     "identifier": "Email ou téléphone",
     "password": "Mot de passe",
     "show": "Afficher",
@@ -97,14 +97,16 @@
     "verification": {
       "title": "Documents de votre établissement – {{profile}}",
       "text": "Joignez les documents requis pour créer votre compte.",
-      "docs": {
-        "autorisation": "Autorisation d’ouverture",
-        "niu": "NIU (Numéro d’Identification Unique)"
-      },
-      "formats": "PDF, JPG ou PNG (max. 5 Mo)",
-      "import": "Importer",
       "confidential": "Vos documents sont confidentiels : seule l’équipe YIBOLO peut les consulter.",
-      "submit": "Créer mon compte"
+      "submit": "Créer mon compte",
+      "niuTitle": "Numéro de contribuable",
+      "niu": "Numéro de contribuable (NIU)",
+      "niuExample": "Ex. : M123456789012",
+      "certificat": "Certificat du NIU",
+      "errors": {
+        "niu": "Indiquez votre numéro de contribuable.",
+        "certificat": "Joignez le certificat du NIU."
+      }
     },
     "vous": {
       "title": "Vous",

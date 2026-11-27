@@ -9,7 +9,7 @@ export function lienCarte(...parties: (string | undefined)[]) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(adresse)}`
 }
 
-/** Une conversation WhatsApp avec un numéro camerounais (« +237 6 90 12 34 56 » → wa.me/237690123456). */
+/** Une conversation WhatsApp avec un numéro camerounais (« +237 690 12 34 56 » → wa.me/237690123456). */
 export function lienWhatsApp(telephone: string, message?: string) {
   const chiffres = telephone.replace(/\D/g, '')
   const numero = chiffres.length === 9 ? `237${chiffres}` : chiffres

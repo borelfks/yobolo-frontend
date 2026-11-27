@@ -49,8 +49,6 @@
       "dayAndEvening": "Jour & soir",
       "months_one": "{{count}} mois",
       "months_other": "{{count}} mois",
-      "fees": "Frais de formation",
-      "perYear": "/ an",
       "seeDetails": "Voir les détails"
     },
     "results": {
@@ -59,7 +57,6 @@
       "sort": {
         "pertinence": "Pertinence",
         "bestRated": "Mieux notés",
-        "feesAsc": "Frais croissants",
         "newest": "Plus récents"
       }
     },
@@ -102,7 +99,6 @@
       "diplomes": "Diplômes",
       "regions": "Régions",
       "villes": "Villes",
-      "frais": "Frais",
       "cours": "Cours (Jour/Soir)"
     },
     "titles": {
@@ -124,10 +120,6 @@
       "villes": {
         "title": "{{court}} par Villes",
         "subtitle": "Trouvez les {{pluriel}} et leurs formations dans toutes les villes du Cameroun."
-      },
-      "frais": {
-        "title": "Frais de formation ({{court}})",
-        "subtitle": "Comparez les coûts des formations dans les {{long}} du Cameroun."
       },
       "cours": {
         "title": "{{court}} – Cours (Jour/Soir)",
@@ -186,27 +178,15 @@
     },
     "formations": {
       "searchPlaceholder": "Rechercher une formation, {{item}}...",
-      "filterFees": "Filtrer les frais",
-      "feeRange": "Tranche de frais (par an)",
-      "courseType": "Type de cours",
       "courseMode": "Mode de cours",
       "allCourses": "Tous les cours",
       "day": "Cours de jour",
       "evening": "Cours du soir",
       "dayEvening": "Jour & soir",
-      "tranches": {
-        "lt250": "Moins de 250 000 FCFA",
-        "from250to500": "250 000 – 500 000 FCFA",
-        "from500to750": "500 000 – 750 000 FCFA",
-        "from750to1000": "750 000 – 1 000 000 FCFA",
-        "gt1000": "Plus de 1 000 000 FCFA"
-      },
-      "titleFrais": "Formations et frais ({{n}} résultats)",
       "titleCours": "{{n}} formations disponibles",
       "sort": {
-        "feesAsc": "Frais croissant",
-        "feesDesc": "Frais décroissant",
-        "pertinence": "Pertinence"
+        "pertinence": "Pertinence",
+        "newest": "Plus récentes"
       },
       "empty": "Aucune formation dans cette sélection.",
       "shown": "{{n}} formations affichées"
@@ -222,7 +202,6 @@
     "addToFavorites": "Ajouter aux favoris",
     "months_one": "{{count}} mois",
     "months_other": "{{count}} mois",
-    "perYear": "/ an",
     "sortBy": "Trier par :",
     "sortByAria": "Trier par",
     "types": {
@@ -278,7 +257,6 @@
       "ourTrainings": "Nos formations ({{n}})",
       "sort": {
         "pertinence": "Pertinence",
-        "fraisCroissants": "Frais croissants",
         "duree": "Durée"
       },
       "searchPlaceholder": "Rechercher une formation...",
@@ -287,14 +265,12 @@
       "diplome": "Diplôme",
       "tous": "Tous",
       "cours": "Cours",
-      "fees": "Frais de formation",
       "seeDetails": "Voir les détails"
     },
     "informations": {
       "sections": {
         "presentation": "Présentation",
         "admission": "Conditions d’admission",
-        "frais": "Frais & paiements",
         "calendrier": "Calendrier académique",
         "contact": "Contact & localisation",
         "actualites": "Actualités",
@@ -337,14 +313,6 @@
         "periodeValue": "01 juil. – 30 sept. 2026",
         "pieces": "Pièces",
         "piecesValue": "Diplôme, relevés de notes, CNI, 4 photos",
-        "fraisInscription": "Frais d’inscription",
-        "fraisInscriptionValue": "50 000 FCFA",
-        "fraisScolarite": "Frais de scolarité",
-        "fraisScolariteValue": "De 450 000 à 750 000 FCFA / an",
-        "modalites": "Modalités",
-        "modalitesValue": "1 fois (–5 %), 2 tranches ou mensuel",
-        "paiement": "Paiement",
-        "paiementValue": "Orange Money, MTN MoMo, Express Union",
         "ouverture": "Ouverture des candidatures",
         "ouvertureValue": "01 juillet 2026",
         "cloture": "Clôture des candidatures",
@@ -424,14 +392,14 @@
       "details": "Détails",
       "programme": "Programme",
       "admission": "Conditions d’admission",
-      "frais": "Frais & paiement",
       "debouches": "Débouchés"
     },
     "breadcrumbFormations": "Formations",
     "badge": "Formation",
     "aside": {
       "contact": "Contacter l’établissement",
-      "nextIntake": "Prochaine rentrée"
+      "nextIntake": "Prochaine rentrée",
+      "deadline": "Date limite d’inscription"
     },
     "jobs": {
       "comptable": "Comptable",
@@ -444,7 +412,6 @@
       "diplome": "Diplôme",
       "duree": "Durée",
       "cours": "Cours",
-      "fees": "Frais de formation",
       "presentationTitle": "Présentation de la formation",
       "presentationText": "Le {{name}} forme des techniciens supérieurs capables de gérer la comptabilité, les opérations financières et le contrôle de gestion d’une organisation.",
       "objectives": "Objectifs",
@@ -493,38 +460,6 @@
       "goodToKnow": "Bon à savoir",
       "incomplete": "Les dossiers incomplets ne sont pas recevables."
     },
-    "frais": {
-      "title": "Frais de la formation",
-      "inscription": "Frais d’inscription",
-      "scolarite": "Frais de scolarité",
-      "perYear": "(par an)",
-      "total": "Coût total de la formation",
-      "years_one": "({{count}} an)",
-      "years_other": "({{count}} ans)",
-      "payment": "Modalités de paiement",
-      "once": "Paiement en 1 fois",
-      "discount": "Remise de 5 %",
-      "twoInstalments": "Paiement en 2 tranches",
-      "twoInstalmentsDesc": "50 % à l’inscription, 50 % en milieu d’année",
-      "monthly": "Paiement mensuel",
-      "monthlyDesc": "12 mensualités de {{amount}}",
-      "covers": "Ce que couvrent les frais",
-      "coverTiles": {
-        "cours1": "Cours et",
-        "cours2": "supports",
-        "tp1": "Travaux",
-        "tp2": "pratiques",
-        "encadrement1": "Encadrement",
-        "encadrement2": "pédagogique",
-        "stage1": "Suivi de",
-        "stage2": "stage"
-      },
-      "goodToKnow": "Bon à savoir",
-      "tips": {
-        "t1": "Les frais de scolarité peuvent être réglés par Mobile Money (Orange, MTN, Express Union).",
-        "t2": "Un reçu officiel est délivré après chaque paiement."
-      }
-    },
     "debouches": {
       "jobsTitle": "Métiers accessibles",
       "jobsIntro": "Après un {{name}}, vous pouvez exercer notamment comme :",
@@ -571,7 +506,6 @@
       "diplome": "Diplôme",
       "duree": "Durée",
       "cours": "Cours",
-      "fees": "Frais de formation :",
       "question": "Une question ?",
       "whatsappAria": "WhatsApp",
       "whatsappMessage": "Bonjour, je souhaite des informations sur la formation « {{formation}} »."
@@ -609,7 +543,7 @@
         "autre": "Autre"
       },
       "telephone": "Téléphone",
-      "telephonePlaceholder": "6 XX XX XX XX",
+      "telephonePlaceholder": "6XX XX XX XX",
       "email": "Email",
       "emailPlaceholder": "votre@email.com"
     },

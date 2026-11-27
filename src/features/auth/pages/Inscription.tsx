@@ -5,7 +5,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { toast } from 'sonner'
-import { ArrowLeft, ArrowRight, Building2, Check, CircleCheck, FileText, IdCard, Mail, ShieldCheck, Upload, Users } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Building2, Check, CircleCheck, FileText, Mail, ShieldCheck, Upload, Users } from 'lucide-react'
 import { AuthCard } from '@/app/layouts/AuthLayout'
 import { Badge } from '@/shared/components/ui/Badge'
 import { Img } from '@/shared/components/ui/Img'
@@ -23,6 +23,9 @@ import { normaliserIdentifiant, protegerMotDePasse } from '@/shared/utils/motDeP
 import { villeDuLieu } from '@/shared/utils/geographie'
 import { CIVILITES, NATIONALITES } from '@/shared/utils/personne'
 import { ChampMotDePasse, JaugeMotDePasse } from '@/shared/components/forms/MotDePasse'
+import { ListeAccords } from '@/shared/components/forms/ListeAccords'
+import { accordVide, enregistrerAccord, erreursAccord, NATURES, schemaAccord, type AccordSaisi } from '@/shared/utils/accords'
+import { lireFichier, tailleFichier, TAILLE_MAX_DOCUMENT } from '@/shared/utils/fichiers'
 
 type Profil = 'ecole' | 'consultant' | 'entreprise' | 'personne'
 
@@ -86,7 +89,6 @@ export function Inscription() {
   const [brouillon, setBrouillon] = useState<Compte | null>(() => comptes.find((c) => c.id === reprise) ?? null)
   const [profil, setProfil] = useState<Profil>('ecole')
   const [etape, setEtape] = useState<Etape>(brouillon ? 'verification' : 'profil')
-  const [pieces, setPieces] = useState<Record<string, string>>({})
   const { signIn } = useSession()
   const navigate = useNavigate()
   const { arrondissements } = useDecoupage()
@@ -171,6 +173,26 @@ export function Inscription() {
       confirmation: '',
     },
   })
+
+  /* --- École, étape « Documents » : accords de création et d'ouverture (au moins un de chaque, chacun avec son document), NIU et son certificat --- */
+  const schemaDocuments = useMemo(
+    () =>
+      z.object({
+        creation: z.array(schemaAccord(tc)).min(1),
+        ouverture: z.array(schemaAccord(tc)).min(1),
+        niu: z.string().trim().min(1, t('inscription.verification.errors.niu')),
+        certificat: z
+          .custom<File | null>((v) => v instanceof File, t('inscription.verification.errors.certificat'))
+          .refine((f) => !f || f.size <= TAILLE_MAX_DOCUMENT, tc('accords.erreurs.tropLourd')),
+      }),
+    [t, tc],
+  )
+  const { register: registerD, watch: watchD, setValue: setD, handleSubmit: handleSubmitD, formState: etatD } = useForm({
+    resolver: zodResolver(schemaDocuments),
+    defaultValues: { creation: [accordVide()], ouverture: [accordVide()], niu: '', certificat: null as File | null },
+  })
+  const accordsSaisis = { creation: watchD('creation'), ouverture: watchD('ouverture') }
+  const certificat = watchD('certificat')
 
   // La sélection géographique (contrôlée) écrit dans le formulaire du profil choisi.
   const lieuPersonne: Lieu = { region: watchP('region'), departement: watchP('departement'), arrondissement: watchP('arrondissement'), quartier: watchP('quartier') }
@@ -273,7 +295,7 @@ export function Inscription() {
    * compte, et l'école entre directement dans son espace professionnel (pas de
    * validation par YIBOLO, décision du 2026-11-27).
    */
-  const soumettreEcole = async () => {
+  const soumettreEcole = async (documents: { creation: AccordSaisi[]; ouverture: AccordSaisi[]; niu: string; certificat: File | null }) => {
     if (!brouillon) return
     setEnvoi(true)
     try {
@@ -297,9 +319,16 @@ export function Inscription() {
           telephone: brouillon.telephone,
           email: brouillon.identifiant,
           rentree: '',
+          niu: documents.niu.trim(),
         },
         'etablissement',
       )
+      for (const nature of NATURES) for (const accord of documents[nature]) await enregistrerAccord(etablissement.id, nature, accord)
+      const c = documents.certificat
+      if (c) {
+        const fichier = await data.create('fichiers', { nom: c.name, type: c.type, taille: c.size, dataUrl: await lireFichier(c) }, 'fichier')
+        await data.create('piecesEtablissement', { etablissementId: etablissement.id, cle: 'niu', nom: c.name, taille: tailleFichier(c.size), statut: 'Validé', fichierId: fichier.id }, 'piece')
+      }
       const rattache = (await data.update('comptes', brouillon.id, { ecoleId: etablissement.id })) ?? { ...brouillon, ecoleId: etablissement.id }
       signIn(rattache)
       toast.success(t('connexion.welcome', { name: rattache.name }))
@@ -499,40 +528,49 @@ export function Inscription() {
         </div>
       )}
 
-      {/* --- École : pièces à fournir (maquette) --- */}
+      {/* --- École : documents (accords de création et d'ouverture, NIU) --- */}
       {etape === 'verification' && (
-        <div className="mt-6 space-y-3">
+        <form noValidate onSubmit={(ev) => void handleSubmitD(soumettreEcole)(ev)} className="mt-6 space-y-4">
           {titreEtape(t('inscription.verification.title', { profile: t('inscription.profiles.ecole.title') }), t('inscription.verification.text'))}
-          {[
-            { key: 'autorisation', label: t('inscription.verification.docs.autorisation'), icon: <FileText /> },
-            { key: 'niu', label: t('inscription.verification.docs.niu'), icon: <IdCard /> },
-          ].map((d) => (
-            <div key={d.key} className="flex items-center gap-4 rounded-xl border border-line px-4 py-3">
-              <span className="text-brand-600 [&_svg]:size-7">{d.icon}</span>
-              <span className="flex-1">
-                <b className="block text-[15px] text-navy-900">{d.label} <span className="text-rose-500">*</span></b>
-                <span className="text-[13px] text-navy-900">{pieces[d.key] ? `✓ ${pieces[d.key]}` : t('inscription.verification.formats')}</span>
-              </span>
-              <label className="inline-flex h-9 cursor-pointer items-center gap-2 rounded-full border-2 border-brand-600/60 px-4 text-[14px] font-semibold text-navy-800 hover:bg-brand-50">
-                <Upload className="size-4" />
-                {t('inscription.verification.import')}
-                <input type="file" className="sr-only" onChange={(e) => e.target.files?.[0] && setPieces({ ...pieces, [d.key]: e.target.files[0].name })} />
-              </label>
+          {NATURES.map((n, k) => (
+            <div key={n} className={k ? 'border-t border-line pt-4' : undefined}>
+              <ListeAccords nature={n} saisis={accordsSaisis[n]} onChange={(liste) => setD(n, liste, { shouldValidate: etatD.isSubmitted })} erreurs={(i) => erreursAccord(etatD.errors[n]?.[i])} />
             </div>
           ))}
+          <section className="space-y-3 border-t border-line pt-4" aria-labelledby="titre-niu">
+            <h3 id="titre-niu" className="text-[16px] font-bold text-navy-900">{t('inscription.verification.niuTitle')}</h3>
+            <Field label={t('inscription.verification.niu')} required error={etatD.errors.niu?.message}>
+              <Input {...registerD('niu')} placeholder={t('inscription.verification.niuExample')} aria-invalid={!!etatD.errors.niu} />
+            </Field>
+            <div>
+              <div className={cn('flex flex-wrap items-center gap-3 rounded-xl border px-3 py-2.5', etatD.errors.certificat ? 'border-rose-300 bg-rose-50/40' : 'border-line bg-slate-50')}>
+                <FileText className="size-6 shrink-0 text-brand-600" aria-hidden />
+                <span className="min-w-[150px] flex-1">
+                  <b className="block text-sm text-navy-900">{t('inscription.verification.certificat')} <span className="text-rose-500">*</span></b>
+                  <span className="block truncate text-xs text-muted">{certificat ? `${certificat.name} · ${tailleFichier(certificat.size)}` : tc('accords.champs.formats')}</span>
+                </span>
+                <label className="inline-flex h-9 cursor-pointer items-center gap-2 rounded-full border border-brand-200 bg-white px-4 text-sm font-semibold text-brand-700 hover:bg-brand-50 focus-within:ring-2 focus-within:ring-brand-500">
+                  <Upload className="size-4" aria-hidden />
+                  {certificat ? tc('accords.champs.remplacer') : tc('accords.champs.importer')}
+                  <input type="file" accept=".pdf,.jpg,.jpeg,.png" className="sr-only" onChange={(e) => { const f = e.target.files?.[0] ?? null; e.target.value = ''; if (f) setD('certificat', f, { shouldValidate: etatD.isSubmitted }) }} />
+                </label>
+              </div>
+              {etatD.errors.certificat && <p className="mt-1 text-xs font-medium text-rose-600">{etatD.errors.certificat.message}</p>}
+            </div>
+          </section>
           <p className="flex items-center gap-4 rounded-xl border border-dashed border-[#9fb4e3] bg-[#f3f7fe] px-4 py-3 text-[14px] text-navy-900">
-            <ShieldCheck className="size-8 shrink-0 text-brand-600" />
+            <ShieldCheck className="size-8 shrink-0 text-brand-600" aria-hidden />
             {t('inscription.verification.confidential')}
           </p>
           <div className="grid grid-cols-[1fr_1.4fr] gap-4 pt-2">
             <button type="button" onClick={() => setEtape('infos')} className={secondaire}>
               <ArrowLeft className="size-5" /> {t('inscription.back')}
             </button>
-            <button type="button" disabled={envoi} onClick={() => void soumettreEcole()} className={primaire}>
+            <button type="submit" disabled={envoi} className={primaire}>
               <Check className="size-5" strokeWidth={3} /> {t('inscription.verification.submit')}
             </button>
           </div>
-        </div>
+        </form>
       )}
     </AuthCard>
   )

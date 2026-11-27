@@ -371,10 +371,6 @@ export function useFormationsPopulaires(slug: TypeSlug) {
   return useCollection('formationsPopulaires').filter((f) => f.typeSlug === slug)
 }
 
-export function useTranchesFrais() {
-  return useCollection('tranchesFrais')
-}
-
 export function useCategoriesGalerie() {
   return useCollection('categoriesGalerie')
 }
@@ -417,6 +413,18 @@ export function useFichiers() {
 
 export function usePiecesEtablissement(etablissementId: string) {
   return useCollection('piecesEtablissement').filter((p) => p.etablissementId === etablissementId)
+}
+
+/** La nomenclature des formations (secteur › domaine › filière › spécialité › option), dans l'ordre. */
+export function useNomenclature() {
+  return useCollection('nomenclatureFormations')
+}
+
+/** Les accords (de création et d'ouverture) d'un établissement, du plus ancien au plus récent (date de délivrance). */
+export function useAccords(etablissementId: string) {
+  return useCollection('accordsEtablissement')
+    .filter((a) => a.etablissementId === etablissementId)
+    .sort((a, b) => a.delivreLe.localeCompare(b.delivreLe))
 }
 
 /** Les vidéos d'un établissement ou d'une auto-école (celles « pour tous » comprises). */

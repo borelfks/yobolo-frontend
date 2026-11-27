@@ -433,7 +433,7 @@ export function PhoneInput({ defaultValue, ...props }: ComponentProps<'input'>) 
         +237
         <ChevronDown className="size-3.5 text-slate-400" />
       </span>
-      <input type="tel" defaultValue={defaultValue} placeholder="6 XX XX XX XX" className={cn(control, 'h-11 rounded-l-none')} {...props} />
+      <input type="tel" defaultValue={defaultValue} placeholder="6XX XX XX XX" className={cn(control, 'h-11 rounded-l-none')} {...props} />
     </div>
   )
 }
