@@ -11,7 +11,7 @@
    - à **1440 px** (largeur de la maquette) et à **390 px** (aucun défilement horizontal) ;
    - en **français** et en **anglais** ;
    - avec les bons comptes (Utilisateur, École – IPES, CFP, Autre).
-6. **Changement visible** : capture de l'écran **à côté de la capture de la maquette** (`word/media/imageN` du fichier Word), et capture avant / après. Le français doit être identique à la maquette (textes, chiffres).
+6. **Changement visible** : capture de l'écran **à côté de sa planche du canevas** (ordinateur et téléphone). Textes identiques à la planche ; incohérences corrigées et signalées.
 7. **Changement censé être invisible** (rangement, traduction, découpage d'une page) : comparer les écrans avant et après, en français, texte et image. Aucun écart accepté.
 8. **Parcours** : rejouer le parcours de bout en bout (préinscription en 4 étapes, inscription en auto-école en 3 étapes et sa modification, avis, favoris, création de compte, espace pro) en naviguant **dans l'app**.
 9. **Liens** : aucun lien mort, aucune erreur dans la console, chaque onglet a sa propre adresse et s'ouvre directement.

@@ -1,11 +1,32 @@
-# Erreurs, états et hors connexion
+# Erreurs, états et chargement
 
-1. **Chargement d'une page** : les pages sont chargées à la demande ; pendant ce temps, `PageLoader` s'affiche dans le cadre (`RouteOutlet`).
-2. **Page qui plante** : `ErrorBoundary` (dans `RouteOutlet`) affiche « Une erreur est survenue » (`ErrorScreen` : recharger, retour à l'accueil) **dans le cadre**, menu conservé. L'erreur s'efface quand on change de page. Hors cadre, le routeur affiche `ErrorPage`.
-3. **Pas de connexion** : si une page ne peut pas se télécharger, `OfflineScreen` (« Pas de connexion internet », « Réessayer »).
-4. **Adresse inconnue** : `NotFound` (« 404 — Page introuvable », « Retour à l'accueil ») dans le cadre public.
-5. **Élément introuvable** (mauvais identifiant d'établissement, de formation, d'auto-école) : aujourd'hui, les hooks `useEtablissement`, `useFormation`, `useAutoEcole` (`src/data/hooks.ts`) renvoient le premier élément. Ne pas s'appuyer sur ce comportement ; un message « … introuvable » est à décider (voir [DECISIONS.md](../../docs/DECISIONS.md)).
-6. **Liste vide après un filtre ou une recherche** : un message clair dans une carte (« Aucune auto-école ne correspond à ces critères. », « Aucun établissement ne correspond à « … ». »), avec si possible « Réinitialiser les filtres ».
-7. **Messages (toasts, sonner)** : réussite en vert (`toast.success`), erreur en rouge (`toast.error`), information neutre (`toast`). En haut à droite, avec une croix. Textes traduits.
-8. **Toute action est réelle** (décision du 2026-11-24 : « tout doit marcher ») : plan → Google Maps (`lienCarte`), WhatsApp → wa.me (`lienWhatsApp`), partager → feuille de partage ou lien copié (`partager`, `src/shared/utils/liens.ts`), photos et vidéos → `Visionneuse`, export PDF → impression du navigateur, fichiers → table `fichiers` (`src/shared/utils/fichiers.ts`). Un bouton qui ne ferait rien, ou un message « (démo) » à la place d'une action, est un défaut.
-9. Le stockage local est toujours lu et écrit **sous try/catch** (`load` / `save` de `src/shared/utils/storage.ts`). La navigation privée ne doit rien casser.
+Chaque écran prévoit **tous** ses états. Les blocs sont dans `src/shared/blocs/` (voir [composants.md](composants.md)).
+
+## Chargement
+1. **Squelette de la même forme** que le contenu (`SkeletonZone` + `SkeletonCard`, `SkeletonList`, `SkeletonTable`, `SkeletonStats`…) : la page ne saute pas à l'arrivée des données.
+2. Indicateur (`Spinner`, `PageSpinner`) seulement quand la forme est inconnue (téléchargement d'une page).
+3. Action en cours : `Button loading` ; bloc en cours d'enregistrement : `SpinnerOverlay`.
+
+## Erreurs
+| Cas | Ce qui s'affiche | Où c'est branché |
+|---|---|---|
+| Une page plante | `MessagePage type="erreur"` dans le cadre (menu conservé) | `ErrorBoundary` (`RouteOutlet`) |
+| Une page ne se télécharge pas | `MessagePage type="horsligne"` | `ErrorBoundary` |
+| Adresse inconnue | `MessagePage type="404"` | `NotFound` |
+| Accès interdit à ce compte | `MessagePage type="acces"` | gardes de routes |
+| Un bloc de données ne se charge pas | `ErrorState` avec « Réessayer » à la place du bloc | `ChargementDonnees` |
+| Mise à jour ou enregistrement qui échoue | message éphémère rouge | `queryClient` (QueryCache, MutationCache) |
+| Erreur que personne n'a attrapée | message éphémère « Une erreur inattendue… » | `app/erreursGlobales.ts` |
+| Connexion coupée | bandeau en bas de l'écran | `BandeauHorsLigne` |
+| Champ invalide | message rouge sous le champ, `aria-invalid` | formulaire (react-hook-form + zod) |
+
+## Vide
+- Liste vide ou recherche sans résultat : `EmptyState` (titre clair, texte qui dit quoi faire, action : « Réinitialiser les filtres », « Créer… »).
+
+## Messages éphémères
+- `toast.success` (vert), `toast.error` (rouge), `toast.warning` (ambre), `toast.info` / `toast` (bleu), `toast.promise` (chargement puis résultat). En haut à droite, avec une croix, textes traduits.
+
+## Règles
+- **Toute action est réelle** : pas de bouton qui ne fait rien, pas de message « (démo) ».
+- Stockage local toujours sous try/catch (`load` / `save` de `shared/utils/storage.ts`).
+- Le détail technique d'une erreur va dans la console, jamais à l'écran.

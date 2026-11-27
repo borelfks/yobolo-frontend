@@ -1,62 +1,45 @@
-# Quel composant utiliser
+# Composants : toujours, à 4 niveaux
 
-**Toujours** utiliser ces composants. Il ne faut ni en recréer un à la main, ni en ajouter une variante sans accord. S'il en manque un, on le propose d'abord.
-
-| Besoin | Utiliser | Ne pas faire |
+| Niveau | Où | Rôle |
 |---|---|---|
-| Bouton, ou lien en forme de bouton | `Button` (variantes `primary`, `navy`, `sun`, `success`, `violet`, `outline`, `neutral`, `soft`, `ghost`, `danger`, `danger-outline`, `white` ; tailles `xs`, `sm`, `md`, `lg`, `icon` ; `to` pour un lien) | nouveau `<button>` stylé à la main |
-| Badge, statut | `Badge` (tons `blue`, `navy`, `green`, `orange`, `amber`, `violet`, `red`, `gray`, `sky`, `pink`, `teal`, `white`, `solidGreen`, `solidSun`), `StatusBadge` | pastille faite à la main |
-| Établissement vérifié · type d'école | `VerifiedBadge`, `TypeBadge` (`modules/ecole/etablissements/components/EcoleBlocks.tsx`) | |
-| Auto-école agréée · permis | `AgreeeBadge`, `PermisPill` (`modules/ecole/auto-ecoles/components/AutoEcoleBlocks.tsx`) | |
-| Carte | `Card`, `CardHeader`, `Section`, `NumberedBlock` ; espace pro : `ProCard` | `<div>` encadré recopié |
-| Bandeau public | `Hero`, `HeroFeatures` | |
-| Fil d'Ariane | `Breadcrumb` ; `ProHeader` (pro) ; `AEHeader` (auto-école) | |
-| Onglets | `LinkTabs` (dans l'adresse), `Tabs` (état local), `FilterPills` | onglets faits à la main |
-| Étapes | `Stepper`, `ArrowSteps` | |
-| Note | `Stars`, `Rating` (« ★ 4,7 (3 avis) »), `PasEncoreDAvis` (sans avis), `StarInput` (saisie) | étoiles recopiées, « 0/5 » |
-| Note moyenne + répartition · un avis | `RatingSummary`, `ReviewItem`, `MoreButton` (`modules/ecole/avis/components/ReviewBlocks.tsx`) | |
-| Favori | `FavoriteButton` ; `FavoriteModal` (choix du dossier) | cœur fait à la main |
-| Chiffres et petits blocs | `Kpi`, `KpiGrid`, `PageTitle`, `BackLink`, `AiCard`, `Tip`, `Checklist`, `InfoRow`, `FileRow`, `IconBtn`, `QuickAction`, `FormFooter`, `IconTile`, `EmptyNote` (`shared/ui/Blocks.tsx`) | |
-| Graphiques | `AreaTrend`, `MultiLine`, `Bars`, `Donut` (`Charts.tsx`) | recharts appelé directement dans une page |
-| Progression | `Progress`, `Ring` | |
-| Recherche | `SearchField`, `SearchPanel`, `InlineSearch` | `<input type="search">` à la main |
-| Listes École | `EcoleCard`, `FormationRow`, `ResultsHeader`, `FilterPanel`, `CountList`, `MapBox`, `SidePanel`, `IconCountList`, `ArrowDot` | carte d'établissement recopiée |
-| Fenêtre | `Modal` | `window.confirm`, `alert()` |
-| Pagination | `Pagination` | |
-| Personne · image | `Avatar` · `Img` | `<img>` sans `alt` |
-| Lieu (région → département → arrondissement → quartier) | `SelectionGeographique` (`shared/forms/`) | région / ville / quartier en listes séparées |
-| Accords de création / d'ouverture : une liste de blocs · un bloc (autorité, numéro, dates, document) | `ListeAccords`, `ChampsAccord` (`shared/forms/`) ; règles et enregistrement : `shared/utils/accords.ts` | champs d'agrément recopiés |
-| Mot de passe (œil afficher / masquer) · solidité | `ChampMotDePasse`, `JaugeMotDePasse` (`shared/forms/MotDePasse.tsx`) | `<Input type="password">` sans bascule |
-| Code reçu par SMS (OTP) | `VerificationCode` (`modules/compte/auth/components/`) | champ de code fait à la main |
-| Champs | `Label`, `Field`, `Input`, `Select`, `Textarea`, `RichText`, `Checkbox`, `Radio`, `Switch`, `Segmented`, `ChoiceCard`, `Dropzone`, `ChipsInput`, `PhoneInput` (`shared/forms/Fields.tsx`) ; pro : `ProLabel`, `proInput` | `<input>` brut |
-| Logo | `Logo`, `LogoMark` | image du logo copiée |
-| Langue | `LanguageSwitcher` | |
-| Chargement · erreur | `PageLoader` ; `ErrorBoundary`, `ErrorScreen`, `OfflineScreen` | page blanche |
-| Message éphémère | `toast` (sonner) | `alert()` |
+| **1. Briques** | `src/shared/shadcn/` | composants shadcn/ui (Radix) habillés comme le canevas. Aucune logique métier. |
+| **2. Blocs** | `src/shared/blocs/` | assemblent des briques ; génériques (chargement, états, en-tête de page, tableau de données…). |
+| **3. Métier** | `src/modules/<univers>/<partie>/components/` | connaissent les données d'une partie (carte d'établissement, ligne de signalement…). |
+| **4. Pages** | `src/modules/<univers>/<partie>/pages/` | lisent les données et **assemblent** ; pas de mise en forme propre. |
 
-Les composants de `shared/ui/` sont la base, ceux de `shared/forms/` les champs. Les composants **shadcn/ui** (`npx shadcn add …`, réglages dans `components.json`) vont dans `shared/shadcn/`, à part, pour ne jamais écraser les nôtres ; on en ajoute un seulement s'il manque chez nous, avec accord. Attention : le jeton `muted` est ici une couleur de **texte** (gris), alors que shadcn l'utilise comme fond : à vérifier sur chaque composant ajouté. Ceux qui portent le métier d'un sujet sont dans `modules/<univers>/<partie>/components/`. Les morceaux des grandes pages sont dans des sous-dossiers : `modules/ecole/etablissements/components/listing/` (onglets de l'annuaire par type), `profile/` (onglets de la fiche établissement), `training/` (détail d'une formation), `modules/ecole/auto-ecoles/components/profile/` (onglets de la fiche auto-école).
-
-## Quand créer un composant
-1. **Dès qu'un même élément apparaît une 2ᵉ fois**, même dans un autre univers : on en fait un composant, et on remplace aussi la 1ʳᵉ copie (vérifier que le rendu ne change pas).
-2. Quand un morceau de page dépasse environ **80 lignes** ou porte un **sens métier** (une carte de formation, un bloc de note…).
-3. Quand une page dépasse environ **500 lignes** : on la découpe dans un sous-dossier de `components/` de sa partie (comme `components/profile/`).
-
-## Avant de créer
-- Vérifier dans le tableau ci-dessus qu'il n'existe pas déjà.
-- Sinon, **ajouter une option** au composant existant (taille, variante, contenu) plutôt que d'en faire un deuxième.
-- **Proposer d'abord** le nom, l'emplacement et les écrans concernés, puis attendre l'accord (voir [collaboration.md](collaboration.md)).
-
-## Où le ranger
-| Dossier | Pour |
+## Briques (`src/shared/shadcn/`)
+| Besoin | Composant |
 |---|---|
-| `shared/ui/` | brique générique, utilisée par plusieurs parties |
-| `shared/forms/` | champ de formulaire |
-| `shared/errors/` | écran ou garde d'erreur |
-| `modules/<univers>/<partie>/components/` | élément métier d'un sujet |
-| `modules/<univers>/<partie>/components/<sous-dossier>/` | morceaux d'une grande page de ce sujet |
-| `app/layouts/` | morceau d'un cadre (barre, menu du compte) |
+| Bouton, lien en forme de bouton | `Button` (`default`, `secondary`, `outline`, `destructive`, `destructive-solid`, `ghost`, `link`, `link-muted` ; tailles `sm` 32, `md` 36, `default` 40, `lg` 44, `icon`, `icon-sm` ; `loading` ; `asChild` pour un lien) |
+| Statut | `Badge` (`blue`, `green`, `gray`, `amber`, `red`, `violet`, `solid`, `solid-green`, `outline`) |
+| Puces de filtre ou de choix | `ToggleGroup` + `ToggleGroupItem` (`variant="outline"`) |
+| Champs | `Label`, `Input`, `Textarea`, `Select…`, `Checkbox`, `RadioGroup…`, `Switch` ; liste avec recherche : `Command` (+ `Popover`) |
+| Onglets | `Tabs…` (état local) ; onglets dans l'adresse : classes `tabTriggerClasses` sur des liens |
+| Fil d'Ariane · pagination | `Breadcrumb…` · `Pagination…` |
+| Menus · fenêtres · tiroir | `DropdownMenu…` · `Dialog…`, `AlertDialog…` (confirmation) · `Sheet…` |
+| Infobulle · bulle | `Tooltip…` · `Popover…` |
+| Carte · tableau · séparateur | `Card…` · `Table…` · `Separator` |
+| Avatar · progression · squelette | `Avatar…` · `Progress` · `Skeleton` |
+| Graphiques | `ChartContainer`, `ChartTooltip`… (recharts) avec `ChartConfig` ; couleurs `var(--color-chart-1…5)` |
+| Accordéon · défilement | `Accordion…` · `ScrollArea` |
+| Messages éphémères | `toast` de **sonner** (`toast.success/error/warning/info/promise`) ; le `Toaster` est déjà posé |
 
-## Après
-- L'ajouter au tableau de ce fichier et à [DESIGN.md](../../docs/DESIGN.md) (§ 6).
-- **Un fichier de composant n'exporte que des composants** : constantes et fonctions dans un `.ts`, hooks dans `hooks/` (voir [code-et-architecture.md](code-et-architecture.md)).
-- Ses textes passent par la traduction (voir [traduction.md](traduction.md)).
+## Blocs (`src/shared/blocs/`)
+| Besoin | Composant |
+|---|---|
+| Indicateur de chargement | `Spinner` (sm, md, lg), `PageSpinner`, `SpinnerOverlay` (voile sur un bloc) |
+| Squelettes | `SkeletonZone` (annonce le chargement), `SkeletonText`, `SkeletonPageHeader`, `SkeletonStats`, `SkeletonCard`, `SkeletonList`, `SkeletonTable` |
+| Attendre des données et attraper leurs erreurs | `ChargementDonnees` (fallback = squelette) |
+| Liste vide · bloc en erreur | `EmptyState` · `ErrorState` (« Réessayer ») |
+| Page message (404, erreur, hors connexion, accès refusé) | `MessagePage` |
+| Bandeau hors connexion | `BandeauHorsLigne` (déjà posé) |
+
+Anciens composants (`src/shared/ui/`, `src/shared/forms/`) : servent encore aux écrans pas refaits ; on ne s'en sert plus pour un écran neuf ; on les supprime quand plus rien ne les importe.
+
+## Créer un composant
+1. Chercher dans ce fichier et sur /design-system.
+2. Une variante plutôt qu'une copie. **Dès qu'un élément revient une 2ᵉ fois**, il devient un composant (et la 1ʳᵉ copie est remplacée).
+3. Petit, typé, une phrase de documentation, textes traduits, états prévus.
+4. Brique ou bloc : l'ajouter au tableau ci-dessus **et** à /design-system ; le recopier à l'identique dans yibolo-admin.
+5. Un fichier de composant n'exporte que des composants (variantes `cva` dans `shadcn/variants.ts`, hooks dans `hooks/`).
+6. Nouveau composant shadcn : `npx shadcn add <nom>` écrit dans un dossier `@/` à la racine : déplacer le fichier dans `src/shared/shadcn/`, remplacer `from "cn"` par `@/shared/utils/cn`, retirer `next-themes` / `dark:` / le paquet `cn` ajouté, l'habiller comme le canevas.

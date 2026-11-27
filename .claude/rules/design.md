@@ -1,37 +1,20 @@
 # Design
 
-Référence complète : [DESIGN.md](../../docs/DESIGN.md).
+Référence : le **canevas YIBOLO** (planches ordinateur 1440 px et téléphone 390 px). Détail des jetons et composants : [DESIGN.md](../../docs/DESIGN.md) et la page **/design-system** (développement).
 
 ## Règles absolues
-1. **Identique à la maquette.** Chaque écran reproduit sa capture : mise en page, photos, textes, chiffres, couleurs, icônes. Les contradictions entre deux captures (prix d'un permis, mode de cours) sont **gardées**, chaque écran suit **sa** capture. Ne rien « harmoniser » sans accord.
-2. **Ordinateur d'abord** (la maquette est en largeur d'ordinateur, vérifier à **1440 px**), et **utilisable sur téléphone** (390 px), sans défilement horizontal.
-3. **Pas de nouvelle couleur en dur.** Utiliser les jetons de `src/app/styles/theme.css` (`brand-…`, `navy-…`, `sun-…`, `page`, `ink`, `muted`, `line`) et la palette Tailwind pour les couleurs de sens (`emerald`, `amber`, `rose`, `violet`…). Une couleur de la maquette qui manque devient **un jeton**. Les ~240 valeurs `[#…]` existantes ne se recopient pas ailleurs.
-4. **Une chose = un composant**, partout. Avant de dessiner un élément, chercher dans [composants.md](composants.md).
-5. **Pas de mode sombre** (la maquette n'en a pas). Pas de variantes `dark:`.
+1. **Identique au canevas.** Mise en page, textes, couleurs, espacements, icônes de chaque planche. Ce que le canevas ne montre pas (états, erreurs) suit les blocs existants.
+2. **Incohérence entre deux planches → on corrige** pour un ensemble cohérent (la version la plus fréquente, ou celle du composant partagé) et on le signale (décision du 2026-11-27).
+3. **Ordinateur et téléphone** : vérifier à 1440 px et 390 px, jamais de défilement horizontal.
+4. **Jetons seulement** (`src/app/styles/theme.css`, noms shadcn). Une valeur du canevas qui manque devient un jeton. Jamais `[#…]` ni `style={{ color }}`.
+5. **Pas de mode sombre**, pas de variantes `dark:`.
 
-## Couleurs et sens
-- Bleu `brand-600` : bouton principal, onglet actif, liens, icônes. Survol : `brand-700`.
-- Bleu nuit `navy-800` / `navy-900` : menu actif public, bandeau de recherche, barre latérale de l'espace pro, titres.
-- Jaune `sun-400` : **« Rechercher »**, « Préinscrire » et quelques accents (soulignement du titre de l'accueil).
-- Vert `emerald` : « Établissement vérifié », « Agréée », « Publiée », réussite. Orange/ambre : « En attente », attention. Rouge `rose` : erreur, suppression, compteur. Gris : « Brouillon », neutre.
-- Étoiles : `amber-400`, pleines ; vides en `slate-200`.
-
-## Typographie
-- Police **Plus Jakarta Sans**, hébergée dans `src/assets/fonts/` (jamais Google Fonts).
-- Tailles et graisses : celles de la capture. Nombres et prix avec `num()` / `fcfa()`.
-
-## Formes
-- Cartes : `Card` (16 px, bordure `line`, ombre légère) ; espace pro : `proCard`.
-- Boutons : `Button` (12 px) ou pilule `rounded-full` quand la maquette le montre. Badges, pastilles, avatars : ronds.
-- Champs : bordure bleu-gris, focus bleu (`brand-500` + anneau `brand-100`).
-
-## Mise en page
-- Pages publiques : contenu jusqu'à 1320 px, marges de 20 px ; bandeau (`Hero`), fil d'Ariane, onglets en blocs.
-- Espace pro : barre latérale de 250 px, en-tête de page `ProHeader`.
-- Connexion : formulaire à gauche et photo à droite (`AuthShell`), aux couleurs de l'application ; inscription : carte centrée (`AuthCard`).
-
-## Messages
-- Toasts (sonner) en haut à droite, couleurs de leur sens, avec une croix. **Toutes les actions sont réelles** (décision du 2026-11-24) : pas de message « (démo) » à la place d'une action.
+## Le système du canevas (en bref)
+- **Couleurs** : fond `background` #F4F6FA, cartes `card` blanc, texte `foreground` #0B1B3F, texte d'appoint `muted-foreground` #4A5670, bordures `border` #E0E4EC, champs `input` #9AA5BA, bleu `primary` #1F55E6 (survol `primary-hover` #1843B8), vert `success` #0F7A55, rouge `destructive` #D92D4B, ambre `warning` #E0A500.
+- **Texte** : Plus Jakarta Sans. Titre de page 28 px / 800, section 24, carte 18 / 800 ; boutons et onglets 15 px / 700 (`text-ui`) ; courant 14 px ; appoint 13 px (`text-meta`) ; en-têtes de tableau 12 px capitales.
+- **Formes** : boutons en **pilule** (40 px ; 32, 36, 44 selon l'usage), champs 44 px arrondis à 6 px, cartes 10 px avec bordure et sans ombre, badges 24 px, puces 32 px (actives en vert), onglets 48 px soulignés de 3 px.
+- **Ombres** : `shadow-floating` (menus), `shadow-dialog` (fenêtres), `shadow-card-hover` (vignette survolée), `shadow-thumb` (bouton posé sur une photo).
+- **Largeur** des pages publiques : `max-w-page` (1128 px).
 
 ## Mouvement
-- Animations rares et courtes (survols, ouverture des menus). Respecter « réduire les animations » (`motion-reduce`).
+- Animations rares et courtes ; toujours `motion-reduce:` (respecter « réduire les animations »).

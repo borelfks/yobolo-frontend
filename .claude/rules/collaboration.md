@@ -1,39 +1,25 @@
 # Collaboration avec le porteur du projet
 
-## La maquette d'abord
+## Le canevas d'abord
+- La référence de chaque écran est **sa planche du canevas YIBOLO** (ordinateur et téléphone). La maquette Word complète ce que le canevas ne montre pas.
+- Sources du canevas : dossier temporaire `canvas/` (`*.src.html`, `style-commun.css`, `project/canvas.json` pour la liste des planches). Les copies de travail restent **hors du projet**.
+- Un écran refait doit être **identique à sa planche**. Une incohérence entre planches se corrige et se signale.
 
-- La référence de chaque écran est **la maquette Word du client** : `C:\Users\USER\Documents\yibolo\NOUVEAU DESIGN YIBOLO.docx` (environ 150 captures). Pour en lire le plan, extraire le texte de `word/document.xml` (Python, `zipfile`) ; les captures sont `word/media/imageN`. Travailler sur une copie, **dans le dossier temporaire**, jamais dans le projet.
-- Un changement visible doit **rapprocher** l'écran de sa capture, jamais l'en éloigner.
-- Ce que la maquette ne montre pas (cas d'erreur, écran manquant, comportement d'un bouton) : **proposer**, ne pas inventer en silence.
+## Mode de travail : implémentation des maquettes (depuis le 2026-11-27)
+- Le porteur du projet a validé le plan (phases 0 à 5) et demandé de **tout faire sans s'arrêter** : on enchaîne les lots, on vérifie chaque lot (captures à côté des planches), on **commite seul** à chaque étape importante.
+- On demande seulement si un choix ne peut vraiment pas se trancher avec le canevas, la maquette et les règles ; sinon on choisit l'option la plus cohérente et on le dit dans le compte rendu.
+- Hors de ce plan (nouvelle fonctionnalité, changement de périmètre) : **proposer d'abord**, attendre « vas-y ». « Dis-moi juste » / « réponds juste » = répondre seulement.
 
-## Avant de modifier
-
-1. **Proposer d'abord** : ce qui change, où, ce que ça implique à l'écran (à côté de la capture de la maquette), et les choix à faire. Recommander une option.
-2. Attendre « oui », « vas-y » ou « ok ». **Un accord vaut pour le changement demandé, et seulement lui.**
-3. Quand il écrit « dis-moi juste » ou « réponds juste », **répondre seulement**, sans rien modifier.
-4. Un rangement de code « invisible » (déplacer, découper, renommer, supprimer du code mort) demande **aussi** son accord, sauf s'il fait partie de la tâche demandée.
-5. Si une tâche approuvée oblige à toucher un élément partagé (composant de `shared/`, thème, `ROUTES`, types), prévenir avant.
-6. Pour un changement visible, montrer une **capture avant / après**, à côté de la capture de la maquette.
-
-## Ce qu'on ne propose pas
-
-- Brancher l'API de yibolo-backend **avant** qu'elle publie sa description OpenAPI et que le porteur du projet le demande : en attendant, les écrans lisent les fausses données (décision du 2026-11-27).
-- Commencer **Consultation** ou **Emploi** sans que le porteur du projet l'ait demandé.
-- « Améliorer » la maquette (autre mise en page, autres textes, chiffres recalculés).
+## Ce qu'on ne fait pas sans accord
+- Brancher l'API de yibolo-backend (fausses données tant qu'il ne l'a pas demandé).
+- Commencer Consultation, Emploi, Consultant ou Entreprise au-delà des planches du canevas.
+- Modifier la landing (gelée).
+- Pousser (`git push`).
 
 ## Façon de répondre
-
-- **En français**, avec « vous », **court**, phrases simples, sans jargon technique inutile.
-- Quand on demande un plan : **détaillé, concret, complet**, en étapes numérotées, en français simple.
-- Dire clairement ce qui a été fait, ce qui a été vérifié et comment, ce qui n'a **pas** été fait et pourquoi.
-- Ne jamais annoncer « c'est fait » sans l'avoir vérifié (voir [verification.md](verification.md)).
-- Signaler un défaut trouvé en chemin (écart avec la maquette, lien mort, texte non traduit), même hors de la tâche, au lieu de le corriger en silence.
-- Une demande ambiguë : choisir l'interprétation la plus probable, le dire, et avancer ; poser une question seulement si on ne peut vraiment pas trancher.
+- **En français**, avec « vous », **court**, phrases simples.
+- Dire ce qui a été fait, ce qui a été vérifié et comment, ce qui n'a **pas** été fait et pourquoi, et les incohérences corrigées.
+- Signaler un défaut trouvé en chemin.
 
 ## Travail à plusieurs agents
-
-- Plusieurs agents peuvent travailler en même temps sur le dépôt (ex. traduction d'un côté, documentation de l'autre). Ne modifier **que les fichiers de sa tâche** ; ne pas « réparer » le fichier d'un autre.
-
-## Commit et push
-
-- **Commiter ou pousser seulement quand c'est demandé** (voir [git.md](git.md)).
+- Ne modifier que les fichiers de sa tâche ; ne pas « réparer » le fichier d'un autre.
