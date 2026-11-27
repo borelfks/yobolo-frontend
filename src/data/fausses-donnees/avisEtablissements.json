@@ -1,0 +1,5 @@
+[
+  {"id":"a1","nom":"Vanessa T.","role":"Étudiante","note":5,"date":"Il y a 3 jours","texte":"Formation de qualité, enseignants disponibles et très professionnels. L’environnement est propice à la réussite. Je recommande !","utile":0,"avatar":"/images/maquette/avis-vanessa.jpg","etablissementId":"ipc"},
+  {"id":"a2","nom":"Arnaud M.","role":"Ancien étudiant","note":4,"date":"Il y a 1 semaine","texte":"Une formation pratique qui m’a permis de décrocher un emploi rapidement. Merci à toute l’équipe pédagogique.","utile":0,"avatar":"/images/maquette/avis-arnaud.jpg","etablissementId":"ipc"},
+  {"id":"a3","nom":"Clarisse B.","role":"Étudiante","note":5,"date":"Il y a 2 semaines","texte":"Très bonne organisation et suivi des étudiants. Les cours sont clairs et adaptés au marché du travail.","utile":0,"avatar":"/images/maquette/avis-clarisse.jpg","etablissementId":"ipc"}
+]

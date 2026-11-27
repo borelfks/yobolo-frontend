@@ -1,0 +1,5 @@
+[
+  {"id":"f-cg-ipc","kind":"formation","folder":"Mes formations","vignette":"/images/maquette/fav-compta.jpg"},
+  {"id":"f-info-ipc","kind":"formation","folder":"Mes formations","vignette":"/images/maquette/fav-info.jpg"},
+  {"id":"ipc","kind":"etablissement","folder":"Mes établissements","vignette":"/images/maquette/fav-ipc.jpg"}
+]

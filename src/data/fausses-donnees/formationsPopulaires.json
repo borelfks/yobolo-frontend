@@ -1,0 +1,6 @@
+[
+  {"id":"pop-1","typeSlug":"ipes","titre":"BTS Comptabilité & Gestion","diplome":"BTS","image":"/images/maquette/form-bts-compta.jpg","formationId":"f-cg-ipc"},
+  {"id":"pop-2","typeSlug":"ipes","titre":"Licence Informatique","diplome":"Licence","image":"/images/maquette/form-licence-info.jpg","formationId":"f-info-ipc"},
+  {"id":"pop-3","typeSlug":"ipes","titre":"Licence Santé Publique","diplome":"Licence","image":"/images/maquette/form-licence-sante.jpg","formationId":"f-lab-ims"},
+  {"id":"pop-4","typeSlug":"ipes","titre":"Master Génie Civil","diplome":"Master","image":"/images/maquette/form-master-genie.jpg","formationId":"f-audit-ipc"}
+]

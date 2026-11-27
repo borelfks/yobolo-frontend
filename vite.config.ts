@@ -31,7 +31,11 @@ export default defineConfig({
       '@hookform/resolvers/zod',
       'i18next',
       'react-i18next',
-      'sql.js',
+      '@tanstack/react-query',
+      '@tanstack/react-router',
+      '@tanstack/react-table',
+      'radix-ui',
+      'axios',
     ],
   },
 })

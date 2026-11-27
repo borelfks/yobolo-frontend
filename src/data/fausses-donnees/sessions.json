@@ -1,0 +1,6 @@
+[
+  {"permis":"B","debut":"15 nov. 2026","horaires":["Lun – Ven","08h – 12h"],"duree":"≈ 2 mois","places":12,"id":"session-1"},
+  {"permis":"A","debut":"15 nov. 2026","horaires":["Lun – Ven","14h – 17h"],"duree":"≈ 1 mois","places":8,"id":"session-2"},
+  {"permis":"C","debut":"01 déc. 2026","horaires":["Lun – Ven","08h – 12h"],"duree":"≈ 3 mois","places":10,"id":"session-3"},
+  {"permis":"D","debut":"01 déc. 2026","horaires":["Lun – Ven","14h – 18h"],"duree":"≈ 3 mois","places":8,"id":"session-4"}
+]

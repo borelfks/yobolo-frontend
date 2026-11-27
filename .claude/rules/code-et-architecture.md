@@ -1,7 +1,7 @@
 # Code et architecture
 
 ## Stack
-Vite + React 19 (React Compiler) + TypeScript `strict` · React Router · Tailwind CSS v4 · class-variance-authority + clsx + tailwind-merge (`cn`) · react-hook-form + zod · i18next + react-i18next · lucide-react · sonner · recharts · oxlint. **Pas de backend, pas de react-query, pas d'Orval.**
+Vite + React 19 (React Compiler) + TypeScript `strict` · React Router (TanStack Router installé, migration à décider) · **TanStack Query** (lectures de `src/data`) · **TanStack Table** (grands tableaux) · Tailwind CSS v4 · **shadcn/ui** (Radix, `components.json`, composants dans `src/shared/components/shadcn/`) · class-variance-authority + clsx + tailwind-merge (`cn`) · react-hook-form + zod · i18next + react-i18next · lucide-react · sonner · recharts · oxlint · **Orval** + axios pour l'API de yibolo-backend (plus tard).
 
 ## Organisation : par fonctionnalité (modèle Autopia)
 ```
@@ -30,7 +30,8 @@ src/
 │   ├── utils/            routes, format, storage, cn
 │   └── types.ts          types du domaine
 ├── i18n/               traduction : index.ts, i18next.d.ts (comme yibolo-client)
-├── data/               données enregistrées (voir donnees-et-backend.md) : index.ts, hooks.ts, sources/
+├── data/               données (voir donnees-et-backend.md) : index.ts, hooks.ts, sources/, fausses-donnees/
+├── api/                client axios (client.ts) ; code généré par Orval (generated/, plus tard)
 └── assets/             fonts/ (Plus Jakarta Sans), brand/ (logo)
 ```
 
@@ -46,7 +47,7 @@ features/schools/
 
 ## Règles de rangement
 - Un fichier utilisé par **une seule** fonctionnalité vit dans cette fonctionnalité. Il va dans `shared/` seulement quand **plusieurs** s'en servent.
-- **`shared/` n'importe jamais `app/` ni `features/`** (il peut importer `@/data`). **`src/data/` n'importe ni `app/` ni `features/`** ; ses données de départ sont dans `src/data/depart/yibolo.sql`. **Aucune donnée écrite dans le code** (voir [donnees-et-backend.md](donnees-et-backend.md)).
+- **`shared/` n'importe jamais `app/` ni `features/`** (il peut importer `@/data`). **`src/data/` n'importe ni `app/` ni `features/`** ; ses fausses données sont dans `src/data/fausses-donnees/`. **Aucune donnée écrite dans le code** (voir [donnees-et-backend.md](donnees-et-backend.md)).
 - **Sens des dépendances entre fonctionnalités** (constaté le 2026-11-21) :
 
   `auth` → `schools` → `driving-schools` → `reviews` → (`favorites`, `pro`, `landing`, `accueil`, `espace`)

@@ -1,0 +1,4 @@
+[
+  {"id":"bandeau-competences","titre":{"fr":"Développez vos compétences avec les meilleurs experts","en":"Grow your skills with the best experts"},"texte":{"fr":"Formations et conseils d'experts, un seul espace !","en":"Programmes and expert advice, all in one place!"},"action":{"fr":"Découvrir les domaines","en":"Explore the fields"},"cible":"ecoles","image":"/images/accueil/consultation.jpg"},
+  {"id":"bandeau-etablissements","titre":{"fr":"Trouvez la formation qui vous ressemble","en":"Find the programme that suits you"},"texte":{"fr":"IPES, CFP, auto-écoles : découvrez les formations, les débouchés et les avis.","en":"IPES, CFP, driving schools: discover programmes, career prospects and reviews."},"action":{"fr":"Voir les établissements","en":"See the institutions"},"cible":"ecoles","image":"/images/accueil/ecoles.jpg"}
+]

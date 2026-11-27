@@ -1,0 +1,7 @@
+[
+  {"id":"actu-ipc-portes-ouvertes","etablissementId":"ipc","titre":"Journée portes ouvertes le samedi 6 décembre","date":"22 nov. 2026","statut":"Publiée","categorie":"Événement","image":"/images/maquette/ipc-batiment.jpg"},
+  {"id":"actu-istp-hackathon","etablissementId":"istp","titre":"Hackathon étudiant : 48 heures pour coder une appli de santé","date":"19 nov. 2026","statut":"Publiée","categorie":"Événement","image":"/images/maquette/form-licence-info.jpg"},
+  {"id":"actu-cfp-btp-atelier","etablissementId":"cfp-btp","titre":"Nouvel atelier de maçonnerie et de coffrage ouvert aux apprenants","date":"15 nov. 2026","statut":"Publiée","categorie":"Formation","image":"/images/maquette/actu-filiere.jpg"},
+  {"id":"actu-langues-toeic","etablissementId":"langues","titre":"Session TOEIC : inscriptions ouvertes jusqu’au 10 décembre","date":"12 nov. 2026","statut":"Publiée","categorie":"Rentrée / Admission","image":"/images/maquette/album-salles.jpg"},
+  {"id":"actu-ims-stages","etablissementId":"ims","titre":"Partenariat de stages avec trois hôpitaux de Douala","date":"07 nov. 2026","statut":"Publiée","categorie":"Partenariat","image":"/images/maquette/form-sante.jpg"}
+]

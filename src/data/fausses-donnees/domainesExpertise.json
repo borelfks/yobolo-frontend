@@ -1,0 +1,19 @@
+[
+  {"id":"conseil-juridique","nom":"Conseil juridique"},
+  {"id":"fiscalite","nom":"Fiscalité"},
+  {"id":"marches-publics","nom":"Marchés publics"},
+  {"id":"ressources-humaines","nom":"Ressources humaines"},
+  {"id":"comptabilite","nom":"Comptabilité"},
+  {"id":"finance","nom":"Finance"},
+  {"id":"banque","nom":"Banque"},
+  {"id":"assurance","nom":"Assurance"},
+  {"id":"immobilier","nom":"Immobilier"},
+  {"id":"agriculture","nom":"Agriculture"},
+  {"id":"informatique","nom":"Informatique"},
+  {"id":"sante","nom":"Santé"},
+  {"id":"education","nom":"Éducation"},
+  {"id":"commerce","nom":"Commerce"},
+  {"id":"transport","nom":"Transport"},
+  {"id":"marketing","nom":"Marketing"},
+  {"id":"gestion-d-entreprise","nom":"Gestion d’entreprise"}
+]

@@ -1,0 +1,3 @@
+[
+  {"id":"preinscription-jean-1","compteId":"compte-jean-dupont","formationId":"f-cg-ipc","etablissementId":"ipc","envoyeeLe":"2026-11-24T08:00:00.000Z","statut":"Envoyée","donnees":{"nom":"Dupont","prenom":"Jean","telephone":"+237 690 00 00 01","email":"jean.dupont@exemple.cm"}}
+]

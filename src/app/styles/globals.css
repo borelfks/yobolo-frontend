@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import 'tw-animate-css';
 @import './theme.css';
 
 /* Police Plus Jakarta Sans (variable, graisses 200 à 800), hébergée dans le

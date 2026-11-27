@@ -3,7 +3,7 @@
 **YIBOLO** est la plateforme de formation, d'expertise et d'emploi en Afrique centrale : **Apprendre · Former · Consulter · Travailler**.
 Elle réunit quatre univers : **École** (trouver une école et une formation), **Consultation** (consulter un expert), **Métiers** et **Emploi** (offres d'emploi, de stage et d'apprentissage).
 
-Ce dépôt est **un front seul** : il reproduit la **maquette Word du client** (« NOUVEAU DESIGN YIBOLO », environ 150 captures) avec des **données de démonstration**. Il n'y a **aucun backend** et aucun appel réseau vers une API.
+Ce dépôt est **le front** de YIBOLO : il reproduit la **maquette Word du client** (« NOUVEAU DESIGN YIBOLO », environ 150 captures) et le canevas. En attendant l'API de yibolo-backend, il lit de **fausses données** ; aucun appel réseau vers une API pour l'instant.
 
 Interface en français (et en anglais), prix en FCFA, contenus centrés sur le Cameroun.
 
@@ -21,7 +21,7 @@ Interface en français (et en anglais), prix en FCFA, contenus centrés sur le C
 
 - **Univers École réalisé** : IPES, CFP et Autres (même gabarit), auto-écoles, préinscription, inscription en auto-école, avis, favoris, et l'**espace professionnel** partagé par les IPES, CFP et Autres.
 - **Consultation** et **Emploi** : présents dans la navigation, avec une page « bientôt disponible ». Prochaine étape envisagée : l'univers **Consultation** (espace pro du consultant, 11 menus).
-- Les données de départ sont fictives, dans `src/data/depart/yibolo.sql` (aucune donnée n'est écrite dans le code). Ce que fait chaque testeur (formations, avis, préinscriptions, inscriptions, profil, contenus, favoris…) est enregistré dans **sa base SQLite, dans son navigateur** (`src/data/`). Pour repartir des données de départ : vider les données du site dans le navigateur.
+- Les données de départ sont fausses, dans `src/data/fausses-donnees/` (un fichier JSON par table ; aucune donnée n'est écrite dans le code). Ce que fait chaque testeur (formations, avis, préinscriptions, inscriptions, profil, contenus, favoris…) est gardé **dans son navigateur** (IndexedDB). Pour repartir des données de départ : vider les données du site dans le navigateur.
 
 ## Stack
 
@@ -38,7 +38,7 @@ Interface en français (et en anglais), prix en FCFA, contenus centrés sur le C
 | Police | Plus Jakarta Sans, hébergée dans `src/assets/fonts` |
 | Lint | oxlint |
 
-Pas de backend, pas de client d'API, pas de gestion d'état globale : deux contextes seulement (session et favoris).
+Lectures par TanStack Query ; API de yibolo-backend plus tard par Orval (`npm run api:generate`). Pas de gestion d'état globale : deux contextes seulement (session et favoris).
 
 ## Démarrer
 
@@ -117,7 +117,8 @@ src/
 │   └── types.ts           types du domaine
 │
 ├── i18n/                traduction : index.ts (initialisation, langue gardée), i18next.d.ts (clés typées)
-├── data/                toutes les données : couche unique (index.ts, hooks.ts), sources/ (SQLite navigateur), depart/yibolo.sql (données de départ)
+├── data/                toutes les données : couche unique (index.ts, hooks.ts), sources/ (fausses données), fausses-donnees/ (un JSON par table)
+├── api/                 client axios (client.ts) et, plus tard, le code généré par Orval (generated/)
 └── assets/              police Plus Jakarta Sans et logo YIBOLO
 
 public/
@@ -150,7 +151,7 @@ L'interface existe en **français** (langue de référence, par défaut) et en *
 - Initialisation et types : `src/i18n/index.ts`, `src/i18n/i18next.d.ts`.
 - Les clés sont **typées** à partir du français : une clé absente est une erreur TypeScript.
 - `npm run i18n:check` vérifie que l'anglais a les mêmes clés que le français.
-- Les données de démonstration (`src/data/depart/yibolo.sql`) restent en français : elles jouent le rôle du serveur.
+- Les données de démonstration (`src/data/fausses-donnees/`) restent en français : elles jouent le rôle du serveur.
 
 Règles complètes et glossaire : [.claude/rules/traduction.md](.claude/rules/traduction.md).
 

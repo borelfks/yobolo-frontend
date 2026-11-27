@@ -1,0 +1,14 @@
+[
+  {"id":"f-cg-ipc","nom":"BTS Comptabilité et Gestion des entreprises","code":"BTS-CG","filiere":"Gestion","ton":"blue","diplome":"BTS","duree":"24 mois","rentree":"05 oct. 2026","statut":"Publiée","etablissementId":"ipc"},
+  {"id":"f-rh-ipc","nom":"BTS Gestion des Ressources humaines","code":"BTS-RH","filiere":"Gestion","ton":"violet","diplome":"BTS","duree":"24 mois","rentree":"05 oct. 2026","statut":"Publiée","etablissementId":"ipc"},
+  {"id":"f-info-ipc","nom":"Licence Génie logiciel","code":"BTS-INF","filiere":"Génie Informatique","ton":"sky","diplome":"Licence","duree":"36 mois","rentree":"05 oct. 2026","statut":"Publiée","etablissementId":"ipc"},
+  {"id":"f-mkt-ipc","nom":"Licence Marketing-Commerce-Vente","code":"L3-GE","filiere":"Commerce-Vente","ton":"green","diplome":"Licence","duree":"36 mois","rentree":"05 oct. 2026","statut":"Publiée","etablissementId":"ipc"},
+  {"id":"f-banque-ipc","nom":"Licence Banque et Finance","code":"BTS-FC","filiere":"Gestion","ton":"violet","diplome":"Licence","duree":"36 mois","rentree":"—","statut":"Brouillon","etablissementId":"ipc"},
+  {"id":"f-log-ipc","nom":"BTS Gestion logistique et transport","code":"BTS-LT","filiere":"Gestion","ton":"sky","diplome":"BTS","duree":"24 mois","rentree":"05 oct. 2026","statut":"Publiée","etablissementId":"ipc"},
+  {"id":"f-audit-ipc","nom":"Master Comptabilité et Gestion des entreprises","code":"MST-ACG","filiere":"Gestion","ton":"blue","diplome":"Master","duree":"24 mois","rentree":"05 oct. 2026","statut":"Publiée","etablissementId":"ipc"},
+  {"id":"f-mkt2-ipc","nom":"Licence Marketing et Communication","code":"LIC-MC","filiere":"Marketing","ton":"pink","diplome":"Licence","duree":"36 mois","rentree":"05 oct. 2026","statut":"Publiée","etablissementId":"ipc"},
+  {"id":"f-banque2-ipc","nom":"Licence Banque et Finance","code":"LIC-BF","filiere":"Finance","ton":"orange","diplome":"Licence","duree":"36 mois","rentree":"05 oct. 2026","statut":"Publiée","etablissementId":"ipc"},
+  {"id":"f-info2-ipc","nom":"Licence Informatique","code":"LIC-IN","filiere":"Informatique","ton":"sky","diplome":"Licence","duree":"36 mois","rentree":"05 oct. 2026","statut":"Publiée","etablissementId":"ipc"},
+  {"id":"f-sec-ipc","nom":"BTS Secrétariat de Direction","code":"BTS-SD","filiere":"Gestion","ton":"green","diplome":"BTS","duree":"24 mois","rentree":"05 oct. 2026","statut":"Publiée","etablissementId":"ipc"},
+  {"id":"f-trans-ipc","nom":"BTS Transit et Douane","code":"BTS-TD","filiere":"Logistique","ton":"sky","diplome":"BTS","duree":"24 mois","rentree":"05 oct. 2026","statut":"Publiée","etablissementId":"ipc"}
+]

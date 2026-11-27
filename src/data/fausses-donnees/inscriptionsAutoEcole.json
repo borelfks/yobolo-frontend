@@ -1,0 +1,3 @@
+[
+  {"id":"inscription-jean-1","compteId":"compte-jean-dupont","autoEcoleId":"conduite-plus","permis":"B","envoyeeLe":"2026-11-20T09:00:00.000Z","statut":"Envoyée","donnees":{"nom":"Dupont","prenom":"Jean","naissance":"","sexe":"Masculin","telephone":"+237 690 00 00 01","email":"jean.dupont@exemple.cm","region":"Centre","departement":"mfoundi","arrondissement":"mfoundi/yaounde-i","ville":"Yaoundé","quartier":"Bastos","autoEcoleId":"conduite-plus","permis":"B","session":"15 nov. 2026","pieces":{}}}
+]

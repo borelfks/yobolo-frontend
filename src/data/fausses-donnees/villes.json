@@ -1,0 +1,10 @@
+[
+  {"id":"yaounde","nom":"Yaoundé","region":"Centre","image":"/images/maquette/region-centre.jpg"},
+  {"id":"douala","nom":"Douala","region":"Littoral","image":"/images/maquette/region-littoral.jpg"},
+  {"id":"bafoussam","nom":"Bafoussam","region":"Ouest","image":"/images/maquette/region-ouest.jpg"},
+  {"id":"garoua","nom":"Garoua","region":"Nord","image":"/images/maquette/region-nord.jpg"},
+  {"id":"ebolowa","nom":"Ebolowa","region":"Sud","image":"/images/maquette/region-sud.jpg"},
+  {"id":"bertoua","nom":"Bertoua","region":"Est","image":"/images/maquette/region-est.jpg"},
+  {"id":"bamenda","nom":"Bamenda","region":"Nord-Ouest","image":"/images/maquette/region-nord-ouest.jpg"},
+  {"id":"buea","nom":"Buea","region":"Sud-Ouest","image":"/images/maquette/region-sud-ouest.jpg"}
+]

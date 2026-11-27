@@ -1,0 +1,15 @@
+[
+  {"id":"ipes-bts","typeSlug":"ipes","nom":"BTS"},
+  {"id":"ipes-licence","typeSlug":"ipes","nom":"Licence"},
+  {"id":"ipes-master","typeSlug":"ipes","nom":"Master"},
+  {"id":"ipes-ingenieur","typeSlug":"ipes","nom":"Ingénieur"},
+  {"id":"ipes-certificat","typeSlug":"ipes","nom":"Certificat"},
+  {"id":"ipes-doctorat","typeSlug":"ipes","nom":"Doctorat"},
+  {"id":"cfp-cqp","typeSlug":"cfp","nom":"CQP"},
+  {"id":"cfp-dqp","typeSlug":"cfp","nom":"DQP"},
+  {"id":"cfp-certificat","typeSlug":"cfp","nom":"Certificat"},
+  {"id":"cfp-attestation","typeSlug":"cfp","nom":"Attestation"},
+  {"id":"autres-attestation","typeSlug":"autres","nom":"Attestation"},
+  {"id":"autres-certification","typeSlug":"autres","nom":"Certification"},
+  {"id":"autres-certificat","typeSlug":"autres","nom":"Certificat"}
+]

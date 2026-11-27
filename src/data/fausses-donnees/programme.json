@@ -1,0 +1,6 @@
+[
+  {"id":"semestre-1","annee":"1ère année (S1 – S2)","semestre":"Semestre 1","ue":["Comptabilité générale I","Mathématiques financières","Droit des affaires","Économie générale","Informatique bureautique"],"heures":300,"formationId":"f-cg-ipc"},
+  {"id":"semestre-2","annee":"1ère année (S1 – S2)","semestre":"Semestre 2","ue":["Comptabilité générale II","Statistiques","Fiscalité I","Communication professionnelle","Anglais des affaires"],"heures":300,"formationId":"f-cg-ipc"},
+  {"id":"semestre-3","annee":"2ème année (S3 – S4)","semestre":"Semestre 3","ue":["Comptabilité analytique","Fiscalité II","Gestion financière","Audit I","Logiciels comptables (Sage)"],"heures":300,"formationId":"f-cg-ipc"},
+  {"id":"semestre-4","annee":"2ème année (S3 – S4)","semestre":"Semestre 4","ue":["Contrôle de gestion","Projet tutoré","Stage en entreprise","Éthique professionnelle","Préparation au BTS"],"heures":300,"formationId":"f-cg-ipc"}
+]

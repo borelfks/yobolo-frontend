@@ -5,7 +5,7 @@ Règles **obligatoires** pour toute personne (ou agent IA) qui travaille sur le 
 | Fichier | Sujet |
 |---|---|
 | [collaboration.md](collaboration.md) | Demander avant de modifier, façon de répondre, la maquette comme source |
-| [produit.md](produit.md) | Ce qu'est YIBOLO, périmètre (univers École), front seul, deux espaces |
+| [produit.md](produit.md) | Ce qu'est YIBOLO, périmètre (univers École), deux espaces |
 | [vocabulaire-et-textes.md](vocabulaire-et-textes.md) | Mots de la maquette, ton, textes recopiés |
 | [traduction.md](traduction.md) | Français / anglais : i18next, namespaces, glossaire |
 | [navigation.md](navigation.md) | Menus, adresses (`ROUTES`), onglets dans l'adresse, fil d'Ariane |
@@ -16,7 +16,7 @@ Règles **obligatoires** pour toute personne (ou agent IA) qui travaille sur le 
 | [images-et-medias.md](images-et-medias.md) | Photos de la maquette, logo, icônes |
 | [accessibilite.md](accessibilite.md) | Clavier, étiquettes, contrastes |
 | [code-et-architecture.md](code-et-architecture.md) | Dossiers, où ranger quoi, TypeScript |
-| [donnees-et-backend.md](donnees-et-backend.md) | Données de démo, stockage local, **pas de backend** |
+| [donnees-et-backend.md](donnees-et-backend.md) | Fausses données, TanStack Query, API plus tard (Orval) |
 | [comptes-et-acces.md](comptes-et-acces.md) | Comptes de démo, connexion, inscription, espace pro |
 | [avis-et-favoris.md](avis-et-favoris.md) | Donner un avis, notes, favoris et dossiers |
 | [verification.md](verification.md) | Ce qu'il faut vérifier avant de dire « c'est fait » |

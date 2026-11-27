@@ -1,29 +1,36 @@
-import { use, useSyncExternalStore } from 'react'
+import { useSyncExternalStore } from 'react'
+import { QueryClient, useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { COLLECTIONS, type CollectionName, type Collections } from './collections'
 import type { DataSource } from './source'
-import { createSqliteSource } from './sources/sqliteSource'
+import { createFauxSource } from './sources/fauxSource'
 
 /**
- * POINT D'ENTRÉE UNIQUE DES DONNÉES ENREGISTRÉES.
+ * POINT D'ENTRÉE UNIQUE DES DONNÉES.
  *
  * Les écrans lisent avec les hooks (`useCollection`, et ceux de ./hooks) et
- * écrivent avec `data.create / update / remove`. Ils ne savent pas où sont les
- * données : c'est la source choisie ici.
+ * écrivent avec `data.create / update / remove`. Ils ne savent pas d'où
+ * viennent les données : aujourd'hui de fausses données (./sources/fauxSource),
+ * demain l'API de yibolo-backend.
  *
- * Changer de stockage plus tard :
- *   1. écrire `sources/<nouvelleSource>.ts` qui respecte `DataSource` (./source.ts) ;
- *   2. l'ajouter à `SOURCES` ci-dessous ;
- *   3. la choisir avec la variable d'environnement VITE_DATA_SOURCE.
- * Aucun écran ne change.
+ * Les lectures passent par TanStack Query (une requête par table, clé
+ * `['donnees', table]`) : le jour où l'API existe, les hooks générés par
+ * Orval prennent le relais avec le même client.
  */
 const SOURCES: Record<string, () => DataSource> = {
-  sqlite: createSqliteSource,
+  faux: createFauxSource,
 }
+
+/** Le client TanStack Query de l'application (fourni dans main.tsx). */
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    // Les fausses données ne changent que par nos écritures : pas de rechargement automatique.
+    queries: { staleTime: Infinity, gcTime: Infinity, refetchOnWindowFocus: false, retry: false },
+  },
+})
 
 let source: DataSource
 let ready: Promise<void> | undefined
 let pret = false
-const cache = new Map<CollectionName, unknown[]>()
 const listeners = new Set<() => void>()
 const EMPTY: never[] = []
 
@@ -33,25 +40,25 @@ const subscribe = (listener: () => void) => {
   return () => listeners.delete(listener)
 }
 
-async function loadAll() {
-  await Promise.all(COLLECTIONS.map(async (c) => cache.set(c, await source.list(c))))
-  notify()
-}
+const cle = (collection: CollectionName) => ['donnees', collection] as const
 
 async function refresh(collection: CollectionName) {
-  cache.set(collection, await source.list(collection))
-  notify()
+  queryClient.setQueryData(cle(collection), await source.list(collection))
+}
+
+async function loadAll() {
+  await Promise.all(COLLECTIONS.map(refresh))
 }
 
 /**
- * Démarre le stockage (appelé une fois, dans main.tsx, avant l'affichage).
+ * Démarre les données (appelé une fois, dans main.tsx, avant l'affichage).
  * Le chargement continue en arrière-plan : les pages qui ont besoin des
  * données attendent (PageLoader), les autres s'affichent tout de suite.
  */
 export function startData() {
   ready ??= (async () => {
-    const wanted = import.meta.env.VITE_DATA_SOURCE ?? 'sqlite'
-    source = (SOURCES[wanted] ?? createSqliteSource)()
+    const wanted = import.meta.env.VITE_DATA_SOURCE ?? 'faux'
+    source = (SOURCES[wanted] ?? createFauxSource)()
     await source.init()
     await loadAll()
     pret = true
@@ -60,7 +67,7 @@ export function startData() {
   return ready
 }
 
-/** Vrai quand la base est chargée (pour un cadre qui ne doit pas attendre, comme la garde de l'espace pro). */
+/** Vrai quand les données sont chargées (pour un cadre qui ne doit pas attendre, comme la garde de l'espace pro). */
 export function useDataReady() {
   return useSyncExternalStore(subscribe, () => pret)
 }
@@ -70,15 +77,28 @@ function readyOrThrow() {
   return ready
 }
 
+function lire<K extends CollectionName>(collection: K) {
+  return {
+    queryKey: cle(collection),
+    queryFn: async () => {
+      await readyOrThrow()
+      return (await source.list(collection)) as Collections[K][]
+    },
+  }
+}
+
+function enCache<K extends CollectionName>(collection: K) {
+  return (queryClient.getQueryData<Collections[K][]>(cle(collection)) ?? EMPTY) as Collections[K][]
+}
+
 /** Tous les éléments d'une collection. Attend que les données soient prêtes (Suspense → PageLoader). */
 export function useCollection<K extends CollectionName>(collection: K): Collections[K][] {
-  use(readyOrThrow())
-  return useSyncExternalStore(subscribe, () => (cache.get(collection) ?? EMPTY) as Collections[K][])
+  return useSuspenseQuery(lire(collection)).data
 }
 
 /** Comme useCollection, sans attendre : liste vide tant que les données ne sont pas prêtes (pour les cadres et fournisseurs). */
 export function useCollectionWhenReady<K extends CollectionName>(collection: K): Collections[K][] {
-  return useSyncExternalStore(subscribe, () => (cache.get(collection) ?? EMPTY) as Collections[K][])
+  return useQuery(lire(collection)).data ?? EMPTY
 }
 
 /** Identifiant pour un nouvel élément : préfixe lisible + horodatage + hasard. */
@@ -90,7 +110,7 @@ export function newId(prefix: string) {
  * Date à laquelle un testeur a ajouté un élément, lue dans son identifiant
  * (`newId` : préfixe + horodatage). `null` pour un élément des données de
  * départ (identifiants écrits à la main : « ipc », « f-cg-ipc », « a1 »…).
- * Sert aux compteurs : chiffre de la maquette + ce que les testeurs ont ajouté.
+ * Sert aux compteurs : ce que les testeurs ont ajouté.
  */
 export function dateDeCreation(id: string): Date | null {
   const m = /-([0-9a-z]{8})[0-9a-z]{0,4}$/.exec(id)
@@ -104,11 +124,6 @@ type NewItem<K extends CollectionName> = Omit<Collections[K], 'id'> & { id?: str
 
 /** Les écritures. Toutes asynchrones (comme le serait un appel réseau) ; les écrans se mettent à jour seuls. */
 export const data = {
-  /** Nom du stockage utilisé (affiché dans le panneau « Données de test »). */
-  get label() {
-    return source?.label ?? '…'
-  },
-
   async create<K extends CollectionName>(collection: K, item: NewItem<K>, idPrefix: string = collection): Promise<Collections[K]> {
     await readyOrThrow()
     const full = { ...item, id: item.id ?? newId(idPrefix) } as Collections[K]
@@ -120,12 +135,12 @@ export const data = {
   /** Les éléments d'une table, lus hors d'un écran (pour une écriture qui dépend de l'existant, comme un compteur). */
   async list<K extends CollectionName>(collection: K): Promise<Collections[K][]> {
     await readyOrThrow()
-    return (cache.get(collection) ?? EMPTY) as Collections[K][]
+    return enCache(collection)
   },
 
   async update<K extends CollectionName>(collection: K, id: string, patch: Partial<Collections[K]>): Promise<Collections[K] | undefined> {
     await readyOrThrow()
-    const current = (cache.get(collection) as Collections[K][] | undefined)?.find((x) => x.id === id)
+    const current = enCache(collection).find((x) => x.id === id)
     if (!current) return undefined
     const next = { ...current, ...patch, id } as Collections[K]
     await source.put(collection, next)
@@ -150,29 +165,6 @@ export const data = {
   async reset() {
     await readyOrThrow()
     await source.reset()
-    await loadAll()
-  },
-
-  get canExport() {
-    return Boolean(source?.exportFile)
-  },
-
-  /** Télécharge toutes les données dans un fichier. */
-  async exportFile() {
-    await readyOrThrow()
-    if (!source.exportFile) return
-    const { blob, fileName } = await source.exportFile()
-    const url = URL.createObjectURL(blob)
-    const link = Object.assign(document.createElement('a'), { href: url, download: fileName })
-    link.click()
-    URL.revokeObjectURL(url)
-  },
-
-  /** Remplace toutes les données par celles d'un fichier exporté. Lève une erreur si le fichier ne convient pas. */
-  async importFile(file: File) {
-    await readyOrThrow()
-    if (!source.importFile) return
-    await source.importFile(file)
     await loadAll()
   },
 }

@@ -1,24 +1,25 @@
-# Données et stockage
+# Données et API
 
-## Pas de serveur à nous (décisions du 2026-11-16, 2026-11-23 et 2026-11-24)
-- Pas de backend écrit par nous, pas d'Orval, pas de react-query. **Ne jamais proposer de brancher yibolo-backend.**
-- **Toutes les données sont dans la base** : une **base SQLite dans le navigateur** (sql.js). Il n'y a plus de `src/mocks/` et **aucune donnée écrite dans le code** (décision du 2026-11-24 : « rien en dur, tout en base »).
-- Chaque testeur a **sa propre base** ; on la partage par **export / import** d'un fichier `.sqlite`.
-- Tout passe par **une seule couche de données** (`src/data/`), pensée pour **changer de stockage plus tard** (fichiers Netlify, Firebase, vrai backend) **sans toucher aux écrans**.
+## Fausses données aujourd'hui, yibolo-backend plus tard (décision du 2026-11-27)
+- **SQLite est retiré.** Les écrans lisent de **fausses données** : `src/data/fausses-donnees/`, un fichier JSON par table (une liste d'éléments dans l'ordre d'affichage). **Aucune donnée écrite dans le code** (décision du 2026-11-24 : « rien en dur »).
+- Ce que fait un testeur est gardé **dans son navigateur** (IndexedDB, base `yibolo`, clé `fausses-donnees`) ; si le navigateur refuse (navigation privée stricte), tout marche en mémoire le temps de la visite.
+- Les lectures passent par **TanStack Query** (`queryClient` de `src/data/index.ts`, une requête par table, clé `['donnees', table]`).
+- **Plus tard, l'API de yibolo-backend** : quand il publiera sa description OpenAPI (springdoc), `npm run api:generate` (Orval, `orval.config.ts`) fabriquera les hooks TanStack Query dans `src/api/generated/`, avec le client axios `src/api/client.ts` (`VITE_API_URL`). On ne la branche que sur demande du porteur du projet.
+- Tout passe par **une seule couche de données** (`src/data/`) : changer de source ne touche pas aux écrans.
 
 ## La couche de données (`src/data/`)
 | Fichier | Rôle |
 |---|---|
-| `depart/yibolo.sql` | **les données de départ** : un `CREATE TABLE` et des `INSERT` par table. La base de chaque testeur en est créée au premier lancement et à chaque « Réinitialiser ». C'est ce fichier qu'on modifie pour changer une donnée de départ |
+| `fausses-donnees/<table>.json` | **les données de départ** : une liste d'éléments par table, dans l'ordre d'affichage. La copie de chaque testeur en est faite au premier lancement. C'est là qu'on modifie une donnée de départ |
 | `collections.ts` | la liste des tables (`Collections`, `COLLECTIONS`) et le type de leurs éléments |
-| `source.ts` | le **contrat** `DataSource` (init, list, put, remove, reset, exportFile, importFile), asynchrone comme un appel réseau |
-| `sources/sqliteSource.ts` | la source utilisée : SQLite (sql.js), une table par collection (`id`, `ordre`, `donnees` JSON, `cree_le`, `modifie_le`) + `meta`, gardée dans l'IndexedDB du navigateur. Si le navigateur refuse d'enregistrer (navigation privée stricte), la base marche en mémoire le temps de la visite. `VERSION_DONNEES` : à augmenter quand `yibolo.sql` change (les bases des testeurs sont alors refaites) |
-| `index.ts` | **point d'entrée** : `startData()` (dans `main.tsx`), `useCollection`, `useCollectionWhenReady`, `useDataReady`, `data.create / update / put / remove / reset / exportFile / importFile`, `newId`. Choix de la source : `VITE_DATA_SOURCE` (`sqlite`) |
+| `source.ts` | le **contrat** `DataSource` (init, list, put, remove, reset), asynchrone comme un appel réseau |
+| `sources/fauxSource.ts` | la source utilisée : les fausses données, copiées dans l'IndexedDB du navigateur (`sources/indexedDb.ts`). `VERSION_DONNEES` : à augmenter quand les fichiers JSON changent (les copies des testeurs sont alors refaites) |
+| `index.ts` | **point d'entrée** : `startData()` (dans `main.tsx`), `useCollection`, `useCollectionWhenReady`, `useDataReady`, `data.create / update / put / remove / reset`, `newId`, `queryClient`. Choix de la source : `VITE_DATA_SOURCE` (`faux`) |
 | `hooks.ts` | **les lectures**, par sujet : établissements, formations, avis, auto-écoles, sessions, espace pro, comptes, et toutes les données de référence (`useTypeEcole`, `useRegions`, `useVilles`, `useQuartiers`, `useDomaines`, `useDiplomes`, `usePermisCatalogue`, `useIndicateurs`…) |
 
 ## Les tables
 - **Modifiables par les testeurs** : `etablissements`, `formations`, `formationsPro`, `autoEcoles`, `sessions`, `avisEtablissements`, `avisAutoEcoles`, `actualites`, `documents`, `faq`, `utilisateurs`, `preinscriptions`, `inscriptionsAutoEcole`, `favoris`, `parametres`, `comptes`, et pour l'accueil connecté `publications` (publiées ou brouillons), `enregistrements` (« Mes enregistrés » d'un compte), `jaimes`, `signalements`, `commentaires` ; et `fichiers` (fichiers joints, data URL), `piecesEtablissement` (certificat du NIU), `nomenclatureFormations` (secteur › domaine › filière › spécialité › option, pour le nom des formations), `accordsEtablissement` (accords de création et d'ouverture, `nature`, plusieurs par établissement, chacun avec son document), `medias`, `notifications` / `notificationsCompte` (lu / non lu), `demandesAssistance`, `signalementsAvis`, `sessionsActives`, `activiteSecurite`.
-- **De référence** (lues par les écrans, modifiables dans `yibolo.sql`) : `typesEcole`, `tuilesAnnuaire`, `domaines`, `diplomes`, `regions`, `villes`, `quartiers`, `albums`, `programme`, `permis`, `criteresAvis`, `roles`, `notifications`, `visites`, `sourcesVisites`, `sessionsActives`, `activiteSecurite`, `indicateurs`, `formationsPopulaires`, `categoriesGalerie`, `photosAutoEcole`, `videos` ; pour l'accueil connecté : `domainesExpertise`, `experts`, `bandeauxAccueil`, `sujetsPublication`.
+- **De référence** (lues par les écrans, modifiables dans `fausses-donnees/`) : `typesEcole`, `tuilesAnnuaire`, `domaines`, `diplomes`, `regions`, `villes`, `quartiers`, `albums`, `programme`, `permis`, `criteresAvis`, `roles`, `notifications`, `visites`, `sourcesVisites`, `sessionsActives`, `activiteSecurite`, `indicateurs`, `formationsPopulaires`, `categoriesGalerie`, `photosAutoEcole`, `videos` ; pour l'accueil connecté : `domainesExpertise`, `experts`, `bandeauxAccueil`, `sujetsPublication`.
 - Types dans `src/shared/types.ts`.
 - Les enregistrements de la maquette qui ne sont rattachés à aucun établissement précis portent `etablissementId: '*'` (`POUR_TOUS`) : ils s'affichent pour **tous** les établissements. Ce qu'un testeur crée porte le **vrai** identifiant.
 - Un élément ajouté s'affiche **avant** ceux de départ.
@@ -41,17 +42,15 @@
 - Aucun contenu « pour tous » (`etablissementId: '*'`) dans la base de départ : chaque fiche ne montre que ce qui lui appartient.
 
 ## Changer une donnée de départ
-1. Modifier `src/data/depart/yibolo.sql` (une ligne = un élément, en JSON).
-2. Augmenter `VERSION_DONNEES` dans `sources/sqliteSource.ts` : les bases des testeurs seront refaites à leur prochaine visite.
+1. Modifier `src/data/fausses-donnees/<table>.json` (une ligne = un élément).
+2. Augmenter `VERSION_DONNEES` dans `sources/fauxSource.ts` : les copies des testeurs seront refaites à leur prochaine visite.
 
-## Changer de stockage plus tard
-1. Écrire `src/data/sources/<nouvelleSource>.ts` qui respecte `DataSource` (par exemple des appels `fetch` vers une API, ou Firebase).
-2. L'ajouter à `SOURCES` dans `src/data/index.ts`.
-3. Choisir `VITE_DATA_SOURCE=<nom>` (`.env.local` et Netlify).
-Aucun écran ne change.
+## Brancher l'API plus tard
+1. yibolo-backend publie sa description OpenAPI ; `npm run api:generate` (Orval) écrit les hooks dans `src/api/generated/`.
+2. Soit une source `src/data/sources/<api>.ts` qui respecte `DataSource` (ajoutée à `SOURCES`, choisie par `VITE_DATA_SOURCE`), soit les hooks générés appelés depuis `src/data/hooks.ts`. Les écrans ne changent pas.
 
 ## Plus de panneau « Données de test »
-Le panneau (exporter, importer, réinitialiser) est retiré de l'interface (décision du 2026-11-25 : rien ne parle de démonstration). `data.exportFile`, `importFile` et `reset` restent dans la couche de données.
+Le panneau est retiré de l'interface (décision du 2026-11-25). L'export et l'import d'un fichier `.sqlite` n'existent plus (SQLite retiré le 2026-11-27) ; `data.reset` reste.
 
 ## Ce qui reste dans le stockage local (`localStorage`)
 | Clé | Contenu |
@@ -61,10 +60,10 @@ Le panneau (exporter, importer, réinitialiser) est retiré de l'interface (déc
 | `yibolo:inscription-v2:<auto-école>:<permis>` | brouillon d'inscription en auto-école (avant l'envoi) |
 | `yibolo:langue` | langue choisie |
 
-La base SQLite est dans l'IndexedDB du navigateur (base `yibolo`, clé `base-sqlite`). Vider les données du navigateur ou la navigation privée la font perdre : exporter pour garder une copie.
+La copie des fausses données est dans l'IndexedDB du navigateur (base `yibolo`, clé `fausses-donnees`). Vider les données du navigateur la remet à zéro.
 
 ## Données de la maquette
-1. Les valeurs de départ (`yibolo.sql`) sont celles de la maquette (noms, dates, textes, photos) ; elles ne contiennent **aucun chiffre calculable** (notes, nombres d'avis, de formations, d'établissements) : ces chiffres sont calculés.
+1. Les valeurs de départ (`fausses-donnees/`) sont celles de la maquette (noms, dates, textes, photos) ; elles ne contiennent **aucun chiffre calculable** (notes, nombres d'avis, de formations, d'établissements) : ces chiffres sont calculés.
 2. Les données restent **en français** : on ne modifie pas les données pour traduire (voir [traduction.md](traduction.md)).
 
 ## Découpage territorial

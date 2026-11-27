@@ -59,8 +59,8 @@ import type {
 /**
  * Les collections (tables) de la base et le type de leurs éléments : toutes
  * les données de l'application, modifiables ou de référence. Une collection =
- * une table SQLite aujourd'hui, un point d'API ou une collection Firestore
- * demain. Chaque élément a un `id` texte. Données de départ : depart/yibolo.sql.
+ * un fichier de fausses données aujourd'hui (fausses-donnees/<table>.json), un
+ * point de l'API de yibolo-backend demain. Chaque élément a un `id` texte.
  */
 export type Collections = {
   etablissements: Etablissement

@@ -1,0 +1,5 @@
+[
+  {"id":"notif-jean-1","compteId":"compte-jean-dupont","type":"preRegistration","titre":"Préinscription reçue","texte":"L’IPC a bien reçu votre dossier BTS Comptabilité.","quand":"Il y a 2 h","lu":false},
+  {"id":"notif-jean-2","compteId":"compte-jean-dupont","type":"session","titre":"Session confirmée","texte":"Permis B – début le 15 nov. 2026.","quand":"Hier","lu":false},
+  {"id":"notif-jean-3","compteId":"compte-jean-dupont","type":"message","titre":"Nouvelle réponse","texte":"Aline Ngono Orientation a répondu à votre commentaire.","quand":"Il y a 2 jours","lu":false,"vers":"/accueil/publications/pub-orientation-bac#commentaires"}
+]

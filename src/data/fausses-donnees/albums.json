@@ -1,0 +1,7 @@
+[
+  {"id":"campus-batiments","nom":"Campus & bâtiments","image":"/images/maquette/album-campus.jpg","etablissementId":"ipc"},
+  {"id":"salles-de-cours","nom":"Salles de cours","image":"/images/maquette/album-salles.jpg","etablissementId":"ipc"},
+  {"id":"laboratoires","nom":"Laboratoires","image":"/images/maquette/album-labos.jpg","etablissementId":"ipc"},
+  {"id":"bibliotheque","nom":"Bibliothèque","image":"/images/maquette/album-biblio.jpg","etablissementId":"ipc"},
+  {"id":"vie-etudiante","nom":"Vie étudiante","image":"/images/maquette/album-vie.jpg","etablissementId":"ipc"}
+]

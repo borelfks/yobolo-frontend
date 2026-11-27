@@ -34,7 +34,7 @@
 | Chargement · erreur | `PageLoader` ; `ErrorBoundary`, `ErrorScreen`, `OfflineScreen` | page blanche |
 | Message éphémère | `toast` (sonner) | `alert()` |
 
-Les composants de `shared/components/ui/` sont la base, ceux de `shared/components/forms/` les champs. Ceux qui portent le métier d'un sujet sont dans `features/<sujet>/components/`. Les morceaux des grandes pages sont dans des sous-dossiers : `features/schools/components/listing/` (onglets de l'annuaire par type), `profile/` (onglets de la fiche établissement), `training/` (détail d'une formation), `features/driving-schools/components/profile/` (onglets de la fiche auto-école).
+Les composants de `shared/components/ui/` sont la base, ceux de `shared/components/forms/` les champs. Les composants **shadcn/ui** (`npx shadcn add …`, réglages dans `components.json`) vont dans `shared/components/shadcn/`, à part, pour ne jamais écraser les nôtres ; on en ajoute un seulement s'il manque chez nous, avec accord. Attention : le jeton `muted` est ici une couleur de **texte** (gris), alors que shadcn l'utilise comme fond : à vérifier sur chaque composant ajouté. Ceux qui portent le métier d'un sujet sont dans `features/<sujet>/components/`. Les morceaux des grandes pages sont dans des sous-dossiers : `features/schools/components/listing/` (onglets de l'annuaire par type), `profile/` (onglets de la fiche établissement), `training/` (détail d'une formation), `features/driving-schools/components/profile/` (onglets de la fiche auto-école).
 
 ## Quand créer un composant
 1. **Dès qu'un même élément apparaît une 2ᵉ fois**, même dans un autre univers : on en fait un composant, et on remplace aussi la 1ʳᵉ copie (vérifier que le rendu ne change pas).

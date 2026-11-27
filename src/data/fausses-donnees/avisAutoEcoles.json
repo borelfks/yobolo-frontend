@@ -1,0 +1,6 @@
+[
+  {"id":"r1","nom":"Pauline MBONG","date":"Il y a 3 jours","note":5,"texte":"Excellente auto-école ! Moniteurs patients et très professionnels. J’ai obtenu mon permis B en 2 mois. Je recommande vivement.","avatar":"/images/maquette/aeav-pauline.jpg","autoEcoleId":"conduite-plus"},
+  {"id":"r2","nom":"Franck ESSOMBA","date":"Il y a 1 semaine","note":4,"texte":"Bonne formation, cours bien structurés et véhicules en bon état. L’organisation est sérieuse.","avatar":"/images/maquette/aeav-franck.jpg","autoEcoleId":"conduite-plus"},
+  {"id":"r3","nom":"Aline NGONO","date":"Il y a 2 semaines","note":5,"texte":"Très bonne expérience. L’accompagnement jusqu’à l’examen est réel. Merci à toute l’équipe !","avatar":"/images/maquette/aeav-aline.jpg","autoEcoleId":"conduite-plus"},
+  {"id":"r4","nom":"Samuel TCHOUPO","date":"Il y a 3 semaines","note":4,"texte":"Auto-école fiable et bien équipée. Les horaires sont flexibles, ce qui m’a permis de suivre la formation sans perturber mon travail.","avatar":"/images/maquette/aeav-samuel.jpg","autoEcoleId":"conduite-plus"}
+]

@@ -5,8 +5,8 @@
 - Quatre univers : **École**, **Consultation**, **Métiers**, **Emploi**.
 - Nom de la marque : **YIBOLO**, en capitales dans les textes (« Assistance YIBOLO », « Rechercher sur YIBOLO », « validation par YIBOLO »).
 
-## Ce dépôt : un front seul
-- **Aucun backend, aucun appel d'API, pas d'Orval, pas de react-query.** Toutes les données sont dans la base SQLite du navigateur, rien n'est écrit dans le code (voir [donnees-et-backend.md](donnees-et-backend.md)).
+## Ce dépôt : le front
+- **Fausses données aujourd'hui, API de yibolo-backend plus tard** (par Orval et TanStack Query). Rien n'est écrit dans le code (voir [donnees-et-backend.md](donnees-et-backend.md)).
 - But : montrer au client **sa maquette qui fonctionne**. Chaque écran est **identique à sa capture** (voir [design.md](design.md)).
 
 ## Périmètre (décision du 2026-11-17)

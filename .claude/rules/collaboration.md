@@ -17,7 +17,7 @@
 
 ## Ce qu'on ne propose pas
 
-- **Brancher un backend**, un client d'API, Orval ou react-query : le projet est un front seul (décision du 2026-11-16).
+- Brancher l'API de yibolo-backend **avant** qu'elle publie sa description OpenAPI et que le porteur du projet le demande : en attendant, les écrans lisent les fausses données (décision du 2026-11-27).
 - Commencer **Consultation** ou **Emploi** sans que le porteur du projet l'ait demandé.
 - « Améliorer » la maquette (autre mise en page, autres textes, chiffres recalculés).
 

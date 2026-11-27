@@ -18,7 +18,7 @@
 | **Métiers** | découvrir les métiers et les compétences clés | lien vers la page Emploi (« bientôt disponible ») |
 | **Emploi** | offres d'emploi, de stage et d'apprentissage | page « bientôt disponible » |
 
-**Ce dépôt est un front seul** : il transforme la maquette du client en interface qui fonctionne. Toutes les données sont fictives et enregistrées dans la base SQLite du navigateur (départ : `src/data/depart/yibolo.sql`), aucun serveur n'est appelé.
+**Ce dépôt est le front** : il transforme la maquette du client en interface qui fonctionne. En attendant l'API de yibolo-backend, toutes les données sont fausses (`src/data/fausses-donnees/`) et gardées dans le navigateur ; aucun serveur n'est appelé.
 
 **Marché :** Cameroun (10 régions, Yaoundé et Douala en tête). Interface en **français** (référence) et en **anglais britannique**, montants en **FCFA**.
 

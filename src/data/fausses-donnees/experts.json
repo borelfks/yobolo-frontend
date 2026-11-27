@@ -1,0 +1,9 @@
+[
+  {"id":"expert-mbarga","nom":"Mbarga Conseil","photo":"/images/maquette/aeav-samuel.jpg","domaineId":"conseil-juridique","ville":"Yaoundé"},
+  {"id":"expert-nkoulou","nom":"Cabinet Nkoulou & Associés","photo":"/images/maquette/avis-arnaud.jpg","domaineId":"marches-publics","ville":"Douala"},
+  {"id":"expert-mballa","nom":"Estelle Mballa Conseil","photo":"/images/maquette/avis-clarisse.jpg","domaineId":"ressources-humaines","ville":"Yaoundé"},
+  {"id":"expert-fotso","nom":"Fotso Expertise","photo":"/images/maquette/aeav-franck.jpg","domaineId":"fiscalite","ville":"Bafoussam"},
+  {"id":"expert-ngo-bell","nom":"Sandrine Ngo Bell","photo":"/images/maquette/aeav-pauline.jpg","domaineId":"immobilier","ville":"Kribi"},
+  {"id":"expert-ngono","nom":"Aline Ngono Orientation","photo":"/images/maquette/aeav-aline.jpg","domaineId":"education","ville":"Yaoundé"},
+  {"id":"expert-ebongue","nom":"Vanessa Ebongue Digital","photo":"/images/maquette/avis-vanessa.jpg","domaineId":"marketing","ville":"Douala"}
+]

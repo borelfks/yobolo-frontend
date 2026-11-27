@@ -33,7 +33,7 @@
 | « Se déconnecter » | → `/connexion` |
 
 - Le menu du compte montre « Mon espace professionnel » seulement aux comptes école ; « Mon espace » et « Mon profil » seulement à l'utilisateur. « Donner un avis » est dans Mon espace › Mes avis (« À évaluer »).
-- Il n'y a pas de vraie sécurité (front seul) : ces gardes servent la démonstration. Ne pas ajouter de logique d'authentification réelle.
+- Il n'y a pas de vraie sécurité (pas encore d'API) : ces gardes servent la démonstration. Ne pas ajouter de logique d'authentification réelle.
 
 ## Espace pro : compte et sécurité
 - Paramètres › Compte : nom, téléphone, e-mail et photo du compte enregistrés dans `comptes`.

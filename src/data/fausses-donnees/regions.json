@@ -1,0 +1,12 @@
+[
+  {"id":"centre","nom":"Centre","chef":"Yaoundé","image":"/images/maquette/region-centre.jpg"},
+  {"id":"littoral","nom":"Littoral","chef":"Douala","image":"/images/maquette/region-littoral.jpg"},
+  {"id":"ouest","nom":"Ouest","chef":"Bafoussam","image":"/images/maquette/region-ouest.jpg"},
+  {"id":"nord","nom":"Nord","chef":"Garoua","image":"/images/maquette/region-nord.jpg"},
+  {"id":"extreme-nord","nom":"Extrême-Nord","chef":"Maroua","image":"/images/maquette/region-extreme-nord.jpg"},
+  {"id":"sud","nom":"Sud","chef":"Ebolowa","image":"/images/maquette/region-sud.jpg"},
+  {"id":"est","nom":"Est","chef":"Bertoua","image":"/images/maquette/region-est.jpg"},
+  {"id":"adamaoua","nom":"Adamaoua","chef":"Ngaoundéré","image":"/images/maquette/region-adamaoua.jpg"},
+  {"id":"nord-ouest","nom":"Nord-Ouest","chef":"Bamenda","image":"/images/maquette/region-nord-ouest.jpg"},
+  {"id":"sud-ouest","nom":"Sud-Ouest","chef":"Buéa","image":"/images/maquette/region-sud-ouest.jpg"}
+]

@@ -9,7 +9,7 @@ import type { CollectionName, Collections } from './collections'
  * Toutes les méthodes sont asynchrones, comme le serait un appel réseau.
  */
 export interface DataSource {
-  /** Nom affiché dans le panneau « Données de test » (ex. « SQLite (navigateur) »). */
+  /** Nom de la source (ex. « Fausses données »). */
   readonly label: string
   /** Ouvre le stockage ; le remplit avec ses données de départ s'il est vide ou trop ancien. */
   init(): Promise<void>
@@ -21,8 +21,4 @@ export interface DataSource {
   remove(collection: CollectionName, id: string): Promise<void>
   /** Efface tout et remet les données de départ. */
   reset(): Promise<void>
-  /** Facultatif : télécharger toutes les données dans un fichier. */
-  exportFile?(): Promise<{ blob: Blob; fileName: string }>
-  /** Facultatif : remplacer toutes les données par celles d'un fichier exporté. */
-  importFile?(file: File): Promise<void>
 }

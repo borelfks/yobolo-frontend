@@ -1,0 +1,7 @@
+[
+  {"id":"administrateur","nom":"Administrateur","description":"Accès complet à l’espace et aux paramètres"},
+  {"id":"responsable-pedagogique","nom":"Responsable pédagogique","description":"Formations, programmes, candidatures"},
+  {"id":"communication","nom":"Communication","description":"Actualités, événements, médias"},
+  {"id":"secretariat","nom":"Secrétariat","description":"Préinscriptions, dossiers des apprenants"},
+  {"id":"consultation","nom":"Consultation","description":"Lecture seule"}
+]

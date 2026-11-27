@@ -1,0 +1,7 @@
+[
+  {"id":"video-presentation","cible":"etablissement","cibleId":"ipc","usage":"presentation","titre":"Présentation en 1 minute","poster":"/images/maquette/ipc-video.jpg","src":"/videos/ecole-4-page.webm"},
+  {"id":"video-galerie","cible":"etablissement","cibleId":"ipc","usage":"galerie","titre":"Visite du campus","poster":"/images/maquette/album-video.jpg","src":"/videos/accueil-ecoles.webm"},
+  {"id":"video-ae-1","cible":"auto-ecole","cibleId":"conduite-plus","usage":"galerie","titre":"Leçon de conduite","poster":"/images/maquette/aeg-1.jpg","src":"/videos/accueil-ecoles.webm"},
+  {"id":"video-ae-2","cible":"auto-ecole","cibleId":"conduite-plus","usage":"galerie","titre":"Cours de code","poster":"/images/maquette/aeg-4.jpg","src":"/videos/ecole-4-page.webm"},
+  {"id":"video-ae-3","cible":"auto-ecole","cibleId":"conduite-plus","usage":"galerie","titre":"Jour d’examen","poster":"/images/maquette/aeg-6.jpg","src":"/videos/accueil-ecoles.webm"}
+]
