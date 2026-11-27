@@ -1,4 +1,5 @@
-import { Link, Navigate, useParams } from 'react-router'
+import { Navigate, useParams } from '@tanstack/react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { useTranslation } from 'react-i18next'
 import { CalendarDays, GraduationCap, Landmark, List, MapPin, Users } from 'lucide-react'
 import { Breadcrumb } from '@/shared/ui/Breadcrumb'
@@ -20,7 +21,7 @@ import { ROUTES } from '@/shared/utils/routes'
 
 export function FormationDetail() {
   const { t } = useTranslation('schools')
-  const { id, tab = '' } = useParams()
+  const { id, tab = '' } = useParams({ strict: false })
   const f = useFormation(id)
   const e = useEtablissement(f.etablissementId)
   const { account } = useSession()
@@ -75,7 +76,7 @@ export function FormationDetail() {
         <div className="min-w-0 space-y-3.5">
           <nav className="flex flex-wrap gap-2.5">
             {tabs.map((x, i) => (
-              <Link
+              <Lien
                 key={x.value}
                 to={i === 0 ? base : ROUTES.training(f.id, x.value)}
                 className={cn(
@@ -85,7 +86,7 @@ export function FormationDetail() {
               >
                 {x.icon}
                 {x.label}
-              </Link>
+              </Lien>
             ))}
           </nav>
           {tab === '' && <DetailsTab f={f} />}

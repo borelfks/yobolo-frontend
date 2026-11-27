@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import { Outlet, useLocation } from 'react-router'
+import { Outlet, useLocation } from '@tanstack/react-router'
 import { PageSpinner } from '@/shared/blocs/Chargement'
 import { ErrorBoundary } from '@/shared/errors/ErrorBoundary'
 

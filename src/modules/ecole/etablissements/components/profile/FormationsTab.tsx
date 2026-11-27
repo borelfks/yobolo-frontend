@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { useTranslation } from 'react-i18next'
 import { ArrowRight, Award, BarChart3, CalendarDays, GraduationCap, Info, Layers, Search, Sun } from 'lucide-react'
 import { FavoriteButton } from '@/shared/ui/FavoriteButton'
@@ -25,9 +25,9 @@ function FormationLine({ f }: { f: Formation }) {
     <div className={cn(card, 'relative flex flex-col gap-4 p-2.5 sm:flex-row sm:items-center')}>
       <Img src={f.image} alt={f.nom} className="h-32 w-full rounded-xl sm:h-[82px] sm:w-[162px]" />
       <div className="min-w-0 flex-1 space-y-2">
-        <Link to={formationUrl(f)} className="text-[18px] font-bold text-navy-800 hover:text-brand-600">
+        <Lien to={formationUrl(f)} className="text-[18px] font-bold text-navy-800 hover:text-brand-600">
           {f.nom}
-        </Link>
+        </Lien>
         <p className="flex flex-wrap items-center gap-x-5 gap-y-1 text-[14px] text-navy-900">
           <span className="inline-flex items-center gap-1.5 rounded-lg bg-[#e8efff] px-2.5 py-0.5">
             <GraduationCap className="size-4" />
@@ -50,10 +50,10 @@ function FormationLine({ f }: { f: Formation }) {
         </p>
       </div>
       <div className="flex items-center gap-4 border-line sm:self-stretch sm:border-l sm:pl-7 sm:pr-10">
-        <Link to={formationUrl(f)} className="ml-auto inline-flex h-10 items-center gap-2 rounded-full bg-brand-600 px-5 text-[14px] font-semibold text-white hover:bg-brand-700">
+        <Lien to={formationUrl(f)} className="ml-auto inline-flex h-10 items-center gap-2 rounded-full bg-brand-600 px-5 text-[14px] font-semibold text-white hover:bg-brand-700">
           {t('ecoleProfil.formations.seeDetails')}
           <ArrowRight className="size-4" />
-        </Link>
+        </Lien>
       </div>
       <FavoriteButton id={f.id} kind="formation" size="sm" className="absolute top-2.5 right-3 bg-transparent shadow-none ring-0" />
     </div>

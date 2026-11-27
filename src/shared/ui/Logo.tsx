@@ -1,4 +1,4 @@
-import { Link } from 'react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { useTranslation } from 'react-i18next'
 import { cn } from '@/shared/utils/cn'
 import { ROUTES } from '@/shared/utils/routes'
@@ -30,7 +30,7 @@ export function LogoMark({ className }: { className?: string }) {
 export function Logo({ light, className, to = ROUTES.home }: { light?: boolean; className?: string; to?: string }) {
   const { t } = useTranslation()
   return (
-    <Link to={to} aria-label={t('logo.home')} className={cn('flex shrink-0 flex-col font-client', className)}>
+    <Lien to={to} aria-label={t('logo.home')} className={cn('flex shrink-0 flex-col font-client', className)}>
       <span className="flex items-center gap-2">
         {/* Sur fond bleu, un fin contour blanc garde le carré visible. */}
         <LogoMark className={cn(light && 'rounded-[22%] ring-1 ring-white/60')} />
@@ -39,6 +39,6 @@ export function Logo({ light, className, to = ROUTES.home }: { light?: boolean; 
       <span className={cn('mt-0.5 hidden text-[0.6875rem] leading-[1.3] font-medium whitespace-nowrap sm:block', light ? 'text-white/85' : 'text-muted-foreground')}>
         {t('logo.tagline')}
       </span>
-    </Link>
+    </Lien>
   )
 }

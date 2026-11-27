@@ -1,4 +1,4 @@
-import { useSearchParams } from 'react-router'
+import { useParametresRecherche } from '@/shared/hooks/useParametresRecherche'
 import { useTranslation } from 'react-i18next'
 import { Building2, GraduationCap, Layers, MapPin } from 'lucide-react'
 import { EcoleCard, ResultsHeader, SearchPanel } from '@/modules/ecole/etablissements/components/EcoleBlocks'
@@ -27,7 +27,7 @@ export function ListeTab({ type }: { type: TypeSlug }) {
   const villes = useVilles()
   const regions = useRegions()
   const formations = useFormations()
-  const [params, setParams] = useSearchParams()
+  const [params, setParams] = useParametresRecherche()
   const q = params.get('q') ?? ''
   const criteres: Criteres = { region: params.get('region') ?? '', ville: params.get('ville') ?? '', filiere: params.get('filiere') ?? '', niveau: params.get('niveau') ?? '' }
   const tri = (TRIS as readonly string[]).includes(params.get('tri') ?? '') ? (params.get('tri') as Tri) : 'pertinence'

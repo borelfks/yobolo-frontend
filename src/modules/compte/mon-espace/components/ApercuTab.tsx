@@ -1,4 +1,4 @@
-import { Link } from 'react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { useTranslation } from 'react-i18next'
 import { Bell, Car, ChevronRight, FileText, GraduationCap, Heart, History, Search, Star, UserRound, Zap } from 'lucide-react'
 import { useAutoEcoles, useEtablissements, useFormations, useMesAvis, useMesInscriptions, useNotificationsCompte } from '@/data/hooks'
@@ -81,7 +81,7 @@ export function ApercuTab() {
             <ul className="divide-y divide-line">
               {demarches.map((d) => (
                 <li key={d.id}>
-                  <Link to={d.vers} className="flex items-center gap-3 rounded-lg py-3 hover:bg-page/60">
+                  <Lien to={d.vers} className="flex items-center gap-3 rounded-lg py-3 hover:bg-page/60">
                     <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand-50 text-brand-600 [&_svg]:size-5">{d.icone}</span>
                     <span className="flex min-w-0 flex-1 flex-col gap-1 sm:flex-row sm:items-center sm:gap-3">
                       <span className="min-w-0 flex-1">
@@ -95,7 +95,7 @@ export function ApercuTab() {
                       </span>
                     </span>
                     <ChevronRight className="size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
-                  </Link>
+                  </Lien>
                 </li>
               ))}
             </ul>

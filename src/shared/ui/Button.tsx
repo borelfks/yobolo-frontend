@@ -1,5 +1,5 @@
 import type { ComponentProps, ReactNode } from 'react'
-import { Link } from 'react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/shared/utils/cn'
 
@@ -36,13 +36,13 @@ const buttonVariants = cva(
 type Variants = VariantProps<typeof buttonVariants>
 
 type ButtonProps = ComponentProps<'button'> & Variants & { to?: undefined }
-type LinkProps = Omit<ComponentProps<typeof Link>, 'to'> & Variants & { to: string; children?: ReactNode }
+type LinkProps = Omit<ComponentProps<typeof Lien>, 'to'> & Variants & { to: string; children?: ReactNode }
 
 export function Button(props: ButtonProps | LinkProps) {
   const { variant, size, className, ...rest } = props
   const classes = cn(buttonVariants({ variant, size }), className)
   if (rest.to !== undefined) {
-    return <Link {...(rest as LinkProps)} className={classes} />
+    return <Lien {...(rest as LinkProps)} className={classes} />
   }
   const { type = 'button', ...buttonRest } = rest as ButtonProps
   return <button type={type} {...buttonRest} className={classes} />

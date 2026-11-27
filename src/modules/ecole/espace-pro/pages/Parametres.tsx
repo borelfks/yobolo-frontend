@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { NavLink, useParams, Link } from 'react-router'
+import { useParams } from '@tanstack/react-router'
+import { Lien } from '@/shared/ui/Lien'
+import { LienActif } from '@/shared/ui/LienActif'
 import { Trans, useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import {
@@ -113,7 +115,7 @@ function useRoleName() {
 
 export function Parametres() {
   const { t } = useTranslation('pro', { keyPrefix: 'content' })
-  const { section = '' } = useParams()
+  const { section = '' } = useParams({ strict: false })
   const current = sections.find((x) => x.key === section) ?? sections[0]
   return (
     <div className="space-y-3.5">
@@ -127,7 +129,7 @@ export function Parametres() {
       <div className="grid gap-4 lg:grid-cols-[214px_1fr]">
         <nav className="h-fit space-y-2 rounded-2xl border border-line bg-white p-2 shadow-[0_2px_10px_rgba(15,29,61,0.06)]">
           {sections.map((x) => (
-            <NavLink
+            <LienActif
               key={x.key}
               to={ROUTES.pro.settings(x.key)}
               end
@@ -135,7 +137,7 @@ export function Parametres() {
             >
               <x.icon className="size-6" />
               {t(`settings.sections.${x.labelKey}`)}
-            </NavLink>
+            </LienActif>
           ))}
         </nav>
         <div className="min-w-0">
@@ -227,11 +229,11 @@ function Compte() {
           <div className={card}>
             {title(<ShieldCheck />, t('settings.account.securityTitle'))}
             <div className="mt-2 divide-y divide-line">
-              <NavLink to={ROUTES.pro.settings('securite')} className="flex items-center gap-3 py-2.5">
+              <LienActif to={ROUTES.pro.settings('securite')} className="flex items-center gap-3 py-2.5">
                 <Lock className="size-6 text-navy-800" />
                 <span className="flex-1"><b className="block text-[15px] text-navy-900">{t('settings.account.changePassword')}</b><span className="text-[13px] text-navy-900">{t('settings.account.changePasswordHint')}</span></span>
                 <ChevronRight className="size-5" />
-              </NavLink>
+              </LienActif>
               <div className="flex items-center gap-3 py-2.5">
                 <ShieldCheck className="size-6 text-navy-800" />
                 <span className="flex-1"><b className="block text-[15px] text-navy-900">{t('settings.account.twoFactor')}</b><span className="text-[13px] text-navy-900">{t('settings.account.twoFactorHint')}</span></span>
@@ -617,7 +619,7 @@ function APropos() {
         <Section title={t('settings.about.documentsTitle')} icon={<FileText />}>
           <ul className="space-y-2 text-sm">
             {USEFUL_DOCUMENTS.map((d) => (
-              <li key={d}><Link to={ROUTES.terms} className="flex w-full items-center justify-between rounded-lg p-2 hover:bg-brand-50">{t(`settings.about.documents.${d}`)}<ChevronRight className="size-4" /></Link></li>
+              <li key={d}><Lien to={ROUTES.terms} className="flex w-full items-center justify-between rounded-lg p-2 hover:bg-brand-50">{t(`settings.about.documents.${d}`)}<ChevronRight className="size-4" /></Lien></li>
             ))}
           </ul>
         </Section>

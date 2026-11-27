@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useLocation, useNavigate } from 'react-router'
+import { useLocation, useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -209,7 +209,7 @@ function Suppression() {
     signOut()
     await data.remove('comptes', account.id)
     toast.success(t('parametres.suppression.faite'))
-    navigate(ROUTES.home)
+    navigate({ href: ROUTES.home })
   }
   return (
     <Section title={t('parametres.suppression.titre')} icon={<Trash2 className="text-rose-600" />}>

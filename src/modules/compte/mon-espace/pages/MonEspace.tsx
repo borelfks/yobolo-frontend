@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Navigate, useParams } from 'react-router'
+import { Navigate, useParams } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { Car, FileText, LayoutDashboard, Star } from 'lucide-react'
 import { Breadcrumb } from '@/shared/ui/Breadcrumb'
@@ -22,7 +22,7 @@ import { MesAvisTab } from '@/modules/compte/mon-espace/components/MesAvisTab'
  */
 export function MonEspace() {
   const { t } = useTranslation('espace')
-  const { tab = '' } = useParams()
+  const { tab = '' } = useParams({ strict: false })
   const { account } = useSession()
   const { preinscriptions, inscriptionsAutoEcole } = useMesInscriptions(account?.id)
   const avis = useMesAvis(account?.id)

@@ -1,7 +1,7 @@
 # Code et architecture
 
 ## Stack
-Vite + React 19 (React Compiler) + TypeScript `strict` · React Router (TanStack Router installé, migration à décider) · **TanStack Query** (lectures de `src/data`) · **TanStack Table** (grands tableaux) · Tailwind CSS v4 · **shadcn/ui** (Radix, `components.json`, composants dans `src/shared/shadcn/`) · class-variance-authority + clsx + tailwind-merge (`cn`) · react-hook-form + zod · i18next + react-i18next · lucide-react · sonner · recharts · oxlint · **Orval** + axios pour l'API de yibolo-backend (plus tard).
+Vite + React 19 (React Compiler) + TypeScript `strict` · **TanStack Router** (`src/app/routes/`) · **TanStack Query** (lectures de `src/data`) · **TanStack Table** (grands tableaux) · Tailwind CSS v4 · **shadcn/ui** (Radix, `components.json`, composants dans `src/shared/shadcn/`) · class-variance-authority + clsx + tailwind-merge (`cn`) · react-hook-form + zod · i18next + react-i18next · lucide-react · sonner · recharts · oxlint · **Orval** + axios pour l'API de yibolo-backend (plus tard).
 
 ## Organisation : par univers (même modèle que yibolo-admin et yibolo-client)
 ```

@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { LandingLogo } from '@/app/layouts/LandingLogo'
 import { TraitCourbe, Vague } from '@/shared/ui/Vague'
 import { ROUTES } from '@/shared/utils/routes'
@@ -33,12 +33,12 @@ export function LandingFooter() {
             <ul className="flex flex-wrap gap-x-6">
               {AIDE.map(({ cle, vers }) => (
                 <li key={cle}>
-                  <Link
+                  <Lien
                     to={vers}
                     className="inline-block rounded-sm py-2 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                   >
                     {t(`accueil.piedDePage.liens.${cle}`)}
-                  </Link>
+                  </Lien>
                 </li>
               ))}
             </ul>

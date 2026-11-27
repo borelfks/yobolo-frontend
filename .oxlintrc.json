@@ -8,7 +8,7 @@
   },
   "overrides": [
     {
-      "files": ["src/app/routes/index.tsx", "src/shared/hooks/**", "src/modules/**/hooks/**"],
+      "files": ["src/app/routes/**", "src/shared/hooks/**", "src/modules/**/hooks/**"],
       "rules": {
         "react/only-export-components": "off"
       }

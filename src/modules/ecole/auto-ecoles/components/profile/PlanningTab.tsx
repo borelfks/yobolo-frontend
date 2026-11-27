@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-// Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) : import { Link } from 'react-router'
+// Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) : import { Lien } from '@/shared/ui/Lien'
 import { CalendarDays, Car, Clock, Hourglass, Info } from 'lucide-react'
 import { CheckLine, FilterBox, GreenCheck, Heading } from '@/modules/ecole/auto-ecoles/components/profile/ProfileParts'
 import { card, permisShortName, sessionDays, sessionDuration, sessionHours, sessionStart } from '@/modules/ecole/auto-ecoles/components/profile/profileUtils'
@@ -90,9 +90,9 @@ export function PlanningTab({ id }: { id: string }) {
                     <td><span className="rounded-full bg-emerald-50 px-3 py-1 font-semibold text-emerald-700">{t('common.places', { count: s.places })}</span></td>
                     <td className="pr-3 text-right">
                       {/* Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) :
-                      <Link to={inscrireHref(a, s.permis)} className="inline-flex h-9 items-center gap-1.5 rounded-full bg-brand-600 px-4 text-[13.5px] font-semibold text-white hover:bg-brand-700">
+                      <Lien to={inscrireHref(a, s.permis)} className="inline-flex h-9 items-center gap-1.5 rounded-full bg-brand-600 px-4 text-[13.5px] font-semibold text-white hover:bg-brand-700">
                         {t('common.enrol')} <ArrowRight className="size-4" />
-                      </Link>
+                      </Lien>
                       */}
                     </td>
                   </tr>
@@ -109,10 +109,10 @@ export function PlanningTab({ id }: { id: string }) {
           <p className="flex items-center gap-2.5 text-[15px] text-navy-900"><Car className="size-5 text-navy-800" />{t('common.licenceTitle', { code: prochaine.permis, name: t(`permis.${prochaine.permis}.name`) })}</p>
           <p className="flex items-center gap-2.5 text-[15px] text-navy-900"><Clock className="size-5 text-navy-800" />{t('sessions.daysHours', { days: sessionDays(t, prochaine.horaires[0]), hours: sessionHours(t, prochaine.horaires[1]) })}</p>
           {/* Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) :
-          <Link to={inscrireHref(a, prochaine.permis)} className="flex h-12 items-center justify-center gap-3 rounded-xl bg-brand-600 text-[17px] font-semibold text-white hover:bg-brand-700">
+          <Lien to={inscrireHref(a, prochaine.permis)} className="flex h-12 items-center justify-center gap-3 rounded-xl bg-brand-600 text-[17px] font-semibold text-white hover:bg-brand-700">
             <Send className="size-5" />
             {t('common.enrolNow')}
-          </Link>
+          </Lien>
           */}
         </div>
         <div className={cn(card, 'p-4')}>

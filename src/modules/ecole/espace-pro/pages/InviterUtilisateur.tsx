@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { Info, Send, UserPlus } from 'lucide-react'
@@ -54,7 +54,7 @@ export function InviterUtilisateur() {
           <Field label={t('invite.role')} required><Select options={roles.map((r) => ({ value: r.nom, label: roleName(r.nom) }))} value={role} onChange={(e) => setRole(e.target.value)} /></Field>
           <Tip icon={<Info />}>{t('invite.tip')}</Tip>
           <FormFooter>
-            <Button variant="neutral" onClick={() => navigate(ROUTES.pro.settings('utilisateurs'))}>{t('invite.cancel')}</Button>
+            <Button variant="neutral" onClick={() => navigate({ href: ROUTES.pro.settings('utilisateurs') })}>{t('invite.cancel')}</Button>
             <Button
               onClick={async () => {
                 if (nom.trim().length < 2) return toast.error(t('invite.nameRequired'))
@@ -65,7 +65,7 @@ export function InviterUtilisateur() {
                   'utilisateur',
                 )
                 toast.success(t('invite.sent', { name: nom, role: roleName(role) }))
-                navigate(ROUTES.pro.settings('utilisateurs'))
+                navigate({ href: ROUTES.pro.settings('utilisateurs') })
               }}
             >
               <Send />

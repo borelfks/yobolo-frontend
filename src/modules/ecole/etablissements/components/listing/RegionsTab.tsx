@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { useTranslation } from 'react-i18next'
 import { ChevronRight, CircleCheck, GraduationCap, Map as MapIcon, MapPin } from 'lucide-react'
 import { ResultsHeader } from '@/modules/ecole/etablissements/components/EcoleBlocks'
@@ -56,7 +56,7 @@ export function RegionsTab({ type }: { type: TypeSlug }) {
           <ResultsHeader title={t('listing.found', { n: total, pluriel })} sort={[t('listing.villes.sort.count', { court: pluriel }), t('listing.villes.sort.name')]} tri={tri} onTri={setTri} />
           <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5">
             {shown.map((r) => (
-              <Link key={r.nom} to={`${ROUTES.schoolType(type)}?${new URLSearchParams({ region: r.nom })}`} className="group overflow-hidden rounded-xl border border-line bg-white shadow-[0_2px_8px_rgba(15,29,61,0.06)] transition-shadow hover:shadow-lg">
+              <Lien key={r.nom} to={`${ROUTES.schoolType(type)}?${new URLSearchParams({ region: r.nom })}`} className="group overflow-hidden rounded-xl border border-line bg-white shadow-[0_2px_8px_rgba(15,29,61,0.06)] transition-shadow hover:shadow-lg">
                 <Img src={r.image} alt={t('listing.regions.imageAlt', { name: r.nom })} className="h-[74px] w-full" />
                 <div className="px-3 pt-2 pb-2.5 text-center">
                   <p className="text-[17px] font-bold text-navy-950">{r.nom}</p>
@@ -70,7 +70,7 @@ export function RegionsTab({ type }: { type: TypeSlug }) {
                     </span>
                   </p>
                 </div>
-              </Link>
+              </Lien>
             ))}
           </div>
         </div>

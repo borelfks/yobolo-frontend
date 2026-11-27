@@ -19,7 +19,6 @@ export default defineConfig({
       'react-dom/client',
       'react/jsx-runtime',
       'react/jsx-dev-runtime',
-      'react-router',
       'lucide-react',
       'recharts',
       'sonner',

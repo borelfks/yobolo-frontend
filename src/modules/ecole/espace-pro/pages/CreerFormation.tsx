@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react'
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate, useParams } from '@tanstack/react-router'
 import { toast } from 'sonner'
 import { Trans, useTranslation } from 'react-i18next'
 import { Calendar, Check, ChartNoAxesColumnIncreasing, ChevronDown, CircleCheck, Eye, GraduationCap, Lightbulb, Save, Sparkles, X } from 'lucide-react'
@@ -68,7 +68,7 @@ function Liste({ id, value, onChange, choix, groupes, vide, disabled }: { id?: s
 
 export function CreerFormation() {
   const { t } = useTranslation('pro')
-  const { id } = useParams()
+  const { id } = useParams({ strict: false })
   const navigate = useNavigate()
   const { ecole } = useMonEcole()
   const toutes = useFormations()
@@ -171,13 +171,13 @@ export function CreerFormation() {
     if (checks.some((c) => !c.ok)) return void toast.error(t('creer.errors.incomplete'))
     await enregistrer('Publiée')
     toast.success(t('creer.actions.published'))
-    navigate(ROUTES.pro.trainings)
+    navigate({ href: ROUTES.pro.trainings })
   }
   const brouillon = async () => {
     if (!nom) return void toast.error(t('creer.errors.noSpeciality'))
     await enregistrer('Brouillon')
     toast.success(t('creer.actions.draftSaved'))
-    navigate(ROUTES.pro.trainings)
+    navigate({ href: ROUTES.pro.trainings })
   }
   const side = 'flex h-11 w-full items-center justify-center gap-2.5 rounded-full text-[16px] font-semibold'
   return (
@@ -274,7 +274,7 @@ export function CreerFormation() {
             <button type="button" onClick={() => void publier()} className={cn(side, 'bg-brand-600 text-white hover:bg-brand-700')}><Check className="size-5" strokeWidth={3} />{t('creer.actions.saveContinue')}</button>
             <button type="button" onClick={() => void brouillon()} className={cn(side, 'border-2 border-brand-600/60 text-navy-800 hover:bg-brand-50')}><Save className="size-5" />{t('creer.actions.saveDraft')}</button>
             <button type="button" onClick={() => setApercu(true)} className={cn(side, 'border-2 border-brand-600/60 text-navy-800 hover:bg-brand-50')}><Eye className="size-5" />{t('creer.actions.preview')}</button>
-            <button type="button" onClick={() => navigate(ROUTES.pro.trainings)} className={cn(side, 'border-2 border-brand-600/60 text-navy-800 hover:bg-brand-50')}><X className="size-5" />{t('creer.actions.cancel')}</button>
+            <button type="button" onClick={() => navigate({ href: ROUTES.pro.trainings })} className={cn(side, 'border-2 border-brand-600/60 text-navy-800 hover:bg-brand-50')}><X className="size-5" />{t('creer.actions.cancel')}</button>
           </div>
         </aside>
       </div>

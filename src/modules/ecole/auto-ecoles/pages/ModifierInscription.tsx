@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from 'react'
-import { NavLink, useNavigate, useParams } from 'react-router'
+import { useNavigate, useParams } from '@tanstack/react-router'
+import { LienActif } from '@/shared/ui/LienActif'
 import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
 import {
@@ -98,7 +99,7 @@ export function ModifierInscription() {
   const permisCatalogue = usePermisCatalogue()
   const { arrondissements } = useDecoupage()
   const { t } = useTranslation('driving-schools', { keyPrefix: 'enrollment' })
-  const { id, code = 'B', section = 'infos' } = useParams()
+  const { id, code = 'B', section = 'infos' } = useParams({ strict: false })
   const autoEcoles = useAutoEcoles()
   const sessions = useSessions()
   /** Comme avant : un identifiant inconnu donne la première auto-école. */
@@ -141,10 +142,10 @@ export function ModifierInscription() {
     if (section === 'formation') {
       update({ session })
       toast.success(t('toast.trainingUpdated'))
-      return navigate(ROUTES.enrollment(newAe, newPermis))
+      return navigate({ href: ROUTES.enrollment(newAe, newPermis) })
     }
     toast.success(t('toast.changesSaved'))
-    navigate(base)
+    navigate({ href: base })
   }
 
   return (
@@ -166,7 +167,7 @@ export function ModifierInscription() {
       <div className="grid gap-4 lg:grid-cols-[214px_1fr_382px]">
         <nav className="space-y-3">
           {menu.map((m) => (
-            <NavLink
+            <LienActif
               key={m.key}
               to={ROUTES.editEnrollment(a.id, p.code, m.key)}
               className={({ isActive }) => cn('flex min-h-[64px] items-center gap-3 rounded-xl px-4 text-[15.5px] leading-tight font-semibold shadow-sm', isActive ? 'bg-brand-600 text-white' : 'bg-[#eaf0fb] text-navy-900 hover:bg-brand-100')}
@@ -177,7 +178,7 @@ export function ModifierInscription() {
                   <span key={l} className="block">{l}</span>
                 ))}
               </span>
-            </NavLink>
+            </LienActif>
           ))}
         </nav>
 
@@ -302,7 +303,7 @@ export function ModifierInscription() {
             )}
           </div>
           <div className="flex items-center justify-between">
-            <button type="button" onClick={() => navigate(base)} className="inline-flex h-12 w-40 items-center justify-center gap-2.5 rounded-xl border-2 border-[#c9d4ea] bg-white text-[17px] font-semibold text-navy-900 hover:bg-slate-50">
+            <button type="button" onClick={() => navigate({ href: base })} className="inline-flex h-12 w-40 items-center justify-center gap-2.5 rounded-xl border-2 border-[#c9d4ea] bg-white text-[17px] font-semibold text-navy-900 hover:bg-slate-50">
               <ArrowLeft className="size-5" />
               {t('actions.cancel')}
             </button>

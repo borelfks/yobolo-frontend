@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, useParams } from 'react-router'
+import { useParams } from '@tanstack/react-router'
+import { Lien } from '@/shared/ui/Lien'
 import {
   BookOpenText,
   Bus,
@@ -71,7 +72,7 @@ function Checks({ items }: { items: string[] }) {
 export function PermisDetail() {
   const permisCatalogue = usePermisCatalogue()
   const { t } = useTranslation('driving-schools')
-  const { id, code = 'B', tab = '' } = useParams()
+  const { id, code = 'B', tab = '' } = useParams({ strict: false })
   const a = useAutoEcole(id)
   const sessions = useSessions()
   const c = (code.toUpperCase() as PermisCode) in permisCatalogue ? (code.toUpperCase() as PermisCode) : 'B'
@@ -107,7 +108,7 @@ export function PermisDetail() {
         <div className="min-w-0 space-y-4">
           <nav className="flex flex-wrap gap-2.5">
             {tabs.map((x, i) => (
-              <Link
+              <Lien
                 key={x.value}
                 to={i === 0 ? base : ROUTES.license(a.id, c, x.value)}
                 className={cn(
@@ -117,7 +118,7 @@ export function PermisDetail() {
               >
                 {x.icon}
                 {x.label}
-              </Link>
+              </Lien>
             ))}
           </nav>
 
@@ -186,7 +187,7 @@ export function PermisDetail() {
                       <span className="flex-1"><b>{t('licence.startsOn', { date: sessionStart(s.debut) })}</b> · {[sessionDays(t, s.horaires[0]), sessionHours(t, s.horaires[1])].join(' · ')} · {sessionDuration(t, s.duree)}</span>
                       <span className="rounded-full bg-emerald-50 px-3 py-1 font-semibold text-emerald-700">{t('common.places', { count: s.places })}</span>
                       {/* Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) :
-                      <Link to={ROUTES.enrollment(a.id, c)} className="inline-flex h-9 items-center gap-1.5 rounded-full bg-brand-600 px-4 text-[14px] font-semibold text-white">{t('common.enrol')} <ArrowRight className="size-4" /></Link>
+                      <Lien to={ROUTES.enrollment(a.id, c)} className="inline-flex h-9 items-center gap-1.5 rounded-full bg-brand-600 px-4 text-[14px] font-semibold text-white">{t('common.enrol')} <ArrowRight className="size-4" /></Lien>
                       */}
                     </div>
                   ))}
@@ -233,10 +234,10 @@ function Aside({ aeId, code, contenu }: { aeId: string; code: PermisCode; conten
         <Checks items={t(`licence.content.${code}.included`, { returnObjects: true })} />
       </div>
       {/* Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) :
-      <Link to={ROUTES.enrollment(a.id, code)} className="flex h-12 items-center justify-center gap-3 rounded-xl bg-brand-600 text-[18px] font-semibold text-white shadow-md shadow-brand-600/25 hover:bg-brand-700">
+      <Lien to={ROUTES.enrollment(a.id, code)} className="flex h-12 items-center justify-center gap-3 rounded-xl bg-brand-600 text-[18px] font-semibold text-white shadow-md shadow-brand-600/25 hover:bg-brand-700">
         <Send className="size-6" />
         {t('common.enrolNow')}
-      </Link>
+      </Lien>
       */}
       <button type="button" onClick={() => (fav ? remove(`${aeId}:${code}`) : setOpen(true))} className="flex h-11 w-full items-center justify-center gap-2.5 rounded-xl border-2 border-brand-600/60 bg-white text-[16px] font-semibold text-navy-800 hover:bg-brand-50">
         <Heart className={cn('size-5', fav && 'fill-rose-500 text-rose-500')} />

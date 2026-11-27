@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Navigate } from 'react-router'
+import { Navigate } from '@tanstack/react-router'
 import { useSession } from '@/modules/compte/auth/hooks/useSession'
 import { PageSpinner } from '@/shared/blocs/Chargement'
 

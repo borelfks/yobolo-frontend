@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { useNavigate } from '@tanstack/react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { Trans, useTranslation } from 'react-i18next'
 import { Award, ChevronRight, FileBadge, FileCheck2, Flame, GraduationCap, HardHat, Layers, MapPin } from 'lucide-react'
 import { SearchPanel } from '@/modules/ecole/etablissements/components/EcoleBlocks'
@@ -53,7 +54,7 @@ export function DiplomesTab({ type }: { type: TypeSlug }) {
         onSearch={(q, c) => {
           // « Rechercher » ouvre la liste du type, filtrée.
           const params = new URLSearchParams(Object.entries({ q, ...c }).filter(([, v]) => v))
-          navigate(`${ROUTES.schoolType(type)}${params.size ? `?${params}` : ''}`)
+          navigate({ href: `${ROUTES.schoolType(type)}${params.size ? `?${params}` : ''}` })
         }}
       />
       <div className="grid gap-5 lg:grid-cols-[256px_1fr]">
@@ -90,7 +91,7 @@ export function DiplomesTab({ type }: { type: TypeSlug }) {
               .map((d, i) => {
                 const tile = diplomeTiles[i % diplomeTiles.length]
                 return (
-                  <Link key={d.nom} to={`${ROUTES.schoolType(type)}?${new URLSearchParams({ niveau: d.nom })}`} className={cn('group flex items-center gap-4 rounded-2xl border border-line/60 px-4 py-3.5 shadow-[0_2px_8px_rgba(15,29,61,0.05)] transition-shadow hover:shadow-lg', tile.bg)}>
+                  <Lien key={d.nom} to={`${ROUTES.schoolType(type)}?${new URLSearchParams({ niveau: d.nom })}`} className={cn('group flex items-center gap-4 rounded-2xl border border-line/60 px-4 py-3.5 shadow-[0_2px_8px_rgba(15,29,61,0.05)] transition-shadow hover:shadow-lg', tile.bg)}>
                     <span className={cn('grid size-12 shrink-0 place-items-center rounded-xl bg-white/70', tile.color)}>
                       <tile.icon className="size-7" />
                     </span>
@@ -101,7 +102,7 @@ export function DiplomesTab({ type }: { type: TypeSlug }) {
                       </span>
                     </span>
                     <ArrowDot />
-                  </Link>
+                  </Lien>
                 )
               })}
           </div>
@@ -109,13 +110,13 @@ export function DiplomesTab({ type }: { type: TypeSlug }) {
             <h3 className="flex items-center gap-2 text-[20px] font-bold text-navy-950">
               <Flame className="size-6 fill-orange-500 text-orange-500" /> {t('listing.diplomes.popular')}
             </h3>
-            <Link to={ROUTES.schoolType(type, 'cours')} className="text-[15px] font-semibold text-brand-600 underline underline-offset-4">
+            <Lien to={ROUTES.schoolType(type, 'cours')} className="text-[15px] font-semibold text-brand-600 underline underline-offset-4">
               {t('listing.diplomes.seeAll')}
-            </Link>
+            </Lien>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {populaires.map((p) => (
-              <Link key={p.titre} to={ROUTES.training(p.id)} className="group overflow-hidden rounded-xl border border-line bg-white shadow-[0_2px_8px_rgba(15,29,61,0.06)] transition-shadow hover:shadow-lg">
+              <Lien key={p.titre} to={ROUTES.training(p.id)} className="group overflow-hidden rounded-xl border border-line bg-white shadow-[0_2px_8px_rgba(15,29,61,0.06)] transition-shadow hover:shadow-lg">
                 <Img src={p.image} alt={p.titre} className="h-[74px] w-full" />
                 <div className="px-3.5 py-2.5">
                   <p className="truncate text-[14px] font-bold text-navy-950">{p.titre}</p>
@@ -125,7 +126,7 @@ export function DiplomesTab({ type }: { type: TypeSlug }) {
                     <ChevronRight className="size-4" />
                   </p>
                 </div>
-              </Link>
+              </Lien>
             ))}
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { Trans, useTranslation } from 'react-i18next'
 import { ChevronRight, GraduationCap, Heart, MapPin } from 'lucide-react'
 import { ResultsHeader } from '@/modules/ecole/etablissements/components/EcoleBlocks'
@@ -84,7 +84,7 @@ export function VillesTab({ type }: { type: TypeSlug }) {
           <ResultsHeader title={t('listing.villes.title', { court, n: total })} sort={[t('listing.villes.sort.count', { court }), t('listing.villes.sort.name')]} tri={tri} onTri={setTri} />
           <div className="grid gap-3.5 sm:grid-cols-2 xl:grid-cols-4">
             {villesAffichees.map((v) => (
-              <Link key={v.nom} to={`${ROUTES.schoolType(type)}?${new URLSearchParams({ ville: v.nom })}`} className="group overflow-hidden rounded-xl border border-line bg-white shadow-[0_2px_8px_rgba(15,29,61,0.06)] transition-shadow hover:shadow-lg">
+              <Lien key={v.nom} to={`${ROUTES.schoolType(type)}?${new URLSearchParams({ ville: v.nom })}`} className="group overflow-hidden rounded-xl border border-line bg-white shadow-[0_2px_8px_rgba(15,29,61,0.06)] transition-shadow hover:shadow-lg">
                 <div className="relative">
                   <Img src={v.image} alt={v.nom} className="h-[86px] w-full" />
                   <span className="absolute top-2 left-2 inline-flex items-center gap-1 rounded-full bg-navy-800 px-2.5 py-0.5 text-[12px] font-semibold text-white">
@@ -107,7 +107,7 @@ export function VillesTab({ type }: { type: TypeSlug }) {
                     </span>
                   </p>
                 </div>
-              </Link>
+              </Lien>
             ))}
           </div>
         </div>

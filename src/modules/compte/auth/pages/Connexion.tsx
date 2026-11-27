@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { useNavigate } from '@tanstack/react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -71,13 +72,13 @@ export function Connexion() {
   const ouvrir = async (compte: Compte) => {
     if (compte.role !== 'utilisateur' && !compte.ecoleId) {
       toast.success(t('connexion.confirmer.reprise'))
-      navigate(ROUTES.signUp, { state: { reprise: compte.id } })
+      navigate({ href: ROUTES.signUp, state: { reprise: compte.id } })
       return
     }
     signIn(compte, retenir)
     await data.create('activiteSecurite', { compteId: compte.id, evenement: 'connexion', le: maintenant(), appareil: decrireAppareil(), ok: true }, 'activite')
     toast.success(t('connexion.welcome', { name: compte.name }))
-    navigate(ROUTES.accueil)
+    navigate({ href: ROUTES.accueil })
   }
 
   const numeroConfirme = async () => {
@@ -132,9 +133,9 @@ export function Connexion() {
         <div>
           <div className="flex items-baseline justify-between gap-3 [&>label]:mb-1.5">
             <Label htmlFor="mot-de-passe">{t('connexion.password')}</Label>
-            <Link to={ROUTES.forgotPassword} className="text-sm font-semibold text-brand-600 hover:underline">
+            <Lien to={ROUTES.forgotPassword} className="text-sm font-semibold text-brand-600 hover:underline">
               {t('connexion.forgot.link')}
-            </Link>
+            </Lien>
           </div>
           <Input
             id="mot-de-passe"
@@ -181,18 +182,18 @@ export function Connexion() {
           <span aria-hidden className="h-px flex-1 bg-line" />
         </div>
 
-        <Link
+        <Lien
           to={ROUTES.signUp}
           className="inline-flex h-12 w-full items-center justify-center rounded-xl border-2 border-brand-600/60 bg-white text-[15px] font-semibold text-navy-800 transition-colors hover:bg-brand-50"
         >
           {t('connexion.signUp')}
-        </Link>
+        </Lien>
       </form>
 
       <p className="mt-6 text-center text-sm">
-        <Link to={ROUTES.home} className="font-semibold text-brand-600 underline-offset-4 hover:underline">
+        <Lien to={ROUTES.home} className="font-semibold text-brand-600 underline-offset-4 hover:underline">
           {t('connexion.guest')}
-        </Link>
+        </Lien>
       </p>
     </AuthShell>
   )

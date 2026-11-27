@@ -1,4 +1,4 @@
-import { Link } from 'react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Award, BarChart3, Building2, Calculator, CircleCheck, GraduationCap, Info, Laptop, Layers, MapPin, Megaphone, Sun, Users } from 'lucide-react'
@@ -84,13 +84,13 @@ export function ApercuTab({ id }: { id: string }) {
               const tile = filiereTiles[i % filiereTiles.length]
               const [l1, l2] = f.includes(' & ') ? [f.split(' & ')[0], '& ' + f.split(' & ')[1]] : f.split(' ').length > 1 ? [f.split(' ')[0], f.split(' ').slice(1).join(' ')] : [f, '']
               return (
-                <Link key={f} to={ROUTES.school(slugOfType(e.type), e.id, 'formations')} className={cn('flex flex-col items-center gap-1.5 rounded-xl px-2 py-3 text-center text-[14px] leading-tight font-bold text-navy-900 transition-shadow hover:shadow-md', tile.bg)}>
+                <Lien key={f} to={ROUTES.school(slugOfType(e.type), e.id, 'formations')} className={cn('flex flex-col items-center gap-1.5 rounded-xl px-2 py-3 text-center text-[14px] leading-tight font-bold text-navy-900 transition-shadow hover:shadow-md', tile.bg)}>
                   <tile.icon className={cn('size-7', tile.color)} />
                   <span>
                     {l1}
                     {l2 && <span className="block">{l2}</span>}
                   </span>
-                </Link>
+                </Lien>
               )
             })}
           </div>

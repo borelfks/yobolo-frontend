@@ -1,5 +1,5 @@
+import { LienActif } from '@/shared/ui/LienActif'
 import type { ReactNode } from 'react'
-import { NavLink } from 'react-router'
 import { cn } from '@/shared/utils/cn'
 
 export type TabItem = { value: string; label: ReactNode; icon?: ReactNode; count?: number | string }
@@ -87,7 +87,7 @@ export function LinkTabs({
       )}
     >
       {items.map((t, i) => (
-        <NavLink key={t.value} to={i === 0 && t.value === '' ? base : `${base}/${t.value}`} end className={({ isActive }) => style(isActive)}>
+        <LienActif key={t.value} to={i === 0 && t.value === '' ? base : `${base}/${t.value}`} end className={({ isActive }) => style(isActive)}>
           {({ isActive }) => (
             <>
               {t.icon}
@@ -95,7 +95,7 @@ export function LinkTabs({
               {t.count !== undefined && <Count n={t.count} active={isActive && variant === 'pill'} />}
             </>
           )}
-        </NavLink>
+        </LienActif>
       ))}
     </nav>
   )

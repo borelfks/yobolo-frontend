@@ -1,4 +1,4 @@
-import { useParams } from 'react-router'
+import { useParams } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { CircleCheck, FileText, GraduationCap, Image as ImageIcon, List, MapPin, Star } from 'lucide-react'
 import { Breadcrumb } from '@/shared/ui/Breadcrumb'
@@ -19,7 +19,7 @@ import { PasEncoreDAvis } from '@/shared/ui/StarRating'
 
 export function EcoleProfil() {
   const { t } = useTranslation('schools')
-  const { id, tab = '' } = useParams()
+  const { id, tab = '' } = useParams({ strict: false })
   const e = useEtablissement(id)
   const { account } = useSession()
   // Une vue de la fiche, pour les statistiques de l'établissement.

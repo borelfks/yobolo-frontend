@@ -1,6 +1,6 @@
 import { Bookmark, CheckCircle2, Megaphone, SearchX } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { Navigate } from 'react-router'
+import { Navigate } from '@tanstack/react-router'
 import { CLASSES_GRILLE_DU_FIL, CLASSES_PANNEAU } from '@/modules/communaute/accueil/accueilFil'
 import { BandeauAccueil } from '@/modules/communaute/accueil/components/BandeauAccueil'
 import { BarreDuFil } from '@/modules/communaute/accueil/components/BarreDuFil'

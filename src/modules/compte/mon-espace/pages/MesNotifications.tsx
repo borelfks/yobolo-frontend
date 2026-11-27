@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Link, Navigate, useNavigate } from 'react-router'
+import { Navigate, useNavigate } from '@tanstack/react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { Bell, CalendarCheck, CheckCheck, FileCheck2, Mail, MailOpen, MessageSquare, Settings, Sparkles, Star, Trash2 } from 'lucide-react'
@@ -80,7 +81,7 @@ export function MesNotifications() {
             className="rounded-full bg-transparent hover:bg-page"
             actions={[
               { label: t('notifications.toutLire'), icon: <CheckCheck />, hidden: nonLues.length === 0, onClick: toutLire },
-              { label: t('notifications.preferences'), icon: <Settings />, onClick: () => navigate(ROUTES.parametres('notifications')) },
+              { label: t('notifications.preferences'), icon: <Settings />, onClick: () => navigate({ href: ROUTES.parametres('notifications') }) },
             ]}
           />
         </div>
@@ -163,9 +164,9 @@ function LigneNotification({
   return (
     <li className="group relative">
       {vers ? (
-        <Link to={vers} onClick={() => !n.lu && marquer(n, true)} className={classes}>
+        <Lien to={vers} onClick={() => !n.lu && marquer(n, true)} className={classes}>
           {corps}
-        </Link>
+        </Lien>
       ) : (
         <button type="button" onClick={() => !n.lu && marquer(n, true)} className={classes}>
           {corps}

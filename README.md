@@ -28,7 +28,7 @@ Interface en français (et en anglais), prix en FCFA, contenus centrés sur le C
 | Rôle | Choix |
 |---|---|
 | Build | Vite + React 19 + TypeScript (`strict`), React Compiler |
-| Routage | React Router (pages chargées à la demande) |
+| Routage | TanStack Router (table des routes par cadre dans `src/app/routes/`, pages chargées à la demande) |
 | Styles | Tailwind CSS v4, jetons dans `src/app/styles/theme.css` |
 | Variantes de composants | class-variance-authority, clsx, tailwind-merge (`cn`) |
 | Formulaires | react-hook-form + zod (connexion, inscription) |

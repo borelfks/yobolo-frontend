@@ -1,5 +1,6 @@
 import { Fragment, useMemo, useState, type ReactNode } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router'
+import { useLocation, useNavigate } from '@tanstack/react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -287,7 +288,7 @@ export function Inscription() {
     }
     signIn(confirme)
     toast.success(t('inscription.bienvenue', { name: confirme.prenom ?? confirme.name }))
-    navigate(ROUTES.accueil)
+    navigate({ href: ROUTES.accueil })
   }
 
   /**
@@ -332,7 +333,7 @@ export function Inscription() {
       const rattache = (await data.update('comptes', brouillon.id, { ecoleId: etablissement.id })) ?? { ...brouillon, ecoleId: etablissement.id }
       signIn(rattache)
       toast.success(t('connexion.welcome', { name: rattache.name }))
-      navigate(ROUTES.accueil)
+      navigate({ href: ROUTES.accueil })
     } catch {
       toast.error(t('inscription.errors.saveFailed'))
     } finally {
@@ -467,7 +468,7 @@ export function Inscription() {
             </Field>
           </div>
           <p className="text-[13px] text-muted-foreground">
-            <Trans t={t} i18nKey="inscription.cgu" components={{ lien: <Link to={ROUTES.terms} className="font-semibold text-brand-600 hover:underline" /> }} />
+            <Trans t={t} i18nKey="inscription.cgu" components={{ lien: <Lien to={ROUTES.terms} className="font-semibold text-brand-600 hover:underline" /> }} />
           </p>
           <Navigation onRetour={() => setEtape('vous')} suivant={t('inscription.continue')} type="submit" />
         </form>

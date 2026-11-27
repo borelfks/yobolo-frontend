@@ -1,5 +1,6 @@
 import { Fragment, useState, type ReactNode } from 'react'
-import { Link, useNavigate, useParams } from 'react-router'
+import { useParams, useRouter } from '@tanstack/react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { toast } from 'sonner'
 import { Trans, useTranslation } from 'react-i18next'
 import {
@@ -117,7 +118,7 @@ export function InscriptionAutoEcole() {
   const permisCatalogue = usePermisCatalogue()
   const { arrondissements } = useDecoupage()
   const { t } = useTranslation('driving-schools', { keyPrefix: 'enrollment' })
-  const { id, code = 'B' } = useParams()
+  const { id, code = 'B' } = useParams({ strict: false })
   const a = useAutoEcole(id)
   const p = permisCatalogue[code as PermisCode] ?? permisCatalogue.B
   const [d, update] = useInscriptionDraft(a.id, p.code)
@@ -132,7 +133,7 @@ export function InscriptionAutoEcole() {
   const [sent, setSent] = useState(false)
   // Le dossier envoyé par un compte connecté : « Voir mon dossier » dans Mon espace.
   const [dossier, setDossier] = useState<string | null>(null)
-  const navigate = useNavigate()
+  const router = useRouter()
   const permisNom = t('permisName', { code: p.code, name: t(`permis.${p.code}.name`) })
   const lieu = `${a.ville} – ${a.quartier}`
 
@@ -144,13 +145,13 @@ export function InscriptionAutoEcole() {
           <h1 className="mt-5 text-2xl font-bold text-navy-900">{t('inscription.sent.title')}</h1>
           <p className="mt-2 text-muted-foreground">{t('inscription.sent.text', { permis: permisNom, school: a.nom })}</p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <Link to={ROUTES.drivingSchool(a.id)} className="inline-flex h-11 flex-1 items-center justify-center rounded-full border-2 border-brand-600/60 font-semibold text-navy-800">{t('inscription.sent.backToSchool')}</Link>
-            <Link to={ROUTES.drivingSchools} className="inline-flex h-11 flex-1 items-center justify-center rounded-full bg-brand-600 font-semibold text-white">{t('inscription.sent.otherSchools')}</Link>
+            <Lien to={ROUTES.drivingSchool(a.id)} className="inline-flex h-11 flex-1 items-center justify-center rounded-full border-2 border-brand-600/60 font-semibold text-navy-800">{t('inscription.sent.backToSchool')}</Lien>
+            <Lien to={ROUTES.drivingSchools} className="inline-flex h-11 flex-1 items-center justify-center rounded-full bg-brand-600 font-semibold text-white">{t('inscription.sent.otherSchools')}</Lien>
           </div>
           {dossier && (
-            <Link to={ROUTES.espaceInscription(dossier)} className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full font-semibold text-brand-700 hover:underline mt-3">
+            <Lien to={ROUTES.espaceInscription(dossier)} className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full font-semibold text-brand-700 hover:underline mt-3">
               {t('inscription.sent.voirDossier')}
-            </Link>
+            </Lien>
           )}
         </div>
       </div>
@@ -229,10 +230,10 @@ export function InscriptionAutoEcole() {
                     <p className="text-[16px] font-bold text-navy-900">{permisNom}</p>
                     <p className="text-[14px] text-navy-900">{t('inscription.infos.schoolLocation', { school: a.nom, city: a.ville, neighbourhood: a.quartier })}</p>
                   </div>
-                  <Link to={ROUTES.editEnrollment(a.id, p.code, 'formation')} className="inline-flex h-9 items-center gap-1.5 rounded-lg border-2 border-brand-600/60 bg-white px-4 text-[14px] font-semibold text-navy-800 hover:bg-brand-50">
+                  <Lien to={ROUTES.editEnrollment(a.id, p.code, 'formation')} className="inline-flex h-9 items-center gap-1.5 rounded-lg border-2 border-brand-600/60 bg-white px-4 text-[14px] font-semibold text-navy-800 hover:bg-brand-50">
                     <PencilLine className="size-4" />
                     {t('actions.edit')}
-                  </Link>
+                  </Lien>
                 </div>
               </div>
             </div>
@@ -312,7 +313,7 @@ export function InscriptionAutoEcole() {
               <div className="rounded-xl border border-line p-3">
                 <div className="flex items-center justify-between">
                   <Heading icon={<FileText />} className="text-[18px] [&_svg]:size-6">{t('inscription.recap.piecesProvided')}</Heading>
-                  <Link to={ROUTES.editEnrollment(a.id, p.code, 'pieces')} className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-[#c9d4ea] px-3 text-[13px] font-semibold text-navy-800"><PencilLine className="size-4" />{t('actions.edit')}</Link>
+                  <Lien to={ROUTES.editEnrollment(a.id, p.code, 'pieces')} className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-[#c9d4ea] px-3 text-[13px] font-semibold text-navy-800"><PencilLine className="size-4" />{t('actions.edit')}</Lien>
                 </div>
                 <div className="mt-2 grid gap-3 sm:grid-cols-3">
                   {piecesAE.map((pc) => (
@@ -334,8 +335,8 @@ export function InscriptionAutoEcole() {
                     t={t}
                     i18nKey="inscription.recap.certify"
                     components={{
-                      conditions: <Link to={ROUTES.terms} className="text-brand-600 underline" />,
-                      privacy: <Link to={ROUTES.terms} className="text-brand-600 underline" />,
+                      conditions: <Lien to={ROUTES.terms} className="text-brand-600 underline" />,
+                      privacy: <Lien to={ROUTES.terms} className="text-brand-600 underline" />,
                     }}
                   />
                 </span>
@@ -344,7 +345,7 @@ export function InscriptionAutoEcole() {
           )}
 
           <div className="mt-5 flex items-center justify-between border-t border-line pt-4">
-            <button type="button" onClick={() => (step === 0 ? navigate(-1) : setStep(step - 1))} className="inline-flex h-11 w-36 items-center justify-center gap-2.5 rounded-xl border-2 border-[#c9d4ea] bg-white text-[16px] font-semibold text-navy-900 hover:bg-slate-50">
+            <button type="button" onClick={() => (step === 0 ? router.history.back() : setStep(step - 1))} className="inline-flex h-11 w-36 items-center justify-center gap-2.5 rounded-xl border-2 border-[#c9d4ea] bg-white text-[16px] font-semibold text-navy-900 hover:bg-slate-50">
               <ArrowLeft className="size-5" />
               {step === 0 ? t('actions.back') : t('actions.previous')}
             </button>
@@ -478,10 +479,10 @@ function RecapCard({ icon, title, edit, children }: { icon: ReactNode; title: st
     <div className="rounded-xl border border-line p-3">
       <div className="flex items-center justify-between">
         <Heading icon={icon} className="text-[17px] [&_svg]:size-6">{title}</Heading>
-        <Link to={edit} className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-[#c9d4ea] px-3 text-[13px] font-semibold text-navy-800 hover:bg-brand-50">
+        <Lien to={edit} className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-[#c9d4ea] px-3 text-[13px] font-semibold text-navy-800 hover:bg-brand-50">
           <PencilLine className="size-4" />
           {t('actions.edit')}
-        </Link>
+        </Lien>
       </div>
       <dl className="mt-2 divide-y divide-line">{children}</dl>
     </div>

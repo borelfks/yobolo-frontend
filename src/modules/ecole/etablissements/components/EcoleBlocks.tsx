@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Link } from 'react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { useTranslation } from 'react-i18next'
 import { ArrowRight, BadgeCheck, Building2, CalendarDays, MapPin, Search, Star } from 'lucide-react'
 import { SearchField } from '@/shared/ui/SearchField'
@@ -61,9 +61,9 @@ export function EcoleCard({ e }: { e: Etablissement }) {
         <FavoriteButton id={e.id} kind="etablissement" size="sm" className="absolute top-2 right-2" />
       </div>
       <div className="flex flex-1 flex-col gap-2 px-3 pt-3 pb-3.5">
-        <Link to={ecoleUrl(e)} className="text-[14.5px] leading-snug font-bold text-navy-950 hover:text-brand-600">
+        <Lien to={ecoleUrl(e)} className="text-[14.5px] leading-snug font-bold text-navy-950 hover:text-brand-600">
           {e.nom}
-        </Link>
+        </Lien>
         <div className="flex flex-wrap items-center gap-x-2 text-[13px] text-ink/80">
           <span className="inline-flex items-center gap-1">
             <Star className="size-4 fill-amber-400 text-amber-400" />
@@ -90,13 +90,13 @@ export function EcoleCard({ e }: { e: Etablissement }) {
           {extra > 0 && <span className="rounded-full bg-[#eef2fb] px-2.5 py-1 text-[12px] font-semibold text-navy-800">+{extra}</span>}
         </div>
         <div className="mt-auto flex flex-wrap gap-2 pt-2">
-          <Link to={ecoleUrl(e, 'formations')} className="inline-flex h-9 flex-auto items-center justify-center rounded-full border border-navy-800 px-3 text-[13px] font-semibold whitespace-nowrap text-navy-900 hover:bg-brand-50">
+          <Lien to={ecoleUrl(e, 'formations')} className="inline-flex h-9 flex-auto items-center justify-center rounded-full border border-navy-800 px-3 text-[13px] font-semibold whitespace-nowrap text-navy-900 hover:bg-brand-50">
             {t('blocks.card.seeTrainings')}
-          </Link>
-          <Link to={ecoleUrl(e)} className="inline-flex h-9 flex-auto items-center justify-center gap-1.5 rounded-full bg-brand-600 px-3 text-[13px] font-semibold whitespace-nowrap text-white hover:bg-brand-700">
+          </Lien>
+          <Lien to={ecoleUrl(e)} className="inline-flex h-9 flex-auto items-center justify-center gap-1.5 rounded-full bg-brand-600 px-3 text-[13px] font-semibold whitespace-nowrap text-white hover:bg-brand-700">
             {t('blocks.card.seeProfile')}
             <ArrowRight className="size-4" />
-          </Link>
+          </Lien>
         </div>
       </div>
     </div>
@@ -118,9 +118,9 @@ export function FormationRow({ f, showEcole = true }: { f: Formation; showEcole?
     <div className="relative flex flex-col gap-4 rounded-2xl border border-line bg-white p-2.5 shadow-[0_2px_10px_rgba(15,29,61,0.06)] sm:flex-row sm:items-center">
       <Img src={f.image} alt={f.nom} className="h-32 w-full rounded-xl sm:h-[76px] sm:w-[160px]" />
       <div className="min-w-0 flex-1 space-y-1.5">
-        <Link to={formationUrl(f)} className="text-[17px] font-bold text-navy-800 hover:text-brand-600">
+        <Lien to={formationUrl(f)} className="text-[17px] font-bold text-navy-800 hover:text-brand-600">
           {f.nom}
-        </Link>
+        </Lien>
         {showEcole && (
           <p className="flex flex-wrap items-center gap-x-5 text-[12.5px] whitespace-nowrap text-navy-900">
             <span className="inline-flex items-center gap-1.5">
@@ -145,10 +145,10 @@ export function FormationRow({ f, showEcole = true }: { f: Formation; showEcole?
         </div>
       </div>
       <div className="flex items-center gap-4 border-line sm:self-stretch sm:border-l sm:pl-5 sm:pr-10">
-        <Link to={formationUrl(f)} className="ml-auto inline-flex h-10 items-center gap-1.5 rounded-full bg-brand-600 px-5 text-[13px] font-semibold text-white hover:bg-brand-700">
+        <Lien to={formationUrl(f)} className="ml-auto inline-flex h-10 items-center gap-1.5 rounded-full bg-brand-600 px-5 text-[13px] font-semibold text-white hover:bg-brand-700">
           {t('blocks.formationRow.seeDetails')}
           <ArrowRight className="size-4" />
-        </Link>
+        </Lien>
       </div>
       <FavoriteButton id={f.id} kind="formation" size="sm" className="absolute top-2.5 right-3 bg-transparent shadow-none ring-0" />
     </div>

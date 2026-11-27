@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { useNavigate } from '@tanstack/react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
 import { ArrowUpDown, CalendarDays, ChevronDown, ChevronLeft, ChevronRight, CircleCheck, Copy, ExternalLink, EyeOff, FileText, GraduationCap, Layers, Pencil, Plus, Search, Send, Tag, Trash2 } from 'lucide-react'
@@ -124,10 +125,10 @@ export function Formations() {
         title={t('formations.title')}
         subtitle={t('formations.subtitle')}
         actions={
-          <Link to={ROUTES.pro.newTraining} className="inline-flex h-12 items-center gap-2.5 rounded-full bg-brand-600 px-8 text-[18px] font-semibold text-white hover:bg-brand-700">
+          <Lien to={ROUTES.pro.newTraining} className="inline-flex h-12 items-center gap-2.5 rounded-full bg-brand-600 px-8 text-[18px] font-semibold text-white hover:bg-brand-700">
             <Plus className="size-6" />
             {t('formations.create')}
-          </Link>
+          </Lien>
         }
       />
       <div className="grid gap-4 sm:grid-cols-3">
@@ -177,7 +178,7 @@ export function Formations() {
                     <span className="flex items-center gap-3">
                       <span className="grid size-10 place-items-center rounded-lg bg-[#eef3fc] text-brand-600"><GraduationCap className="size-6" /></span>
                       <span className="leading-tight">
-                        <Link to={ROUTES.pro.editTraining(f.id)} className="block font-bold text-navy-800 hover:text-brand-600">{f.nom}</Link>
+                        <Lien to={ROUTES.pro.editTraining(f.id)} className="block font-bold text-navy-800 hover:text-brand-600">{f.nom}</Lien>
                         <span className="text-[13px]">{t('formations.table.code', { code: f.code })}</span>
                       </span>
                     </span>
@@ -189,11 +190,11 @@ export function Formations() {
                   <td><Statut s={f.statut} /></td>
                   <td className="pr-5">
                     <div className="flex justify-center gap-2">
-                      <Link to={ROUTES.pro.editTraining(f.id)} aria-label={t('formations.table.edit')} className="grid size-9 place-items-center rounded-lg bg-[#eef3fc] text-navy-800 hover:bg-brand-100"><Pencil className="size-4" /></Link>
+                      <Lien to={ROUTES.pro.editTraining(f.id)} aria-label={t('formations.table.edit')} className="grid size-9 place-items-center rounded-lg bg-[#eef3fc] text-navy-800 hover:bg-brand-100"><Pencil className="size-4" /></Lien>
                       <MenuActions
                         label={t('formations.table.more')}
                         actions={[
-                          { label: t('formations.menu.view'), icon: <ExternalLink />, hidden: !formations.some((x) => x.id === f.id), onClick: () => navigate(formationUrl(formations.find((x) => x.id === f.id)!)) },
+                          { label: t('formations.menu.view'), icon: <ExternalLink />, hidden: !formations.some((x) => x.id === f.id), onClick: () => navigate({ href: formationUrl(formations.find((x) => x.id === f.id)!) }) },
                           { label: t('formations.menu.duplicate'), icon: <Copy />, onClick: () => dupliquer(f) },
                           f.statut === 'Brouillon'
                             ? { label: t('formations.menu.publish'), icon: <Send />, onClick: () => changerStatut(f, 'Publiée') }

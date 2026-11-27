@@ -1,7 +1,8 @@
 import { Bookmark, Clock, Eye, Flag, MessageCircle, ThumbsUp } from 'lucide-react'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, useLocation } from 'react-router'
+import { useLocation } from '@tanstack/react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { dateHeureDuFil } from '@/modules/communaute/accueil/accueilDates'
 import { blocsDuTexte, nomDuSujet, titreEtExtrait } from '@/modules/communaute/accueil/accueilFil'
 import { PartagePublication } from '@/modules/communaute/accueil/components/article/PartagePublication'
@@ -68,12 +69,12 @@ export function ArticlePublication({ publication }: { publication: Publication }
       <article className="flex min-w-0 flex-col gap-6">
         <header className="flex flex-col gap-4">
           {rubrique && (
-            <Link
+            <Lien
               to={ROUTES.accueilSujet(rubrique)}
               className="w-fit rounded-md bg-brand-50 px-2.5 py-1 text-[0.6875rem] font-semibold tracking-wider text-brand-700 uppercase transition-colors hover:bg-brand-100"
             >
               {nomDuSujet(rubrique, sujets)}
-            </Link>
+            </Lien>
           )}
           <h1 className="text-3xl leading-tight font-bold tracking-tight text-balance text-navy-900 sm:text-[2.75rem]">{titre}</h1>
 
@@ -81,9 +82,9 @@ export function ArticlePublication({ publication }: { publication: Publication }
             <span className="flex min-w-0 items-center gap-2">
               <Avatar src={auteur.photo || undefined} name={auteur.nom} size={28} className="ring-1 ring-line" />
               {auteur.vers ? (
-                <Link to={auteur.vers} title={t('article.voirLAuteur', { nom: auteur.nom })} className="truncate font-medium text-ink hover:underline">
+                <Lien to={auteur.vers} title={t('article.voirLAuteur', { nom: auteur.nom })} className="truncate font-medium text-ink hover:underline">
                   {auteur.nom}
-                </Link>
+                </Lien>
               ) : (
                 <span className="truncate font-medium text-ink">{auteur.nom}</span>
               )}
@@ -172,12 +173,12 @@ export function ArticlePublication({ publication }: { publication: Publication }
           <ul aria-label={t('lecture.sujets')} className="flex flex-wrap gap-2 border-t border-line pt-5">
             {publication.sujets.map((sujet) => (
               <li key={sujet}>
-                <Link
+                <Lien
                   to={ROUTES.accueilSujet(sujet)}
                   className="inline-flex min-h-8 items-center rounded-md bg-brand-50 px-2.5 py-1 text-xs font-medium text-brand-700 transition-colors hover:bg-brand-100"
                 >
                   #{sujet}
-                </Link>
+                </Lien>
               </li>
             ))}
           </ul>

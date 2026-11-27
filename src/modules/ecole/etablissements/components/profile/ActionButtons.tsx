@@ -1,4 +1,4 @@
-// Préinscription masquée (demande du porteur du projet, 2026-11-25) : import { Link } from 'react-router'
+// Préinscription masquée (demande du porteur du projet, 2026-11-25) : import { Lien } from '@/shared/ui/Lien'
 import { useTranslation } from 'react-i18next'
 import { Heart } from 'lucide-react'
 import { useFavorites } from '@/shared/hooks/useFavorites'
@@ -16,14 +16,14 @@ export function ActionButtons({ id }: { id: string }) {
   return (
     <div className="space-y-3">
       {/* Préinscription masquée (demande du porteur du projet, 2026-11-25) :
-      <Link
+      <Lien
         to={first ? ROUTES.preRegistration(first.id) : ROUTES.schools}
         className="flex h-[50px] items-center justify-center gap-3 rounded-xl bg-brand-600 text-[17px] font-semibold text-white shadow-md shadow-brand-600/25 hover:bg-brand-700"
       >
         <PencilLine className="size-5" />
         {t('shared.preRegisterNow')}
         <ArrowRight className="size-5" />
-      </Link>
+      </Lien>
       */}
       <button
         type="button"

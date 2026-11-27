@@ -1,5 +1,5 @@
 import { useRef, useState, type ReactNode } from 'react'
-import { useParams } from 'react-router'
+import { useParams } from '@tanstack/react-router'
 import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
 import {
@@ -100,7 +100,7 @@ type ProfilForm = {
 
 export function Profil() {
   const { t } = useTranslation('pro')
-  const { tab = '' } = useParams()
+  const { tab = '' } = useParams({ strict: false })
   const { ecole } = useMonEcole()
   const reglages = useParametres(ecole.id)
   const enregistres = sousCles('profil', reglages)

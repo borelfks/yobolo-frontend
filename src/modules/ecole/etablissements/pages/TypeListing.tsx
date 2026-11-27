@@ -1,4 +1,4 @@
-import { Navigate, useParams } from 'react-router'
+import { Navigate, useParams } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { Building2, CalendarDays, FileBadge, GraduationCap, Layers, MapPin } from 'lucide-react'
 import { Hero } from '@/shared/ui/Hero'
@@ -23,7 +23,7 @@ const heroImages: Record<string, string> = {
 }
 
 export function TypeListing() {
-  const { type, tab = '' } = useParams()
+  const { type, tab = '' } = useParams({ strict: false })
   const { t } = useTranslation('schools')
   const typesEcole = useTypesEcole()
   if (!isTypeSlug(type)) return <Navigate to={ROUTES.schools} replace />

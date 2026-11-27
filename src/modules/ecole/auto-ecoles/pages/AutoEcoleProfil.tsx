@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { Link, useParams } from 'react-router'
+import { useParams } from '@tanstack/react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { CalendarDays, Car, Coins, Home, Image as ImageIcon, Star } from 'lucide-react'
 import { AEHeader } from '@/modules/ecole/auto-ecoles/components/AutoEcoleBlocks'
 import { ApercuTab } from '@/modules/ecole/auto-ecoles/components/profile/ApercuTab'
@@ -15,7 +16,7 @@ import { ROUTES } from '@/shared/utils/routes'
 /** Fiche d'une auto-école : en-tête, onglets, puis le contenu de l'onglet choisi. */
 export function AutoEcoleProfil() {
   const { t } = useTranslation('driving-schools')
-  const { id, tab = '' } = useParams()
+  const { id, tab = '' } = useParams({ strict: false })
   const a = useAutoEcole(id)
   const base = ROUTES.drivingSchool(a.id)
   const tabs = [
@@ -47,7 +48,7 @@ export function AutoEcoleProfil() {
       />
       <nav className="flex flex-wrap gap-2.5">
         {tabs.map((x, i) => (
-          <Link
+          <Lien
             key={x.value}
             to={i === 0 ? base : ROUTES.drivingSchool(a.id, x.value)}
             className={cn(
@@ -57,7 +58,7 @@ export function AutoEcoleProfil() {
           >
             {x.icon}
             {x.label}
-          </Link>
+          </Lien>
         ))}
       </nav>
       {tab === '' && <ApercuTab id={a.id} />}

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { ArrowRight, BadgeCheck, CalendarDays, Car, ChevronLeft, ChevronRight, Clock, Globe, Images, Info, Mail, MapPin, Medal, Phone, UserRound } from 'lucide-react'
 import { GreenCheck, Heading, SideActions } from '@/modules/ecole/auto-ecoles/components/profile/ProfileParts'
 import { card, soft, whyKeys } from '@/modules/ecole/auto-ecoles/components/profile/profileUtils'
@@ -54,11 +54,11 @@ export function ApercuTab({ id }: { id: string }) {
                   .map((code) => {
                     const Icon = permisIcon[code]
                     return (
-                      <Link key={code} to={ROUTES.license(a.id, code)} className={cn(soft, 'flex flex-col items-center gap-1.5 px-2 py-3 text-center transition-shadow hover:shadow-md')}>
+                      <Lien key={code} to={ROUTES.license(a.id, code)} className={cn(soft, 'flex flex-col items-center gap-1.5 px-2 py-3 text-center transition-shadow hover:shadow-md')}>
                         <Icon className="size-9 text-brand-600" />
                         <span className="text-[16px] font-bold text-navy-900">{t('common.licence', { code })}</span>
                         <span className="text-[13px] leading-tight text-navy-900">{t(`permis.${code}.name`)}</span>
-                      </Link>
+                      </Lien>
                     )
                   })}
               </div>
@@ -76,9 +76,9 @@ export function ApercuTab({ id }: { id: string }) {
         <div className={cn(card, 'p-4')}>
           <div className="flex items-center justify-between">
             <Heading icon={<Images />}>{t('profile.overview.gallery', { count: photos.length })}</Heading>
-            <Link to={ROUTES.drivingSchool(a.id, 'galerie')} className="inline-flex items-center gap-2 text-[15px] font-semibold text-brand-600 underline underline-offset-4">
+            <Lien to={ROUTES.drivingSchool(a.id, 'galerie')} className="inline-flex items-center gap-2 text-[15px] font-semibold text-brand-600 underline underline-offset-4">
               {t('profile.overview.seeGallery')} <ArrowRight className="size-5" />
-            </Link>
+            </Lien>
           </div>
           <div className="relative mt-3">
             <div className="grid grid-cols-2 gap-3 md:grid-cols-[1.25fr_1fr_1fr_1.05fr]">

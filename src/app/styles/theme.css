@@ -24,6 +24,7 @@
   --color-accent-foreground: #0b1b3f;
   --color-row-hover: #f7f9fc; /* survol d'une ligne de liste */
   --color-surface-faint: #fafbfd; /* zone de dépôt de fichier */
+  --color-surface-search: #edf2fa; /* champ de recherche de la barre du haut */
   --color-overlay: rgb(11 27 63 / 0.45); /* fond des fenêtres */
 
   /* --- Bordures et champs -------------------------------------------------- */
@@ -91,6 +92,9 @@
   --shadow-card-hover: 0 4px 16px rgb(11 27 63 / 0.12);
   --shadow-floating: 0 8px 24px rgb(11 27 63 / 0.16);
   --shadow-dialog: 0 10px 30px rgb(11 27 63 / 0.18);
+  --shadow-bar: 0 1px 3px rgb(11 27 63 / 0.06); /* barre du haut */
+  --shadow-account: 0 12px 32px rgb(11 27 63 / 0.18); /* menu du compte */
+  --shadow-drawer: 4px 0 24px rgb(11 27 63 / 0.25); /* menu latéral sur téléphone */
 
   /* --- Texte (13 et 15 px sont très employés dans le canevas) --------------- */
   --text-meta: 0.8125rem;

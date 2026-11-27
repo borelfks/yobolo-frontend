@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { useTranslation } from 'react-i18next'
 import { ArrowDown, ArrowRight, ArrowUp, CalendarDays, ChartNoAxesColumn, ChevronDown, Clock, Download, FileText, GraduationCap, Layers, Star, TrendingUp, Users } from 'lucide-react'
 import { ProHeader } from '@/modules/ecole/espace-pro/components/ProBlocks'
@@ -156,9 +156,9 @@ export function Statistiques() {
               ))}
             </ol>
           )}
-          <Link to={ROUTES.pro.trainings} className="mt-2 flex items-center justify-center gap-2 text-[15px] font-semibold text-brand-600">
+          <Lien to={ROUTES.pro.trainings} className="mt-2 flex items-center justify-center gap-2 text-[15px] font-semibold text-brand-600">
             {t('stats.top.all')} <ArrowRight className="size-5" />
-          </Link>
+          </Lien>
         </div>
         <div className={cn(proCard, 'p-4')}>
           <h2 className="flex items-center gap-2.5 text-[19px] font-bold text-navy-900"><Clock className="size-6 text-brand-600" />{t('stats.activity.title')}</h2>

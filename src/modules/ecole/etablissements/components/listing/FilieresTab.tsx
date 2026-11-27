@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { useNavigate } from '@tanstack/react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { useTranslation } from 'react-i18next'
 import { LayoutGrid } from 'lucide-react'
 import { ResultsHeader } from '@/modules/ecole/etablissements/components/EcoleBlocks'
@@ -39,7 +40,7 @@ export function FilieresTab({ type }: { type: TypeSlug }) {
           onChange={(v) => {
             setSel(v === allLabel ? ALL : v)
             // Un domaine ouvre la liste des établissements qui le proposent.
-            if (v !== allLabel) navigate(`${ROUTES.schoolType(type)}?${new URLSearchParams({ filiere: v })}`)
+            if (v !== allLabel) navigate({ href: `${ROUTES.schoolType(type)}?${new URLSearchParams({ filiere: v })}` })
           }}
           items={[{ label: ALL, count: cfg.filieres }, ...doms].map((d) => ({ label: 'label' in d ? allLabel : d.nom, count: d.count, icon: domaineIcon('label' in d ? d.label : d.nom) }))}
         />
@@ -57,7 +58,7 @@ export function FilieresTab({ type }: { type: TypeSlug }) {
             const Icon = domaineIcon(c.nom)
             const [l1, l2] = c.nom.includes(' & ') ? [c.nom.split(' & ')[0], '& ' + c.nom.split(' & ').slice(1).join(' & ')] : [c.nom, '']
             return (
-              <Link key={c.nom} to={`${ROUTES.schoolType(type)}?${new URLSearchParams({ q: c.nom.split(/[ &]/)[0]! })}`} className="group flex items-center gap-3 rounded-2xl border border-line bg-white px-3 py-3 shadow-[0_2px_8px_rgba(15,29,61,0.06)] transition-shadow hover:shadow-lg">
+              <Lien key={c.nom} to={`${ROUTES.schoolType(type)}?${new URLSearchParams({ q: c.nom.split(/[ &]/)[0]! })}`} className="group flex items-center gap-3 rounded-2xl border border-line bg-white px-3 py-3 shadow-[0_2px_8px_rgba(15,29,61,0.06)] transition-shadow hover:shadow-lg">
                 <span className={cn('grid size-14 shrink-0 place-items-center rounded-xl', tilePalette[i % tilePalette.length])}>
                   <Icon className="size-8" />
                 </span>
@@ -71,7 +72,7 @@ export function FilieresTab({ type }: { type: TypeSlug }) {
                   </p>
                 </div>
                 <ArrowDot />
-              </Link>
+              </Lien>
             )
           })}
         </div>

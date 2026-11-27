@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { ChevronRight, Clock, Coins, GraduationCap } from 'lucide-react'
 import { CheckLine, FilterBox, Heading, WhyCard } from '@/modules/ecole/auto-ecoles/components/profile/ProfileParts'
 import { card, permisShortName } from '@/modules/ecole/auto-ecoles/components/profile/profileUtils'
@@ -61,9 +61,9 @@ export function FormationsTab({ id }: { id: string }) {
                   <span className="inline-flex items-center gap-1.5 font-bold text-brand-600"><Coins className="size-5" />{fcfa(p.prix)}</span>
                 </p>
               </div>
-              <Link to={ROUTES.license(a.id, c)} className="mr-2 inline-flex h-10 items-center gap-2 rounded-xl border-2 border-brand-600/60 px-5 text-[14px] font-semibold text-navy-800 hover:bg-brand-50">
+              <Lien to={ROUTES.license(a.id, c)} className="mr-2 inline-flex h-10 items-center gap-2 rounded-xl border-2 border-brand-600/60 px-5 text-[14px] font-semibold text-navy-800 hover:bg-brand-50">
                 {t('profile.trainings.details')} <ChevronRight className="size-4" />
-              </Link>
+              </Lien>
             </div>
           )
         })}
@@ -71,13 +71,13 @@ export function FormationsTab({ id }: { id: string }) {
       <div className="space-y-4">
         <WhyCard />
         {/* Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) :
-        <Link to={inscrireHref(a)} className="flex items-center gap-4 rounded-2xl bg-[linear-gradient(120deg,#1f55e6,#2f6bff)] p-5 text-white shadow-lg shadow-brand-600/30">
+        <Lien to={inscrireHref(a)} className="flex items-center gap-4 rounded-2xl bg-[linear-gradient(120deg,#1f55e6,#2f6bff)] p-5 text-white shadow-lg shadow-brand-600/30">
           <span className="flex-1">
             <span className="flex items-center gap-2.5 text-[20px] font-bold"><CalendarDays className="size-7" />{t('common.enrolNow')}</span>
             <span className="mt-1 block text-[14.5px] text-white/90">{t('profile.trainings.ctaText')}</span>
           </span>
           <span className="grid size-11 place-items-center rounded-full bg-white text-brand-600"><ArrowRight className="size-6" /></span>
-        </Link>
+        </Lien>
         */}
       </div>
     </div>

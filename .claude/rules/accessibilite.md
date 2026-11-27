@@ -7,6 +7,6 @@
 5. **Zones de toucher** d'au moins 40 px sur téléphone (boutons d'icône `size-10`).
 6. Statut et rôle **par le texte**, pas seulement par la couleur (« Publiée », « En attente », « Établissement vérifié »).
 7. Le compteur de la cloche a un libellé lisible (« Notifications (3 non lues) »).
-8. `aria-current="page"` sur le menu et l'onglet actifs (fourni par `NavLink`).
+8. `aria-current="page"` sur le menu et l'onglet actifs (fourni par `LienActif`) ; un lien simple (`Lien`) ne le porte que sur son adresse exacte.
 9. L'attribut `lang` de la page suit la langue choisie (`src/i18n/index.ts`).
 10. Respecter « réduire les animations ». Images : voir [images-et-medias.md](images-et-medias.md).

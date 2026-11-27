@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { useNavigate } from '@tanstack/react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -52,7 +53,7 @@ export function MotDePasseOublie() {
     if (!compte) return
     await data.update('comptes', compte.id, { motDePasse: await protegerMotDePasse(motDePasse) })
     toast.success(t('change'))
-    navigate(ROUTES.signIn)
+    navigate({ href: ROUTES.signIn })
   })
 
   return (
@@ -96,10 +97,10 @@ export function MotDePasseOublie() {
           </form>
         )}
 
-        <Link to={ROUTES.signIn} className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-600 hover:underline">
+        <Lien to={ROUTES.signIn} className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-600 hover:underline">
           <ArrowLeft className="size-4" aria-hidden="true" />
           {t('retour')}
-        </Link>
+        </Lien>
       </div>
     </AuthShell>
   )

@@ -1,4 +1,4 @@
-import { Link } from 'react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { useTranslation } from 'react-i18next'
 import { CalendarDays, CircleCheck, Heart, Phone } from 'lucide-react'
 import { Img } from '@/shared/ui/Img'
@@ -21,7 +21,7 @@ export function FormationAside({ f, showRentree }: { f: Formation; showRentree: 
   const btn = 'flex h-[38px] w-full items-center justify-center gap-2.5 rounded-full border-2 border-brand-600/60 bg-white text-[15px] font-semibold text-navy-800 hover:bg-brand-50'
   return (
     <aside className="space-y-3 lg:sticky lg:top-24 lg:self-start">
-      <Link to={ecoleUrl(e)} className={cn(card, 'flex items-center gap-3 p-3')}>
+      <Lien to={ecoleUrl(e)} className={cn(card, 'flex items-center gap-3 p-3')}>
         <Img src={e.vignette ?? e.image} alt={e.nom} className="size-[102px] rounded-xl" />
         <div className="space-y-1.5">
           <p className="text-[17px] leading-tight font-bold text-navy-900">{e.nom}</p>
@@ -34,13 +34,13 @@ export function FormationAside({ f, showRentree }: { f: Formation; showRentree: 
             {t('shared.verified')}
           </span>
         </div>
-      </Link>
+      </Lien>
       <div className={cn(card, 'space-y-2.5 p-3')}>
         {/* Préinscription masquée (demande du porteur du projet, 2026-11-25) :
-        <Link to={ROUTES.preRegistration(f.id)} className="flex h-10 items-center justify-center gap-2.5 rounded-full bg-sun-400 text-[16px] font-bold text-navy-950 hover:bg-sun-500">
+        <Lien to={ROUTES.preRegistration(f.id)} className="flex h-10 items-center justify-center gap-2.5 rounded-full bg-sun-400 text-[16px] font-bold text-navy-950 hover:bg-sun-500">
           <PencilLine className="size-5" />
           {t('shared.preRegisterNow')}
-        </Link>
+        </Lien>
         */}
         <button type="button" onClick={() => toggle(f.id, 'formation')} className={btn}>
           <Heart className={cn('size-5', fav && 'fill-rose-500 text-rose-500')} />

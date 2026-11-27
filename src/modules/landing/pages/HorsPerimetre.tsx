@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router'
+import { useLocation } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { BookOpen, Briefcase, FileText, GraduationCap, LifeBuoy, MonitorPlay, UserRound, type LucideIcon } from 'lucide-react'
 import { Button } from '@/shared/ui/Button'

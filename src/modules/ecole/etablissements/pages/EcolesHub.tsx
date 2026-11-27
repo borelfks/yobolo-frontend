@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { useTranslation } from 'react-i18next'
 import { Car, GraduationCap, LayoutGrid, MapPin, School, ShieldCheck, Star, Users } from 'lucide-react'
 import { EcoleCard, ResultsHeader, SearchPanel } from '@/modules/ecole/etablissements/components/EcoleBlocks'
@@ -95,7 +95,7 @@ export function EcolesHub() {
         {tuiles.map((tile, i) => {
           const s = tiles[tile.id]!
           return (
-            <Link
+            <Lien
               key={tile.id}
               to={s.to}
               className={cn(
@@ -114,7 +114,7 @@ export function EcolesHub() {
                 <span className={cn('block text-[17px] font-bold', i === 0 ? 'text-white' : 'text-navy-950')}>{t(`hub.tiles.${s.labelKey}`)}</span>
                 <span className={cn('text-[16px]', i === 0 ? 'text-white/90' : 'text-ink/80')}>({num(tile.count)})</span>
               </span>
-            </Link>
+            </Lien>
           )
         })}
       </section>

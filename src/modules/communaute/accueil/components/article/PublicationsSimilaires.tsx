@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { usePublications, useSujetsPublication } from '@/data/hooks'
 import { nomDuSujet, titreEtExtrait } from '@/modules/communaute/accueil/accueilFil'
 import { VisuelPublication } from '@/modules/communaute/accueil/components/article/VisuelPublication'
@@ -37,9 +37,9 @@ export function PublicationsSimilaires({ publication }: { publication: Publicati
               <div className="flex min-w-0 flex-1 flex-col gap-1">
                 {une.sujets[0] && <span className="text-[0.625rem] font-semibold tracking-wider text-brand-700 uppercase">{nomDuSujet(une.sujets[0], sujets)}</span>}
                 <h3 className="line-clamp-3 text-sm leading-snug font-semibold text-navy-900">
-                  <Link to={ROUTES.publication(une.id)} className="outline-none group-hover:underline after:absolute after:inset-0 after:content-[''] focus-visible:underline">
+                  <Lien to={ROUTES.publication(une.id)} className="outline-none group-hover:underline after:absolute after:inset-0 after:content-[''] focus-visible:underline">
                     {titreEtExtrait(une).titre}
-                  </Link>
+                  </Lien>
                 </h3>
                 <time dateTime={une.publieeLe} className="text-xs text-muted-foreground">
                   {shortDate(une.publieeLe, { day: 'numeric', month: 'short', year: 'numeric' })}

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Navigate, useParams } from 'react-router'
+import { Navigate, useParams } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { CalendarDays, Car, ExternalLink, Star, UserRound, XCircle } from 'lucide-react'
@@ -20,7 +20,7 @@ const DATE = { day: '2-digit', month: 'long', year: 'numeric' } as const
 /** Le détail d'une inscription à un permis : auto-école, session, champs saisis, pièces jointes. */
 export function DossierInscription() {
   const { t } = useTranslation('espace')
-  const { id } = useParams()
+  const { id } = useParams({ strict: false })
   const { account } = useSession()
   const i = useMesInscriptions(account?.id).inscriptionsAutoEcole.find((x) => x.id === id)
   const a = useAutoEcoles().find((x) => x.id === i?.autoEcoleId)

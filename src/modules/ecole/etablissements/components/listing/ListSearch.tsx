@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { Building2, GraduationCap, Layers, MapPin } from 'lucide-react'
 import { SearchPanel } from '@/modules/ecole/etablissements/components/EcoleBlocks'
@@ -28,7 +28,7 @@ export function ListSearch({ type }: { type: TypeSlug }) {
       ]}
       onSearch={(q, c) => {
         const params = new URLSearchParams(Object.entries({ q, ...c }).filter(([, v]) => v))
-        navigate(`${ROUTES.schoolType(type)}${params.size ? `?${params}` : ''}`)
+        navigate({ href: `${ROUTES.schoolType(type)}${params.size ? `?${params}` : ''}` })
       }}
     />
   )

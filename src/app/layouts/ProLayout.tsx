@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { Link, Navigate, NavLink, ScrollRestoration, useLocation } from 'react-router'
+import { Navigate, useLocation } from '@tanstack/react-router'
+import { Lien } from '@/shared/ui/Lien'
+import { LienActif } from '@/shared/ui/LienActif'
 import { useTranslation } from 'react-i18next'
 import { BadgeCheck, Building2, ChevronDown, CircleHelp, Headphones, Menu, X, House } from 'lucide-react'
 import { Logo } from '@/shared/ui/Logo'
@@ -21,7 +23,7 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   const { ecole } = useMonEcole()
   return (
     <div className="flex h-full flex-col gap-5 overflow-y-auto bg-[linear-gradient(180deg,#0f2c7a_0%,#0b2366_45%,#0a1f5c_100%)] px-3 py-5 text-white">
-      <Link to={ROUTES.pro.profile()} onClick={onNavigate} className="flex items-center gap-2.5 px-1">
+      <Lien to={ROUTES.pro.profile()} onClick={onNavigate} className="flex items-center gap-2.5 px-1">
         <Img src={ecole.vignette ?? ecole.image} alt="" className="size-[60px] rounded-lg" />
         <div className="min-w-0 flex-1">
           <p className="text-[14px] leading-tight font-semibold">{ecole.nom}</p>
@@ -31,14 +33,14 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
           </span>
         </div>
         <ChevronDown className="size-4 text-white/80" />
-      </Link>
+      </Lien>
       <nav className="flex flex-col gap-1">
         {proNav.map((item) => {
           const inSection = item.children ? pathname.startsWith(item.to) : false
           const open = !!item.children && (inSection || item.to === ROUTES.pro.trainings || pathname === ROUTES.pro.root)
           return (
             <div key={item.labelKey}>
-              <NavLink
+              <LienActif
                 to={item.to}
                 end={item.end || !!item.children}
                 onClick={onNavigate}
@@ -52,12 +54,12 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
                 <item.icon className="size-[22px] shrink-0" />
                 <span className="flex-1">{t(item.labelKey)}</span>
                 {item.children && <ChevronDown className="size-4" />}
-              </NavLink>
+              </LienActif>
               {item.children && open && (
                 <ul className="mt-1 mb-1.5 ml-7 space-y-0.5">
                   {item.children.map((c) => (
                     <li key={c.to}>
-                      <NavLink
+                      <LienActif
                         to={c.to}
                         end
                         onClick={onNavigate}
@@ -67,7 +69,7 @@ function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
                       >
                         <span className="size-1 rounded-full bg-current" />
                         {t(c.labelKey)}
-                      </NavLink>
+                      </LienActif>
                     </li>
                   ))}
                 </ul>
@@ -98,7 +100,6 @@ export function ProLayout() {
   if (!account?.ecoleId) return <Navigate to={ROUTES.signInSchool} replace />
   return (
     <div className="app-cadre min-h-dvh bg-page">
-      <ScrollRestoration />
       <header className="sticky top-0 z-30 flex h-14 items-center gap-1 border-b border-line bg-white/95 pr-2 backdrop-blur sm:gap-3 sm:pr-4">
         <button type="button" aria-label={t('nav.menu')} onClick={() => setOpen(true)} className="grid size-10 place-items-center rounded-full hover:bg-brand-50 lg:hidden">
           <Menu className="size-5" />
@@ -112,19 +113,19 @@ export function ProLayout() {
         </div>
         <div className="ml-auto flex items-center gap-0.5 sm:gap-1">
           {/* Retour à l'espace de tous les jours : l'accueil connecté. */}
-          <Link
+          <Lien
             to={ROUTES.accueil}
             aria-label={t('pro.backHome')}
             className="mr-1 inline-flex h-10 items-center gap-2 rounded-full border border-brand-600/40 bg-white px-3 text-[14px] font-semibold text-navy-800 transition-colors hover:border-brand-600 hover:bg-brand-50 sm:px-4"
           >
             <House className="size-[18px] text-brand-600" aria-hidden="true" />
             <span className="max-sm:hidden">{t('pro.backHome')}</span>
-          </Link>
+          </Lien>
           <LanguageSwitcher className="sm:mr-1" menuSousEntete />
           <NotificationsBell href={ROUTES.pro.settings('notifications')} />
-          <Link to={ROUTES.pro.settings('a-propos')} aria-label={t('nav.help')} className="grid size-10 place-items-center rounded-full text-navy-800 hover:bg-brand-50">
+          <Lien to={ROUTES.pro.settings('a-propos')} aria-label={t('nav.help')} className="grid size-10 place-items-center rounded-full text-navy-800 hover:bg-brand-50">
             <CircleHelp className="size-5" />
-          </Link>
+          </Lien>
           <span className="mx-1 hidden h-8 w-px bg-line sm:block" />
           <UserMenu />
         </div>

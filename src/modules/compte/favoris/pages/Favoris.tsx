@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from 'react'
-import { Link, Navigate } from 'react-router'
+import { Navigate } from '@tanstack/react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { ArrowRight, Building2, CalendarDays, Car, CircleCheck, Folder, GraduationCap, Heart, Landmark, Lightbulb, MapPin, Megaphone, Star, Sun, Trash2 } from 'lucide-react'
@@ -92,9 +93,9 @@ export function Favoris() {
               <Heart className="mx-auto size-10 text-slate-300" />
               <p className="mt-3 font-semibold text-navy-900">{t('favoris.vide.titre')}</p>
               <p className="text-sm text-muted-foreground">{t('favoris.vide.texte')}</p>
-              <Link to={ROUTES.schools} className="mt-4 inline-flex h-10 items-center rounded-full bg-brand-600 px-5 font-semibold text-white">
+              <Lien to={ROUTES.schools} className="mt-4 inline-flex h-10 items-center rounded-full bg-brand-600 px-5 font-semibold text-white">
                 {t('favoris.vide.explorer')}
-              </Link>
+              </Lien>
             </div>
           )}
           {list.map((fav) => (
@@ -195,15 +196,15 @@ function FavRow({ fav, onRemove }: { fav: Favorite; onRemove: () => void }) {
       <Img src={image} alt={title} className="h-32 w-full rounded-xl xl:h-[100px] xl:w-[194px]" />
       <div className="min-w-0 flex-1 space-y-1.5">
         <span className="inline-block rounded-full bg-brand-600 px-3 py-0.5 text-[13px] font-semibold text-white">{badge}</span>
-        <Link to={to} className="block text-[20px] font-bold text-navy-900 hover:text-brand-600">{title}</Link>
+        <Lien to={to} className="block text-[20px] font-bold text-navy-900 hover:text-brand-600">{title}</Lien>
         {left}
       </div>
       <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-line xl:min-w-[420px] xl:flex-nowrap xl:self-stretch xl:border-l xl:pl-8">
         <div className="flex-1">{right}</div>
-        <Link to={to} className="mt-6 inline-flex h-10 items-center gap-2 rounded-full border-2 border-brand-600/60 px-6 text-[15px] font-semibold whitespace-nowrap text-navy-800 hover:bg-brand-50">
+        <Lien to={to} className="mt-6 inline-flex h-10 items-center gap-2 rounded-full border-2 border-brand-600/60 px-6 text-[15px] font-semibold whitespace-nowrap text-navy-800 hover:bg-brand-50">
           {cta}
           <ArrowRight className="size-5" />
-        </Link>
+        </Lien>
       </div>
       <button type="button" aria-label={t('row.retirer')} onClick={onRemove} className="absolute top-3 right-5">
         <Heart className="size-7 fill-rose-600 text-rose-600" />
@@ -229,17 +230,17 @@ function PublicationFavorite({ enregistrement }: { enregistrement: Enregistremen
       <Img src={publication.image ?? ''} alt="" className="h-32 w-full rounded-xl xl:h-[100px] xl:w-[194px]" />
       <div className="min-w-0 flex-1 space-y-1.5 pr-10">
         <span className="inline-block rounded-full bg-violet-600 px-3 py-0.5 text-[13px] font-semibold text-white">{t('row.publication')}</span>
-        <Link to={ROUTES.publication(publication.id)} className="line-clamp-2 block text-[20px] font-bold text-navy-900 hover:text-brand-600">
+        <Lien to={ROUTES.publication(publication.id)} className="line-clamp-2 block text-[20px] font-bold text-navy-900 hover:text-brand-600">
           {titre}
-        </Link>
+        </Lien>
         <p className="text-[15px] text-muted-foreground">
           {auteur} · {shortDate(publication.publieeLe, { day: '2-digit', month: 'short', year: 'numeric' })}
         </p>
       </div>
-      <Link to={ROUTES.publication(publication.id)} className="inline-flex h-10 items-center gap-2 self-start rounded-full border-2 border-brand-600/60 px-6 text-[15px] font-semibold whitespace-nowrap text-navy-800 hover:bg-brand-50 xl:self-center">
+      <Lien to={ROUTES.publication(publication.id)} className="inline-flex h-10 items-center gap-2 self-start rounded-full border-2 border-brand-600/60 px-6 text-[15px] font-semibold whitespace-nowrap text-navy-800 hover:bg-brand-50 xl:self-center">
         {t('row.lire')}
         <ArrowRight className="size-5" />
-      </Link>
+      </Lien>
       <button type="button" aria-label={t('row.retirer')} onClick={() => void retirer()} className="absolute top-3 right-5">
         <Heart className="size-7 fill-rose-600 text-rose-600" />
       </button>

@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from 'react'
-import { Link, useNavigate, useParams } from 'react-router'
+import { useNavigate, useParams, useRouter } from '@tanstack/react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { Trans, useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import {
@@ -65,10 +66,11 @@ function Label({ children, required }: { children: ReactNode; required?: boolean
 
 export function Preinscription() {
   const { t } = useTranslation('schools')
-  const { id } = useParams()
+  const { id } = useParams({ strict: false })
   const f = useFormation(id)
   const e = useEtablissement(f.etablissementId)
   const navigate = useNavigate()
+  const router = useRouter()
   const [step, setStep] = useState(0)
   const [sent, setSent] = useState(false)
   // Le dossier envoyé par un compte connecté : « Voir mon dossier » dans Mon espace.
@@ -102,17 +104,17 @@ export function Preinscription() {
             <Trans t={t} i18nKey="preinscription.sent.text" values={{ school: e.nom, training: f.nom }} components={{ b: <b /> }} />
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <button type="button" onClick={() => navigate(ecoleUrl(e))} className="h-11 flex-1 rounded-full border-2 border-brand-600/60 font-semibold text-navy-800">
+            <button type="button" onClick={() => navigate({ href: ecoleUrl(e) })} className="h-11 flex-1 rounded-full border-2 border-brand-600/60 font-semibold text-navy-800">
               {t('preinscription.sent.back')}
             </button>
-            <button type="button" onClick={() => navigate(ROUTES.schools)} className="h-11 flex-1 rounded-full bg-brand-600 font-semibold text-white">
+            <button type="button" onClick={() => navigate({ href: ROUTES.schools })} className="h-11 flex-1 rounded-full bg-brand-600 font-semibold text-white">
               {t('preinscription.sent.explore')}
             </button>
           </div>
           {dossier && (
-            <Link to={ROUTES.espacePreinscription(dossier)} className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full font-semibold text-brand-700 hover:underline mt-3">
+            <Lien to={ROUTES.espacePreinscription(dossier)} className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-full font-semibold text-brand-700 hover:underline mt-3">
               {t('preinscription.sent.voirDossier')}
-            </Link>
+            </Lien>
           )}
         </div>
       </div>
@@ -347,7 +349,7 @@ export function Preinscription() {
             <div className={cn('mt-5 flex items-center gap-4 pt-4', step < 3 ? 'justify-end border-t border-line' : 'justify-between')}>
               <button
                 type="button"
-                onClick={() => (step === 0 ? navigate(-1) : setStep(step - 1))}
+                onClick={() => (step === 0 ? router.history.back() : setStep(step - 1))}
                 className={cn('inline-flex h-11 items-center justify-center gap-2.5 rounded-full text-[16px] font-semibold text-navy-800', step < 3 ? 'w-44 border border-[#c9d4ea] bg-[#eef3fc]' : 'w-50 border-2 border-brand-600/60 bg-white')}
               >
                 <ArrowLeft className="size-5" />

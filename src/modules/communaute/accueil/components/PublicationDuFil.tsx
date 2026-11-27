@@ -1,7 +1,7 @@
 import { ArrowRight, Bookmark, Eye, Flag, Heart, Link2, MessageCircle, Share2, ThumbsUp, Trash2 } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { toast } from 'sonner'
 import { data } from '@/data'
 import { CLASSES_GESTE, titreEtExtrait } from '@/modules/communaute/accueil/accueilFil'
@@ -196,10 +196,10 @@ export function PublicationDuFil({ publication }: { publication: Publication }) 
             disabled={jaime.enCours}
             onClick={() => void jaime.basculer()}
           />
-          <Link to={`${vers}#commentaires`} className={`${CLASSES_GESTE} text-muted-foreground hover:text-ink`}>
+          <Lien to={`${vers}#commentaires`} className={`${CLASSES_GESTE} text-muted-foreground hover:text-ink`}>
             <MessageCircle className="size-[0.8125rem] shrink-0" aria-hidden="true" />
             <span className="truncate">{t('actions.commenter')}</span>
-          </Link>
+          </Lien>
           <GesteDuFil
             icone={<Share2 className="size-[0.8125rem] shrink-0" aria-hidden="true" />}
             libelle={t('actions.partager')}

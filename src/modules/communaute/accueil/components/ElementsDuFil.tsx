@@ -1,7 +1,7 @@
 import { MoreHorizontal } from 'lucide-react'
 import type { MouseEventHandler, ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { dateHeureDuFil, dateRelativeDuFil } from '@/modules/communaute/accueil/accueilDates'
 import { CLASSES_GESTE, type NatureDuFil, type TypeDePastille } from '@/modules/communaute/accueil/accueilFil'
 import { Deroulant } from '@/modules/communaute/accueil/components/Deroulant'
@@ -50,9 +50,9 @@ export function EnTeteDuFil({ nom, photo, vers, pastille, nature, date, menu }: 
   return (
     <div className="relative z-10 flex items-start gap-2">
       {vers ? (
-        <Link to={vers} tabIndex={-1} aria-hidden="true" className="shrink-0 rounded-full transition-opacity hover:opacity-85">
+        <Lien to={vers} tabIndex={-1} aria-hidden="true" className="shrink-0 rounded-full transition-opacity hover:opacity-85">
           {avatar}
-        </Link>
+        </Lien>
       ) : (
         avatar
       )}
@@ -60,13 +60,13 @@ export function EnTeteDuFil({ nom, photo, vers, pastille, nature, date, menu }: 
       <div className="flex min-w-0 flex-1 flex-col gap-0.5 leading-tight">
         <span className="flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-0.5">
           {vers ? (
-            <Link
+            <Lien
               to={vers}
               title={nom}
               className="max-w-full min-w-0 truncate rounded text-xs font-bold text-navy-900 hover:underline focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none"
             >
               {nom}
-            </Link>
+            </Lien>
           ) : (
             <span className="max-w-full min-w-0 truncate text-xs font-bold text-navy-900">{nom}</span>
           )}
@@ -93,9 +93,9 @@ export function EnTeteDuFil({ nom, photo, vers, pastille, nature, date, menu }: 
 export function TitreDuFil({ vers, onClick, children }: { vers: string; onClick?: MouseEventHandler<HTMLAnchorElement>; children: string }) {
   return (
     <h3 className="line-clamp-2 text-sm leading-snug font-bold text-navy-900">
-      <Link to={vers} onClick={onClick} className="outline-none after:absolute after:inset-0 after:content-[''] hover:underline focus-visible:underline">
+      <Lien to={vers} onClick={onClick} className="outline-none after:absolute after:inset-0 after:content-[''] hover:underline focus-visible:underline">
         {children}
-      </Link>
+      </Lien>
     </h3>
   )
 }
@@ -107,9 +107,9 @@ export function ExtraitDuFil({ children }: { children: ReactNode }) {
 /** Le visuel en grand : il mène où mène le titre, sans second arrêt au clavier. */
 export function VisuelDuFil({ vers, onClick, children }: { vers: string; onClick?: MouseEventHandler<HTMLAnchorElement>; children: ReactNode }) {
   return (
-    <Link to={vers} onClick={onClick} tabIndex={-1} aria-hidden="true" className="relative z-10 block overflow-hidden rounded-lg bg-page transition-opacity hover:opacity-95">
+    <Lien to={vers} onClick={onClick} tabIndex={-1} aria-hidden="true" className="relative z-10 block overflow-hidden rounded-lg bg-page transition-opacity hover:opacity-95">
       {children}
-    </Link>
+    </Lien>
   )
 }
 
@@ -158,13 +158,13 @@ export function GesteDuFil({ icone, libelle, actif = false, couleurActive = 'tex
 /** Un lien de pied d'élément : « Voir plus », « Voir l'offre », « Voir la formation ». */
 export function LienDuPied({ vers, onClick, children }: { vers: string; onClick?: MouseEventHandler<HTMLAnchorElement>; children: ReactNode }) {
   return (
-    <Link
+    <Lien
       to={vers}
       onClick={onClick}
       className="relative z-10 ml-auto inline-flex min-h-9 shrink-0 items-center gap-1 rounded text-xs font-semibold text-brand-600 hover:underline focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none"
     >
       {children}
-    </Link>
+    </Lien>
   )
 }
 

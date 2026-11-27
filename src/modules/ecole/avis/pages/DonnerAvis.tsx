@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router'
+import { useLocation, useNavigate, useParams } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { Building2, CalendarDays, CircleCheck, GraduationCap, Handshake, Info, PencilLine, Send, ShieldCheck, Star, UserRound, Car, Users, Briefcase } from 'lucide-react'
@@ -62,7 +62,7 @@ function StarRow({ value, onChange, size }: { value: number; onChange: (v: numbe
 
 export function DonnerAvis() {
   const { t } = useTranslation('reviews')
-  const { id } = useParams()
+  const { id } = useParams({ strict: false })
   const { pathname } = useLocation()
   const navigate = useNavigate()
   const isAE = pathname.startsWith(ROUTES.drivingSchools)
@@ -127,7 +127,7 @@ export function DonnerAvis() {
       await data.create('notifications', { etablissementId: e.id, type: 'avis', titre: t('donnerAvis.notification.titre'), texte: t('donnerAvis.notification.texte', { name: auteur.nom, note }), date: t('donnerAvis.aLInstant'), lu: false }, 'notification')
     }
     toast.success(t('donnerAvis.toasts.merci'))
-    navigate(back)
+    navigate({ href: back })
   }
 
   return (
@@ -185,7 +185,7 @@ export function DonnerAvis() {
             {isAE ? t('donnerAvis.confirm.autoEcole') : t('donnerAvis.confirm.ecole')}
           </label>
           <div className="grid gap-4 pt-1 sm:grid-cols-2">
-            <button type="button" onClick={() => navigate(back)} className="h-12 rounded-xl border-2 border-brand-600/60 text-[18px] font-semibold text-navy-800 hover:bg-brand-50">
+            <button type="button" onClick={() => navigate({ href: back })} className="h-12 rounded-xl border-2 border-brand-600/60 text-[18px] font-semibold text-navy-800 hover:bg-brand-50">
               {t('donnerAvis.annuler')}
             </button>
             <button type="button" onClick={publish} className="inline-flex h-12 items-center justify-center gap-3 rounded-xl bg-brand-600 text-[19px] font-semibold text-white hover:bg-brand-700">

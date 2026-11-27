@@ -1,4 +1,4 @@
-import { useSearchParams } from 'react-router'
+import { useParametresRecherche } from '@/shared/hooks/useParametresRecherche'
 import { TRIS_DU_FIL, type TriDuFil } from '@/modules/communaute/accueil/accueilFil'
 
 export interface FiltresDuFil {
@@ -18,7 +18,7 @@ export interface FiltresDuFil {
  * collection : l'ordre ne s'y applique pas.
  */
 export function useFiltresDuFil() {
-  const [parametres, setParametres] = useSearchParams()
+  const [parametres, setParametres] = useParametresRecherche()
 
   const vue = parametres.get('vue')
   const enregistres = vue === 'enregistres'
@@ -52,6 +52,6 @@ export function useFiltresDuFil() {
       filtres.domaines.length > 0 ||
       filtres.sujet !== undefined ||
       filtres.recherche !== '',
-    toutVoir: () => setParametres({}, { replace: true }),
+    toutVoir: () => setParametres(new URLSearchParams(), { replace: true }),
   }
 }

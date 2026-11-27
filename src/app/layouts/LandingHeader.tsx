@@ -2,7 +2,7 @@ import { clsx } from 'clsx'
 import { UserRound } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { NotificationsBell, UserMenu } from '@/app/layouts/AccountMenu'
 import { LandingLogo } from '@/app/layouts/LandingLogo'
 import { useSession } from '@/modules/compte/auth/hooks/useSession'
@@ -78,12 +78,12 @@ export function LandingHeader({ flottante = false }: { flottante?: boolean }) {
           surPhoto ? 'pt-5 pb-3 md:pt-9' : 'py-3',
         )}
       >
-        <Link
+        <Lien
           to={account ? account.home : ROUTES.home}
           className={clsx('shrink-0 rounded-md focus-visible:ring-2 focus-visible:outline-none', surPhoto ? 'focus-visible:ring-white' : 'focus-visible:ring-ring')}
         >
           <LandingLogo surPhoto={surPhoto} avecDevise />
-        </Link>
+        </Lien>
 
         <div className="flex shrink-0 items-center gap-1.5 md:gap-2">
           <LanguageSwitcher light={surPhoto} />
@@ -93,10 +93,10 @@ export function LandingHeader({ flottante = false }: { flottante?: boolean }) {
               <UserMenu />
             </>
           ) : (
-            <Link to={ROUTES.signIn} className={clsx(BOUTON, surPhoto ? BOUTON_SECONDAIRE : BOUTON_CONTOUR)}>
+            <Lien to={ROUTES.signIn} className={clsx(BOUTON, surPhoto ? BOUTON_SECONDAIRE : BOUTON_CONTOUR)}>
               {!petitEcran && <UserRound className="size-[1.1rem]" aria-hidden="true" />}
               {t('accueil.entete.seConnecter')}
-            </Link>
+            </Lien>
           )}
         </div>
       </div>

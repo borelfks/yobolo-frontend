@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { ArrowLeft, CircleCheck } from 'lucide-react'
 import { Logo } from '@/shared/ui/Logo'
 import { Img } from '@/shared/ui/Img'
@@ -30,14 +30,14 @@ export function AuthShell({ children }: { children: ReactNode }) {
       <main className="flex min-w-0 flex-col">
         <div className="flex h-16 shrink-0 items-center gap-2 px-5 sm:px-8 lg:px-12">
           <Logo className="mr-auto" />
-          <Link
+          <Lien
             to={ROUTES.home}
             className="inline-flex h-10 items-center gap-1.5 rounded-full px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-brand-50 hover:text-navy-900"
           >
             <ArrowLeft className="size-4 shrink-0" aria-hidden />
             <span className="sm:hidden">{t('authLayout.home')}</span>
             <span className="hidden sm:inline">{t('authLayout.backHome')}</span>
-          </Link>
+          </Lien>
           <LanguageSwitcher />
         </div>
         <div className="flex flex-1 flex-col px-5 sm:px-8 lg:px-12">

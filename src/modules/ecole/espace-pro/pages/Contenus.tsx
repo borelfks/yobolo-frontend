@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Link, useParams } from 'react-router'
+import { useParams } from '@tanstack/react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import {
@@ -61,7 +62,7 @@ function StatutPill({ s }: { s: string }) {
 
 export function Contenus() {
   const { t } = useTranslation('pro', { keyPrefix: 'content' })
-  const { tab = '' } = useParams()
+  const { tab = '' } = useParams({ strict: false })
   const tabs = [
     { value: '', label: t('contents.tabs.presentation'), icon: <FileText /> },
     { value: 'actualites', label: t('contents.tabs.news'), icon: <Megaphone /> },
@@ -96,13 +97,13 @@ function ActuList() {
         <div key={a.id} className="flex items-center gap-2 py-2 sm:gap-3">
           <Img src={a.image} alt="" className="h-12 w-16 shrink-0 rounded-lg sm:w-[92px]" />
           <div className="min-w-0 flex-1">
-            <Link to={ROUTES.pro.publication(a.id)} className="line-clamp-2 text-[14.5px] font-bold text-navy-900 hover:text-brand-600 sm:block sm:truncate">{a.titre}</Link>
+            <Lien to={ROUTES.pro.publication(a.id)} className="line-clamp-2 text-[14.5px] font-bold text-navy-900 hover:text-brand-600 sm:block sm:truncate">{a.titre}</Lien>
             <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[13.5px] text-navy-900">
               <span className="inline-flex items-center gap-1.5 whitespace-nowrap"><CalendarDays className="size-4" />{a.date}</span>
               <StatutPill s={a.statut} />
             </p>
           </div>
-          <Link to={ROUTES.pro.publication(a.id)} aria-label={t('contents.actions.edit')} className="grid size-9 shrink-0 place-items-center rounded-lg border border-line bg-white text-navy-800 hover:bg-brand-50"><Pencil className="size-4" /></Link>
+          <Lien to={ROUTES.pro.publication(a.id)} aria-label={t('contents.actions.edit')} className="grid size-9 shrink-0 place-items-center rounded-lg border border-line bg-white text-navy-800 hover:bg-brand-50"><Pencil className="size-4" /></Lien>
           <MenuActions
             label={t('contents.actions.more')}
             actions={[
@@ -172,25 +173,25 @@ function Presentation() {
           <ProCard
             title={<>{t('contents.presentation.latestNews')} <span className="text-rose-600">({actualites.length})</span></>}
             icon={<Megaphone />}
-            action={<Link to={ROUTES.pro.contents('actualites')} className="inline-flex h-10 items-center gap-2 rounded-full border-2 border-brand-600/60 px-4 text-[15px] font-semibold text-navy-800 hover:bg-brand-50"><Plus className="size-5" />{t('contents.presentation.newNews')}</Link>}
+            action={<Lien to={ROUTES.pro.contents('actualites')} className="inline-flex h-10 items-center gap-2 rounded-full border-2 border-brand-600/60 px-4 text-[15px] font-semibold text-navy-800 hover:bg-brand-50"><Plus className="size-5" />{t('contents.presentation.newNews')}</Lien>}
           >
             <ActuList />
           </ProCard>
           <div className="grid gap-4 sm:grid-cols-2">
-            <Link to={ROUTES.pro.contents('documents')} className={cn(proCard, 'p-3')}>
+            <Lien to={ROUTES.pro.contents('documents')} className={cn(proCard, 'p-3')}>
               <p className="flex items-center gap-2.5 text-[17px] font-bold text-navy-900"><Folder className="size-7 text-emerald-600" />{t('contents.presentation.documentsTitle')}</p>
               <div className="mt-2 flex items-center rounded-xl bg-[#e5f7ea] px-4 py-3">
                 <span className="flex-1 leading-tight"><b className="block text-[30px] text-navy-900">{documents.filter((d) => d.statut === 'Publié').length}</b><span className="text-[15px] text-navy-900">{t('contents.presentation.documentsPublished')}</span></span>
                 <ChevronRight className="size-6 text-emerald-700" />
               </div>
-            </Link>
-            <Link to={ROUTES.pro.contents('faq')} className={cn(proCard, 'p-3')}>
+            </Lien>
+            <Lien to={ROUTES.pro.contents('faq')} className={cn(proCard, 'p-3')}>
               <p className="flex items-center gap-2.5 text-[17px] font-bold text-navy-900"><CircleHelp className="size-7 text-violet-600" />{t('contents.presentation.faqTitle')}</p>
               <div className="mt-2 flex items-center rounded-xl bg-[#efe8ff] px-4 py-3">
                 <span className="flex-1 leading-tight"><b className="block text-[30px] text-navy-900">{faq.length}</b><span className="text-[15px] text-navy-900">{t('contents.presentation.faqCount')}</span></span>
                 <ChevronRight className="size-6 text-violet-700" />
               </div>
-            </Link>
+            </Lien>
           </div>
         </div>
       </div>

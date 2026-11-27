@@ -2,7 +2,7 @@ import { clsx } from 'clsx'
 import { ArrowRight, BookOpen, BriefcaseBusiness, GraduationCap, MessagesSquare, MonitorPlay } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { Apparition } from '@/modules/landing/components/Apparition'
 import { Vague } from '@/shared/ui/Vague'
 import { ROUTES } from '@/shared/utils/routes'
@@ -128,12 +128,12 @@ function CarteService({ service }: { service: Service }) {
       <div className="flex flex-1 items-end gap-4 px-5 pt-3 pb-5 sm:px-6 sm:pb-6">
         <div className="min-w-0 flex-1 self-start">
           <h3 className="text-2xl font-semibold tracking-tight text-foreground">
-            <Link
+            <Lien
               to={vers}
               className="rounded-[1.5rem] outline-none after:absolute after:inset-0 after:rounded-[1.5rem] after:content-[''] focus-visible:after:ring-2 focus-visible:after:ring-ring"
             >
               {t(`services.${cle}.titre`)}
-            </Link>
+            </Lien>
           </h3>
           <p className="mt-1 font-medium text-foreground">{t(`services.${cle}.accroche`)}</p>
           <p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">{t(`services.${cle}.texte`)}</p>

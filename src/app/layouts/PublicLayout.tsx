@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Link, NavLink, ScrollRestoration, useLocation } from 'react-router'
+import { useLocation } from '@tanstack/react-router'
+import { Lien } from '@/shared/ui/Lien'
+import { LienActif } from '@/shared/ui/LienActif'
 import { useTranslation } from 'react-i18next'
 import { Menu, X } from 'lucide-react'
 import { Logo } from '@/shared/ui/Logo'
@@ -33,13 +35,12 @@ export function PublicLayout() {
   const vers = (to: string) => (to === ROUTES.home ? accueil : ecole && to === ROUTES.schools ? ROUTES.pro.root : to)
   return (
     <div className="app-cadre flex min-h-dvh flex-col">
-      <ScrollRestoration />
       <header className="sticky top-0 z-30 border-b border-line/70 bg-white/90 backdrop-blur">
         <div className="mx-auto flex h-[68px] max-w-[1320px] items-center gap-2 px-3 sm:gap-4 sm:px-5">
           <Logo to={accueil} />
           <nav className="mx-auto hidden items-center gap-1 lg:flex">
             {publicNav.map((l) => (
-              <NavLink
+              <LienActif
                 key={l.to}
                 to={vers(l.to)}
                 end={l.end}
@@ -52,7 +53,7 @@ export function PublicLayout() {
               >
                 <l.icon className="size-5" />
                 {t(l.labelKey)}
-              </NavLink>
+              </LienActif>
             ))}
             {!account && (
               <Button to={ROUTES.signUp} onClick={() => setOpen(false)} className="mt-1 sm:hidden">
@@ -86,7 +87,7 @@ export function PublicLayout() {
         {open && (
           <nav className="grid gap-1 border-t border-line bg-white p-3 lg:hidden">
             {publicNav.map((l) => (
-              <NavLink
+              <LienActif
                 key={l.to}
                 to={vers(l.to)}
                 end={l.end}
@@ -95,7 +96,7 @@ export function PublicLayout() {
               >
                 <l.icon className="size-5" />
                 {t(l.labelKey)}
-              </NavLink>
+              </LienActif>
             ))}
           </nav>
         )}
@@ -125,9 +126,9 @@ function Footer() {
           <ul className="flex flex-wrap gap-x-[1.8rem]">
             {AIDE.map(({ cle, vers }) => (
               <li key={cle}>
-                <Link to={vers} className="inline-block rounded-sm py-[0.6rem] font-client text-sm text-white/70 transition-colors hover:text-white">
+                <Lien to={vers} className="inline-block rounded-sm py-[0.6rem] font-client text-sm text-white/70 transition-colors hover:text-white">
                   {t(`accueil.piedDePage.liens.${cle}`)}
-                </Link>
+                </Lien>
               </li>
             ))}
           </ul>

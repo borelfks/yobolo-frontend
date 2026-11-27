@@ -2,7 +2,7 @@ import { ArrowRight, ChevronDown, Search } from 'lucide-react'
 import { useId, useState } from 'react'
 import type { FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@tanstack/react-router'
 import { ROUTES } from '@/shared/utils/routes'
 
 type CleModule = 'consultants' | 'formations' | 'ecoles' | 'offres'
@@ -31,7 +31,7 @@ export function RechercheAccueil() {
     evenement.preventDefault()
     const choisi = MODULES.find((candidat) => candidat.cle === module) ?? MODULES[0]!
     const recherche = texte.trim()
-    navigate(recherche ? `${choisi.vers}?${new URLSearchParams({ [choisi.parametre]: recherche })}` : choisi.vers)
+    navigate({ href: recherche ? `${choisi.vers}?${new URLSearchParams({ [choisi.parametre]: recherche })}` : choisi.vers })
   }
 
   return (

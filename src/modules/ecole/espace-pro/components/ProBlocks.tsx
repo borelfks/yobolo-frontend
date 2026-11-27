@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Link } from 'react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
 import { ArrowUpRight, Check, Eye, Save } from 'lucide-react'
@@ -26,11 +26,11 @@ export function ProHeader({ crumbs, icon, title, subtitle, actions }: { crumbs: 
           </div>
         </div>
         {actions ?? (
-          <Link to={ecoleUrl(ecole)} className="inline-flex h-12 items-center gap-2.5 rounded-full border-2 border-brand-600/70 bg-white px-6 text-[17px] font-semibold text-navy-800 hover:bg-brand-50">
+          <Lien to={ecoleUrl(ecole)} className="inline-flex h-12 items-center gap-2.5 rounded-full border-2 border-brand-600/70 bg-white px-6 text-[17px] font-semibold text-navy-800 hover:bg-brand-50">
             <Eye className="size-6" />
             {t('header.viewPublicPage')}
             <ArrowUpRight className="size-5" />
-          </Link>
+          </Lien>
         )}
       </div>
     </div>

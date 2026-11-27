@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate, useParams } from '@tanstack/react-router'
 import { Trans, useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { CalendarDays, Copy, ExternalLink, Lightbulb, Pencil, Tag, Trash2 } from 'lucide-react'
@@ -27,7 +27,7 @@ const NEWS_CATEGORY_KEYS: Record<string, 'admission' | 'event' | 'training' | 'r
 
 export function Publication() {
   const { t } = useTranslation('pro', { keyPrefix: 'content' })
-  const { id } = useParams()
+  const { id } = useParams({ strict: false })
   const a = useActualite(id)
   const { ecole } = useMonEcole()
   const reglages = useParametres(ecole.id)
@@ -78,7 +78,7 @@ export function Publication() {
               <QuickAction icon={<Pencil />} label={t('publication.quickActions.edit')} onClick={() => setEdition(true)} />
               <QuickAction icon={<Copy />} label={t('publication.quickActions.copyLink')} onClick={() => { void navigator.clipboard?.writeText(window.location.href); toast.success(t('publication.quickActions.linkCopied')) }} />
               <QuickAction icon={<ExternalLink />} label={t('publication.quickActions.openNewTab')} onClick={() => window.open(window.location.href, '_blank', 'noopener')} />
-              <Button variant="danger-outline" className="w-full justify-start" onClick={async () => { navigate(ROUTES.pro.contents('actualites')); await data.remove('actualites', a.id); toast.success(t('publication.quickActions.deleted')) }}>
+              <Button variant="danger-outline" className="w-full justify-start" onClick={async () => { navigate({ href: ROUTES.pro.contents('actualites') }); await data.remove('actualites', a.id); toast.success(t('publication.quickActions.deleted')) }}>
                 <Trash2 /> {t('publication.quickActions.delete')}
               </Button>
             </div>

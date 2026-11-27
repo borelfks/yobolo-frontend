@@ -1,4 +1,4 @@
-import { Navigate, useParams } from 'react-router'
+import { Navigate, useParams } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { Megaphone } from 'lucide-react'
 import { usePublications } from '@/data/hooks'
@@ -19,7 +19,7 @@ import { ROUTES } from '@/shared/utils/routes'
  */
 export function PublicationLue() {
   const { t } = useTranslation('accueil')
-  const { id = '' } = useParams()
+  const { id = '' } = useParams({ strict: false })
   const { account } = useSession()
   const publication = usePublications().find((p) => p.id === id && p.statut === 'publiee')
 

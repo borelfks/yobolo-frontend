@@ -1,4 +1,4 @@
-import { Navigate } from 'react-router'
+import { Navigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { Settings } from 'lucide-react'
 import { useSession } from '@/modules/compte/auth/hooks/useSession'

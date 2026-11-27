@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Link } from 'react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { useTranslation } from 'react-i18next'
 import { ArrowLeft, CheckCircle2, Info, Lightbulb, TrendingUp } from 'lucide-react'
 import { cn } from '@/shared/utils/cn'
@@ -92,10 +92,10 @@ export function PageTitle({
 
 export function BackLink({ to, children }: { to: string; children: ReactNode }) {
   return (
-    <Link to={to} className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-600 hover:underline">
+    <Lien to={to} className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-600 hover:underline">
       <ArrowLeft className="size-4" />
       {children}
-    </Link>
+    </Lien>
   )
 }
 
@@ -173,10 +173,10 @@ export function QuickAction({ icon, label, to, onClick, tone = 'neutral' }: { ic
   )
   if (to)
     return (
-      <Link to={to} className={cls}>
+      <Lien to={to} className={cls}>
         {icon}
         {label}
-      </Link>
+      </Lien>
     )
   return (
     <button type="button" onClick={onClick} className={cls}>

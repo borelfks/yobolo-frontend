@@ -1,4 +1,4 @@
-import { Link } from 'react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { Trans, useTranslation } from 'react-i18next'
 import { ArrowRight, BadgeCheck, BookOpen, Briefcase, Building2, CalendarDays, ExternalLink, Eye, GraduationCap, ImagePlus, Images, Layers, MapPin, Megaphone, MessageSquareText, PencilLine, Phone, Plus, Rocket, ShieldCheck, Zap } from 'lucide-react'
 import { ecoleUrl } from '@/modules/ecole/etablissements/schoolLinks'
@@ -114,7 +114,7 @@ export function Dashboard() {
           <Section title={t('dashboard.infos.title')} icon={<Layers />}>
             <div className="grid gap-3 md:grid-cols-2">
               {infos.map((i) => (
-                <Link key={i.id} to={i.to} className="flex items-center gap-3 rounded-2xl border border-line p-3 transition-colors hover:bg-brand-50">
+                <Lien key={i.id} to={i.to} className="flex items-center gap-3 rounded-2xl border border-line p-3 transition-colors hover:bg-brand-50">
                   <IconTile icon={i.icon} tone={i.tone} />
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-bold text-navy-900">{t(`dashboard.infos.${i.id}.label`)}</p>
@@ -126,7 +126,7 @@ export function Dashboard() {
                     <Circle className="size-5 text-slate-300" aria-label={t('dashboard.infos.todo')} />
                   )}
                   <ArrowRight className="size-4 text-muted-foreground" />
-                </Link>
+                </Lien>
               ))}
             </div>
           </Section>
@@ -135,7 +135,7 @@ export function Dashboard() {
           <Card className="overflow-hidden">
             <div className="flex items-center justify-between bg-brand-50 px-5 py-3">
               <p className="flex items-center gap-2 font-bold text-navy-900"><Eye className="size-5 text-brand-600" /> {t('dashboard.preview.title')}</p>
-              <Link to={ecoleUrl(ecole)} aria-label={t('dashboard.preview.open')}><ExternalLink className="size-4 text-brand-600" /></Link>
+              <Lien to={ecoleUrl(ecole)} aria-label={t('dashboard.preview.open')}><ExternalLink className="size-4 text-brand-600" /></Lien>
             </div>
             <div className="flex gap-4 p-5">
               <Img src={ecole.image} alt={ecole.nom} className="size-24 rounded-xl" />

@@ -39,4 +39,11 @@ Les listes de liens des cadres sont dans `navConfig.ts`. Elles gardent des **cl�
 - Les pages de l'univers École et de l'espace pro ont un **fil d'Ariane** (`Breadcrumb`, ou celui de `ProHeader` / `AEHeader`), comme sur la maquette : « École › IPES › Institut Professionnel du Centre (IPC) › Aperçu ».
 - Chaque élément du fil (sauf le dernier) est un lien de `ROUTES`.
 - Les boutons « Retour » / « Précédent » des étapes reviennent à l'étape d'avant ; à la première étape, à la page précédente.
-- Le défilement revient en haut à chaque page (`ScrollRestoration` dans les cadres).
+- Le défilement revient en haut à chaque page et retrouve sa place au retour arrière (option `scrollRestoration` du routeur).
+
+## Routeur (TanStack Router, depuis le 2026-11-27)
+- Table des routes dans `src/app/routes/`, un fichier par cadre : `racine.tsx`, `auth.tsx`, `landing.tsx`, `public.tsx`, `pro.tsx`, `developpement.tsx` ; `pages.ts` (pages chargées à la demande) ; `index.tsx` assemble l'arbre et crée le routeur. Motifs : `ROUTE_PATTERNS` (`$id`, segment facultatif `{-$tab}`).
+- **Liens** : `Lien` (`src/shared/ui/Lien.tsx`) à la place du `Link` du routeur ; menus et onglets : `LienActif`. Ils acceptent les adresses de `ROUTES`, recherche et ancre comprises.
+- **Navigation** : `navigate({ href: ROUTES.… })` ; retour : `useRouter().history.back()`.
+- **Recherche dans l'adresse** : `useParametresRecherche()` (comme `URLSearchParams`) ; le routeur garde la recherche en texte simple.
+- **Paramètres** : `useParams({ strict: false })`. État transmis : déclaré dans `HistoryState` (`src/app/routes/index.tsx`).

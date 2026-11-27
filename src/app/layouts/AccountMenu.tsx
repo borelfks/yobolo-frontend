@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { useNavigate } from '@tanstack/react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { useTranslation } from 'react-i18next'
 import { Bell, CalendarCheck, CheckCircle2, ChevronDown, FileCheck2, FileText, Heart, House, LayoutDashboard, LogOut, MessageSquare, Settings, Star, UserRound, type LucideIcon } from 'lucide-react'
 import { Avatar } from '@/shared/ui/Avatar'
@@ -93,9 +94,9 @@ export function NotificationsBell({ light, href }: { light?: boolean; href?: str
             {items.length === 0 && <p className="px-3 py-4 text-center text-sm text-muted-foreground">{t('notifications.empty')}</p>}
           </div>
           {href && (
-            <Link to={href} onClick={() => setOpen(false)} className="block rounded-xl p-2 text-center text-sm font-semibold text-brand-600 hover:bg-brand-50">
+            <Lien to={href} onClick={() => setOpen(false)} className="block rounded-xl p-2 text-center text-sm font-semibold text-brand-600 hover:bg-brand-50">
               {t('notifications.seeAll')}
-            </Link>
+            </Lien>
           )}
         </div>
       )}
@@ -126,48 +127,48 @@ export function UserMenu() {
         <div className="absolute right-0 z-40 mt-2 w-64 rounded-2xl border border-line bg-white p-2 shadow-xl">
           {account.role !== 'utilisateur' && (
             <>
-              <Link to={ROUTES.accueil} onClick={close} className={item}>
+              <Lien to={ROUTES.accueil} onClick={close} className={item}>
                 <House />
                 {t('userMenu.home')}
-              </Link>
-              <Link to={ROUTES.pro.root} onClick={close} className={item}>
+              </Lien>
+              <Lien to={ROUTES.pro.root} onClick={close} className={item}>
                 <LayoutDashboard />
                 {t('userMenu.proSpace')}
-              </Link>
+              </Lien>
             </>
           )}
           {account.role === 'utilisateur' && (
             <>
               {/* Mon espace masqué pour la personne physique (demande du porteur du projet, 2026-11-25) :
-              <Link to={ROUTES.espace()} onClick={close} className={item}>
+              <Lien to={ROUTES.espace()} onClick={close} className={item}>
                 <LayoutDashboard />
                 {t('userMenu.mySpace')}
-              </Link>
+              </Lien>
               */}
-              <Link to={ROUTES.profil} onClick={close} className={item}>
+              <Lien to={ROUTES.profil} onClick={close} className={item}>
                 <UserRound />
                 {t('userMenu.profile')}
-              </Link>
+              </Lien>
             </>
           )}
           {/* « Mes favoris » : pour les personnes physiques seulement (décision du 2026-11-25). */}
           {account.role === 'utilisateur' && (
-            <Link to={ROUTES.favorites} onClick={close} className={item}>
+            <Lien to={ROUTES.favorites} onClick={close} className={item}>
               <Heart />
               {t('userMenu.favorites')}
-            </Link>
+            </Lien>
           )}
-          <Link to={account.role === 'utilisateur' ? ROUTES.parametres() : ROUTES.pro.settings()} onClick={close} className={item}>
+          <Lien to={account.role === 'utilisateur' ? ROUTES.parametres() : ROUTES.pro.settings()} onClick={close} className={item}>
             <Settings />
             {t('userMenu.settings')}
-          </Link>
+          </Lien>
           <div className="my-1 border-t border-line" />
           <button
             type="button"
             onClick={() => {
               signOut()
               close()
-              navigate(ROUTES.signIn)
+              navigate({ href: ROUTES.signIn })
             }}
             className={cn(item, 'w-full text-rose-600 [&_svg]:text-rose-500')}
           >

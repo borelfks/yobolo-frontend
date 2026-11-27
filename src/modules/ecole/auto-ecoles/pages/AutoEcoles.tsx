@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { Building2, Car, ChevronDown, ChevronUp, CircleCheck, Funnel, LayoutGrid, List, MapPin, RefreshCw, Search, Star } from 'lucide-react'
 import { FavoriteModal } from '@/modules/ecole/auto-ecoles/components/AutoEcoleBlocks'
 import { FavoriteButton } from '@/shared/ui/FavoriteButton'
@@ -211,7 +211,7 @@ export function AutoEcoles() {
                   <FavoriteButton id={a.id} kind="auto-ecole" className="absolute top-2.5 right-2.5 size-10" />
                 </div>
                 <div className="flex flex-1 flex-col gap-1.5 px-4 pt-3 pb-4">
-                  <Link to={ROUTES.drivingSchool(a.id)} className="text-[18px] font-bold text-navy-900 hover:text-brand-600">{a.nom}</Link>
+                  <Lien to={ROUTES.drivingSchool(a.id)} className="text-[18px] font-bold text-navy-900 hover:text-brand-600">{a.nom}</Lien>
                   <p className="flex items-center gap-1.5 text-[14px] text-navy-900"><MapPin className="size-4" />{a.ville} – {a.quartier}</p>
                   <p className="flex items-center gap-3 border-b border-line pb-2.5 text-[14px] text-navy-900">
                     <span className="inline-flex items-center gap-1.5"><Star className="size-5 fill-amber-400 text-amber-400" />{a.avis > 0 ? <><b>{num(a.note)}</b> {t('common.reviews', { count: a.avis })}</> : <PasEncoreDAvis />}</span>
@@ -233,17 +233,17 @@ export function AutoEcoles() {
                     })}
                   </div>
                   <div className="mt-auto flex gap-2.5 pt-3">
-                    <Link to={ROUTES.drivingSchool(a.id)} className="inline-flex h-10 flex-1 items-center justify-center rounded-full border-2 border-brand-600/60 text-[15px] font-semibold text-navy-800 hover:bg-brand-50">
+                    <Lien to={ROUTES.drivingSchool(a.id)} className="inline-flex h-10 flex-1 items-center justify-center rounded-full border-2 border-brand-600/60 text-[15px] font-semibold text-navy-800 hover:bg-brand-50">
                       {t('list.card.viewProfile')}
-                    </Link>
+                    </Lien>
                     {/* Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) :
-                    <Link
+                    <Lien
                       to={ROUTES.enrollment(a.id, a.permis.includes('B') ? 'B' : a.permis[0])}
                       className="inline-flex h-10 flex-1 items-center justify-center gap-2 rounded-full bg-brand-600 text-[15px] font-semibold text-white hover:bg-brand-700"
                     >
                       <Send className="size-4" />
                       {t('common.enrol')}
-                    </Link>
+                    </Lien>
                     */}
                   </div>
                   <button type="button" onClick={() => setFav(a.id)} className="pt-1 text-left text-[12px] font-semibold text-brand-600 hover:underline">

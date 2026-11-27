@@ -2,7 +2,7 @@ import { Bell, Heart, UserRound, X } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router'
+import { Lien } from '@/shared/ui/Lien'
 import { ROUTES } from '@/shared/utils/routes'
 import { cn } from '@/shared/utils/cn'
 import { useNotificationsCompte } from '@/data/hooks'
@@ -77,14 +77,14 @@ export function Raccourcis({ favoris, basculerFavoris }: { favoris: boolean; bas
             )
           return (
             <li key={cle}>
-              <Link to={vers} className={cn(CLASSES_RACCOURCI, 'relative')}>
+              <Lien to={vers} className={cn(CLASSES_RACCOURCI, 'relative')}>
                 {contenu}
                 {cle === 'notifications' && nonLues > 0 && (
                   <span className="absolute top-1/2 right-2 grid size-5 -translate-y-1/2 place-items-center rounded-full bg-rose-500 text-[0.625rem] font-bold text-white" aria-label={t('raccourcis.nonLues', { count: nonLues })}>
                     {nonLues}
                   </span>
                 )}
-              </Link>
+              </Lien>
             </li>
           )
         })}

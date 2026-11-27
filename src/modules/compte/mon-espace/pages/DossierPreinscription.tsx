@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Navigate, useParams } from 'react-router'
+import { Navigate, useParams } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { Building2, CalendarDays, ExternalLink, GraduationCap, School, Star, UserRound, XCircle } from 'lucide-react'
@@ -23,7 +23,7 @@ const aujourdhui = () => shortDate(new Date(), { day: '2-digit', month: 'short',
 /** Le détail d'une préinscription envoyée : formation, établissement, champs saisis, pièces jointes. */
 export function DossierPreinscription() {
   const { t } = useTranslation('espace')
-  const { id } = useParams()
+  const { id } = useParams({ strict: false })
   const { account } = useSession()
   const p = useMesInscriptions(account?.id).preinscriptions.find((x) => x.id === id)
   const f = useFormations().find((x) => x.id === p?.formationId)

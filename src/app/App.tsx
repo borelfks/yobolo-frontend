@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import { RouterProvider } from 'react-router'
+import { RouterProvider } from '@tanstack/react-router'
 import { ErrorBoundary } from '@/shared/errors/ErrorBoundary'
 import { BandeauHorsLigne } from '@/shared/blocs/BandeauHorsLigne'
 import { PageSpinner } from '@/shared/blocs/Chargement'

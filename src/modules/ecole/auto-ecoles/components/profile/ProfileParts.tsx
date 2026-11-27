@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-// Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) : import { Link } from 'react-router'
+// Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) : import { Lien } from '@/shared/ui/Lien'
 import { CircleCheck, Funnel, Heart, Medal, RefreshCw } from 'lucide-react'
 import { FavoriteModal } from '@/modules/ecole/auto-ecoles/components/AutoEcoleBlocks'
 import { card, whyKeys } from '@/modules/ecole/auto-ecoles/components/profile/profileUtils'
@@ -37,10 +37,10 @@ export function SideActions({ id }: { id: string }) {
   return (
     <div className="space-y-3">
       {/* Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) :
-      <Link to={inscrireHref(a)} className="flex h-12 items-center justify-center gap-3 rounded-xl bg-brand-600 text-[18px] font-semibold text-white shadow-md shadow-brand-600/25 hover:bg-brand-700">
+      <Lien to={inscrireHref(a)} className="flex h-12 items-center justify-center gap-3 rounded-xl bg-brand-600 text-[18px] font-semibold text-white shadow-md shadow-brand-600/25 hover:bg-brand-700">
         <Send className="size-6" />
         {t('common.enrolNow')}
-      </Link>
+      </Lien>
       */}
       <button type="button" onClick={() => (fav ? remove(a.id) : setOpen(true))} className="flex h-11 w-full items-center justify-center gap-2.5 rounded-xl border-2 border-brand-600/60 bg-white text-[16px] font-semibold text-navy-800 hover:bg-brand-50">
         <Heart className={cn('size-5', fav && 'fill-rose-500 text-rose-500')} />

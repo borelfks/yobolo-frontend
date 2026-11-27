@@ -1,4 +1,3 @@
-import { ScrollRestoration } from 'react-router'
 import { LandingFooter } from '@/app/layouts/LandingFooter'
 import { LandingHeader } from '@/app/layouts/LandingHeader'
 import { RouteOutlet } from '@/app/routes/RouteOutlet'
@@ -12,7 +11,6 @@ import { RouteOutlet } from '@/app/routes/RouteOutlet'
 export function LandingLayout() {
   return (
     <div className="theme-client flex min-h-screen flex-col">
-      <ScrollRestoration />
       <LandingHeader flottante />
       <main className="flex-1">
         <RouteOutlet />
