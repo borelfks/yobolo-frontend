@@ -141,7 +141,7 @@ export function EcolesHub() {
             <EcoleCard key={e.id} e={e} />
           ))}
         </div>
-        {cards.length === 0 && <Card className="p-8 text-center text-sm text-muted">{t('hub.empty')}</Card>}
+        {cards.length === 0 && <Card className="p-8 text-center text-sm text-muted-foreground">{t('hub.empty')}</Card>}
         <Pagination label={t('hub.paginationDynamic', { from: cards.length ? (courante - 1) * PAR_PAGE + 1 : 0, to: (courante - 1) * PAR_PAGE + elements.length, total: cards.length })} pages={pages} page={courante} onChange={setPage} />
       </section>
     </div>

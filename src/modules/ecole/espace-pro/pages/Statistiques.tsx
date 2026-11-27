@@ -67,7 +67,7 @@ export function Statistiques() {
       ic: 'bg-[#e1d4ff] text-violet-600',
     },
   ]
-  const vide = (texte: string) => <p className="mt-3 rounded-xl bg-page px-4 py-3 text-[14.5px] text-muted">{texte}</p>
+  const vide = (texte: string) => <p className="mt-3 rounded-xl bg-page px-4 py-3 text-[14.5px] text-muted-foreground">{texte}</p>
 
   return (
     <div className="space-y-3.5">

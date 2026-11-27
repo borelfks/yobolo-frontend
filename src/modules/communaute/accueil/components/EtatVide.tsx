@@ -6,7 +6,7 @@ export function EtatVide({ icone, titre, description, action }: { icone: ReactNo
     <div className="flex flex-col items-center justify-center gap-3 px-6 py-12 text-center">
       <div className="flex size-12 items-center justify-center rounded-full bg-brand-50 text-brand-600">{icone}</div>
       <p className="text-base font-medium text-ink">{titre}</p>
-      {description && <p className="max-w-sm text-sm text-muted">{description}</p>}
+      {description && <p className="max-w-sm text-sm text-muted-foreground">{description}</p>}
       {action && <div className="mt-2">{action}</div>}
     </div>
   )

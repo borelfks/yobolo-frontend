@@ -30,7 +30,7 @@ export function CardHeader({
           {icon}
           {title}
         </h3>
-        {subtitle && <p className="mt-0.5 text-sm text-muted">{subtitle}</p>}
+        {subtitle && <p className="mt-0.5 text-sm text-muted-foreground">{subtitle}</p>}
       </div>
       {action}
     </div>

@@ -146,7 +146,7 @@ export function AvisTab({ id }: { id: string }) {
         {list.slice(0, visibles).map((r) => (
           <AvisLine key={r.id} r={r} ecole={e.sigle || e.nom} peutRepondre={account?.ecoleId === e.id} />
         ))}
-        {list.length === 0 && <p className="rounded-2xl border border-line bg-white p-5 text-center text-[15px] text-muted">{t('ecoleProfil.avis.none')}</p>}
+        {list.length === 0 && <p className="rounded-2xl border border-line bg-white p-5 text-center text-[15px] text-muted-foreground">{t('ecoleProfil.avis.none')}</p>}
         {list.length > visibles && (
           <div className="flex justify-center pt-1">
             <button type="button" onClick={() => setVisibles((v) => v + PAR_PAGE)} className="inline-flex h-11 items-center gap-2 rounded-full border-2 border-brand-600/60 bg-white px-11 text-[16px] font-semibold text-navy-800 hover:bg-brand-50">
@@ -217,7 +217,7 @@ function AvisLine({ r, ecole, peutRepondre }: { r: AvisEtablissement; ecole: str
     </div>
       {r.reponse && !repondre && (
         <div className="mt-3 rounded-xl border-l-4 border-brand-600 bg-[#f3f6fc] px-4 py-2.5 text-[14px] text-navy-900 sm:ml-[310px]">
-          <p className="font-semibold text-brand-700">{t('ecoleProfil.avis.reply.from')} · <span className="font-normal text-muted">{r.reponse.le}</span></p>
+          <p className="font-semibold text-brand-700">{t('ecoleProfil.avis.reply.from')} · <span className="font-normal text-muted-foreground">{r.reponse.le}</span></p>
           <p className="mt-0.5">{r.reponse.texte}</p>
         </div>
       )}

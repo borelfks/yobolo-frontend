@@ -108,7 +108,7 @@ export function LigneCommentaire({
 
       <div className="flex min-w-0 flex-1 flex-col gap-1">
         {commentaire.supprime ? (
-          <p className="w-fit rounded-2xl border border-line bg-white px-3 py-2 text-sm text-muted italic">{t('commentaires.supprimeTexte')}</p>
+          <p className="w-fit rounded-2xl border border-line bg-white px-3 py-2 text-sm text-muted-foreground italic">{t('commentaires.supprimeTexte')}</p>
         ) : enModification ? (
           <ZoneDeSaisie
             placeholder={t('commentaires.placeholder')}
@@ -130,7 +130,7 @@ export function LigneCommentaire({
               // À droite de la bulle, toujours au même endroit ; sur ordinateur il apparaît au survol.
               <div className="ml-auto shrink-0 transition-opacity sm:opacity-0 sm:group-hover/ligne:opacity-100 sm:focus-within:opacity-100">
               <MenuActions
-                className="bg-transparent text-muted hover:bg-page hover:text-ink"
+                className="bg-transparent text-muted-foreground hover:bg-page hover:text-ink"
                 label={t('commentaires.options')}
                 actions={[
                   { label: t('commentaires.modifier'), icon: <Pencil />, hidden: !mien, onClick: () => setEnModification(true) },
@@ -144,7 +144,7 @@ export function LigneCommentaire({
         )}
 
         {!enModification && !commentaire.supprime && (
-          <span className="flex flex-wrap items-center gap-x-3 gap-y-1 pl-3 text-xs text-muted">
+          <span className="flex flex-wrap items-center gap-x-3 gap-y-1 pl-3 text-xs text-muted-foreground">
             <time dateTime={commentaire.le} title={dateHeureDuFil(commentaire.le)} className="tabular-nums">
               {dateRelativeDuFil(commentaire.le)}
             </time>

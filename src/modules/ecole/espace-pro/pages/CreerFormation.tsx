@@ -197,10 +197,10 @@ export function CreerFormation() {
             {nom ? (
               <>
                 <p className="mt-1 text-[20px] leading-snug font-bold text-navy-900">{nom}</p>
-                {chemin && <p className="mt-0.5 text-[13.5px] text-muted">{chemin}</p>}
+                {chemin && <p className="mt-0.5 text-[13.5px] text-muted-foreground">{chemin}</p>}
               </>
             ) : (
-              <p className="mt-1 text-[15px] text-muted">{t('creer.name.empty')}</p>
+              <p className="mt-1 text-[15px] text-muted-foreground">{t('creer.name.empty')}</p>
             )}
           </div>
           <Block n={1} title={t('creer.blocks.general')}>
@@ -282,7 +282,7 @@ export function CreerFormation() {
         <div className="space-y-3">
           <Img src={formation?.image ?? IMAGE_FORMATION} alt="" className="h-40 w-full rounded-xl" />
           <p className="text-xl font-bold text-navy-900">{nom || t('creer.preview.untitled')}</p>
-          <p className="text-sm text-muted">{ecole.nom} · {ecole.ville} – {ecole.quartier}</p>
+          <p className="text-sm text-muted-foreground">{ecole.nom} · {ecole.ville} – {ecole.quartier}</p>
           <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 text-[14.5px] text-navy-900">
             <dt className="font-semibold">{t('creer.preview.diploma')}</dt><dd>{diplome || '—'}</dd>
             <dt className="font-semibold">{t('creer.preview.field')}</dt><dd>{chemin || '—'}</dd>

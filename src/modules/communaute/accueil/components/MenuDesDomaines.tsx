@@ -93,7 +93,7 @@ function Rond({ icone: Icone, choisi, teinte }: { icone: LucideIcon; choisi: boo
 
 function Libelle({ children, choisi }: { children: string; choisi: boolean }) {
   return (
-    <span className={cn('line-clamp-2 w-full text-center text-[0.6875rem] leading-tight hyphens-auto sm:text-xs', choisi ? 'font-semibold text-brand-700' : 'font-medium text-muted group-hover/domaine:text-ink')}>
+    <span className={cn('line-clamp-2 w-full text-center text-[0.6875rem] leading-tight hyphens-auto sm:text-xs', choisi ? 'font-semibold text-brand-700' : 'font-medium text-muted-foreground group-hover/domaine:text-ink')}>
       {children}
     </span>
   )
@@ -178,14 +178,14 @@ function TousLesDomaines({ domaines, choisis, onBasculer, onEffacer, horsDeVueSu
           </div>
           {domaines.length > RECHERCHE_DES && (
             <label className="mx-1 mb-1 flex h-8 items-center gap-2 rounded-lg border border-line bg-white px-2.5 focus-within:border-brand-500">
-              <Search className="size-4 shrink-0 text-muted" aria-hidden="true" />
+              <Search className="size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
               <input
                 type="search"
                 value={saisie}
                 onChange={(evenement) => setSaisie(evenement.target.value)}
                 placeholder={t('domaines.chercher')}
                 aria-label={t('domaines.chercher')}
-                className="w-full min-w-0 bg-transparent text-sm outline-none placeholder:text-muted [&::-webkit-search-cancel-button]:hidden"
+                className="w-full min-w-0 bg-transparent text-sm outline-none placeholder:text-muted-foreground [&::-webkit-search-cancel-button]:hidden"
               />
             </label>
           )}

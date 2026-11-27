@@ -64,7 +64,7 @@ export function MotDePasseOublie() {
             {t('surtitre')}
           </p>
           <h1 className="mt-1 text-[28px] leading-tight font-extrabold text-navy-900">{t('titre')}</h1>
-          <p className="mt-1.5 text-[15px] text-muted">{t('texte')}</p>
+          <p className="mt-1.5 text-[15px] text-muted-foreground">{t('texte')}</p>
         </div>
 
         {!compte && (

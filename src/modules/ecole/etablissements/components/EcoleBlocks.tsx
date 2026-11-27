@@ -271,7 +271,7 @@ export function CountList({ items, value, onChange }: { items: { label: string; 
           >
             {it.icon}
             <span className="flex-1">{it.label}</span>
-            <span className={cn('text-xs', value === it.label ? 'text-white/80' : 'text-muted')}>({it.count})</span>
+            <span className={cn('text-xs', value === it.label ? 'text-white/80' : 'text-muted-foreground')}>({it.count})</span>
           </button>
         </li>
       ))}

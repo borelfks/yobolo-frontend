@@ -76,11 +76,11 @@ export function EnTeteDuFil({ nom, photo, vers, pastille, nature, date, menu }: 
         </span>
         {/* Le fil ne contient que des publications : la date seule, sans « · Publication ». */}
         {date ? (
-          <time dateTime={date} title={dateHeureDuFil(date)} className="truncate text-xs text-muted">
+          <time dateTime={date} title={dateHeureDuFil(date)} className="truncate text-xs text-muted-foreground">
             {dateRelativeDuFil(date)}
           </time>
         ) : (
-          <span className="truncate text-xs text-muted">{t(`nature.${nature}`)}</span>
+          <span className="truncate text-xs text-muted-foreground">{t(`nature.${nature}`)}</span>
         )}
       </div>
 
@@ -101,7 +101,7 @@ export function TitreDuFil({ vers, onClick, children }: { vers: string; onClick?
 }
 
 export function ExtraitDuFil({ children }: { children: ReactNode }) {
-  return <p className="line-clamp-2 text-xs leading-relaxed text-muted">{children}</p>
+  return <p className="line-clamp-2 text-xs leading-relaxed text-muted-foreground">{children}</p>
 }
 
 /** Le visuel en grand : il mène où mène le titre, sans second arrêt au clavier. */
@@ -120,7 +120,7 @@ export function PiedDuFil({ children }: { children: ReactNode }) {
 
 /** La ligne des chiffres, au-dessus du filet : ce que la carte a déjà suscité. */
 export function ChiffresDuFil({ children }: { children: ReactNode }) {
-  return <div className="relative z-10 flex min-h-[1.5rem] items-center gap-3 text-xs text-muted tabular-nums">{children}</div>
+  return <div className="relative z-10 flex min-h-[1.5rem] items-center gap-3 text-xs text-muted-foreground tabular-nums">{children}</div>
 }
 
 /** Les gestes sous le filet, répartis sur toute la largeur de la carte. */
@@ -147,7 +147,7 @@ export function GesteDuFil({ icone, libelle, actif = false, couleurActive = 'tex
       title={etiquette ?? libelle}
       disabled={disabled}
       onClick={onClick}
-      className={cn(CLASSES_GESTE, 'disabled:opacity-60', actif ? couleurActive : 'text-muted hover:text-ink')}
+      className={cn(CLASSES_GESTE, 'disabled:opacity-60', actif ? couleurActive : 'text-muted-foreground hover:text-ink')}
     >
       {icone}
       <span className="truncate">{libelle}</span>
@@ -177,7 +177,7 @@ export function MenuDuFil({ children }: { children: (fermer: () => void) => Reac
       titre={t('actions.menu')}
       align="end"
       bouton={<MoreHorizontal className="size-4" aria-hidden="true" />}
-      classesBouton="-mt-1.5 -mr-1.5 flex size-9 shrink-0 items-center justify-center rounded-full text-muted transition-colors hover:bg-page hover:text-ink focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none data-[state=open]:bg-page"
+      classesBouton="-mt-1.5 -mr-1.5 flex size-9 shrink-0 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-page hover:text-ink focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none data-[state=open]:bg-page"
       classesPanneau="min-w-[12rem] p-1"
     >
       {children}

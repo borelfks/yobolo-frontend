@@ -68,7 +68,7 @@ export function ListeTab({ type }: { type: TypeSlug }) {
           <EcoleCard key={e.id} e={e} />
         ))}
       </div>
-      {list.length === 0 && <Card className="p-8 text-center text-sm text-muted">{t('listing.liste.empty', { q: q || Object.values(criteres).filter(Boolean).join(', ') })}</Card>}
+      {list.length === 0 && <Card className="p-8 text-center text-sm text-muted-foreground">{t('listing.liste.empty', { q: q || Object.values(criteres).filter(Boolean).join(', ') })}</Card>}
       <Pagination
         label={t('listing.liste.pagination', { shown: elements.length, total: list.length })}
         pages={pages}

@@ -86,7 +86,7 @@ export function DossierPreinscription() {
                 <Building2 className="size-4 text-brand-600" aria-hidden="true" />
                 {e?.nom ?? '—'}
               </p>
-              <p className="flex flex-wrap items-center gap-x-4 text-sm text-muted">
+              <p className="flex flex-wrap items-center gap-x-4 text-sm text-muted-foreground">
                 <span className="inline-flex items-center gap-1">
                   <CalendarDays className="size-4" aria-hidden="true" />
                   {p.statut === 'Annulée' && p.annuleeLe ? t('dossiers.annuleeLe', { date: shortDate(p.annuleeLe, DATE) }) : t('dossiers.envoyeeLe', { date: shortDate(p.envoyeeLe, DATE) })}

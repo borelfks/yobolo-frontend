@@ -54,16 +54,16 @@ export function ChampsAccord({
         {erreur('delivreLe')}
       </div>
       <div>
-        <Label htmlFor={`${id}-expire`}>{t('champs.expireLe')} <span className="font-normal text-muted">{t('champs.facultatif')}</span></Label>
+        <Label htmlFor={`${id}-expire`}>{t('champs.expireLe')} <span className="font-normal text-muted-foreground">{t('champs.facultatif')}</span></Label>
         <Input id={`${id}-expire`} type="date" value={valeur.expireLe} onChange={(e) => maj({ expireLe: e.target.value })} aria-invalid={!!erreurs.expireLe} />
-        {erreurs.expireLe ? erreur('expireLe') : <p className="mt-1 text-xs text-muted">{t('champs.expireAide')}</p>}
+        {erreurs.expireLe ? erreur('expireLe') : <p className="mt-1 text-xs text-muted-foreground">{t('champs.expireAide')}</p>}
       </div>
       <div className="sm:col-span-2">
         <div className={cn('flex flex-wrap items-center gap-3 rounded-xl border px-3 py-2.5', erreurs.fichier ? 'border-rose-300 bg-rose-50/40' : 'border-line bg-slate-50')}>
           <FileText className="size-6 shrink-0 text-brand-600" aria-hidden />
           <span className="min-w-[150px] flex-1">
             <b className="block text-sm text-navy-900">{t('champs.document')} <span className="text-rose-500">*</span></b>
-            <span className="block truncate text-xs text-muted">{fichier ? `${fichier.name} · ${tailleFichier(fichier.size)}` : documentActuel ?? t('champs.formats')}</span>
+            <span className="block truncate text-xs text-muted-foreground">{fichier ? `${fichier.name} · ${tailleFichier(fichier.size)}` : documentActuel ?? t('champs.formats')}</span>
           </span>
           {onVoir && documentActuel && !fichier && (
             <button type="button" onClick={onVoir} aria-label={t('champs.voir')} className="grid size-9 place-items-center rounded-full text-brand-600 hover:bg-white"><Eye className="size-5" /></button>

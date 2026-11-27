@@ -16,7 +16,7 @@ import {
 import { cn } from '@/shared/utils/cn'
 
 const control =
-  'w-full rounded-xl border border-line bg-white px-3.5 text-sm text-ink placeholder:text-slate-400 transition-colors focus:border-brand-500 focus:ring-3 focus:ring-brand-100 focus:outline-none disabled:bg-slate-50 disabled:text-muted'
+  'w-full rounded-xl border border-line bg-white px-3.5 text-sm text-ink placeholder:text-slate-400 transition-colors focus:border-brand-500 focus:ring-3 focus:ring-brand-100 focus:outline-none disabled:bg-slate-50 disabled:text-muted-foreground'
 
 export function Label({ children, required, htmlFor }: { children: ReactNode; required?: boolean; htmlFor?: string }) {
   return (
@@ -49,7 +49,7 @@ export function Field({
       {error ? (
         <p className="mt-1 text-xs font-medium text-rose-600">{error}</p>
       ) : (
-        hint && <p className="mt-1 text-xs text-muted">{hint}</p>
+        hint && <p className="mt-1 text-xs text-muted-foreground">{hint}</p>
       )}
     </div>
   )
@@ -71,7 +71,7 @@ export function Input({
       )}
       <input className={cn(control, 'h-11', icon && 'pl-10', suffix && 'pr-16', className)} {...props} />
       {suffix && (
-        <span className="absolute inset-y-0 right-3.5 flex items-center text-sm font-semibold text-muted">{suffix}</span>
+        <span className="absolute inset-y-0 right-3.5 flex items-center text-sm font-semibold text-muted-foreground">{suffix}</span>
       )}
     </div>
   )
@@ -169,7 +169,7 @@ export function Checkbox({
       </span>
       <span>
         <span className="text-ink">{label}</span>
-        {description && <span className="block text-xs text-muted">{description}</span>}
+        {description && <span className="block text-xs text-muted-foreground">{description}</span>}
       </span>
     </label>
   )
@@ -192,7 +192,7 @@ export function Radio({
       />
       <span>
         <span className="font-medium text-ink">{label}</span>
-        {description && <span className="block text-xs text-muted">{description}</span>}
+        {description && <span className="block text-xs text-muted-foreground">{description}</span>}
       </span>
     </label>
   )
@@ -242,7 +242,7 @@ export function Switch({
     <div className={cn('flex items-center justify-between gap-4', className)}>
       <div className="text-sm">
         <p className="font-medium text-ink">{label}</p>
-        {description && <p className="text-xs text-muted">{description}</p>}
+        {description && <p className="text-xs text-muted-foreground">{description}</p>}
       </div>
       {sw}
     </div>
@@ -316,7 +316,7 @@ export function ChoiceCard({
       )}
       {icon}
       <span className="font-bold text-navy-900">{title}</span>
-      {description && <span className="text-xs text-muted">{description}</span>}
+      {description && <span className="text-xs text-muted-foreground">{description}</span>}
     </button>
   )
 }
@@ -348,7 +348,7 @@ export function Dropzone({
       <span className="text-sm font-semibold text-navy-900">
         <Trans t={t} i18nKey="fields.dropzone.action" values={{ title: title ?? t('fields.dropzone.title') }} components={{ browse: <span className="text-brand-600 underline" /> }} />
       </span>
-      <span className="text-xs text-muted">{hint ?? t('fields.dropzone.hint')}</span>
+      <span className="text-xs text-muted-foreground">{hint ?? t('fields.dropzone.hint')}</span>
       <input
         id={id}
         type="file"

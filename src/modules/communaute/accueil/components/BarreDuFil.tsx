@@ -136,7 +136,7 @@ function ChampDeRecherche({ recherche, onRecherche }: { recherche: string; onRec
               setSaisie('')
               lancer('')
             }}
-            className="absolute top-1/2 right-1 flex size-9 -translate-y-1/2 items-center justify-center rounded-md text-muted transition-colors hover:bg-page hover:text-ink focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none"
+            className="absolute top-1/2 right-1 flex size-9 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-page hover:text-ink focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none"
           >
             <X className="size-4" aria-hidden="true" />
           </button>
@@ -172,7 +172,7 @@ function BoutonFiltres({ filtres, nombre, changer }: { filtres: FiltresDuFil; no
               {nombre}
             </span>
           )}
-          <ChevronDown className="size-3.5 text-muted" aria-hidden="true" />
+          <ChevronDown className="size-3.5 text-muted-foreground" aria-hidden="true" />
         </>
       }
       classesBouton={cn(CLASSES_BOUTON_FILTRE, 'relative', nombre > 0 ? CLASSES_FILTRE_ACTIF : CLASSES_FILTRE_NEUTRE)}
@@ -203,7 +203,7 @@ function BoutonFiltres({ filtres, nombre, changer }: { filtres: FiltresDuFil; no
                 onClick={() => changer({ enregistres: vue })}
                 className={cn(
                   'inline-flex h-9 items-center justify-center gap-1.5 rounded-lg text-sm transition-colors focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none',
-                  enregistres === vue ? 'bg-white font-semibold text-ink shadow-sm' : 'font-medium text-muted hover:text-ink',
+                  enregistres === vue ? 'bg-white font-semibold text-ink shadow-sm' : 'font-medium text-muted-foreground hover:text-ink',
                 )}
               >
                 {vue && <Bookmark className="size-3.5" aria-hidden="true" />}
@@ -214,10 +214,10 @@ function BoutonFiltres({ filtres, nombre, changer }: { filtres: FiltresDuFil; no
           )}
 
           {enregistres ? (
-            <p className="text-xs leading-relaxed text-muted">{t('filtres.enregistresExplique')}</p>
+            <p className="text-xs leading-relaxed text-muted-foreground">{t('filtres.enregistresExplique')}</p>
           ) : (
             <fieldset className="flex flex-col gap-2">
-              <legend className="pb-2 text-xs font-semibold tracking-wider text-muted uppercase">{t('filtres.ordre')}</legend>
+              <legend className="pb-2 text-xs font-semibold tracking-wider text-muted-foreground uppercase">{t('filtres.ordre')}</legend>
               <div className="flex flex-wrap gap-2">
                 {TRIS_DU_FIL.map((un) => (
                   <Choix key={un} choisi={tri === un} onClick={() => changer({ tri: un })}>
@@ -270,7 +270,7 @@ function MenuAutres({ filtres, changer, filtre, toutVoir }: { filtres: FiltresDu
       etiquette={t('filtres.autres')}
       titre={t('filtres.autres')}
       bouton={<EllipsisVertical className="size-4" aria-hidden="true" />}
-      classesBouton="inline-flex size-[2.75rem] shrink-0 items-center justify-center rounded-md text-muted transition-colors hover:bg-page hover:text-ink focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none data-[state=open]:bg-page"
+      classesBouton="inline-flex size-[2.75rem] shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-page hover:text-ink focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none data-[state=open]:bg-page"
       classesPanneau="min-w-[15rem] p-1"
     >
       {(fermer) => (

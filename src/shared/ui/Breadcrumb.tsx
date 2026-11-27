@@ -9,7 +9,7 @@ export type Crumb = { label: string; to?: string }
 export function Breadcrumb({ items, className, light }: { items: Crumb[]; className?: string; light?: boolean }) {
   const { t } = useTranslation()
   return (
-    <nav aria-label={t('breadcrumb.label')} className={cn('flex flex-wrap items-center gap-1.5 text-sm', light ? 'text-white/80' : 'text-muted', className)}>
+    <nav aria-label={t('breadcrumb.label')} className={cn('flex flex-wrap items-center gap-1.5 text-sm', light ? 'text-white/80' : 'text-muted-foreground', className)}>
       <Link to={ROUTES.home} aria-label={t('breadcrumb.home')} className="-m-2 grid place-items-center rounded-lg p-2 hover:text-brand-600">
         <Home className="size-4" />
       </Link>

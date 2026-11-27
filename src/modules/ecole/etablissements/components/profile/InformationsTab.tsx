@@ -176,7 +176,7 @@ function InfoSection({ sec, id }: { sec: SectionInfo; id: string }) {
       <dl className="divide-y divide-line">
         {rows[sec].map(([k, v]) => (
           <div key={k} className="flex justify-between gap-4 py-3 text-[14.5px]">
-            <dt className="text-muted">{k}</dt>
+            <dt className="text-muted-foreground">{k}</dt>
             <dd className="text-right font-semibold text-navy-900">{v}</dd>
           </div>
         ))}

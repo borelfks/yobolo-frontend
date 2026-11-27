@@ -15,7 +15,7 @@ export function Pagination({ label, pages, page, onChange }: { label: ReactNode;
     window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
   }
   return (
-    <div className="flex flex-wrap items-center justify-between gap-3 pt-4 text-sm text-muted">
+    <div className="flex flex-wrap items-center justify-between gap-3 pt-4 text-sm text-muted-foreground">
       <span>{label}</span>
       {pages > 1 && (
         <div className="flex items-center gap-1">

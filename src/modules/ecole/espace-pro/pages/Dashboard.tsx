@@ -70,7 +70,7 @@ export function Dashboard() {
               <Ring value={etat.completude} size={104} />
               <div className="flex-1">
                 <h2 className="text-xl font-bold text-navy-900">{t('dashboard.completion.title')}</h2>
-                <p className="text-sm text-muted">{t(etat.restantes === 0 ? 'dashboard.completion.textComplete' : 'dashboard.completion.text')}</p>
+                <p className="text-sm text-muted-foreground">{t(etat.restantes === 0 ? 'dashboard.completion.textComplete' : 'dashboard.completion.text')}</p>
                 <Stepper
                   steps={ETAPES_PROFIL.map((e) => t(`dashboard.completion.steps.${e}`))}
                   current={etat.prochaine ? ETAPES_PROFIL.indexOf(etat.prochaine) : ETAPES_PROFIL.length}
@@ -96,14 +96,14 @@ export function Dashboard() {
               {t('dashboard.applications.title', { count: recues.length })}
             </h2>
             {recues.length === 0 ? (
-              <p className="mt-3 rounded-xl bg-[#f3f6fc] px-4 py-3 text-sm text-muted">{t('dashboard.applications.none')}</p>
+              <p className="mt-3 rounded-xl bg-[#f3f6fc] px-4 py-3 text-sm text-muted-foreground">{t('dashboard.applications.none')}</p>
             ) : (
               <ul className="mt-3 divide-y divide-line">
                 {recues.slice(0, 5).map((p) => (
                   <li key={p.id} className="flex flex-wrap items-center gap-x-3 gap-y-1 py-2.5 text-sm">
                     <b className="text-navy-900">{[p.donnees.prenom, p.donnees.nom].filter(Boolean).join(' ') || t('dashboard.applications.anonymous')}</b>
-                    <span className="min-w-0 basis-full break-words text-muted sm:basis-auto sm:flex-1">{toutes.find((f) => f.id === p.formationId)?.nom ?? '—'}</span>
-                    <span className="shrink-0 text-xs text-muted">{shortDate(new Date(p.envoyeeLe), { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+                    <span className="min-w-0 basis-full break-words text-muted-foreground sm:basis-auto sm:flex-1">{toutes.find((f) => f.id === p.formationId)?.nom ?? '—'}</span>
+                    <span className="shrink-0 text-xs text-muted-foreground">{shortDate(new Date(p.envoyeeLe), { day: '2-digit', month: 'short', year: 'numeric' })}</span>
                     <Badge tone="green">{t('dashboard.applications.received')}</Badge>
                   </li>
                 ))}
@@ -118,14 +118,14 @@ export function Dashboard() {
                   <IconTile icon={i.icon} tone={i.tone} />
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-bold text-navy-900">{t(`dashboard.infos.${i.id}.label`)}</p>
-                    <p className="truncate text-xs text-muted">{t(`dashboard.infos.${i.id}.text`)}</p>
+                    <p className="truncate text-xs text-muted-foreground">{t(`dashboard.infos.${i.id}.text`)}</p>
                   </div>
                   {i.fait ? (
                     <CheckCircle2 className="size-5 text-emerald-500" aria-label={t('dashboard.infos.done')} />
                   ) : (
                     <Circle className="size-5 text-slate-300" aria-label={t('dashboard.infos.todo')} />
                   )}
-                  <ArrowRight className="size-4 text-muted" />
+                  <ArrowRight className="size-4 text-muted-foreground" />
                 </Link>
               ))}
             </div>
@@ -142,7 +142,7 @@ export function Dashboard() {
               <div className="space-y-1.5">
                 <p className="font-bold text-navy-900">{ecole.nom}</p>
                 <Rating value={ecole.note} count={ecole.avis} />
-                <p className="flex items-center gap-1 text-xs text-muted"><MapPin className="size-3.5" />{ecole.ville} – {ecole.quartier}</p>
+                <p className="flex items-center gap-1 text-xs text-muted-foreground"><MapPin className="size-3.5" />{ecole.ville} – {ecole.quartier}</p>
                 <span className="inline-flex items-center gap-1 rounded-full bg-emerald-600 px-2.5 py-0.5 text-xs font-semibold text-white"><BadgeCheck className="size-3.5" />{t('dashboard.preview.verified')}</span>
               </div>
             </div>

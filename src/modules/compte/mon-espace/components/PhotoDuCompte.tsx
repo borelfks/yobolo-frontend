@@ -96,7 +96,7 @@ export function PhotoDuCompte({ compte, size, variante }: { compte: Compte; size
             </Button>
           )}
         </div>
-        <p className="text-xs text-muted">{t('profil.photoAide')}</p>
+        <p className="text-xs text-muted-foreground">{t('profil.photoAide')}</p>
       </div>
       {entree}
     </div>

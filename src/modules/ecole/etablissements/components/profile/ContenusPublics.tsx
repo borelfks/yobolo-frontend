@@ -20,7 +20,7 @@ export function ContenusPublics({ sec, id }: { sec: 'actualites' | 'documents' |
   const faq = useFaq(id)
   const fichiers = useFichiers()
   const [ouverte, setOuverte] = useState<string | null>(null)
-  const vide = (texte: string) => <p className="rounded-xl bg-[#f3f6fc] px-4 py-3 text-[14.5px] text-muted">{texte}</p>
+  const vide = (texte: string) => <p className="rounded-xl bg-[#f3f6fc] px-4 py-3 text-[14.5px] text-muted-foreground">{texte}</p>
 
   return (
     <div className="space-y-3">
@@ -34,7 +34,7 @@ export function ContenusPublics({ sec, id }: { sec: 'actualites' | 'documents' |
                 <Img src={a.image} alt="" className="h-16 w-24 shrink-0 rounded-lg" />
                 <div className="min-w-0">
                   <p className="font-bold text-navy-900">{a.titre}</p>
-                  <p className="mt-1 flex flex-wrap items-center gap-x-3 text-[13px] text-muted">
+                  <p className="mt-1 flex flex-wrap items-center gap-x-3 text-[13px] text-muted-foreground">
                     <span className="inline-flex items-center gap-1"><CalendarDays className="size-4" />{a.date}</span>
                     <span>{a.categorie}</span>
                   </p>
@@ -52,7 +52,7 @@ export function ContenusPublics({ sec, id }: { sec: 'actualites' | 'documents' |
                   <span className="grid h-10 w-9 shrink-0 place-items-center rounded-md bg-rose-600 text-[10px] font-extrabold text-white">{d.type}</span>
                   <span className="min-w-0 flex-1 leading-tight">
                     <b className="block truncate text-[15px] text-navy-900">{d.nom}</b>
-                    <span className="text-[13px] text-muted">{d.taille} · {d.date}</span>
+                    <span className="text-[13px] text-muted-foreground">{d.taille} · {d.date}</span>
                   </span>
                   <button
                     type="button"

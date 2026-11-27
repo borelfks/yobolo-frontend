@@ -83,7 +83,7 @@ export function FormationsTab({ type }: { type: TypeSlug }) {
           {elements.map((f) => (
             <FormationRow key={f.id} f={f} />
           ))}
-          {list.length === 0 && <Card className="p-8 text-center text-sm text-muted">{t('listing.formations.empty')}</Card>}
+          {list.length === 0 && <Card className="p-8 text-center text-sm text-muted-foreground">{t('listing.formations.empty')}</Card>}
           <Pagination label={t('listing.formations.shown', { n: elements.length })} pages={pages} page={courante} onChange={setPage} />
         </div>
       </div>

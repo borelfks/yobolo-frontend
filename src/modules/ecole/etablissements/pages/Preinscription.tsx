@@ -98,7 +98,7 @@ export function Preinscription() {
             <CircleCheck className="size-10" />
           </span>
           <h1 className="mt-5 text-2xl font-bold text-navy-900">{t('preinscription.sent.title')}</h1>
-          <p className="mt-2 text-muted">
+          <p className="mt-2 text-muted-foreground">
             <Trans t={t} i18nKey="preinscription.sent.text" values={{ school: e.nom, training: f.nom }} components={{ b: <b /> }} />
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
@@ -298,7 +298,7 @@ export function Preinscription() {
                     </div>
                   ))}
                 </div>
-                <p className="text-[13.5px] text-muted">{t('preinscription.step3.formats')}</p>
+                <p className="text-[13.5px] text-muted-foreground">{t('preinscription.step3.formats')}</p>
               </div>
             )}
 

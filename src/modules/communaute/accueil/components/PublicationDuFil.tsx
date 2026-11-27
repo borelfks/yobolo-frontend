@@ -168,7 +168,7 @@ export function PublicationDuFil({ publication }: { publication: Publication }) 
             className="-mx-1.5 inline-flex min-h-8 items-center gap-1 rounded-md px-1.5 text-rose-600 transition-colors hover:bg-rose-50 focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none disabled:opacity-60"
           >
             <Heart className="size-[0.875rem] transition-transform active:scale-125 motion-reduce:transition-none" fill={jaime.aime ? 'currentColor' : 'none'} aria-hidden="true" />
-            <span className="text-muted">{num(jaime.nombre)}</span>
+            <span className="text-muted-foreground">{num(jaime.nombre)}</span>
           </button>
           <Chiffre
             icone={<MessageCircle className="size-[0.8125rem]" aria-hidden="true" />}
@@ -196,7 +196,7 @@ export function PublicationDuFil({ publication }: { publication: Publication }) 
             disabled={jaime.enCours}
             onClick={() => void jaime.basculer()}
           />
-          <Link to={`${vers}#commentaires`} className={`${CLASSES_GESTE} text-muted hover:text-ink`}>
+          <Link to={`${vers}#commentaires`} className={`${CLASSES_GESTE} text-muted-foreground hover:text-ink`}>
             <MessageCircle className="size-[0.8125rem] shrink-0" aria-hidden="true" />
             <span className="truncate">{t('actions.commenter')}</span>
           </Link>

@@ -10,7 +10,7 @@ export function NotFound() {
       <Card className="p-10 text-center">
         <p className="text-6xl font-extrabold text-brand-600">404</p>
         <h1 className="mt-3 text-2xl text-navy-900">{t('notFound.title')}</h1>
-        <p className="mt-2 text-muted">{t('notFound.text')}</p>
+        <p className="mt-2 text-muted-foreground">{t('notFound.text')}</p>
         <Button to={ROUTES.home} className="mt-6">
           {t('errors.backHome')}
         </Button>

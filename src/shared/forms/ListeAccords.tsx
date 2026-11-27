@@ -33,7 +33,7 @@ export function ListeAccords({
     <section className="space-y-3" aria-labelledby={idTitre}>
       <div>
         <h3 id={idTitre} className="text-[16px] font-bold text-navy-900">{tc(`natures.${nature}.titre`)}</h3>
-        <p className="text-[13.5px] text-muted">{tc(`natures.${nature}.aide`)}</p>
+        <p className="text-[13.5px] text-muted-foreground">{tc(`natures.${nature}.aide`)}</p>
       </div>
       {saisis.map((a, i) => (
         <div key={a.id ?? `nouveau-${i}`} role="group" aria-label={tc(`natures.${nature}.bloc`, { n: i + 1 })} className="space-y-3 rounded-2xl border border-line p-4">

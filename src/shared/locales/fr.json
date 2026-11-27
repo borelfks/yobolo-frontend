@@ -86,11 +86,13 @@
   },
   "breadcrumb": {
     "label": "Fil d'Ariane",
-    "home": "Accueil"
+    "home": "Accueil",
+    "more": "Autres éléments"
   },
   "pagination": {
     "previous": "Page précédente",
-    "next": "Page suivante"
+    "next": "Page suivante",
+    "label": "Pagination"
   },
   "loading": "Chargement",
   "modal": {
@@ -293,5 +295,9 @@
         "ajouter": "Ajouter un autre accord d’ouverture"
       }
     }
+  },
+  "command": {
+    "title": "Rechercher",
+    "description": "Tapez pour chercher."
   }
 }

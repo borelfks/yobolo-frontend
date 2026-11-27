@@ -74,7 +74,7 @@ export function Donut({ data, center, size = 170 }: { data: { name: string; valu
         {data.map((d) => (
           <li key={d.name} className="flex items-center gap-2">
             <span className="size-2.5 rounded-full" style={{ background: d.color }} />
-            <span className="text-muted">{d.name}</span>
+            <span className="text-muted-foreground">{d.name}</span>
             <span className="ml-auto font-bold text-navy-900">{d.value} %</span>
           </li>
         ))}

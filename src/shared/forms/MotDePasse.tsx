@@ -47,7 +47,7 @@ export function JaugeMotDePasse({ motDePasse, aide }: { motDePasse: string; aide
           <span key={niveau} className={cn('h-1.5 rounded-full transition-colors', rang < force ? COULEURS[force - 1] : 'bg-slate-200')} />
         ))}
       </div>
-      <p className="text-xs text-muted">
+      <p className="text-xs text-muted-foreground">
         {force === 0 ? (
           aide
         ) : (

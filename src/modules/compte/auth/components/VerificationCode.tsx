@@ -113,7 +113,7 @@ export function VerificationCode({
       <Button className="w-full" disabled={envoi} onClick={() => void verifier()}>
         {libelleBouton ?? t('verifier')}
       </Button>
-      <p className="text-center text-sm text-muted">
+      <p className="text-center text-sm text-muted-foreground">
         {t('pasRecu')}{' '}
         {secondes > 0 ? (
           <span>{t('renvoyerDans', { secondes })}</span>

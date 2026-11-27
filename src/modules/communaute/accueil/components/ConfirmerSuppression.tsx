@@ -22,7 +22,7 @@ export function ConfirmerSuppression({ ouverte, onAnnuler, onConfirmer }: { ouve
         </>
       }
     >
-      <p className="text-sm text-muted">{t('suppression.texte')}</p>
+      <p className="text-sm text-muted-foreground">{t('suppression.texte')}</p>
     </Modal>,
     document.body,
   )

@@ -102,7 +102,7 @@ export function DocumentsATelecharger() {
       <span className={cn('grid h-9 w-8 shrink-0 place-items-center rounded-md text-[9.5px] font-extrabold text-white', d.type === 'PDF' ? 'bg-rose-600' : d.type.startsWith('XLS') ? 'bg-emerald-600' : 'bg-brand-600')}>{d.type.slice(0, 4)}</span>
       <span className="min-w-0 leading-tight">
         <b className="block truncate text-[14px] text-navy-900">{d.nom}</b>
-        <span className="text-[12.5px] text-muted">
+        <span className="text-[12.5px] text-muted-foreground">
           {d.taille} · {d.date} · {d.statut === 'Publié' ? <span className="font-semibold text-emerald-700">{t('status.published')}</span> : <span className="font-semibold text-slate-600">{t('status.draft')}</span>}
         </span>
       </span>
@@ -114,7 +114,7 @@ export function DocumentsATelecharger() {
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div className="min-w-0">
           <h2 className="text-[20px] font-bold text-navy-900">{t('title')}</h2>
-          <p className="text-[14px] text-muted">{t('intro')}</p>
+          <p className="text-[14px] text-muted-foreground">{t('intro')}</p>
         </div>
         <div className="w-full sm:w-64">
           <p className="mb-1 text-right text-[13.5px] font-semibold text-navy-900">{t('progress', { done: faits, total: ATTENDUS.length })}</p>
@@ -134,7 +134,7 @@ export function DocumentsATelecharger() {
                     {t(`types.${a.cle}.title`)}
                     {d && <CircleCheck className="size-4 shrink-0 fill-emerald-600 text-white" aria-label={t('present')} />}
                   </b>
-                  <span className="text-[13px] text-muted">{t(`types.${a.cle}.desc`)}</span>
+                  <span className="text-[13px] text-muted-foreground">{t(`types.${a.cle}.desc`)}</span>
                 </span>
               </span>
               {d ? (
@@ -145,7 +145,7 @@ export function DocumentsATelecharger() {
                 </span>
               ) : (
                 <span className="flex items-center gap-3">
-                  <span className="text-[13px] text-muted">{t('missing')}</span>
+                  <span className="text-[13px] text-muted-foreground">{t('missing')}</span>
                   <ChoisirFichier principal libelle={t('import')} onFichier={(f) => void importer(a.categorie, f)} />
                 </span>
               )}
@@ -156,7 +156,7 @@ export function DocumentsATelecharger() {
 
       <div className="mt-5">
         <h3 className="text-[16px] font-bold text-navy-900">{t('others.title')}</h3>
-        <p className="text-[13.5px] text-muted">{t('others.desc')}</p>
+        <p className="text-[13.5px] text-muted-foreground">{t('others.desc')}</p>
         {autres.length > 0 && (
           <ul className="mt-3 divide-y divide-line rounded-2xl border border-line">
             {autres.map((d) => (
@@ -172,7 +172,7 @@ export function DocumentsATelecharger() {
           {t('others.add')}
           <input type="file" accept={FORMATS} className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; e.target.value = ''; if (f) void importer(AUTRE, f) }} />
         </label>
-        <p className="mt-1.5 text-[12.5px] text-muted">{t('formats')}</p>
+        <p className="mt-1.5 text-[12.5px] text-muted-foreground">{t('formats')}</p>
       </div>
 
       <Modal open={apercu !== null} onClose={() => setApercu(null)} title={apercu?.nom ?? ''} icon={<FileText className="mt-0.5 size-5 text-brand-600" />}>
@@ -195,7 +195,7 @@ export function DocumentsATelecharger() {
               <button type="button" onClick={() => telecharger(f.dataUrl, f.nom)} className="inline-flex h-10 items-center gap-2 rounded-full bg-brand-600 px-5 font-semibold text-white"><Download className="size-4" />{t('preview.download')}</button>
             </div>
           ) : (
-            <p className="mt-4 rounded-xl bg-[#f3f6fc] px-3 py-2.5 text-[13.5px] text-muted">{t('preview.noFile')}</p>
+            <p className="mt-4 rounded-xl bg-[#f3f6fc] px-3 py-2.5 text-[13.5px] text-muted-foreground">{t('preview.noFile')}</p>
           )
         })()}
       </Modal>

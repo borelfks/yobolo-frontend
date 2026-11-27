@@ -253,7 +253,7 @@ export function AutoEcoles() {
               </div>
             ))}
           </div>
-          {list.length === 0 && <div className={cn(card, 'p-8 text-center text-sm text-muted')}>{t('list.empty')}</div>}
+          {list.length === 0 && <div className={cn(card, 'p-8 text-center text-sm text-muted-foreground')}>{t('list.empty')}</div>}
           <Pagination label={t('list.pagination', { count: elements.length, total: list.length })} pages={pages} page={courante} onChange={setPage} />
         </div>
       </div>

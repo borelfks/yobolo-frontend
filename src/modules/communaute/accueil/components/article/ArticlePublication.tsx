@@ -24,7 +24,7 @@ import { ROUTES } from '@/shared/utils/routes'
 const MOTS_PAR_MINUTE = 200
 
 /** Le point « · » devant un élément de la ligne d'infos (attaché à lui, il ne reste jamais seul en fin de ligne). */
-const POINT = "sm:before:mr-1 sm:before:text-muted/60 sm:before:content-['·']"
+const POINT = "sm:before:mr-1 sm:before:text-muted-foreground/60 sm:before:content-['·']"
 
 /**
  * Une publication lue comme un article de presse (ArticlePublication de
@@ -77,7 +77,7 @@ export function ArticlePublication({ publication }: { publication: Publication }
           )}
           <h1 className="text-3xl leading-tight font-bold tracking-tight text-balance text-navy-900 sm:text-[2.75rem]">{titre}</h1>
 
-          <div className="flex flex-col gap-2 text-sm text-muted sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-3">
+          <div className="flex flex-col gap-2 text-sm text-muted-foreground sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-3">
             <span className="flex min-w-0 items-center gap-2">
               <Avatar src={auteur.photo || undefined} name={auteur.nom} size={28} className="ring-1 ring-line" />
               {auteur.vers ? (
@@ -247,7 +247,7 @@ function ActionDArticle({
     >
       {icone}
       <span className="max-sm:sr-only">{libelle}</span>
-      {nombre !== undefined && <span className="text-muted">{num(nombre)}</span>}
+      {nombre !== undefined && <span className="text-muted-foreground">{num(nombre)}</span>}
     </button>
   )
 }

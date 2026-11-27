@@ -35,7 +35,7 @@ export function ProgrammeTab({ f }: { f: Formation }) {
       </div>
       <div className={cn(card, 'space-y-3 p-4')}>
         <Heading icon={<BookOpen />}>{t('formationDetail.programme.detailed')}</Heading>
-        {semestres.length === 0 && <p className="rounded-xl bg-page px-4 py-3 text-[15px] text-muted">{t('formationDetail.programme.aucun')}</p>}
+        {semestres.length === 0 && <p className="rounded-xl bg-page px-4 py-3 text-[15px] text-muted-foreground">{t('formationDetail.programme.aucun')}</p>}
         {years.length > 0 && <div className="grid grid-cols-2 gap-1 rounded-full border border-line p-1">
           {years.map((y, i) => (
             <button key={y} type="button" onClick={() => setYear(y)} className={cn('h-10 rounded-full text-[16px] font-semibold', year === y ? 'bg-brand-600 text-white' : 'text-navy-900 hover:bg-brand-50')}>

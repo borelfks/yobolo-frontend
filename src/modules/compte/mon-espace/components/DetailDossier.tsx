@@ -15,7 +15,7 @@ export function ChampsDossier({ titre, icone, champs }: { titre: string; icone: 
       <dl className="grid gap-x-6 gap-y-3 sm:grid-cols-2">
         {remplis.map((c) => (
           <div key={c.label} className="min-w-0">
-            <dt className="text-[13px] text-muted">{c.label}</dt>
+            <dt className="text-[13px] text-muted-foreground">{c.label}</dt>
             <dd className="truncate font-semibold text-navy-900">{c.valeur}</dd>
           </div>
         ))}
@@ -31,7 +31,7 @@ export function PiecesDossier({ pieces }: { pieces: { cle: string; nom: string; 
   return (
     <Section title={t('dossiers.pieces')} icon={<Paperclip />}>
       {pieces.length === 0 ? (
-        <p className="text-sm text-muted">{t('dossiers.aucunePiece')}</p>
+        <p className="text-sm text-muted-foreground">{t('dossiers.aucunePiece')}</p>
       ) : (
         <ul className="space-y-2">
           {pieces.map((p) => {
@@ -60,7 +60,7 @@ export function DossierIntrouvable({ retour }: { retour: string }) {
   const { t } = useTranslation('espace')
   return (
     <Card className="space-y-3 p-8 text-center">
-      <p className="text-sm text-muted">{t('dossiers.introuvable')}</p>
+      <p className="text-sm text-muted-foreground">{t('dossiers.introuvable')}</p>
       <Button to={retour} size="sm">
         {t('dossiers.retour')}
       </Button>

@@ -91,7 +91,7 @@ export function Connexion() {
       <AuthShell>
         <header>
           <h1 className="text-[1.9rem] leading-tight font-extrabold tracking-tight text-navy-900">{t('connexion.confirmer.titre')}</h1>
-          <p className="mt-2 leading-relaxed text-muted">{t('connexion.confirmer.texte')}</p>
+          <p className="mt-2 leading-relaxed text-muted-foreground">{t('connexion.confirmer.texte')}</p>
         </header>
         <div className="mt-8 space-y-4">
           <VerificationCode telephone={aConfirmer.telephone} libelleBouton={t('connexion.confirmer.bouton')} onVerifie={numeroConfirme} />
@@ -111,7 +111,7 @@ export function Connexion() {
     <AuthShell>
       <header>
         <h1 className="text-[1.9rem] leading-tight font-extrabold tracking-tight text-navy-900">{t('connexion.title')}</h1>
-        <p className="mt-2 leading-relaxed text-muted">{t('connexion.subtitle')}</p>
+        <p className="mt-2 leading-relaxed text-muted-foreground">{t('connexion.subtitle')}</p>
       </header>
 
       <form onSubmit={handleSubmit(connect)} noValidate className="mt-8 flex flex-col gap-5">
@@ -175,7 +175,7 @@ export function Connexion() {
           <ArrowRight className="size-4" aria-hidden />
         </button>
 
-        <div className="flex items-center gap-3 text-sm text-muted">
+        <div className="flex items-center gap-3 text-sm text-muted-foreground">
           <span aria-hidden className="h-px flex-1 bg-line" />
           {t('connexion.or')}
           <span aria-hidden className="h-px flex-1 bg-line" />

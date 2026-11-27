@@ -13,7 +13,7 @@ export function ErrorScreen() {
         <TriangleAlert className="size-8" />
       </span>
       <h1 className="mt-5 text-2xl text-navy-900">{t('errors.generic.title')}</h1>
-      <p className="mt-2 text-muted">{t('errors.generic.text')}</p>
+      <p className="mt-2 text-muted-foreground">{t('errors.generic.text')}</p>
       <div className="mt-6 flex flex-wrap justify-center gap-3">
         <Button onClick={() => window.location.reload()}>
           <RefreshCw />
@@ -36,7 +36,7 @@ export function OfflineScreen() {
         <WifiOff className="size-8" />
       </span>
       <h1 className="mt-5 text-2xl text-navy-900">{t('errors.offline.title')}</h1>
-      <p className="mt-2 text-muted">{t('errors.offline.text')}</p>
+      <p className="mt-2 text-muted-foreground">{t('errors.offline.text')}</p>
       <Button className="mt-6" onClick={() => window.location.reload()}>
         <RefreshCw />
         {t('errors.retry')}

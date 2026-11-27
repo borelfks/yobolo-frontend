@@ -63,7 +63,7 @@ export function ModaleSignalement({ ouverte, publicationId, commentaireId, onFer
         </>
       }
     >
-      <p className="-mt-2 text-sm text-muted">{t('signalement.description')}</p>
+      <p className="-mt-2 text-sm text-muted-foreground">{t('signalement.description')}</p>
       <fieldset className="mt-4 flex flex-col gap-2">
         <legend className="mb-1.5 text-sm font-semibold text-navy-900">{t('signalement.motif')}</legend>
         {MOTIFS.map((un) => (
@@ -75,7 +75,7 @@ export function ModaleSignalement({ ouverte, publicationId, commentaireId, onFer
         label={
           <span className="flex items-baseline justify-between gap-2">
             {t('signalement.precision')}
-            <span className="text-xs font-normal text-muted tabular-nums">
+            <span className="text-xs font-normal text-muted-foreground tabular-nums">
               {precision.length} / {LONGUEUR_MAX_PRECISION}
             </span>
           </span>

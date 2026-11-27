@@ -66,7 +66,7 @@ export function MesAvisTab() {
         <Card key={c.avis.id} className="space-y-2 p-4">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <p className="font-bold text-navy-900">{c.nom}</p>
-            <span className="text-[13px] text-muted">{c.avis.date}</span>
+            <span className="text-[13px] text-muted-foreground">{c.avis.date}</span>
           </div>
           <Stars value={c.avis.note} />
           <p className="text-[14.5px] text-navy-900">{c.avis.texte}</p>

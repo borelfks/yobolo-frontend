@@ -123,7 +123,7 @@ export function ModaleAvis({ genre, id, open, onClose }: { genre: 'etablissement
       title={
         <span className="block">
           <span className="block text-[22px] font-bold">{t('donnerAvis.title')}</span>
-          <span className="block text-[14px] font-normal text-muted">{ae ? a.nom : e.nom}</span>
+          <span className="block text-[14px] font-normal text-muted-foreground">{ae ? a.nom : e.nom}</span>
         </span>
       }
       footer={
@@ -155,7 +155,7 @@ export function ModaleAvis({ genre, id, open, onClose }: { genre: 'etablissement
         </div>
         <div>
           <p className="text-[16px] font-bold text-navy-900">
-            {t('donnerAvis.criteresTitre')} <span className="font-normal text-muted">{t('donnerAvis.facultatif')}</span>
+            {t('donnerAvis.criteresTitre')} <span className="font-normal text-muted-foreground">{t('donnerAvis.facultatif')}</span>
           </p>
           <div className="mt-2 grid gap-2">
             {criteres.map((c) => (

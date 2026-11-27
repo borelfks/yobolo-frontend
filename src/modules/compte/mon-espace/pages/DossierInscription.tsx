@@ -62,7 +62,7 @@ export function DossierInscription() {
                 <Car className="size-4 text-brand-600" aria-hidden="true" />
                 {a?.nom ?? '—'}
               </p>
-              <p className="flex flex-wrap items-center gap-x-4 text-sm text-muted">
+              <p className="flex flex-wrap items-center gap-x-4 text-sm text-muted-foreground">
                 <span className="inline-flex items-center gap-1">
                   <CalendarDays className="size-4" aria-hidden="true" />
                   {i.statut === 'Annulée' && i.annuleeLe ? t('dossiers.annuleeLe', { date: shortDate(i.annuleeLe, DATE) }) : t('dossiers.envoyeeLe', { date: shortDate(i.envoyeeLe, DATE) })}

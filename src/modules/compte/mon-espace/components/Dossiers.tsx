@@ -46,7 +46,7 @@ export function LigneDossier({
           <p className="font-bold text-navy-900">{titre}</p>
           <StatutDossier statut={statut} />
         </div>
-        <p className="text-sm text-muted">{sousTitre}</p>
+        <p className="text-sm text-muted-foreground">{sousTitre}</p>
         <p className="flex flex-wrap items-center gap-x-3 text-[13px] text-navy-800">
           <span className="inline-flex items-center gap-1">
             <CalendarDays className="size-4 text-brand-600" aria-hidden="true" />
@@ -100,7 +100,7 @@ export function ConfirmerAnnulation({ open, onClose, onConfirm }: { open: boolea
 export function AucunDossier({ texte, action, vers }: { texte: string; action: string; vers: string }) {
   return (
     <Card className="space-y-3 p-8 text-center">
-      <p className="text-sm text-muted">{texte}</p>
+      <p className="text-sm text-muted-foreground">{texte}</p>
       <Button to={vers} size="sm">
         {action}
       </Button>

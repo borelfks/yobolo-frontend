@@ -426,7 +426,7 @@ export function Inscription() {
           </Field>
           <fieldset className="space-y-1">
             <legend className="text-sm font-bold text-navy-900">{t('inscription.champs.residence')}</legend>
-            <p className="pb-1 text-xs text-muted">{t('inscription.champs.residenceAide')}</p>
+            <p className="pb-1 text-xs text-muted-foreground">{t('inscription.champs.residenceAide')}</p>
             <SelectionGeographique valeur={lieuPersonne} onChange={(l) => changerLieu('personne', l)} erreurs={erreursLieu(ep)} />
           </fieldset>
           <Navigation onRetour={() => setEtape('profil')} suivant={t('inscription.continue')} type="submit" />
@@ -466,7 +466,7 @@ export function Inscription() {
               <ChampMotDePasse autoComplete="new-password" {...registerP('confirmation')} />
             </Field>
           </div>
-          <p className="text-[13px] text-muted">
+          <p className="text-[13px] text-muted-foreground">
             <Trans t={t} i18nKey="inscription.cgu" components={{ lien: <Link to={ROUTES.terms} className="font-semibold text-brand-600 hover:underline" /> }} />
           </p>
           <Navigation onRetour={() => setEtape('vous')} suivant={t('inscription.continue')} type="submit" />
@@ -547,7 +547,7 @@ export function Inscription() {
                 <FileText className="size-6 shrink-0 text-brand-600" aria-hidden />
                 <span className="min-w-[150px] flex-1">
                   <b className="block text-sm text-navy-900">{t('inscription.verification.certificat')} <span className="text-rose-500">*</span></b>
-                  <span className="block truncate text-xs text-muted">{certificat ? `${certificat.name} · ${tailleFichier(certificat.size)}` : tc('accords.champs.formats')}</span>
+                  <span className="block truncate text-xs text-muted-foreground">{certificat ? `${certificat.name} · ${tailleFichier(certificat.size)}` : tc('accords.champs.formats')}</span>
                 </span>
                 <label className="inline-flex h-9 cursor-pointer items-center gap-2 rounded-full border border-brand-200 bg-white px-4 text-sm font-semibold text-brand-700 hover:bg-brand-50 focus-within:ring-2 focus-within:ring-brand-500">
                   <Upload className="size-4" aria-hidden />

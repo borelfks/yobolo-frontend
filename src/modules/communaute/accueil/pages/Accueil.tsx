@@ -65,7 +65,7 @@ export function Accueil() {
 
           <h2 className="text-base font-bold text-navy-900">{titreDuFil}</h2>
 
-          {recherche && entrees.length > 0 && <p className="-mt-1 text-sm text-muted">{t('rubriques.pour', { recherche })}</p>}
+          {recherche && entrees.length > 0 && <p className="-mt-1 text-sm text-muted-foreground">{t('rubriques.pour', { recherche })}</p>}
 
           {entrees.length === 0 ? (
             <EtatVide
@@ -103,7 +103,7 @@ export function Accueil() {
                   </Button>
                 </div>
               ) : (
-                <p className="flex items-center gap-3 pt-3 text-sm text-muted">
+                <p className="flex items-center gap-3 pt-3 text-sm text-muted-foreground">
                   <span className="h-px flex-1 bg-line" aria-hidden="true" />
                   <CheckCircle2 className="size-4 text-brand-700" aria-hidden="true" />
                   {t('fin')}

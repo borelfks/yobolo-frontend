@@ -86,11 +86,13 @@
   },
   "breadcrumb": {
     "label": "Breadcrumb",
-    "home": "Home"
+    "home": "Home",
+    "more": "More items"
   },
   "pagination": {
     "previous": "Previous page",
-    "next": "Next page"
+    "next": "Next page",
+    "label": "Pagination"
   },
   "loading": "Loading",
   "modal": {
@@ -293,5 +295,9 @@
         "ajouter": "Add another opening approval"
       }
     }
+  },
+  "command": {
+    "title": "Search",
+    "description": "Type to search."
   }
 }

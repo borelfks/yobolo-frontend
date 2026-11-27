@@ -76,7 +76,7 @@ function Notifications() {
     <section id="notifications" className="scroll-mt-24">
       <Section title={t('parametres.notifications.titre')} subtitle={t('parametres.notifications.texte')} icon={<BellRing />}>
         <div role="table" aria-label={t('parametres.notifications.titre')} className="text-sm">
-          <div role="row" className="hidden grid-cols-[minmax(0,1fr)_repeat(3,6.5rem)] items-end gap-2 border-b border-line pb-2 text-xs font-semibold text-muted sm:grid">
+          <div role="row" className="hidden grid-cols-[minmax(0,1fr)_repeat(3,6.5rem)] items-end gap-2 border-b border-line pb-2 text-xs font-semibold text-muted-foreground sm:grid">
             <span role="columnheader">{t('parametres.notifications.sujet')}</span>
             {CANAUX_NOTIFICATION.map((c) => (
               <span key={c} role="columnheader" className="text-center">
@@ -90,14 +90,14 @@ function Notifications() {
               <div key={sujet} role="row" className="grid gap-2 border-b border-line py-3 last:border-0 sm:grid-cols-[minmax(0,1fr)_repeat(3,6.5rem)] sm:items-center">
                 <div role="rowheader">
                   <p className="font-semibold text-navy-900">{t(`parametres.notifications.sujets.${sujet}.titre`)}</p>
-                  <p className="text-xs text-muted">{t(`parametres.notifications.sujets.${sujet}.texte`)}</p>
+                  <p className="text-xs text-muted-foreground">{t(`parametres.notifications.sujets.${sujet}.texte`)}</p>
                 </div>
                 <div className="flex gap-5 sm:contents">
                   {CANAUX_NOTIFICATION.map((canal) => {
                     const indisponible = canal === 'email' && !aUnEmail
                     return (
                       <div key={canal} role="cell" className="flex flex-col items-center gap-1">
-                        <span className="text-[11px] font-semibold text-muted sm:hidden">{t(`parametres.notifications.canaux.${canal}`)}</span>
+                        <span className="text-[11px] font-semibold text-muted-foreground sm:hidden">{t(`parametres.notifications.canaux.${canal}`)}</span>
                         <Switch
                           checked={pref[canal] && !indisponible}
                           disabled={indisponible}
@@ -112,7 +112,7 @@ function Notifications() {
             )
           })}
         </div>
-        <ul className="mt-3 space-y-1 text-xs text-muted">
+        <ul className="mt-3 space-y-1 text-xs text-muted-foreground">
           <li>{t('parametres.notifications.smsA', { numero: masquerNumero(account.telephone) })}</li>
           <li>{aUnEmail ? t('parametres.notifications.emailA', { email: account.identifiant }) : t('parametres.notifications.sansEmail')}</li>
         </ul>
@@ -159,7 +159,7 @@ function MotDePasse() {
           {REGLES.map((r) => {
             const ok = r.ok(nouveau)
             return (
-              <li key={r.cle} className={cn('flex items-center gap-1.5', ok ? 'text-emerald-700' : 'text-muted')}>
+              <li key={r.cle} className={cn('flex items-center gap-1.5', ok ? 'text-emerald-700' : 'text-muted-foreground')}>
                 {ok ? <Check className="size-4" aria-hidden="true" /> : <X className="size-4" aria-hidden="true" />}
                 {t(`parametres.motDePasse.regles.${r.cle}`)}
               </li>

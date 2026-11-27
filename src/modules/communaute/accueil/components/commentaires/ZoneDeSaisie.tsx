@@ -104,7 +104,7 @@ export function ZoneDeSaisie({
         </button>
       </div>
       {(reste <= RESTE_AVANT_COMPTEUR || onAnnuler) && (
-        <span className="flex items-center gap-3 pl-3 text-xs text-muted">
+        <span className="flex items-center gap-3 pl-3 text-xs text-muted-foreground">
           {reste <= RESTE_AVANT_COMPTEUR && <span className="tabular-nums">{t('commentaires.reste', { reste })}</span>}
           {onAnnuler && (
             <span>

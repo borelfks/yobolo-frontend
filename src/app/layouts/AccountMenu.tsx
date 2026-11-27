@@ -83,14 +83,14 @@ export function NotificationsBell({ light, href }: { light?: boolean; href?: str
                   </span>
                   <span className="min-w-0 flex-1 text-sm">
                     <span className="block font-semibold text-navy-900">{n.titre}</span>
-                    <span className="block text-muted">{n.texte}</span>
+                    <span className="block text-muted-foreground">{n.texte}</span>
                     <span className="mt-0.5 block text-xs text-slate-400">{n.quand}</span>
                   </span>
                   {!n.lu && <span className="mt-1.5 size-2.5 shrink-0 rounded-full bg-brand-600" aria-label={t('notifications.unread')} />}
                 </button>
               )
             })}
-            {items.length === 0 && <p className="px-3 py-4 text-center text-sm text-muted">{t('notifications.empty')}</p>}
+            {items.length === 0 && <p className="px-3 py-4 text-center text-sm text-muted-foreground">{t('notifications.empty')}</p>}
           </div>
           {href && (
             <Link to={href} onClick={() => setOpen(false)} className="block rounded-xl p-2 text-center text-sm font-semibold text-brand-600 hover:bg-brand-50">
@@ -118,9 +118,9 @@ export function UserMenu() {
         <Avatar src={account.avatar} name={account.name} size={40} />
         <span className="hidden text-left leading-tight sm:block">
           <span className="block max-w-[10rem] truncate text-sm font-bold whitespace-nowrap text-navy-900">{account.name}</span>
-          <span className="block text-xs text-muted">{t(`roles.${account.role}`)}</span>
+          <span className="block text-xs text-muted-foreground">{t(`roles.${account.role}`)}</span>
         </span>
-        <ChevronDown className="size-4 text-muted" />
+        <ChevronDown className="size-4 text-muted-foreground" />
       </button>
       {open && (
         <div className="absolute right-0 z-40 mt-2 w-64 rounded-2xl border border-line bg-white p-2 shadow-xl">

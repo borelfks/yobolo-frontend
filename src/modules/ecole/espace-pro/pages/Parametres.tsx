@@ -309,7 +309,7 @@ function Securite() {
             </div>
             <ul className="grid grid-cols-2 gap-1.5 text-xs">
               {rules.map((r) => (
-                <li key={r.label} className={cn('flex items-center gap-1.5', r.ok ? 'text-emerald-600' : 'text-muted')}>
+                <li key={r.label} className={cn('flex items-center gap-1.5', r.ok ? 'text-emerald-600' : 'text-muted-foreground')}>
                   <CheckCircle2 className="size-3.5" />{r.label}
                 </li>
               ))}
@@ -358,15 +358,15 @@ function Securite() {
       </div>
       <Section title={t('settings.security.activityTitle')} icon={<ShieldCheck />}>
         {activiteSecurite.length === 0 ? (
-          <p className="rounded-xl bg-page px-4 py-3 text-sm text-muted">{t('settings.security.noActivity')}</p>
+          <p className="rounded-xl bg-page px-4 py-3 text-sm text-muted-foreground">{t('settings.security.noActivity')}</p>
         ) : (
           <div className="divide-y divide-line">
             {activiteSecurite.slice(0, 10).map((a) => (
               <div key={a.id} className="flex flex-wrap items-center gap-x-3 gap-y-1 py-3 text-sm">
                 {a.ok ? <CheckCircle2 className="size-5 text-emerald-500" /> : <XCircle className="size-5 text-rose-500" />}
                 <span className="flex-1 font-semibold">{t(`settings.security.events.${a.evenement}`)}</span>
-                <span className="text-muted">{a.appareil}</span>
-                <span className="text-right text-muted sm:w-44">{shortDate(a.le, { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
+                <span className="text-muted-foreground">{a.appareil}</span>
+                <span className="text-right text-muted-foreground sm:w-44">{shortDate(a.le, { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
               </div>
             ))}
           </div>
@@ -426,9 +426,9 @@ function Notifications() {
                 <IconTile icon={s.icon} tone={s.tone} size="sm" />
                 <div className="flex-1 text-sm">
                   <p className="font-bold text-navy-900">{type ? t(`settings.notifications.items.${type}.title`) : n.titre}</p>
-                  <p className="text-muted">{type ? t(`settings.notifications.items.${type}.text`) : n.texte}</p>
+                  <p className="text-muted-foreground">{type ? t(`settings.notifications.items.${type}.text`) : n.texte}</p>
                 </div>
-                <span className="text-xs whitespace-nowrap text-muted">{type ? t(`settings.notifications.items.${type}.date`) : n.date}</span>
+                <span className="text-xs whitespace-nowrap text-muted-foreground">{type ? t(`settings.notifications.items.${type}.date`) : n.date}</span>
                 {!n.lu && <span className="mt-1.5 size-2.5 rounded-full bg-brand-600" aria-label={t('settings.notifications.unread')} />}
               </button>
             )
@@ -540,7 +540,7 @@ function Utilisateurs() {
         </div>
         <table className="w-full min-w-[820px] text-sm">
           <thead>
-            <tr className="border-b border-line text-left text-xs text-muted uppercase">
+            <tr className="border-b border-line text-left text-xs text-muted-foreground uppercase">
               <th className="py-3">{t('settings.users.table.user')}</th>
               <th>{t('settings.users.table.role')}</th>
               <th>{t('settings.users.table.contact')}</th>
@@ -560,9 +560,9 @@ function Utilisateurs() {
                   </span>
                 </td>
                 <td><Badge tone={roleTone[u.role]}>{roleName(u.role)}</Badge></td>
-                <td className="text-xs"><p>{u.telephone}</p><p className="text-muted">{u.email}</p></td>
+                <td className="text-xs"><p>{u.telephone}</p><p className="text-muted-foreground">{u.email}</p></td>
                 <td><StatusBadge status={u.statut} /></td>
-                <td className="text-muted">{indexMaquette(u) >= 0 ? t(`settings.users.lastLogins.${indexMaquette(u) as 0 | 1 | 2 | 3 | 4}`, { defaultValue: u.connexion }) : u.connexion}</td>
+                <td className="text-muted-foreground">{indexMaquette(u) >= 0 ? t(`settings.users.lastLogins.${indexMaquette(u) as 0 | 1 | 2 | 3 | 4}`, { defaultValue: u.connexion }) : u.connexion}</td>
                 <td className="text-right">
                   <MenuActions
                     label={t('settings.users.actions')}
@@ -624,7 +624,7 @@ function APropos() {
       </div>
       <Card className="flex flex-wrap items-center justify-between gap-3 p-5 text-sm">
         <span><Trans t={t} i18nKey="settings.about.version" values={{ version: '2.4.0' }} components={{ b: <b /> }} /> <Badge tone="green">{t('settings.about.upToDate')}</Badge></span>
-        <span className="text-muted">{t('settings.about.lastUpdate', { date: shortDate(new Date(2026, 10, 5), { day: '2-digit', month: 'short', year: 'numeric' }) })}</span>
+        <span className="text-muted-foreground">{t('settings.about.lastUpdate', { date: shortDate(new Date(2026, 10, 5), { day: '2-digit', month: 'short', year: 'numeric' }) })}</span>
       </Card>
       {account && <AssistanceModal open={assistance} onClose={() => setAssistance(false)} compteId={account.id} />}
     </div>

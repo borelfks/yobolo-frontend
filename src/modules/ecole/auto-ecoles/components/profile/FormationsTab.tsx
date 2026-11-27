@@ -46,7 +46,7 @@ export function FormationsTab({ id }: { id: string }) {
           <Heading icon={<GraduationCap />}>{t('profile.trainings.title')}</Heading>
           <span className="text-[13px] text-navy-900">{t('profile.trainings.count', { count: list.length })}</span>
         </div>
-        {list.length === 0 && <p className="rounded-xl bg-page px-4 py-6 text-center text-sm text-muted">{t('profile.filters.aucuneFormation')}</p>}
+        {list.length === 0 && <p className="rounded-xl bg-page px-4 py-6 text-center text-sm text-muted-foreground">{t('profile.filters.aucuneFormation')}</p>}
         {list.map((c) => {
           const p = permisCatalogue[c]
           return (

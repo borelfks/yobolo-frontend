@@ -31,7 +31,7 @@ export function SearchField({
       <span className="shrink-0 text-navy-800 [&_svg]:size-5">{icon}</span>
       <span className="min-w-0 flex-1 leading-tight">
         <span className="block truncate text-[13px] font-bold text-navy-900">{label}</span>
-        <span className={cn('block truncate text-xs', valeur ? 'font-semibold text-brand-700' : 'text-muted')}>{valeur || hint}</span>
+        <span className={cn('block truncate text-xs', valeur ? 'font-semibold text-brand-700' : 'text-muted-foreground')}>{valeur || hint}</span>
       </span>
       <ChevronDown className="size-5 shrink-0 text-navy-900" />
       <select name={name} aria-label={label} value={valeur} onChange={(e) => setValeur(e.target.value)} className="absolute inset-0 cursor-pointer opacity-0">

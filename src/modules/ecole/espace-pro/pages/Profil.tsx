@@ -364,7 +364,7 @@ function Medias() {
               />
             </div>
           ))}
-          {shown.length === 0 && <p className="col-span-full rounded-xl bg-[#f3f6fc] px-3 py-3 text-[14px] text-muted">{t('profil.media.none')}</p>}
+          {shown.length === 0 && <p className="col-span-full rounded-xl bg-[#f3f6fc] px-3 py-3 text-[14px] text-muted-foreground">{t('profil.media.none')}</p>}
         </div>
         <label className="mt-3 flex cursor-pointer flex-wrap items-center gap-4 rounded-xl border-2 border-dashed border-[#9fb4e3] px-5 py-3">
           <CloudUpload className="size-10 text-brand-600" />

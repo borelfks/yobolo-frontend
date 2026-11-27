@@ -33,7 +33,7 @@ export function HorsPerimetre() {
           <Icon className="size-8" />
         </span>
         <h1 className="mt-5 text-2xl text-navy-900">{t('comingSoon.title', { space })}</h1>
-        <p className="mt-2 text-muted">
+        <p className="mt-2 text-muted-foreground">
           {t('comingSoon.text', { space })}
         </p>
         <Button to={ROUTES.schools} className="mt-6">

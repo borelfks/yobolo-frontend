@@ -38,7 +38,7 @@ export function PartagePublication({ titre, publicationId }: { titre: string; pu
 
   return (
     <section aria-label={t('article.partager')} className="flex flex-col gap-3">
-      <h2 className="text-[0.6875rem] font-semibold tracking-wider text-muted uppercase">{t('article.partager')}</h2>
+      <h2 className="text-[0.6875rem] font-semibold tracking-wider text-muted-foreground uppercase">{t('article.partager')}</h2>
       <ul className="grid grid-cols-2 gap-2 lg:grid-cols-1">
         {reseaux.map(({ nom, url }) => (
           <li key={nom}>

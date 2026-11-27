@@ -44,15 +44,15 @@ export function RatingSummary({
       <div className="text-center">
         <p className="text-5xl font-extrabold text-navy-900">
           {num(note)}
-          <span className="text-xl text-muted">/5</span>
+          <span className="text-xl text-muted-foreground">/5</span>
         </p>
         <Stars value={note} size="md" />
-        <p className="mt-1 text-sm text-muted">{t('blocks.basee', { count: total, total: num(total) })}</p>
+        <p className="mt-1 text-sm text-muted-foreground">{t('blocks.basee', { count: total, total: num(total) })}</p>
       </div>
       <ul className="space-y-2">
         {repartition.map((r, i) => (
           <li key={r.etoiles} className="flex items-center gap-2 text-sm">
-            <span className="w-6 text-muted">{r.etoiles}★</span>
+            <span className="w-6 text-muted-foreground">{r.etoiles}★</span>
             <span className="h-2 flex-1 overflow-hidden rounded-full bg-slate-100">
               <span className={cn('block h-full rounded-full', colored ? colors[i] : 'bg-amber-400')} style={{ width: `${r.pct}%` }} />
             </span>
@@ -85,7 +85,7 @@ export function ReviewItem({ r }: { r: Review }) {
             <p className="font-bold text-navy-900">{r.nom}</p>
             {r.verifie && <BadgeCheck className="size-4 text-brand-600" aria-label={t('blocks.avisVerifie')} />}
             {r.role && <Badge tone={r.role === 'Entreprise' ? 'violet' : r.role.startsWith('Ancien') ? 'green' : 'blue'}>{isKnownRole(r.role) ? t(`blocks.roles.${roleKeys[r.role]}`) : r.role}</Badge>}
-            <span className="text-xs text-muted">{r.date}</span>
+            <span className="text-xs text-muted-foreground">{r.date}</span>
           </div>
           <div className="mt-1 flex items-center gap-2">
             <Stars value={r.note} />
@@ -99,7 +99,7 @@ export function ReviewItem({ r }: { r: Review }) {
                 setLiked(!liked)
                 if (!liked) toast(t('blocks.toasts.merciRetour'))
               }}
-              className={cn('mt-3 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ring-1', liked ? 'bg-brand-50 text-brand-700 ring-brand-200' : 'text-muted ring-line hover:bg-slate-50')}
+              className={cn('mt-3 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ring-1', liked ? 'bg-brand-50 text-brand-700 ring-brand-200' : 'text-muted-foreground ring-line hover:bg-slate-50')}
             >
               <ThumbsUp className="size-3.5" />
               {r.utile + (liked ? 1 : 0)}

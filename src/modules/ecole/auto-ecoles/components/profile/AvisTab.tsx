@@ -117,7 +117,7 @@ export function AvisTab({ id }: { id: string }) {
               <p className="mt-1 text-[14px] text-navy-900">{r.texte}</p>
               {r.reponse && (
                 <div className="mt-2 rounded-xl border-l-4 border-brand-600 bg-[#f3f6fc] px-3 py-2 text-[13.5px] text-navy-900">
-                  <p className="font-semibold text-brand-700">{t('profile.reviews.replyFrom')} · <span className="font-normal text-muted">{r.reponse.le}</span></p>
+                  <p className="font-semibold text-brand-700">{t('profile.reviews.replyFrom')} · <span className="font-normal text-muted-foreground">{r.reponse.le}</span></p>
                   <p>{r.reponse.texte}</p>
                 </div>
               )}
@@ -156,7 +156,7 @@ export function AvisTab({ id }: { id: string }) {
           </>
         }
       >
-        <p className="text-sm text-muted">{t('profile.reviews.reportIntro')}</p>
+        <p className="text-sm text-muted-foreground">{t('profile.reviews.reportIntro')}</p>
         <div className="mt-3 space-y-2">
           {(['inappropriate', 'false', 'spam', 'other'] as const).map((m) => (
             <label key={m} className="flex cursor-pointer items-center gap-2.5 text-[14.5px] text-navy-900">

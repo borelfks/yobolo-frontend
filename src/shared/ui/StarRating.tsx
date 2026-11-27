@@ -14,7 +14,7 @@ export function Stars({ value, size = 'sm', showValue, count }: { value: number;
         ))}
       </span>
       {showValue && <span className="text-sm font-bold text-navy-900">{num(value)}</span>}
-      {count !== undefined && <span className="text-sm text-muted">{t('rating.reviews', { count, n: num(count) })}</span>}
+      {count !== undefined && <span className="text-sm text-muted-foreground">{t('rating.reviews', { count, n: num(count) })}</span>}
     </span>
   )
 }
@@ -28,12 +28,12 @@ export function PasEncoreDAvis({ className }: { className?: string }) {
 /** Note compacte « ★ 4,7 (286 avis) » ; sans avis : « Pas encore d'avis ». */
 export function Rating({ value, count, className }: { value: number; count?: number; className?: string }) {
   const { t } = useTranslation()
-  if (count === 0) return <PasEncoreDAvis className={cn('text-sm text-muted', className)} />
+  if (count === 0) return <PasEncoreDAvis className={cn('text-sm text-muted-foreground', className)} />
   return (
     <span className={cn('inline-flex items-center gap-1 text-sm', className)}>
       <Star className="size-4 fill-amber-400 text-amber-400" />
       <span className="font-bold">{num(value)}</span>
-      {count !== undefined && <span className="text-muted">{t('rating.reviews', { count, n: num(count) })}</span>}
+      {count !== undefined && <span className="text-muted-foreground">{t('rating.reviews', { count, n: num(count) })}</span>}
     </span>
   )
 }

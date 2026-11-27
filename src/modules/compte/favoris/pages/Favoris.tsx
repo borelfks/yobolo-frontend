@@ -91,7 +91,7 @@ export function Favoris() {
             <div className={cn(card, 'p-10 text-center')}>
               <Heart className="mx-auto size-10 text-slate-300" />
               <p className="mt-3 font-semibold text-navy-900">{t('favoris.vide.titre')}</p>
-              <p className="text-sm text-muted">{t('favoris.vide.texte')}</p>
+              <p className="text-sm text-muted-foreground">{t('favoris.vide.texte')}</p>
               <Link to={ROUTES.schools} className="mt-4 inline-flex h-10 items-center rounded-full bg-brand-600 px-5 font-semibold text-white">
                 {t('favoris.vide.explorer')}
               </Link>
@@ -232,7 +232,7 @@ function PublicationFavorite({ enregistrement }: { enregistrement: Enregistremen
         <Link to={ROUTES.publication(publication.id)} className="line-clamp-2 block text-[20px] font-bold text-navy-900 hover:text-brand-600">
           {titre}
         </Link>
-        <p className="text-[15px] text-muted">
+        <p className="text-[15px] text-muted-foreground">
           {auteur} · {shortDate(publication.publieeLe, { day: '2-digit', month: 'short', year: 'numeric' })}
         </p>
       </div>

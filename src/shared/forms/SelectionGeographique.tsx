@@ -69,7 +69,7 @@ export function SelectionGeographique({
         </Field>
       </div>
       {ville && (
-        <p className="flex items-center gap-2 text-sm text-muted">
+        <p className="flex items-center gap-2 text-sm text-muted-foreground">
           <MapPin className="size-4 shrink-0" aria-hidden="true" />
           {t('geographie.villeDeduite', { ville })}
         </p>

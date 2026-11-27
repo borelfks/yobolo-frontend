@@ -56,7 +56,7 @@ export function Raccourcis({ favoris, basculerFavoris }: { favoris: boolean; bas
               </span>
               <span className="flex min-w-0 flex-col leading-tight">
                 <span className="text-xs font-bold text-navy-900">{t(`raccourcis.${cle}`)}</span>
-                <span className="mt-0.5 text-[0.6875rem] text-muted">{t(`raccourcis.${cle}Aide`)}</span>
+                <span className="mt-0.5 text-[0.6875rem] text-muted-foreground">{t(`raccourcis.${cle}Aide`)}</span>
               </span>
             </>
           )

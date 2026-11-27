@@ -20,12 +20,12 @@ const block = (active: boolean) =>
 const underline = (active: boolean) =>
   cn(
     'inline-flex h-11 shrink-0 items-center gap-2 border-b-2 px-1 text-sm font-semibold transition-colors [&_svg]:size-4',
-    active ? 'border-brand-600 text-brand-700' : 'border-transparent text-muted hover:text-navy-900',
+    active ? 'border-brand-600 text-brand-700' : 'border-transparent text-muted-foreground hover:text-navy-900',
   )
 
 function Count({ n, active }: { n: number | string; active: boolean }) {
   return (
-    <span className={cn('rounded-full px-1.5 text-xs', active ? 'bg-white/20' : 'bg-slate-100 text-muted')}>{n}</span>
+    <span className={cn('rounded-full px-1.5 text-xs', active ? 'bg-white/20' : 'bg-slate-100 text-muted-foreground')}>{n}</span>
   )
 }
 

@@ -59,7 +59,7 @@ export function ApercuTab() {
     <div className="space-y-4">
       <div>
         <h2 className="text-[22px] font-bold text-navy-900">{t('apercu.bonjour', { name: account.name.split(' ')[0] })}</h2>
-        <p className="text-[15px] text-muted">{t('apercu.texte')}</p>
+        <p className="text-[15px] text-muted-foreground">{t('apercu.texte')}</p>
       </div>
       <KpiGrid>
         <Kpi icon={<FileText />} label={t('apercu.kpis.preinscriptions')} value={actives(preinscriptions)} tone="blue" />
@@ -70,7 +70,7 @@ export function ApercuTab() {
       <div className="grid items-start gap-4 lg:grid-cols-[1fr_340px]">
         <Section title={t('apercu.activite')} icon={<History />}>
           {demarches.length === 0 ? (
-            <div className="space-y-3 rounded-xl bg-page p-4 text-sm text-muted">
+            <div className="space-y-3 rounded-xl bg-page p-4 text-sm text-muted-foreground">
               <p>{t('apercu.aucuneActivite')}</p>
               <Button to={ROUTES.schools} size="sm">
                 <Search aria-hidden="true" />
@@ -86,7 +86,7 @@ export function ApercuTab() {
                     <span className="flex min-w-0 flex-1 flex-col gap-1 sm:flex-row sm:items-center sm:gap-3">
                       <span className="min-w-0 flex-1">
                         <span className="line-clamp-2 font-semibold text-navy-900 sm:line-clamp-1">{d.titre}</span>
-                        <span className="line-clamp-2 text-[13px] text-muted sm:line-clamp-1">
+                        <span className="line-clamp-2 text-[13px] text-muted-foreground sm:line-clamp-1">
                           {d.genre} · {d.lieu} · {shortDate(d.le, { day: '2-digit', month: 'short', year: 'numeric' })}
                         </span>
                       </span>
@@ -94,7 +94,7 @@ export function ApercuTab() {
                         <StatutDossier statut={d.statut} />
                       </span>
                     </span>
-                    <ChevronRight className="size-4 shrink-0 text-muted" aria-hidden="true" />
+                    <ChevronRight className="size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
                   </Link>
                 </li>
               ))}

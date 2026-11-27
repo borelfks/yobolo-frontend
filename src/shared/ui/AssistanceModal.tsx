@@ -38,7 +38,7 @@ export function AssistanceModal({ open, onClose, compteId }: { open: boolean; on
   return (
     <Modal open={open} onClose={fermer} title={t('title')} icon={<Headphones className="mt-0.5 size-5 text-brand-600" />}>
       <form noValidate onSubmit={handleSubmit(envoyer)} className="space-y-4">
-        <p className="text-sm text-muted">{t('hours')}</p>
+        <p className="text-sm text-muted-foreground">{t('hours')}</p>
         <div>
           <Label htmlFor="assistance-sujet">{t('subject')}</Label>
           <Select id="assistance-sujet" options={SUJETS.map((s) => ({ value: s, label: t(`subjects.${s}`) }))} {...register('sujet')} />

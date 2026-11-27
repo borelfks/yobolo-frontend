@@ -142,7 +142,7 @@ export function InscriptionAutoEcole() {
         <div className={cn(card, 'p-8 text-center')}>
           <span className="mx-auto grid size-20 place-items-center rounded-full bg-emerald-100 text-emerald-600"><CircleCheck className="size-10" /></span>
           <h1 className="mt-5 text-2xl font-bold text-navy-900">{t('inscription.sent.title')}</h1>
-          <p className="mt-2 text-muted">{t('inscription.sent.text', { permis: permisNom, school: a.nom })}</p>
+          <p className="mt-2 text-muted-foreground">{t('inscription.sent.text', { permis: permisNom, school: a.nom })}</p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <Link to={ROUTES.drivingSchool(a.id)} className="inline-flex h-11 flex-1 items-center justify-center rounded-full border-2 border-brand-600/60 font-semibold text-navy-800">{t('inscription.sent.backToSchool')}</Link>
             <Link to={ROUTES.drivingSchools} className="inline-flex h-11 flex-1 items-center justify-center rounded-full bg-brand-600 font-semibold text-white">{t('inscription.sent.otherSchools')}</Link>

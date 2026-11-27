@@ -49,7 +49,7 @@ export function Publication() {
               <StatusBadge status={a.statut} />
             </div>
             <h1 className="text-2xl text-navy-900">{a.titre}</h1>
-            <p className="flex items-center gap-4 text-sm text-muted">
+            <p className="flex items-center gap-4 text-sm text-muted-foreground">
               <span className="flex items-center gap-1"><CalendarDays className="size-4" />{t('publication.publishedOn', { date: a.date })}</span>
             </p>
             {/* Seul le texte réellement saisi s'affiche (pas de texte de la maquette à la place). */}

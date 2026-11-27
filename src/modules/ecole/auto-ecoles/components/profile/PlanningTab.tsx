@@ -68,7 +68,7 @@ export function PlanningTab({ id }: { id: string }) {
             <tbody>
               {list.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="px-4 py-6 text-center text-muted">{t('profile.filters.aucuneSession')}</td>
+                  <td colSpan={6} className="px-4 py-6 text-center text-muted-foreground">{t('profile.filters.aucuneSession')}</td>
                 </tr>
               )}
               {list.map((s) => {

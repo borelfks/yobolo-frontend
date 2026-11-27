@@ -155,7 +155,7 @@ function LigneNotification({
         <span className="line-clamp-3 text-navy-900">
           <b className="font-semibold">{n.titre}</b> · {n.texte}
         </span>
-        <span className={cn('mt-0.5 block text-[13px]', n.lu ? 'text-muted' : 'font-semibold text-brand-600')}>{n.quand}</span>
+        <span className={cn('mt-0.5 block text-[13px]', n.lu ? 'text-muted-foreground' : 'font-semibold text-brand-600')}>{n.quand}</span>
       </span>
     </>
   )

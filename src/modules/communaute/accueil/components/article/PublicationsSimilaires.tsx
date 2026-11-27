@@ -28,7 +28,7 @@ export function PublicationsSimilaires({ publication }: { publication: Publicati
 
   return (
     <section aria-label={t('article.similaires')} className="flex flex-col gap-3">
-      <h2 className="text-[0.6875rem] font-semibold tracking-wider text-muted uppercase">{t('article.similaires')}</h2>
+      <h2 className="text-[0.6875rem] font-semibold tracking-wider text-muted-foreground uppercase">{t('article.similaires')}</h2>
       <ul className="flex flex-col divide-y divide-line">
         {similaires.map((une) => (
           <li key={une.id} className="py-3 first:pt-0 last:pb-0">
@@ -41,7 +41,7 @@ export function PublicationsSimilaires({ publication }: { publication: Publicati
                     {titreEtExtrait(une).titre}
                   </Link>
                 </h3>
-                <time dateTime={une.publieeLe} className="text-xs text-muted">
+                <time dateTime={une.publieeLe} className="text-xs text-muted-foreground">
                   {shortDate(une.publieeLe, { day: 'numeric', month: 'short', year: 'numeric' })}
                 </time>
               </div>

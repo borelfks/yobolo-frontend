@@ -41,10 +41,10 @@ export function Kpi({
     <div className={cn('flex items-center gap-3.5 rounded-2xl border border-line bg-gradient-to-br p-4', from, to, className)}>
       <span className={cn('grid size-12 shrink-0 place-items-center rounded-2xl [&_svg]:size-6', bg, text)}>{icon}</span>
       <div className="min-w-0">
-        <p className="line-clamp-2 text-sm leading-tight font-medium text-muted">{label}</p>
+        <p className="line-clamp-2 text-sm leading-tight font-medium text-muted-foreground">{label}</p>
         <p className="flex flex-wrap items-baseline gap-x-2 text-2xl font-extrabold text-navy-900">
           {value}
-          {extra && <span className="text-sm font-semibold text-muted">{extra}</span>}
+          {extra && <span className="text-sm font-semibold text-muted-foreground">{extra}</span>}
         </p>
         {trend && (
           <p className="mt-0.5 inline-flex items-center gap-1 text-xs font-semibold text-emerald-600">
@@ -82,7 +82,7 @@ export function PageTitle({
         {icon && <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-brand-100 text-brand-600 [&_svg]:size-6">{icon}</span>}
         <div>
           <h1 className="text-2xl text-navy-900 md:text-[1.7rem]">{title}</h1>
-          {subtitle && <p className="mt-1 text-sm text-muted md:text-base">{subtitle}</p>}
+          {subtitle && <p className="mt-1 text-sm text-muted-foreground md:text-base">{subtitle}</p>}
         </div>
       </div>
       {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
@@ -151,7 +151,7 @@ export function InfoRow({ icon, label, value, className }: { icon?: ReactNode; l
   return (
     <div className={cn('flex items-start gap-3 py-2 text-sm', className)}>
       {icon && <span className="mt-0.5 text-brand-600 [&_svg]:size-4">{icon}</span>}
-      <span className="text-muted">{label}</span>
+      <span className="text-muted-foreground">{label}</span>
       <span className="ml-auto text-right font-semibold text-navy-900">{value}</span>
     </div>
   )
@@ -199,5 +199,5 @@ export function IconTile({ icon, tone = 'blue', size = 'md' }: { icon: ReactNode
 }
 
 export function EmptyNote({ children }: { children: ReactNode }) {
-  return <Card className="p-8 text-center text-sm text-muted">{children}</Card>
+  return <Card className="p-8 text-center text-sm text-muted-foreground">{children}</Card>
 }

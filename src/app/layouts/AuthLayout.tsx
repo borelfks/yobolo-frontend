@@ -32,7 +32,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
           <Logo className="mr-auto" />
           <Link
             to={ROUTES.home}
-            className="inline-flex h-10 items-center gap-1.5 rounded-full px-3 text-sm font-medium text-muted transition-colors hover:bg-brand-50 hover:text-navy-900"
+            className="inline-flex h-10 items-center gap-1.5 rounded-full px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-brand-50 hover:text-navy-900"
           >
             <ArrowLeft className="size-4 shrink-0" aria-hidden />
             <span className="sm:hidden">{t('authLayout.home')}</span>
