@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { CircleCheck, Info, Loader2, OctagonX, TriangleAlert } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Toaster as Sonner, type ToasterProps } from 'sonner'
 
 /**
@@ -9,6 +10,7 @@ import { Toaster as Sonner, type ToasterProps } from 'sonner'
  * `toast.promise(…)` depuis n'importe quel écran.
  */
 function Toaster(props: ToasterProps) {
+  const { t } = useTranslation()
   return (
     <Sonner
       position="top-right"
@@ -22,7 +24,7 @@ function Toaster(props: ToasterProps) {
         error: <OctagonX className="size-5" />,
         loading: <Loader2 className="size-5 animate-spin" />,
       }}
-      toastOptions={{ classNames: { toast: 'font-sans !rounded-lg !shadow-floating', title: '!text-sm !font-bold', description: '!text-meta' } }}
+      toastOptions={{ closeButtonAriaLabel: t('toast.close'), classNames: { toast: 'font-sans !rounded-lg !shadow-floating', title: '!text-sm !font-bold', description: '!text-meta' } }}
       style={
         {
           '--normal-bg': 'var(--color-popover)',

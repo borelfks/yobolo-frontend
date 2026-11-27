@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import { Outlet, useLocation } from 'react-router'
-import { PageLoader } from '@/shared/ui/PageLoader'
+import { PageSpinner } from '@/shared/blocs/Chargement'
 import { ErrorBoundary } from '@/shared/errors/ErrorBoundary'
 
 /**
@@ -12,7 +12,7 @@ export function RouteOutlet() {
   const { pathname } = useLocation()
   return (
     <ErrorBoundary resetKey={pathname} inline>
-      <Suspense fallback={<PageLoader />}>
+      <Suspense fallback={<PageSpinner />}>
         <Outlet />
       </Suspense>
     </ErrorBoundary>

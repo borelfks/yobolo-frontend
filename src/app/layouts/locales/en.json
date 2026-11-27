@@ -68,23 +68,6 @@
       "skills": "Skills assessment and recognition"
     }
   },
-  "notFound": {
-    "title": "Page not found",
-    "text": "This page does not exist or has been moved."
-  },
-  "errors": {
-    "generic": {
-      "title": "Something went wrong",
-      "text": "This page could not be displayed. Reload it or go back to the home page."
-    },
-    "offline": {
-      "title": "No internet connection",
-      "text": "Check your connection, then try again."
-    },
-    "reload": "Reload the page",
-    "retry": "Try again",
-    "backHome": "Back to home"
-  },
   "accueil": {
     "entete": {
       "seConnecter": "Log in",
@@ -99,9 +82,6 @@
         "conditions": "Terms"
       }
     }
-  },
-  "toast": {
-    "fermer": "Close message"
   },
   "roles": {
     "utilisateur": "User",

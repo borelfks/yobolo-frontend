@@ -68,23 +68,6 @@
       "skills": "Évaluation et valorisation des compétences"
     }
   },
-  "notFound": {
-    "title": "Page introuvable",
-    "text": "Cette page n’existe pas ou a été déplacée."
-  },
-  "errors": {
-    "generic": {
-      "title": "Une erreur est survenue",
-      "text": "La page n’a pas pu s’afficher. Rechargez-la ou revenez à l’accueil."
-    },
-    "offline": {
-      "title": "Pas de connexion internet",
-      "text": "Vérifiez votre connexion, puis réessayez."
-    },
-    "reload": "Recharger la page",
-    "retry": "Réessayer",
-    "backHome": "Retour à l’accueil"
-  },
   "accueil": {
     "entete": {
       "seConnecter": "Se connecter",
@@ -99,9 +82,6 @@
         "conditions": "Conditions générales"
       }
     }
-  },
-  "toast": {
-    "fermer": "Fermer le message"
   },
   "roles": {
     "utilisateur": "Utilisateur",

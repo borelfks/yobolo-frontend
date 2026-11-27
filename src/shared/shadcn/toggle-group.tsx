@@ -12,14 +12,14 @@ const ToggleGroupContext = React.createContext<
 >({
   size: "default",
   variant: "default",
-  spacing: 0,
+  spacing: 2,
 })
 
 function ToggleGroup({
   className,
   variant,
   size,
-  spacing = 0,
+  spacing = 2,
   children,
   ...props
 }: React.ComponentProps<typeof ToggleGroupPrimitive.Root> &

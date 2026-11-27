@@ -1,5 +1,5 @@
 import { Component, type ReactNode } from 'react'
-import { ErrorScreen, OfflineScreen } from '@/shared/errors/ErrorScreens'
+import { MessagePage } from '@/shared/blocs/Etats'
 
 /**
  * Une page qui n'a pas pu se télécharger (réseau coupé) lève ce type d'erreur,
@@ -23,7 +23,7 @@ type Props = {
 type State = { error: unknown; failed: boolean; key?: string }
 
 /**
- * Affiche un écran d'erreur au lieu d'un écran blanc si une page plante :
+ * Affiche la page message du canevas au lieu d'un écran blanc si une page plante :
  *   - « Pas de connexion internet » si la page n'a pas pu se télécharger ;
  *   - « Une erreur est survenue » sinon.
  */
@@ -39,13 +39,13 @@ export class ErrorBoundary extends Component<Props, State> {
     return null
   }
 
+  componentDidCatch(error: unknown) {
+    console.error(error)
+  }
+
   render() {
     if (!this.state.failed) return this.props.children
-    const screen = isConnectionError(this.state.error) ? <OfflineScreen /> : <ErrorScreen />
-    return this.props.inline ? (
-      <div className="flex flex-1 items-center justify-center px-4 py-16">{screen}</div>
-    ) : (
-      <div className="flex min-h-dvh items-center justify-center bg-page px-4">{screen}</div>
-    )
+    const message = <MessagePage type={isConnectionError(this.state.error) ? 'horsligne' : 'erreur'} />
+    return this.props.inline ? message : <div className="flex min-h-dvh flex-col bg-background">{message}</div>
   }
 }

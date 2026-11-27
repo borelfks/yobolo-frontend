@@ -6,6 +6,7 @@ import '@/i18n'
 import { App } from '@/app/App'
 import { queryClient } from '@/api/queryClient'
 import { startData } from '@/data'
+import { ecouterErreursGlobales } from '@/app/erreursGlobales'
 import { SessionProvider } from '@/modules/compte/auth/hooks/useSession'
 import { FavoritesProvider } from '@/shared/hooks/useFavorites'
 import '@/app/styles/globals.css'
@@ -22,6 +23,7 @@ if (!container) {
 }
 
 // Charge les fausses données (src/data/fausses-donnees, copie du testeur dans son navigateur) en arrière-plan.
+ecouterErreursGlobales()
 void startData()
 
 createRoot(container).render(

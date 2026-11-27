@@ -4,7 +4,7 @@
  * src/shared/shadcn les utilisent tels quels. Fichier identique dans yibolo-admin.
  * Aucune couleur ne s'écrit en dur ailleurs : on ajoute un jeton ici.
  */
-@theme {
+@theme static {
   --font-sans: 'Plus Jakarta Sans Variable', ui-sans-serif, system-ui, sans-serif;
 
   /* --- Fonds et texte ------------------------------------------------------ */
@@ -68,6 +68,14 @@
   --color-tone-pink-soft: #fce8f1;
   --color-tone-orange: #b4520a;
   --color-tone-orange-soft: #fff0e3;
+
+  /* Graphiques : une couleur par série, dans cet ordre (chart.tsx, ChartConfig) */
+  --color-chart-1: #1f55e6;
+  --color-chart-2: #0f7a55;
+  --color-chart-3: #e0a500;
+  --color-chart-4: #6d3fd6;
+  --color-chart-5: #0a6a8f;
+  --color-chart-grid: #eef1f6;
 
   /* --- Formes -------------------------------------------------------------- */
   --radius-xs: 4px; /* bouton de pagination */

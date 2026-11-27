@@ -13,6 +13,8 @@ const withTab = (base: string, tab?: string) => (tab ? `${base}/${tab}` : base)
 export const ROUTES = {
   // -- Pages publiques ------------------------------------------------------
   home: '/',
+  /** Le design system (développement seulement) : tous les composants et leurs états. */
+  designSystem: '/design-system',
   /** L'accueil d'un compte connecté (fil, raccourcis, offres) : un compte connecté qui ouvre « / » y est mené. */
   accueil: '/accueil',
   /** L'accueil connecté, ouvert sur « Mes enregistrés ». */

@@ -1,26 +1,27 @@
 import { Suspense } from 'react'
 import { RouterProvider } from 'react-router'
-import { Toaster } from 'sonner'
-import { useTranslation } from 'react-i18next'
 import { ErrorBoundary } from '@/shared/errors/ErrorBoundary'
-import { PageLoader } from '@/shared/ui/PageLoader'
+import { BandeauHorsLigne } from '@/shared/blocs/BandeauHorsLigne'
+import { PageSpinner } from '@/shared/blocs/Chargement'
+import { Toaster } from '@/shared/shadcn/sonner'
+import { TooltipProvider } from '@/shared/shadcn/tooltip'
 import { router } from './routes'
 
 /**
- * Coquille de l'application : les routes, l'écran de secours si tout plante
- * et les messages éphémères.
+ * Coquille de l'application : les routes, l'écran de secours si tout plante,
+ * les messages éphémères et le bandeau « hors connexion ».
  */
 export function App() {
-  const { t } = useTranslation('layout')
   return (
-    <>
+    <TooltipProvider delayDuration={300}>
       <ErrorBoundary>
         {/* Un cadre qui lit la base (ex. l'espace pro) attend ici qu'elle soit prête. */}
-        <Suspense fallback={<PageLoader />}>
+        <Suspense fallback={<PageSpinner />}>
           <RouterProvider router={router} />
         </Suspense>
       </ErrorBoundary>
-      <Toaster position="top-right" richColors closeButton mobileOffset={12} toastOptions={{ closeButtonAriaLabel: t('toast.fermer') }} />
-    </>
+      <Toaster mobileOffset={12} />
+      <BandeauHorsLigne />
+    </TooltipProvider>
   )
 }

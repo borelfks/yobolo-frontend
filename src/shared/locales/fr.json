@@ -10,7 +10,23 @@
     },
     "reload": "Recharger la page",
     "retry": "Réessayer",
-    "backHome": "Retour à l’accueil"
+    "backHome": "Retour à l’accueil",
+    "notFound": {
+      "title": "Page introuvable",
+      "text": "Cette page n’existe pas ou a été déplacée."
+    },
+    "forbidden": {
+      "title": "Accès refusé",
+      "text": "Vous n’avez pas accès à cette page avec ce compte."
+    },
+    "load": {
+      "title": "Impossible de charger ces informations",
+      "text": "Vérifiez votre connexion, puis réessayez.",
+      "background": "Les informations n’ont pas pu être mises à jour."
+    },
+    "save": "L’enregistrement n’a pas abouti. Réessayez.",
+    "unexpected": "Une erreur inattendue est survenue. Réessayez.",
+    "offlineBanner": "Vous êtes hors connexion."
   },
   "account": {
     "signIn": "Se connecter",
@@ -299,5 +315,8 @@
   "command": {
     "title": "Rechercher",
     "description": "Tapez pour chercher."
+  },
+  "toast": {
+    "close": "Fermer le message"
   }
 }

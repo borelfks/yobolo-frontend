@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { Navigate } from 'react-router'
 import { useSession } from '@/modules/compte/auth/hooks/useSession'
-import { PageLoader } from '@/shared/ui/PageLoader'
+import { PageSpinner } from '@/shared/blocs/Chargement'
 
 /**
  * La landing ne s'ouvre qu'aux visiteurs (comme dans yibolo-client) : un compte
@@ -15,6 +15,6 @@ import { PageLoader } from '@/shared/ui/PageLoader'
 export function GardeAccueil({ children }: { children: ReactNode }) {
   const { account, pret, compteId } = useSession()
   if (account) return <Navigate to={account.home} replace />
-  if (compteId && !pret) return <PageLoader />
+  if (compteId && !pret) return <PageSpinner />
   return children
 }

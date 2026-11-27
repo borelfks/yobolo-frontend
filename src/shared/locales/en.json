@@ -10,7 +10,23 @@
     },
     "reload": "Reload the page",
     "retry": "Try again",
-    "backHome": "Back to home"
+    "backHome": "Back to home",
+    "notFound": {
+      "title": "Page not found",
+      "text": "This page does not exist or has been moved."
+    },
+    "forbidden": {
+      "title": "Access denied",
+      "text": "You do not have access to this page with this account."
+    },
+    "load": {
+      "title": "This information could not be loaded",
+      "text": "Check your connection, then try again.",
+      "background": "The information could not be updated."
+    },
+    "save": "Saving failed. Please try again.",
+    "unexpected": "An unexpected error occurred. Please try again.",
+    "offlineBanner": "You are offline."
   },
   "account": {
     "signIn": "Sign in",
@@ -299,5 +315,8 @@
   "command": {
     "title": "Search",
     "description": "Type to search."
+  },
+  "toast": {
+    "close": "Close the message"
   }
 }
