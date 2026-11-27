@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import { Outlet, useLocation } from 'react-router'
-import { PageLoader } from '@/shared/components/ui/PageLoader'
-import { ErrorBoundary } from '@/shared/components/errors/ErrorBoundary'
+import { PageLoader } from '@/shared/ui/PageLoader'
+import { ErrorBoundary } from '@/shared/errors/ErrorBoundary'
 
 /**
  * Contenu d'un cadre (pages publiques, espace pro) : la page se charge et, si

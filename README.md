@@ -86,7 +86,7 @@ Les comptes :
 
 ## Organisation du code
 
-Le code est rangé **par fonctionnalité**, sur le modèle d'Autopia : tout ce qui concerne les auto-écoles est dans `features/driving-schools/`, tout ce qui concerne l'espace professionnel dans `features/pro/`, etc.
+Le code est rangé **par univers** (`src/modules/<univers>/<partie>/`), comme yibolo-admin : tout ce qui concerne les auto-écoles est dans `modules/ecole/auto-ecoles/`, tout ce qui concerne l'espace professionnel dans `modules/ecole/espace-pro/`, etc.
 
 ```
 src/
@@ -98,19 +98,25 @@ src/
 │   ├── styles/            CSS global (police) et thème (couleurs)
 │   └── NotFound.tsx       page 404 · ErrorPage.tsx (page d'erreur)
 │
-├── features/            une fonctionnalité = un dossier
-│   ├── landing/           accueil, page « bientôt disponible » (Consultation, Emploi)
-│   ├── auth/              connexion, inscription + session (useSession)
-│   ├── schools/           IPES, CFP, Autres : annuaire École, listes par type, fiche, formation, préinscription
-│   ├── driving-schools/   auto-écoles : liste, fiche, permis, inscription et sa modification
-│   ├── reviews/           avis (donner un avis, blocs d'avis)
-│   ├── favorites/         page « Mes favoris »
-│   └── pro/               espace professionnel École (tableau de bord, profil, formations, contenus, statistiques, paramètres)
+├── modules/             un dossier par univers, découpé en parties
+│   ├── ecole/
+│   │   ├── etablissements/  IPES, CFP, Autres : annuaire École, listes par type, fiche, formation, préinscription
+│   │   ├── auto-ecoles/     auto-écoles : liste, fiche, permis, inscription et sa modification
+│   │   ├── avis/            avis (donner un avis, blocs d'avis)
+│   │   └── espace-pro/      espace professionnel École (tableau de bord, profil, formations, contenus, statistiques, paramètres)
+│   ├── compte/
+│   │   ├── auth/            connexion, inscription, mot de passe oublié + session (useSession)
+│   │   ├── mon-espace/      Mon espace de la personne physique, profil, paramètres, notifications
+│   │   └── favoris/         page « Mes favoris »
+│   ├── communaute/
+│   │   └── accueil/         accueil connecté : fil de publications, publication
+│   └── landing/           accueil des visiteurs, page « bientôt disponible » (Consultation, Emploi)
 │
-├── shared/              ce qui sert à plusieurs fonctionnalités
-│   ├── components/ui/     briques de base (bouton, badge, carte, onglets, étoiles, logo, graphiques…)
-│   ├── components/forms/  champs de formulaire (Fields.tsx)
-│   ├── components/errors/ ErrorBoundary, écrans d'erreur et hors connexion
+├── shared/              ce qui sert à plusieurs parties
+│   ├── ui/                briques de base (bouton, badge, carte, onglets, étoiles, logo, graphiques…)
+│   ├── forms/             champs de formulaire (Fields.tsx)
+│   ├── errors/            ErrorBoundary, écrans d'erreur et hors connexion
+│   ├── shadcn/            composants shadcn/ui (ajoutés à la demande)
 │   ├── hooks/             useFavorites
 │   ├── locales/           textes partagés (namespace common) : fr.json, en.json
 │   ├── utils/             routes, format (nombres, FCFA, dates), storage, cn
@@ -118,13 +124,14 @@ src/
 │
 ├── i18n/                traduction : index.ts (initialisation, langue gardée), i18next.d.ts (clés typées)
 ├── data/                toutes les données : couche unique (index.ts, hooks.ts), sources/ (fausses données), fausses-donnees/ (un JSON par table)
-├── api/                 client axios (client.ts) et, plus tard, le code généré par Orval (generated/)
+├── api/                 queryClient.ts, client axios (client.ts) et, plus tard, le code généré par Orval (generated/)
 └── assets/              police Plus Jakarta Sans et logo YIBOLO
 
 public/
 ├── images/maquette/     photos découpées de la maquette du client
 ├── icons/               icônes d'application (192, 512, Apple)
-├── favicon.svg
+├── favicon.svg, favicon.ico
+├── og-image.png         image de partage (réseaux sociaux), comme yibolo-client
 └── site.webmanifest
 
 scripts/check-i18n.mjs   vérification des clés de traduction
@@ -132,12 +139,12 @@ docs/                    cahier des charges, design, décisions
 .claude/rules/           règles détaillées pour coder
 ```
 
-Chaque dossier de `features/` suit le même modèle :
+Chaque partie d'un module suit le même modèle :
 
 ```
-features/driving-schools/
+modules/ecole/auto-ecoles/
 ├── pages/               les pages (une page = un fichier, export nommé)
-├── components/          les composants propres à cette fonctionnalité (profile/ : onglets de la fiche)
+├── components/          les composants propres à cette partie (profile/ : onglets de la fiche)
 ├── hooks/               ses hooks (useInscriptionDraft)
 ├── locales/             ses textes : fr.json, en.json
 └── autoEcoleRules.ts    sa logique (icônes des permis, pièces à fournir)
@@ -147,7 +154,7 @@ features/driving-schools/
 
 L'interface existe en **français** (langue de référence, par défaut) et en **anglais britannique**. Le choix se fait avec le sélecteur de langue des en-têtes et reste gardé dans le navigateur (`yibolo:langue`), français par défaut, comme dans yibolo-client.
 
-- Textes **à côté de leur fonctionnalité** : `src/features/<sujet>/locales/fr.json` et `en.json`, `src/shared/locales/` (`common`), `src/app/layouts/locales/` (`layout`). Namespaces : `common`, `layout`, `landing`, `auth`, `schools`, `driving-schools`, `reviews`, `favorites`, `pro`.
+- Textes **à côté de leur partie** : `src/modules/<univers>/<partie>/locales/fr.json` et `en.json`, `src/shared/locales/` (`common`), `src/app/layouts/locales/` (`layout`). Namespaces : `common`, `layout`, `landing`, `auth`, `schools`, `driving-schools`, `reviews`, `favorites`, `pro`.
 - Initialisation et types : `src/i18n/index.ts`, `src/i18n/i18next.d.ts`.
 - Les clés sont **typées** à partir du français : une clé absente est une erreur TypeScript.
 - `npm run i18n:check` vérifie que l'anglais a les mêmes clés que le français.
@@ -168,7 +175,7 @@ Les jetons de couleur et la police sont dans [src/app/styles/theme.css](src/app/
 - [x] Auto-écoles : liste, fiche (6 onglets), permis A à D, inscription en 3 étapes et sa modification
 - [x] Avis et favoris
 - [x] Espace professionnel École (6 menus)
-- [x] Code rangé par fonctionnalité (modèle Autopia), TypeScript `strict`
+- [x] Code rangé par univers (`src/modules/`), TypeScript `strict`
 - [ ] **Traduction français / anglais** (en cours)
 - [ ] Univers **Consultation** (espace pro du consultant, 11 menus)
 - [ ] Univers **Emploi** (et Métiers)

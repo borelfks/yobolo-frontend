@@ -1,5 +1,6 @@
 import { useSyncExternalStore } from 'react'
-import { QueryClient, useQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { queryClient } from '@/api/queryClient'
 import { COLLECTIONS, type CollectionName, type Collections } from './collections'
 import type { DataSource } from './source'
 import { createFauxSource } from './sources/fauxSource'
@@ -13,20 +14,12 @@ import { createFauxSource } from './sources/fauxSource'
  * demain l'API de yibolo-backend.
  *
  * Les lectures passent par TanStack Query (une requête par table, clé
- * `['donnees', table]`) : le jour où l'API existe, les hooks générés par
- * Orval prennent le relais avec le même client.
+ * `['donnees', table]`, client `@/api/queryClient`) : le jour où l'API existe,
+ * les hooks générés par Orval prennent le relais avec le même client.
  */
 const SOURCES: Record<string, () => DataSource> = {
   faux: createFauxSource,
 }
-
-/** Le client TanStack Query de l'application (fourni dans main.tsx). */
-export const queryClient = new QueryClient({
-  defaultOptions: {
-    // Les fausses données ne changent que par nos écritures : pas de rechargement automatique.
-    queries: { staleTime: Infinity, gcTime: Infinity, refetchOnWindowFocus: false, retry: false },
-  },
-})
 
 let source: DataSource
 let ready: Promise<void> | undefined

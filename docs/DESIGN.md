@@ -61,7 +61,7 @@ Les jetons sont dans [src/app/styles/theme.css](../src/app/styles/theme.css) (bl
 
 ## 4. Formes, espaces, ombres
 
-- **Cartes** : `Card` = arrondi 16 px (`rounded-2xl`), bordure `border-line`, fond blanc, ombre très légère. Les cartes de l'espace pro utilisent `proCard` (`features/pro/proStyles.ts`).
+- **Cartes** : `Card` = arrondi 16 px (`rounded-2xl`), bordure `border-line`, fond blanc, ombre très légère. Les cartes de l'espace pro utilisent `proCard` (`modules/ecole/espace-pro/proStyles.ts`).
 - **Grands blocs** : bandeau de l'accueil 22 px, cadre de connexion 28 px, carte d'inscription 26 px (valeurs de la maquette).
 - **Boutons** : `Button` arrondi 12 px (`rounded-xl`) ; beaucoup de boutons de la maquette sont **en pilule** (`rounded-full`), principal bleu plein, secondaire contour bleu.
 - **Champs** : hauteur 40 à 48 px selon l'écran, arrondi 8 à 12 px, bordure `#c9d4ea`, focus bleu (`focus:border-brand-500`, anneau `brand-100`).
@@ -94,35 +94,35 @@ Les jetons sont dans [src/app/styles/theme.css](../src/app/styles/theme.css) (bl
 
 | Besoin | Composant | Où |
 |---|---|---|
-| Bouton (ou lien en forme de bouton avec `to`) | `Button` (`primary`, `navy`, `sun`, `success`, `violet`, `outline`, `neutral`, `soft`, `ghost`, `danger`, `danger-outline`, `white` ; tailles `xs`, `sm`, `md`, `lg`, `icon`) | `shared/components/ui/Button.tsx` |
-| Badge, statut | `Badge` (tons `blue`, `navy`, `green`, `orange`, `amber`, `violet`, `red`, `gray`, `sky`, `pink`, `teal`, `white`, `solidGreen`, `solidSun`), `StatusBadge` | `shared/components/ui/Badge.tsx` |
-| Établissement vérifié · type d'école | `VerifiedBadge`, `TypeBadge` | `features/schools/components/EcoleBlocks.tsx` |
-| Auto-école agréée · permis | `AgreeeBadge`, `PermisPill` | `features/driving-schools/components/AutoEcoleBlocks.tsx` |
-| Carte | `Card`, `CardHeader`, `Section`, `NumberedBlock` | `shared/components/ui/Card.tsx` |
-| Bandeau de page publique | `Hero`, `HeroFeatures` | `shared/components/ui/Hero.tsx` |
-| Fil d'Ariane | `Breadcrumb` | `shared/components/ui/Breadcrumb.tsx` |
-| Onglets | `LinkTabs` (dans l'adresse), `Tabs` (état local), `FilterPills` | `shared/components/ui/Tabs.tsx` |
-| Étapes | `Stepper`, `ArrowSteps` | `shared/components/ui/Stepper.tsx` |
-| Étoiles, note | `Stars`, `Rating`, `StarInput` | `shared/components/ui/StarRating.tsx` |
-| Note moyenne + répartition · un avis | `RatingSummary`, `ReviewItem`, `MoreButton` | `features/reviews/components/ReviewBlocks.tsx` |
-| Favori | `FavoriteButton` (cœur) ; `FavoriteModal` (choix du dossier, auto-écoles) | `shared/components/ui/FavoriteButton.tsx`, `AutoEcoleBlocks.tsx` |
-| Chiffres, blocs divers | `Kpi`, `KpiGrid`, `PageTitle`, `BackLink`, `AiCard`, `Tip`, `Checklist`, `InfoRow`, `FileRow`, `IconBtn`, `QuickAction`, `FormFooter`, `IconTile`, `EmptyNote` | `shared/components/ui/Blocks.tsx` |
-| Graphiques | `AreaTrend`, `MultiLine`, `Bars`, `Donut` (recharts) | `shared/components/ui/Charts.tsx` |
-| Progression | `Progress`, `Ring` | `shared/components/ui/Progress.tsx` |
-| Recherche | `SearchField` (double libellé), `SearchPanel`, `InlineSearch` | `shared/components/ui/SearchField.tsx`, `features/schools/components/` |
-| Listes de l'univers École | `EcoleCard`, `FormationRow`, `ResultsHeader`, `FilterPanel`, `CountList`, `MapBox`, `SidePanel`, `IconCountList`, `ArrowDot` | `features/schools/components/` |
-| En-tête d'une auto-école | `AEHeader` | `features/driving-schools/components/AutoEcoleBlocks.tsx` |
-| Espace pro | `ProHeader`, `ProCard`, `ProFooter`, `ProLabel` ; classes `proCard`, `proInput` | `features/pro/components/ProBlocks.tsx`, `features/pro/proStyles.ts` |
-| Fenêtre | `Modal` | `shared/components/ui/Modal.tsx` |
-| Pagination | `Pagination` | `shared/components/ui/Pagination.tsx` |
-| Avatar · image | `Avatar` · `Img` | `shared/components/ui/` |
-| Champs | `Label`, `Field`, `Input`, `Select`, `Textarea`, `RichText`, `Checkbox`, `Radio`, `Switch`, `Segmented`, `ChoiceCard`, `Dropzone`, `ChipsInput`, `PhoneInput` | `shared/components/forms/Fields.tsx` |
-| Logo YIBOLO | `Logo`, `LogoMark` | `shared/components/ui/Logo.tsx` |
-| Choix de la langue | `LanguageSwitcher` | `shared/components/ui/LanguageSwitcher.tsx` |
-| Chargement · erreurs | `PageLoader` ; `ErrorBoundary`, `ErrorScreen`, `OfflineScreen` | `shared/components/` |
+| Bouton (ou lien en forme de bouton avec `to`) | `Button` (`primary`, `navy`, `sun`, `success`, `violet`, `outline`, `neutral`, `soft`, `ghost`, `danger`, `danger-outline`, `white` ; tailles `xs`, `sm`, `md`, `lg`, `icon`) | `shared/ui/Button.tsx` |
+| Badge, statut | `Badge` (tons `blue`, `navy`, `green`, `orange`, `amber`, `violet`, `red`, `gray`, `sky`, `pink`, `teal`, `white`, `solidGreen`, `solidSun`), `StatusBadge` | `shared/ui/Badge.tsx` |
+| Établissement vérifié · type d'école | `VerifiedBadge`, `TypeBadge` | `modules/ecole/etablissements/components/EcoleBlocks.tsx` |
+| Auto-école agréée · permis | `AgreeeBadge`, `PermisPill` | `modules/ecole/auto-ecoles/components/AutoEcoleBlocks.tsx` |
+| Carte | `Card`, `CardHeader`, `Section`, `NumberedBlock` | `shared/ui/Card.tsx` |
+| Bandeau de page publique | `Hero`, `HeroFeatures` | `shared/ui/Hero.tsx` |
+| Fil d'Ariane | `Breadcrumb` | `shared/ui/Breadcrumb.tsx` |
+| Onglets | `LinkTabs` (dans l'adresse), `Tabs` (état local), `FilterPills` | `shared/ui/Tabs.tsx` |
+| Étapes | `Stepper`, `ArrowSteps` | `shared/ui/Stepper.tsx` |
+| Étoiles, note | `Stars`, `Rating`, `StarInput` | `shared/ui/StarRating.tsx` |
+| Note moyenne + répartition · un avis | `RatingSummary`, `ReviewItem`, `MoreButton` | `modules/ecole/avis/components/ReviewBlocks.tsx` |
+| Favori | `FavoriteButton` (cœur) ; `FavoriteModal` (choix du dossier, auto-écoles) | `shared/ui/FavoriteButton.tsx`, `AutoEcoleBlocks.tsx` |
+| Chiffres, blocs divers | `Kpi`, `KpiGrid`, `PageTitle`, `BackLink`, `AiCard`, `Tip`, `Checklist`, `InfoRow`, `FileRow`, `IconBtn`, `QuickAction`, `FormFooter`, `IconTile`, `EmptyNote` | `shared/ui/Blocks.tsx` |
+| Graphiques | `AreaTrend`, `MultiLine`, `Bars`, `Donut` (recharts) | `shared/ui/Charts.tsx` |
+| Progression | `Progress`, `Ring` | `shared/ui/Progress.tsx` |
+| Recherche | `SearchField` (double libellé), `SearchPanel`, `InlineSearch` | `shared/ui/SearchField.tsx`, `modules/ecole/etablissements/components/` |
+| Listes de l'univers École | `EcoleCard`, `FormationRow`, `ResultsHeader`, `FilterPanel`, `CountList`, `MapBox`, `SidePanel`, `IconCountList`, `ArrowDot` | `modules/ecole/etablissements/components/` |
+| En-tête d'une auto-école | `AEHeader` | `modules/ecole/auto-ecoles/components/AutoEcoleBlocks.tsx` |
+| Espace pro | `ProHeader`, `ProCard`, `ProFooter`, `ProLabel` ; classes `proCard`, `proInput` | `modules/ecole/espace-pro/components/ProBlocks.tsx`, `modules/ecole/espace-pro/proStyles.ts` |
+| Fenêtre | `Modal` | `shared/ui/Modal.tsx` |
+| Pagination | `Pagination` | `shared/ui/Pagination.tsx` |
+| Avatar · image | `Avatar` · `Img` | `shared/ui/` |
+| Champs | `Label`, `Field`, `Input`, `Select`, `Textarea`, `RichText`, `Checkbox`, `Radio`, `Switch`, `Segmented`, `ChoiceCard`, `Dropzone`, `ChipsInput`, `PhoneInput` | `shared/forms/Fields.tsx` |
+| Logo YIBOLO | `Logo`, `LogoMark` | `shared/ui/Logo.tsx` |
+| Choix de la langue | `LanguageSwitcher` | `shared/ui/LanguageSwitcher.tsx` |
+| Chargement · erreurs | `PageLoader` ; `ErrorBoundary`, `ErrorScreen`, `OfflineScreen` | `shared/ui/`, `shared/errors/` |
 | Message éphémère | `toast` (sonner) | `Toaster` dans `app/App.tsx` |
 
-Les morceaux des grandes pages sont dans des sous-dossiers : `features/schools/components/listing/` (onglets de l'annuaire par type), `profile/` (onglets de la fiche établissement), `training/` (détail d'une formation), `features/driving-schools/components/profile/` (onglets de la fiche auto-école). Ce découpage est récent (2026-11-21) : compléter ce tableau si un de ces morceaux devient réutilisable.
+Les morceaux des grandes pages sont dans des sous-dossiers : `modules/ecole/etablissements/components/listing/` (onglets de l'annuaire par type), `profile/` (onglets de la fiche établissement), `training/` (détail d'une formation), `modules/ecole/auto-ecoles/components/profile/` (onglets de la fiche auto-école). Ce découpage est récent (2026-11-21) : compléter ce tableau si un de ces morceaux devient réutilisable.
 
 **Messages (toasts)** : en haut à droite, couleurs de leur sens (`richColors`), avec une croix pour fermer. Une action de démonstration non réalisée affiche un message qui finit par « (démo) ».
 

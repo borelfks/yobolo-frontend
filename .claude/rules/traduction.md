@@ -8,25 +8,25 @@
 - **Français par défaut** et langue de référence ; anglais britannique (comme au Cameroun).
 - Pas de détection de la langue du navigateur : à la première visite, c'est le français.
 - Le choix est gardé dans le navigateur sous la clé **`yibolo:langue`** ; l'attribut `lang` de la page suit la langue.
-- Sélecteur : `LanguageSwitcher` (`src/shared/components/ui/LanguageSwitcher.tsx`) : un globe et le code de la langue active (« FR »), qui ouvre un menu Français / English avec une coche. Il est dans l'en-tête public, la barre du haut de l'espace pro et les écrans de connexion ; Paramètres › Préférences propose aussi le choix.
+- Sélecteur : `LanguageSwitcher` (`src/shared/ui/LanguageSwitcher.tsx`) : un globe et le code de la langue active (« FR »), qui ouvre un menu Français / English avec une coche. Il est dans l'en-tête public, la barre du haut de l'espace pro et les écrans de connexion ; Paramètres › Préférences propose aussi le choix.
 
 ## Où sont les textes : à côté de leur domaine, jamais centralisés
 | Namespace | Fichiers de textes | Code concerné |
 |---|---|---|
 | `common` | `src/shared/locales/{fr,en}.json` | `src/shared/**` |
 | `layout` | `src/app/layouts/locales/{fr,en}.json` | `src/app/**` (cadres, menus, 404) |
-| `landing` | `src/features/landing/locales/` | accueil, « bientôt disponible » |
-| `auth` | `src/features/auth/locales/` | connexion, inscription |
-| `schools` | `src/features/schools/locales/` | annuaires, fiche établissement, formation, préinscription |
-| `driving-schools` | `src/features/driving-schools/locales/` | auto-écoles, permis ; l'inscription est sous la clé `enrollment` |
-| `reviews` | `src/features/reviews/locales/` | donner un avis |
-| `favorites` | `src/features/favorites/locales/` | mes favoris |
-| `espace` | `src/features/espace/locales/` | Mon espace (personne physique) |
-| `pro` | `src/features/pro/locales/` | espace pro ; contenus, publication, paramètres, invitation sous la clé `content` |
+| `landing` | `src/modules/landing/locales/` | accueil, « bientôt disponible » |
+| `auth` | `src/modules/compte/auth/locales/` | connexion, inscription |
+| `schools` | `src/modules/ecole/etablissements/locales/` | annuaires, fiche établissement, formation, préinscription |
+| `driving-schools` | `src/modules/ecole/auto-ecoles/locales/` | auto-écoles, permis ; l'inscription est sous la clé `enrollment` |
+| `reviews` | `src/modules/ecole/avis/locales/` | donner un avis |
+| `favorites` | `src/modules/compte/favoris/locales/` | mes favoris |
+| `espace` | `src/modules/compte/mon-espace/locales/` | Mon espace (personne physique) |
+| `pro` | `src/modules/ecole/espace-pro/locales/` | espace pro ; contenus, publication, paramètres, invitation sous la clé `content` |
 
 - Initialisation : `src/i18n/index.ts` (`CLE_STOCKAGE_LANGUE`, `Langue`, `LANGUES`, `langueActive()`, `currentLocale()`).
 - Typage : `src/i18n/i18next.d.ts`, à partir des fichiers **français** : une clé absente du français est une erreur TypeScript.
-- Une nouvelle fonctionnalité = un dossier `locales/` avec `fr.json` et `en.json`, déclaré dans les deux fichiers de `src/i18n/`.
+- Une nouvelle partie de module = un dossier `locales/` avec `fr.json` et `en.json`, déclaré dans les deux fichiers de `src/i18n/`.
 
 ## Écrire une clé
 1. Avant d'écrire une chaîne visible, vérifier si une clé existe déjà dans le namespace concerné.

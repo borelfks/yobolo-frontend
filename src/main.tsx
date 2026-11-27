@@ -4,8 +4,9 @@ import { createRoot } from 'react-dom/client'
 // La traduction s'initialise avant le premier affichage.
 import '@/i18n'
 import { App } from '@/app/App'
-import { queryClient, startData } from '@/data'
-import { SessionProvider } from '@/features/auth/hooks/useSession'
+import { queryClient } from '@/api/queryClient'
+import { startData } from '@/data'
+import { SessionProvider } from '@/modules/compte/auth/hooks/useSession'
 import { FavoritesProvider } from '@/shared/hooks/useFavorites'
 import '@/app/styles/globals.css'
 

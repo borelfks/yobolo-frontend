@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { LandingLogo } from '@/app/layouts/LandingLogo'
-import { TraitCourbe, Vague } from '@/shared/components/ui/Vague'
+import { TraitCourbe, Vague } from '@/shared/ui/Vague'
 import { ROUTES } from '@/shared/utils/routes'
 
 /** L'aide et les pages de loi. */

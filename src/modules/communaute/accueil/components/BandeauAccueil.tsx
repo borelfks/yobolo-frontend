@@ -1,0 +1,107 @@
+import { ChevronRight } from 'lucide-react'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useBandeauxAccueil } from '@/data/hooks'
+import { useSession } from '@/modules/compte/auth/hooks/useSession'
+import { LogoMark } from '@/shared/ui/Logo'
+import { Button } from '@/shared/ui/Button'
+import { langueActive } from '@/i18n'
+import type { BandeauAccueil as Bandeau } from '@/shared/types'
+import { cn } from '@/shared/utils/cn'
+import { ROUTES } from '@/shared/utils/routes'
+
+/** Où mène le bouton de chaque bandeau. */
+const VERS: Record<Bandeau['cible'], string> = {
+  ecoles: ROUTES.schools,
+  conseils: ROUTES.accueil,
+}
+
+/**
+ * Le bandeau en tête du fil (BandeauAccueil de yibolo-client), en carrousel :
+ * les bandeaux viennent de la table `bandeauxAccueil` (textes en français et
+ * en anglais), la flèche passe au suivant, les points mènent à chacun. Si une
+ * photo manque, le dégradé et le symbole s'affichent — jamais une case vide.
+ */
+export function BandeauAccueil() {
+  const { t, i18n } = useTranslation('accueil')
+  const bandeaux = useBandeauxAccueil()
+  const { account } = useSession()
+  const ecole = !!account && account.role !== 'utilisateur'
+  const [rang, setRang] = useState(0)
+  const [photosEnEchec, setPhotosEnEchec] = useState<string[]>([])
+
+  if (bandeaux.length === 0) return null
+  const actuel = bandeaux[rang % bandeaux.length]!
+  const langue = langueActive(i18n.language)
+  const photoEnEchec = photosEnEchec.includes(actuel.id)
+
+  return (
+    <section
+      aria-roledescription={t('bandeau.carrousel')}
+      aria-labelledby="titre-bandeau-accueil"
+      className="relative isolate overflow-hidden rounded-xl bg-gradient-to-r from-navy-900 to-navy-700"
+    >
+      {photoEnEchec ? (
+        <LogoMark className="absolute top-1/2 right-10 -z-10 hidden size-28 -translate-y-1/2 opacity-15 sm:block" />
+      ) : (
+        <img
+          key={actuel.id}
+          src={actuel.image}
+          alt=""
+          aria-hidden="true"
+          loading="eager"
+          onError={() => setPhotosEnEchec((liste) => [...liste, actuel.id])}
+          className="absolute inset-y-0 right-0 -z-10 h-full w-full object-cover object-[80%_center] sm:w-[50%] sm:object-[85%_30%] sm:[mask-image:linear-gradient(to_right,transparent,black_30%)]"
+        />
+      )}
+      <span
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 bg-gradient-to-r from-navy-900 via-navy-900/90 to-navy-900/75 sm:from-navy-900 sm:from-45% sm:via-navy-900/40 sm:via-60% sm:to-transparent sm:to-80%"
+      />
+
+      <div className="flex min-h-[15rem] items-center gap-4 px-5 pt-5 pb-10 sm:min-h-[10.5rem] sm:px-6">
+        <div className="flex max-w-[21rem] flex-col items-start gap-2 sm:max-w-[min(21rem,46%)]" aria-live="polite">
+          <h2 id="titre-bandeau-accueil" className="text-xl leading-tight font-bold text-balance text-white sm:text-[1.375rem]">
+            {actuel.titre[langue]}
+          </h2>
+          <p className="text-[0.8125rem] leading-relaxed text-white/85">{actuel.texte[langue]}</p>
+          {/* Une école ne voit pas la liste des écoles : pas de bouton qui y mène. */}
+          {!(ecole && actuel.cible === 'ecoles') && (
+            <Button to={VERS[actuel.cible]} size="sm" className="mt-1.5 h-8 rounded-md px-4">
+              {actuel.action[langue]}
+            </Button>
+          )}
+        </div>
+
+        {bandeaux.length > 1 && (
+          <button
+            type="button"
+            aria-label={t('bandeau.suivant')}
+            title={t('bandeau.suivant')}
+            onClick={() => setRang((rang + 1) % bandeaux.length)}
+            className="absolute right-3 bottom-3 hidden size-10 items-center justify-center rounded-full bg-navy-900/60 text-white backdrop-blur-sm transition-colors hover:bg-navy-900/80 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none sm:flex"
+          >
+            <ChevronRight className="size-5" aria-hidden="true" />
+          </button>
+        )}
+      </div>
+
+      {bandeaux.length > 1 && (
+        <div className="absolute right-0 bottom-0.5 left-0 flex justify-center sm:right-auto sm:left-4 sm:justify-start">
+          {bandeaux.map((bandeau, position) => (
+            <button
+              key={bandeau.id}
+              type="button"
+              aria-label={t('bandeau.aller', { rang: position + 1, total: bandeaux.length })}
+              aria-current={position === rang % bandeaux.length ? 'true' : undefined}
+              onClick={() => setRang(position)}
+              className="group grid size-9 place-items-center rounded-full focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+            >
+              <span className={cn('block h-1.5 rounded-full transition-all motion-reduce:transition-none', position === rang % bandeaux.length ? 'w-4 bg-white' : 'w-1.5 bg-white/50 group-hover:bg-white/80')} />
+            </button>
+          ))}
+        </div>
+      )}
+    </section>
+  )
+}

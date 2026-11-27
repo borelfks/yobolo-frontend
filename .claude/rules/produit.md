@@ -11,7 +11,7 @@
 
 ## Périmètre (décision du 2026-11-17)
 - **Réalisé : l'univers École.**
-  - **IPES, CFP, Autres** : même gabarit (annuaire en 6 onglets, fiche, formation, préinscription). Le type vient de l'adresse (`/ecoles/ipes|cfp|autres`) et de `features/schools/schoolTypes.ts` (chiffres dans la table `typesEcole`).
+  - **IPES, CFP, Autres** : même gabarit (annuaire en 6 onglets, fiche, formation, préinscription). Le type vient de l'adresse (`/ecoles/ipes|cfp|autres`) et de `modules/ecole/etablissements/schoolTypes.ts` (chiffres dans la table `typesEcole`).
   - **Auto-écoles** : écrans propres (liste, fiche en 6 onglets, permis A à D, inscription en 3 étapes).
   - **Espace professionnel** : **un seul**, partagé par les IPES, CFP et Autres (`/pro/ecole`). Le compte choisit l'établissement (`useMonEcole`).
 - **Pas réalisé : Consultation et Emploi** (et Métiers) : page « bientôt disponible » (`HorsPerimetre`). Ne pas les commencer sans accord.

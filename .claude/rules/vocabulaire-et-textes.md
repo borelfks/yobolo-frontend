@@ -36,7 +36,7 @@
 **Modes de cours :** Jour · Soir · Jour & Soir (« Cours du jour », « Cours du soir »). Les modes affichés suivent la capture de chaque écran, même s'ils se contredisent.
 
 ## Où sont les textes
-- Textes de l'interface : `locales/fr.json` et `locales/en.json` à côté de chaque fonctionnalité (voir `traduction.md`).
+- Textes de l'interface : `locales/fr.json` et `locales/en.json` à côté de chaque partie de module (voir `traduction.md`).
 - Libellés qui viennent des données (noms d'établissements, filières, villes, avis, actualités) : les fausses données (`src/data/fausses-donnees/`), en français, non traduits.
 - Une valeur fixe affichée comme libellé (mode de cours, statut, nom d'un permis, rôle) se traduit **à l'affichage** avec une clé construite à partir de la valeur (voir [traduction.md](traduction.md)).
 

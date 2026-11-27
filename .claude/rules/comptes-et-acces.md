@@ -10,7 +10,7 @@
 
 - **Tous les comptes arrivent sur l'accueil connecté** (`account.home` = `/accueil`, `useSession`) ; une école ouvre son espace pro avec « Mon espace professionnel » (menu du compte). Pas de « Mes favoris » pour une école.
 - **Un compte = un espace.** Pas de changement de rôle : on change de compte en se déconnectant puis en se reconnectant.
-- Session : `useSession()` (`features/auth/hooks/useSession.tsx`) garde l'identifiant du compte sous `yibolo:compte` ; le compte est lu dans la base. À la première visite : **visiteur non connecté**.
+- Session : `useSession()` (`modules/compte/auth/hooks/useSession.tsx`) garde l'identifiant du compte sous `yibolo:compte` ; le compte est lu dans la base. À la première visite : **visiteur non connecté**.
 - L'établissement de l'espace pro : `useMonEcole()` (celui du compte ; l'IPC par défaut).
 
 ## Connexion (`/connexion`)
@@ -43,11 +43,11 @@
 ## Mon espace (personne physique)
 - `/mon-espace/:onglet?` : Aperçu · Mes préinscriptions · Mes permis · Mes avis (voir [SPECIFICATIONS.md](../../docs/SPECIFICATIONS.md) § 9 bis). Pages à part, ouvertes depuis le menu du compte ou la cloche : `/profil` (photo enregistrée dès qu'elle est choisie, nouveau numéro confirmé par code), `/parametres` (notifications par sujet et par canal, mot de passe, langue, suppression), `/notifications` (à la manière de Facebook : Toutes / Non lues, Nouvelles / Plus tôt).
 - Réservé au rôle `utilisateur` : un visiteur va à `/connexion`, un compte école à son espace pro.
-- Annuler un dossier, modifier ou supprimer un avis tient les compteurs à jour (`features/espace/espaceActions.ts`).
+- Annuler un dossier, modifier ou supprimer un avis tient les compteurs à jour (`modules/compte/mon-espace/espaceActions.ts`).
 
 ## Inscription (comme yibolo-client)
 - Personne physique : Profil → Vous → Votre accès → Code ; le compte est enregistré à l'envoi du code (`telephoneVerifie: false`) et connecté au bon code. École : Profil → Infos → Code → Documents (pièces, obligatoires) → espace pro, sans validation.
-- Code OTP : `features/auth/components/VerificationCode.tsx` (6 cases, renvoi après 60 s, `authOtp.ts`).
+- Code OTP : `modules/compte/auth/components/VerificationCode.tsx` (6 cases, renvoi après 60 s, `authOtp.ts`).
 - Code jamais saisi : la connexion affiche « Confirmez votre numéro » (nouveau code) ; puis la personne entre, l'école reprend `/inscription` à l'étape des pièces (`state.reprise`).
 - Lieu : `SelectionGeographique` (région → département → arrondissement → quartier).
 

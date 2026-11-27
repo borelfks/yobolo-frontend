@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { Navigate } from 'react-router'
-import { useSession } from '@/features/auth/hooks/useSession'
+import { useSession } from '@/modules/compte/auth/hooks/useSession'
 import { ROUTES } from '@/shared/utils/routes'
 
 /**

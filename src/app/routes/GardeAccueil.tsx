@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { Navigate } from 'react-router'
-import { useSession } from '@/features/auth/hooks/useSession'
-import { PageLoader } from '@/shared/components/ui/PageLoader'
+import { useSession } from '@/modules/compte/auth/hooks/useSession'
+import { PageLoader } from '@/shared/ui/PageLoader'
 
 /**
  * La landing ne s'ouvre qu'aux visiteurs (comme dans yibolo-client) : un compte

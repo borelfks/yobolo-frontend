@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import { Button } from '@/shared/components/ui/Button'
-import { Card } from '@/shared/components/ui/Card'
+import { Button } from '@/shared/ui/Button'
+import { Card } from '@/shared/ui/Card'
 import { ROUTES } from '@/shared/utils/routes'
 
 export function NotFound() {

@@ -26,7 +26,7 @@
   --color-muted: #5b6885;
   --color-line: #e3e9f4;
 
-  /* --- Jetons de yibolo-client, repris pour la landing (src/features/landing) ---
+  /* --- Jetons de yibolo-client, repris pour la landing (src/modules/landing) ---
      Mêmes noms et mêmes valeurs que src/index.css de yibolo-client. « muted »
      n'est pas repris : le nom sert déjà ici (texte gris) ; la landing n'utilise
      que « muted-foreground ». */

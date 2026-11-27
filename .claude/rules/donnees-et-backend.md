@@ -26,11 +26,11 @@
 - **Comptes** (`comptes`) : e-mail, téléphone, rôle, établissement géré, statut (`Validé` : actif dès l'inscription, pas de validation par YIBOLO), mot de passe **haché** (`sha256(sel + ':' + mot de passe)`, `src/shared/utils/motDePasse.ts`). Voir [comptes-et-acces.md](comptes-et-acces.md).
 
 ## Règles pour les écrans
-1. **Toute donnée** affichée vient d'un hook de `@/data/hooks` (ou de `useCollection` de `@/data`). **Jamais de tableau de données, de chiffre ou d'image de contenu écrit dans un composant.** Ce qui reste dans le code, c'est la **configuration** : correspondance adresses ↔ types d'école (`features/schools/schoolTypes.ts`), icônes et couleurs, images décoratives des bandeaux, valeurs par défaut d'un nouvel élément.
+1. **Toute donnée** affichée vient d'un hook de `@/data/hooks` (ou de `useCollection` de `@/data`). **Jamais de tableau de données, de chiffre ou d'image de contenu écrit dans un composant.** Ce qui reste dans le code, c'est la **configuration** : correspondance adresses ↔ types d'école (`modules/ecole/etablissements/schoolTypes.ts`), icônes et couleurs, images décoratives des bandeaux, valeurs par défaut d'un nouvel élément.
 2. Pas de hook dans une boucle ni une condition (ni après un `return` anticipé) : lire la liste une fois, puis `find` / `filter`.
 3. **Écrire** : `await data.create(...)`, `data.update(...)`, `data.remove(...)`, puis le `toast` et la navigation habituels. L'écran se met à jour seul.
 4. Une page qui lit la base attend qu'elle soit prête (Suspense → `PageLoader`). Un cadre ou un fournisseur qui ne doit pas attendre utilise `useCollectionWhenReady` / `useDataReady`.
-5. `shared/` peut importer `@/data`. `src/data/` n'importe ni `features/` ni `app/`.
+5. `shared/` peut importer `@/data`. `src/data/` n'importe ni `modules/` ni `app/`.
 6. **La landing n'utilise pas la base et ne doit pas être modifiée.**
 
 ## Chiffres : calculés à partir de la base (décision du 2026-11-25 : « je veux les vraies données »)

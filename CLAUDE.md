@@ -39,14 +39,14 @@ npm run preview      # sert le build
 Comptes de démo (table `comptes` de la base) : `jean.dupont@exemple.cm` (Personne physique), `contact@ipc.cm` (École – IPES), `contact@cfp-btp.cm` (École – CFP), `contact@langues.cm` (École – Autre), tous avec le mot de passe `yibolo2026`. Un compte créé par « Créer un compte » s'enregistre aussi dans la base.
 
 ## Repères dans le code
-Code rangé **par fonctionnalité**, sur le modèle d'Autopia (détail : README › Organisation du code, et `.claude/rules/code-et-architecture.md`).
+Code rangé **par univers** (`src/modules/<univers>/<partie>/`), même modèle que yibolo-admin (détail : README › Organisation du code, et `.claude/rules/code-et-architecture.md`).
 - `src/app/` : la coquille. `routes/` (table des routes `index.tsx`, `RouteOutlet`), `layouts/` (`PublicLayout`, `ProLayout`, `AuthLayout`, `AccountMenu`, menus dans `navConfig.ts`), `styles/` (`globals.css`, `theme.css`), `NotFound.tsx`, `ErrorPage.tsx`.
-- `src/features/<sujet>/` : `pages/`, `components/`, `hooks/` et les fichiers de logique du sujet à sa racine. Sujets : `landing`, `auth`, `schools` (IPES, CFP, Autres), `driving-schools` (auto-écoles), `reviews`, `favorites`, `pro` (espace professionnel).
-- `src/shared/` : ce qui sert à plusieurs sujets. `components/ui/` (briques), `components/forms/` (`Fields.tsx`), `components/errors/`, `hooks/` (`useFavorites`), `i18n/` (traduction), `utils/` (`routes`, `format`, `storage`, `cn`), `types.ts`. **`shared/` n'importe jamais `app/` ni `features/`.**
-- Logique propre à un sujet : `features/schools/schoolLinks.tsx`, `schoolDomains.ts` ; `features/driving-schools/autoEcoleRules.ts` ; `features/pro/proStyles.ts`.
-- Données : `src/data/` (point d'entrée `index.ts` : `useCollection`, `data.create/update/remove`, `queryClient` ; lectures dans `hooks.ts` ; source `sources/fauxSource.ts` ; fausses données `fausses-donnees/*.json`). API plus tard : `src/api/` (client axios, code généré par Orval dans `src/api/generated/`). Plus de SQLite, plus de panneau « Données de test ».
-- Session : `features/auth/hooks/useSession.tsx` (`useSession`, `useMonEcole`). Favoris : `shared/hooks/useFavorites.tsx`.
-- Traduction : `src/i18n/` (initialisation, types) et un dossier `locales/` (fr.json, en.json) dans chaque fonctionnalité, `src/shared/locales/` et `src/app/layouts/locales/` ; même organisation que yibolo-client (voir `.claude/rules/traduction.md`). Thème : `src/app/styles/theme.css`.
+- `src/modules/<univers>/<partie>/` : `pages/`, `components/`, `hooks/`, `locales/` et les fichiers de logique de la partie à sa racine. Univers et parties : `ecole/` (`etablissements` : IPES, CFP, Autres, formations, préinscription ; `auto-ecoles` ; `avis` ; `espace-pro`), `compte/` (`auth`, `mon-espace`, `favoris`), `communaute/` (`accueil` : accueil connecté, publications), `landing/`. Plus tard : `consultation/`, `emploi/`.
+- `src/shared/` : ce qui sert à plusieurs parties. `ui/` (briques), `forms/` (`Fields.tsx`), `errors/`, `shadcn/` (composants shadcn/ui), `hooks/` (`useFavorites`), `locales/`, `utils/` (`routes`, `format`, `storage`, `cn`), `types.ts`. **`shared/` n'importe jamais `app/` ni `modules/`.**
+- Logique propre à une partie : `modules/ecole/etablissements/schoolLinks.tsx`, `schoolDomains.ts` ; `modules/ecole/auto-ecoles/autoEcoleRules.ts` ; `modules/ecole/espace-pro/proStyles.ts`.
+- Données : `src/data/` (point d'entrée `index.ts` : `useCollection`, `data.create/update/remove`, `queryClient` ; lectures dans `hooks.ts` ; source `sources/fauxSource.ts` ; fausses données `fausses-donnees/*.json`). API : `src/api/` (`queryClient.ts`, client axios `client.ts`, plus tard le code généré par Orval dans `generated/`). Plus de SQLite, plus de panneau « Données de test ».
+- Session : `modules/compte/auth/hooks/useSession.tsx` (`useSession`, `useMonEcole`). Favoris : `shared/hooks/useFavorites.tsx`.
+- Traduction : `src/i18n/` (initialisation, types) et un dossier `locales/` (fr.json, en.json) dans chaque partie de module, `src/shared/locales/` et `src/app/layouts/locales/` ; même organisation que yibolo-client (voir `.claude/rules/traduction.md`). Thème : `src/app/styles/theme.css`.
 - Les commentaires `imgN` dans le code renvoient à l'image `word/media/imageN` de la maquette Word.
 
 ## Façon de travailler

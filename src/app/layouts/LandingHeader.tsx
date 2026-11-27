@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { NotificationsBell, UserMenu } from '@/app/layouts/AccountMenu'
 import { LandingLogo } from '@/app/layouts/LandingLogo'
-import { useSession } from '@/features/auth/hooks/useSession'
-import { LanguageSwitcher } from '@/shared/components/ui/LanguageSwitcher'
+import { useSession } from '@/modules/compte/auth/hooks/useSession'
+import { LanguageSwitcher } from '@/shared/ui/LanguageSwitcher'
 import { ROUTES } from '@/shared/utils/routes'
 
 // Doit rester égal au breakpoint `md` de Tailwind.

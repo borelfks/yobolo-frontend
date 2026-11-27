@@ -10,60 +10,60 @@ import { ErrorPage } from '@/app/ErrorPage'
 import { ROUTES, ROUTE_PATTERNS } from '@/shared/utils/routes'
 
 /* --- Pages publiques ------------------------------------------------------ */
-const Home = lazy(() => import('@/features/landing/pages/Home').then((m) => ({ default: m.Home })))
-const HorsPerimetre = lazy(() => import('@/features/landing/pages/HorsPerimetre').then((m) => ({ default: m.HorsPerimetre })))
-const Accueil = lazy(() => import('@/features/accueil/pages/Accueil').then((m) => ({ default: m.Accueil })))
-const PublicationLue = lazy(() => import('@/features/accueil/pages/PublicationLue').then((m) => ({ default: m.PublicationLue })))
+const Home = lazy(() => import('@/modules/landing/pages/Home').then((m) => ({ default: m.Home })))
+const HorsPerimetre = lazy(() => import('@/modules/landing/pages/HorsPerimetre').then((m) => ({ default: m.HorsPerimetre })))
+const Accueil = lazy(() => import('@/modules/communaute/accueil/pages/Accueil').then((m) => ({ default: m.Accueil })))
+const PublicationLue = lazy(() => import('@/modules/communaute/accueil/pages/PublicationLue').then((m) => ({ default: m.PublicationLue })))
 const NotFound = lazy(() => import('@/app/NotFound').then((m) => ({ default: m.NotFound })))
 
 /* --- Authentification ----------------------------------------------------- */
-const Connexion = lazy(() => import('@/features/auth/pages/Connexion').then((m) => ({ default: m.Connexion })))
-const Inscription = lazy(() => import('@/features/auth/pages/Inscription').then((m) => ({ default: m.Inscription })))
-const MotDePasseOublie = lazy(() => import('@/features/auth/pages/MotDePasseOublie').then((m) => ({ default: m.MotDePasseOublie })))
+const Connexion = lazy(() => import('@/modules/compte/auth/pages/Connexion').then((m) => ({ default: m.Connexion })))
+const Inscription = lazy(() => import('@/modules/compte/auth/pages/Inscription').then((m) => ({ default: m.Inscription })))
+const MotDePasseOublie = lazy(() => import('@/modules/compte/auth/pages/MotDePasseOublie').then((m) => ({ default: m.MotDePasseOublie })))
 
 /* --- École : IPES, CFP, Autres -------------------------------------------- */
-const EcolesHub = lazy(() => import('@/features/schools/pages/EcolesHub').then((m) => ({ default: m.EcolesHub })))
-const TypeListing = lazy(() => import('@/features/schools/pages/TypeListing').then((m) => ({ default: m.TypeListing })))
-const EcoleProfil = lazy(() => import('@/features/schools/pages/EcoleProfil').then((m) => ({ default: m.EcoleProfil })))
-const FormationDetail = lazy(() => import('@/features/schools/pages/FormationDetail').then((m) => ({ default: m.FormationDetail })))
+const EcolesHub = lazy(() => import('@/modules/ecole/etablissements/pages/EcolesHub').then((m) => ({ default: m.EcolesHub })))
+const TypeListing = lazy(() => import('@/modules/ecole/etablissements/pages/TypeListing').then((m) => ({ default: m.TypeListing })))
+const EcoleProfil = lazy(() => import('@/modules/ecole/etablissements/pages/EcoleProfil').then((m) => ({ default: m.EcoleProfil })))
+const FormationDetail = lazy(() => import('@/modules/ecole/etablissements/pages/FormationDetail').then((m) => ({ default: m.FormationDetail })))
 // Préinscription masquée (demande du porteur du projet, 2026-11-25) :
-// const Preinscription = lazy(() => import('@/features/schools/pages/Preinscription').then((m) => ({ default: m.Preinscription })))
+// const Preinscription = lazy(() => import('@/modules/ecole/etablissements/pages/Preinscription').then((m) => ({ default: m.Preinscription })))
 
 /* --- École : auto-écoles ---------------------------------------------------- */
-const AutoEcoles = lazy(() => import('@/features/driving-schools/pages/AutoEcoles').then((m) => ({ default: m.AutoEcoles })))
-const AutoEcoleProfil = lazy(() => import('@/features/driving-schools/pages/AutoEcoleProfil').then((m) => ({ default: m.AutoEcoleProfil })))
-const PermisDetail = lazy(() => import('@/features/driving-schools/pages/PermisDetail').then((m) => ({ default: m.PermisDetail })))
+const AutoEcoles = lazy(() => import('@/modules/ecole/auto-ecoles/pages/AutoEcoles').then((m) => ({ default: m.AutoEcoles })))
+const AutoEcoleProfil = lazy(() => import('@/modules/ecole/auto-ecoles/pages/AutoEcoleProfil').then((m) => ({ default: m.AutoEcoleProfil })))
+const PermisDetail = lazy(() => import('@/modules/ecole/auto-ecoles/pages/PermisDetail').then((m) => ({ default: m.PermisDetail })))
 // Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) :
-// const InscriptionAutoEcole = lazy(() => import('@/features/driving-schools/pages/InscriptionAutoEcole').then((m) => ({ default: m.InscriptionAutoEcole })))
+// const InscriptionAutoEcole = lazy(() => import('@/modules/ecole/auto-ecoles/pages/InscriptionAutoEcole').then((m) => ({ default: m.InscriptionAutoEcole })))
 // Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) :
-// const ModifierInscription = lazy(() => import('@/features/driving-schools/pages/ModifierInscription').then((m) => ({ default: m.ModifierInscription })))
+// const ModifierInscription = lazy(() => import('@/modules/ecole/auto-ecoles/pages/ModifierInscription').then((m) => ({ default: m.ModifierInscription })))
 
 /* --- Avis et favoris ------------------------------------------------------ */
 // Donner mon avis : une fenêtre (ModaleAvis), plus une page (demande du porteur du projet, 2026-11-25) :
-// const DonnerAvis = lazy(() => import('@/features/reviews/pages/DonnerAvis').then((m) => ({ default: m.DonnerAvis })))
-const Favoris = lazy(() => import('@/features/favorites/pages/Favoris').then((m) => ({ default: m.Favoris })))
+// const DonnerAvis = lazy(() => import('@/modules/ecole/avis/pages/DonnerAvis').then((m) => ({ default: m.DonnerAvis })))
+const Favoris = lazy(() => import('@/modules/compte/favoris/pages/Favoris').then((m) => ({ default: m.Favoris })))
 
 /* --- Mon espace (personne physique) ----------------------------------------- */
 // Mon espace masqué pour la personne physique (demande du porteur du projet, 2026-11-25) :
-// const MonEspace = lazy(() => import('@/features/espace/pages/MonEspace').then((m) => ({ default: m.MonEspace })))
+// const MonEspace = lazy(() => import('@/modules/compte/mon-espace/pages/MonEspace').then((m) => ({ default: m.MonEspace })))
 // Préinscription masquée (demande du porteur du projet, 2026-11-25) :
-// const DossierPreinscription = lazy(() => import('@/features/espace/pages/DossierPreinscription').then((m) => ({ default: m.DossierPreinscription })))
+// const DossierPreinscription = lazy(() => import('@/modules/compte/mon-espace/pages/DossierPreinscription').then((m) => ({ default: m.DossierPreinscription })))
 // Inscription en auto-école masquée (demande du porteur du projet, 2026-11-25) :
-// const DossierInscription = lazy(() => import('@/features/espace/pages/DossierInscription').then((m) => ({ default: m.DossierInscription })))
-const MesNotifications = lazy(() => import('@/features/espace/pages/MesNotifications').then((m) => ({ default: m.MesNotifications })))
-const MonProfil = lazy(() => import('@/features/espace/pages/MonProfil').then((m) => ({ default: m.MonProfil })))
-const MesParametres = lazy(() => import('@/features/espace/pages/MesParametres').then((m) => ({ default: m.MesParametres })))
+// const DossierInscription = lazy(() => import('@/modules/compte/mon-espace/pages/DossierInscription').then((m) => ({ default: m.DossierInscription })))
+const MesNotifications = lazy(() => import('@/modules/compte/mon-espace/pages/MesNotifications').then((m) => ({ default: m.MesNotifications })))
+const MonProfil = lazy(() => import('@/modules/compte/mon-espace/pages/MonProfil').then((m) => ({ default: m.MonProfil })))
+const MesParametres = lazy(() => import('@/modules/compte/mon-espace/pages/MesParametres').then((m) => ({ default: m.MesParametres })))
 
 /* --- Espace professionnel École ------------------------------------------- */
-const Dashboard = lazy(() => import('@/features/pro/pages/Dashboard').then((m) => ({ default: m.Dashboard })))
-const Profil = lazy(() => import('@/features/pro/pages/Profil').then((m) => ({ default: m.Profil })))
-const Formations = lazy(() => import('@/features/pro/pages/Formations').then((m) => ({ default: m.Formations })))
-const CreerFormation = lazy(() => import('@/features/pro/pages/CreerFormation').then((m) => ({ default: m.CreerFormation })))
-const Contenus = lazy(() => import('@/features/pro/pages/Contenus').then((m) => ({ default: m.Contenus })))
-const Publication = lazy(() => import('@/features/pro/pages/Publication').then((m) => ({ default: m.Publication })))
-const Statistiques = lazy(() => import('@/features/pro/pages/Statistiques').then((m) => ({ default: m.Statistiques })))
-const Parametres = lazy(() => import('@/features/pro/pages/Parametres').then((m) => ({ default: m.Parametres })))
-const InviterUtilisateur = lazy(() => import('@/features/pro/pages/InviterUtilisateur').then((m) => ({ default: m.InviterUtilisateur })))
+const Dashboard = lazy(() => import('@/modules/ecole/espace-pro/pages/Dashboard').then((m) => ({ default: m.Dashboard })))
+const Profil = lazy(() => import('@/modules/ecole/espace-pro/pages/Profil').then((m) => ({ default: m.Profil })))
+const Formations = lazy(() => import('@/modules/ecole/espace-pro/pages/Formations').then((m) => ({ default: m.Formations })))
+const CreerFormation = lazy(() => import('@/modules/ecole/espace-pro/pages/CreerFormation').then((m) => ({ default: m.CreerFormation })))
+const Contenus = lazy(() => import('@/modules/ecole/espace-pro/pages/Contenus').then((m) => ({ default: m.Contenus })))
+const Publication = lazy(() => import('@/modules/ecole/espace-pro/pages/Publication').then((m) => ({ default: m.Publication })))
+const Statistiques = lazy(() => import('@/modules/ecole/espace-pro/pages/Statistiques').then((m) => ({ default: m.Statistiques })))
+const Parametres = lazy(() => import('@/modules/ecole/espace-pro/pages/Parametres').then((m) => ({ default: m.Parametres })))
+const InviterUtilisateur = lazy(() => import('@/modules/ecole/espace-pro/pages/InviterUtilisateur').then((m) => ({ default: m.InviterUtilisateur })))
 
 const P = ROUTE_PATTERNS
 

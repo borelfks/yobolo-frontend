@@ -2,8 +2,8 @@ import { Suspense } from 'react'
 import { RouterProvider } from 'react-router'
 import { Toaster } from 'sonner'
 import { useTranslation } from 'react-i18next'
-import { ErrorBoundary } from '@/shared/components/errors/ErrorBoundary'
-import { PageLoader } from '@/shared/components/ui/PageLoader'
+import { ErrorBoundary } from '@/shared/errors/ErrorBoundary'
+import { PageLoader } from '@/shared/ui/PageLoader'
 import { router } from './routes'
 
 /**

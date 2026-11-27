@@ -1,4 +1,4 @@
-import { ErrorScreen } from '@/shared/components/errors/ErrorScreens'
+import { ErrorScreen } from '@/shared/errors/ErrorScreens'
 
 /** Écran affiché par le routeur si une route plante en dehors d'un cadre. */
 export function ErrorPage() {

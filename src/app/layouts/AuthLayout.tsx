@@ -2,9 +2,9 @@ import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { ArrowLeft, CircleCheck } from 'lucide-react'
-import { Logo } from '@/shared/components/ui/Logo'
-import { Img } from '@/shared/components/ui/Img'
-import { LanguageSwitcher } from '@/shared/components/ui/LanguageSwitcher'
+import { Logo } from '@/shared/ui/Logo'
+import { Img } from '@/shared/ui/Img'
+import { LanguageSwitcher } from '@/shared/ui/LanguageSwitcher'
 import { ROUTES } from '@/shared/utils/routes'
 
 const points = ['schools', 'consultants', 'jobs', 'skills'] as const
