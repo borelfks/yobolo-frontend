@@ -9,13 +9,13 @@ const LIENS = [
   { cle: 'conditions', vers: ROUTES.terms },
 ] as const
 
-/** Le pied de page du canevas (planche « Pied de page ») : logo et devise, Aide et contact · Conditions générales, copyright. */
+/** Le pied de page du canevas (planche « Pied de page ») : logo de la landing et sa devise, Aide et contact · Conditions générales, copyright. */
 export function PiedDePage({ className }: { className?: string }) {
   const { t } = useTranslation('layout')
   return (
     <footer className={cn('bg-foreground text-footer-foreground', className)}>
       <div className="mx-auto flex max-w-bar flex-wrap items-center justify-between gap-x-8 gap-y-4 px-6 py-7">
-        <MarqueYibolo taille={34} clair devise={t('pied.devise')} />
+        <MarqueYibolo surFonce devise={t('accueil.entete.devise')} />
         <nav aria-label={t('pied.aideLegal')} className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold">
           {LIENS.map(({ cle, vers }) => (
             <Lien key={cle} to={vers} className="text-footer-foreground no-underline hover:text-white hover:underline">

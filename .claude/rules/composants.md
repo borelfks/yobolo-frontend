@@ -34,7 +34,7 @@
 | Liste vide · bloc en erreur | `EmptyState` · `ErrorState` (« Réessayer ») |
 | Page message (404, erreur, hors connexion, accès refusé) | `MessagePage` |
 | Bandeau hors connexion | `BandeauHorsLigne` (déjà posé) |
-| Logo | `MarqueYibolo` (symbole + « YIBOLO » ; `clair` + `devise` sur le pied de page), `SymboleYibolo` (`Marque.tsx`) |
+| Logo | `MarqueYibolo` : **exactement le logo de la landing** (carré bleu 24 px, « Yibolo » en Geist, devise « Apprendre · Évoluer · Réussir » dessous à partir de `sm` ; `surFonce` sur fond sombre, `suffixe` pour un badge), `SymboleYibolo` (`Marque.tsx`, jetons `marque`). Le même dans yibolo-admin ; seule la landing gelée garde sa copie `LandingLogo` |
 | Langue | `ChoixLangue` (`auth` : écrans de connexion ; `compact` : globe seul) |
 | Champ de formulaire | `Champ` (libellé, astérisque, « (facultatif) », aide ou erreur), `ChampTexte` (48 px), `ChampTelephone` (+237), `ChampMotDePasse` (Afficher / Masquer), `JaugeMotDePasse`, `CaseACocher`, `ListeDeroulante` (`Formulaire.tsx`) |
 | Message dans un formulaire · étapes · pièce à joindre | `Encadre` (`info`, `succes`, `erreur`) · `BarreEtapes` · `PieceAJoindre` (`Formulaire.tsx`) |

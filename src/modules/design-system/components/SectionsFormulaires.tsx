@@ -17,9 +17,9 @@ export function SectionFormulaires() {
     <Section id="formulaires" titre="Marque et formulaires" texte="Logo, langue, champs de 48 px, jauge, étapes, encadrés et pièces à joindre (connexion, inscription).">
       <Rangee nom="Marque · langue">
         <MarqueYibolo />
-        <MarqueYibolo taille={34} />
+        <MarqueYibolo devise="Apprendre · Évoluer · Réussir" />
         <span className="rounded-lg bg-foreground p-3">
-          <MarqueYibolo taille={34} clair devise="Apprendre · Former · Consulter · Travailler" />
+          <MarqueYibolo surFonce devise="Apprendre · Évoluer · Réussir" />
         </span>
         <ChoixLangue />
         <ChoixLangue auth />

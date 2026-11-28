@@ -17,8 +17,8 @@ export function CadreConnexion({
   children,
 }: {
   logo: ReactNode
-  /** Le lien de retour (« Retour à l'accueil », « Retour au site YIBOLO »). */
-  retour: ReactNode
+  /** Le lien de retour (« Retour à l'accueil ») ; absent dans l'administration. */
+  retour?: ReactNode
   /** Photo de droite (décorative). */
   photo: string
   titre: string

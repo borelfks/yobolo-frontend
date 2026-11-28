@@ -63,7 +63,7 @@ export function Entete() {
   const { accueil, univers } = useUnivers()
   const logo = (
     <Lien to={accueil} aria-label={t('entete.accueilAria')} className="flex shrink-0 no-underline">
-      <MarqueYibolo taille={38} classeSymbole="size-8 lg:size-[38px]" classeNom="max-lg:text-lg" />
+      <MarqueYibolo devise={t('accueil.entete.devise')} />
     </Lien>
   )
   return (

@@ -16,7 +16,7 @@ function Logo({ to }: { to: string }) {
   const { t } = useTranslation('layout')
   return (
     <Lien to={to} aria-label={t('entete.accueilAria')} className="flex shrink-0 no-underline">
-      <MarqueYibolo taille={34} />
+      <MarqueYibolo devise={t('accueil.entete.devise')} />
     </Lien>
   )
 }

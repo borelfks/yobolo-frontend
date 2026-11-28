@@ -5,6 +5,10 @@
  * Aucune couleur ne s'écrit en dur ailleurs : on ajoute un jeton ici.
  */
 @theme static {
+  /* Logo YIBOLO (bloc Marque) : les couleurs exactes du logo de la landing (yibolo-client). */
+  --color-marque: #1d4ed8;
+  --color-marque-texte: #18181b;
+  --color-marque-devise: #5f5f66;
   --font-sans: 'Plus Jakarta Sans Variable', ui-sans-serif, system-ui, sans-serif;
 
   /* --- Fonds et texte ------------------------------------------------------ */
@@ -146,7 +150,8 @@
   --color-line: #e0e4ec;
   --color-placeholder: #66718a;
 
-  /* --- Landing (copie de yibolo-client, gelée) : jetons qui lui sont propres --- */
+  /* --- Landing (copie de yibolo-client, gelée) : jetons qui lui sont propres ;
+     `font-client` et `text-caption3` servent aussi au logo (bloc Marque) --- */
   --font-client: 'Geist', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --text-caption3: 0.6875rem;
   --text-caption3--line-height: 1.3;
