@@ -223,7 +223,8 @@
       "departement": "Choose a division.",
       "arrondissement": "Choose a subdivision.",
       "quartier": "Enter your neighbourhood."
-    }
+    },
+    "quartierExemple": "Neighbourhood (e.g. Bastos)"
   },
   "personne": {
     "civilites": {
@@ -318,5 +319,29 @@
   },
   "toast": {
     "close": "Close the message"
+  },
+  "formulaire": {
+    "facultatif": "(optional)",
+    "motDePasse": {
+      "afficher": "Show",
+      "masquer": "Hide",
+      "afficherAria": "Show password",
+      "masquerAria": "Hide password",
+      "jauge": {
+        "faible": "Weak password",
+        "moyen": "Fair password",
+        "bon": "Good password",
+        "excellent": "Excellent password"
+      }
+    },
+    "etapes": {
+      "aria": "Steps",
+      "etape": "Step {{n}} of {{total}}"
+    },
+    "pieces": {
+      "importer": "Upload",
+      "remplacer": "Replace",
+      "voir": "View the document"
+    }
   }
 }

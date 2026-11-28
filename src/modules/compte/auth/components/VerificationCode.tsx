@@ -1,15 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
-import { MessageSquareCode, RotateCcw, ShieldCheck } from 'lucide-react'
-import { Button } from '@/shared/ui/Button'
+import { MessageCircle } from 'lucide-react'
+import { Button } from '@/shared/shadcn/button'
+import { Input } from '@/shared/shadcn/input'
+import { Encadre } from '@/shared/blocs/Formulaire'
 import { DELAI_RENVOI, LONGUEUR_CODE, masquerNumero, nouveauCode } from '@/modules/compte/auth/authOtp'
 
 /**
- * Saisie du code reçu sur le téléphone (6 cases), avec « Renvoyer le code »
- * après 60 s, comme dans yibolo-client. Sans serveur d'envoi de SMS, le
- * message reçu s'affiche dans un encadré. `onVerifie` est appelé quand le
- * bon code est saisi.
+ * Saisie du code reçu sur le téléphone (canevas « Code ») : six cases, le SMS
+ * reçu (affiché à l'écran faute de serveur d'envoi), « Vérifier », puis
+ * « Renvoyer le code » après 60 s. `onVerifie` est appelé quand le bon code est saisi.
  */
 export function VerificationCode({
   telephone,
@@ -44,7 +45,10 @@ export function VerificationCode({
     // Un code collé d'un coup remplit les cases suivantes.
     setCases((c) => {
       const suite = [...c]
-      chiffres.split('').slice(0, LONGUEUR_CODE - rang).forEach((ch, i) => (suite[rang + i] = ch))
+      chiffres
+        .split('')
+        .slice(0, LONGUEUR_CODE - rang)
+        .forEach((ch, i) => (suite[rang + i] = ch))
       return suite
     })
     setErreur('')
@@ -74,22 +78,14 @@ export function VerificationCode({
   }
 
   return (
-    <div className="space-y-4">
-      <p className="flex items-start gap-2 text-[14.5px] text-navy-900">
-        <MessageSquareCode className="mt-0.5 size-5 shrink-0 text-brand-600" aria-hidden="true" />
-        {t('envoye', { telephone: masquerNumero(telephone) })}
+    <div className="flex flex-col gap-4">
+      <p className="text-ui text-foreground">
+        <Trans t={t} i18nKey="envoye" values={{ telephone }} components={{ b: <b /> }} />
       </p>
-      <p role="status" className="flex items-center gap-2 rounded-xl border border-dashed border-brand-200 bg-brand-50 px-3.5 py-2.5 text-sm text-navy-900">
-        <ShieldCheck className="size-5 shrink-0 text-brand-600" aria-hidden="true" />
-        <span>
-          {t('sms')} <b className="tracking-[0.25em]">{code}</b>
-        </span>
-      </p>
-      <fieldset>
-        <legend className="mb-1.5 text-sm font-bold text-navy-900">{t('champ')}</legend>
-        <div className="flex gap-2">
+      <div className="flex flex-col gap-1.5">
+        <div role="group" aria-label={t('champ')} className="flex justify-between gap-2">
           {cases.map((c, i) => (
-            <input
+            <Input
               key={i}
               ref={(el) => {
                 champs.current[i] = el
@@ -98,30 +94,33 @@ export function VerificationCode({
               inputMode="numeric"
               autoComplete={i === 0 ? 'one-time-code' : 'off'}
               aria-label={t('chiffre', { n: i + 1 })}
+              aria-invalid={!!erreur || undefined}
               maxLength={i === 0 ? LONGUEUR_CODE : 1}
               onChange={(e) => ecrire(i, e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === 'Backspace' && !c && i > 0) champs.current[i - 1]?.focus()
                 if (e.key === 'Enter') void verifier()
               }}
-              className="h-12 w-11 rounded-xl border border-[#c9d4ea] bg-white text-center text-xl font-bold text-navy-900 outline-none focus:border-brand-500 focus:ring-3 focus:ring-brand-100 sm:w-12"
+              className="h-[54px] w-[46px] min-w-0 shrink px-0 text-center text-[22px] font-extrabold"
             />
           ))}
         </div>
-        {erreur && <p className="mt-1.5 text-xs font-medium text-rose-600">{erreur}</p>}
-      </fieldset>
-      <Button className="w-full" disabled={envoi} onClick={() => void verifier()}>
+        {erreur && <p className="text-xs font-semibold text-destructive">{erreur}</p>}
+      </div>
+      <Encadre ton="info" icone={MessageCircle} className="items-center py-3.5">
+        {t('sms')} <b className="tracking-[0.1em]">{code}</b>
+      </Encadre>
+      <Button size="lg" className="h-[52px] w-full text-base" loading={envoi} onClick={() => void verifier()}>
         {libelleBouton ?? t('verifier')}
       </Button>
       <p className="text-center text-sm text-muted-foreground">
         {t('pasRecu')}{' '}
         {secondes > 0 ? (
-          <span>{t('renvoyerDans', { secondes })}</span>
+          <b className="text-foreground">{t('renvoyerDans', { secondes })}</b>
         ) : (
-          <button type="button" onClick={renvoyer} className="inline-flex items-center gap-1 font-semibold text-brand-600 hover:underline">
-            <RotateCcw className="size-3.5" aria-hidden="true" />
+          <Button type="button" variant="link" onClick={renvoyer}>
             {t('renvoyer')}
-          </button>
+          </Button>
         )}
       </p>
     </div>

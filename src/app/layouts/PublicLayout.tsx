@@ -1,140 +1,22 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useLocation } from '@tanstack/react-router'
-import { Lien } from '@/shared/ui/Lien'
-import { LienActif } from '@/shared/ui/LienActif'
-import { useTranslation } from 'react-i18next'
-import { Menu, X } from 'lucide-react'
-import { Logo } from '@/shared/ui/Logo'
-import { LanguageSwitcher } from '@/shared/ui/LanguageSwitcher'
-import { NotificationsBell, UserMenu } from '@/app/layouts/AccountMenu'
-import { Button } from '@/shared/ui/Button'
-import { useSession } from '@/modules/compte/auth/hooks/useSession'
-import { cn } from '@/shared/utils/cn'
 import { RouteOutlet } from '@/app/routes/RouteOutlet'
-import { publicNav } from '@/app/layouts/navConfig'
-import { ROUTES } from '@/shared/utils/routes'
 import { noterPage } from '@/shared/utils/mesures'
+import { Entete } from './Entete'
+import { PiedDePage } from './PiedDePage'
 
-/** L'aide et les pages de loi (comme le pied de page de l'accueil). */
-const AIDE = [
-  { cle: 'aide', vers: ROUTES.help },
-  { cle: 'conditions', vers: ROUTES.terms },
-] as const
-
+/** Le cadre des pages publiques et des comptes : barre du haut, page, pied de page (canevas). */
 export function PublicLayout() {
-  const { t } = useTranslation('layout')
-  const { account } = useSession()
-  const [open, setOpen] = useState(false)
   // La page affichée : une fiche ouverte ensuite saura d'où vient le visiteur (statistiques).
   const { pathname, search } = useLocation()
   useEffect(() => noterPage(pathname + search), [pathname, search])
-  // Connecté, « Accueil » et le logo mènent à l'accueil connecté : la landing est réservée aux visiteurs.
-  // Pour une école, « École » mène à son espace professionnel (elle ne voit pas la liste des écoles).
-  const accueil = account ? account.home : ROUTES.home
-  const ecole = !!account && account.role !== 'utilisateur'
-  const vers = (to: string) => (to === ROUTES.home ? accueil : ecole && to === ROUTES.schools ? ROUTES.pro.root : to)
   return (
-    <div className="app-cadre flex min-h-dvh flex-col">
-      <header className="sticky top-0 z-30 border-b border-line/70 bg-white/90 backdrop-blur">
-        <div className="mx-auto flex h-[68px] max-w-[1320px] items-center gap-2 px-3 sm:gap-4 sm:px-5">
-          <Logo to={accueil} />
-          <nav className="mx-auto hidden items-center gap-1 lg:flex">
-            {publicNav.map((l) => (
-              <LienActif
-                key={l.to}
-                to={vers(l.to)}
-                end={l.end}
-                className={({ isActive }) =>
-                  cn(
-                    'inline-flex h-11 items-center gap-2 rounded-full px-5 text-[15px] font-semibold transition-colors',
-                    isActive ? 'bg-navy-800 text-white shadow' : 'text-navy-800 hover:bg-brand-50',
-                  )
-                }
-              >
-                <l.icon className="size-5" />
-                {t(l.labelKey)}
-              </LienActif>
-            ))}
-            {!account && (
-              <Button to={ROUTES.signUp} onClick={() => setOpen(false)} className="mt-1 sm:hidden">
-                {t('account.signUp')}
-              </Button>
-            )}
-          </nav>
-          <div className="ml-auto flex items-center gap-1 sm:gap-2 lg:ml-0">
-            <LanguageSwitcher menuSousEntete />
-            {account ? (
-              <>
-                <NotificationsBell href={account?.role === 'utilisateur' ? ROUTES.notifications : account ? ROUTES.pro.settings('notifications') : undefined} />
-                <span className="hidden h-8 w-px bg-line sm:block" />
-                <UserMenu />
-              </>
-            ) : (
-              <>
-                <Button to={ROUTES.signIn} variant="ghost" size="sm">
-                  {t('account.signIn')}
-                </Button>
-                <Button to={ROUTES.signUp} size="sm" className="max-sm:hidden">
-                  {t('account.signUp')}
-                </Button>
-              </>
-            )}
-            <button type="button" aria-label={t('nav.menu')} onClick={() => setOpen(!open)} className="grid size-10 place-items-center rounded-full hover:bg-brand-50 lg:hidden">
-              {open ? <X className="size-5" /> : <Menu className="size-5" />}
-            </button>
-          </div>
-        </div>
-        {open && (
-          <nav className="grid gap-1 border-t border-line bg-white p-3 lg:hidden">
-            {publicNav.map((l) => (
-              <LienActif
-                key={l.to}
-                to={vers(l.to)}
-                end={l.end}
-                onClick={() => setOpen(false)}
-                className={({ isActive }) => cn('flex items-center gap-3 rounded-xl px-4 py-3 font-semibold', isActive ? 'bg-navy-800 text-white' : 'text-navy-800')}
-              >
-                <l.icon className="size-5" />
-                {t(l.labelKey)}
-              </LienActif>
-            ))}
-          </nav>
-        )}
-      </header>
+    <div className="app-cadre flex min-h-dvh flex-col bg-background">
+      <Entete />
       <main className="flex-1">
         <RouteOutlet />
       </main>
-      <Footer />
+      <PiedDePage />
     </div>
-  )
-}
-
-/**
- * La partie basse du pied de page de l'accueil (LandingFooter) : logo et
- * devise, Aide · Conditions, copyright. Seule la couleur change : fond bleu
- * nuit, texte blanc. Sans la vague ni la phrase de la marque (décision du
- * 2026-11-24). Espacements de l'accueil repris en valeurs exactes (la landing
- * compte 0,3 rem par pas, ici 0,25 rem).
- */
-function Footer() {
-  const { t } = useTranslation('layout')
-  return (
-    <footer className="mt-16 bg-navy-900 px-[2.7rem] py-[2.4rem] text-white sm:px-[3.9rem] lg:px-[5.1rem]">
-      <div className="flex flex-col gap-[1.5rem] sm:flex-row sm:items-center sm:justify-between">
-        <Logo light />
-        <nav aria-label={t('accueil.piedDePage.groupeAide')}>
-          <ul className="flex flex-wrap gap-x-[1.8rem]">
-            {AIDE.map(({ cle, vers }) => (
-              <li key={cle}>
-                <Lien to={vers} className="inline-block rounded-sm py-[0.6rem] font-client text-sm text-white/70 transition-colors hover:text-white">
-                  {t(`accueil.piedDePage.liens.${cle}`)}
-                </Lien>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </div>
-      <p className="mt-[1.2rem] font-client text-xs text-white/60">{t('accueil.piedDePage.copyright')}</p>
-    </footer>
   )
 }

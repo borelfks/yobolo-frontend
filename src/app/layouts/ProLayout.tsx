@@ -1,153 +1,74 @@
 import { useState } from 'react'
 import { Navigate, useLocation } from '@tanstack/react-router'
-import { Lien } from '@/shared/ui/Lien'
-import { LienActif } from '@/shared/ui/LienActif'
 import { useTranslation } from 'react-i18next'
-import { BadgeCheck, Building2, ChevronDown, CircleHelp, Headphones, Menu, X, House } from 'lucide-react'
-import { Logo } from '@/shared/ui/Logo'
-import { LanguageSwitcher } from '@/shared/ui/LanguageSwitcher'
-import { NotificationsBell, UserMenu } from '@/app/layouts/AccountMenu'
-import { proNav } from '@/app/layouts/navConfig'
+import { Menu, X } from 'lucide-react'
 import { RouteOutlet } from '@/app/routes/RouteOutlet'
-import { Img } from '@/shared/ui/Img'
-import { AssistanceModal } from '@/shared/ui/AssistanceModal'
-import { useMonEcole, useSession } from '@/modules/compte/auth/hooks/useSession'
-import { cn } from '@/shared/utils/cn'
+import { PageSpinner } from '@/shared/blocs/Chargement'
+import { useSession } from '@/modules/compte/auth/hooks/useSession'
+import { Button } from '@/shared/shadcn/button'
+import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from '@/shared/shadcn/sheet'
 import { ROUTES } from '@/shared/utils/routes'
+import { Entete } from './Entete'
+import { MenuPro } from './MenuPro'
+import { proNav } from './navConfig'
+import { PiedDePage } from './PiedDePage'
 
-function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
-  const { t } = useTranslation('layout')
-  const { account } = useSession()
-  const [assistance, setAssistance] = useState(false)
-  const { pathname } = useLocation()
-  const { ecole } = useMonEcole()
-  return (
-    <div className="flex h-full flex-col gap-5 overflow-y-auto bg-[linear-gradient(180deg,#0f2c7a_0%,#0b2366_45%,#0a1f5c_100%)] px-3 py-5 text-white">
-      <Lien to={ROUTES.pro.profile()} onClick={onNavigate} className="flex items-center gap-2.5 px-1">
-        <Img src={ecole.vignette ?? ecole.image} alt="" className="size-[60px] rounded-lg" />
-        <div className="min-w-0 flex-1">
-          <p className="text-[14px] leading-tight font-semibold">{ecole.nom}</p>
-          <span className="mt-1.5 inline-flex items-center gap-1 rounded-full bg-emerald-600 px-2 py-0.5 text-[11px] font-semibold whitespace-nowrap">
-            <BadgeCheck className="size-4 fill-white text-emerald-600" />
-            {t('pro.verified')}
-          </span>
-        </div>
-        <ChevronDown className="size-4 text-white/80" />
-      </Lien>
-      <nav className="flex flex-col gap-1">
-        {proNav.map((item) => {
-          const inSection = item.children ? pathname.startsWith(item.to) : false
-          const open = !!item.children && (inSection || item.to === ROUTES.pro.trainings || pathname === ROUTES.pro.root)
-          return (
-            <div key={item.labelKey}>
-              <LienActif
-                to={item.to}
-                end={item.end || !!item.children}
-                onClick={onNavigate}
-                className={({ isActive }) =>
-                  cn(
-                    'flex items-center gap-2.5 rounded-lg px-2.5 py-2.5 text-[14.5px] font-medium whitespace-nowrap transition-colors',
-                    isActive || (item.children && inSection) ? 'bg-brand-600 font-semibold shadow-lg shadow-brand-900/40' : 'text-white hover:bg-white/10',
-                  )
-                }
-              >
-                <item.icon className="size-[22px] shrink-0" />
-                <span className="flex-1">{t(item.labelKey)}</span>
-                {item.children && <ChevronDown className="size-4" />}
-              </LienActif>
-              {item.children && open && (
-                <ul className="mt-1 mb-1.5 ml-7 space-y-0.5">
-                  {item.children.map((c) => (
-                    <li key={c.to}>
-                      <LienActif
-                        to={c.to}
-                        end
-                        onClick={onNavigate}
-                        className={({ isActive }) =>
-                          cn('flex items-center gap-2 rounded-md px-2 py-1 text-[13.5px]', isActive && inSection ? 'bg-[#e6eeff] font-semibold text-navy-900' : 'text-white/90 hover:text-white')
-                        }
-                      >
-                        <span className="size-1 rounded-full bg-current" />
-                        {t(c.labelKey)}
-                      </LienActif>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          )
-        })}
-      </nav>
-      <button
-        type="button"
-        onClick={() => setAssistance(true)}
-        className="mx-2 mt-auto flex h-12 items-center justify-center gap-2.5 rounded-full border border-white/50 text-[15px] font-semibold hover:bg-white/10"
-      >
-        <Headphones className="size-6" />
-        {t('pro.support.button')}
-      </button>
-      {account && <AssistanceModal open={assistance} onClose={() => setAssistance(false)} compteId={account.id} />}
-    </div>
-  )
-}
-
+/**
+ * Le cadre de l'espace professionnel (canevas « Espace professionnel ») : la
+ * barre du haut (univers « École » actif), le menu de l'établissement dans une
+ * carte de 240 px à gauche, la page à droite, puis le pied de page. Sur
+ * téléphone, un bouton « Menu de l'espace pro » ouvre le menu en tiroir.
+ * Un compte = un espace : seul un compte école entre ici.
+ */
 export function ProLayout() {
   const { t } = useTranslation('layout')
-  const [open, setOpen] = useState(false)
-  const { ecole } = useMonEcole()
-  const { account } = useSession()
-  // Un compte = un espace : seul un compte école entre ici.
+  const { account, pret, compteId } = useSession()
+  const { pathname } = useLocation()
+  const [ouvert, setOuvert] = useState(false)
+  // Un compte gardé dans le navigateur : on attend la base pour savoir s'il peut entrer.
+  if (compteId && !pret) return <PageSpinner />
   if (!account?.ecoleId) return <Navigate to={ROUTES.signInSchool} replace />
+  // La rubrique ouverte, rappelée à droite du bouton du menu (téléphone).
+  const rubrique = [...proNav].reverse().find((i) => (i.end ? pathname === i.to : pathname.startsWith(i.to))) ?? proNav[0]!
   return (
-    <div className="app-cadre min-h-dvh bg-page">
-      <header className="sticky top-0 z-30 flex h-14 items-center gap-1 border-b border-line bg-white/95 pr-2 backdrop-blur sm:gap-3 sm:pr-4">
-        <button type="button" aria-label={t('nav.menu')} onClick={() => setOpen(true)} className="grid size-10 place-items-center rounded-full hover:bg-brand-50 lg:hidden">
-          <Menu className="size-5" />
-        </button>
-        <div className="shrink-0 lg:w-[250px] lg:pl-4">
-          <Logo to={ROUTES.accueil} />
-        </div>
-        <div className="ml-8 hidden items-center gap-3 rounded-full bg-[#eaf0fb] px-5 py-2 text-navy-800 lg:flex">
-          <Building2 className="size-7 text-brand-600" />
-          <span className="text-[17px] font-bold">{t('pro.space', { type: t(`schoolType.${ecole.type}`) })}</span>
-        </div>
-        <div className="ml-auto flex items-center gap-0.5 sm:gap-1">
-          {/* Retour à l'espace de tous les jours : l'accueil connecté. */}
-          <Lien
-            to={ROUTES.accueil}
-            aria-label={t('pro.backHome')}
-            className="mr-1 inline-flex h-10 items-center gap-2 rounded-full border border-brand-600/40 bg-white px-3 text-[14px] font-semibold text-navy-800 transition-colors hover:border-brand-600 hover:bg-brand-50 sm:px-4"
-          >
-            <House className="size-[18px] text-brand-600" aria-hidden="true" />
-            <span className="max-sm:hidden">{t('pro.backHome')}</span>
-          </Lien>
-          <LanguageSwitcher className="sm:mr-1" menuSousEntete />
-          <NotificationsBell href={ROUTES.pro.settings('notifications')} />
-          <Lien to={ROUTES.pro.settings('a-propos')} aria-label={t('nav.help')} className="grid size-10 place-items-center rounded-full text-navy-800 hover:bg-brand-50">
-            <CircleHelp className="size-5" />
-          </Lien>
-          <span className="mx-1 hidden h-8 w-px bg-line sm:block" />
-          <UserMenu />
-        </div>
-      </header>
-      <div className="flex">
-        <aside className="sticky top-14 hidden h-[calc(100dvh-3.5rem)] w-[250px] shrink-0 lg:block">
-          <Sidebar />
+    <div className="app-cadre flex min-h-dvh flex-col bg-background">
+      <Entete />
+      <div className="mx-auto flex w-full max-w-pro flex-1 flex-col gap-2 pb-4 lg:grid lg:grid-cols-[240px_minmax(0,1fr)] lg:items-start lg:gap-6 lg:px-4 lg:pt-6 lg:pb-10">
+        {/* Ordinateur : le menu dans une carte, qui reste visible au défilement. */}
+        <aside className="sticky top-[84px] hidden overflow-hidden rounded-lg border border-border bg-card lg:block">
+          <MenuPro />
         </aside>
-        {open && (
-          <div className="fixed inset-0 z-40 bg-navy-950/50 lg:hidden" onClick={() => setOpen(false)}>
-            <div className="h-full w-72" onClick={(e) => e.stopPropagation()}>
-              <button type="button" aria-label={t('nav.closeMenu')} onClick={() => setOpen(false)} className="absolute top-4 left-74 grid size-10 place-items-center rounded-full bg-white">
-                <X className="size-5" />
-              </button>
-              <Sidebar onNavigate={() => setOpen(false)} />
-            </div>
-          </div>
-        )}
-        <main className="min-w-0 flex-1 px-4 py-3 md:px-5">
+        {/* Téléphone : le bouton du menu, puis le tiroir. */}
+        <Sheet open={ouvert} onOpenChange={setOuvert}>
+          <SheetTrigger asChild>
+            <Button
+              variant="ghost"
+              className="h-[52px] w-full justify-start gap-2.5 rounded-none border-b border-border bg-card px-4 text-ui text-foreground hover:bg-card lg:hidden"
+            >
+              <Menu className="size-[22px]" aria-hidden />
+              <span className="flex-1 text-left">{t('pro.menuMobile')}</span>
+              <span className="text-meta font-semibold text-primary-strong">{t(rubrique.labelKey)}</span>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" showCloseButton={false} aria-describedby={undefined} className="w-[300px] max-w-[85vw] gap-0 overflow-y-auto shadow-drawer sm:max-w-[300px]">
+            <SheetTitle className="sr-only">{t('pro.menuMobile')}</SheetTitle>
+            <MenuPro
+              onNavigate={() => setOuvert(false)}
+              enTete={
+                <SheetClose asChild>
+                  <Button variant="ghost" size="icon" aria-label={t('nav.closeMenu')}>
+                    <X className="size-[22px]" aria-hidden />
+                  </Button>
+                </SheetClose>
+              }
+            />
+          </SheetContent>
+        </Sheet>
+        <main className="min-w-0">
           <RouteOutlet />
         </main>
       </div>
+      <PiedDePage />
     </div>
   )
 }

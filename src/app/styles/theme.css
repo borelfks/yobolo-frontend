@@ -25,6 +25,8 @@
   --color-row-hover: #f7f9fc; /* survol d'une ligne de liste */
   --color-surface-faint: #fafbfd; /* zone de dépôt de fichier */
   --color-surface-search: #edf2fa; /* champ de recherche de la barre du haut */
+  --color-track: #dde3ee; /* barre d'étapes et jauge du mot de passe non remplies */
+  --color-footer-foreground: #c9d3e6; /* texte du pied de page (fond bleu nuit) */
   --color-overlay: rgb(11 27 63 / 0.45); /* fond des fenêtres */
 
   /* --- Bordures et champs -------------------------------------------------- */
@@ -95,6 +97,8 @@
   --shadow-bar: 0 1px 3px rgb(11 27 63 / 0.06); /* barre du haut */
   --shadow-account: 0 12px 32px rgb(11 27 63 / 0.18); /* menu du compte */
   --shadow-drawer: 4px 0 24px rgb(11 27 63 / 0.25); /* menu latéral sur téléphone */
+  --shadow-panel: 0 4px 16px rgb(11 27 63 / 0.1); /* carte des écrans d'inscription et de mot de passe */
+  --shadow-search: 0 2px 8px rgb(11 27 63 / 0.15); /* champ de recherche posé sur un bandeau */
 
   /* --- Texte (13 et 15 px sont très employés dans le canevas) --------------- */
   --text-meta: 0.8125rem;
@@ -104,6 +108,8 @@
 
   /* --- Largeurs ------------------------------------------------------------ */
   --container-page: 1128px; /* contenu des pages publiques */
+  --container-bar: 1240px; /* barre du haut et pied de page */
+  --container-pro: 1280px; /* espace professionnel (menu + contenu) */
 
   /* --- Mouvement ----------------------------------------------------------- */
   --animate-menu-entree: menu-entree 120ms ease-out;

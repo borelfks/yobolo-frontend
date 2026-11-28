@@ -30,7 +30,8 @@ export function erreursAccord(e?: object): ErreursAccord {
   return { autorite: champ('autorite'), autre: champ('autre'), numero: champ('numero'), delivreLe: champ('delivreLe'), expireLe: champ('expireLe'), fichier: champ('fichier') }
 }
 
-export const accordVide = (): AccordSaisi => ({ autorite: 'MINESUP', autre: '', numero: '', delivreLe: '', expireLe: '', fichier: null })
+/** Un accord encore vide ; `autorite` : celle proposée d'abord (selon le type d'établissement). */
+export const accordVide = (autorite: Autorite = 'MINESUP'): AccordSaisi => ({ autorite, autre: '', numero: '', delivreLe: '', expireLe: '', fichier: null })
 
 /** Les champs d'un accord enregistré, remis dans le formulaire (modification). */
 export function accordEnSaisie(a: AccordEtablissement): AccordSaisi {

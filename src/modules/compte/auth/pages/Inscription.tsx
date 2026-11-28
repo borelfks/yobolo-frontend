@@ -24,7 +24,7 @@ import { normaliserIdentifiant, protegerMotDePasse } from '@/shared/utils/motDeP
 import { villeDuLieu } from '@/shared/utils/geographie'
 import { CIVILITES, NATIONALITES } from '@/shared/utils/personne'
 import { ChampMotDePasse, JaugeMotDePasse } from '@/shared/forms/MotDePasse'
-import { ListeAccords } from '@/shared/forms/ListeAccords'
+import { ListeAccords } from '@/shared/forms/Accords'
 import { accordVide, enregistrerAccord, erreursAccord, NATURES, schemaAccord, type AccordSaisi } from '@/shared/utils/accords'
 import { lireFichier, tailleFichier, TAILLE_MAX_DOCUMENT } from '@/shared/utils/fichiers'
 

@@ -22,6 +22,8 @@ export const ROUTES = {
   publication: (id: string) => `/accueil/publications/${encodeURIComponent(id)}`,
   /** L'accueil connecté, filtré sur un sujet (« #ohada »). */
   accueilSujet: (sujet: string) => `/accueil?sujet=${encodeURIComponent(sujet)}`,
+  /** La recherche de la barre du haut : le fil de l'accueil connecté filtré sur « q ». */
+  accueilRecherche: (q: string) => `/accueil?q=${encodeURIComponent(q)}`,
   /** L'accueil connecté, ouvert sur la fiche d'une offre d'emploi. */
   accueilOffre: (id: string) => `/accueil?offre=${encodeURIComponent(id)}`,
   consultation: '/consultation',
@@ -49,6 +51,8 @@ export const ROUTES = {
   schools: '/ecoles',
   /** Annuaire d'un type d'école (« ipes », « cfp », « autres »), avec son onglet. */
   schoolType: (type: string, tab?: string) => withTab(`/ecoles/${type}`, tab),
+  /** La recherche de la barre du haut pour un visiteur : l'annuaire des IPES filtré sur « q ». */
+  schoolSearch: (q: string) => `/ecoles/ipes?q=${encodeURIComponent(q)}`,
   /** Fiche publique d'un établissement, avec son onglet. */
   school: (type: string, id: string, tab?: string) => withTab(`/ecoles/${type}/etablissement/${id}`, tab),
   schoolReview: (type: string, id: string) => `/ecoles/${type}/etablissement/${id}/avis/nouveau`,

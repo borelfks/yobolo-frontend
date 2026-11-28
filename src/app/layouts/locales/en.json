@@ -4,20 +4,14 @@
     "school": "School",
     "consultation": "Consulting",
     "employment": "Jobs",
-    "menu": "Menu",
-    "closeMenu": "Close the menu",
-    "help": "Help"
+    "closeMenu": "Close the menu"
   },
   "account": {
     "signIn": "Sign in",
     "signUp": "Create an account"
   },
   "pro": {
-    "space": "Professional space – {{type}}",
     "verified": "Verified institution",
-    "support": {
-      "button": "YIBOLO Support"
-    },
     "nav": {
       "dashboard": "Dashboard",
       "profile": "Institution profile",
@@ -31,7 +25,9 @@
       "statistics": "Statistics",
       "settings": "Settings"
     },
-    "backHome": "Home"
+    "menuMobile": "Professional space menu",
+    "pagePublique": "View my public page →",
+    "navAria": "Professional space"
   },
   "schoolType": {
     "IPES": "IPES",
@@ -40,22 +36,8 @@
     "Autre": "Other"
   },
   "notifications": {
-    "title": "Notifications",
     "aria_one": "Notifications ({{count}} unread)",
-    "aria_other": "Notifications ({{count}} unread)",
-    "seeAll": "See all notifications",
-    "markAllRead": "Mark all as read",
-    "unread": "Unread",
-    "empty": "No notifications."
-  },
-  "userMenu": {
-    "proSpace": "My professional space",
-    "favorites": "My favourites",
-    "signOut": "Sign out",
-    "mySpace": "My space",
-    "settings": "Settings",
-    "profile": "My profile",
-    "home": "Home"
+    "aria_other": "Notifications ({{count}} unread)"
   },
   "authLayout": {
     "home": "Home",
@@ -66,7 +48,9 @@
       "consultants": "Qualified consultants and experts",
       "jobs": "Job offers, internships and apprenticeships",
       "skills": "Skills assessment and recognition"
-    }
+    },
+    "dejaCompte": "Already have an account?",
+    "retrouve": "Remembered your password?"
   },
   "accueil": {
     "entete": {
@@ -83,10 +67,33 @@
       }
     }
   },
-  "roles": {
-    "utilisateur": "User",
-    "ipes": "Administrator",
-    "cfp": "Administrator",
-    "autre": "Administrator"
+  "entete": {
+    "rechercher": "Search",
+    "rechercherAria": "Search YIBOLO",
+    "menuPrincipal": "Main menu",
+    "bientot": "Soon",
+    "bientotDisponible": "Coming soon",
+    "accueilAria": "YIBOLO, home"
+  },
+  "compte": {
+    "aria": "My account: {{nom}}",
+    "menu": "Account menu",
+    "voirProfil": "View my profile",
+    "voirPagePublique": "View my public page",
+    "favoris": "My favourites",
+    "parametres": "Settings",
+    "aide": "Help and contact",
+    "profilEtablissement": "Institution profile",
+    "statistiques": "Statistics",
+    "deconnexion": "Sign out",
+    "rolePersonne": "Individual",
+    "roleEcole": "School – {{type}}"
+  },
+  "pied": {
+    "devise": "Learn · Train · Consult · Work",
+    "aideLegal": "Help and legal",
+    "aide": "Help and contact",
+    "conditions": "Terms and conditions",
+    "copyright": "© 2026 YIBOLO. All rights reserved."
   }
 }

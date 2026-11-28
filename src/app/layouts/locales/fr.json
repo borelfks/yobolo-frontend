@@ -4,20 +4,14 @@
     "school": "École",
     "consultation": "Consultation",
     "employment": "Emploi",
-    "menu": "Menu",
-    "closeMenu": "Fermer le menu",
-    "help": "Aide"
+    "closeMenu": "Fermer le menu"
   },
   "account": {
     "signIn": "Se connecter",
     "signUp": "Créer un compte"
   },
   "pro": {
-    "space": "Espace professionnel – {{type}}",
     "verified": "Établissement vérifié",
-    "support": {
-      "button": "Assistance YIBOLO"
-    },
     "nav": {
       "dashboard": "Tableau de bord",
       "profile": "Profil de l’établissement",
@@ -31,7 +25,9 @@
       "statistics": "Statistiques",
       "settings": "Paramètres"
     },
-    "backHome": "Accueil"
+    "menuMobile": "Menu de l’espace pro",
+    "pagePublique": "Voir ma page publique →",
+    "navAria": "Espace professionnel"
   },
   "schoolType": {
     "IPES": "IPES",
@@ -40,22 +36,8 @@
     "Autre": "Autre"
   },
   "notifications": {
-    "title": "Notifications",
     "aria_one": "Notifications ({{count}} non lues)",
-    "aria_other": "Notifications ({{count}} non lues)",
-    "seeAll": "Voir toutes les notifications",
-    "markAllRead": "Tout marquer comme lu",
-    "unread": "Non lue",
-    "empty": "Aucune notification."
-  },
-  "userMenu": {
-    "proSpace": "Mon espace professionnel",
-    "favorites": "Mes favoris",
-    "signOut": "Se déconnecter",
-    "mySpace": "Mon espace",
-    "settings": "Paramètres",
-    "profile": "Mon profil",
-    "home": "Accueil"
+    "aria_other": "Notifications ({{count}} non lues)"
   },
   "authLayout": {
     "home": "Accueil",
@@ -66,7 +48,9 @@
       "consultants": "Consultants et experts qualifiés",
       "jobs": "Offres d’emploi, stages et apprentissage",
       "skills": "Évaluation et valorisation des compétences"
-    }
+    },
+    "dejaCompte": "Déjà un compte ?",
+    "retrouve": "Vous retrouvez votre mot de passe ?"
   },
   "accueil": {
     "entete": {
@@ -83,10 +67,33 @@
       }
     }
   },
-  "roles": {
-    "utilisateur": "Utilisateur",
-    "ipes": "Administrateur",
-    "cfp": "Administrateur",
-    "autre": "Administrateur"
+  "entete": {
+    "rechercher": "Rechercher",
+    "rechercherAria": "Rechercher sur YIBOLO",
+    "menuPrincipal": "Menu principal",
+    "bientot": "Bientôt",
+    "bientotDisponible": "Bientôt disponible",
+    "accueilAria": "YIBOLO, accueil"
+  },
+  "compte": {
+    "aria": "Mon compte : {{nom}}",
+    "menu": "Menu du compte",
+    "voirProfil": "Voir mon profil",
+    "voirPagePublique": "Voir ma page publique",
+    "favoris": "Mes favoris",
+    "parametres": "Paramètres",
+    "aide": "Aide et contact",
+    "profilEtablissement": "Profil de l’établissement",
+    "statistiques": "Statistiques",
+    "deconnexion": "Se déconnecter",
+    "rolePersonne": "Personne physique",
+    "roleEcole": "École – {{type}}"
+  },
+  "pied": {
+    "devise": "Apprendre · Former · Consulter · Travailler",
+    "aideLegal": "Aide et légal",
+    "aide": "Aide et contact",
+    "conditions": "Conditions générales",
+    "copyright": "© 2026 YIBOLO. Tous droits réservés."
   }
 }

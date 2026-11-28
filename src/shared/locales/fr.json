@@ -223,7 +223,8 @@
       "departement": "Choisissez un département.",
       "arrondissement": "Choisissez un arrondissement.",
       "quartier": "Indiquez votre quartier."
-    }
+    },
+    "quartierExemple": "Quartier (ex. : Bastos)"
   },
   "personne": {
     "civilites": {
@@ -318,5 +319,29 @@
   },
   "toast": {
     "close": "Fermer le message"
+  },
+  "formulaire": {
+    "facultatif": "(facultatif)",
+    "motDePasse": {
+      "afficher": "Afficher",
+      "masquer": "Masquer",
+      "afficherAria": "Afficher le mot de passe",
+      "masquerAria": "Masquer le mot de passe",
+      "jauge": {
+        "faible": "Mot de passe faible",
+        "moyen": "Mot de passe moyen",
+        "bon": "Bon mot de passe",
+        "excellent": "Excellent mot de passe"
+      }
+    },
+    "etapes": {
+      "aria": "Étapes",
+      "etape": "Étape {{n}} sur {{total}}"
+    },
+    "pieces": {
+      "importer": "Importer",
+      "remplacer": "Remplacer",
+      "voir": "Voir le document"
+    }
   }
 }

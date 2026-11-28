@@ -1,4 +1,5 @@
 import { SectionBadges, SectionBoutons, SectionChamps, SectionCouleurs, SectionTexte } from '@/modules/design-system/components/SectionsBase'
+import { SectionFormulaires } from '@/modules/design-system/components/SectionsFormulaires'
 import { SectionChargement, SectionDonnees, SectionEtats, SectionGraphiques, SectionNavigation, SectionSurfaces } from '@/modules/design-system/components/SectionsBlocs'
 
 const SOMMAIRE = [
@@ -7,6 +8,7 @@ const SOMMAIRE = [
   ['boutons', 'Boutons'],
   ['badges', 'Badges et puces'],
   ['champs', 'Champs'],
+  ['formulaires', 'Marque et formulaires'],
   ['navigation', 'Navigation'],
   ['surfaces', 'Menus et fenêtres'],
   ['donnees', 'Tableau'],
@@ -49,6 +51,7 @@ export function DesignSystem() {
           <SectionBoutons />
           <SectionBadges />
           <SectionChamps />
+          <SectionFormulaires />
           <SectionNavigation />
           <SectionSurfaces />
           <SectionDonnees />

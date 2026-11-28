@@ -13,7 +13,8 @@
 | Bouton, lien en forme de bouton | `Button` (`default`, `secondary`, `outline`, `destructive`, `destructive-solid`, `ghost`, `link`, `link-muted` ; tailles `sm` 32, `md` 36, `default` 40, `lg` 44, `icon`, `icon-sm` ; `loading` ; `asChild` pour un lien) |
 | Statut | `Badge` (`blue`, `green`, `gray`, `amber`, `red`, `violet`, `solid`, `solid-green`, `outline`) |
 | Puces de filtre ou de choix | `ToggleGroup` + `ToggleGroupItem` (`variant="outline"`) |
-| Champs | `Label`, `Input`, `Textarea`, `Select…`, `Checkbox`, `RadioGroup…`, `Switch` ; liste avec recherche : `Command` (+ `Popover`) |
+| Champs | `Label`, `Input`, `Textarea`, `Select…` (`SelectTrigger size="lg"` : 48 px), `Checkbox`, `RadioGroup…`, `Switch` ; liste avec recherche : `Command` (+ `Popover`) |
+| Choix en carte · choix court en case | `RadioGroupCard` (profil, type d'établissement) · `RadioGroupOption` (civilité) dans un `RadioGroup` |
 | Onglets | `Tabs…` (état local) ; onglets dans l'adresse : classes `tabTriggerClasses` sur des liens |
 | Fil d'Ariane · pagination | `Breadcrumb…` · `Pagination…` |
 | Menus · fenêtres · tiroir | `DropdownMenu…` · `Dialog…`, `AlertDialog…` (confirmation) · `Sheet…` |
@@ -33,6 +34,25 @@
 | Liste vide · bloc en erreur | `EmptyState` · `ErrorState` (« Réessayer ») |
 | Page message (404, erreur, hors connexion, accès refusé) | `MessagePage` |
 | Bandeau hors connexion | `BandeauHorsLigne` (déjà posé) |
+| Logo | `MarqueYibolo` (symbole + « YIBOLO » ; `clair` + `devise` sur le pied de page), `SymboleYibolo` (`Marque.tsx`) |
+| Langue | `ChoixLangue` (`auth` : écrans de connexion ; `compact` : globe seul) |
+| Champ de formulaire | `Champ` (libellé, astérisque, « (facultatif) », aide ou erreur), `ChampTexte` (48 px), `ChampTelephone` (+237), `ChampMotDePasse` (Afficher / Masquer), `JaugeMotDePasse`, `CaseACocher`, `ListeDeroulante` (`Formulaire.tsx`) |
+| Message dans un formulaire · étapes · pièce à joindre | `Encadre` (`info`, `succes`, `erreur`) · `BarreEtapes` · `PieceAJoindre` (`Formulaire.tsx`) |
+
+## Champs métier partagés (`src/shared/forms/`, propres à ce dépôt)
+| Besoin | Composant |
+|---|---|
+| Lieu (région → département → arrondissement → quartier), canevas | `ChampsLieu` (`ChampsLieu.tsx`) ; l'ancien `SelectionGeographique` sert encore aux écrans pas refaits |
+| Accords de création et d'ouverture | `ListeAccords`, `ChampsAccord` (`Accords.tsx`) |
+
+## Cadres (`src/app/layouts/`)
+| Besoin | Composant |
+|---|---|
+| Barre du haut (ordinateur, téléphone + onglets des univers) | `Entete` (recherche : `RechercheEntete`, `RechercheEnteteMobile`) |
+| Cloche · menu du compte | `ClocheNotifications`, `MenuCompte` (`AccountMenu.tsx`) |
+| Pied de page | `PiedDePage` |
+| Menu de l'espace pro (carte à gauche, tiroir sur téléphone) | `MenuPro` |
+| Connexion · inscription et mot de passe oublié | `AuthShell` · `CadreAuth` + `CarteAuth` |
 
 Anciens composants (`src/shared/ui/`, `src/shared/forms/`) : servent encore aux écrans pas refaits ; on ne s'en sert plus pour un écran neuf ; on les supprime quand plus rien ne les importe.
 
