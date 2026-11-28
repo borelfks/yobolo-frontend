@@ -20,7 +20,7 @@ export function App() {
           <RouterProvider router={router} />
         </Suspense>
       </ErrorBoundary>
-      <Toaster mobileOffset={12} />
+      <Toaster />
       <BandeauHorsLigne />
     </TooltipProvider>
   )

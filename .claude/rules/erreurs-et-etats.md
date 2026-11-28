@@ -24,7 +24,7 @@ Chaque écran prévoit **tous** ses états. Les blocs sont dans `src/shared/bloc
 - Liste vide ou recherche sans résultat : `EmptyState` (titre clair, texte qui dit quoi faire, action : « Réinitialiser les filtres », « Créer… »).
 
 ## Messages éphémères
-- `toast.success` (vert), `toast.error` (rouge), `toast.warning` (ambre), `toast.info` / `toast` (bleu), `toast.promise` (chargement puis résultat). En haut à droite, avec une croix, textes traduits.
+- `toast.success` (vert), `toast.error` (rouge), `toast.warning` (ambre), `toast.info` / `toast` (bleu), `toast.promise` (chargement puis résultat). Style du bloc `Toaster` (`src/shared/shadcn/sonner.tsx`, identique front et admin) : carte blanche bordée, ombre « floating », icône dans une pastille de sa couleur, titre en gras, croix à droite ; en haut à droite **sous la barre du haut** (en haut sur téléphone), 3 au plus. Durée **3 s** pour tous (le décompte s'arrête au survol) ; ne pas allonger un message au cas par cas. Textes traduits, une phrase courte.
 
 ## Règles
 - **Toute action est réelle** : pas de bouton qui ne fait rien, pas de message « (démo) ».
