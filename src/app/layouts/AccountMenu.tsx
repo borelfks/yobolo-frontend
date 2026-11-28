@@ -79,7 +79,7 @@ export function ClocheNotifications({ className }: { className?: string }) {
     >
       <Bell className="size-[22px] sm:size-6" aria-hidden />
       {count > 0 && (
-        <span aria-hidden className="absolute top-1 right-[3px] grid h-[18px] min-w-[18px] place-items-center rounded-full border-2 border-card bg-destructive px-[5px] text-[11px] leading-none font-extrabold text-white">
+        <span aria-hidden className="absolute top-1 right-[3px] grid h-[18px] min-w-[18px] place-items-center rounded-full border-2 border-card bg-destructive px-[5px] text-legende leading-none font-extrabold text-white">
           {count}
         </span>
       )}

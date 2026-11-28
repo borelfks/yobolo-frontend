@@ -32,7 +32,7 @@ export function EnteteListe({ titre, intro, genre, nombres, filtres }: { titre: 
   return (
     <section className="flex flex-col gap-3 border-b border-border bg-card pt-4 pb-3 sm:rounded-lg sm:border">
       <div className="flex flex-col gap-1 px-4">
-        <h1 className="text-2xl font-extrabold tracking-[-0.01em] text-foreground sm:text-[28px]">{titre}</h1>
+        <h1 className="text-2xl font-extrabold tracking-[-0.01em] text-foreground sm:text-titre">{titre}</h1>
         <p className="text-sm text-muted-foreground">{intro}</p>
       </div>
       <nav aria-label={t('liste.typesAria')}>

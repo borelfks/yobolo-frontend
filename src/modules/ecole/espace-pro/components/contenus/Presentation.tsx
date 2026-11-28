@@ -106,7 +106,7 @@ export function Presentation() {
         ].map((r) => (
           <Lien key={r.to} to={r.to} className={cn(resume, 'group')}>
             <h2 className="text-base font-extrabold">{r.titre}</h2>
-            <b className="text-[30px] leading-tight font-extrabold">{num(r.n)}</b>
+            <b className="text-titre-lg leading-tight font-extrabold">{num(r.n)}</b>
             <span className="text-xs font-medium text-muted-foreground">{r.detail}</span>
             <span className="mt-auto text-sm font-bold text-primary group-hover:underline">{r.lien}</span>
           </Lien>

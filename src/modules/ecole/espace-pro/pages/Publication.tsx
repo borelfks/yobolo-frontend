@@ -75,7 +75,7 @@ function MaPublication() {
               </Badge>
               {a.statut === 'Brouillon' && <Badge variant="amber">{tp('commun.statuts.brouillon')}</Badge>}
             </span>
-            <h2 className="text-[22px] leading-snug font-extrabold text-foreground">{a.titre}</h2>
+            <h2 className="text-titre-sm leading-snug font-extrabold text-foreground">{a.titre}</h2>
             <span className="text-meta text-muted-foreground">{a.statut === 'Publiée' ? t('publieeLe', { date: a.date }) : t('nonPubliee')}</span>
             {typeof corps === 'string' && corps && <p className="text-ui leading-relaxed whitespace-pre-line text-foreground-soft">{corps}</p>}
             {typeof limite === 'string' && limite && <p className="text-sm font-semibold text-foreground">{t('dateLimite', { date: shortDate(limite, { day: 'numeric', month: 'long', year: 'numeric' }) })}</p>}

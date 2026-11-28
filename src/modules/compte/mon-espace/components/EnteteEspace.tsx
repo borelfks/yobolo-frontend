@@ -18,7 +18,7 @@ export function EnteteEspace({ compte }: { compte: Compte }) {
         <PhotoDuCompte compte={compte} size={84} variante="entete" />
         <div className="min-w-0 flex-1 space-y-2">
           <div className="flex flex-wrap items-center gap-2.5">
-            <h1 className="text-[22px] font-bold md:text-[27px]">{compte.name}</h1>
+            <h1 className="text-titre-sm font-bold md:text-[27px]">{compte.name}</h1>
             <span className="rounded-full bg-white/15 px-2.5 py-0.5 text-[12.5px] font-semibold">{t('entete.profil')}</span>
             {compte.statut === 'Validé' && (
               <span className="inline-flex items-center gap-1 rounded-full bg-emerald-600 px-2.5 py-0.5 text-[12.5px] font-semibold">

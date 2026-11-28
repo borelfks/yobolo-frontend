@@ -24,7 +24,7 @@ export function ChoixProfil({ valeur, onChange }: { valeur: Profil; onChange: (p
             <span className="flex flex-1 flex-col gap-[3px]">
               <b className="text-base">{t(`profiles.${p}.title`)}</b>
               <span className="text-meta text-muted-foreground">{t(`profiles.${p}.desc`)}</span>
-              {ferme && <span className="mt-1 self-start rounded-full bg-secondary px-2 py-[3px] text-[11px] font-extrabold text-muted-foreground">{t('comingSoon')}</span>}
+              {ferme && <span className="mt-1 self-start rounded-full bg-secondary px-2 py-[3px] text-legende font-extrabold text-muted-foreground">{t('comingSoon')}</span>}
             </span>
           </RadioGroupCard>
         )

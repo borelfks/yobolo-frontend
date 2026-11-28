@@ -44,7 +44,7 @@ export function CarteAFaire({ taches }: { taches: Tache[] }) {
 export function CarteCompletude({ completude, etapes, restantes, prochaine, versProchaine }: { completude: number; etapes: Record<EtapeProfil, boolean>; restantes: number; prochaine?: EtapeProfil; versProchaine?: string }) {
   const { t } = useTranslation('pro', { keyPrefix: 'tableau.completude' })
   return (
-    <CartePro titre={t('titre')} description={t('texte')} action={<b className="text-[26px] font-extrabold text-success">{t('pourcent', { pct: completude })}</b>}>
+    <CartePro titre={t('titre')} description={t('texte')} action={<b className="text-titre-md font-extrabold text-success">{t('pourcent', { pct: completude })}</b>}>
       <Progress value={completude} aria-label={t('aria')} className="bg-success-soft" />
       <ol className="flex flex-wrap gap-x-4 gap-y-2.5 lg:gap-x-[22px]">
         {ETAPES_PROFIL.map((e) => (

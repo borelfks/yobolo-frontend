@@ -33,7 +33,7 @@ export function ResumeAvis({ note, nombre, repartition, onDonner }: { note: numb
     <div className="flex flex-wrap items-center gap-6 py-2">
       <div className="flex min-w-[110px] flex-col items-center gap-1">
         <span className="text-xs font-bold text-muted-foreground">{t('blocs.noteGlobale')}</span>
-        <b className="text-[44px] leading-none font-bold text-foreground">{num(note)}</b>
+        <b className="text-chiffre leading-none font-bold text-foreground">{num(note)}</b>
         <Etoiles note={note} className="text-lg tracking-[2px]" />
         <span className="text-meta text-muted-foreground">{nombre}</span>
       </div>
@@ -114,10 +114,10 @@ export function AucunAvis({ texte, onDonner }: { texte: string; onDonner: () => 
   const { t } = useTranslation('reviews')
   return (
     <div className="flex flex-col items-center gap-2.5 px-2 py-6 text-center">
-      <span aria-hidden className="text-[28px] tracking-[4px] text-warning">
+      <span aria-hidden className="text-titre tracking-[4px] text-warning">
         ☆☆☆☆☆
       </span>
-      <b className="text-[17px] text-foreground">{t('blocs.aucun')}</b>
+      <b className="text-intro text-foreground">{t('blocs.aucun')}</b>
       <p className="text-sm text-muted-foreground">{texte}</p>
       <Button onClick={onDonner}>{t('blocs.donnerAvis')}</Button>
     </div>

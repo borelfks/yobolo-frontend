@@ -58,7 +58,7 @@ export function ApercuTab() {
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-[22px] font-bold text-navy-900">{t('apercu.bonjour', { name: account.name.split(' ')[0] })}</h2>
+        <h2 className="text-titre-sm font-bold text-navy-900">{t('apercu.bonjour', { name: account.name.split(' ')[0] })}</h2>
         <p className="text-[15px] text-muted-foreground">{t('apercu.texte')}</p>
       </div>
       <KpiGrid>

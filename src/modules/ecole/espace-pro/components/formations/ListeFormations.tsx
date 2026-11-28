@@ -49,7 +49,7 @@ export function ListeFormations({ lignes, duree, rentree, actions }: { lignes: F
       {lignes.map((f) => (
         <div key={f.id} role="row" className={cn('flex flex-col gap-1.5 border-t border-border py-3.5 lg:py-3', COLONNES)}>
           <span role="cell" className="flex min-w-0 items-center gap-2.5">
-            <span className={cn('grid size-11 shrink-0 place-items-center rounded-md text-[11px] font-extrabold', TONS[f.ton] ?? TONS.blue)}>{f.diplome}</span>
+            <span className={cn('grid size-11 shrink-0 place-items-center rounded-md text-legende font-extrabold', TONS[f.ton] ?? TONS.blue)}>{f.diplome}</span>
             <span className="flex min-w-0 flex-col">
               <Lien to={ROUTES.pro.editTraining(f.id)} className="text-ui font-bold text-foreground no-underline hover:text-primary">
                 {f.nom}

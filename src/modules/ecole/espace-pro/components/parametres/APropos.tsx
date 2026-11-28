@@ -18,7 +18,7 @@ export function APropos() {
     <>
       <CartePro>
         <div className="flex flex-col gap-1.5">
-          <h2 className="text-[26px] font-extrabold tracking-[0.02em] text-primary">YIBOLO</h2>
+          <h2 className="text-titre-md font-extrabold tracking-[0.02em] text-primary">YIBOLO</h2>
           <p className="text-ui text-foreground-soft">{t('accroche')}</p>
           <p className="text-meta font-bold text-muted-foreground">{t('piliers')}</p>
         </div>

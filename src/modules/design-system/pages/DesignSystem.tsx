@@ -32,7 +32,7 @@ export function DesignSystem() {
       <header className="border-b border-border bg-card">
         <div className="mx-auto flex max-w-page flex-col gap-1 px-4 py-6">
           <p className="text-xs font-bold tracking-[0.06em] text-subtle-foreground uppercase">YIBOLO</p>
-          <h1 className="text-[28px] font-extrabold tracking-[-0.01em] text-foreground">Design system</h1>
+          <h1 className="text-titre font-extrabold tracking-[-0.01em] text-foreground">Design system</h1>
           <p className="text-sm text-muted-foreground">Les composants du canevas, construits sur shadcn/ui. Front et admin partagent les mêmes.</p>
         </div>
       </header>

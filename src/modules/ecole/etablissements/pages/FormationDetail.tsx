@@ -1,6 +1,7 @@
 import { Navigate, useParams } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { useEtablissement, useFormation, useFormations, useProgramme } from '@/data/hooks'
+import { MessagePage } from '@/shared/blocs/Etats'
 import { useSession } from '@/modules/compte/auth/hooks/useSession'
 import { ChargementDonnees } from '@/shared/blocs/ChargementDonnees'
 import { Badge } from '@/shared/shadcn/badge'
@@ -33,10 +34,16 @@ export function FormationDetail() {
   return (
     <div className="mx-auto flex w-full max-w-page flex-col gap-2 pb-4 sm:gap-3 sm:px-4 sm:pt-4 sm:pb-10">
       <ChargementDonnees fallback={<SqueletteFiche />}>
-        <DetailFormation id={id} tab={tab} />
+        <FormationOuIntrouvable id={id} tab={tab} />
       </ChargementDonnees>
     </div>
   )
+}
+
+/** Un identifiant inconnu : la page « introuvable », pas une autre formation. */
+function FormationOuIntrouvable({ id, tab }: { id: string; tab: string }) {
+  const existe = useFormations().some((f) => f.id === id)
+  return existe ? <DetailFormation id={id} tab={tab} /> : <MessagePage type="404" />
 }
 
 function DetailFormation({ id, tab }: { id: string; tab: string }) {
@@ -69,7 +76,7 @@ function DetailFormation({ id, tab }: { id: string; tab: string }) {
             <Lien to={fiche} className="text-foreground no-underline hover:[&_b]:text-primary hover:[&_b]:underline">
               <EtablissementDeFormation e={e} infos={infos} />
             </Lien>
-            <h1 className="text-2xl leading-[1.2] font-extrabold tracking-[-0.01em] text-foreground sm:text-[28px]">{f.nom}</h1>
+            <h1 className="text-2xl leading-[1.2] font-extrabold tracking-[-0.01em] text-foreground sm:text-titre">{f.nom}</h1>
             <div className="flex flex-wrap gap-1.5">
               <Badge variant="blue">{f.diplome}</Badge>
               <Badge variant="gray">{cours}</Badge>

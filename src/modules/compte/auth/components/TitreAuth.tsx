@@ -1,9 +1,9 @@
 import { cn } from '@/shared/utils/cn'
 
 const TAILLES = {
-  connexion: 'text-[30px] lg:text-4xl',
-  inscription: 'text-[26px] sm:text-[32px]',
-  motDePasse: 'text-[26px] sm:text-[30px]',
+  connexion: 'text-titre-lg lg:text-4xl',
+  inscription: 'text-titre-md sm:text-titre-xl',
+  motDePasse: 'text-titre-md sm:text-titre-lg',
 } as const
 
 /**

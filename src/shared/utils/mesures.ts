@@ -1,5 +1,6 @@
 import { data } from '@/data'
 import type { Evenement, ProvenanceVisite } from '@/shared/types'
+import { ROUTES } from '@/shared/utils/routes'
 
 /**
  * Mesures réelles des pages publiques d'un établissement (vues, provenance,
@@ -26,10 +27,10 @@ export function noterPage(chemin: string) {
  */
 export function provenance(ici: string): ProvenanceVisite {
   const p = pageCourante === ici ? pagePrecedente : pageCourante
-  if (p.startsWith('/favoris')) return 'favoris'
-  if (p.startsWith('/accueil')) return 'accueil'
-  if (p.startsWith('/ecoles') && /[?&](q|ville|region|filiere|niveau)=/.test(p)) return 'recherche'
-  if (p.startsWith('/ecoles')) return 'annuaire'
+  if (p.startsWith(ROUTES.favorites)) return 'favoris'
+  if (p.startsWith(ROUTES.accueil)) return 'accueil'
+  if (p.startsWith(ROUTES.schools) && /[?&](q|ville|region|filiere|niveau)=/.test(p)) return 'recherche'
+  if (p.startsWith(ROUTES.schools)) return 'annuaire'
   return 'direct'
 }
 

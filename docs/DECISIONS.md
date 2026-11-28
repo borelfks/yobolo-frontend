@@ -86,12 +86,12 @@
 - [ ] Faute « Comptabilté » dans la filière de deux formations de l'espace pro (table `formationsPro`, `src/data/depart/yibolo.sql`) : vient-elle de la maquette ? **À confirmer** avant de corriger.
 
 ### Code
-- [ ] **Adresses écrites à la main** : beaucoup de liens utilisent encore des chaînes (`'/ecoles/…'`, `'/pro/ecole/…'`) au lieu de `ROUTES` (cadres, pied de page, `schoolLinks.tsx`, pages). Les remplacer, écran par écran.
-- [ ] **Couleurs et tailles écrites à la main** (environ 240 couleurs `[#…]`, environ 600 tailles `text-[…px]`) : créer les jetons qui manquent dans `theme.css` (ex. bordure des champs `#c9d4ea`, fond bleu très clair `#eef3fc`) et les utiliser, **sans changer le rendu** (capture avant / après).
-- [ ] **Élément introuvable** : `etablissementById`, `formationById`, `autoEcoleById`, `actualiteById` renvoient le premier élément quand l'identifiant est inconnu. Afficher plutôt « … introuvable » avec un lien utile. **À confirmer** (la maquette ne montre pas ce cas).
+- [x] **Adresses écrites à la main** : plus aucune dans le code des écrans (les dernières, dans `mesures.ts`, passent par `ROUTES`) ; il n'en reste que dans des commentaires (2026-11-28).
+- [x] **Couleurs et tailles écrites à la main** : aucune couleur `[#…]` dans les écrans visibles ; les tailles du canevas sont des jetons (`text-micro` 10 px, `text-legende` 11, `text-intro` 17, `text-titre-sm` 22, `text-titre-md` 26, `text-titre` 28, `text-titre-lg` 30, `text-titre-xl` 32, `text-titre-2xl` 34, `text-chiffre` 44, `text-chiffre-xl` 56), front et admin, sans changement visible (66 captures comparées). Il en reste dans les pages **masquées** (préinscription, inscription en auto-école, Mon espace), à refaire si elles reviennent (2026-11-28).
+- [x] **Élément introuvable** : une fiche d'établissement, de formation, d'auto-école ou de permis à l'identifiant inconnu affiche la page « Page introuvable » (2026-11-28).
 - [ ] **Formulaires** : seuls la connexion et l'inscription utilisent react-hook-form + zod ; les autres (préinscription, inscription en auto-école, avis, invitation, formation) vérifient à la main avec un message. Les passer sur react-hook-form + zod, avec des messages traduits.
-- [ ] **Session** : après « Se déconnecter » puis un rechargement, la démo revient au compte Utilisateur (la valeur vide n'est pas gardée). Décider si un visiteur non connecté doit rester non connecté. **À confirmer.**
-- [ ] Les **notifications** de la cloche sont écrites dans `AccountMenu.tsx` : les lire dans la table `notifications`.
+- [x] **Session** : après « Se déconnecter » puis un rechargement, la personne reste déconnectée (vérifié le 2026-11-28).
+- [x] Les **notifications** de la cloche sont lues dans la base (`notifications`, `notificationsCompte`).
 - [ ] date-fns est installé mais pas utilisé : l'utiliser ou le retirer (avec accord).
 - [x] Les menus des cadres (en-tête public, pied de page, espace pro) sont dans `src/app/layouts/navConfig.ts`, avec `ROUTES` et des clés de traduction (2026-11-21).
 

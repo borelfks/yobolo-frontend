@@ -36,11 +36,11 @@ export function MessagePage({ type, className }: { type: TypeMessage; className?
     <main className={cn('flex flex-1 items-center justify-center px-4 py-10 sm:py-16', className)}>
       <section className="flex w-full max-w-[480px] flex-col items-center gap-2.5 text-center">
         {type === '404' ? (
-          <p className="text-[56px] leading-none font-extrabold tracking-[-0.03em] text-primary">404</p>
+          <p className="text-chiffre-xl leading-none font-extrabold tracking-[-0.03em] text-primary">404</p>
         ) : (
           <IconeRonde {...ICONES[type]} />
         )}
-        <h1 className="text-2xl font-extrabold tracking-[-0.01em] text-foreground sm:text-[28px]">{textes.titre}</h1>
+        <h1 className="text-2xl font-extrabold tracking-[-0.01em] text-foreground sm:text-titre">{textes.titre}</h1>
         <p className="text-ui leading-relaxed text-muted-foreground">{textes.texte}</p>
         <div className="mt-2 flex flex-wrap justify-center gap-2.5">
           {type === 'erreur' && <Button onClick={recharger}>{t('errors.reload')}</Button>}

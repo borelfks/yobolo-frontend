@@ -96,7 +96,7 @@ export function Medias({ ecole }: { ecole: Etablissement }) {
                     </span>
                   )}
                 </button>
-                <span className="absolute top-2 left-2 rounded-full bg-foreground/80 px-2 py-0.5 text-[11px] font-bold text-white">{t(m.video ? 'video' : 'photo')}</span>
+                <span className="absolute top-2 left-2 rounded-full bg-foreground/80 px-2 py-0.5 text-legende font-bold text-white">{t(m.video ? 'video' : 'photo')}</span>
                 <MenuPlus
                   label={t('options')}
                   className="absolute top-1.5 right-1.5 size-8 bg-card text-foreground hover:bg-card"

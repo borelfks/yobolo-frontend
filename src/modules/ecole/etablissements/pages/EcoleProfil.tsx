@@ -1,6 +1,7 @@
 import { Navigate, useParams } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { useEtablissement } from '@/data/hooks'
+import { useEtablissement, useEtablissements } from '@/data/hooks'
+import { MessagePage } from '@/shared/blocs/Etats'
 import { useSession } from '@/modules/compte/auth/hooks/useSession'
 import { ChargementDonnees } from '@/shared/blocs/ChargementDonnees'
 import { Badge } from '@/shared/shadcn/badge'
@@ -31,10 +32,16 @@ export function EcoleProfil() {
   return (
     <div className="mx-auto flex w-full max-w-page flex-col gap-2 pb-4 sm:gap-3 sm:px-4 sm:pt-4 sm:pb-10">
       <ChargementDonnees fallback={<SqueletteFiche />}>
-        <FicheEtablissement id={id} tab={tab} />
+        <FicheOuIntrouvable id={id} tab={tab} />
       </ChargementDonnees>
     </div>
   )
+}
+
+/** Un identifiant inconnu : la page « introuvable », pas un autre établissement. */
+function FicheOuIntrouvable({ id, tab }: { id: string; tab: string }) {
+  const existe = useEtablissements().some((e) => e.id === id)
+  return existe ? <FicheEtablissement id={id} tab={tab} /> : <MessagePage type="404" />
 }
 
 function FicheEtablissement({ id, tab }: { id: string; tab: string }) {

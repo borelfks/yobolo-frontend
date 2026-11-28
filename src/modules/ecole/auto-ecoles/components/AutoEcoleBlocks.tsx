@@ -39,7 +39,7 @@ export function AEHeader({
           <span className="hidden h-24 w-px bg-white/30 md:block" />
           <div className="space-y-2">
             <div className="flex flex-wrap items-center gap-3">
-              <h1 className="text-[26px] font-bold md:text-[30px]">{title ?? a.nom}</h1>
+              <h1 className="text-titre-md font-bold md:text-titre-lg">{title ?? a.nom}</h1>
               {!title && (
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-600 px-3 py-1 text-[15px] font-semibold">
                   <CircleCheck className="size-5 fill-white text-emerald-600" />
@@ -48,7 +48,7 @@ export function AEHeader({
               )}
             </div>
             {subtitle ? (
-              <p className="max-w-[460px] text-[17px] leading-snug text-white/90">{subtitle}</p>
+              <p className="max-w-[460px] text-intro leading-snug text-white/90">{subtitle}</p>
             ) : (
               <>
                 <p className="flex items-center gap-2 text-[16px] text-white/90">

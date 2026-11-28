@@ -94,7 +94,7 @@ function Steps({ step }: { step: number }) {
           <li className="flex min-w-0 flex-col items-center gap-1.5 text-center sm:min-w-[150px]">
             <span
               className={cn(
-                'grid size-9 place-items-center rounded-full border-2 text-[17px] font-bold',
+                'grid size-9 place-items-center rounded-full border-2 text-intro font-bold',
                 allGreen && i < 2 ? 'border-emerald-600 bg-emerald-600 text-white' : i === step ? 'border-brand-600 bg-brand-600 text-white' : 'border-navy-800 bg-white text-navy-900',
               )}
             >
@@ -292,7 +292,7 @@ export function InscriptionAutoEcole() {
 
           {step === 2 && (
             <div className="space-y-3 pt-4">
-              <Heading icon={<FileText />} className="text-[22px]">{t('inscription.recap.heading')}</Heading>
+              <Heading icon={<FileText />} className="text-titre-sm">{t('inscription.recap.heading')}</Heading>
               <div className="grid gap-4 md:grid-cols-2">
                 <RecapCard icon={<UserRound />} title={t('inscription.recap.personal')} edit={ROUTES.editEnrollment(a.id, p.code, 'infos')}>
                   <Row k={t('inscription.recap.fullName')} v={`${v(d.nom.toUpperCase(), 'MBOG')} ${v(d.prenom, 'Pauline Aline')}`} />
@@ -439,7 +439,7 @@ export function InscriptionAutoEcole() {
               <div className="flex gap-3 rounded-2xl border border-emerald-100 bg-[#e7f7ec] p-4">
                 <ShieldCheck className="size-10 shrink-0 fill-emerald-600 text-white" />
                 <div>
-                  <p className="text-[17px] leading-snug font-bold text-navy-900">{t('inscription.aside.willBeSent', { school: a.nom })}</p>
+                  <p className="text-intro leading-snug font-bold text-navy-900">{t('inscription.aside.willBeSent', { school: a.nom })}</p>
                   <p className="mt-1 text-[14px] text-navy-900">{t('inscription.aside.notification')}</p>
                 </div>
               </div>
@@ -478,7 +478,7 @@ function RecapCard({ icon, title, edit, children }: { icon: ReactNode; title: st
   return (
     <div className="rounded-xl border border-line p-3">
       <div className="flex items-center justify-between">
-        <Heading icon={icon} className="text-[17px] [&_svg]:size-6">{title}</Heading>
+        <Heading icon={icon} className="text-intro [&_svg]:size-6">{title}</Heading>
         <Lien to={edit} className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-[#c9d4ea] px-3 text-[13px] font-semibold text-navy-800 hover:bg-brand-50">
           <PencilLine className="size-4" />
           {t('actions.edit')}

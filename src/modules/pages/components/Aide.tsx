@@ -33,7 +33,7 @@ export function BandeauAide({ recherche, onRecherche }: { recherche: string; onR
   return (
     <section className="bg-linear-[120deg] from-foreground to-primary-hover text-white">
       <div className="mx-auto flex max-w-page flex-col items-center gap-[18px] px-4 py-8 text-center sm:py-14">
-        <h1 className="text-[26px] font-extrabold tracking-[-0.02em] sm:text-4xl">{t('titre')}</h1>
+        <h1 className="text-titre-md font-extrabold tracking-[-0.02em] sm:text-4xl">{t('titre')}</h1>
         <label className="flex h-[50px] w-full max-w-[620px] items-center gap-2.5 rounded-full bg-card px-4 text-muted-foreground shadow-search focus-within:outline-2 focus-within:outline-white">
           <Search className="size-5 shrink-0" strokeWidth={2.2} aria-hidden />
           <Input

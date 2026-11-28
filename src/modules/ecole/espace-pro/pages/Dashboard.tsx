@@ -71,7 +71,7 @@ function Tableau() {
         <CartePro>
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div className="flex min-w-0 flex-[1_1_300px] flex-col gap-1">
-              <h1 className="text-[22px] font-extrabold tracking-[-0.01em] text-foreground lg:text-2xl">{t('titre')}</h1>
+              <h1 className="text-titre-sm font-extrabold tracking-[-0.01em] text-foreground lg:text-2xl">{t('titre')}</h1>
               <p className="text-sm text-muted-foreground">{t('sousTitre')}</p>
             </div>
             <Button asChild className="max-lg:w-full">

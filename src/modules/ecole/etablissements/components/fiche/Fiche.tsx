@@ -27,7 +27,7 @@ export function EnteteFiche({ couverture, logo, logoAlt, nom, sousTitre, meta, a
       <div className="flex flex-wrap items-end gap-x-6 gap-y-3 px-5">
         <div className="flex min-w-0 flex-[1_1_420px] flex-col gap-2">
           <LogoEcole src={logo} nom={nom} alt={logoAlt} className="-mt-10 size-20 rounded-lg border-[3px] border-card text-2xl shadow-raised sm:-mt-14 sm:size-[104px]" />
-          <h1 className="text-[22px] leading-[1.2] font-extrabold tracking-[-0.01em] text-foreground sm:text-[26px]">{nom}</h1>
+          <h1 className="text-titre-sm leading-[1.2] font-extrabold tracking-[-0.01em] text-foreground sm:text-titre-md">{nom}</h1>
           <p className="text-sm text-muted-foreground">{sousTitre}</p>
           <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1.5 text-sm">{meta}</div>
         </div>

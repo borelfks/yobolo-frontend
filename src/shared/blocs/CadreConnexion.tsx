@@ -43,7 +43,7 @@ export function CadreConnexion({
           <img src={photo} alt="" className="absolute inset-0 size-full object-cover object-[center_25%]" />
           <div className="absolute inset-0 bg-linear-to-t from-foreground/92 via-foreground/35 via-55% to-transparent" />
           <div className="relative flex max-w-[540px] flex-col gap-5">
-            <h2 className="text-[34px] leading-[1.15] font-extrabold tracking-[-0.02em]">{titre}</h2>
+            <h2 className="text-titre-2xl leading-[1.15] font-extrabold tracking-[-0.02em]">{titre}</h2>
             <ul className="grid grid-cols-2 gap-x-6 gap-y-3 text-ui text-white/92">
               {points.map((p) => (
                 <li key={p} className="flex items-start gap-2.5">

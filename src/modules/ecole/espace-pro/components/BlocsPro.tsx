@@ -95,7 +95,7 @@ export function EntetePro({ miettes, titre, sousTitre, actions, onglets, haut }:
         </Breadcrumb>
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="flex min-w-0 flex-[1_1_300px] flex-col gap-1">
-            <h1 className="text-[22px] font-extrabold tracking-[-0.01em] text-foreground lg:text-2xl">{titre}</h1>
+            <h1 className="text-titre-sm font-extrabold tracking-[-0.01em] text-foreground lg:text-2xl">{titre}</h1>
             <p className="text-sm text-muted-foreground">{sousTitre}</p>
           </div>
           {actions && <div className="flex flex-wrap gap-2 max-lg:w-full max-lg:*:w-full">{actions}</div>}
@@ -178,7 +178,7 @@ export function BandeauChiffres({ chiffres, colonnes, colonnesMobile = 1, bordur
         const contenu = (
           <>
             <span className="text-meta font-semibold text-muted-foreground">{c.nom}</span>
-            <b className={cn('text-[26px] leading-tight font-extrabold tracking-[-0.02em]', c.actif && 'text-primary')}>{c.valeur}</b>
+            <b className={cn('text-titre-md leading-tight font-extrabold tracking-[-0.02em]', c.actif && 'text-primary')}>{c.valeur}</b>
             {c.detail && <span className={cn('text-xs', c.ton === 'hausse' ? 'font-bold text-success' : c.ton === 'baisse' ? 'font-bold text-destructive-hover' : 'text-muted-foreground')}>{c.detail}</span>}
           </>
         )
@@ -244,7 +244,7 @@ export function StatutBadge({ statut }: { statut: string }) {
 
 /** Le format d'un fichier dans une tuile de 44 px (« PDF », « DOCX »). */
 export function VignetteFichier({ format }: { format: string }) {
-  return <span className="grid size-11 shrink-0 place-items-center rounded-md bg-destructive-soft text-[11px] font-extrabold text-destructive-hover">{format.slice(0, 4).toUpperCase()}</span>
+  return <span className="grid size-11 shrink-0 place-items-center rounded-md bg-destructive-soft text-legende font-extrabold text-destructive-hover">{format.slice(0, 4).toUpperCase()}</span>
 }
 
 export type ActionMenu = { label: string; onSelect: () => void; danger?: boolean; masque?: boolean }

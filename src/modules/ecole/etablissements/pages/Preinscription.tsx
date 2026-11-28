@@ -230,7 +230,7 @@ export function Preinscription() {
           <div className={cn(card, 'p-5')}>
             {step === 0 && (
               <div className="space-y-4">
-                <h2 className="flex items-center gap-3 text-[22px] font-bold text-navy-900"><UserRound className="size-7 fill-brand-600 text-brand-600" />{t('preinscription.step1.title')}</h2>
+                <h2 className="flex items-center gap-3 text-titre-sm font-bold text-navy-900"><UserRound className="size-7 fill-brand-600 text-brand-600" />{t('preinscription.step1.title')}</h2>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label><Label required>{t('preinscription.step1.nom')}</Label><input className={field} placeholder={t('preinscription.step1.nomPlaceholder')} value={info.nom} onChange={(ev) => setInfo({ ...info, nom: ev.target.value })} /></label>
                   <label><Label required>{t('preinscription.step1.prenom')}</Label><input className={field} placeholder={t('preinscription.step1.prenomPlaceholder')} value={info.prenom} onChange={(ev) => setInfo({ ...info, prenom: ev.target.value })} /></label>
@@ -270,7 +270,7 @@ export function Preinscription() {
 
             {step === 1 && (
               <div className="space-y-4">
-                <h2 className="flex items-center gap-3 text-[22px] font-bold text-navy-900"><GraduationCap className="size-7 text-brand-600" />{t('preinscription.step2.title')}</h2>
+                <h2 className="flex items-center gap-3 text-titre-sm font-bold text-navy-900"><GraduationCap className="size-7 text-brand-600" />{t('preinscription.step2.title')}</h2>
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label><Label required>{t('preinscription.step2.diplome')}</Label><Select options={diplomas.map((x) => ({ value: x, label: t(`preinscription.step2.diplomas.${x}`) }))} value={parcours.diplome} onChange={(ev) => setParcours({ ...parcours, diplome: ev.target.value as Diploma })} className="rounded-lg border-[#c9d4ea]" /></label>
                   <label><Label required>{t('preinscription.step2.serie')}</Label><input className={field} placeholder={t('preinscription.step2.seriePlaceholder')} value={parcours.serie} onChange={(ev) => setParcours({ ...parcours, serie: ev.target.value })} /></label>
@@ -286,7 +286,7 @@ export function Preinscription() {
 
             {step === 2 && (
               <div className="space-y-4">
-                <h2 className="flex items-center gap-3 text-[22px] font-bold text-navy-900"><FileText className="size-7 text-brand-600" />{t('preinscription.step3.title')}</h2>
+                <h2 className="flex items-center gap-3 text-titre-sm font-bold text-navy-900"><FileText className="size-7 text-brand-600" />{t('preinscription.step3.title')}</h2>
                 <div className="grid gap-4 sm:grid-cols-2">
                   {pieces.map((p) => (
                     <div key={p}>
@@ -309,7 +309,7 @@ export function Preinscription() {
                 <div className="flex items-center gap-4">
                   <span className="grid size-14 place-items-center rounded-full bg-brand-600 text-white"><Check className="size-8" strokeWidth={3} /></span>
                   <div>
-                    <h2 className="text-[22px] font-bold text-navy-900">{t('preinscription.recap.title')}</h2>
+                    <h2 className="text-titre-sm font-bold text-navy-900">{t('preinscription.recap.title')}</h2>
                     <p className="text-[13.5px] text-navy-900">{t('preinscription.recap.intro')}</p>
                   </div>
                 </div>

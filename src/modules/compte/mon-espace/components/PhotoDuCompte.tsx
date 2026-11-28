@@ -90,7 +90,7 @@ export function PhotoDuCompte({ compte, size, variante }: { compte: Compte; size
     <div className="flex flex-wrap items-center gap-4 border-y border-border py-3.5">
       <ShadAvatar className={cn('size-[88px]', enCours && 'opacity-60')}>
         {compte.avatar && <AvatarImage src={compte.avatar} alt={t('profil.photoDe', { nom: compte.name })} className="object-cover" />}
-        <AvatarFallback className="text-[28px] font-extrabold" aria-label={t('profil.sansPhoto')}>
+        <AvatarFallback className="text-titre font-extrabold" aria-label={t('profil.sansPhoto')}>
           {initiales}
         </AvatarFallback>
       </ShadAvatar>

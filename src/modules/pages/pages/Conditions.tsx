@@ -21,7 +21,7 @@ export function Conditions() {
       </nav>
       <article className="border-y border-border bg-card px-4 py-5 lg:rounded-lg lg:border lg:px-10 lg:py-8">
         <header className="flex flex-col gap-1.5 border-b border-border pb-4">
-          <h1 className="text-2xl font-extrabold tracking-[-0.01em] text-foreground lg:text-[30px]">{t('titre')}</h1>
+          <h1 className="text-2xl font-extrabold tracking-[-0.01em] text-foreground lg:text-titre-lg">{t('titre')}</h1>
           <span className="text-meta text-muted-foreground">{t('miseAJour')}</span>
         </header>
         {ARTICLES_CONDITIONS.map((a) => (

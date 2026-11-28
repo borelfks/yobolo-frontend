@@ -8,7 +8,7 @@ import { extendTailwindMerge } from 'tailwind-merge'
  */
 const twMerge = extendTailwindMerge({
   extend: {
-    theme: { text: ['meta', 'ui', 'caption3'] },
+    theme: { text: ['meta', 'ui', 'caption3', 'micro', 'legende', 'intro', 'titre-sm', 'titre-md', 'titre', 'titre-lg', 'titre-xl', 'titre-2xl', 'chiffre', 'chiffre-xl'] },
     classGroups: { shadow: [{ shadow: ['raised', 'thumb', 'card-hover', 'floating', 'dialog', 'bar', 'account', 'drawer'] }] },
   },
 })

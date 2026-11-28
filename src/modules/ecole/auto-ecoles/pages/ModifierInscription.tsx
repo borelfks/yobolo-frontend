@@ -64,7 +64,7 @@ function Label({ children, required }: { children: ReactNode; required?: boolean
 }
 
 function Heading({ icon, children }: { icon: ReactNode; children: ReactNode }) {
-  return <h2 className="flex items-center gap-3 text-[22px] font-bold text-navy-900 [&_svg]:size-8 [&_svg]:text-brand-600">{icon}{children}</h2>
+  return <h2 className="flex items-center gap-3 text-titre-sm font-bold text-navy-900 [&_svg]:size-8 [&_svg]:text-brand-600">{icon}{children}</h2>
 }
 
 function IconSelect({ icon, value, options, onChange }: { icon: ReactNode; value: string; options: { value: string; label: string }[]; onChange?: (v: string) => void }) {
@@ -303,11 +303,11 @@ export function ModifierInscription() {
             )}
           </div>
           <div className="flex items-center justify-between">
-            <button type="button" onClick={() => navigate({ href: base })} className="inline-flex h-12 w-40 items-center justify-center gap-2.5 rounded-xl border-2 border-[#c9d4ea] bg-white text-[17px] font-semibold text-navy-900 hover:bg-slate-50">
+            <button type="button" onClick={() => navigate({ href: base })} className="inline-flex h-12 w-40 items-center justify-center gap-2.5 rounded-xl border-2 border-[#c9d4ea] bg-white text-intro font-semibold text-navy-900 hover:bg-slate-50">
               <ArrowLeft className="size-5" />
               {t('actions.cancel')}
             </button>
-            <button type="button" onClick={save} className="inline-flex h-12 items-center justify-center gap-3 rounded-xl bg-brand-600 px-10 text-[17px] font-semibold text-white hover:bg-brand-700">
+            <button type="button" onClick={save} className="inline-flex h-12 items-center justify-center gap-3 rounded-xl bg-brand-600 px-10 text-intro font-semibold text-white hover:bg-brand-700">
               <Check className="size-6" strokeWidth={3} />
               {t('actions.save')}
             </button>

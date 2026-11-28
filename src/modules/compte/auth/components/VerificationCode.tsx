@@ -101,7 +101,7 @@ export function VerificationCode({
                 if (e.key === 'Backspace' && !c && i > 0) champs.current[i - 1]?.focus()
                 if (e.key === 'Enter') void verifier()
               }}
-              className="h-[54px] w-[46px] min-w-0 shrink px-0 text-center text-[22px] font-extrabold"
+              className="h-[54px] w-[46px] min-w-0 shrink px-0 text-center text-titre-sm font-extrabold"
             />
           ))}
         </div>

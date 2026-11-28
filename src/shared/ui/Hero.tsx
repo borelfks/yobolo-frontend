@@ -38,9 +38,9 @@ export function Hero({
               <span className="grid shrink-0 place-items-center text-white [&_svg]:size-[84px] [&_svg]:stroke-[1.5]">{icon}</span>
             ))}
           <div className="min-w-0">
-            <h1 className="text-[26px] leading-tight font-extrabold md:text-[32px]">{title}</h1>
+            <h1 className="text-titre-md leading-tight font-extrabold md:text-titre-xl">{title}</h1>
             {title2 && <p className="text-[19px] leading-tight font-bold md:text-[23px]">{title2}</p>}
-            {subtitle && <p className="mt-1.5 max-w-xl text-[15px] leading-snug text-white/90 md:text-[17px]">{subtitle}</p>}
+            {subtitle && <p className="mt-1.5 max-w-xl text-[15px] leading-snug text-white/90 md:text-intro">{subtitle}</p>}
             {children && <div className="mt-4">{children}</div>}
           </div>
         </div>

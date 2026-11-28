@@ -37,7 +37,7 @@ export function SectionTexte() {
   return (
     <Section id="texte" titre="Texte" texte="Plus Jakarta Sans. Titres en 800, libellés en 700, texte courant en 500.">
       <div className="flex flex-col gap-3">
-        <p className="text-[28px] font-extrabold tracking-[-0.01em]">Titre de page — 28 px, 800</p>
+        <p className="text-titre font-extrabold tracking-[-0.01em]">Titre de page — 28 px, 800</p>
         <p className="text-2xl font-extrabold">Titre de section — 24 px, 800</p>
         <p className="text-lg font-extrabold">Titre de carte — 18 px, 800</p>
         <p className="text-ui font-bold">Bouton, onglet — 15 px, 700</p>

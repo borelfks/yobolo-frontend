@@ -79,7 +79,7 @@ export function DossierPreinscription() {
             {f && <Img src={f.image} alt="" className="h-24 w-full shrink-0 rounded-xl sm:w-40" />}
             <div className="min-w-0 flex-1 space-y-1.5">
               <div className="flex flex-wrap items-center gap-2">
-                <h1 className="text-[22px] font-bold text-navy-900">{f?.nom ?? titre}</h1>
+                <h1 className="text-titre-sm font-bold text-navy-900">{f?.nom ?? titre}</h1>
                 <StatutDossier statut={p.statut} />
               </div>
               <p className="flex items-center gap-1.5 text-[15px] text-navy-900">

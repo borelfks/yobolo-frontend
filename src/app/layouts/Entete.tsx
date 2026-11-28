@@ -34,7 +34,7 @@ function Univers({ item, mobile }: { item: PublicNavItem; mobile?: boolean }) {
       <span aria-disabled="true" title={t('entete.bientotDisponible')} className={cn(base, 'cursor-default gap-0.5 border-transparent font-semibold text-input')}>
         <item.icon className={icone} aria-hidden />
         {t(item.labelKey)}
-        <span className="rounded-full bg-secondary px-1.5 py-px text-[10px] font-bold text-subtle-foreground">{t('entete.bientot')}</span>
+        <span className="rounded-full bg-secondary px-1.5 py-px text-micro font-bold text-subtle-foreground">{t('entete.bientot')}</span>
       </span>
     )
   return (
