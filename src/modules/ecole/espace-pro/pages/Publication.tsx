@@ -9,12 +9,12 @@ import { useActualite, useParametres } from '@/data/hooks'
 import { ChargementDonnees } from '@/shared/blocs/ChargementDonnees'
 import { Badge } from '@/shared/shadcn/badge'
 import { Button } from '@/shared/shadcn/button'
-import { shortDate } from '@/shared/utils/format'
 import { ouvrir } from '@/shared/utils/liens'
 import { ROUTES } from '@/shared/utils/routes'
 import { CartePro, Conseil, EntetePro, SquelettePro } from '@/modules/ecole/espace-pro/components/BlocsPro'
 import { CategorieActualite } from '@/modules/ecole/espace-pro/components/contenus/CategorieActualite'
 import { FenetreActualite } from '@/modules/ecole/espace-pro/components/contenus/FenetreActualite'
+import { formaterDate } from '@/shared/utils/dates'
 
 /** 5.4 Voir ma publication : l'actualité telle que les visiteurs la voient, ses détails et les actions rapides. */
 export function Publication() {
@@ -78,7 +78,7 @@ function MaPublication() {
             <h2 className="text-titre-sm leading-snug font-extrabold text-foreground">{a.titre}</h2>
             <span className="text-meta text-muted-foreground">{a.statut === 'Publiée' ? t('publieeLe', { date: a.date }) : t('nonPubliee')}</span>
             {typeof corps === 'string' && corps && <p className="text-ui leading-relaxed whitespace-pre-line text-foreground-soft">{corps}</p>}
-            {typeof limite === 'string' && limite && <p className="text-sm font-semibold text-foreground">{t('dateLimite', { date: shortDate(limite, { day: 'numeric', month: 'long', year: 'numeric' }) })}</p>}
+            {typeof limite === 'string' && limite && <p className="text-sm font-semibold text-foreground">{t('dateLimite', { date: formaterDate(limite, 'longueSimple') })}</p>}
             {ecole.filieres.length > 0 && (
               <div className="flex flex-col gap-2">
                 <b className="text-sm text-foreground">{t('filieres')}</b>

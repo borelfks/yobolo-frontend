@@ -13,13 +13,14 @@ import { Button } from '@/shared/shadcn/button'
 import { Input } from '@/shared/shadcn/input'
 import { ToggleGroup, ToggleGroupItem } from '@/shared/shadcn/toggle-group'
 import { Lien } from '@/shared/ui/Lien'
-import { num, shortDate } from '@/shared/utils/format'
+import { num } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
 import type { FormationPro, StatutPublication } from '@/shared/types'
 import { BandeauChiffres, CartePro, EntetePro, SquelettePro, type ActionMenu } from '@/modules/ecole/espace-pro/components/BlocsPro'
 import { ListeFormations, PaginationFormations } from '@/modules/ecole/espace-pro/components/formations/ListeFormations'
 import { useFormationsEcole } from '@/modules/ecole/espace-pro/hooks/useFormationsEcole'
 import { PREFIXE_FORMATION_CREEE } from '@/modules/ecole/espace-pro/proData'
+import { formaterDate } from '@/shared/utils/dates'
 
 const PAR_PAGE = 10
 const STATUTS = ['toutes', 'Publiée', 'Brouillon'] as const
@@ -83,7 +84,7 @@ function GererFormations() {
     const m = /^(\d+) mois$/.exec(d)
     return m ? tp('commun.duree', { count: Number(m[1]) }) : d
   }
-  const rentree = (f: FormationPro) => (f.dateLimite ? shortDate(f.dateLimite, { day: '2-digit', month: 'short', year: 'numeric' }) : f.rentree || '—')
+  const rentree = (f: FormationPro) => (f.dateLimite ? formaterDate(f.dateLimite, 'abregee') : f.rentree || '—')
 
   // Une ligne vient du tableau (formationsPro), d'une fiche (formations), ou des deux : on met à jour ce qui existe.
   const changerStatut = async (f: FormationPro, s: StatutPublication) => {

@@ -34,12 +34,12 @@ import { modeKey } from '@/modules/ecole/etablissements/components/training/trai
 import { data } from '@/data'
 import { useEtablissement, useFormation } from '@/data/hooks'
 import { cn } from '@/shared/utils/cn'
-import { shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
 import { notifier } from '@/shared/utils/notifications'
 import { lienWhatsApp, ouvrir } from '@/shared/utils/liens'
 import { useSession } from '@/modules/compte/auth/hooks/useSession'
 import { lireFichier, TAILLE_MAX_DOCUMENT } from '@/shared/utils/fichiers'
+import { dateDesDonnees } from '@/shared/utils/dates'
 
 const card = 'rounded-2xl border border-line bg-white shadow-[0_2px_10px_rgba(15,29,61,0.06)]'
 const field = 'h-11 w-full rounded-lg border border-[#c9d4ea] bg-white px-3.5 text-[14px] text-ink outline-none placeholder:text-ink/60 focus:border-brand-500 focus:ring-3 focus:ring-brand-100'
@@ -126,7 +126,7 @@ export function Preinscription() {
   /** Envoi final : la préinscription est enregistrée dans la base (champs saisis, tels quels). */
   const envoyer = async () => {
     try {
-      await data.create('notifications', { etablissementId: e.id, type: 'candidature', titre: t('preinscription.notification.titre'), texte: t('preinscription.notification.texte', { name: `${info.prenom} ${info.nom}`.trim() || t('preinscription.notification.anonyme'), training: f.nom }), date: shortDate(new Date(), { day: '2-digit', month: 'short', year: 'numeric' }), lu: false }, 'notification')
+      await data.create('notifications', { etablissementId: e.id, type: 'candidature', titre: t('preinscription.notification.titre'), texte: t('preinscription.notification.texte', { name: `${info.prenom} ${info.nom}`.trim() || t('preinscription.notification.anonyme'), training: f.nom }), date: dateDesDonnees(), lu: false }, 'notification')
       // Le candidat connecté le retrouve dans ses notifications.
       if (account) await notifier(account.id, { type: 'preRegistration', titre: t('preinscription.notificationCandidat.titre'), texte: t('preinscription.notificationCandidat.texte', { school: e.sigle || e.nom, training: f.nom }), quand: t('preinscription.notificationCandidat.quand'), vers: ROUTES.espace('preinscriptions') })
       const cree = await data.create(

@@ -8,10 +8,11 @@ import { ChargementDonnees } from '@/shared/blocs/ChargementDonnees'
 import { Button } from '@/shared/shadcn/button'
 import { ToggleGroup, ToggleGroupItem } from '@/shared/shadcn/toggle-group'
 import { Lien } from '@/shared/ui/Lien'
-import { num, shortDate } from '@/shared/utils/format'
+import { num } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
 import { BandeauChiffres, CartePro, EntetePro, Pastille, SquelettePro, type Chiffre } from '@/modules/ecole/espace-pro/components/BlocsPro'
 import { BarreRepartition, CourbeVisites, LigneClassement } from '@/modules/ecole/espace-pro/components/statistiques/BlocsStatistiques'
+import { formaterDate } from '@/shared/utils/dates'
 
 /** Les périodes proposées (en jours). */
 const PERIODES = [
@@ -19,7 +20,6 @@ const PERIODES = [
   { jours: 30, cle: 'j30' },
   { jours: 182, cle: 'm6' },
 ] as const
-const JOUR_COURT = { day: '2-digit', month: 'short' } as const
 
 /**
  * 6.1 Statistiques : tout est mesuré sur les pages publiques de l'établissement
@@ -57,7 +57,7 @@ function Chiffres() {
   const sansReponse = useAvisEtablissement(ecole.id).filter((a) => !a.reponse).length
   const tendance = (x: number | null): Pick<Chiffre, 'detail' | 'ton'> => (x === null ? { detail: t('kpis.sansComparaison') } : { detail: t(x >= 0 ? 'kpis.hausse' : 'kpis.baisse', { n: Math.abs(x) }), ton: x >= 0 ? 'hausse' : 'baisse' })
   const parSemaine = jours > 31
-  const points = stats.serie.map((p) => ({ date: parSemaine ? t('courbe.semaineDu', { date: shortDate(new Date(p.le), JOUR_COURT) }) : shortDate(new Date(p.le), JOUR_COURT), vues: p.value }))
+  const points = stats.serie.map((p) => ({ date: parSemaine ? t('courbe.semaineDu', { date: formaterDate(new Date(p.le), 'jourMois') }) : formaterDate(new Date(p.le), 'jourMois'), vues: p.value }))
   const totalSources = stats.sources.reduce((s, x) => s + x.value, 0)
   const maxSource = Math.max(1, ...stats.sources.map((s) => s.value))
   const top = formations

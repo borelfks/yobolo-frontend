@@ -12,10 +12,10 @@ import { Breadcrumb } from '@/shared/ui/Breadcrumb'
 import { Button } from '@/shared/ui/Button'
 import { Card } from '@/shared/ui/Card'
 import { Img } from '@/shared/ui/Img'
-import { fcfa, shortDate } from '@/shared/utils/format'
+import { fcfa } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
+import { formaterDate } from '@/shared/utils/dates'
 
-const DATE = { day: '2-digit', month: 'long', year: 'numeric' } as const
 
 /** Le détail d'une inscription à un permis : auto-école, session, champs saisis, pièces jointes. */
 export function DossierInscription() {
@@ -65,7 +65,7 @@ export function DossierInscription() {
               <p className="flex flex-wrap items-center gap-x-4 text-sm text-muted-foreground">
                 <span className="inline-flex items-center gap-1">
                   <CalendarDays className="size-4" aria-hidden="true" />
-                  {i.statut === 'Annulée' && i.annuleeLe ? t('dossiers.annuleeLe', { date: shortDate(i.annuleeLe, DATE) }) : t('dossiers.envoyeeLe', { date: shortDate(i.envoyeeLe, DATE) })}
+                  {i.statut === 'Annulée' && i.annuleeLe ? t('dossiers.annuleeLe', { date: formaterDate(i.annuleeLe, 'longue') }) : t('dossiers.envoyeeLe', { date: formaterDate(i.envoyeeLe, 'longue') })}
                 </span>
                 {d.session && <span>{t('dossiers.session', { date: d.session })}</span>}
                 {permis && (

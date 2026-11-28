@@ -39,13 +39,14 @@ import { data } from '@/data'
 import { useAutoEcole, useDecoupage, usePermisCatalogue, useSessions } from '@/data/hooks'
 import type { PermisCode } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
-import { demoDate, fcfa, shortDate } from '@/shared/utils/format'
+import { fcfa } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
 import { notifier } from '@/shared/utils/notifications'
 import { useSession } from '@/modules/compte/auth/hooks/useSession'
 import { joindrePiece } from '@/modules/ecole/auto-ecoles/piecesJointes'
 import { SelectionGeographique } from '@/shared/forms/SelectionGeographique'
 import { lieuDe, villeDuLieu } from '@/shared/utils/geographie'
+import { demoDate, formaterDate } from '@/shared/utils/dates'
 
 const card = 'rounded-2xl border border-line bg-white shadow-[0_2px_10px_rgba(15,29,61,0.06)]'
 const field = 'h-10 w-full rounded-lg border border-[#c9d4ea] bg-white px-3.5 text-[14px] text-ink outline-none placeholder:text-ink/60 focus:border-brand-500 focus:ring-3 focus:ring-brand-100'
@@ -55,7 +56,6 @@ const sexes = [
   { value: 'Masculin', key: 'male' },
   { value: 'Féminin', key: 'female' },
 ] as const
-const birthFormat: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'long', year: 'numeric' }
 
 function Label({ children, required }: { children: ReactNode; required?: boolean }) {
   return (
@@ -160,7 +160,7 @@ export function InscriptionAutoEcole() {
 
   const v = (x: string, fallback: string) => x || fallback
   // Date de démonstration quand le champ est vide : « 15 mars 2001 » en français.
-  const naissance = shortDate(d.naissance || new Date(2001, 2, 15), birthFormat)
+  const naissance = formaterDate(d.naissance || new Date(2001, 2, 15), 'longue')
 
   return (
     <div className="mx-auto max-w-[1320px] space-y-4 px-5 py-4">

@@ -4,9 +4,10 @@ import { Skeleton } from '@/shared/shadcn/skeleton'
 import { SkeletonZone } from '@/shared/blocs/Squelettes'
 import { Lien } from '@/shared/ui/Lien'
 import { cn } from '@/shared/utils/cn'
-import { demoDate, initials } from '@/shared/utils/format'
+import { initials } from '@/shared/utils/format'
 import { CoeurFavori, MentionVerifie, NoteCourte } from '@/modules/ecole/etablissements/components/Bases'
 import { resumeFilieres, type EcoleResumee } from '@/modules/ecole/etablissements/schoolListing'
+import { demoDate } from '@/shared/utils/dates'
 
 /** Le logo d'une école : son image, sinon ses initiales sur fond bleu pâle. */
 export function LogoEcole({ src, nom, alt, className }: { src?: string; nom: string; /** Texte de remplacement (décoratif s'il est absent). */ alt?: string; className?: string }) {

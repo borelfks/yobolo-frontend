@@ -10,11 +10,11 @@ import { ModaleAvis } from '@/modules/ecole/avis/components/ModaleAvis'
 import { Button } from '@/shared/shadcn/button'
 import { Textarea } from '@/shared/shadcn/textarea'
 import type { AvisEtablissement as Avis, Etablissement } from '@/shared/types'
-import { shortDate } from '@/shared/utils/format'
 import { notifier } from '@/shared/utils/notifications'
 import { load, save } from '@/shared/utils/storage'
 import { Carte, RangeePuces } from '@/modules/ecole/etablissements/components/Bases'
 import { MenuTri } from '@/modules/ecole/etablissements/components/liste/Resultats'
+import { dateDesDonnees } from '@/shared/utils/dates'
 
 type Profil = 'tous' | 'etudiants' | 'anciens' | 'entreprises'
 type Tri = 'recents' | 'mieuxNotes' | 'utiles'
@@ -83,7 +83,7 @@ function LigneAvis({ a, ecole, peutRepondre }: { a: Avis; ecole: string; peutRep
   }
   const publier = async () => {
     if (texte.trim().length < 2) return void toast.error(t('ecoleProfil.avis.reply.tooShort'))
-    await data.update('avisEtablissements', a.id, { reponse: { texte: texte.trim(), le: shortDate(new Date(), { day: '2-digit', month: 'short', year: 'numeric' }) } })
+    await data.update('avisEtablissements', a.id, { reponse: { texte: texte.trim(), le: dateDesDonnees() } })
     // L'auteur de l'avis est prévenu, s'il a un compte (une première réponse seulement).
     if (a.compteId && !a.reponse)
       await notifier(a.compteId, { type: 'review', titre: t('ecoleProfil.avis.reply.notification.titre'), texte: t('ecoleProfil.avis.reply.notification.texte', { school: ecole }), quand: t('ecoleProfil.avis.reply.notification.quand'), vers: window.location.pathname })

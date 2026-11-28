@@ -10,13 +10,13 @@ import { tabTriggerClasses } from '@/shared/shadcn/tabs'
 import { useMesureALaVue } from '@/shared/hooks/useMesureALaVue'
 import { Lien } from '@/shared/ui/Lien'
 import { LienActif } from '@/shared/ui/LienActif'
-import { demoDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
 import { Ariane, BoutonFavori, Carte } from '@/modules/ecole/etablissements/components/Bases'
 import { GrilleFiche, SqueletteFiche } from '@/modules/ecole/etablissements/components/fiche/Fiche'
 import { AdmissionFormation, AsideFormation, DebouchesFormation, DetailsFormation, EtablissementDeFormation, FaitsFormation, ProgrammeFormation } from '@/modules/ecole/etablissements/components/formation/Formation'
 import { modeKey } from '@/modules/ecole/etablissements/schoolLinks'
 import { slugOfType } from '@/modules/ecole/etablissements/schoolTypes'
+import { demoDate } from '@/shared/utils/dates'
 
 const ONGLETS = ['', 'programme', 'admission', 'debouches'] as const
 type Onglet = (typeof ONGLETS)[number]

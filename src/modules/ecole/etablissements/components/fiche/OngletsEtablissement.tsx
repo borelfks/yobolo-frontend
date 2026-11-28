@@ -12,7 +12,6 @@ import { Lien } from '@/shared/ui/Lien'
 import type { Etablissement, Formation } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
 import { telecharger } from '@/shared/utils/fichiers'
-import { demoDate } from '@/shared/utils/format'
 import { lienCarte } from '@/shared/utils/liens'
 import { mesurer } from '@/shared/utils/mesures'
 import { ROUTES } from '@/shared/utils/routes'
@@ -21,6 +20,7 @@ import { MenuTri } from '@/modules/ecole/etablissements/components/liste/Resulta
 import { TuilePhoto, TuileVideo } from '@/modules/ecole/etablissements/components/fiche/Fiche'
 import { modeKey } from '@/modules/ecole/etablissements/schoolLinks'
 import { useCoursDe } from '@/modules/ecole/etablissements/hooks/useCoursDe'
+import { demoDate } from '@/shared/utils/dates'
 
 /** Une ligne « clé : valeur » d'une carte (Informations clés). */
 function LigneCle({ cle, valeur }: { cle: string; valeur: string | number }) {

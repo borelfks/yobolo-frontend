@@ -14,11 +14,10 @@ import { Breadcrumb } from '@/shared/ui/Breadcrumb'
 import { Button } from '@/shared/ui/Button'
 import { Card } from '@/shared/ui/Card'
 import { Img } from '@/shared/ui/Img'
-import { shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
+import { dateDesDonnees, formaterDate } from '@/shared/utils/dates'
 
-const DATE = { day: '2-digit', month: 'long', year: 'numeric' } as const
-const aujourdhui = () => shortDate(new Date(), { day: '2-digit', month: 'short', year: 'numeric' })
+const aujourdhui = () => dateDesDonnees()
 
 /** Le détail d'une préinscription envoyée : formation, établissement, champs saisis, pièces jointes. */
 export function DossierPreinscription() {
@@ -89,7 +88,7 @@ export function DossierPreinscription() {
               <p className="flex flex-wrap items-center gap-x-4 text-sm text-muted-foreground">
                 <span className="inline-flex items-center gap-1">
                   <CalendarDays className="size-4" aria-hidden="true" />
-                  {p.statut === 'Annulée' && p.annuleeLe ? t('dossiers.annuleeLe', { date: shortDate(p.annuleeLe, DATE) }) : t('dossiers.envoyeeLe', { date: shortDate(p.envoyeeLe, DATE) })}
+                  {p.statut === 'Annulée' && p.annuleeLe ? t('dossiers.annuleeLe', { date: formaterDate(p.annuleeLe, 'longue') }) : t('dossiers.envoyeeLe', { date: formaterDate(p.envoyeeLe, 'longue') })}
                 </span>
               </p>
             </div>

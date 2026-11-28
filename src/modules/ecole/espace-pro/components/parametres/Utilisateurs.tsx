@@ -13,12 +13,13 @@ import { Dialog, DialogContent, DialogFooter, DialogTitle } from '@/shared/shadc
 import { Input } from '@/shared/shadcn/input'
 import { Lien } from '@/shared/ui/Lien'
 import { cn } from '@/shared/utils/cn'
-import { initials, num, shortDate } from '@/shared/utils/format'
+import { initials, num } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
 import type { UtilisateurPro } from '@/shared/types'
 import { BandeauChiffres, CartePro, MenuPlus, StatutBadge, type ActionMenu } from '@/modules/ecole/espace-pro/components/BlocsPro'
 import { dateDuJour } from '@/modules/ecole/espace-pro/proData'
 import { cleRole } from '@/modules/ecole/espace-pro/proRoles'
+import { formaterDate } from '@/shared/utils/dates'
 
 const COLONNES = 'lg:grid lg:grid-cols-[minmax(0,1.6fr)_1.3fr_1.4fr_0.7fr_1fr_48px] lg:items-center lg:gap-3'
 const MOI = 'moi'
@@ -45,7 +46,7 @@ export function Utilisateurs() {
   }
   // Le compte connecté est l'administrateur de l'espace (« Vous ») ; puis les personnes invitées.
   const moi: UtilisateurPro | null = account
-    ? { id: MOI, etablissementId: ecole.id, nom: account.name, role: 'Administrateur', telephone: account.telephone, email: account.identifiant, statut: 'Actif', connexion: derniere ? shortDate(derniere.le, { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—', avatar: account.avatar, vous: true }
+    ? { id: MOI, etablissementId: ecole.id, nom: account.name, role: 'Administrateur', telephone: account.telephone, email: account.identifiant, statut: 'Actif', connexion: derniere ? formaterDate(derniere.le, 'dateHeure') : '—', avatar: account.avatar, vous: true }
     : null
   const tous = [...(moi ? [moi] : []), ...invites]
   const actifs = tous.filter((u) => u.statut === 'Actif').length

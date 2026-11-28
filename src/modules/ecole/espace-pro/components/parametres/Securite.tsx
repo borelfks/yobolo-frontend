@@ -11,14 +11,14 @@ import { Badge } from '@/shared/shadcn/badge'
 import { Button } from '@/shared/shadcn/button'
 import { Switch } from '@/shared/shadcn/switch'
 import { decrireAppareil } from '@/shared/utils/appareil'
-import { shortDate } from '@/shared/utils/format'
 import { protegerMotDePasse, verifierMotDePasse } from '@/shared/utils/motDePasse'
 import { cn } from '@/shared/utils/cn'
 import { CartePro, LigneReglage, Pastille } from '@/modules/ecole/espace-pro/components/BlocsPro'
 import { useReglages } from '@/modules/ecole/espace-pro/hooks/useReglages'
+import { formaterDate } from '@/shared/utils/dates'
 
 const EVENEMENTS = { connexion: { icone: CircleCheck, ton: 'vert' }, echec: { icone: TriangleAlert, ton: 'rouge' }, motDePasse: { icone: KeyRound, ton: 'gris' } } as const
-const DATE_HEURE = { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' } as const
+const DATE_HEURE = 'dateHeure' as const
 
 /** 7.2 Sécurité : changer le mot de passe (vérifié), double authentification, session actuelle, activité récente. */
 export function Securite() {
@@ -123,7 +123,7 @@ export function Securite() {
                 <span className="flex min-w-0 flex-[1_1_200px] flex-col gap-0.5">
                   <b className="text-ui text-foreground">{t(`evenements.${a.evenement}`)}</b>
                   <span className="text-xs font-medium text-muted-foreground">
-                    {shortDate(a.le, DATE_HEURE)} · {a.appareil}
+                    {formaterDate(a.le, DATE_HEURE)} · {a.appareil}
                   </span>
                 </span>
               </li>

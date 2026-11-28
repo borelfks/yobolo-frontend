@@ -35,6 +35,8 @@ export default defineConfig({
       '@tanstack/react-table',
       'radix-ui',
       'axios',
+      'date-fns',
+      'date-fns/locale',
     ],
   },
 })

@@ -1,7 +1,9 @@
+import { addDays } from 'date-fns'
 import { z } from 'zod'
 import type { TFunction } from 'i18next'
 import { data } from '@/data'
 import type { AccordEtablissement, NatureAccord } from '@/shared/types'
+import { jourISO } from '@/shared/utils/dates'
 import { lireFichier, tailleFichier, TAILLE_MAX_DOCUMENT } from '@/shared/utils/fichiers'
 
 /**
@@ -93,9 +95,9 @@ export async function supprimerAccord(accord: AccordEtablissement) {
 }
 
 /** État d'un accord à une date : en cours, expire dans moins de 90 jours, expiré. */
-export function etatAccord(a: Pick<AccordEtablissement, 'expireLe'>, aujourdHui = new Date().toISOString().slice(0, 10)) {
+export function etatAccord(a: Pick<AccordEtablissement, 'expireLe'>, aujourdHui = jourISO(new Date())) {
   if (!a.expireLe) return 'enCours' as const
   if (a.expireLe < aujourdHui) return 'expire' as const
-  const dans90 = new Date(Date.now() + 90 * 864e5).toISOString().slice(0, 10)
+  const dans90 = jourISO(addDays(new Date(), 90))
   return a.expireLe <= dans90 ? ('bientot' as const) : ('enCours' as const)
 }

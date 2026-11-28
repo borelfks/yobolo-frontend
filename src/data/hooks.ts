@@ -1,3 +1,4 @@
+import { addDays, format, isSameDay, startOfDay, subDays } from 'date-fns'
 import type { AutoEcole, AvisAutoEcole, AvisEtablissement, Etablissement, Evenement, Formation, InscriptionAutoEcole, PermisCode, ProvenanceVisite, TypeSlug } from '@/shared/types'
 import { dateDeCreation, POUR_TOUS, useCollection } from './index'
 
@@ -277,7 +278,6 @@ export function useActiviteSecurite(compteId?: string) {
 
 /* --- Statistiques de l'espace pro : mesurées, jamais inventées ------------- */
 
-const JOUR = 86_400_000
 const PROVENANCES: ProvenanceVisite[] = ['annuaire', 'recherche', 'favoris', 'accueil', 'direct']
 
 /** Les événements réels des pages publiques d'un établissement (vues, téléchargements). */
@@ -289,17 +289,14 @@ const instantDe = (e: Pick<Evenement, 'le'>) => new Date(e.le).getTime()
 
 /** Nombre sur la période et progression (en %) par rapport à la période d'avant ; `null` s'il n'y avait rien avant. */
 function surLaPeriode(instants: number[], jours: number, maintenant: number) {
-  const debut = maintenant - jours * JOUR
+  const debut = subDays(maintenant, jours).getTime()
   const valeur = instants.filter((x) => x >= debut).length
-  const avant = instants.filter((x) => x >= debut - jours * JOUR && x < debut).length
+  const avant = instants.filter((x) => x >= subDays(maintenant, 2 * jours).getTime() && x < debut).length
   return { valeur, tendance: avant > 0 ? Math.round(((valeur - avant) / avant) * 100) : null }
 }
 
 /** « 09:12 » */
-const heureDe = (x: number) => {
-  const d = new Date(x)
-  return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`
-}
+const heureDe = (x: number) => format(x, 'HH:mm')
 
 /**
  * Les statistiques d'un établissement sur les `jours` derniers jours, calculées
@@ -310,19 +307,19 @@ const heureDe = (x: number) => {
 export function useStatistiques(etablissementId: string, jours: number, maintenant: number) {
   const evenements = useEvenements(etablissementId)
   const avis = useAvisEtablissement(etablissementId)
-  const debut = maintenant - jours * JOUR
+  const debut = subDays(maintenant, jours).getTime()
   const vues = evenements.filter((e) => e.type === 'vue')
   const telechargements = evenements.filter((e) => e.type === 'telechargement')
   const dansLaPeriode = (e: Evenement) => instantDe(e) >= debut
 
   // La courbe : un point par jour (par semaine au-delà de 31 jours), du plus ancien au plus récent.
   const pas = jours > 31 ? 7 : 1
-  const fin = new Date(maintenant)
-  fin.setHours(24, 0, 0, 0)
+  // Jusqu'à minuit ce soir.
+  const fin = startOfDay(addDays(maintenant, 1))
   const points = Math.ceil(jours / pas)
   const serie = Array.from({ length: points }, (_, i) => {
-    const jusqua = fin.getTime() - (points - 1 - i) * pas * JOUR
-    const depuis = jusqua - pas * JOUR
+    const jusqua = subDays(fin, (points - 1 - i) * pas).getTime()
+    const depuis = subDays(jusqua, pas).getTime()
     return { id: String(depuis), le: new Date(depuis).toISOString(), value: vues.filter((v) => instantDe(v) >= depuis && instantDe(v) < jusqua).length }
   })
 
@@ -332,9 +329,7 @@ export function useStatistiques(etablissementId: string, jours: number, maintena
   for (const e of evenements.filter((x) => x.type === 'vueFormation' && dansLaPeriode(x) && x.formationId)) vuesFormations[e.formationId!] = (vuesFormations[e.formationId!] ?? 0) + 1
 
   // Activité d'aujourd'hui et d'hier : avis reçus et téléchargements réels.
-  const minuit = new Date(maintenant)
-  minuit.setHours(0, 0, 0, 0)
-  const jourDe = (x: number) => (x >= minuit.getTime() ? 'today' : x >= minuit.getTime() - JOUR ? 'yesterday' : null)
+  const jourDe = (x: number) => (isSameDay(x, maintenant) ? 'today' : isSameDay(x, subDays(maintenant, 1)) ? 'yesterday' : null)
   const recents = [
     ...avis.flatMap((a) => (dateDeCreation(a.id) ? [{ id: 'reviews' as const, x: dateDeCreation(a.id)!.getTime() }] : [])),
     ...telechargements.map((e) => ({ id: 'downloads' as const, x: instantDe(e) })),

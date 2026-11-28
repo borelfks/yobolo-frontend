@@ -6,11 +6,12 @@ import { Button } from '@/shared/shadcn/button'
 import { Lien } from '@/shared/ui/Lien'
 import type { Etablissement, Formation, SemestreProgramme } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
-import { demoDate, num } from '@/shared/utils/format'
+import { num } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
 import { Carte, TitreCarte } from '@/modules/ecole/etablissements/components/Bases'
 import { LogoEcole } from '@/modules/ecole/etablissements/components/Vignette'
 import { LigneInfo } from '@/modules/ecole/etablissements/components/fiche/OngletsEtablissement'
+import { demoDate } from '@/shared/utils/dates'
 
 /** Une tuile « fait » : petit libellé gris, valeur en gras ; une icône facultative dans un carré blanc. */
 export function Fait({ libelle, valeur, icone, className }: { libelle?: string; valeur: ReactNode; icone?: ReactNode; className?: string }) {

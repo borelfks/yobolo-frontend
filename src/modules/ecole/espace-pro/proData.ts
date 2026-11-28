@@ -1,3 +1,4 @@
+import { dateDesDonnees } from '@/shared/utils/dates'
 import type { Etablissement, ModeCours, TypeEcole } from '@/shared/types'
 
 /**
@@ -9,12 +10,8 @@ import type { Etablissement, ModeCours, TypeEcole } from '@/shared/types'
 /** Réglages de l'espace pro : valeurs simples rangées par clé (`profil.nom`, `compte.email`…). */
 export type Valeurs = Record<string, string | boolean>
 
-const MOIS_COURTS = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.']
-
 /** Date du jour au format des données de démo : « 23 nov. 2026 ». */
-export function dateDuJour(d = new Date()) {
-  return `${String(d.getDate()).padStart(2, '0')} ${MOIS_COURTS[d.getMonth()]} ${d.getFullYear()}`
-}
+export const dateDuJour = (d = new Date()) => dateDesDonnees(d)
 
 /** Taille d'un fichier au format des données : « 480 Ko », « 2,4 Mo ». */
 

@@ -7,12 +7,13 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { VisionneuseMedias, type MediaVisionneuse } from '@/shared/blocs/Visionneuse'
 import { Lien } from '@/shared/ui/Lien'
 import type { AutoEcole, PermisCode } from '@/shared/types'
-import { demoDate, fcfa } from '@/shared/utils/format'
+import { fcfa } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
 import { Carte, RangeePuces, TitreCarte } from '@/modules/ecole/etablissements/components/Bases'
 import { TuilePhoto, TuileVideo } from '@/modules/ecole/etablissements/components/fiche/Fiche'
 import { ListeCoches } from '@/modules/ecole/auto-ecoles/components/fiche/AsideAutoEcole'
 import { includedKeys, permisDe, sessionDays, sessionDuration, sessionHours, tipKeys, TYPES_FORMATION, type TypeFormation } from '@/modules/ecole/auto-ecoles/autoEcoleFiche'
+import { demoDate } from '@/shared/utils/dates'
 
 /** Une puce « Catégorie de permis » : toutes, ou un permis. */
 type ChoixPermis = 'tous' | PermisCode

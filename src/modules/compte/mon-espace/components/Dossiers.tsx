@@ -6,7 +6,7 @@ import { Button } from '@/shared/ui/Button'
 import { Card } from '@/shared/ui/Card'
 import { Img } from '@/shared/ui/Img'
 import { Modal } from '@/shared/ui/Modal'
-import { shortDate } from '@/shared/utils/format'
+import { formaterDate } from '@/shared/utils/dates'
 
 /** Statut d'un dossier, par le texte et la couleur. */
 export function StatutDossier({ statut }: { statut: 'Envoyée' | 'Annulée' }) {
@@ -37,7 +37,6 @@ export function LigneDossier({
   onAnnuler: () => void
 }) {
   const { t } = useTranslation('espace')
-  const date = { day: '2-digit', month: 'short', year: 'numeric' } as const
   return (
     <Card className="flex flex-col gap-3 p-3 sm:flex-row sm:items-center">
       <Img src={image} alt="" className="h-20 w-full shrink-0 rounded-xl sm:w-32" />
@@ -50,7 +49,7 @@ export function LigneDossier({
         <p className="flex flex-wrap items-center gap-x-3 text-[13px] text-navy-800">
           <span className="inline-flex items-center gap-1">
             <CalendarDays className="size-4 text-brand-600" aria-hidden="true" />
-            {statut === 'Annulée' && annuleeLe ? t('dossiers.annuleeLe', { date: shortDate(annuleeLe, date) }) : t('dossiers.envoyeeLe', { date: shortDate(envoyeeLe, date) })}
+            {statut === 'Annulée' && annuleeLe ? t('dossiers.annuleeLe', { date: formaterDate(annuleeLe, 'abregee') }) : t('dossiers.envoyeeLe', { date: formaterDate(envoyeeLe, 'abregee') })}
           </span>
           {extra}
         </p>

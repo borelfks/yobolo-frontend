@@ -3,10 +3,11 @@ import { BookOpenText, CarFront, ClipboardCheck, ShieldCheck } from 'lucide-reac
 import { usePermisCatalogue, useSessions } from '@/data/hooks'
 import { Badge } from '@/shared/shadcn/badge'
 import type { PermisCode } from '@/shared/types'
-import { demoDate, fcfa } from '@/shared/utils/format'
+import { fcfa } from '@/shared/utils/format'
 import { Carte, TitreCarte } from '@/modules/ecole/etablissements/components/Bases'
 import { ListeCoches } from '@/modules/ecole/auto-ecoles/components/fiche/AsideAutoEcole'
 import { sessionDays, sessionDuration, sessionHours } from '@/modules/ecole/auto-ecoles/autoEcoleFiche'
+import { demoDate } from '@/shared/utils/dates'
 
 /*
  * Les rubriques de la page d'un permis (Aperçu, Programme, Conditions,

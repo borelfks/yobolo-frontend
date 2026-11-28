@@ -2,9 +2,9 @@ import { useTranslation } from 'react-i18next'
 import { Badge } from '@/shared/shadcn/badge'
 import { Button } from '@/shared/shadcn/button'
 import { Lien } from '@/shared/ui/Lien'
-import { shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
 import { CartePro } from '@/modules/ecole/espace-pro/components/BlocsPro'
+import { formaterDate } from '@/shared/utils/dates'
 
 const VALEURS = ['professionnalisme', 'fiabilite', 'inclusion', 'innovation'] as const
 const DOCUMENTS = ['cgu', 'cgv', 'confidentialite'] as const
@@ -60,7 +60,7 @@ export function APropos() {
         <span className="flex items-center gap-2 text-sm text-foreground">
           {t('version')} <b>{VERSION.numero}</b> <Badge variant="green">{t('aJour')}</Badge>
         </span>
-        <span className="text-xs font-medium text-muted-foreground">{t('miseAJour', { date: shortDate(VERSION.date, { day: '2-digit', month: 'short', year: 'numeric' }) })}</span>
+        <span className="text-xs font-medium text-muted-foreground">{t('miseAJour', { date: formaterDate(VERSION.date, 'abregee') })}</span>
       </section>
     </>
   )

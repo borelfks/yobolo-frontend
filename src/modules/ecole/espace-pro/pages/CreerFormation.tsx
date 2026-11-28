@@ -15,13 +15,13 @@ import { Input } from '@/shared/shadcn/input'
 import { Textarea } from '@/shared/shadcn/textarea'
 import { ToggleGroup, ToggleGroupItem } from '@/shared/shadcn/toggle-group'
 import { Lien } from '@/shared/ui/Lien'
-import { shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
 import type { ElementNomenclature, Formation, StatutPublication } from '@/shared/types'
 import { CartePro, EntetePro, PiedFormulaire, SquelettePro } from '@/modules/ecole/espace-pro/components/BlocsPro'
 import { ApercuFiche, ChoixNomenclature, ProgressionCreation, TitreNumerote, type Choix } from '@/modules/ecole/espace-pro/components/formations/FormulaireFormation'
 import { useFormationsEcole } from '@/modules/ecole/espace-pro/hooks/useFormationsEcole'
 import { IMAGE_FORMATION, NIVEAUX, PREFIXE_FORMATION_CREEE, codeFormation, modeCours, nomFormation, prefixer, sousCles, texte } from '@/modules/ecole/espace-pro/proData'
+import { formaterDate } from '@/shared/utils/dates'
 
 /** Valeurs fixes des listes : enregistrées telles quelles, affichées via une clé de traduction. */
 const NIVEAUX_CLES = ['none', 'probatoire', 'bac', 'btsHnd', 'licence'] as const
@@ -30,7 +30,7 @@ const DUREES = ['3', '6', '9', '12', '18', '24', '36']
 const MODES = ['Jour', 'Soir'] as const
 const CLES_MODES = { Jour: 'jour', Soir: 'soir' } as const
 const SANS_OPTION = 'aucune'
-const DATE_LONGUE = { day: 'numeric', month: 'long', year: 'numeric' } as const
+const DATE_LONGUE = 'longueSimple' as const
 
 /** L'heure d'enregistrement (ISO). */
 const maintenant = () => new Date().toISOString()
@@ -108,7 +108,7 @@ function FormulaireFormation({ id }: { id?: string }) {
     [t('apercu.filiere'), filiere?.nom ?? edit?.filiere ?? '—'],
     [t('apercu.duree'), duree ? libelleDuree(duree) : '—'],
     [t('apercu.cours'), modes.length ? MODES.filter((m) => modes.includes(m)).map((m) => t(`modes.${CLES_MODES[m]}`)).join(' & ') : '—'],
-    [t('apercu.dateLimite'), dateLimite ? shortDate(dateLimite, DATE_LONGUE) : '—'],
+    [t('apercu.dateLimite'), dateLimite ? formaterDate(dateLimite, DATE_LONGUE) : '—'],
   ]
 
   /** Enregistre la fiche et sa ligne du tableau. « Publiée » tout de suite (pas de validation par YIBOLO) ; sinon « Brouillon ». */

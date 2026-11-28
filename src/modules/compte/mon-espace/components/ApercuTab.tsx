@@ -10,8 +10,8 @@ import { Card, Section } from '@/shared/ui/Card'
 import { Kpi, KpiGrid, QuickAction } from '@/shared/ui/Blocks'
 import { Progress } from '@/shared/ui/Progress'
 import { useFavorites } from '@/shared/hooks/useFavorites'
-import { shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
+import { formaterDate } from '@/shared/utils/dates'
 
 /** « Aperçu » : les chiffres du compte, ses dernières démarches, ses raccourcis. */
 export function ApercuTab() {
@@ -87,7 +87,7 @@ export function ApercuTab() {
                       <span className="min-w-0 flex-1">
                         <span className="line-clamp-2 font-semibold text-navy-900 sm:line-clamp-1">{d.titre}</span>
                         <span className="line-clamp-2 text-[13px] text-muted-foreground sm:line-clamp-1">
-                          {d.genre} · {d.lieu} · {shortDate(d.le, { day: '2-digit', month: 'short', year: 'numeric' })}
+                          {d.genre} · {d.lieu} · {formaterDate(d.le, 'abregee')}
                         </span>
                       </span>
                       <span className="self-start sm:self-center">

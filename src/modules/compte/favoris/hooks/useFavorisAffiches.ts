@@ -6,9 +6,9 @@ import { ecoleUrl, formationUrl } from '@/modules/ecole/etablissements/schoolLin
 import { useSession } from '@/modules/compte/auth/hooks/useSession'
 import { useFavorites } from '@/shared/hooks/useFavorites'
 import type { ModeCours, PermisCode } from '@/shared/types'
-import { currentLocale } from '@/i18n'
-import { fcfa, num, shortDate } from '@/shared/utils/format'
+import { fcfa, num } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
+import { dateRelative } from '@/shared/utils/dates'
 
 /** Les filtres de « Mes favoris » (canevas : 1. Tous les favoris, 2. Formations, 3. Établissements, 4. Publications). */
 export type FiltreFavoris = 'tous' | 'formations' | 'etablissements' | 'publications'
@@ -33,11 +33,7 @@ export type FavoriAffiche = {
 }
 
 /** « il y a 2 j » (moins d'une semaine), sinon la date. */
-function quand(date: string) {
-  const jours = Math.floor((Date.now() - new Date(date).getTime()) / 86_400_000)
-  if (jours >= 7) return shortDate(date, { day: '2-digit', month: 'short', year: 'numeric' })
-  return new Intl.RelativeTimeFormat(currentLocale(), { numeric: 'auto', style: 'short' }).format(-Math.max(0, jours), 'day')
-}
+const quand = (date: string) => dateRelative(date, { unite: 'day' })
 
 const MODES: Record<ModeCours, 'jour' | 'soir' | 'jourSoir'> = { Jour: 'jour', Soir: 'soir', 'Jour & Soir': 'jourSoir' }
 

@@ -6,11 +6,11 @@ import { useSession } from '@/modules/compte/auth/hooks/useSession'
 import { annulerPreinscription } from '@/modules/compte/mon-espace/espaceActions'
 import { AucunDossier, ConfirmerAnnulation, LigneDossier } from '@/modules/compte/mon-espace/components/Dossiers'
 import type { Preinscription } from '@/shared/types'
-import { shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
+import { dateDesDonnees } from '@/shared/utils/dates'
 
 /** Date du jour au format des notifications de l'espace pro (« 24 nov. 2026 »). */
-const aujourdhui = () => shortDate(new Date(), { day: '2-digit', month: 'short', year: 'numeric' })
+const aujourdhui = () => dateDesDonnees()
 
 /** « Mes préinscriptions » : les dossiers envoyés aux établissements, les plus récents d'abord. */
 export function PreinscriptionsTab() {
