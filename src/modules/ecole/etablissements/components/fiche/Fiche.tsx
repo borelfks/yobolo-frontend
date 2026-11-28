@@ -93,11 +93,11 @@ export function TuileVideo({ poster, titre, onClick, className, grand }: { poste
   )
 }
 
-/** Une photo d'une galerie, avec son nom en bas sur un dégradé (albums) ou sans. */
-export function TuilePhoto({ src, nom, onClick, className }: { src: string; nom?: string; onClick: () => void; className?: string }) {
+/** Une photo d'une galerie, avec son nom en bas sur un dégradé (albums) ou sans ; `libelle` : ce que lit un lecteur d'écran quand il n'y a pas de nom. */
+export function TuilePhoto({ src, nom, libelle, onClick, className }: { src: string; nom?: string; libelle?: string; onClick: () => void; className?: string }) {
   return (
-    <Button variant="ghost" aria-label={nom} onClick={onClick} className={cn('relative block h-auto overflow-hidden rounded-md border-0 p-0 whitespace-normal', className)}>
-      <img src={src} alt={nom ?? ''} className="block size-full object-cover transition-transform hover:scale-[1.02] motion-reduce:transition-none" />
+    <Button variant="ghost" aria-label={nom ?? libelle} onClick={onClick} className={cn('relative block h-auto overflow-hidden rounded-md border-0 p-0 whitespace-normal', className)}>
+      <img src={src} alt="" className="block size-full object-cover transition-transform hover:scale-[1.02] motion-reduce:transition-none" />
       {nom && <span className="absolute inset-x-0 bottom-0 bg-linear-to-b from-transparent to-foreground/85 px-2.5 pt-[18px] pb-2 text-left text-meta font-bold text-white">{nom}</span>}
     </Button>
   )

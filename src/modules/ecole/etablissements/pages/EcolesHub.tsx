@@ -23,8 +23,11 @@ const RANGEES: { genre: GenreEcole; lien: string }[] = [
  * Recherche et ville sont dans l'adresse (`?q=…&ville=…`).
  */
 export function EcolesHub() {
+  const { t } = useTranslation('schools')
   return (
     <div className="mx-auto flex w-full max-w-page flex-col gap-2 pb-4 sm:gap-4 sm:px-4 sm:pt-6 sm:pb-10">
+      {/* La planche n'a pas de titre visible : il est lu par les lecteurs d'écran. */}
+      <h1 className="sr-only">{t('ui.ariane.ecole')}</h1>
       <ChargementDonnees fallback={<SquelettePageEcole />}>
         <ContenuEcole />
       </ChargementDonnees>

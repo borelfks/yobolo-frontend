@@ -59,7 +59,7 @@ export function ResumeAvis({ note, nombre, repartition, onDonner }: { note: numb
 export function EnteteListeAvis({ titre, tri }: { titre: string; tri: ReactNode }) {
   return (
     <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border pt-3">
-      <h3 className="text-base font-bold text-foreground">{titre}</h3>
+      <h2 className="text-base font-bold text-foreground">{titre}</h2>
       {tri}
     </div>
   )

@@ -167,5 +167,9 @@
     "titre": "This post is not available",
     "detail": "It has been removed from the feed, or the address does not match anything.",
     "action": "Back to the feed"
+  },
+  "grille": {
+    "gauche": "My account and my fields",
+    "droite": "Experts and trending topics"
   }
 }

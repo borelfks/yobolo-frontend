@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { useTranslation } from 'react-i18next'
 import { CarteExperts, SujetsDuMoment } from '@/modules/communaute/accueil/components/ColonneDroite'
 import { CarteMoi, MesDomaines } from '@/modules/communaute/accueil/components/ColonneGauche'
 import { Skeleton } from '@/shared/shadcn/skeleton'
@@ -12,14 +13,15 @@ const GRILLE = 'flex flex-col pb-2 lg:mx-auto lg:grid lg:w-full lg:max-w-page lg
  * sujets du moment à droite. Sur téléphone, seule la colonne du centre reste.
  */
 export function GrilleAccueil({ children, enTeteDroite }: { children: ReactNode; /** En tête de la colonne de droite (l'auteur d'une publication ouverte). */ enTeteDroite?: ReactNode }) {
+  const { t } = useTranslation('accueil')
   return (
     <div className={GRILLE}>
-      <aside className="hidden flex-col gap-2 lg:flex">
+      <aside aria-label={t('grille.gauche')} className="hidden flex-col gap-2 lg:flex">
         <CarteMoi />
         <MesDomaines />
       </aside>
       <div className="flex min-w-0 flex-col gap-2">{children}</div>
-      <aside className="hidden flex-col gap-2 lg:flex">
+      <aside aria-label={t('grille.droite')} className="hidden flex-col gap-2 lg:flex">
         {enTeteDroite}
         <CarteExperts />
         <SujetsDuMoment />

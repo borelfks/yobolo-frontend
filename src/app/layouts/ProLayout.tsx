@@ -35,9 +35,9 @@ export function ProLayout() {
       <Entete />
       <div className="mx-auto flex w-full max-w-pro flex-1 flex-col gap-2 pb-4 lg:grid lg:grid-cols-[240px_minmax(0,1fr)] lg:items-start lg:gap-6 lg:px-4 lg:pt-6 lg:pb-10">
         {/* Ordinateur : le menu dans une carte, qui reste visible au défilement. */}
-        <aside className="sticky top-[84px] hidden overflow-hidden rounded-lg border border-border bg-card lg:block">
+        <div className="sticky top-[84px] hidden overflow-hidden rounded-lg border border-border bg-card lg:block">
           <MenuPro />
-        </aside>
+        </div>
         {/* Téléphone : le bouton du menu, puis le tiroir. */}
         <Sheet open={ouvert} onOpenChange={setOuvert}>
           <SheetTrigger asChild>

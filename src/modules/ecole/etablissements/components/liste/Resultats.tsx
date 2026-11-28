@@ -40,7 +40,7 @@ export function MenuTri<V extends string>({ valeur, options, onChange, libelle }
 export function BarreResultats<V extends string>({ texte, tri }: { texte: string; tri: Parameters<typeof MenuTri<V>>[0] }) {
   return (
     <div className="flex items-center justify-between gap-2 px-4 py-1 sm:px-0.5">
-      <p className="text-sm font-bold text-foreground">{texte}</p>
+      <h2 className="text-sm font-bold text-foreground">{texte}</h2>
       <MenuTri {...tri} />
     </div>
   )

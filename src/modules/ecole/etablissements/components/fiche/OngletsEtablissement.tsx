@@ -415,7 +415,7 @@ export function GalerieEtablissement({ e }: { e: Etablissement }) {
               m.video ? (
                 <TuileVideo key={m.id} poster="" titre={e.nom} onClick={() => setVue(videos.length + albums.length + i)} className="h-[150px]" />
               ) : (
-                <TuilePhoto key={m.id} src={m.src} onClick={() => setVue(videos.length + albums.length + i)} className="h-[150px]" />
+                <TuilePhoto key={m.id} src={m.src} libelle={e.nom} onClick={() => setVue(videos.length + albums.length + i)} className="h-[150px]" />
               ),
             )}
           </div>

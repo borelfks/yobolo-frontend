@@ -167,5 +167,9 @@
     "titre": "Cette publication n’est pas accessible",
     "detail": "Elle a été retirée du fil, ou l’adresse ne correspond à rien.",
     "action": "Retour au fil"
+  },
+  "grille": {
+    "gauche": "Mon compte et mes domaines",
+    "droite": "Experts et sujets du moment"
   }
 }

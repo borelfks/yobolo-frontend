@@ -90,7 +90,7 @@ export function ApercuAutoEcole({ a }: { a: AutoEcole }) {
           </div>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
             {photos.map((p, i) => (
-              <TuilePhoto key={p.id} src={p.image} onClick={() => setVue(i)} className="h-[110px] sm:h-[120px]" />
+              <TuilePhoto key={p.id} src={p.image} libelle={t('profile.gallery.photoAlt', { name: a.nom, n: i + 1 })} onClick={() => setVue(i)} className="h-[110px] sm:h-[120px]" />
             ))}
           </div>
           <VisionneuseMedias medias={photos.map((p, i) => ({ src: p.image, alt: t('profile.gallery.photoAlt', { name: a.nom, n: i + 1 }) }))} index={vue} onClose={() => setVue(null)} />
@@ -291,7 +291,7 @@ export function GalerieAutoEcole({ a }: { a: AutoEcole }) {
           </b>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
             {photos.map((p, i) => (
-              <TuilePhoto key={p.id} src={p.image} onClick={() => setVue(i)} className="h-[120px] sm:h-[140px]" />
+              <TuilePhoto key={p.id} src={p.image} libelle={t('profile.gallery.photoAlt', { name: a.nom, n: i + 1 })} onClick={() => setVue(i)} className="h-[120px] sm:h-[140px]" />
             ))}
           </div>
           {videos.length > 0 && (
