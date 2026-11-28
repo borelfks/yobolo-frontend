@@ -84,47 +84,30 @@
       "toCompare": "À comparer"
     }
   },
-  "list": {
-    "title": "Auto-Écoles du Cameroun",
-    "subtitle": "Trouvez une auto-école agréée près de chez vous et préparez votre permis de conduire.",
-    "search": {
-      "placeholder": "Raison sociale (nom de l’auto-école)",
-      "allLicences": "Permis (tous)",
-      "region": "Région",
-      "city": "Ville",
-      "district": "Quartier",
-      "submit": "Rechercher"
+  "liste": {
+    "titre": "Auto-écoles",
+    "intro": "Trouvez une auto-école et le permis qu’il vous faut près de chez vous.",
+    "filtres": {
+      "permis": "Permis",
+      "ville": "Ville"
     },
-    "filters": {
-      "title": "Affiner la recherche",
-      "licenceType": "Type de permis",
-      "allLicences": "Tous les permis",
-      "location": "Localisation",
-      "region": "Région",
-      "city": "Ville",
-      "district": "Quartier",
-      "allRegions": "Toutes les régions",
-      "allCities": "Toutes les villes",
-      "allDistricts": "Tous les quartiers",
-      "reset": "Réinitialiser les filtres"
+    "chercherVille": "Chercher une ville",
+    "optionPermis": "Permis {{code}} · {{nom}}",
+    "toutEffacer": "Tout effacer",
+    "permis": "Les permis",
+    "dureeAge": "{{duree}} · dès {{age}} ans",
+    "resultats_one": "{{count}} auto-école",
+    "resultats_other": "{{count}} auto-écoles",
+    "unite_one": "auto-école",
+    "unite_other": "auto-écoles",
+    "tris": {
+      "pertinence": "Pertinence",
+      "notes": "Les mieux notées",
+      "nom": "Nom",
+      "anciennes": "Les plus anciennes"
     },
-    "found": "Auto-Écoles trouvées : {{count}}",
-    "sortBy": "Trier par :",
-    "sort": {
-      "bestRated": "Les mieux notées",
-      "cheapest": "Les moins chères",
-      "nearest": "Les plus proches"
-    },
-    "gridView": "Vue grille",
-    "listView": "Vue liste",
-    "card": {
-      "trained": "{{value}} formés",
-      "licences": "Permis proposés",
-      "viewProfile": "Voir le profil",
-      "saveToFolder": "Ranger dans un dossier de favoris…"
-    },
-    "empty": "Aucune auto-école ne correspond à ces critères.",
-    "pagination": "Affichage de 1 à {{count}} sur {{total}} auto-écoles"
+    "vide": "Aucune auto-école ne correspond à ces critères.",
+    "reinitialiser": "Réinitialiser les filtres"
   },
   "profile": {
     "tabs": {
@@ -161,7 +144,6 @@
       }
     },
     "filters": {
-      "reset": "Réinitialiser",
       "category": "Catégorie de permis",
       "aucuneSession": "Aucune session ne correspond à ces filtres.",
       "aucuneFormation": "Aucune formation ne correspond à ces filtres."
@@ -179,29 +161,24 @@
       "licences": "Permis proposés",
       "gallery": "Galerie ({{count}})",
       "seeGallery": "Voir la galerie",
-      "previous": "Précédent",
-      "next": "Suivant",
       "contactTitle": "Contact & accès",
-      "mapAlt": "Plan d’accès",
       "seeOnMap": "Voir sur la carte"
     },
     "trainings": {
-      "filterTitle": "Filtrer les formations",
       "type": "Type de formation",
       "types": {
         "initial": "Formation initiale",
         "refresher": "Renforcement / Recyclage"
       },
       "title": "Nos formations et catégories de permis",
-      "count_one": "{{count}} formations",
-      "count_other": "{{count}} formations",
       "details": "Voir les détails",
-      "ctaText": "Choisissez votre formation et démarrez votre inscription."
+      "count_one": "{{count}} formation",
+      "count_other": "{{count}} formations"
     },
     "prices": {
       "title": "Nos tarifs de formation",
       "fullTraining": "Formation complète",
-      "note": "Les tarifs peuvent varier selon la session. Consultez le <link>planning</link> pour les prochaines dates de formation.",
+      "note": "Les tarifs peuvent varier selon la session. Consultez le <lien>planning</lien> pour les prochaines dates de formation.",
       "includedTitle": "Ce que comprend le tarif",
       "included": {
         "code": "Cours de code (théorie)",
@@ -217,12 +194,6 @@
       "paymentConditions": "(conditions à l’inscription)"
     },
     "schedule": {
-      "filterTitle": "Filtrer le planning",
-      "session": "Session",
-      "sessionTypes": {
-        "next": "Prochaines sessions",
-        "upcoming": "Sessions à venir"
-      },
       "title": "Prochaines sessions de formation",
       "columns": {
         "training": "Formation / Permis",
@@ -238,45 +209,24 @@
         "flexible": "Planning flexible selon les sessions",
         "groups": "Groupes à effectif limité",
         "open": "Inscription ouverte toute l’année"
-      }
+      },
+      "debut": "Début : {{date}} · {{duree}}"
     },
     "gallery": {
-      "categories": "Catégories",
-      "cats": {
-        "all": "Toutes",
-        "centre": "Centre",
-        "vehicles": "Véhicules",
-        "classes": "Cours",
-        "exams": "Examens"
-      },
-      "sideTitle": "Notre galerie",
-      "photos": "{{count}} photos",
-      "videos": "{{count}} vidéos",
-      "centre": "Notre centre de formation",
-      "vehicles": "Nos véhicules d’apprentissage",
-      "classes": "Nos cours en salle",
-      "exams": "Nos examens pratiques",
-      "seeVideos": "Voir les vidéos",
-      "photoAlt": "Photo {{n}} – {{name}}"
+      "photoAlt": "Photo {{n}} – {{name}}",
+      "photos_one": "{{count}} photo",
+      "photos_other": "{{count}} photos",
+      "videos_one": "{{count}} vidéo",
+      "videos_other": "{{count}} vidéos",
+      "videosTitre": "Vidéos",
+      "vide": "Aucune photo pour le moment."
     },
     "reviews": {
-      "overall": "Note globale",
       "basedOn_one": "Basée sur {{count}} avis vérifiés",
       "basedOn_other": "Basée sur {{count}} avis vérifiés",
-      "percent": "{{value}} %",
-      "criteria": {
-        "quality": "Qualité de la formation",
-        "instructors": "Compétence des moniteurs",
-        "organisation": "Organisation & planning",
-        "facilities": "Infrastructures & véhicules",
-        "welcome": "Accueil & accompagnement"
-      },
-      "give": "Donner mon avis",
       "title": "Avis des apprenants ({{count}})",
-      "sort": "Trier",
       "mostRecent": "Les plus récents",
       "bestRated": "Les mieux notés",
-      "more": "Plus d'actions",
       "replyFrom": "Réponse de l’auto-école",
       "share": "Partager",
       "report": "Signaler",
@@ -292,7 +242,21 @@
       "send": "Envoyer le signalement",
       "reported": "Merci : l’avis a été signalé à YIBOLO.",
       "linkCopied": "Lien copié",
-      "shared": "Partagé"
+      "trier": "Trier :",
+      "utile": "Utile",
+      "signale": "Signalé",
+      "invitation": "Soyez le premier à donner votre avis sur cette auto-école.",
+      "partageImpossible": "Impossible de partager ce lien."
+    },
+    "fiche": {
+      "sousTitre": "Auto-école · {{lieu}}",
+      "depuis": "Depuis {{annee}}",
+      "contacter": "Contacter",
+      "logoAlt": "Logo de {{nom}}",
+      "toutes": "Toutes",
+      "tous": "Tous",
+      "appeler": "Appeler",
+      "permisAria": "Voir le permis {{code}}"
     }
   },
   "licence": {

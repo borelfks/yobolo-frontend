@@ -9,5 +9,5 @@ Le logo de l'accueil (repris de yibolo-client) : le « Y » dont les branches fo
 | `yibolo-logo.svg` | Symbole + « Yibolo » + devise |
 | `yibolo-logo-white.svg` | Logo complet sur fond sombre (texte blanc) |
 
-Dans l'interface, le logo est dessiné par le composant `Logo` (`src/shared/components/ui/Logo.tsx`), mêmes formes et mêmes couleurs ; la landing garde son propre `LandingLogo`, identique.
+Dans l'interface, le logo est dessiné par les blocs `MarqueYibolo` et `SymboleYibolo` (`src/shared/blocs/Marque.tsx`), mêmes formes et mêmes couleurs ; la landing garde son propre `LandingLogo`, identique.
 Le favicon (`public/favicon.svg`, `favicon.ico`), les icônes PNG de `public/icons/` (192, 512, 512 « maskable », Apple) et l’image de partage `public/og-image.png` viennent de yibolo-client, comme le titre et les balises de partage (SEO) de `index.html`.

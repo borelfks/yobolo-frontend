@@ -8,9 +8,9 @@
    - **commentaire** d'au moins 10 caractères ;
    - case « Je confirme avoir suivi une formation dans cet établissement / cette auto-école », obligatoire.
 3. « Publier mon avis » : l'avis est enregistré dans la base et s'affiche en tête des avis (« À l'instant »). Message : « Merci ! Votre avis sera publié après vérification par YIBOLO. », retour à l'onglet Avis.
-4. Affichage : `Stars` / `Rating`, `PasEncoreDAvis`. La note, le nombre d'avis, la répartition des étoiles et les notes par critère sont **calculés** à partir des avis de la fiche (`useAvisEtablissement`, `useRepartitionEtablissement`, `useAvisAutoEcole`, `useRepartitionAutoEcole`, `useCriteresAutoEcole`). Les avis de départ sont rattachés à l'IPC et à Conduite Plus.
+4. Affichage : `Stars` / `Rating`, `PasEncoreDAvis`. La note, le nombre d'avis et la répartition des étoiles sont **calculés** à partir des avis de la fiche (`useAvisEtablissement`, `useRepartitionEtablissement`, `useAvisAutoEcole`, `useRepartitionAutoEcole`) ; les notes par critère sont enregistrées avec l'avis mais la fiche ne les affiche plus (canevas). Les avis de départ sont rattachés à l'IPC et à Conduite Plus.
 5. Fiche établissement : filtres Tous · Étudiants · Anciens étudiants · Entreprises. Fiche auto-école : tri « Les plus récents » / « Les mieux notés ».
-6. **Réponse aux avis** : l'établissement connecté voit « Répondre » sous chaque avis de sa fiche publique (onglet Avis) ; la réponse est enregistrée sur l'avis (`reponse`) et affichée à tous, modifiable ou retirable. « Répondre aux avis » du tableau de bord y mène. **Utile** (pouce) : compté dans la base. Avis d'auto-école : menu « … » → Partager (lien copié) · Signaler (table `signalementsAvis`). Tri, « Voir plus » réels.
+6. **Réponse aux avis** : l'établissement connecté voit « Répondre » sous chaque avis de sa fiche publique (onglet Avis) ; la réponse est enregistrée sur l'avis (`reponse`) et affichée à tous, modifiable ou retirable. « Répondre aux avis » du tableau de bord y mène. **Utile** (pouce) : compté dans la base. Avis d'auto-école : Utile (compté dans la base) · Partager (lien copié) · Signaler (motif, table `signalementsAvis`), sous chaque avis comme sur le canevas. Tri, « Voir plus » réels.
 
 ## Favoris
 1. Ce qu'on peut garder (`FavoriteKind`) : une **formation**, un **établissement**, une **auto-école**, un **permis**.

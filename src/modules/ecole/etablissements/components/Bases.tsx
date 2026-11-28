@@ -44,7 +44,7 @@ export function Ariane({ items, className }: { items: { label: string; to?: stri
  * Une carte de page : blanche, bordée et arrondie sur ordinateur ; sur
  * téléphone, sur toute la largeur avec un filet en haut et en bas (canevas).
  */
-export function Carte({ children, className, as: Balise = 'section', ...props }: { children: ReactNode; className?: string; as?: 'section' | 'div' | 'aside'; 'aria-labelledby'?: string; 'aria-label'?: string }) {
+export function Carte({ children, className, as: Balise = 'section', ...props }: { children: ReactNode; className?: string; as?: 'section' | 'div' | 'aside'; id?: string; 'aria-labelledby'?: string; 'aria-label'?: string }) {
   return (
     <Balise className={cn('flex flex-col gap-3 border-y border-border bg-card p-5 sm:rounded-lg sm:border', className)} {...props}>
       {children}

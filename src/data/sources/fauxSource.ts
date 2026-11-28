@@ -16,7 +16,7 @@ import { effacerValeur, ecrireValeur, lireValeur } from './indexedDb'
  */
 
 /** À augmenter quand les fausses données ou leur forme changent : les copies des testeurs sont alors refaites. */
-export const VERSION_DONNEES = '24'
+export const VERSION_DONNEES = '25'
 const CLE = 'fausses-donnees'
 const ANCIENNE_CLE_SQLITE = 'base-sqlite'
 

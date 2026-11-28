@@ -109,12 +109,6 @@ export function useRepartitionAutoEcole(autoEcoleId: string) {
   return repartition(useAvisAutoEcole(autoEcoleId).map((a) => a.note))
 }
 
-/** Les critères d'une auto-école : la moyenne des notes que ses avis leur ont données. */
-export function useCriteresAutoEcole(autoEcoleId: string) {
-  const avis = useAvisAutoEcole(autoEcoleId)
-  return useCollection('criteresAvis').map((c, i) => ({ ...c, note: moyenne(avis.flatMap((a) => (a.criteres?.[i] ? [a.criteres[i]] : []))) }))
-}
-
 /* --- Espace pro ------------------------------------------------------------ */
 
 export function useFormationsPro(etablissementId: string) {
@@ -369,10 +363,6 @@ export function useMedias(etablissementId: string) {
 
 export function useFormationsPopulaires(slug: TypeSlug) {
   return useCollection('formationsPopulaires').filter((f) => f.typeSlug === slug)
-}
-
-export function useCategoriesGalerie() {
-  return useCollection('categoriesGalerie')
 }
 
 export function usePhotosAutoEcole(autoEcoleId: string, usage: 'apercu' | 'galerie') {

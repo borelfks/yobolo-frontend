@@ -84,47 +84,30 @@
       "toCompare": "To compare"
     }
   },
-  "list": {
-    "title": "Driving schools in Cameroon",
-    "subtitle": "Find an approved driving school near you and prepare for your driving licence.",
-    "search": {
-      "placeholder": "Company name (driving school name)",
-      "allLicences": "Licence (all)",
-      "region": "Region",
-      "city": "City",
-      "district": "Neighbourhood",
-      "submit": "Search"
+  "liste": {
+    "titre": "Driving schools",
+    "intro": "Find a driving school and the licence you need near you.",
+    "filtres": {
+      "permis": "Licence",
+      "ville": "City"
     },
-    "filters": {
-      "title": "Refine your search",
-      "licenceType": "Licence type",
-      "allLicences": "All licences",
-      "location": "Location",
-      "region": "Region",
-      "city": "City",
-      "district": "Neighbourhood",
-      "allRegions": "All regions",
-      "allCities": "All cities",
-      "allDistricts": "All neighbourhoods",
-      "reset": "Reset filters"
+    "chercherVille": "Search for a city",
+    "optionPermis": "Licence {{code}} · {{nom}}",
+    "toutEffacer": "Clear all",
+    "permis": "Licences",
+    "dureeAge": "{{duree}} · from age {{age}}",
+    "resultats_one": "{{count}} driving school",
+    "resultats_other": "{{count}} driving schools",
+    "unite_one": "driving school",
+    "unite_other": "driving schools",
+    "tris": {
+      "pertinence": "Relevance",
+      "notes": "Best rated",
+      "nom": "Name",
+      "anciennes": "Oldest first"
     },
-    "found": "Driving schools found: {{count}}",
-    "sortBy": "Sort by:",
-    "sort": {
-      "bestRated": "Highest rated",
-      "cheapest": "Lowest price",
-      "nearest": "Nearest"
-    },
-    "gridView": "Grid view",
-    "listView": "List view",
-    "card": {
-      "trained": "{{value}} trained",
-      "licences": "Licences offered",
-      "viewProfile": "View profile",
-      "saveToFolder": "Save to a favourites folder…"
-    },
-    "empty": "No driving school matches these criteria.",
-    "pagination": "Showing 1 to {{count}} of {{total}} driving schools"
+    "vide": "No driving school matches these criteria.",
+    "reinitialiser": "Reset filters"
   },
   "profile": {
     "tabs": {
@@ -161,7 +144,6 @@
       }
     },
     "filters": {
-      "reset": "Reset",
       "category": "Licence category",
       "aucuneSession": "No session matches these filters.",
       "aucuneFormation": "No programme matches these filters."
@@ -179,29 +161,24 @@
       "licences": "Licences offered",
       "gallery": "Gallery ({{count}})",
       "seeGallery": "View the gallery",
-      "previous": "Previous",
-      "next": "Next",
       "contactTitle": "Contact & access",
-      "mapAlt": "Access map",
       "seeOnMap": "View on the map"
     },
     "trainings": {
-      "filterTitle": "Filter programmes",
       "type": "Programme type",
       "types": {
         "initial": "Initial training",
         "refresher": "Refresher course"
       },
       "title": "Our programmes and licence categories",
-      "count_one": "{{count}} programme",
-      "count_other": "{{count}} programmes",
       "details": "View details",
-      "ctaText": "Choose your programme and start your enrolment."
+      "count_one": "{{count}} programme",
+      "count_other": "{{count}} programmes"
     },
     "prices": {
       "title": "Our programme prices",
       "fullTraining": "Full programme",
-      "note": "Prices may vary by session. Check the <link>schedule</link> for upcoming programme dates.",
+      "note": "Prices may vary by session. Check the <lien>schedule</lien> for upcoming programme dates.",
       "includedTitle": "What the price includes",
       "included": {
         "code": "Highway code lessons (theory)",
@@ -217,12 +194,6 @@
       "paymentConditions": "(terms at enrolment)"
     },
     "schedule": {
-      "filterTitle": "Filter the schedule",
-      "session": "Session",
-      "sessionTypes": {
-        "next": "Next sessions",
-        "upcoming": "Upcoming sessions"
-      },
       "title": "Next training sessions",
       "columns": {
         "training": "Programme / Licence",
@@ -238,45 +209,24 @@
         "flexible": "Flexible schedule depending on sessions",
         "groups": "Small group sizes",
         "open": "Enrolment open all year round"
-      }
+      },
+      "debut": "Starts: {{date}} · {{duree}}"
     },
     "gallery": {
-      "categories": "Categories",
-      "cats": {
-        "all": "All",
-        "centre": "Centre",
-        "vehicles": "Vehicles",
-        "classes": "Classes",
-        "exams": "Exams"
-      },
-      "sideTitle": "Our gallery",
-      "photos": "{{count}} photos",
-      "videos": "{{count}} videos",
-      "centre": "Our training centre",
-      "vehicles": "Our learner vehicles",
-      "classes": "Our classroom lessons",
-      "exams": "Our practical exams",
-      "seeVideos": "Watch the videos",
-      "photoAlt": "Photo {{n}} – {{name}}"
+      "photoAlt": "Photo {{n}} – {{name}}",
+      "photos_one": "{{count}} photo",
+      "photos_other": "{{count}} photos",
+      "videos_one": "{{count}} video",
+      "videos_other": "{{count}} videos",
+      "videosTitre": "Videos",
+      "vide": "No photos yet."
     },
     "reviews": {
-      "overall": "Overall rating",
       "basedOn_one": "Based on {{count}} verified review",
       "basedOn_other": "Based on {{count}} verified reviews",
-      "percent": "{{value}}%",
-      "criteria": {
-        "quality": "Quality of training",
-        "instructors": "Instructor competence",
-        "organisation": "Organisation & schedule",
-        "facilities": "Facilities & vehicles",
-        "welcome": "Welcome & support"
-      },
-      "give": "Write a review",
       "title": "Learner reviews ({{count}})",
-      "sort": "Sort",
       "mostRecent": "Most recent",
       "bestRated": "Highest rated",
-      "more": "More actions",
       "replyFrom": "Reply from the driving school",
       "share": "Share",
       "report": "Report",
@@ -292,7 +242,21 @@
       "send": "Send report",
       "reported": "Thank you: the review has been reported to YIBOLO.",
       "linkCopied": "Link copied",
-      "shared": "Shared"
+      "trier": "Sort:",
+      "utile": "Helpful",
+      "signale": "Reported",
+      "invitation": "Be the first to review this driving school.",
+      "partageImpossible": "This link could not be shared."
+    },
+    "fiche": {
+      "sousTitre": "Driving school · {{lieu}}",
+      "depuis": "Since {{annee}}",
+      "contacter": "Contact",
+      "logoAlt": "{{nom}} logo",
+      "toutes": "All",
+      "tous": "All",
+      "appeler": "Call",
+      "permisAria": "See licence {{code}}"
     }
   },
   "licence": {

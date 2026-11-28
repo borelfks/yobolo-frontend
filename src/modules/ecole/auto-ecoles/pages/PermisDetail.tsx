@@ -32,9 +32,9 @@ import { useFavorites } from '@/shared/hooks/useFavorites'
 import { useAutoEcole, usePermisCatalogue, useSessions } from '@/data/hooks'
 import type { PermisCode } from '@/shared/types'
 import { cn } from '@/shared/utils/cn'
-import { fcfa } from '@/shared/utils/format'
+import { demoDate as sessionStart, fcfa } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
-import { sessionDays, sessionDuration, sessionHours, sessionStart } from '@/modules/ecole/auto-ecoles/components/profile/profileUtils'
+import { sessionDays, sessionDuration, sessionHours } from '@/modules/ecole/auto-ecoles/autoEcoleFiche'
 
 const card = 'rounded-2xl border border-line bg-white shadow-[0_2px_10px_rgba(15,29,61,0.06)]'
 const soft = 'rounded-xl bg-[#f0f4fc]'
@@ -77,7 +77,7 @@ export function PermisDetail() {
   const sessions = useSessions()
   const c = (code.toUpperCase() as PermisCode) in permisCatalogue ? (code.toUpperCase() as PermisCode) : 'B'
   // Prix de la fiche (enregistré dans la base) ; à défaut, celui de la liste.
-  const contenu: Contenu = { prix: permisCatalogue[c].prixFiche ?? permisCatalogue[c].prix, contactRapide: permisCatalogue[c].contactRapide }
+  const contenu: Contenu = { prix: permisCatalogue[c].prix, contactRapide: permisCatalogue[c].contactRapide }
   const programme = t(`licence.content.${c}.programme`, { returnObjects: true })
   const base = ROUTES.license(a.id, c)
   const Vehicle = vehicleIcon[c]

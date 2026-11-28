@@ -1,37 +1,13 @@
 import { useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { permisIcon } from '@/modules/ecole/auto-ecoles/autoEcoleRules'
 import { Breadcrumb, type Crumb } from '@/shared/ui/Breadcrumb'
 import { Img } from '@/shared/ui/Img'
 import { useFavorites } from '@/shared/hooks/useFavorites'
 import { useAutoEcole, usePermisCatalogue } from '@/data/hooks'
 import type { PermisCode } from '@/shared/types'
-import { cn } from '@/shared/utils/cn'
 import { fcfa, num } from '@/shared/utils/format'
-import { BadgeCheck, Building2, Car, ChevronDown, CircleCheck, Coins, Folder, Heart, MapPin, Star, X } from 'lucide-react'
+import { Building2, Car, ChevronDown, CircleCheck, Coins, Folder, Heart, MapPin, Star, X } from 'lucide-react'
 import { PasEncoreDAvis } from '@/shared/ui/StarRating'
-
-export function PermisPill({ code, withLabel }: { code: PermisCode; withLabel?: boolean }) {
-  const { t } = useTranslation('driving-schools')
-  const Icon = permisIcon[code]
-  return (
-    <span className="inline-flex items-center gap-1 rounded-full bg-orange-50 px-2.5 py-1 text-xs font-bold text-orange-700 ring-1 ring-orange-100">
-      <Icon className="size-3.5" />
-      {code}
-      {withLabel && <span className="font-medium"> – {t(`permis.${code}.name`)}</span>}
-    </span>
-  )
-}
-
-export function AgreeeBadge({ light }: { light?: boolean }) {
-  const { t } = useTranslation('driving-schools')
-  return (
-    <span className={cn('inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold', light ? 'bg-emerald-500 text-white' : 'bg-emerald-50 text-emerald-700')}>
-      <BadgeCheck className="size-3.5" />
-      {t('common.approved')}
-    </span>
-  )
-}
 
 /** En-tête bleu nuit d'une auto-école (logo carré, nom, note, apprenants formés). */
 export function AEHeader({

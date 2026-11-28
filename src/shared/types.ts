@@ -106,8 +106,6 @@ export type Permis = {
   tarifImage: string
   ageMin: number
   prerequis?: string
-  /** Prix affiché sur la fiche du permis (la maquette diffère de la liste). */
-  prixFiche?: number
   /** La fiche propose « Être rappelé » au lieu du formulaire de contact. */
   contactRapide?: boolean
 }
@@ -269,6 +267,8 @@ export type AvisAutoEcole = {
   note: number
   texte: string
   avatar: string
+  /** Nombre de « Utile » reçus. */
+  utile?: number
 }
 
 export type Actualite = {
@@ -401,7 +401,6 @@ export type Evenement = {
 }
 export type MediaEtablissement = { id: string; etablissementId: string; src: string; video: boolean }
 export type FormationPopulaire = { id: string; typeSlug: TypeSlug; titre: string; diplome: string; image: string; formationId: string }
-export type CategorieGalerie = { id: 'all' | 'centre' | 'vehicles' | 'classes' | 'exams' }
 export type PhotoAutoEcole = { id: string; autoEcoleId: string; usage: 'apercu' | 'galerie'; image: string }
 
 /* --- Accueil de l'utilisateur connecté (copie de l'accueil de yibolo-client) --- */

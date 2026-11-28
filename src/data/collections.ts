@@ -14,7 +14,6 @@ import type {
   Video,
   ActiviteSecurite,
   Evenement,
-  CategorieGalerie,
   FormationPopulaire,
   MediaEtablissement,
   PhotoAutoEcole,
@@ -98,7 +97,6 @@ export type Collections = {
   evenements: Evenement
   medias: MediaEtablissement
   formationsPopulaires: FormationPopulaire
-  categoriesGalerie: CategorieGalerie
   photosAutoEcole: PhotoAutoEcole
   // Accueil de l'utilisateur connecté
   domainesExpertise: DomaineExpertise
@@ -160,7 +158,6 @@ export const COLLECTIONS = [
   'evenements',
   'medias',
   'formationsPopulaires',
-  'categoriesGalerie',
   'photosAutoEcole',
   'domainesExpertise',
   'experts',
