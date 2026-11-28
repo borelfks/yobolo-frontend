@@ -1,64 +1,65 @@
 {
-  "favoris": {
-    "crumbs": {
-      "ecole": "École",
-      "mesFavoris": "Mes favoris"
-    },
-    "title": "Mes favoris",
-    "subtitle": "Retrouvez ici les formations et établissements que vous avez enregistrés.",
-    "filtres": {
-      "tous": "Tous les favoris",
-      "formation": "Formations",
-      "etablissement": "Établissements",
-      "publication": "Publications"
-    },
-    "astuce": {
-      "titre": "Astuce",
-      "texte": "Ajoutez des formations et des établissements à vos favoris pour les retrouver facilement."
-    },
-    "toutSupprimer": "Tout supprimer",
-    "vide": {
-      "titre": "Aucun favori pour le moment",
-      "texte": "Explorez les écoles et ajoutez celles qui vous intéressent.",
-      "explorer": "Explorer les écoles"
-    }
+  "titre": "Mes favoris",
+  "texte": "Retrouvez ici les formations et établissements que vous avez enregistrés.",
+  "toutSupprimer": "Tout supprimer",
+  "retirer": "Retirer des favoris",
+  "publicationRetiree": "Retirée de vos favoris",
+  "echec": "Le changement n’a pas pu être enregistré. Réessayez.",
+  "compte": {
+    "menu": "Mon compte",
+    "role": "Personne physique",
+    "profil": "Mon profil",
+    "favoris": "Mes favoris",
+    "notifications": "Notifications",
+    "parametres": "Paramètres",
+    "deconnexion": "Se déconnecter"
   },
-  "row": {
-    "badges": {
-      "formation": "Formation",
-      "etablissement": "Établissement"
-    },
-    "voirDetails": "Voir les détails",
-    "voirEtablissement": "Voir l’établissement",
-    "dureeMois_one": "{{count}} mois",
-    "dureeMois_other": "{{count}} mois",
+  "filtres": {
+    "titre": "Filtrer les favoris",
+    "tous": "Tous les favoris ({{count}})",
+    "formations": "Formations ({{count}})",
+    "etablissements": "Établissements ({{count}})",
+    "publications": "Publications ({{count}})"
+  },
+  "badges": {
+    "formation": "Formation",
+    "etablissement": "Établissement",
+    "publication": "Publication",
+    "verifie": "Établissement vérifié"
+  },
+  "dossiers": {
+    "formations": "Mes formations",
+    "etablissements": "Mes établissements",
+    "comparer": "À comparer",
+    "enregistree": "Enregistrée"
+  },
+  "ligne": {
+    "mois_one": "{{count}} mois",
+    "mois_other": "{{count}} mois",
     "modes": {
-      "jour": "Cours de jour",
-      "soir": "Cours du soir",
+      "jour": "Jour",
+      "soir": "Soir",
       "jourSoir": "Jour & Soir"
     },
-    "note_one": "{{note}}/5 ({{count}} avis)",
-    "note_other": "{{note}}/5 ({{count}} avis)",
-    "etablissementVerifie": "Établissement vérifié",
-    "tarifFormation": "Tarif de la formation",
-    "permisTitre": "Permis {{code}} – {{nom}}",
-    "permis": {
-      "A": "Motocyclette",
-      "B": "Véhicule léger",
-      "C": "Poids lourd",
-      "D": "Transport en commun",
-      "E": "Remorque"
-    },
-    "duree": {
-      "A": "≈ 1 à 2 mois",
-      "B": "≈ 2 à 3 mois",
-      "C": "≈ 3 à 4 mois",
-      "D": "≈ 2 à 3 mois",
-      "E": "≈ 1 mois"
-    },
-    "retirer": "Retirer des favoris",
-    "publication": "Publication",
-    "lire": "Lire",
-    "publicationRetiree": "Retirée de vos favoris"
+    "note_one": "★ {{note}} ({{count}} avis)",
+    "note_other": "★ {{note}} ({{count}} avis)",
+    "sansAvis": "Pas encore d’avis",
+    "formations_one": "{{count}} formation",
+    "formations_other": "{{count}} formations",
+    "permis": "Permis {{code}} – {{nom}}",
+    "autoEcole": "Auto-école",
+    "publiee": "Publiée {{quand}}",
+    "voirDetails": "Voir les détails",
+    "voirEtablissement": "Voir l’établissement",
+    "lire": "Lire"
+  },
+  "vide": {
+    "titre": "Aucun favori pour le moment",
+    "texte": "Explorez les écoles et ajoutez celles qui vous intéressent.",
+    "explorer": "Explorer les écoles"
+  },
+  "astuce": {
+    "titre": "Astuce",
+    "texte": "Ajoutez des formations et des établissements à vos favoris pour les retrouver facilement."
   }
 }

@@ -1,25 +1,26 @@
-import { useState } from 'react'
-import { createPortal } from 'react-dom'
+import { useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { data, useCollection } from '@/data'
 import { useSession } from '@/modules/compte/auth/hooks/useSession'
-import { Field, Radio, Textarea } from '@/shared/forms/Fields'
-import { Button } from '@/shared/ui/Button'
-import { Modal } from '@/shared/ui/Modal'
+import { Champ } from '@/shared/blocs/Formulaire'
+import { Button } from '@/shared/shadcn/button'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/shared/shadcn/dialog'
+import { RadioGroup, RadioGroupOption } from '@/shared/shadcn/radio-group'
+import { Textarea } from '@/shared/shadcn/textarea'
 import type { MotifDeSignalement } from '@/shared/types'
 
 const MOTIFS: MotifDeSignalement[] = ['spam', 'proposHaineux', 'contenuTrompeur', 'horsSujet']
 const LONGUEUR_MAX_PRECISION = 1000
 
 /**
- * Signaler une publication ou un commentaire (ModaleSignalement de
- * yibolo-client) : un motif dans une liste fermée et une précision facultative,
- * enregistrés dans la table `signalements`. Un compte ne signale qu'une fois
- * le même contenu.
+ * Signaler une publication ou un commentaire : un motif dans une liste fermée
+ * et une précision facultative, enregistrés dans la table `signalements` (lus
+ * par la modération). Un compte ne signale qu'une fois le même contenu.
  */
 export function ModaleSignalement({ ouverte, publicationId, commentaireId, onFermer }: { ouverte: boolean; publicationId: string; /** Un commentaire de la publication (sinon : la publication). */ commentaireId?: string; onFermer: () => void }) {
   const { t } = useTranslation('accueil')
+  const id = useId()
   const { account } = useSession()
   const signalements = useCollection('signalements')
   const [motif, setMotif] = useState<MotifDeSignalement>('spam')
@@ -46,45 +47,35 @@ export function ModaleSignalement({ ouverte, publicationId, commentaireId, onFer
     }
   }
 
-  // Posée sur la page : une colonne collante (xl:sticky) retiendrait la fenêtre sous la barre du haut.
-  return createPortal(
-    <Modal
-      open={ouverte}
-      onClose={onFermer}
-      title={commentaireId ? t('signalement.titreCommentaire') : t('signalement.titre')}
-      footer={
-        <>
-          <Button variant="neutral" onClick={onFermer}>
+  return (
+    <Dialog open={ouverte} onOpenChange={(o) => !o && onFermer()}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle className="text-lg font-extrabold">{commentaireId ? t('signalement.titreCommentaire') : t('signalement.titre')}</DialogTitle>
+          <DialogDescription>{t('signalement.description')}</DialogDescription>
+        </DialogHeader>
+        <fieldset className="flex flex-col gap-2">
+          <legend className="mb-2 text-sm font-bold text-foreground">{t('signalement.motif')}</legend>
+          <RadioGroup value={motif} onValueChange={(v) => setMotif(MOTIFS.find((m) => m === v) ?? 'spam')} className="grid gap-2 sm:grid-cols-2">
+            {MOTIFS.map((un) => (
+              <RadioGroupOption key={un} value={un} className="h-11 text-sm">
+                {t(`signalement.motifs.${un}`)}
+              </RadioGroupOption>
+            ))}
+          </RadioGroup>
+        </fieldset>
+        <Champ id={`${id}-precision`} label={t('signalement.precision')} facultatif aide={`${t('signalement.precisionAide')} (${precision.length} / ${LONGUEUR_MAX_PRECISION})`}>
+          <Textarea id={`${id}-precision`} rows={3} className="min-h-24" maxLength={LONGUEUR_MAX_PRECISION} value={precision} onChange={(e) => setPrecision(e.target.value)} />
+        </Champ>
+        <DialogFooter>
+          <Button variant="outline" onClick={onFermer}>
             {t('signalement.annuler')}
           </Button>
-          <Button variant="danger" disabled={enCours} onClick={() => void envoyer()}>
-            {t('actions.signaler')}
+          <Button variant="destructive-solid" loading={enCours} onClick={() => void envoyer()}>
+            {t('signalement.envoyer')}
           </Button>
-        </>
-      }
-    >
-      <p className="-mt-2 text-sm text-muted-foreground">{t('signalement.description')}</p>
-      <fieldset className="mt-4 flex flex-col gap-2">
-        <legend className="mb-1.5 text-sm font-semibold text-navy-900">{t('signalement.motif')}</legend>
-        {MOTIFS.map((un) => (
-          <Radio key={un} name="motif-signalement" label={t(`signalement.motifs.${un}`)} checked={motif === un} onChange={() => setMotif(un)} />
-        ))}
-      </fieldset>
-      <Field
-        className="mt-4"
-        label={
-          <span className="flex items-baseline justify-between gap-2">
-            {t('signalement.precision')}
-            <span className="text-xs font-normal text-muted-foreground tabular-nums">
-              {precision.length} / {LONGUEUR_MAX_PRECISION}
-            </span>
-          </span>
-        }
-        hint={t('signalement.precisionAide')}
-      >
-        <Textarea rows={3} maxLength={LONGUEUR_MAX_PRECISION} value={precision} onChange={(evenement) => setPrecision(evenement.target.value)} />
-      </Field>
-    </Modal>,
-    document.body,
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   )
 }

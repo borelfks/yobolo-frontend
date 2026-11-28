@@ -134,23 +134,20 @@
     "toutLire": "Tout marquer comme lu",
     "toutesLues": "Toutes vos notifications sont lues",
     "aucune": "Aucune notification pour le moment.",
-    "marquerLue": "Marquer comme lue",
-    "supprimer": "Supprimer",
-    "supprimee": "Notification supprimée",
     "filtres": {
       "toutes": "Toutes",
-      "nonLues": "Non lues"
+      "nonLues": "Non lues",
+      "nonLues_one": "Non lues ({{count}})",
+      "nonLues_other": "Non lues ({{count}})",
+      "titre": "Filtrer les notifications"
     },
-    "preferences": "Paramètres des notifications",
-    "marquerNonLue": "Marquer comme non lue",
     "groupes": {
       "nouvelles": "Nouvelles",
       "plusTot": "Plus tôt"
     },
-    "options": "Options des notifications",
-    "actions": "Actions de la notification",
     "aucuneNonLue": "Aucune notification non lue.",
-    "nonLue": "Non lue"
+    "nonLue": "Non lue",
+    "parametresLien": "Paramètres des notifications →"
   },
   "profil": {
     "titre": "Mon profil",
@@ -190,7 +187,9 @@
     "code": {
       "titre": "Confirmez votre nouveau numéro",
       "bouton": "Confirmer et enregistrer"
-    }
+    },
+    "photoDe": "Photo de {{nom}}",
+    "sansPhoto": "Pas de photo"
   },
   "parametres": {
     "motDePasse": {
@@ -215,7 +214,12 @@
     },
     "langue": {
       "titre": "Langue",
-      "texte": "La langue de l’application, gardée dans ce navigateur."
+      "texte": "La langue de l’application, gardée dans ce navigateur.",
+      "choix": {
+        "fr": "Français",
+        "en": "English"
+      },
+      "changee": "Langue changée"
     },
     "suppression": {
       "titre": "Supprimer mon compte",
@@ -227,7 +231,10 @@
       "annuler": "Annuler",
       "confirmer": "Supprimer définitivement",
       "faite": "Votre compte a été supprimé",
-      "faux": "Mot de passe incorrect."
+      "faux": "Mot de passe incorrect.",
+      "erreurs": {
+        "vide": "Saisissez votre mot de passe."
+      }
     },
     "notifications": {
       "titre": "Notifications",
@@ -265,10 +272,27 @@
       "sansEmail": "Ajoutez un e-mail dans « Mon profil » pour recevoir les notifications par e-mail.",
       "enregistrees": "Préférences enregistrées",
       "echec": "Vos préférences n’ont pas pu être enregistrées. Réessayez."
+    },
+    "titre": "Paramètres",
+    "ancres": {
+      "titre": "Rubriques des paramètres",
+      "notifications": "Notifications",
+      "motDePasse": "Mot de passe",
+      "langue": "Langue",
+      "suppression": "Supprimer mon compte"
     }
   },
   "pages": {
     "profil": "Mon profil",
     "parametres": "Paramètres"
+  },
+  "compte": {
+    "menu": "Mon compte",
+    "role": "Personne physique",
+    "profil": "Mon profil",
+    "favoris": "Mes favoris",
+    "notifications": "Notifications",
+    "parametres": "Paramètres",
+    "deconnexion": "Se déconnecter"
   }
 }

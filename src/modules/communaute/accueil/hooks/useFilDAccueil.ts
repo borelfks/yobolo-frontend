@@ -1,49 +1,55 @@
 import { useState } from 'react'
-import { correspond, instant, TAILLE_DU_FIL } from '@/modules/communaute/accueil/accueilFil'
+import { useCollection } from '@/data'
+import { useEnregistrements, useExperts, usePublications } from '@/data/hooks'
+import { contient, instant, TAILLE_DU_FIL } from '@/modules/communaute/accueil/accueilFil'
 import type { FiltresDuFil } from '@/modules/communaute/accueil/hooks/useFiltresDuFil'
 import { useSession } from '@/modules/compte/auth/hooks/useSession'
-import { useDomainesExpertise, useEnregistrements, useExperts, useLectures, usePublications, useSujetsPublication } from '@/data/hooks'
 import type { Publication } from '@/shared/types'
 
 /**
- * Le fil de l'accueil : les publications des experts, de la plus récente à la
- * plus ancienne (ou les plus lues) — ou ce que le compte a mis de côté. Rien
- * des écoles (ni leurs formations, ni leurs actualités, ni leurs
- * publications), ni offres d'emploi (décisions du 2026-11-24). Tout vient de
- * la base (tables `publications`, `enregistrements`). Le fil se montre par
- * tranches (« Voir plus »).
+ * Les publications du fil : celles des experts, publiées (pas les brouillons),
+ * et leur nombre de commentaires (celui de départ plus ceux de la table, sans
+ * les supprimés). Lues une fois pour le fil, ses listes de choix et ses colonnes.
  */
-export function useFilDAccueil({ tri, enregistres, domaines, sujet, recherche }: FiltresDuFil) {
+export function usePublicationsDuFil() {
+  const publications = usePublications().filter((p) => p.auteurType === 'expert')
+  const commentaires = useCollection('commentaires')
+  const nombreDeCommentaires = (p: Publication) => p.commentaires + commentaires.filter((c) => c.publicationId === p.id && !c.supprime).length
+  return { publications, nombreDeCommentaires }
+}
+
+/**
+ * Le fil de l'accueil (planche « Accueil ») : les publications qui répondent
+ * aux filtres, des plus récentes aux plus anciennes (ou les plus commentées
+ * d'abord), montrées par tranches de cinq. Tout vient de la base.
+ */
+export function useFilDAccueil({ tri, enregistrees, domaines, sujets, experts, recherche }: FiltresDuFil) {
   const { account } = useSession()
-  const toutes = usePublications()
-  const lesEnregistres = useEnregistrements(account?.id)
-  const experts = useExperts()
-  const domainesExpertise = useDomainesExpertise()
-  const sujets = useSujetsPublication()
-  const lectures = useLectures()
+  const { publications, nombreDeCommentaires } = usePublicationsDuFil()
+  const mesEnregistrees = useEnregistrements(account?.id)
+  const lesExperts = useExperts()
 
   // Une nouvelle recherche repart de la première tranche.
-  const cle = JSON.stringify([tri, enregistres, domaines, sujet, recherche])
+  const cle = JSON.stringify([tri, enregistrees, domaines, sujets, experts, recherche])
   const [tranche, setTranche] = useState({ cle, combien: TAILLE_DU_FIL })
   const combien = tranche.cle === cle ? tranche.combien : TAILLE_DU_FIL
 
-  // Seules les publications des experts entrent dans le fil.
-  const autres = (p: Publication) => {
-    const expert = experts.find((e) => e.id === p.auteurId)
-    return [expert?.nom, expert?.ville, ...p.domaines.map((d) => domainesExpertise.find((x) => x.id === d)?.nom), ...p.sujets.map((s) => sujets.find((x) => x.id === s)?.nom ?? s)]
-  }
-  // « Les plus lues » : les vues de départ plus celles des comptes (table `lectures`), comme sur les cartes.
-  const vues = (p: Publication) => p.lectures + lectures.filter((l) => l.publicationId === p.id).length
-  const garder = (p: Publication) => p.auteurType === 'expert' && p.statut === 'publiee' && correspond(p, { domaines, sujet, recherche }, autres(p))
+  const garder = (p: Publication) =>
+    (!enregistrees || mesEnregistrees.some((e) => e.publicationId === p.id)) &&
+    (domaines.length === 0 || p.domaines.some((d) => domaines.includes(d))) &&
+    (sujets.length === 0 || p.sujets.some((s) => sujets.includes(s))) &&
+    (experts.length === 0 || experts.includes(p.auteurId)) &&
+    contient(p, recherche.trim(), lesExperts.find((e) => e.id === p.auteurId)?.nom)
 
-  const publications = enregistres
-    ? lesEnregistres.map((enregistrement) => toutes.find((p) => p.id === enregistrement.publicationId)).filter((p): p is Publication => p !== undefined && garder(p))
-    : toutes.filter(garder).toSorted((a, b) => (tri === 'lues' ? vues(b) - vues(a) : instant(b.publieeLe) - instant(a.publieeLe)))
+  const liste = publications
+    .filter(garder)
+    .toSorted((a, b) => (tri === 'commentees' ? nombreDeCommentaires(b) - nombreDeCommentaires(a) : 0) || instant(b.publieeLe) - instant(a.publieeLe))
 
   return {
-    entrees: publications.slice(0, combien),
-    publications,
-    resteAVoir: publications.length > combien,
+    entrees: liste.slice(0, combien),
+    total: liste.length,
+    affichees: Math.min(combien, liste.length),
+    resteAVoir: liste.length > combien,
     voirPlus: () => setTranche({ cle, combien: combien + TAILLE_DU_FIL }),
   }
 }

@@ -1,55 +1,63 @@
-import { Navigate, useParams } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
+import { Navigate, useParams } from '@tanstack/react-router'
 import { Megaphone } from 'lucide-react'
-import { usePublications } from '@/data/hooks'
-import { titreEtExtrait } from '@/modules/communaute/accueil/accueilFil'
-import { ArticlePublication } from '@/modules/communaute/accueil/components/article/ArticlePublication'
-import { EtatVide } from '@/modules/communaute/accueil/components/EtatVide'
+import { CarteAuteur } from '@/modules/communaute/accueil/components/ColonneDroite'
+import { AutresPublications, DetailPublication, RetourAuFil } from '@/modules/communaute/accueil/components/DetailPublication'
+import { GrilleAccueil, SqueletteAccueil } from '@/modules/communaute/accueil/components/GrilleAccueil'
+import { useAuteurs } from '@/modules/communaute/accueil/hooks/useAuteur'
+import { usePublicationsDuFil } from '@/modules/communaute/accueil/hooks/useFilDAccueil'
 import { useSession } from '@/modules/compte/auth/hooks/useSession'
-import { Breadcrumb } from '@/shared/ui/Breadcrumb'
-import { Button } from '@/shared/ui/Button'
-import { Card } from '@/shared/ui/Card'
+import { ChargementDonnees } from '@/shared/blocs/ChargementDonnees'
+import { EmptyState } from '@/shared/blocs/Etats'
+import { Button } from '@/shared/shadcn/button'
+import { Lien } from '@/shared/ui/Lien'
 import { ROUTES } from '@/shared/utils/routes'
 
 /**
- * Une publication seule (PublicationPage de yibolo-client) : l'adresse qu'on
- * partage, et la seule ouverture qui compte une vue. Elle se lit comme un
- * article de presse. Une publication retirée ou inconnue : « n'est pas
- * accessible », sans distinguer les deux cas.
+ * Une publication ouverte (canevas : « Détail d'une publication »), à son
+ * adresse (`/accueil/publications/:id`, celle qu'on partage) : les colonnes de
+ * l'accueil, l'auteur en tête de celle de droite. Une publication retirée ou
+ * inconnue : « n'est pas accessible ».
  */
 export function PublicationLue() {
+  const { account } = useSession()
+  if (!account) return <Navigate to={ROUTES.signIn} replace />
+  return (
+    <ChargementDonnees fallback={<SqueletteAccueil />}>
+      <PublicationOuverte />
+    </ChargementDonnees>
+  )
+}
+
+function PublicationOuverte() {
   const { t } = useTranslation('accueil')
   const { id = '' } = useParams({ strict: false })
-  const { account } = useSession()
-  const publication = usePublications().find((p) => p.id === id && p.statut === 'publiee')
-
-  if (!account) return <Navigate to={ROUTES.signIn} replace />
+  const publication = usePublicationsDuFil().publications.find((p) => p.id === id)
+  const auteurDe = useAuteurs()
+  const auteur = publication ? auteurDe(publication.auteurId) : undefined
 
   return (
-    <div className="mx-auto flex w-full max-w-[1320px] flex-col gap-4 px-5 pt-6 pb-10">
-      <Breadcrumb
-        items={[{ label: t('article.fil'), to: ROUTES.accueil }, { label: publication ? titreEtExtrait(publication).titre : t('introuvable.titre') }]}
-        className="-mt-1 flex-nowrap [&>span]:whitespace-nowrap [&>span:last-child]:min-w-0 [&>span:last-child>span]:truncate [&>span:not(:last-child)]:shrink-0"
-      />
-      {publication ? (
-        <ArticlePublication publication={publication} />
-      ) : (
+    <GrilleAccueil enTeteDroite={publication && auteur && <CarteAuteur id={publication.auteurId} {...auteur} />}>
+      <h1 className="sr-only">{t('detail.titrePage')}</h1>
+      <RetourAuFil />
+      {publication && auteur ? (
         <>
-          <h1 className="sr-only">{t('article.titrePage')}</h1>
-          <Card>
-            <EtatVide
-              icone={<Megaphone className="size-6" aria-hidden="true" />}
-              titre={t('introuvable.titre')}
-              description={t('introuvable.detail')}
-              action={
-              <Button to={ROUTES.accueil} variant="outline" size="sm">
-                {t('introuvable.action')}
-              </Button>
-            }
-          />
-          </Card>
+          <DetailPublication publication={publication} auteur={auteur} />
+          <AutresPublications publication={publication} nom={auteur.nom} />
         </>
+      ) : (
+        <EmptyState
+          icone={Megaphone}
+          titre={t('introuvable.titre')}
+          texte={t('introuvable.detail')}
+          action={
+            <Button asChild variant="secondary" size="sm">
+              <Lien to={ROUTES.accueil}>{t('introuvable.action')}</Lien>
+            </Button>
+          }
+          className="rounded-none border-x-0 lg:rounded-lg lg:border-x"
+        />
       )}
-    </div>
+    </GrilleAccueil>
   )
 }

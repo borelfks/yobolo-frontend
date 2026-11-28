@@ -1,99 +1,108 @@
 {
   "titre": "Accueil",
   "fil": {
-    "titre": "Publications récentes"
+    "affichees_one": "{{affichees}} sur {{count}} publication",
+    "affichees_other": "{{affichees}} sur {{count}} publications",
+    "plus": "Afficher plus de publications"
   },
-  "bandeau": {
-    "titre": "Développez vos compétences avec les meilleurs experts",
-    "texte": "Formations et conseils d’experts, un seul espace !",
-    "action": "Découvrir les domaines",
-    "suivant": "Suivant",
-    "carrousel": "Annonces de l’accueil",
-    "aller": "Aller à l’annonce {{rang}} sur {{total}}"
-  },
-  "raccourcis": {
-    "titre": "Mes raccourcis",
+  "moi": {
+    "enregistrees": "Publications enregistrées",
     "favoris": "Mes favoris",
-    "notifications": "Mes notifications",
-    "profil": "Mon profil",
-    "favorisAide": "Filtrer le fil",
-    "notificationsAide": "Voir mes notifications",
-    "profilAide": "Gérer mon profil",
-    "nonLues_one": "{{count}} notification non lue",
-    "nonLues_other": "{{count}} notifications non lues",
-    "retirerFiltre": "Retirer le filtre"
+    "nonLues": "Notifications non lues",
+    "espacePro": "Mon espace professionnel",
+    "mesDomaines": "Mes domaines"
   },
-  "filtres": {
-    "actifs": "Filtres choisis",
-    "retirer": "Retirer le filtre {{filtre}}",
-    "mesEnregistres": "Mes favoris",
-    "bouton": "Plus de filtres",
-    "titre": "Filtrer le fil",
-    "ordre": "Trier par",
-    "reinitialiser": "Réinitialiser",
-    "voir": "Voir les résultats",
-    "vue": "Afficher",
-    "toutLeFil": "Tout le fil",
-    "autres": "Autres options",
-    "publicationsEnregistrees": "Publications en favoris",
-    "copierLaRecherche": "Copier le lien de cette recherche",
-    "reinitialiserLesFiltres": "Réinitialiser les filtres",
-    "enregistresExplique": "Les publications que vous avez mises en favoris, de la plus récente à la plus ancienne. Les domaines et la recherche s’y appliquent."
+  "experts": {
+    "titre": "Experts",
+    "voirSes_one": "Voir ses {{count}} publication",
+    "voirSes_other": "Voir ses {{count}} publications",
+    "tous_one": "Voir l’expert →",
+    "tous_other": "Voir les {{count}} experts →",
+    "moins": "Afficher moins"
   },
-  "recherche": {
-    "libelle": "Rechercher dans le fil",
-    "placeholder": "Rechercher un mot clé, un domaine, une ville, un expert…",
-    "effacer": "Effacer la recherche"
-  },
-  "domaines": {
-    "libelle": "Domaines",
-    "expertise": "Domaines d’expertise",
-    "tous": "Tous",
-    "tousLesDomaines": "Tous les domaines",
-    "plus": "Plus",
-    "effacer": "Tout décocher",
-    "chercher": "Chercher un domaine"
-  },
-  "rubriques": {
-    "pour": "Résultats pour « {{recherche}} »"
-  },
-  "badge": {
-    "consultant": "Consultant",
-    "ecole": "École",
-    "entreprise": "Entreprise",
-    "membre": "Membre"
+  "sujets": {
+    "titre": "Sujets du moment",
+    "publications_one": "{{count}} publication",
+    "publications_other": "{{count}} publications"
   },
   "auteur": {
+    "voirSesPublications": "Voir ses publications",
+    "personne": "Personne physique",
+    "ecole": "École",
+    "roleEcole": "École – {{type}}",
     "inconnu": "Un membre"
+  },
+  "recherche": {
+    "libelle": "Rechercher dans les publications",
+    "placeholder": "Rechercher une publication, un expert, un mot…"
+  },
+  "filtres": {
+    "domaines": {
+      "titre": "Domaines",
+      "chercher": "Chercher un domaine"
+    },
+    "sujets": {
+      "titre": "Sujets",
+      "chercher": "Chercher un sujet"
+    },
+    "experts": {
+      "titre": "Experts",
+      "chercher": "Chercher un expert"
+    },
+    "aucunResultat": "Aucun résultat pour « {{recherche}} ».",
+    "effacer": "Effacer",
+    "fermer": "Fermer",
+    "afficher_one": "Afficher {{count}} résultat",
+    "afficher_other": "Afficher {{count}} résultats",
+    "enregistrees": "Enregistrées ({{count}})",
+    "toutEffacer": "Tout effacer"
+  },
+  "tri": {
+    "libelle": "Trier par :",
+    "recentes": "Plus récentes",
+    "commentees": "Plus commentées"
+  },
+  "publication": {
+    "public": "Public",
+    "plusDActions": "Plus d’actions",
+    "voirPlus": "…voir plus",
+    "ouvrir": "Ouvrir la publication",
+    "chiffres": "{{commentaires}} · {{vues}}",
+    "commentaires_zero": "Aucun commentaire",
+    "commentaires_one": "{{count}} commentaire",
+    "commentaires_other": "{{count}} commentaires",
+    "vues_one": "{{count}} vue",
+    "vues_other": "{{count}} vues"
+  },
+  "jaimes": {
+    "vous": "Vous",
+    "vousEt_one": "Vous et {{count}} autre",
+    "vousEt_other": "Vous et {{count}} autres",
+    "nombre_one": "{{count}}",
+    "nombre_other": "{{count}}"
   },
   "actions": {
     "jaime": "J’aime",
-    "voirPlus": "Voir plus",
-    "nePlusAimer": "Je n’aime plus",
-    "commentaires_zero": "Commenter",
-    "commentaires_one": "{{nombre}} commentaire",
-    "commentaires_other": "{{nombre}} commentaires",
+    "commenter": "Commenter",
     "partager": "Partager",
+    "lienCopie": "Lien copié",
     "enregistrer": "Enregistrer",
     "enregistree": "Enregistrée",
-    "retirerDesEnregistres": "Retirer des favoris",
-    "copierLeLien": "Copier le lien",
-    "lienCopie": "Lien copié",
-    "signaler": "Signaler",
-    "menu": "Plus d’options",
-    "ajouteeAuxEnregistres": "Ajoutée à vos favoris",
-    "retireeDesEnregistres": "Retirée de vos favoris",
+    "ajouteeAuxEnregistres": "Publication enregistrée",
+    "retireeDesEnregistres": "Publication retirée de vos enregistrements",
     "echecEnregistrement": "Impossible de l’enregistrer pour l’instant.",
-    "echecJaime": "Votre « J’aime » n’a pas été enregistré.",
-    "lectures_one": "{{nombre}} lecture",
-    "lectures_other": "{{nombre}} lectures",
-    "commenter": "Commenter",
-    "jaimes_one": "{{nombre}} j’aime",
-    "jaimes_other": "{{nombre}} j’aime"
+    "echecJaime": "Votre « J’aime » n’a pas été enregistré."
   },
   "signalement": {
-    "titre": "Signaler ce contenu",
-    "description": "Un modérateur le lira. Choisissez le motif le plus proche.",
+    "menu": "Signaler la publication",
+    "aide": "Contenu faux, choquant ou publicitaire",
+    "annulerMenu": "Annuler le signalement",
+    "annulerAide": "La publication ne sera plus signalée.",
+    "bandeau": "Publication signalée : YIBOLO va l’examiner.",
+    "annule": "Signalement annulé",
+    "titre": "Signaler la publication",
+    "titreCommentaire": "Signaler le commentaire",
+    "description": "Un modérateur de YIBOLO le lira. Choisissez le motif le plus proche.",
     "motif": "Motif",
     "motifs": {
       "spam": "Spam",
@@ -101,98 +110,62 @@
       "contenuTrompeur": "Contenu trompeur",
       "horsSujet": "Hors sujet"
     },
-    "precision": "Précision (facultatif)",
-    "precisionAide": "Lue par le seul modérateur : ni l’auteur signalé ni le public n’y ont accès.",
+    "precision": "Précision",
+    "precisionAide": "Lue par le seul modérateur",
     "annuler": "Annuler",
+    "envoyer": "Signaler",
     "envoye": "Signalement transmis.",
     "dejaSignale": "Vous aviez déjà signalé ce contenu.",
-    "erreur": "Le signalement n’a pas abouti.",
-    "titreCommentaire": "Signaler ce commentaire"
+    "erreur": "Le signalement n’a pas abouti."
   },
-  "lecture": {
-    "sujets": "Sujets"
-  },
-  "nature": {
-    "publication": "Publication"
-  },
-  "vide": {
-    "titre": "Rien à lire pour l’instant",
-    "detail": "Les publications apparaîtront ici dès qu’elles seront en ligne.",
-    "filtre": "Essayez d’autres mots, ou retirez un domaine.",
-    "enregistresTitre": "Aucune publication dans vos favoris",
-    "enregistresDetail": "Touchez « Enregistrer » sur une publication pour la retrouver ici.",
-    "toutVoir": "Tout voir",
-    "rechercheTitre": "Rien ne correspond à « {{recherche}} »"
-  },
-  "voirPlus": "Voir plus",
-  "fin": "Vous êtes à jour",
-  "bientot": "Bientôt disponible",
   "commentaires": {
-    "aucun": "Aucun commentaire pour le moment : soyez le premier.",
-    "placeholder": "Écrire un commentaire…",
-    "envoyer": "Publier le commentaire",
+    "titre": "Commentaires",
+    "placeholder": "Ajouter un commentaire…",
+    "publier": "Publier",
     "publie": "Commentaire publié",
+    "aucun": "Soyez le premier à commenter.",
+    "plusRecents": "Les plus récents ▾",
+    "voirPlus": "Voir plus de commentaires",
+    "annuler": "Annuler",
+    "enregistrer": "Enregistrer",
+    "modifie": "Commentaire modifié",
+    "modifieCourt": "modifié",
     "supprime": "Commentaire supprimé",
+    "supprimeTexte": "Ce commentaire a été supprimé.",
+    "repondre": "Répondre",
+    "repondreA": "Répondre à {{nom}}…",
+    "modifier": "Modifier",
+    "supprimerCourt": "Supprimer",
+    "signaler": "Signaler",
+    "confirmerSuppression": "Supprimer le commentaire ?",
+    "confirmerSuppressionDetail": "Il disparaît de la publication. Les réponses des autres restent visibles.",
+    "reponsePubliee": "Réponse publiée",
     "erreurs": {
-      "vide": "Écrivez votre commentaire.",
-      "tropLong": "Le commentaire compte au plus {{max}} caractères.",
       "envoi": "Le commentaire n’a pas pu être publié. Réessayez.",
       "suppression": "Le commentaire n’a pas pu être supprimé. Réessayez."
     },
-    "enSonNomPropre": "Vous commentez en votre nom personnel.",
-    "voirPlus": "Voir plus de commentaires",
-    "modifie": "Commentaire modifié",
-    "reponsePubliee": "Réponse publiée",
-    "supprimeTexte": "Ce commentaire a été supprimé.",
-    "enregistrer": "Enregistrer",
-    "options": "Options du commentaire",
-    "modifier": "Modifier",
-    "supprimerCourt": "Supprimer",
-    "repondre": "Répondre",
-    "repondreA": "Répondre à {{nom}}…",
-    "modifieCourt": "Modifié",
-    "modifieLe": "modifié le {{date}}",
-    "confirmerSuppression": "Supprimer le commentaire ?",
-    "confirmerSuppressionDetail": "Il disparaît de la publication. Les réponses des autres restent visibles.",
-    "reste": "{{reste}} caractères restants.",
-    "echapPour": "Appuyez sur Échap pour",
-    "annulerMinuscule": "annuler",
     "notification": {
       "titre": "Nouvelle réponse",
       "texte": "{{nom}} a répondu à votre commentaire.",
       "quand": "À l’instant"
     }
   },
-  "suppression": {
-    "titre": "Supprimer la publication ?",
-    "texte": "La publication, ses commentaires et ses « J’aime » seront supprimés. Cette action est définitive.",
-    "annuler": "Annuler",
-    "confirmer": "Supprimer",
-    "faite": "Publication supprimée",
-    "echec": "La publication n’a pas pu être supprimée. Réessayez.",
-    "menu": "Supprimer la publication"
-  },
-  "article": {
-    "fil": "Fil d’actualité",
+  "detail": {
     "titrePage": "Publication",
-    "lecture_one": "{{count}} min de lecture",
-    "lecture_other": "{{count}} min de lecture",
-    "commentaires_one": "Commentaire ({{count}})",
-    "commentaires_other": "Commentaires ({{count}})",
-    "partager": "Partager",
-    "copierLeLien": "Copier le lien",
-    "lienCopie": "Lien copié",
-    "similaires": "Publications similaires",
-    "copieEchouee": "Le lien n’a pas pu être copié.",
-    "voirLAuteur": "Voir le profil de {{nom}}"
+    "publication": "Publication",
+    "retour": "Retour au fil",
+    "vousAimez": "Vous aimez cette publication",
+    "autres": "Plus de publications de {{nom}}"
+  },
+  "vide": {
+    "aucune": "Aucune publication pour le moment",
+    "enregistrees": "Aucune publication enregistrée",
+    "filtres": "Aucune publication pour ces filtres",
+    "texte": "Essayez d’autres domaines ou sujets."
   },
   "introuvable": {
     "titre": "Cette publication n’est pas accessible",
     "detail": "Elle a été retirée du fil, ou l’adresse ne correspond à rien.",
-    "action": "Voir le fil"
-  },
-  "tris": {
-    "recentes": "Les plus récentes",
-    "lues": "Les plus lues"
+    "action": "Retour au fil"
   }
 }

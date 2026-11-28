@@ -1,57 +1,63 @@
-import { useParametresRecherche } from '@/shared/hooks/useParametresRecherche'
+import { useLocation, useNavigate } from '@tanstack/react-router'
 import { TRIS_DU_FIL, type TriDuFil } from '@/modules/communaute/accueil/accueilFil'
+import { ROUTES } from '@/shared/utils/routes'
 
 export interface FiltresDuFil {
   tri: TriDuFil
-  /** La collection de ce qu'on a mis de côté, à la place du fil. */
-  enregistres: boolean
+  /** Seulement les publications enregistrées par le compte (pilule « Enregistrées »). */
+  enregistrees: boolean
   domaines: string[]
-  sujet?: string
+  sujets: string[]
+  experts: string[]
   recherche: string
 }
 
 /**
- * Ce que montre le fil, tenu dans l'adresse (comme dans yibolo-client) : il se
- * partage, et le retour arrière le défait. La recherche, les domaines, un sujet,
- * « Mes enregistrés » et l'ordre (« Les plus récentes » / « Les plus lues ») ;
- * pas de filtre « Ville » (décision du 2026-11-25). « Mes enregistrés » est une
- * collection : l'ordre ne s'y applique pas.
+ * Ce que montre le fil, tenu dans l'adresse de l'accueil : il se partage, et le
+ * retour arrière le défait. `?domaine=…&sujet=…&expert=…` (plusieurs de chaque),
+ * `?vue=enregistres`, `?tri=commentees`, `?q=…` (la recherche de la barre du
+ * haut mène à `/accueil?q=…`). Sur la page d'une publication, choisir un filtre
+ * (un sujet, un expert, un domaine) ramène au fil filtré.
  */
 export function useFiltresDuFil() {
-  const [parametres, setParametres] = useParametresRecherche()
+  const { pathname, searchStr } = useLocation()
+  const navigate = useNavigate()
+  const surLeFil = pathname === ROUTES.accueil
+  const parametres = new URLSearchParams(surLeFil ? searchStr : '')
 
-  const vue = parametres.get('vue')
-  const enregistres = vue === 'enregistres'
   const filtres: FiltresDuFil = {
-    tri: (!enregistres && TRIS_DU_FIL.find((un) => un === parametres.get('tri'))) || 'recentes',
-    enregistres,
+    tri: TRIS_DU_FIL.find((un) => un === parametres.get('tri')) ?? 'recentes',
+    enregistrees: parametres.get('vue') === 'enregistres',
     domaines: parametres.getAll('domaine'),
-    sujet: parametres.get('sujet') || undefined,
-    recherche: (parametres.get('q') ?? '').trim(),
+    sujets: parametres.getAll('sujet'),
+    experts: parametres.getAll('expert'),
+    recherche: parametres.get('q') ?? '',
   }
 
   const changer = (suite: Partial<FiltresDuFil>) => {
     const voulus = { ...filtres, ...suite }
     const prochain = new URLSearchParams()
-    if (voulus.enregistres) prochain.set('vue', 'enregistres')
-    else if (voulus.tri !== 'recentes') prochain.set('tri', voulus.tri)
-    voulus.domaines.forEach((domaine) => prochain.append('domaine', domaine))
-    if (voulus.sujet) prochain.set('sujet', voulus.sujet)
-    if (voulus.recherche.trim()) prochain.set('q', voulus.recherche.trim())
-    setParametres(prochain, { replace: true })
+    if (voulus.enregistrees) prochain.set('vue', 'enregistres')
+    if (voulus.tri !== 'recentes') prochain.set('tri', voulus.tri)
+    voulus.domaines.forEach((d) => prochain.append('domaine', d))
+    voulus.sujets.forEach((s) => prochain.append('sujet', s))
+    voulus.experts.forEach((e) => prochain.append('expert', e))
+    if (voulus.recherche) prochain.set('q', voulus.recherche)
+    const texte = prochain.toString()
+    // Sur le fil, l'adresse est remplacée (pas une entrée d'historique par case cochée).
+    void navigate({ href: `${ROUTES.accueil}${texte ? `?${texte}` : ''}`, replace: surLeFil })
   }
+
+  const actifs = filtres.domaines.length + filtres.sujets.length + filtres.experts.length > 0 || filtres.enregistrees || filtres.recherche.trim() !== ''
 
   return {
     filtres,
     changer,
-    /** Ce que le bouton « Plus de filtres » porte : la vue et l'ordre. */
-    nombreDansLeBouton: (filtres.enregistres ? 1 : 0) + (filtres.tri !== 'recentes' ? 1 : 0),
-    filtre:
-      filtres.enregistres ||
-      filtres.tri !== 'recentes' ||
-      filtres.domaines.length > 0 ||
-      filtres.sujet !== undefined ||
-      filtres.recherche !== '',
-    toutVoir: () => setParametres(new URLSearchParams(), { replace: true }),
+    actifs,
+    /** « Tout effacer » : le fil entier, dans son ordre. */
+    toutEffacer: () => changer({ enregistrees: false, domaines: [], sujets: [], experts: [], recherche: '' }),
+    /** Un seul filtre, à la place des autres (un sujet du moment, un expert, un mot-dièse). */
+    seulement: (suite: Partial<Pick<FiltresDuFil, 'domaines' | 'sujets' | 'experts'>>) =>
+      changer({ enregistrees: false, domaines: [], sujets: [], experts: [], recherche: '', ...suite }),
   }
 }

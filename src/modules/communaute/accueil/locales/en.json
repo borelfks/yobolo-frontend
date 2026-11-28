@@ -1,99 +1,108 @@
 {
   "titre": "Home",
   "fil": {
-    "titre": "Recent posts"
+    "affichees_one": "{{affichees}} of {{count}} post",
+    "affichees_other": "{{affichees}} of {{count}} posts",
+    "plus": "Show more posts"
   },
-  "bandeau": {
-    "titre": "Grow your skills with the best experts",
-    "texte": "Programmes and expert advice, all in one place!",
-    "action": "Explore the fields",
-    "suivant": "Next",
-    "carrousel": "Home announcements",
-    "aller": "Go to announcement {{rang}} of {{total}}"
-  },
-  "raccourcis": {
-    "titre": "My shortcuts",
+  "moi": {
+    "enregistrees": "Saved posts",
     "favoris": "My favourites",
-    "notifications": "My notifications",
-    "profil": "My profile",
-    "favorisAide": "Filter the feed",
-    "notificationsAide": "See my notifications",
-    "profilAide": "Manage my profile",
-    "nonLues_one": "{{count}} unread notification",
-    "nonLues_other": "{{count}} unread notifications",
-    "retirerFiltre": "Remove the filter"
+    "nonLues": "Unread notifications",
+    "espacePro": "My professional space",
+    "mesDomaines": "My fields"
   },
-  "filtres": {
-    "actifs": "Chosen filters",
-    "retirer": "Remove filter {{filtre}}",
-    "mesEnregistres": "My favourites",
-    "bouton": "More filters",
-    "titre": "Filter the feed",
-    "ordre": "Sort by",
-    "reinitialiser": "Reset",
-    "voir": "Show results",
-    "vue": "Show",
-    "toutLeFil": "Whole feed",
-    "autres": "More options",
-    "publicationsEnregistrees": "Favourite posts",
-    "copierLaRecherche": "Copy the link to this search",
-    "reinitialiserLesFiltres": "Reset filters",
-    "enregistresExplique": "The posts you added to your favourites, newest first. Fields and search apply to them."
+  "experts": {
+    "titre": "Experts",
+    "voirSes_one": "See their {{count}} post",
+    "voirSes_other": "See their {{count}} posts",
+    "tous_one": "See the expert →",
+    "tous_other": "See the {{count}} experts →",
+    "moins": "Show less"
   },
-  "recherche": {
-    "libelle": "Search the feed",
-    "placeholder": "Search a keyword, a field, a city, an expert…",
-    "effacer": "Clear search"
-  },
-  "domaines": {
-    "libelle": "Fields",
-    "expertise": "Fields of expertise",
-    "tous": "All",
-    "tousLesDomaines": "All fields",
-    "plus": "More",
-    "effacer": "Clear all",
-    "chercher": "Find a field"
-  },
-  "rubriques": {
-    "pour": "Results for “{{recherche}}”"
-  },
-  "badge": {
-    "consultant": "Consultant",
-    "ecole": "School",
-    "entreprise": "Company",
-    "membre": "Member"
+  "sujets": {
+    "titre": "Trending topics",
+    "publications_one": "{{count}} post",
+    "publications_other": "{{count}} posts"
   },
   "auteur": {
+    "voirSesPublications": "See their posts",
+    "personne": "Individual",
+    "ecole": "School",
+    "roleEcole": "School – {{type}}",
     "inconnu": "A member"
+  },
+  "recherche": {
+    "libelle": "Search posts",
+    "placeholder": "Search for a post, an expert, a word…"
+  },
+  "filtres": {
+    "domaines": {
+      "titre": "Fields",
+      "chercher": "Search for a field"
+    },
+    "sujets": {
+      "titre": "Topics",
+      "chercher": "Search for a topic"
+    },
+    "experts": {
+      "titre": "Experts",
+      "chercher": "Search for an expert"
+    },
+    "aucunResultat": "No results for “{{recherche}}”.",
+    "effacer": "Clear",
+    "fermer": "Close",
+    "afficher_one": "Show {{count}} result",
+    "afficher_other": "Show {{count}} results",
+    "enregistrees": "Saved ({{count}})",
+    "toutEffacer": "Clear all"
+  },
+  "tri": {
+    "libelle": "Sort by:",
+    "recentes": "Most recent",
+    "commentees": "Most commented"
+  },
+  "publication": {
+    "public": "Public",
+    "plusDActions": "More actions",
+    "voirPlus": "…see more",
+    "ouvrir": "Open the post",
+    "chiffres": "{{commentaires}} · {{vues}}",
+    "commentaires_zero": "No comments",
+    "commentaires_one": "{{count}} comment",
+    "commentaires_other": "{{count}} comments",
+    "vues_one": "{{count}} view",
+    "vues_other": "{{count}} views"
+  },
+  "jaimes": {
+    "vous": "You",
+    "vousEt_one": "You and {{count}} other",
+    "vousEt_other": "You and {{count}} others",
+    "nombre_one": "{{count}}",
+    "nombre_other": "{{count}}"
   },
   "actions": {
     "jaime": "Like",
-    "voirPlus": "See more",
-    "nePlusAimer": "Unlike",
-    "commentaires_zero": "Comment",
-    "commentaires_one": "{{nombre}} comment",
-    "commentaires_other": "{{nombre}} comments",
+    "commenter": "Comment",
     "partager": "Share",
+    "lienCopie": "Link copied",
     "enregistrer": "Save",
     "enregistree": "Saved",
-    "retirerDesEnregistres": "Remove from favourites",
-    "copierLeLien": "Copy the link",
-    "lienCopie": "Link copied",
-    "signaler": "Report",
-    "menu": "More options",
-    "ajouteeAuxEnregistres": "Added to your favourites",
-    "retireeDesEnregistres": "Removed from your favourites",
-    "echecEnregistrement": "It can't be saved right now.",
-    "echecJaime": "Your like was not saved.",
-    "lectures_one": "{{nombre}} read",
-    "lectures_other": "{{nombre}} reads",
-    "commenter": "Comment",
-    "jaimes_one": "{{nombre}} like",
-    "jaimes_other": "{{nombre}} likes"
+    "ajouteeAuxEnregistres": "Post saved",
+    "retireeDesEnregistres": "Post removed from your saved posts",
+    "echecEnregistrement": "It could not be saved right now.",
+    "echecJaime": "Your like was not recorded."
   },
   "signalement": {
-    "titre": "Report this content",
-    "description": "A moderator will read it. Pick the closest reason.",
+    "menu": "Report the post",
+    "aide": "False, offensive or promotional content",
+    "annulerMenu": "Cancel the report",
+    "annulerAide": "The post will no longer be reported.",
+    "bandeau": "Post reported: YIBOLO will review it.",
+    "annule": "Report cancelled",
+    "titre": "Report the post",
+    "titreCommentaire": "Report the comment",
+    "description": "A YIBOLO moderator will read it. Choose the closest reason.",
     "motif": "Reason",
     "motifs": {
       "spam": "Spam",
@@ -101,98 +110,62 @@
       "contenuTrompeur": "Misleading content",
       "horsSujet": "Off topic"
     },
-    "precision": "Details (optional)",
-    "precisionAide": "Read by the moderator only: neither the reported author nor the public can see it.",
+    "precision": "Details",
+    "precisionAide": "Read by the moderator only",
     "annuler": "Cancel",
+    "envoyer": "Report",
     "envoye": "Report sent.",
     "dejaSignale": "You had already reported this content.",
-    "erreur": "The report did not go through.",
-    "titreCommentaire": "Report this comment"
+    "erreur": "The report could not be sent."
   },
-  "lecture": {
-    "sujets": "Topics"
-  },
-  "nature": {
-    "publication": "Post"
-  },
-  "vide": {
-    "titre": "Nothing to read yet",
-    "detail": "Posts will appear here as soon as they are online.",
-    "filtre": "Try other words, or remove a field.",
-    "enregistresTitre": "No posts in your favourites",
-    "enregistresDetail": "Tap “Save” on a post to find it here.",
-    "toutVoir": "See everything",
-    "rechercheTitre": "Nothing matches “{{recherche}}”"
-  },
-  "voirPlus": "See more",
-  "fin": "You're all caught up",
-  "bientot": "Coming soon",
   "commentaires": {
-    "aucun": "No comments yet: be the first.",
-    "placeholder": "Write a comment…",
-    "envoyer": "Post comment",
+    "titre": "Comments",
+    "placeholder": "Add a comment…",
+    "publier": "Post",
     "publie": "Comment posted",
+    "aucun": "Be the first to comment.",
+    "plusRecents": "Most recent ▾",
+    "voirPlus": "See more comments",
+    "annuler": "Cancel",
+    "enregistrer": "Save",
+    "modifie": "Comment edited",
+    "modifieCourt": "edited",
     "supprime": "Comment deleted",
+    "supprimeTexte": "This comment has been deleted.",
+    "repondre": "Reply",
+    "repondreA": "Reply to {{nom}}…",
+    "modifier": "Edit",
+    "supprimerCourt": "Delete",
+    "signaler": "Report",
+    "confirmerSuppression": "Delete the comment?",
+    "confirmerSuppressionDetail": "It disappears from the post. Other people’s replies stay visible.",
+    "reponsePubliee": "Reply posted",
     "erreurs": {
-      "vide": "Write your comment.",
-      "tropLong": "The comment has at most {{max}} characters.",
       "envoi": "The comment could not be posted. Please try again.",
       "suppression": "The comment could not be deleted. Please try again."
     },
-    "enSonNomPropre": "You comment in your own name.",
-    "voirPlus": "See more comments",
-    "modifie": "Comment updated",
-    "reponsePubliee": "Reply posted",
-    "supprimeTexte": "This comment was deleted.",
-    "enregistrer": "Save",
-    "options": "Comment options",
-    "modifier": "Edit",
-    "supprimerCourt": "Delete",
-    "repondre": "Reply",
-    "repondreA": "Reply to {{nom}}…",
-    "modifieCourt": "Edited",
-    "modifieLe": "edited on {{date}}",
-    "confirmerSuppression": "Delete this comment?",
-    "confirmerSuppressionDetail": "It disappears from the post. Other people’s replies stay visible.",
-    "reste": "{{reste}} characters left.",
-    "echapPour": "Press Esc to",
-    "annulerMinuscule": "cancel",
     "notification": {
       "titre": "New reply",
       "texte": "{{nom}} replied to your comment.",
       "quand": "Just now"
     }
   },
-  "suppression": {
-    "titre": "Delete this post?",
-    "texte": "The post, its comments and its likes will be deleted. This cannot be undone.",
-    "annuler": "Cancel",
-    "confirmer": "Delete",
-    "faite": "Post deleted",
-    "echec": "The post could not be deleted. Please try again.",
-    "menu": "Delete post"
-  },
-  "article": {
-    "fil": "News feed",
+  "detail": {
     "titrePage": "Post",
-    "lecture_one": "{{count}} min read",
-    "lecture_other": "{{count}} min read",
-    "commentaires_one": "Comment ({{count}})",
-    "commentaires_other": "Comments ({{count}})",
-    "partager": "Share",
-    "copierLeLien": "Copy link",
-    "lienCopie": "Link copied",
-    "similaires": "Similar posts",
-    "copieEchouee": "The link could not be copied.",
-    "voirLAuteur": "View {{nom}}’s profile"
+    "publication": "Post",
+    "retour": "Back to the feed",
+    "vousAimez": "You like this post",
+    "autres": "More posts from {{nom}}"
+  },
+  "vide": {
+    "aucune": "No posts yet",
+    "enregistrees": "No saved posts",
+    "filtres": "No posts for these filters",
+    "texte": "Try other fields or topics."
   },
   "introuvable": {
     "titre": "This post is not available",
-    "detail": "It was removed from the feed, or the address matches nothing.",
-    "action": "See the feed"
-  },
-  "tris": {
-    "recentes": "Most recent",
-    "lues": "Most read"
+    "detail": "It has been removed from the feed, or the address does not match anything.",
+    "action": "Back to the feed"
   }
 }

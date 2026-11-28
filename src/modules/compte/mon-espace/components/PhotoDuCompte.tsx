@@ -1,24 +1,31 @@
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
-import { Camera, LoaderCircle, Trash2 } from 'lucide-react'
+import { Camera, LoaderCircle } from 'lucide-react'
 import { data } from '@/data'
 import { Avatar } from '@/shared/ui/Avatar'
-import { Button } from '@/shared/ui/Button'
 import type { Compte } from '@/shared/types'
 import { lireImage, TAILLE_MAX_PHOTO } from '@/shared/utils/fichiers'
+import { Avatar as ShadAvatar, AvatarFallback, AvatarImage } from '@/shared/shadcn/avatar'
+import { Button as ShadButton } from '@/shared/shadcn/button'
 import { cn } from '@/shared/utils/cn'
 
 /**
  * La photo du compte, changée ou retirée sur-le-champ (enregistrée dans
  * `comptes`) : elle suit aussitôt partout (barre du haut, en-tête de Mon
  * espace, commentaires). `entete` : un bouton appareil photo posé sur la
- * photo ; `profil` : la photo avec « Changer la photo » et « Retirer la photo ».
+ * photo ; `profil` : la photo de 88 px du canevas avec « Changer la photo » et « Retirer la photo ».
  */
 export function PhotoDuCompte({ compte, size, variante }: { compte: Compte; size: number; variante: 'entete' | 'profil' }) {
   const { t } = useTranslation('espace')
   const champ = useRef<HTMLInputElement>(null)
   const [enCours, setEnCours] = useState(false)
+  const initiales = compte.name
+    .split(/\s+/)
+    .map((m) => m[0] ?? '')
+    .join('')
+    .slice(0, 2)
+    .toUpperCase()
 
   const enregistrer = async (avatar: string, message: string) => {
     setEnCours(true)
@@ -78,25 +85,27 @@ export function PhotoDuCompte({ compte, size, variante }: { compte: Compte; size
       </div>
     )
 
+  // Mon profil (canevas) : la photo de 88 px (ou les initiales), « Changer la photo », « Retirer la photo ».
   return (
-    <div className="flex flex-wrap items-center gap-4">
-      <span className={cn('relative shrink-0', enCours && 'opacity-60')}>
-        <Avatar src={compte.avatar || undefined} name={compte.name} size={size} />
-      </span>
-      <div className="space-y-2">
-        <div className="flex flex-wrap gap-2">
-          <Button variant="outline" size="sm" disabled={enCours} onClick={() => champ.current?.click()}>
-            <Camera aria-hidden="true" />
+    <div className="flex flex-wrap items-center gap-4 border-y border-border py-3.5">
+      <ShadAvatar className={cn('size-[88px]', enCours && 'opacity-60')}>
+        {compte.avatar && <AvatarImage src={compte.avatar} alt={t('profil.photoDe', { nom: compte.name })} className="object-cover" />}
+        <AvatarFallback className="text-[28px] font-extrabold" aria-label={t('profil.sansPhoto')}>
+          {initiales}
+        </AvatarFallback>
+      </ShadAvatar>
+      <div className="flex flex-col gap-2">
+        <span className="flex flex-wrap gap-2">
+          <ShadButton variant="secondary" size="md" loading={enCours} onClick={() => champ.current?.click()}>
             {t('profil.changerPhoto')}
-          </Button>
+          </ShadButton>
           {compte.avatar && (
-            <Button variant="danger-outline" size="sm" disabled={enCours} onClick={() => void enregistrer('', t('profil.photoRetiree'))}>
-              <Trash2 aria-hidden="true" />
+            <ShadButton variant="outline" size="md" disabled={enCours} onClick={() => void enregistrer('', t('profil.photoRetiree'))}>
               {t('profil.retirerPhoto')}
-            </Button>
+            </ShadButton>
           )}
-        </div>
-        <p className="text-xs text-muted-foreground">{t('profil.photoAide')}</p>
+        </span>
+        <span className="text-xs font-medium text-muted-foreground">{t('profil.photoAide')}</span>
       </div>
       {entree}
     </div>

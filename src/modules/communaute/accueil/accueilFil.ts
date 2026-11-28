@@ -1,102 +1,95 @@
-import type { Publication, SujetPublication } from '@/shared/types'
+import type { Publication } from '@/shared/types'
 
 /**
- * Le fil de l'accueil connecté, copié de l'accueil de yibolo-client : ses
- * filtres et ses tris. Il ne montre que des publications (décision du
- * 2026-11-24 : ni offres d'emploi, ni formations, ni actualités dans le fil).
+ * Le fil de l'accueil connecté, tel que le canevas le montre (planche
+ * « Accueil ») : des publications d'experts, filtrées par domaines, sujets,
+ * experts et « Enregistrées », triées par date ou par nombre de commentaires.
  */
 
-/** La nature d'une carte du fil (pastille de l'en-tête) : il n'y a plus que des publications. */
-export type NatureDuFil = 'publication'
+export type TriDuFil = 'recentes' | 'commentees'
 
-/** Le badge à côté du nom de l'auteur. `membre` : un compte Utilisateur qui publie (absent de yibolo-client). */
-export type TypeDePastille = 'consultant' | 'ecole' | 'entreprise' | 'membre'
+export const TRIS_DU_FIL: TriDuFil[] = ['recentes', 'commentees']
 
-export type TriDuFil = 'recentes' | 'lues'
+/** Les trois listes de choix du fil (pilules « Domaines », « Sujets », « Experts »). */
+export type FiltreDuFil = 'domaines' | 'sujets' | 'experts'
 
-export const TRIS_DU_FIL: TriDuFil[] = ['recentes', 'lues']
+export const FILTRES_DU_FIL: FiltreDuFil[] = ['domaines', 'sujets', 'experts']
+
+/** Nombre de publications montrées d'abord, puis à chaque « Afficher plus de publications ». */
+export const TAILLE_DU_FIL = 5
+
+/** Nombre d'experts montrés dans la colonne de droite avant « Voir les N experts ». */
+export const EXPERTS_EN_APERCU = 3
+
+/** Nombre de sujets du moment (les plus employés). */
+export const SUJETS_DU_MOMENT = 6
+
+/** L'identifiant du champ « Ajouter un commentaire… » : « Commenter » y place le curseur. */
+export const CHAMP_COMMENTAIRE = 'nouveau-commentaire'
 
 /** Longueur maximale d'un commentaire ou d'une réponse. */
 export const LONGUEUR_MAX_COMMENTAIRE = 1000
 
-/** Nombre d'éléments du fil montrés à la fois (« Voir plus » montre les suivants). */
-export const TAILLE_DU_FIL = 12
+/** Longueur de l'extrait d'une publication dans le fil, avant « …voir plus ». */
+const LONGUEUR_EXTRAIT = 200
 
-/** Les gestes sous le filet d'une carte (« J'aime », « Commenter », « Partager »). */
-export const CLASSES_GESTE =
-  'inline-flex h-[2.5rem] min-w-0 items-center justify-center gap-[0.1875rem] rounded-md px-0.5 text-xs font-medium transition-colors hover:bg-page focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:outline-none sm:h-[2rem]'
+/** Le texte entier d'une publication : son titre (s'il y en a un) en première ligne. */
+export function texteDe(publication: Pick<Publication, 'titre' | 'texte'>) {
+  const texte = publication.texte.trim()
+  return publication.titre?.trim() ? `${publication.titre.trim()}\n${texte}` : texte
+}
 
-/** Le cadre des trois panneaux (fil, colonne de droite). */
-export const CLASSES_PANNEAU = 'rounded-xl border border-line bg-white p-3 shadow-sm'
-
-/** La grille du fil : une, deux ou trois cartes de front selon la largeur du panneau. */
-export const CLASSES_GRILLE_DU_FIL = 'grid gap-3 @min-[30rem]:grid-cols-2 @min-[52rem]:grid-cols-3'
-
-const LONGUEUR_TITRE_DEDUIT = 140
-
-/** Espaces insécables avant : ; ! ? » et après «, comme dans la maquette. */
-function insecables(titre: string) {
-  return titre.replace(/ ([:;!?»])/g, ' $1').replace(/« /g, '« ')
+/** La première ligne d'une publication : son titre dans les listes (favoris, « Plus de publications de… »). */
+export function premiereLigne(publication: Pick<Publication, 'titre' | 'texte'>) {
+  return texteDe(publication).split('\n')[0]?.trim() ?? ''
 }
 
 /**
- * Le titre et l'extrait d'une publication. Sans titre, la première ligne en
- * tient lieu (coupée à la fin d'une phrase si elle est trop longue).
+ * L'extrait du fil : les deux premières lignes, coupées vers 200 caractères
+ * sur un espace. `suite` : le texte est plus long (« …voir plus »).
  */
-export function titreEtExtrait(publication: Pick<Publication, 'titre' | 'texte'>) {
-  const texte = publication.texte.trim()
-  if (publication.titre?.trim()) {
-    return { titre: insecables(publication.titre.trim()), extrait: texte }
+export function extraitDe(publication: Pick<Publication, 'titre' | 'texte'>) {
+  const texte = texteDe(publication)
+  const lignes = texte.split('\n').filter((l) => l.trim())
+  let extrait = lignes.slice(0, 2).join('\n')
+  if (extrait.length > LONGUEUR_EXTRAIT) {
+    const coupe = extrait.lastIndexOf(' ', LONGUEUR_EXTRAIT)
+    extrait = extrait.slice(0, coupe > 80 ? coupe : LONGUEUR_EXTRAIT)
   }
-  const [premiereLigne = '', ...reste] = texte.split('\n')
-  const ligne = premiereLigne.trim()
-  if (ligne.length <= LONGUEUR_TITRE_DEDUIT) {
-    return { titre: insecables(ligne), extrait: reste.join('\n').trim() }
-  }
-  const debut = ligne.slice(0, LONGUEUR_TITRE_DEDUIT)
-  const finDePhrase = Math.max(...['. ', '? ', '! '].map((fin) => debut.lastIndexOf(fin)))
-  const coupe = finDePhrase > 40 ? finDePhrase + 1 : LONGUEUR_TITRE_DEDUIT
-  return {
-    titre: insecables(ligne.slice(0, coupe).trim()) + (coupe === LONGUEUR_TITRE_DEDUIT ? '…' : ''),
-    extrait: [ligne.slice(coupe).trim(), ...reste].join('\n').trim(),
-  }
+  return { extrait, suite: texte.replace(/\n+/g, '\n').length > extrait.length + 2 }
+}
+
+/** « Création d’entreprise » → « CreationEntreprise » : le mot-dièse d'un sujet (sans le #). */
+export function motDiese(nom: string) {
+  return nom
+    .replace(/(^|\s)[dlDL][’']/g, ' ')
+    .replace(/[’']/g, ' ')
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((mot) => mot[0]!.toUpperCase() + mot.slice(1))
+    .join('')
 }
 
 /** Sans accents ni majuscules, pour chercher « fiscalite » comme « Fiscalité ». */
-const simplifier = (texte: string) => texte.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase()
+const simplifier = (texte: string) => texte.normalize('NFD').replace(/[̀-ͯ]/g, '').toLocaleLowerCase()
 
-/**
- * Une publication correspond-elle aux domaines, au sujet et à la recherche ?
- * La recherche lit le titre, le texte, et `autres` : l'auteur, sa ville, les
- * noms des domaines et des sujets (« un mot clé, un domaine, une ville, un expert »).
- */
-export function correspond(publication: Publication, { domaines, sujet, recherche }: { domaines: string[]; sujet?: string; recherche: string }, autres: (string | undefined)[] = []) {
-  if (domaines.length > 0 && !publication.domaines.some((domaine) => domaines.includes(domaine))) return false
-  if (sujet && !publication.sujets.includes(sujet)) return false
+/** La recherche du fil : dans le texte de la publication et le nom de son auteur. */
+export function contient(publication: Publication, recherche: string, nomAuteur = '') {
   if (!recherche) return true
-  const cherche = simplifier(recherche)
-  return [publication.titre, publication.texte, ...autres].some((texte) => texte !== undefined && simplifier(texte).includes(cherche))
+  return simplifier(`${texteDe(publication)} ${nomAuteur}`).includes(simplifier(recherche))
 }
 
 /** Une date absente passe en tête du fil. */
 export const instant = (date: string) => (date ? new Date(date).getTime() : Number.MAX_SAFE_INTEGER)
 
+/** Ajouter ou retirer un identifiant d'une liste de choix. */
+export const basculerDans = (liste: string[], id: string) => (liste.includes(id) ? liste.filter((x) => x !== id) : [...liste, id])
 
-/** Le libellé d'un sujet (« creation-entreprise » → « Création d’entreprise ») ; inconnu, son identifiant lisible. */
-export function nomDuSujet(id: string, sujets: SujetPublication[]) {
-  return sujets.find((s) => s.id === id)?.nom ?? id.replaceAll('-', ' ')
-}
-
-const LIGNE_DE_LISTE = /^\d+[.)]\s+/
-
-/** Le texte d'un article en blocs : paragraphes, et suites « 1. … 2. … » regroupées en liste numérotée. */
-export function blocsDuTexte(texte: string): { liste: boolean; lignes: string[] }[] {
-  const blocs: { liste: boolean; lignes: string[] }[] = []
-  for (const ligne of texte.split(/\n+/).map((l) => l.trim()).filter(Boolean)) {
-    const dansUneListe = LIGNE_DE_LISTE.test(ligne)
-    const dernier = blocs.at(-1)
-    if (dansUneListe && dernier?.liste) dernier.lignes.push(ligne.replace(LIGNE_DE_LISTE, ''))
-    else blocs.push({ liste: dansUneListe, lignes: [dansUneListe ? ligne.replace(LIGNE_DE_LISTE, '') : ligne] })
-  }
-  return blocs
-}
+/** Les initiales d'un nom (« Jean Dupont » → « JD »), quand il n'y a pas de photo. */
+export const initiales = (nom: string) =>
+  nom
+    .split(/\s+/)
+    .map((mot) => mot[0] ?? '')
+    .join('')
+    .slice(0, 2)
+    .toUpperCase()

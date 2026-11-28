@@ -134,23 +134,20 @@
     "toutLire": "Mark all as read",
     "toutesLues": "All your notifications are read",
     "aucune": "No notifications yet.",
-    "marquerLue": "Mark as read",
-    "supprimer": "Delete",
-    "supprimee": "Notification deleted",
     "filtres": {
       "toutes": "All",
-      "nonLues": "Unread"
+      "nonLues": "Unread",
+      "nonLues_one": "Unread ({{count}})",
+      "nonLues_other": "Unread ({{count}})",
+      "titre": "Filter notifications"
     },
-    "preferences": "Notification settings",
-    "marquerNonLue": "Mark as unread",
     "groupes": {
       "nouvelles": "New",
       "plusTot": "Earlier"
     },
-    "options": "Notification options",
-    "actions": "Notification actions",
     "aucuneNonLue": "No unread notifications.",
-    "nonLue": "Unread"
+    "nonLue": "Unread",
+    "parametresLien": "Notification settings →"
   },
   "profil": {
     "titre": "My profile",
@@ -190,7 +187,9 @@
     "code": {
       "titre": "Confirm your new number",
       "bouton": "Confirm and save"
-    }
+    },
+    "photoDe": "Photo of {{nom}}",
+    "sansPhoto": "No photo"
   },
   "parametres": {
     "motDePasse": {
@@ -215,7 +214,12 @@
     },
     "langue": {
       "titre": "Language",
-      "texte": "The app language, kept in this browser."
+      "texte": "The app language, kept in this browser.",
+      "choix": {
+        "fr": "Français",
+        "en": "English"
+      },
+      "changee": "Language changed"
     },
     "suppression": {
       "titre": "Delete my account",
@@ -227,7 +231,10 @@
       "annuler": "Cancel",
       "confirmer": "Delete permanently",
       "faite": "Your account has been deleted",
-      "faux": "Incorrect password."
+      "faux": "Incorrect password.",
+      "erreurs": {
+        "vide": "Enter your password."
+      }
     },
     "notifications": {
       "titre": "Notifications",
@@ -265,10 +272,27 @@
       "sansEmail": "Add an email in “My profile” to receive notifications by email.",
       "enregistrees": "Preferences saved",
       "echec": "Your preferences could not be saved. Try again."
+    },
+    "titre": "Settings",
+    "ancres": {
+      "titre": "Settings sections",
+      "notifications": "Notifications",
+      "motDePasse": "Password",
+      "langue": "Language",
+      "suppression": "Delete my account"
     }
   },
   "pages": {
     "profil": "My profile",
     "parametres": "Settings"
+  },
+  "compte": {
+    "menu": "My account",
+    "role": "Individual",
+    "profil": "My profile",
+    "favoris": "My favourites",
+    "notifications": "Notifications",
+    "parametres": "Settings",
+    "deconnexion": "Sign out"
   }
 }

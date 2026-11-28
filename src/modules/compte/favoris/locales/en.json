@@ -1,64 +1,65 @@
 {
-  "favoris": {
-    "crumbs": {
-      "ecole": "School",
-      "mesFavoris": "My favourites"
-    },
-    "title": "My favourites",
-    "subtitle": "Find here the programmes and institutions you have saved.",
-    "filtres": {
-      "tous": "All favourites",
-      "formation": "Programmes",
-      "etablissement": "Institutions",
-      "publication": "Posts"
-    },
-    "astuce": {
-      "titre": "Tip",
-      "texte": "Add programmes and institutions to your favourites to find them easily."
-    },
-    "toutSupprimer": "Delete all",
-    "vide": {
-      "titre": "No favourites yet",
-      "texte": "Explore schools and add the ones you are interested in.",
-      "explorer": "Explore schools"
-    }
+  "titre": "My favourites",
+  "texte": "Find here the programmes and institutions you have saved.",
+  "toutSupprimer": "Delete all",
+  "retirer": "Remove from favourites",
+  "publicationRetiree": "Removed from your favourites",
+  "echec": "The change could not be saved. Please try again.",
+  "compte": {
+    "menu": "My account",
+    "role": "Individual",
+    "profil": "My profile",
+    "favoris": "My favourites",
+    "notifications": "Notifications",
+    "parametres": "Settings",
+    "deconnexion": "Sign out"
   },
-  "row": {
-    "badges": {
-      "formation": "Programme",
-      "etablissement": "Institution"
-    },
-    "voirDetails": "View details",
-    "voirEtablissement": "View institution",
-    "dureeMois_one": "{{count}} month",
-    "dureeMois_other": "{{count}} months",
+  "filtres": {
+    "titre": "Filter favourites",
+    "tous": "All favourites ({{count}})",
+    "formations": "Programmes ({{count}})",
+    "etablissements": "Institutions ({{count}})",
+    "publications": "Posts ({{count}})"
+  },
+  "badges": {
+    "formation": "Programme",
+    "etablissement": "Institution",
+    "publication": "Post",
+    "verifie": "Verified institution"
+  },
+  "dossiers": {
+    "formations": "My programmes",
+    "etablissements": "My institutions",
+    "comparer": "To compare",
+    "enregistree": "Saved"
+  },
+  "ligne": {
+    "mois_one": "{{count}} month",
+    "mois_other": "{{count}} months",
     "modes": {
-      "jour": "Day classes",
-      "soir": "Evening classes",
+      "jour": "Day",
+      "soir": "Evening",
       "jourSoir": "Day & Evening"
     },
-    "note_one": "{{note}}/5 ({{count}} review)",
-    "note_other": "{{note}}/5 ({{count}} reviews)",
-    "etablissementVerifie": "Verified institution",
-    "tarifFormation": "Programme price",
-    "permisTitre": "Licence {{code}} – {{nom}}",
-    "permis": {
-      "A": "Motorcycle",
-      "B": "Light vehicle",
-      "C": "Heavy goods vehicle",
-      "D": "Public transport",
-      "E": "Trailer"
-    },
-    "duree": {
-      "A": "≈ 1 to 2 months",
-      "B": "≈ 2 to 3 months",
-      "C": "≈ 3 to 4 months",
-      "D": "≈ 2 to 3 months",
-      "E": "≈ 1 month"
-    },
-    "retirer": "Remove from favourites",
-    "publication": "Post",
-    "lire": "Read",
-    "publicationRetiree": "Removed from your favourites"
+    "note_one": "★ {{note}} ({{count}} review)",
+    "note_other": "★ {{note}} ({{count}} reviews)",
+    "sansAvis": "No reviews yet",
+    "formations_one": "{{count}} programme",
+    "formations_other": "{{count}} programmes",
+    "permis": "Licence {{code}} – {{nom}}",
+    "autoEcole": "Driving school",
+    "publiee": "Posted {{quand}}",
+    "voirDetails": "See details",
+    "voirEtablissement": "See the institution",
+    "lire": "Read"
+  },
+  "vide": {
+    "titre": "No favourites yet",
+    "texte": "Explore schools and add the ones you are interested in.",
+    "explorer": "Explore schools"
+  },
+  "astuce": {
+    "titre": "Tip",
+    "texte": "Add programmes and institutions to your favourites to find them easily."
   }
 }
