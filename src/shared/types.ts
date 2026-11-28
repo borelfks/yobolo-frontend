@@ -207,6 +207,12 @@ export type Compte = Account & {
   telephoneVerifie?: boolean
   /** Mot de passe haché : sha256(sel + ':' + mot de passe), en hexadécimal. */
   motDePasse: { sel: string; hash: string }
+  /** École en cours d'inscription (canevas « Infos ») : type, sigle, responsable, fonction, adresse précise. */
+  typeEtablissement?: TypeEcole
+  sigle?: string
+  responsable?: string
+  fonction?: string
+  adresse?: string
   /** Comment être prévenu, par sujet (Mon espace › Paramètres). */
   preferencesNotifications?: Partial<Record<SujetNotification, PreferenceNotification>>
 }
@@ -476,7 +482,7 @@ export type SujetNotification = 'preRegistration' | 'session' | 'review' | 'mess
 /** Les canaux choisis pour un sujet (Paramètres › Notifications). */
 export type PreferenceNotification = { app: boolean; sms: boolean; email: boolean }
 /** Une demande envoyée au support (« Assistance YIBOLO »). */
-export type DemandeAssistance = { id: string; compteId: string; sujet: string; message: string; envoyeeLe: string; statut: 'Envoyée' }
+export type DemandeAssistance = { id: string; compteId: string; sujet: string; message: string; envoyeeLe: string; statut: 'Envoyée'; /** Page « Aide et contact » : le nom et l'e-mail ou le téléphone saisis (visiteur compris). */ nom?: string; contact?: string }
 /** Le signalement d'un avis. */
 export type SignalementAvis = { id: string; avisId: string; cible: 'etablissement' | 'auto-ecole'; compteId?: string; motif: string; le: string }
 /** Un commentaire sous une publication de l'accueil. */

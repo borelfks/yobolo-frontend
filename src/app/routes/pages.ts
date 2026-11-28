@@ -14,6 +14,8 @@ export const HorsPerimetre = page(() => import('@/modules/landing/pages/HorsPeri
 export const Accueil = page(() => import('@/modules/communaute/accueil/pages/Accueil'), 'Accueil')
 export const PublicationLue = page(() => import('@/modules/communaute/accueil/pages/PublicationLue'), 'PublicationLue')
 export const NotFound = page(() => import('@/app/NotFound'), 'NotFound')
+export const Aide = page(() => import('@/modules/pages/pages/Aide'), 'Aide')
+export const Conditions = page(() => import('@/modules/pages/pages/Conditions'), 'Conditions')
 
 /* Authentification */
 export const Connexion = page(() => import('@/modules/compte/auth/pages/Connexion'), 'Connexion')

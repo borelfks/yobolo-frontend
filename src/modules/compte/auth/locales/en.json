@@ -5,14 +5,12 @@
     "identifierPlaceholder": "you@example.cm or 690 12 34 56",
     "identifier": "Email or phone",
     "password": "Password",
-    "show": "Show",
-    "hide": "Hide",
     "remember": "Remember me",
     "forgot": {
       "link": "Forgot your password?"
     },
     "submit": "Sign in",
-    "or": "Or",
+    "or": "or",
     "signUp": "Create an account",
     "guest": "Continue without an account",
     "welcome": "Welcome, {{name}}!",
@@ -30,12 +28,10 @@
     }
   },
   "inscription": {
-    "title": "Create an account",
     "steps": {
       "profil": "Profile",
       "infos": "Details",
       "verification": "Documents",
-      "done": "Done",
       "vous": "You",
       "acces": "Your access",
       "code": "Code"
@@ -43,42 +39,45 @@
     "profiles": {
       "ecole": {
         "title": "School / IPES",
-        "line1": "Training institute,",
-        "line2": "centre, driving school, etc."
+        "desc": "Training institute, centre, driving school, etc."
       },
       "consultant": {
         "title": "Consultant",
-        "line1": "Expert, trainer,",
-        "line2": "adviser, etc."
+        "desc": "Expert, trainer, adviser, etc."
       },
       "entreprise": {
         "title": "Company",
-        "line1": "Business, organisation,",
-        "line2": "employer, etc."
+        "desc": "Company, organisation, employer, etc."
       },
       "personne": {
         "title": "Individual",
-        "line1": "Applicant, student,",
-        "line2": "jobseeker, etc."
+        "desc": "Candidate, student, jobseeker, etc."
       }
-    },
-    "choose": {
-      "title": "Choose your profile",
-      "text": "Select the type of account that suits you."
     },
     "continue": "Continue",
     "comingSoon": "Coming soon",
     "back": "Back",
     "infos": {
-      "title": "General information",
-      "text": "Fill in the basic information for your account.",
       "fields": {
         "nom": "Institution name",
         "telephone": "Phone",
         "email": "Email",
         "motDePasse": "Password",
-        "confirmation": "Confirm the password"
-      }
+        "confirmation": "Confirm the password",
+        "sigle": "Acronym (optional)",
+        "responsable": "Name of the person in charge",
+        "fonction": "Position",
+        "adresse": "Exact address"
+      },
+      "exemples": {
+        "nom": "E.g. Institut Supérieur de Gestion",
+        "nomAuto": "E.g. Auto-École La Route",
+        "sigle": "E.g. ISG",
+        "responsable": "E.g. Paul Ndzana",
+        "email": "contact@institution.cm",
+        "adresse": "Street, building, floor, landmark (e.g. opposite Pharmacie Centrale)"
+      },
+      "choisirFonction": "Choose your position"
     },
     "errors": {
       "emailTaken": "An account already exists with this email. Sign in or use another address.",
@@ -106,19 +105,12 @@
       "errors": {
         "niu": "Enter your taxpayer number.",
         "certificat": "Attach the NIU certificate."
+      },
+      "exemples": {
+        "minesup": "E.g. No. 184/MINESUP",
+        "minefop": "E.g. No. 184/MINEFOP",
+        "mint": "E.g. No. 0215/MINT"
       }
-    },
-    "vous": {
-      "title": "You",
-      "text": "Welcome. A few details to start."
-    },
-    "acces": {
-      "title": "Your access",
-      "text": "Your number protects your account: a code will be sent to you."
-    },
-    "code": {
-      "title": "Phone verification",
-      "text": "One last step: confirm your number."
     },
     "champs": {
       "prenom": "First name",
@@ -142,12 +134,62 @@
       "email": "E.g. aicha.mbarga@mail.com"
     },
     "cgu": "By creating an account, you accept the <lien>terms and conditions</lien>.",
-    "creer": "Create my account",
-    "bienvenue": "Welcome to YIBOLO, {{name}}!"
+    "bienvenue": "Welcome to YIBOLO, {{name}}!",
+    "titres": {
+      "profil": {
+        "titre": "Create an account",
+        "texte": "Choose your profile. Select the type of account that suits you."
+      },
+      "vous": {
+        "titre": "About you",
+        "texte": "Welcome. A few details to get started."
+      },
+      "acces": {
+        "titre": "Your access",
+        "texte": "Your number protects your account: a code will be sent to you."
+      },
+      "infos": {
+        "titre": "General information",
+        "texte": "Enter the basic information for your account."
+      },
+      "code": {
+        "titre": "Phone verification",
+        "texte": "One last step: confirm your number."
+      }
+    },
+    "recevoirCode": "Get the code",
+    "types": {
+      "legende": "Type of institution",
+      "ipes": {
+        "nom": "IPES",
+        "desc": "Higher education: BTS, bachelor’s, master’s"
+      },
+      "cfp": {
+        "nom": "CFP",
+        "desc": "Vocational training: CQP, DQP"
+      },
+      "autres": {
+        "nom": "Other institution",
+        "desc": "Languages, IT, sewing…"
+      },
+      "auto": {
+        "nom": "Driving school",
+        "desc": "Driving lessons, licences"
+      }
+    },
+    "fonctions": {
+      "directeur": "Director",
+      "promoteur": "Promoter",
+      "fondateur": "Founder",
+      "directeurEtudes": "Director of studies",
+      "responsableAdministratif": "Administrative manager",
+      "gerant": "Manager",
+      "secretaire": "Secretary",
+      "autre": "Other"
+    }
   },
   "otp": {
-    "titre": "Phone verification",
-    "envoye": "A verification code was sent to {{telephone}}.",
+    "envoye": "A verification code has been sent to <b>{{telephone}}</b>.",
     "champ": "Code received",
     "chiffre": "Digit {{n}} of 6",
     "verifier": "Verify",

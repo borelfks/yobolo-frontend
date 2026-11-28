@@ -5,14 +5,12 @@
     "identifierPlaceholder": "vous@exemple.cm ou 690 12 34 56",
     "identifier": "Email ou téléphone",
     "password": "Mot de passe",
-    "show": "Afficher",
-    "hide": "Masquer",
     "remember": "Se souvenir de moi",
     "forgot": {
       "link": "Mot de passe oublié ?"
     },
     "submit": "Se connecter",
-    "or": "Ou",
+    "or": "ou",
     "signUp": "Créer un compte",
     "guest": "Continuer sans compte",
     "welcome": "Bienvenue, {{name}} !",
@@ -30,12 +28,10 @@
     }
   },
   "inscription": {
-    "title": "Créer un compte",
     "steps": {
       "profil": "Profil",
       "infos": "Infos",
       "verification": "Documents",
-      "done": "Terminé",
       "vous": "Vous",
       "acces": "Votre accès",
       "code": "Code"
@@ -43,42 +39,45 @@
     "profiles": {
       "ecole": {
         "title": "École / IPES",
-        "line1": "Institut de formation,",
-        "line2": "centre, auto-école, etc."
+        "desc": "Institut de formation, centre, auto-école, etc."
       },
       "consultant": {
         "title": "Consultant",
-        "line1": "Expert, formateur,",
-        "line2": "conseiller, etc."
+        "desc": "Expert, formateur, conseiller, etc."
       },
       "entreprise": {
         "title": "Entreprise",
-        "line1": "Société, organisation,",
-        "line2": "employeur, etc."
+        "desc": "Société, organisation, employeur, etc."
       },
       "personne": {
         "title": "Personne physique",
-        "line1": "Candidat, étudiant,",
-        "line2": "demandeur d’emploi, etc."
+        "desc": "Candidat, étudiant, demandeur d’emploi, etc."
       }
-    },
-    "choose": {
-      "title": "Choisissez votre profil",
-      "text": "Sélectionnez le type de compte qui vous correspond."
     },
     "continue": "Continuer",
     "comingSoon": "Bientôt disponible",
     "back": "Retour",
     "infos": {
-      "title": "Informations générales",
-      "text": "Renseignez les informations de base de votre compte.",
       "fields": {
         "nom": "Nom de l’établissement",
         "telephone": "Téléphone",
         "email": "Email",
         "motDePasse": "Mot de passe",
-        "confirmation": "Confirmer le mot de passe"
-      }
+        "confirmation": "Confirmer le mot de passe",
+        "sigle": "Sigle (facultatif)",
+        "responsable": "Nom du responsable",
+        "fonction": "Fonction",
+        "adresse": "Adresse précise"
+      },
+      "exemples": {
+        "nom": "Ex. : Institut Supérieur de Gestion",
+        "nomAuto": "Ex. : Auto-École La Route",
+        "sigle": "Ex. : ISG",
+        "responsable": "Ex. : Paul Ndzana",
+        "email": "contact@etablissement.cm",
+        "adresse": "Rue, immeuble, étage, repère (ex. : face Pharmacie Centrale)"
+      },
+      "choisirFonction": "Choisir votre fonction"
     },
     "errors": {
       "emailTaken": "Un compte existe déjà avec cet e-mail. Connectez-vous ou utilisez une autre adresse.",
@@ -106,19 +105,12 @@
       "errors": {
         "niu": "Indiquez votre numéro de contribuable.",
         "certificat": "Joignez le certificat du NIU."
+      },
+      "exemples": {
+        "minesup": "Ex. : N° 184/MINESUP",
+        "minefop": "Ex. : N° 184/MINEFOP",
+        "mint": "Ex. : N° 0215/MINT"
       }
-    },
-    "vous": {
-      "title": "Vous",
-      "text": "Bienvenue. Quelques informations pour commencer."
-    },
-    "acces": {
-      "title": "Votre accès",
-      "text": "Votre numéro protège votre compte : un code va vous être envoyé."
-    },
-    "code": {
-      "title": "Vérification du téléphone",
-      "text": "Plus qu’une étape : confirmez votre numéro."
     },
     "champs": {
       "prenom": "Prénom",
@@ -142,12 +134,62 @@
       "email": "Ex. : aicha.mbarga@mail.com"
     },
     "cgu": "En créant un compte, vous acceptez les <lien>conditions générales d’utilisation</lien>.",
-    "creer": "Créer mon compte",
-    "bienvenue": "Bienvenue sur YIBOLO, {{name}} !"
+    "bienvenue": "Bienvenue sur YIBOLO, {{name}} !",
+    "titres": {
+      "profil": {
+        "titre": "Créer un compte",
+        "texte": "Choisissez votre profil. Sélectionnez le type de compte qui vous correspond."
+      },
+      "vous": {
+        "titre": "Vous",
+        "texte": "Bienvenue. Quelques informations pour commencer."
+      },
+      "acces": {
+        "titre": "Votre accès",
+        "texte": "Votre numéro protège votre compte : un code va vous être envoyé."
+      },
+      "infos": {
+        "titre": "Informations générales",
+        "texte": "Renseignez les informations de base de votre compte."
+      },
+      "code": {
+        "titre": "Vérification du téléphone",
+        "texte": "Plus qu’une étape : confirmez votre numéro."
+      }
+    },
+    "recevoirCode": "Recevoir le code",
+    "types": {
+      "legende": "Type d’établissement",
+      "ipes": {
+        "nom": "IPES",
+        "desc": "Enseignement supérieur : BTS, licence, master"
+      },
+      "cfp": {
+        "nom": "CFP",
+        "desc": "Formation professionnelle : CQP, DQP"
+      },
+      "autres": {
+        "nom": "Autre établissement",
+        "desc": "Langues, informatique, couture…"
+      },
+      "auto": {
+        "nom": "Auto-école",
+        "desc": "Formation à la conduite, permis"
+      }
+    },
+    "fonctions": {
+      "directeur": "Directeur / Directrice",
+      "promoteur": "Promoteur / Promotrice",
+      "fondateur": "Fondateur / Fondatrice",
+      "directeurEtudes": "Directeur des études",
+      "responsableAdministratif": "Responsable administratif",
+      "gerant": "Gérant / Gérante",
+      "secretaire": "Secrétaire",
+      "autre": "Autre"
+    }
   },
   "otp": {
-    "titre": "Vérification du téléphone",
-    "envoye": "Un code de vérification a été envoyé au {{telephone}}.",
+    "envoye": "Un code de vérification a été envoyé au <b>{{telephone}}</b>.",
     "champ": "Code reçu",
     "chiffre": "Chiffre {{n}} sur 6",
     "verifier": "Vérifier",

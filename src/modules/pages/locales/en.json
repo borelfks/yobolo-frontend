@@ -1,0 +1,157 @@
+{
+  "aide": {
+    "titre": "How can we help you?",
+    "rechercheAria": "Search help",
+    "recherchePlaceholder": "Search for a question: account, reviews, favourites…",
+    "themes": {
+      "titre": "Topics",
+      "compte": "My account",
+      "ecoles": "Schools and programmes",
+      "auto": "Driving schools",
+      "avis": "Reviews",
+      "favoris": "Favourites",
+      "pro": "Professional space",
+      "nb_one": "{{count}} question",
+      "nb_other": "{{count}} questions"
+    },
+    "faqTitre": "Frequently asked questions",
+    "toutes": "All questions",
+    "aucune": "No question matches “{{recherche}}”. Write to us below.",
+    "faq": {
+      "creerCompte": {
+        "q": "How do I create an account?",
+        "r": "Tap “Create an account”, choose your profile (Individual or School / IPES), fill in your details, then enter the code received by SMS."
+      },
+      "motDePasse": {
+        "q": "I forgot my password. What should I do?",
+        "r": "On the sign-in page, tap “Forgot your password?” and enter your account’s number: a code is sent to you to choose a new password."
+      },
+      "supprimer": {
+        "q": "How do I delete my account?",
+        "r": "Open Settings, then “Delete my account”. Your password is requested to confirm."
+      },
+      "trouverFormation": {
+        "q": "How do I find a programme?",
+        "r": "Open School, search for an institution or a programme and a city, then refine with the filters: field, diploma, schedule."
+      },
+      "verifie": {
+        "q": "What does “Verified institution” mean?",
+        "r": "YIBOLO has checked the institution’s official documents, such as its operating licence and its NIU."
+      },
+      "contacter": {
+        "q": "How do I contact an institution?",
+        "r": "On its page, tap “Contact”: you will find its phone number, its WhatsApp and its address."
+      },
+      "tarifs": {
+        "q": "Does YIBOLO collect driving school fees?",
+        "r": "No. Fees are shown for your information; you pay them directly to the driving school."
+      },
+      "choisirAuto": {
+        "q": "How do I choose a driving school?",
+        "r": "Open Driving schools, filter by licence and city, then look at the page: fees, session schedule and reviews."
+      },
+      "donnerAvis": {
+        "q": "How do I leave a review?",
+        "r": "On the page, open the Reviews tab and tap “Leave my review”. Your review is published after being checked by YIBOLO."
+      },
+      "favoris": {
+        "q": "Where can I find my favourites?",
+        "r": "Tap the heart on an institution, a programme or a driving school: you will find them in “My favourites”."
+      },
+      "ajouterEtablissement": {
+        "q": "My institution is not on YIBOLO. How do I add it?",
+        "r": "Create a “School / IPES” account and attach your documents (operating licence, NIU). Your page is published after being checked by YIBOLO."
+      },
+      "modifierFiche": {
+        "q": "How do I edit my institution’s page?",
+        "r": "In your professional space, open “Institution profile”. Some information is published after approval by YIBOLO."
+      }
+    },
+    "contact": {
+      "titre": "Can’t find your answer?",
+      "texte": "Write to YIBOLO support: we reply by email or SMS.",
+      "nom": "Name",
+      "nomExemple": "E.g. Aïcha Mbarga",
+      "contact": "Email or phone",
+      "contactExemple": "you@example.cm or 690 12 34 56",
+      "sujet": "Subject",
+      "message": "Message",
+      "messageExemple": "Describe your question in a few lines.",
+      "envoyer": "Send",
+      "merci": "Thank you!",
+      "envoye": "Your request has been sent to YIBOLO support.",
+      "sujets": {
+        "compte": "My account",
+        "ecoles": "Schools and programmes",
+        "auto": "Driving schools",
+        "avis": "Reviews",
+        "favoris": "Favourites",
+        "pro": "Professional space",
+        "autre": "Other"
+      },
+      "erreurs": {
+        "nom": "Enter your name.",
+        "contact": "Enter your email or phone number.",
+        "message": "The message must be at least 10 characters.",
+        "envoi": "The request could not be sent. Try again."
+      }
+    }
+  },
+  "conditions": {
+    "titre": "Terms and conditions of use",
+    "miseAJour": "Last updated: 26 November 2026",
+    "sommaire": "Contents",
+    "articles": {
+      "a1": {
+        "titre": "Purpose",
+        "p1": "These terms govern the use of YIBOLO, the training, expertise and employment platform in Central Africa. By creating an account or using YIBOLO, you accept them.",
+        "p2": ""
+      },
+      "a2": {
+        "titre": "Creating an account",
+        "p1": "You create an “Individual” or “School / IPES” account with accurate information. Your phone number is confirmed by a code sent by SMS.",
+        "p2": "You keep your password secret. Anything done from your account is deemed to have been done by you."
+      },
+      "a3": {
+        "titre": "Use of the services",
+        "p1": "YIBOLO lets you browse institutions, programmes and driving schools, save them as favourites, leave reviews and read experts’ posts. These services are for personal, non-commercial use only.",
+        "p2": ""
+      },
+      "a4": {
+        "titre": "Institutions and driving schools",
+        "p1": "Each institution is responsible for the information it publishes: programmes, intakes, contact details. It provides the documents requested (operating licence, NIU).",
+        "p2": "Sensitive or regulatory information is published after approval by YIBOLO. The “Verified institution” badge shows that these documents have been checked."
+      },
+      "a5": {
+        "titre": "Reviews and posts",
+        "p1": "Reviews and comments remain courteous and describe a real experience. Insulting, false or advertising content is forbidden.",
+        "p2": "Reviews are published after being checked by YIBOLO. Anyone can report a review or a post that raises a problem."
+      },
+      "a6": {
+        "titre": "Driving school fees",
+        "p1": "Driving school fees shown on YIBOLO are for information only. YIBOLO collects no payment: you pay the driving school directly.",
+        "p2": ""
+      },
+      "a7": {
+        "titre": "Personal data",
+        "p1": "YIBOLO only collects the information the service needs: identity, contact details, place of residence, preferences. It is never sold.",
+        "p2": "You can edit it in “My profile” and delete your account in “Settings”."
+      },
+      "a8": {
+        "titre": "Liability",
+        "p1": "YIBOLO does its utmost to keep information accurate and up to date, without being able to guarantee the information provided by institutions. YIBOLO is not a party to enrolments made between you and an institution.",
+        "p2": ""
+      },
+      "a9": {
+        "titre": "Changes to the terms",
+        "p1": "YIBOLO may update these terms. The date of the last update appears at the top of this page; in case of a significant change, you are informed by notification.",
+        "p2": ""
+      },
+      "a10": {
+        "titre": "Contact us",
+        "p1": "For any question about these terms, write to YIBOLO support from the “Help and contact” page.",
+        "p2": ""
+      }
+    }
+  }
+}

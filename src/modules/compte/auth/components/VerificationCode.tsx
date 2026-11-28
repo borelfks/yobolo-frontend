@@ -80,7 +80,7 @@ export function VerificationCode({
   return (
     <div className="flex flex-col gap-4">
       <p className="text-ui text-foreground">
-        <Trans t={t} i18nKey="envoye" values={{ telephone }} components={{ b: <b /> }} />
+        <Trans t={t} i18nKey="envoye" values={{ telephone: telephone.replace(/ /g, ' ') }} components={{ b: <b /> }} />
       </p>
       <div className="flex flex-col gap-1.5">
         <div role="group" aria-label={t('champ')} className="flex justify-between gap-2">

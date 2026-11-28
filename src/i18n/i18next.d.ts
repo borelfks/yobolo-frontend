@@ -8,6 +8,7 @@ import type favoritesFr from '@/modules/compte/favoris/locales/fr.json'
 import type proFr from '@/modules/ecole/espace-pro/locales/fr.json'
 import type accueilFr from '@/modules/communaute/accueil/locales/fr.json'
 import type espaceFr from '@/modules/compte/mon-espace/locales/fr.json'
+import type pagesFr from '@/modules/pages/locales/fr.json'
 import type commonFr from '@/shared/locales/fr.json'
 
 declare module 'i18next' {
@@ -25,6 +26,7 @@ declare module 'i18next' {
       pro: typeof proFr
       accueil: typeof accueilFr
       espace: typeof espaceFr
+      pages: typeof pagesFr
     }
   }
 }

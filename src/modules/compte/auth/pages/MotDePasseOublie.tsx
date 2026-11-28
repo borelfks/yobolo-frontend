@@ -1,35 +1,37 @@
 import { useMemo, useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
-import { Lien } from '@/shared/ui/Lien'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { toast } from 'sonner'
-import { ArrowLeft, KeyRound } from 'lucide-react'
-import { AuthShell } from '@/app/layouts/AuthLayout'
+import { ArrowLeft } from 'lucide-react'
+import { CadreAuth, CarteAuth } from '@/app/layouts/AuthLayout'
 import { data } from '@/data'
 import { useComptes } from '@/data/hooks'
+import { TitreAuth } from '@/modules/compte/auth/components/TitreAuth'
 import { VerificationCode } from '@/modules/compte/auth/components/VerificationCode'
 import { chiffresDuNumero, numeroValide } from '@/modules/compte/auth/authOtp'
-import { Field, PhoneInput } from '@/shared/forms/Fields'
-import { Button } from '@/shared/ui/Button'
+import { BarreEtapes, Champ, ChampMotDePasse, ChampTelephone, JaugeMotDePasse } from '@/shared/blocs/Formulaire'
+import { Button } from '@/shared/shadcn/button'
+import { Lien } from '@/shared/ui/Lien'
 import type { Compte } from '@/shared/types'
 import { protegerMotDePasse } from '@/shared/utils/motDePasse'
 import { ROUTES } from '@/shared/utils/routes'
-import { ChampMotDePasse, JaugeMotDePasse } from '@/shared/forms/MotDePasse'
 
 /**
- * « Mot de passe oublié », comme dans yibolo-client : le numéro du compte,
- * puis le code reçu (OTP, affiché à l'écran faute de serveur d'envoi), puis
- * le nouveau mot de passe, enregistré haché dans la base.
+ * « Mot de passe oublié » (planches 1. Numéro, 2. Code reçu, 3. Nouveau mot de
+ * passe) : le numéro du compte, puis le code reçu (affiché à l'écran faute de
+ * serveur d'envoi), puis le nouveau mot de passe, enregistré haché.
  */
 export function MotDePasseOublie() {
   const { t } = useTranslation('auth', { keyPrefix: 'oubli' })
+  const { t: tl } = useTranslation('layout')
   const comptes = useComptes()
   const navigate = useNavigate()
   const [compte, setCompte] = useState<Compte | null>(null)
   const [verifie, setVerifie] = useState(false)
+  const etape = !compte ? 0 : !verifie ? 1 : 2
 
   const schemaNumero = useMemo(() => z.object({ telephone: z.string().refine(numeroValide, t('erreurs.telephone')) }), [t])
   const schemaMotDePasse = useMemo(
@@ -57,51 +59,46 @@ export function MotDePasseOublie() {
   })
 
   return (
-    <AuthShell>
-      <div className="space-y-6">
-        <div>
-          <p className="flex items-center gap-2 text-sm font-semibold text-brand-600">
-            <KeyRound className="size-4" aria-hidden="true" />
-            {t('surtitre')}
-          </p>
-          <h1 className="mt-1 text-[28px] leading-tight font-extrabold text-navy-900">{t('titre')}</h1>
-          <p className="mt-1.5 text-[15px] text-muted-foreground">{t('texte')}</p>
-        </div>
+    <CadreAuth texte={tl('authLayout.retrouve')} logoVers={ROUTES.signIn}>
+      <CarteAuth largeur="etroite" className="mt-2 gap-4 sm:mt-6">
+        <Button asChild variant="link-muted" className="self-start">
+          <Lien to={ROUTES.signIn}>
+            <ArrowLeft aria-hidden />
+            {t('retour')}
+          </Lien>
+        </Button>
+        <TitreAuth taille="motDePasse" surtitre={t('surtitre')} titre={t('titre')} texte={t('texte')} />
+        <BarreEtapes nombre={3} courante={etape} />
 
-        {!compte && (
-          <form noValidate onSubmit={(e) => void envoyer(e)} className="space-y-4">
-            <p className="text-sm text-navy-900">{t('introNumero')}</p>
-            <Field label={t('telephone')} required error={etatNumero.errors.telephone?.message}>
-              <PhoneInput autoComplete="tel" {...registerNumero('telephone')} />
-            </Field>
-            <Button type="submit" className="w-full">
+        {etape === 0 && (
+          <form noValidate onSubmit={(e) => void envoyer(e)} className="flex flex-col gap-4">
+            <p className="text-sm text-muted-foreground">{t('introNumero')}</p>
+            <Champ id="oubli-telephone" label={t('telephone')} erreur={etatNumero.errors.telephone?.message}>
+              <ChampTelephone id="oubli-telephone" autoComplete="tel" aria-invalid={!!etatNumero.errors.telephone || undefined} {...registerNumero('telephone')} />
+            </Champ>
+            <Button type="submit" size="lg" className="h-[52px] w-full text-base">
               {t('envoyer')}
             </Button>
           </form>
         )}
 
-        {compte && !verifie && <VerificationCode telephone={compte.telephone} onVerifie={() => setVerifie(true)} />}
+        {etape === 1 && compte && <VerificationCode telephone={compte.telephone} onVerifie={() => setVerifie(true)} />}
 
-        {compte && verifie && (
-          <form noValidate onSubmit={(e) => void changer(e)} className="space-y-4">
-            <Field label={t('nouveau')} required error={etatMdp.errors.motDePasse?.message}>
-              <ChampMotDePasse autoComplete="new-password" {...registerMdp('motDePasse')} />
+        {etape === 2 && (
+          <form noValidate onSubmit={(e) => void changer(e)} className="flex flex-col gap-4">
+            <Champ id="oubli-nouveau" label={t('nouveau')} erreur={etatMdp.errors.motDePasse?.message}>
+              <ChampMotDePasse id="oubli-nouveau" autoComplete="new-password" aria-invalid={!!etatMdp.errors.motDePasse || undefined} {...registerMdp('motDePasse')} />
               <JaugeMotDePasse motDePasse={watchMdp('motDePasse')} aide={t('aide')} />
-            </Field>
-            <Field label={t('confirmation')} required error={etatMdp.errors.confirmation?.message}>
-              <ChampMotDePasse autoComplete="new-password" {...registerMdp('confirmation')} />
-            </Field>
-            <Button type="submit" className="w-full" disabled={etatMdp.isSubmitting}>
+            </Champ>
+            <Champ id="oubli-confirmation" label={t('confirmation')} erreur={etatMdp.errors.confirmation?.message}>
+              <ChampMotDePasse id="oubli-confirmation" autoComplete="new-password" aria-invalid={!!etatMdp.errors.confirmation || undefined} {...registerMdp('confirmation')} />
+            </Champ>
+            <Button type="submit" size="lg" loading={etatMdp.isSubmitting} className="h-[52px] w-full text-base">
               {t('changer')}
             </Button>
           </form>
         )}
-
-        <Lien to={ROUTES.signIn} className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-600 hover:underline">
-          <ArrowLeft className="size-4" aria-hidden="true" />
-          {t('retour')}
-        </Lien>
-      </div>
-    </AuthShell>
+      </CarteAuth>
+    </CadreAuth>
   )
 }

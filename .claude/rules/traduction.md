@@ -22,6 +22,7 @@
 | `reviews` | `src/modules/ecole/avis/locales/` | donner un avis |
 | `favorites` | `src/modules/compte/favoris/locales/` | mes favoris |
 | `espace` | `src/modules/compte/mon-espace/locales/` | Mon espace (personne physique) |
+| `pages` | `src/modules/pages/locales/` | Aide et contact, Conditions générales |
 | `pro` | `src/modules/ecole/espace-pro/locales/` | espace pro ; contenus, publication, paramètres, invitation sous la clé `content` |
 
 - Initialisation : `src/i18n/index.ts` (`CLE_STOCKAGE_LANGUE`, `Langue`, `LANGUES`, `langueActive()`, `currentLocale()`).

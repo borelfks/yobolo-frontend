@@ -52,7 +52,8 @@
 | Cloche · menu du compte | `ClocheNotifications`, `MenuCompte` (`AccountMenu.tsx`) |
 | Pied de page | `PiedDePage` |
 | Menu de l'espace pro (carte à gauche, tiroir sur téléphone) | `MenuPro` |
-| Connexion · inscription et mot de passe oublié | `AuthShell` · `CadreAuth` + `CarteAuth` |
+| Connexion · inscription et mot de passe oublié | `AuthShell` · `CadreAuth` + `CarteAuth` ; dans `modules/compte/auth/components/` : `TitreAuth`, `ChoixProfil`, `ChoixTypeEtablissement`, `NavigationEtapes`, `VerificationCode` |
+| Aide et contact | `BandeauAide`, `ThemesAide`, `QuestionsAide`, `ContactAide`, `CartePage` (`modules/pages/components/Aide.tsx`) |
 
 Anciens composants (`src/shared/ui/`, `src/shared/forms/`) : servent encore aux écrans pas refaits ; on ne s'en sert plus pour un écran neuf ; on les supprime quand plus rien ne les importe.
 

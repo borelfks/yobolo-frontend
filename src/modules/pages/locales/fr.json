@@ -1,0 +1,157 @@
+{
+  "aide": {
+    "titre": "Comment pouvons-nous vous aider ?",
+    "rechercheAria": "Rechercher dans l’aide",
+    "recherchePlaceholder": "Rechercher une question : compte, avis, favoris…",
+    "themes": {
+      "titre": "Thèmes",
+      "compte": "Mon compte",
+      "ecoles": "Écoles et formations",
+      "auto": "Auto-écoles",
+      "avis": "Avis",
+      "favoris": "Favoris",
+      "pro": "Espace professionnel",
+      "nb_one": "{{count}} question",
+      "nb_other": "{{count}} questions"
+    },
+    "faqTitre": "Questions fréquentes",
+    "toutes": "Toutes les questions",
+    "aucune": "Aucune question ne correspond à « {{recherche}} ». Écrivez-nous ci-dessous.",
+    "faq": {
+      "creerCompte": {
+        "q": "Comment créer un compte ?",
+        "r": "Touchez « Créer un compte », choisissez votre profil (Personne physique ou École / IPES), remplissez vos informations, puis saisissez le code reçu par SMS."
+      },
+      "motDePasse": {
+        "q": "J’ai oublié mon mot de passe. Que faire ?",
+        "r": "Sur la page de connexion, touchez « Mot de passe oublié ? » et saisissez le numéro de votre compte : un code vous est envoyé pour choisir un nouveau mot de passe."
+      },
+      "supprimer": {
+        "q": "Comment supprimer mon compte ?",
+        "r": "Ouvrez Paramètres, puis « Supprimer mon compte ». Votre mot de passe est demandé pour confirmer."
+      },
+      "trouverFormation": {
+        "q": "Comment trouver une formation ?",
+        "r": "Ouvrez École, cherchez un établissement ou une formation et une ville, puis affinez avec les filtres : domaine, diplôme, horaires."
+      },
+      "verifie": {
+        "q": "Que veut dire « Établissement vérifié » ?",
+        "r": "YIBOLO a contrôlé les documents officiels de l’établissement, comme son autorisation d’ouverture et son NIU."
+      },
+      "contacter": {
+        "q": "Comment contacter un établissement ?",
+        "r": "Sur sa fiche, touchez « Contacter » : vous trouvez son téléphone, son WhatsApp et son adresse."
+      },
+      "tarifs": {
+        "q": "YIBOLO encaisse-t-il les tarifs des auto-écoles ?",
+        "r": "Non. Les tarifs sont affichés pour vous informer ; vous les réglez directement auprès de l’auto-école."
+      },
+      "choisirAuto": {
+        "q": "Comment choisir une auto-école ?",
+        "r": "Ouvrez Auto-écoles, filtrez par permis et par ville, puis consultez la fiche : tarifs, planning des sessions et avis."
+      },
+      "donnerAvis": {
+        "q": "Comment donner un avis ?",
+        "r": "Sur la fiche, ouvrez l’onglet Avis et touchez « Donner mon avis ». Votre avis est publié après vérification par YIBOLO."
+      },
+      "favoris": {
+        "q": "Où retrouver mes favoris ?",
+        "r": "Touchez le cœur sur un établissement, une formation ou une auto-école : vous les retrouvez dans « Mes favoris »."
+      },
+      "ajouterEtablissement": {
+        "q": "Mon établissement n’est pas sur YIBOLO. Comment l’ajouter ?",
+        "r": "Créez un compte « École / IPES » et joignez vos documents (autorisation d’ouverture, NIU). Votre fiche est publiée après vérification par YIBOLO."
+      },
+      "modifierFiche": {
+        "q": "Comment modifier la fiche de mon établissement ?",
+        "r": "Dans votre espace professionnel, ouvrez « Profil de l’établissement ». Certaines informations sont publiées après validation par YIBOLO."
+      }
+    },
+    "contact": {
+      "titre": "Vous ne trouvez pas votre réponse ?",
+      "texte": "Écrivez à l’assistance YIBOLO : nous vous répondons par e-mail ou par SMS.",
+      "nom": "Nom",
+      "nomExemple": "Ex. : Aïcha Mbarga",
+      "contact": "E-mail ou téléphone",
+      "contactExemple": "vous@exemple.cm ou 690 12 34 56",
+      "sujet": "Sujet",
+      "message": "Message",
+      "messageExemple": "Décrivez votre question en quelques lignes.",
+      "envoyer": "Envoyer",
+      "merci": "Merci !",
+      "envoye": "Votre demande est envoyée à l’assistance YIBOLO.",
+      "sujets": {
+        "compte": "Mon compte",
+        "ecoles": "Écoles et formations",
+        "auto": "Auto-écoles",
+        "avis": "Avis",
+        "favoris": "Favoris",
+        "pro": "Espace professionnel",
+        "autre": "Autre"
+      },
+      "erreurs": {
+        "nom": "Indiquez votre nom.",
+        "contact": "Indiquez votre e-mail ou votre téléphone.",
+        "message": "Le message compte au moins 10 caractères.",
+        "envoi": "La demande n’a pas pu être envoyée. Réessayez."
+      }
+    }
+  },
+  "conditions": {
+    "titre": "Conditions générales d’utilisation",
+    "miseAJour": "Dernière mise à jour : 26 novembre 2026",
+    "sommaire": "Sommaire",
+    "articles": {
+      "a1": {
+        "titre": "Objet",
+        "p1": "Les présentes conditions encadrent l’utilisation de YIBOLO, la plateforme de formation, d’expertise et d’emploi en Afrique centrale. En créant un compte ou en utilisant YIBOLO, vous les acceptez.",
+        "p2": ""
+      },
+      "a2": {
+        "titre": "Création de compte",
+        "p1": "Vous créez un compte « Personne physique » ou « École / IPES » avec des informations exactes. Votre numéro de téléphone est confirmé par un code envoyé par SMS.",
+        "p2": "Vous gardez votre mot de passe secret. Tout ce qui est fait depuis votre compte est réputé fait par vous."
+      },
+      "a3": {
+        "titre": "Utilisation des services",
+        "p1": "YIBOLO vous permet de consulter les établissements, les formations et les auto-écoles, de les garder en favoris, de donner votre avis et de lire les publications des experts. Ces services sont réservés à un usage personnel et non commercial.",
+        "p2": ""
+      },
+      "a4": {
+        "titre": "Établissements et auto-écoles",
+        "p1": "Chaque établissement est responsable des informations qu’il publie : formations, rentrées, contacts. Il fournit les documents demandés (autorisation d’ouverture, NIU).",
+        "p2": "Les informations sensibles ou réglementaires sont publiées après validation par YIBOLO. Le badge « Établissement vérifié » indique que ces documents ont été contrôlés."
+      },
+      "a5": {
+        "titre": "Avis et publications",
+        "p1": "Les avis et les commentaires restent courtois et décrivent une expérience réelle. Les propos insultants, faux ou publicitaires sont interdits.",
+        "p2": "Les avis sont publiés après vérification par YIBOLO. Chacun peut signaler un avis ou une publication qui pose problème."
+      },
+      "a6": {
+        "titre": "Tarifs des auto-écoles",
+        "p1": "Les tarifs des auto-écoles affichés sur YIBOLO sont donnés à titre d’information. YIBOLO n’encaisse aucun paiement : vous réglez directement auprès de l’auto-école.",
+        "p2": ""
+      },
+      "a7": {
+        "titre": "Données personnelles",
+        "p1": "YIBOLO ne recueille que les informations utiles au service : identité, coordonnées, lieu de résidence, préférences. Elles ne sont jamais vendues.",
+        "p2": "Vous pouvez les modifier dans « Mon profil » et supprimer votre compte dans « Paramètres »."
+      },
+      "a8": {
+        "titre": "Responsabilité",
+        "p1": "YIBOLO met tout en œuvre pour que les informations soient exactes et à jour, sans pouvoir garantir celles fournies par les établissements. YIBOLO n’est pas partie aux inscriptions conclues entre vous et un établissement.",
+        "p2": ""
+      },
+      "a9": {
+        "titre": "Modification des conditions",
+        "p1": "YIBOLO peut faire évoluer ces conditions. La date de la dernière mise à jour figure en haut de cette page ; en cas de changement important, vous en êtes informé par notification.",
+        "p2": ""
+      },
+      "a10": {
+        "titre": "Nous contacter",
+        "p1": "Pour toute question sur ces conditions, écrivez à l’assistance YIBOLO depuis la page « Aide et contact ».",
+        "p2": ""
+      }
+    }
+  }
+}

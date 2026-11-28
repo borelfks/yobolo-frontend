@@ -1,24 +1,22 @@
 import { useLocation } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { BookOpen, Briefcase, FileText, GraduationCap, LifeBuoy, MonitorPlay, UserRound, type LucideIcon } from 'lucide-react'
+import { BookOpen, Briefcase, GraduationCap, MonitorPlay, UserRound, type LucideIcon } from 'lucide-react'
 import { Button } from '@/shared/ui/Button'
 import { Card } from '@/shared/ui/Card'
 import { ROUTES } from '@/shared/utils/routes'
 
-type Espace = 'consultation' | 'emploi' | 'formations' | 'bibliotheque' | 'aide' | 'conditions'
+type Espace = 'consultation' | 'emploi' | 'formations' | 'bibliotheque'
 
 /** Chaque page pas encore réalisée, avec son icône. */
 const ESPACES: { espace: Espace; adresse: string; icone: LucideIcon }[] = [
   { espace: 'emploi', adresse: ROUTES.emploi, icone: Briefcase },
   { espace: 'formations', adresse: ROUTES.courses, icone: MonitorPlay },
   { espace: 'bibliotheque', adresse: ROUTES.library, icone: BookOpen },
-  { espace: 'aide', adresse: ROUTES.help, icone: LifeBuoy },
-  { espace: 'conditions', adresse: ROUTES.terms, icone: FileText },
   { espace: 'consultation', adresse: ROUTES.consultation, icone: UserRound },
 ]
 
 /**
- * Consultation, Emploi, Formations, Bibliothèque, Aide, Conditions : présents
+ * Consultation, Emploi, Formations, Bibliothèque : présents
  * dans la navigation ou sur la landing, pas encore réalisés dans cette démo.
  */
 export function HorsPerimetre() {

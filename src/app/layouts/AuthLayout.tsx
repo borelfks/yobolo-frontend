@@ -118,13 +118,3 @@ export function CarteAuth({ largeur = 'large', centree = false, children, classN
     </main>
   )
 }
-
-/** Ancienne carte de l'inscription (remplacée au lot des pages publiques). */
-export function AuthCard({ children }: { children: ReactNode; title?: string }) {
-  const { t } = useTranslation('layout')
-  return (
-    <CadreAuth texte={t('authLayout.dejaCompte')}>
-      <CarteAuth>{children}</CarteAuth>
-    </CadreAuth>
-  )
-}

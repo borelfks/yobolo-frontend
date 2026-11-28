@@ -18,7 +18,8 @@ src/
 │   │                     auto-ecoles/ (liste, fiche, permis, inscription) · avis/ · espace-pro/
 │   ├── compte/           auth/ (connexion, inscription, session) · mon-espace/ (personne physique) · favoris/
 │   ├── communaute/       accueil/ (accueil connecté, publications)
-│   └── landing/          accueil des visiteurs, page « bientôt disponible »
+│   ├── landing/          accueil des visiteurs, page « bientôt disponible »
+│   └── pages/            Aide et contact, Conditions générales
 │                         plus tard : consultation/, emploi/
 ├── shared/             ce qui sert à plusieurs parties
 │   ├── ui/               briques de base

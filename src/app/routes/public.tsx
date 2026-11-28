@@ -4,6 +4,8 @@ import { ROUTES, ROUTE_PATTERNS as P } from '@/shared/utils/routes'
 import { GardeListing } from './GardeListing'
 import {
   Accueil,
+  Aide,
+  Conditions,
   AutoEcoleProfil,
   AutoEcoles,
   EcoleProfil,
@@ -56,8 +58,8 @@ export const routesPubliques = cadre.addChildren([
   page(ROUTES.emploi, HorsPerimetre),
   page(ROUTES.courses, HorsPerimetre),
   page(ROUTES.library, HorsPerimetre),
-  page(ROUTES.help, HorsPerimetre),
-  page(ROUTES.terms, HorsPerimetre),
+  page(ROUTES.help, Aide),
+  page(ROUTES.terms, Conditions),
   // Adresse inconnue : la 404 reste dans le cadre public.
   page('$', NotFound),
 ])
