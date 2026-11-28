@@ -15,12 +15,12 @@ En attendant l'API de **yibolo-backend**, les écrans lisent de **fausses donné
 ## Les 12 règles qui priment sur tout
 1. **Le canevas fait foi.** Chaque écran reproduit sa planche (1440 px et 390 px) : mise en page, textes, couleurs, espacements, icônes. **Une incohérence entre deux planches se corrige** (on garde la version cohérente, la plus fréquente ou celle du composant partagé) et on la signale dans la réponse (décision du 2026-11-27).
 2. **Toujours en composants** (4 niveaux, voir [composants.md](.claude/rules/composants.md)) : briques shadcn (`src/shared/shadcn/`) → blocs (`src/shared/blocs/`) → composants métier (`modules/…/components/`) → pages qui **assemblent** seulement. Pas de style dans une page, pas de `<button>`/`<input>`/`<table>` faits à la main.
-3. **Aucune couleur, taille ou ombre en dur** : jetons de `src/app/styles/theme.css` (relevés dans le canevas, noms shadcn). Les « anciens jetons » (`brand`, `navy`, `sun`, `page`, `ink`, `line`) ne servent qu'aux écrans pas encore refaits.
+3. **Aucune couleur, taille ou ombre en dur** : jetons de `src/app/styles/theme.css` (relevés dans le canevas, noms shadcn). Les « anciens jetons » (`brand`, `navy`, `sun`, `page`, `ink`, `line`) ne servent plus qu'aux pages masquées. Les tailles du canevas sont des jetons (`text-titre`, `text-meta`…), jamais `text-[…px]`.
 4. **Données** : toutes par la couche `src/data/` (lectures TanStack Query) ; fausses données aujourd'hui, API de yibolo-backend plus tard par **Orval** (`npm run api:generate`). Détail : [donnees-et-backend.md](.claude/rules/donnees-et-backend.md).
 5. **États et erreurs toujours prévus** : chargement (squelette de la même forme), vide, erreur avec « Réessayer », accès refusé ; erreurs d'enregistrement en message éphémère. Détail : [erreurs-et-etats.md](.claude/rules/erreurs-et-etats.md).
 6. **Traduction** : tout texte visible passe par i18next (français = référence, anglais britannique). Les données ne se traduisent pas. Détail : [traduction.md](.claude/rules/traduction.md).
 7. **Adresses** : toutes de `ROUTES` (`src/shared/utils/routes.ts`) ; **types** du domaine : `src/shared/types.ts`.
-8. **TypeScript `strict`**, pas de `any`, **pas de nouvelle dépendance** sans raison (installées : TanStack Query, Router, Table ; Orval, axios ; shadcn/ui + Radix, cmdk ; recharts ; sonner).
+8. **TypeScript `strict`**, pas de `any`, **pas de nouvelle dépendance** sans accord (installées : TanStack Query, Router, Table ; Orval, axios ; shadcn/ui + Radix, cmdk ; recharts ; sonner ; **date-fns** pour toutes les dates, voir [dates-et-nombres.md](.claude/rules/dates-et-nombres.md)).
 9. **Vérifier avant de dire « fait »** : `npm run typecheck`, `npm run lint`, `npm run i18n:check`, `npm run build`, puis le navigateur (`http://localhost:5199`, 1440 et 390 px, français et anglais) à côté de la planche du canevas.
 10. **Commiter seul après chaque étape importante** (lot d'écrans, migration, nouvelle brique), message en français ; **pousser seulement sur demande**.
 11. **La landing (`/`) est gelée** : copie de yibolo-client, ses couleurs restent les siennes (`.theme-client`).
@@ -41,8 +41,9 @@ Comptes de démo : `jean.dupont@exemple.cm` (Personne physique), `contact@ipc.cm
 
 ## Repères dans le code
 - `src/app/` : la coquille (routes, cadres `layouts/`, styles, `erreursGlobales.ts`).
-- `src/modules/<univers>/<partie>/` : `pages/`, `components/`, `hooks/`, `locales/` et la logique de la partie. `ecole/` (etablissements, auto-ecoles, avis, espace-pro), `compte/` (auth, mon-espace, favoris), `communaute/` (accueil), `landing/`, `design-system/` (développement).
-- `src/shared/` : `shadcn/` (briques), `blocs/` (chargement, squelettes, états), `ui/` et `forms/` (anciens composants, remplacés au fil des écrans), `errors/`, `hooks/`, `locales/`, `utils/`, `types.ts`. **`shared/` n'importe jamais `app/` ni `modules/`.**
+- `src/modules/<univers>/<partie>/` : `pages/`, `components/`, `hooks/`, `locales/` et la logique de la partie. `ecole/` (etablissements, auto-ecoles, avis, espace-pro), `compte/` (auth, mon-espace, favoris), `communaute/` (accueil), `pages/` (aide, conditions), `landing/`, `design-system/` (développement).
+- Pages **masquées** (2026-11-25, code gardé sans adresse) : préinscription, inscription en auto-école, Mon espace.
+- `src/shared/` : `shadcn/` (briques), `blocs/` (chargement, squelettes, états, formulaire, logo, cadres), `ui/` (liens `Lien`, `LienActif` ; le reste sert aux pages masquées), `forms/` (`ChampsLieu`, accords), `errors/`, `hooks/`, `locales/`, `utils/` (dont `dates.ts`, date-fns), `types.ts`. **`shared/` n'importe jamais `app/` ni `modules/`.**
 - `src/api/` : `queryClient.ts` (erreurs globales), `client.ts` (axios), `generated/` (Orval, plus tard).
 - `src/data/` : couche de données (`index.ts`, `hooks.ts`, `sources/fauxSource.ts`, `fausses-donnees/`).
 

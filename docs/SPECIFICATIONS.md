@@ -1,39 +1,37 @@
 # YIBOLO — Cahier des charges (front-end)
 
-> Référence fonctionnelle de l'interface : **ce que fait l'application, écran par écran**.
-> Il décrit l'état réel de la démonstration (front seul, données fictives). La source de vérité visuelle reste la **maquette Word du client** (`C:\Users\USER\Documents\yibolo\NOUVEAU DESIGN YIBOLO.docx`).
+> Référence fonctionnelle de l'interface : **ce que fait l'application, écran par écran**, dans son état réel (front seul, fausses données).
+> La source de vérité visuelle est le **canevas YIBOLO** (planches à 1440 px et 390 px), complété par la maquette Word du client (`C:\Users\USER\Documents\yibolo\NOUVEAU DESIGN YIBOLO.docx`).
 >
-> Documents liés : [DESIGN.md](DESIGN.md) (apparence), [DECISIONS.md](DECISIONS.md) (historique des choix et points à revoir), [.claude/rules/](../.claude/rules/) (règles détaillées pour coder), [README.md](../README.md) (démarrer le projet).
+> Documents liés : [DESIGN.md](DESIGN.md) (apparence), [DECISIONS.md](DECISIONS.md) (historique et points à revoir), [.claude/rules/](../.claude/rules/) (règles pour coder), [README.md](../README.md) (démarrer). L'administration est décrite dans yibolo-admin (`docs/SPECIFICATIONS.md`).
 
 ---
 
 ## 1. Présentation
 
-**YIBOLO** est la plateforme de **formation, d'expertise et d'emploi en Afrique centrale**. Sa devise : **Apprendre · Former · Consulter · Travailler**. Elle réunit quatre univers :
+**YIBOLO** est la plateforme de **formation, d'expertise et d'emploi en Afrique centrale**. Quatre univers :
 
 | Univers | Pour qui | Dans ce dépôt |
 |---|---|---|
-| **École** | trouver un établissement, une formation, une auto-école ; se préinscrire ou s'inscrire | **réalisé** |
-| **Consultation** | consulter un expert (consultant, formateur, conseiller) | page « bientôt disponible » |
-| **Métiers** | découvrir les métiers et les compétences clés | lien vers la page Emploi (« bientôt disponible ») |
-| **Emploi** | offres d'emploi, de stage et d'apprentissage | page « bientôt disponible » |
+| **École** | trouver un établissement, une formation, une auto-école, un permis | **réalisé** |
+| **Consultation** | consulter un expert | « Bientôt » dans le menu, page « bientôt disponible » |
+| **Métiers** | découvrir les métiers | pas encore dans le canevas |
+| **Emploi** | offres d'emploi, de stage et d'apprentissage | « Bientôt » dans le menu, page « bientôt disponible » |
 
-**Ce dépôt est le front** : il transforme la maquette du client en interface qui fonctionne. En attendant l'API de yibolo-backend, toutes les données sont fausses (`src/data/fausses-donnees/`) et gardées dans le navigateur ; aucun serveur n'est appelé.
+En attendant l'API de yibolo-backend, toutes les données sont fausses (`src/data/fausses-donnees/`) et gardées dans le navigateur de chaque testeur ; aucun serveur n'est appelé.
 
-**Marché :** Cameroun (10 régions, Yaoundé et Douala en tête). Interface en **français** (référence) et en **anglais britannique**, montants en **FCFA**.
+**Marché :** Cameroun (10 régions, 58 départements, 360 arrondissements). Interface en **français** (référence) et en **anglais britannique**, montants en **FCFA**.
 
 ---
 
-## 2. Principe de fonctionnement (repris de la maquette)
+## 2. Principe de fonctionnement
 
-La maquette distingue **deux espaces totalement différents** pour chaque type d'établissement :
+1. **L'espace professionnel** : l'établissement renseigne et actualise ses informations (profil, formations, contenus).
+2. **L'espace public** : visiteurs, étudiants, candidats et parents cherchent des établissements, des formations et des auto-écoles.
 
-1. **L'espace professionnel** : l'établissement y **renseigne et actualise** ses informations (profil, formations, contenus).
-2. **L'espace public** : les visiteurs, étudiants, candidats et parents y **cherchent** des établissements et des formations.
+Ce que l'établissement enregistre dans son espace pro (profil, formations publiées, actualités, documents, FAQ, médias) **s'affiche sur sa fiche publique**. Pas de validation par YIBOLO (décision du 2026-11-27) : une formation enregistrée est « Publiée » tout de suite, ou gardée en « Brouillon ».
 
-Une modification faite par l'établissement dans son espace pro doit être **répercutée sur sa fiche publique**, éventuellement **après validation par YIBOLO** pour les informations sensibles ou réglementaires.
-
-Dans la démo, les deux espaces ne sont pas reliés : une modification dans l'espace pro affiche un message (« Formation publiée », « Modifications enregistrées ») mais **ne change pas** la fiche publique.
+Tous les chiffres sont **calculés à partir de la base** (notes, nombres d'avis, de formations, d'établissements, statistiques), jamais recopiés de la maquette.
 
 ---
 
@@ -41,269 +39,166 @@ Dans la démo, les deux espaces ne sont pas reliés : une modification dans l'es
 
 | Mot | Sens |
 |---|---|
-| **École** | l'univers « formation » de YIBOLO (menu « École ») |
-| **Établissement** | un IPES, un CFP ou un « Autre » établissement de formation |
-| **IPES** | Institut Privé d'Enseignement Supérieur |
-| **CFP** | Centre de Formation Professionnelle |
-| **Autres** | autres établissements (langues, informatique, arts…) |
+| **École** | l'univers « formation » (menu « École ») |
+| **Établissement** | un IPES, un CFP ou un « Autre » établissement |
+| **IPES** · **CFP** · **Autres** | Institut Privé d'Enseignement Supérieur · Centre de Formation Professionnelle · autres établissements (langues, informatique, couture…) |
 | **Auto-école** | école de conduite ; badge **« Agréée »** |
-| **Formation** | un cursus d'un établissement (ex. « BTS Comptabilité & Gestion ») |
-| **Filière** · **Diplôme** | domaine d'une formation · titre obtenu (BTS, Licence, Master…) |
-| **Préinscription** | demande d'une place dans une **formation** (IPES, CFP, Autres), en 4 étapes |
-| **Inscription** | demande d'une place pour un **permis** dans une auto-école, en 3 étapes ; aussi la création d'un compte YIBOLO |
-| **Permis A, B, C, D** | catégories de permis de conduire (E existe dans les données, pas dans la maquette) |
-| **Favoris** | formations, établissements, auto-écoles ou permis gardés par l'utilisateur, rangés en dossiers |
-| **Avis** | note et commentaire d'un apprenant sur un établissement ou une auto-école |
-| **Espace professionnel** | l'espace de gestion de l'établissement (`/pro/ecole`) |
-| **Établissement vérifié** | badge vert donné aux établissements contrôlés par YIBOLO |
+| **Formation** · **Filière** · **Diplôme** | cursus · domaine · titre obtenu (BTS, Licence, Master…) |
+| **Permis A, B, C, D, E** | catégories de permis de conduire |
+| **Favoris** | formations, établissements, auto-écoles ou permis gardés, rangés en dossiers |
+| **Avis** | note et commentaire sur un établissement ou une auto-école |
+| **Espace professionnel** | la gestion de l'établissement (`/pro/ecole`) |
+| **Établissement vérifié** | badge vert : ses accords de création et d'ouverture sont enregistrés |
 
-Mots anglais : voir le glossaire de [.claude/rules/traduction.md](../.claude/rules/traduction.md).
+Mots anglais : glossaire de [.claude/rules/traduction.md](../.claude/rules/traduction.md).
 
 ---
 
 ## 4. Comptes et accès
 
-### Profils à l'inscription
-La maquette prévoit **4 profils** : **École / IPES** (institut, centre, auto-école…), **Consultant**, **Entreprise**, **Personne physique** (candidat, étudiant, demandeur d'emploi).
-
-### Comptes (table `comptes`)
-| Rôle (`Role`) | Nom | Première page | Espace |
+| Rôle | Compte de départ | Première page | Espace |
 |---|---|---|---|
-| `utilisateur` | Jean Dupont | `/accueil` | pages publiques + **Mon espace** (`/mon-espace`) |
-| `ipes` | IPC Yaoundé (établissement `ipc`) | `/pro/ecole` | espace pro « IPES » |
-| `cfp` | CFP du BTP (établissement `cfp-btp`) | `/pro/ecole` | espace pro « CFP » |
-| `autre` | Centre Linguistique (établissement `langues`) | `/pro/ecole` | espace pro « Autre » |
+| `utilisateur` | Jean Dupont (`jean.dupont@exemple.cm`) | `/accueil` | pages publiques, accueil connecté, favoris, profil, paramètres, notifications |
+| `ipes` | IPC Yaoundé (`contact@ipc.cm`) | `/accueil` | espace pro (établissement `ipc`) |
+| `cfp` | CFP du BTP (`contact@cfp-btp.cm`) | `/accueil` | espace pro (établissement `cfp-btp`) |
+| `autre` | Centre Linguistique (`contact@langues.cm`) | `/accueil` | espace pro (établissement `langues`) |
 
-- **Un compte = un espace.** Les trois comptes école partagent **le même espace pro** ; seuls le nom, le type affiché (« Espace professionnel – IPES / CFP / Autre ») et les données de l'établissement changent (`useMonEcole`).
-- **Garde de l'espace pro** : un compte sans établissement (`ecoleId`) qui ouvre `/pro/ecole…` est renvoyé vers `/connexion?espace=ecole`.
-- Les pages publiques sont ouvertes à tous, connecté ou non (préinscription et favoris compris).
-- À la première visite, on arrive **non connecté** : la landing montre « Se connecter », qui mène à la connexion puis à « Créer un compte » (choix du profil). Après « Se déconnecter », on arrive sur la connexion.
-- À la connexion, l'e-mail (ou le téléphone) et le mot de passe sont vérifiés dans la base. Comptes de départ : `jean.dupont@exemple.cm` (Personne physique), `contact@ipc.cm` (École – IPES), `contact@cfp-btp.cm` (École – CFP), `contact@langues.cm` (École – Autre), tous avec le mot de passe `yibolo2026`.
-- La session est gardée dans le navigateur (`yibolo:compte`).
-
-### Menu du compte (avatar)
-- Compte école : **Mon espace professionnel** · Mes favoris · Paramètres · Se déconnecter.
-- Utilisateur : **Mon espace** · Mon profil · Mes favoris · Paramètres · Se déconnecter. Sa cloche mène à **Notifications** (`/notifications`).
-- La cloche montre les notifications du compte (base), avec le nombre de non lues ; un clic marque comme lu. Dans l'espace pro, « Voir toutes les notifications » mène à Paramètres › Notifications.
+- Mot de passe des comptes de départ : `yibolo2026`. Connexion par e-mail ou téléphone, vérifiée dans la base (mot de passe haché).
+- **Un compte = un espace.** Les trois comptes école partagent le même espace pro (`useMonEcole`).
+- Un compte sans établissement sur `/pro/ecole…` est renvoyé à `/connexion?espace=ecole`. Les listes d'écoles renvoient un compte école vers son espace ; les fiches restent ouvertes.
+- À la première visite et après « Se déconnecter » : **visiteur non connecté**. « Se souvenir de moi » garde la session après la fermeture du navigateur.
+- **Menu du compte** : nom, « Voir mon profil » (personne) ou « Voir ma page publique » (école) ; personne : Mes favoris · Paramètres · Aide et contact · Se déconnecter ; école : Profil de l'établissement · Statistiques · Paramètres · Aide et contact · Se déconnecter. **Cloche** : lien vers les notifications, avec le nombre de non lues.
 
 ---
 
-## 5. Inscription et connexion (maquette : « INSCRIPTION »)
+## 5. Pages publiques
 
 | Écran | Adresse | Contenu |
 |---|---|---|
-| **Connexion** | `/connexion` | Panneau bleu avec photo et 4 atouts (« Écoles et formations certifiées », « Consultants et experts qualifiés »…), carte blanche : e-mail ou téléphone, mot de passe (afficher / masquer), « Se souvenir de moi », « Mot de passe oublié ? » (message), « Se connecter », « Créer un compte », « Continuer sans compte ». Sous la carte : choix du **compte de démonstration**. |
-| **Créer un compte** | `/inscription` | Étapes **Profil → Infos → Vérification → Terminé**. |
+| **Landing** | `/` | copie gelée de yibolo-client, réservée aux visiteurs (un compte connecté va à `/accueil`) |
+| **Connexion** | `/connexion` | cadre de connexion (formulaire à gauche, photo et 4 points de la marque à droite) : e-mail ou téléphone, mot de passe (afficher / masquer), « Se souvenir de moi », « Mot de passe oublié ? », « Se connecter », « Créer un compte », « Continuer sans compte » ; erreur « Identifiant ou mot de passe incorrect. » |
+| **Créer un compte** | `/inscription` | Profil (École / IPES et Personne physique ouverts ; Consultant et Entreprise « Bientôt disponible ») puis les étapes du profil (§ 5.1) |
+| **Mot de passe oublié** | `/mot-de-passe-oublie` | numéro du compte → code à 6 chiffres → nouveau mot de passe → connexion |
+| **Aide et contact** | `/aide` | thèmes, questions fréquentes, formulaire de contact (enregistré dans `demandesAssistance`) |
+| **Conditions générales** | `/conditions` | texte des conditions |
 
-**Créer un compte :**
-1. **Profil** : 4 cartes (École / IPES, Consultant, Entreprise, Personne physique). Seule **École / IPES** se choisit ; les trois autres sont grisées avec « Bientôt disponible » (décision du 2026-11-24).
-2. **Infos** (« Informations générales ») : raison sociale / nom et prénoms, téléphone, e-mail, région, ville, quartier, mot de passe (8 caractères au moins) et confirmation. Champs **préremplis** avec les valeurs de la maquette (IPC). Validation react-hook-form + zod.
-3. **Documents** (obligatoires) : documents à joindre. Personne physique : pièce d'identité. École : un ou plusieurs **accords de création** puis un ou plusieurs **accords d'ouverture** (autorité, numéro, date de délivrance, date d'expiration facultative, document de l'accord ; « Ajouter un autre accord… »), puis le NIU et son certificat. Bouton « Créer mon compte ».
-4. **« Créer mon compte »** : l'école entre directement dans son espace professionnel ; le compte est actif tout de suite, sans validation par YIBOLO (décision du 2026-11-27).
-5. **« Compte validé ! »** : « Se connecter à mon espace » ouvre le compte IPES (profil École) ou Utilisateur (autres profils).
-
----
-
-## 6. Accueil (maquette : « ACCUEIL ») — `/`
-
-- **Bandeau** : « Formez-vous, trouvez un expert, développez votre carrière ! », trois atouts (Établissements vérifiés · Experts certifiés · Opportunités réelles), photo à droite.
-- **4 cartes d'univers** : École (`/ecoles`), Consultant (`/consultation`), Métiers et Emploi (`/emploi`).
-- **« Rechercher sur YIBOLO »** : Localisation, École, Consultant, Métiers + bouton jaune « Rechercher » (mène à `/ecoles`).
-- **« Nos recommandations »** : onglets Écoles · Consultants · Métiers · Emplois ; 4 cartes (IPC, Me Alain Tchana, Mécanicien automobile, Moniteur(trice) de conduite). Les onglets changent l'onglet actif mais pas les cartes.
-
-### 6 bis. Accueil de l'utilisateur connecté — `/accueil`
-
-Copie de l'accueil connecté de **yibolo-client** (pas dans la maquette Word), aux couleurs de l'application (bleu, bleu nuit, Plus Jakarta Sans). Réservé aux comptes connectés (un visiteur est mené à `/connexion`). Un compte connecté qui ouvre `/` est mené à sa page d'arrivée (`account.home`) ; la landing reste réservée aux visiteurs.
-
-- **Trois colonnes** à partir de 1536 px : *Domaines d'expertise* (filtre, table `domainesExpertise`) · le fil · *Mes raccourcis*. Sous 1536 px, les domaines passent en menu d'icônes en haut du fil (« Plus » pour la liste entière) ; sous 1280 px, les raccourcis remontent dans le fil (masqués sur téléphone). Rien de l'emploi ni de la Consultation sur l'accueil.
-- **Haut du fil**, collé sous la barre du site : la recherche seule (mot clé). **Plus de filtres** (ni Ville, ni « Plus de filtres », ni menu ⋮ ; décision du 2026-11-25). « Mes enregistrés » (raccourci « Mes favoris ») et un sujet touché sur une publication s'affichent en pastilles qu'on retire. Adresse : `?vue=enregistres`, `?domaine=`, `?sujet=`, `?q=`.
-- **Bandeau** « Développez vos compétences avec les meilleurs experts » (« Découvrir les domaines » → `/ecoles`). **Une personne physique ne publie pas** sur le fil (décision du 2026-11-24) : pas de zone « Partagez un conseil… », ni de « Mes publications » ; la carte « Vous êtes expert ? » mène à « Devenir consultant » (Consultation, bientôt disponible).
-- **Fil** « Publications récentes » : **uniquement les publications des experts** (décision du 2026-11-24 : ni offres d'emploi, ni formations, ni rien des écoles). Pas d'onglets ni de menu « Type ». Cartes en grille (1 à 3 de front) : J'aime, Commenter, Partager, menu ⋯ (Enregistrer · Copier le lien · Signaler). 12 cartes, puis « Voir plus » (et au défilement) ; « Vous êtes à jour » à la fin.
-- **Page d'une publication** (`/accueil/publications/:id`, comme la PublicationPage de yibolo-client) : lue comme un article — rubrique (premier sujet), titre, signature (auteur, date, minutes de lecture), visuel, barre d'actions (J'aime, Commenter, Enregistrer, Signaler), texte (le premier paragraphe en chapeau), sujets, commentaires (`#commentaires`) ; à droite : Partager (logos WhatsApp, Facebook, X, LinkedIn, copier le lien) et 5 publications similaires (une publication sans photo montre l'icône de son domaine). **Vues** : le chiffre de départ + une vue par compte qui ouvre la page (table `lectures`) ; rouvrir ne compte pas deux fois.
-- **Commentaires** (comme yibolo-client) : une pilule de saisie (Entrée envoie, Maj+Entrée va à la ligne) ; chaque commentaire en bulle, menu ⋯ (Modifier, Supprimer pour l'auteur ; Signaler pour les autres), « Répondre » (un seul niveau de réponses, le nom de la personne à qui l'on répond mis en avant), « Modifié ». Supprimer un commentaire qui a des réponses laisse « Ce commentaire a été supprimé. » et garde les réponses. Les nombres de commentaires (titre, barre d'actions, carte du fil) comptent les réponses, pas les supprimés. Adresse inconnue : « Cette publication n'est pas accessible ».
-- **Raccourcis** (trois) : Mes favoris (→ « Mes enregistrés »), Mes notifications (→ Mon espace › Notifications, avec le nombre de non lues), Mon profil (→ Mon espace › Mon profil). « Mes formations » est retiré (décision du 2026-11-24).
+### 5.1 Création de compte
+- **Personne physique** : Profil → **Vous** (civilité, prénom, nom, nationalité, lieu) → **Votre accès** (téléphone +237, « numéro WhatsApp », e-mail facultatif, mot de passe de 8 caractères et confirmation, conditions) → **Code** (6 cases, renvoi après 60 s ; sans serveur d'envoi, le code est affiché). Le bon code ouvre le compte sur `/accueil`.
+- **École** : Profil → **Infos** (type d'établissement, raison sociale, sigle, responsable et fonction, téléphone, e-mail, lieu, adresse, mot de passe) → **Code** → **Documents** (au moins un accord de création et un accord d'ouverture, chacun avec autorité, numéro, dates et document ; NIU et son certificat) → l'école entre dans son espace pro. Une auto-école reçoit un compte « Autre » (pas encore d'espace auto-école).
+- Le compte est enregistré dès l'envoi du code ; s'il revient sans avoir saisi le code, « Confirmez votre numéro » lui envoie un nouveau code. Un e-mail ou un numéro déjà utilisé est refusé.
+- Lieu : région → département → arrondissement (la ville se déduit) → quartier (`ChampsLieu`).
 
 ---
 
-## 7. Univers École (maquette : « ECOLE »)
+## 6. Accueil connecté — `/accueil`
 
-Le menu École comprend : **IPES**, **CFP**, **Auto-écoles** et **Autres**. IPES, CFP et Autres partagent **le même gabarit** ; les auto-écoles ont leurs propres écrans (§ 8).
+Réservé aux comptes connectés (un visiteur va à `/connexion`).
+- **Trois colonnes** sur ordinateur : le compte et « Mes domaines » · le fil · les experts et les sujets du moment ; sur téléphone, le fil seul.
+- **Fil** : publications des experts (pas d'offres ni de formations), avec J'aime, Commenter, Partager, menu ⋯ (Enregistrer, Copier le lien, Signaler). Recherche et filtres dans l'adresse : `?vue=enregistres`, `?domaine=`, `?sujet=`, `?q=`. Une personne physique ne publie pas.
+- **Page d'une publication** (`/accueil/publications/:id`) : rubrique, titre, auteur, date, visuel, actions, texte, sujets, commentaires (un niveau de réponses, modifier, supprimer, signaler).
+- Les dates s'affichent en âge (« il y a 3 h », « hier ») jusqu'à une semaine, puis en date.
 
-### 7.1 Annuaire École — `/ecoles`
-- Bandeau « Écoles & Centres de formation ».
-- **5 tuiles** : Toutes les écoles (1 248), IPES (532), CFP (286), Auto-écoles (126), Autres (304).
-- « Rechercher une école » (localisation, type d'école) ; la recherche filtre les cartes par nom.
-- « 1 248 établissements trouvés » : cartes d'établissement (les 4 de la maquette d'abord), pagination réelle ; recherche par région et type, tri (pertinence, mieux notés, plus récents).
+---
 
-### 7.2 Espace public d'un type (IPES, CFP, Autres) — `/ecoles/:type/:onglet?`
-`:type` = `ipes`, `cfp` ou `autres`. La maquette prévoyait 7 menus ; l'onglet « Frais » est retiré (décision du 2026-11-27). **6 onglets**, portés par l'adresse :
+## 7. Univers École
 
-| Onglet | Adresse | Contenu |
-|---|---|---|
-| **IPES** (ou CFP, Autres) | `/ecoles/ipes` | liste des établissements du type, recherche, formations populaires |
-| **Filières** | `…/filieres` | domaines de formation (liste à gauche), cartes de filières, recherche |
-| **Diplômes** | `…/diplomes` | niveaux de diplôme, diplômes disponibles |
-| **Régions** | `…/regions` | les 10 régions du Cameroun, établissements par région |
-| **Villes** | `…/villes` | villes par région, nombre d'établissements |
-| **Cours (Jour/Soir)** | `…/cours` | formations par mode de cours (Jour, Soir, Jour & Soir), tri Pertinence · Plus récentes |
+### 7.1 Page École — `/ecoles`
+Recherche (établissement ou formation, ville), puis une rangée par type (IPES, CFP, Autres établissements, Auto-écoles) avec leurs 4 premières vignettes et « Voir tout » ; une recherche montre tous les résultats. Recherche et ville dans l'adresse.
 
-Chaque carte d'établissement mène à sa fiche (« Voir les informations »).
+### 7.2 Listes IPES, CFP, Autres — `/ecoles/:type`
+En-tête (titre, introduction, pilules des types avec leur nombre), filtres **Ville, Diplôme, Domaine, Cours** (cases à cocher avec le nombre de résultats ; panneau plein écran sur téléphone) et « Établissement vérifié », tri (Pertinence, Les mieux notés, Le plus de formations, Nom), vignettes, pagination (« 1 – 10 sur N »). Filtres, tri et page sont dans l'adresse.
 
 ### 7.3 Fiche d'un établissement — `/ecoles/:type/etablissement/:id/:onglet?`
-En-tête : photo du bâtiment, nom, badge « Établissement vérifié », type, ville, note, boutons (favori…). Onglets :
+En-tête : couverture, logo, nom, type et lieu, « Établissement vérifié », note, nombre de formations ; Contacter, Ajouter aux favoris, Partager. Colonne de droite : contacter l'établissement (Appeler, WhatsApp), autres établissements du même type.
 
-| Onglet | Adresse | Contenu |
+| Onglet | Segment | Contenu |
 |---|---|---|
-| **Aperçu** | `…/etablissement/ipc` | vidéo de présentation (message), présentation, filières principales, formations, contact |
-| **Formations (12)** | `…/formations` | formations de l'établissement : diplôme, mode de cours |
-| **Informations** | `…/informations` | Présentation · Conditions d'admission · Calendrier académique · Contact & localisation |
-| **Avis (286)** | `…/avis` | note globale, répartition, filtres (Tous, Étudiants, Anciens étudiants, Entreprises), avis, « Donner mon avis » |
-| **Galerie** | `…/galerie` | albums photos |
+| **Aperçu** | — | vidéo de présentation, présentation, informations clés, principales filières, dernière actualité |
+| **Formations** | `formations` | formations publiées, filtres par diplôme et cours |
+| **Informations** | `informations` | présentation, conditions d'admission, calendrier, actualités, documents à télécharger, FAQ, contact et localisation |
+| **Avis** | `avis` | profils (Tous, Étudiants, Anciens étudiants, Entreprises), résumé des notes, avis triés, Utile, réponse de l'établissement, « Donner mon avis » |
+| **Galerie** | `galerie` | vidéos, albums et médias ajoutés, dans la visionneuse |
 
-### 7.4 Détail d'une formation — `/ecoles/formations/:id/:onglet?`
-Depuis une formation, l'utilisateur peut **Préinscrire maintenant**, **Ajouter aux favoris** ou contacter l'établissement. La maquette prévoyait 5 menus ; « Frais & paiement » est retiré (décision du 2026-11-27). **4 onglets** :
+### 7.4 Formation — `/ecoles/formations/:id/:onglet?`
+En-tête (photo, établissement, nom, diplôme, cours, rentrée), onglets **Détails** · **Programme** (`programme`) · **Conditions d'admission** (`admission`) · **Débouchés** (`debouches`) ; à droite : l'établissement, prochaine rentrée, autres formations. Plus aucune mention des frais (décision du 2026-11-27).
 
-| Onglet | Adresse | Contenu |
+### 7.5 Auto-écoles — `/ecoles/auto-ecoles`
+Même gabarit que les listes : filtres **Permis** et **Ville**, carte « **Les permis** » (une tuile par permis : code, nom, durée, âge minimum ; une tuile se coche comme le filtre), tri (Pertinence, Les mieux notées, Nom, Les plus anciennes), vignettes (permis et année de création), pagination.
+
+### 7.6 Fiche d'une auto-école — `/ecoles/auto-ecoles/:id/:onglet?`
+En-tête : couverture, logo, nom, « Auto-école · ville, quartier (région) », « Agréée », note, « Depuis 2014 » ; Contacter, Ajouter aux favoris, Partager. Colonne de droite : **Contact & accès** (adresse, téléphone, e-mail, site, Appeler, Voir sur la carte) et **Pourquoi nous choisir ?**.
+
+| Onglet | Segment | Contenu |
 |---|---|---|
-| **Détails** | `/ecoles/formations/f-cg-ipc` | diplôme, durée, cours ; présentation, objectifs, métiers |
-| **Programme** | `…/programme` | aperçu et programme détaillé par semestre |
-| **Conditions d'admission** | `…/admission` | conditions, pièces à fournir |
-| **Débouchés** | `…/debouches` | métiers accessibles, secteurs qui recrutent, évolution de carrière |
+| **Aperçu** | — | présentation, 4 repères (création, localisation, horaires, statut), permis proposés (liens vers leur page), galerie de 6 photos |
+| **Formations & Permis** | `formations` | puces Catégorie de permis et Type de formation, une ligne par permis (photo, durée, prix, Voir les détails) |
+| **Tarifs** | `tarifs` | une carte par permis (formation complète, prix), ce que comprend le tarif, modalités de paiement |
+| **Planning** | `planning` | puces Catégorie, prochaines sessions (tableau ; cartes sur téléphone), prochaine rentrée, bon à savoir |
+| **Galerie** | `galerie` | photos et vidéos, dans la visionneuse |
+| **Avis** | `avis` | résumé des notes, avis triés (Les plus récents, Les mieux notés), Utile, Partager, Signaler (motif), « Donner mon avis » |
 
-Colonne de droite : l'établissement (badge vérifié), prochaine rentrée, actions.
+Un seul prix par permis (table `permis`), partout (décision du 2026-11-28).
 
-### 7.5 Préinscription — `/ecoles/formations/:id/preinscription`
-**4 étapes**, avec un indicateur cliquable pour revenir en arrière :
-1. **Informations personnelles**
-2. **Parcours scolaire** (dernier diplôme, série / spécialité, année, établissement d'origine)
-3. **Pièces à fournir** : CNI ou acte de naissance, dernier diplôme, relevé de notes, photo d'identité
-4. **Validation** : récapitulatif par bloc, avec « Modifier » qui ramène à l'étape concernée
+### 7.7 Page d'un permis — `/ecoles/auto-ecoles/:id/permis/:code/:onglet?`
+Gabarit des fiches (pas de planche dans le canevas) : « Permis B – Véhicule léger », l'auto-école, durée, âge minimum, prix ; Ajouter aux favoris, Partager. Onglets **Aperçu** (présentation, programme, conditions) · **Programme** · **Conditions** · **Tarifs** · **Planning** ; à droite : le prix et ce qu'il comprend, Contact & accès. Un permis que l'auto-école ne propose pas ramène à son onglet Formations & Permis.
 
-Envoi → « Préinscription envoyée ! », avec « Retour à l'établissement » ou « Continuer à explorer » (annuaire École). La préinscription et ses pièces sont enregistrées dans la base.
+### 7.8 Avis
+« Donner mon avis » ouvre une fenêtre : note globale (1 à 5), notes par critère facultatives, commentaire d'au moins 10 caractères, confirmation d'avoir suivi une formation. L'avis s'enregistre et s'affiche en tête ; message « Merci ! Votre avis sera publié après vérification par YIBOLO. ». L'établissement connecté répond aux avis de sa fiche.
 
-### 7.6 Ajouter aux favoris
-Un cœur sur les cartes, les formations et les fiches ajoute ou retire un favori (message « Ajouté à vos favoris », avec le dossier). Côté auto-école, une fenêtre permet de **choisir un dossier** (facultatif).
-
----
-
-## 8. Auto-écoles (maquette : « AUTO ECOLE »)
-
-Quels que soient les filtres, l'objectif de l'utilisateur est double : **voir le profil** ou **s'inscrire**.
-
-### 8.1 Liste — `/ecoles/auto-ecoles`
-- Bandeau « Trouvez une auto-école agréée près de chez vous… ».
-- Filtres : **type de permis** (Tous, A, B, C, D, E), région, recherche par nom ; « Réinitialiser les filtres ».
-- « Auto-Écoles trouvées : 42 » (chiffre de la maquette ; le vrai nombre quand un filtre est actif).
-- Chaque carte : note, quartier, permis proposés, **Voir le profil** et **S'inscrire** (permis B par défaut).
-
-### 8.2 Fiche d'une auto-école — `/ecoles/auto-ecoles/:id/:onglet?`
-En-tête : logo, nom, badge **« Agréée »**, note, ville et quartier. La maquette prévoit **6 menus** :
-
-| Onglet | Adresse | Contenu |
-|---|---|---|
-| **Aperçu** | `/ecoles/auto-ecoles/conduite-plus` | présentation, pourquoi nous choisir, permis proposés, prochaines sessions, contact & accès |
-| **Formation & Permis** | `…/formations` | les catégories de permis A à D, chacune menant à sa page |
-| **Tarifs** | `…/tarifs` | tarifs par permis, ce que comprend le tarif, modalités de paiement |
-| **Planning** | `…/planning` | prochaines sessions : permis, date de début, horaires, durée, places |
-| **Galerie** | `…/galerie` | centre, véhicules, cours, examens |
-| **Avis (286)** | `…/avis` | note globale, critères, répartition, avis, « Donner mon avis » |
-
-### 8.3 Page d'un permis — `/ecoles/auto-ecoles/:id/permis/:code/:onglet?`
-Permis **A, B, C, D** (textes repris des pages de la maquette). Onglets : **Aperçu**, **Programme**, **Conditions**, **Tarifs**, **Planning**. Parcours en 4 temps : Code de la route → Conduite pratique → Sécurité routière → Préparation à l'examen. Bouton « S'inscrire maintenant ».
-
-**Contradiction gardée volontairement :** le prix d'un permis n'est pas le même partout dans la maquette (ex. permis A : 250 000 FCFA dans les listes, 150 000 FCFA sur sa page ; permis C : 450 000 / 500 000 FCFA). Chaque écran affiche **le chiffre de sa capture**.
-
-### 8.4 Inscription — `/ecoles/auto-ecoles/:id/permis/:code/inscription`
-**3 étapes** :
-1. **Mes informations** : nom, prénom, date de naissance, sexe, téléphone, e-mail, ville, quartier.
-2. **Pièces à fournir** : copie de la CNI, 2 photos d'identité, certificat médical d'aptitude à la conduite.
-3. **Validation** : récapitulatif (formation, informations, pièces) avec « Modifier », case de certification obligatoire.
-
-Envoi → « Demande envoyée ! ». Le brouillon est gardé dans le navigateur, par auto-école et par permis (`useInscriptionDraft`).
-
-### 8.5 Modifier l'inscription — `…/inscription/modifier/:section`
-Trois sections, ouvertes depuis la validation : `formation` (changer d'auto-école, de permis, de session), `infos` (informations personnelles), `pieces` (remplacer une pièce). « Enregistrer » revient à l'inscription.
+### 7.9 Favoris — `/favoris`
+Le cœur (vignettes) et « Ajouter aux favoris » (fiches) ajoutent ou retirent un favori ; dossiers Mes formations, Mes établissements, À comparer. La page « Mes favoris » (personne physique) : filtres Tous · Formations · Établissements avec leur nombre, retirer, tout supprimer.
 
 ---
 
-## 9. Avis et favoris
+## 8. Compte de la personne physique
 
-### Donner un avis — `/ecoles/:type/etablissement/:id/avis/nouveau` · `/ecoles/auto-ecoles/:id/avis/nouveau`
-- **Note globale** (1 à 5 étoiles : Décevant, Moyen, Bien, Très bien, Excellent), notes par critère **facultatives** (auto-école : qualité de la formation, compétence des moniteurs, organisation & planning, infrastructures & véhicules, accueil & accompagnement ; établissement : qualité des enseignements, compétence des enseignants, organisation & administration, infrastructures & équipements, insertion professionnelle), commentaire.
-- Le commentaire compte **au moins 10 caractères** ; il faut **confirmer avoir suivi une formation** dans l'établissement.
-- « Publier mon avis » : « Merci ! Votre avis sera publié après vérification par YIBOLO. », retour aux avis. L'avis sera marqué « Vérifié » après validation par YIBOLO. Dans la démo, il n'est pas ajouté à la liste.
-
-### Mes favoris — `/favoris`
-- Filtres : Tous les favoris · Formations · Établissements, avec leur nombre.
-- Dossiers : Mes formations, Mes établissements, À comparer.
-- Retirer un favori, tout supprimer.
-- Favoris de départ : 2 formations de l'IPC et l'IPC. Gardés dans le navigateur (`yibolo:favorites`).
+- **Mon profil** (`/profil`) : civilité, prénom, nom, nationalité, date de naissance, téléphone (WhatsApp, un nouveau numéro est confirmé par code), e-mail, résidence, photo (enregistrée dès qu'elle est choisie).
+- **Paramètres** (`/parametres`) : notifications par sujet et par canal (Application, SMS, E-mail), mot de passe (8 caractères, une majuscule, un chiffre, un caractère spécial), langue, suppression du compte.
+- **Notifications** (`/notifications`) : Toutes / Non lues, « Nouvelles » puis « Plus tôt », marquer lue / non lue, supprimer, tout marquer comme lu.
+- Réservé au rôle `utilisateur` : un visiteur va à la connexion, une école à son espace pro.
 
 ---
 
-## 5 bis. Inscription, code et mot de passe oublié (comme yibolo-client)
-- **Personne physique** : Profil → **Vous** (civilité Monsieur / Madame / Mademoiselle, prénom, nom, nationalité, résidence) → **Votre accès** (téléphone +237, « Ce numéro est aussi mon numéro WhatsApp », e-mail facultatif, mot de passe de 8 caractères et confirmation, conditions générales) → **Code**. Le bon code crée le compte (validé) et l'ouvre sur `/accueil`. Sans e-mail, on se connecte avec son téléphone.
-- **École / IPES** : Profil → Infos (raison sociale, téléphone, e-mail, localisation, mot de passe) → **Code** → Documents (pièces, obligatoires) → espace professionnel (pas de validation par YIBOLO).
-- **Code (OTP)** : 6 cases, « Renvoyer le code » après 60 s (pas de choix SMS / WhatsApp, à la demande du porteur du projet). Sans serveur d'envoi, le code est affiché dans un encadré de démonstration.
-- **Code non saisi** : le compte est enregistré dès l'envoi du code (numéro non confirmé). S'il revient se connecter sans avoir saisi le code, l'écran « Confirmez votre numéro » lui envoie un nouveau code ; une fois confirmé, la personne arrive sur son accueil, l'école reprend l'inscription à l'étape des pièces.
-- **Sélection géographique** : Région → Département → Arrondissement (chaque liste dépend de la précédente, la ville se déduit : « Ville : Douala »), puis Quartier (texte libre, « Ex. : Bastos »).
-- **Mot de passe oublié** (`/mot-de-passe-oublie`) : numéro du compte → code → nouveau mot de passe → retour à la connexion.
-- Un numéro ou un e-mail déjà utilisé est refusé.
+## 9. Espace professionnel École — `/pro/ecole`
 
-## 9 bis. Mon espace (personne physique) — `/mon-espace/:onglet?`
-
-Onglets : Aperçu · Mes préinscriptions · Mes permis · Mes avis (avec « À évaluer » : les lieux où la personne a un dossier, « Donner mon avis »). Pages à part, depuis le menu du compte : **Mon profil** (`/profil` ; la photo s'enregistre dès qu'elle est choisie, aussi depuis l'en-tête de Mon espace ; un nouveau numéro est confirmé par un code), **Paramètres** (`/parametres` ; Notifications : pour chaque sujet — préinscriptions, permis, réponses à mes avis, réponses à mes commentaires, nouveautés YIBOLO —, Application · SMS · E-mail ; mot de passe ; langue ; suppression du compte), **Notifications** (`/notifications`, à la manière de Facebook : « Toutes » / « Non lues », « Nouvelles » puis « Plus tôt », point bleu, « … » pour marquer lue / non lue ou supprimer, « … » du titre : tout marquer comme lu, paramètres). Une notification n'est créée que si la personne la veut « dans l'application » pour ce sujet (`notifier`, `src/shared/utils/notifications.ts`).
-La maquette ne montre pas cet espace : il reprend l'idée de l'espace personnel de yibolo-client, limité à l'univers École. **Pas de barre latérale** (décision du 2026-11-24) : le cadre public, un en-tête bleu (photo, nom, « Personne physique », e-mail, résidence, « Modifier mon profil ») et des onglets dans l'adresse.
-- **Aperçu** (sans segment) : préinscriptions et inscriptions actives, favoris, avis donnés ; les 5 dernières démarches ; notifications non lues ; profil complété à n % ; actions rapides.
-- **Mes préinscriptions** (`preinscriptions`) : formation, établissement, date, statut (Envoyée / Annulée) ; « Voir le dossier » (`/mon-espace/preinscriptions/:id` : champs saisis, pièces jointes à télécharger, liens vers la formation, l'établissement, « Donner mon avis ») ; « Annuler » (confirmation) : l'établissement est prévenu et ses candidatures baissent d'une.
-- **Mes permis** (`auto-ecole`) : inscriptions en auto-école, même principe (`/mon-espace/auto-ecole/:id`) ; l'annulation rend la place à la session.
-- **Mes avis** (`avis`) : les avis écrits par le compte, avec la réponse de l'établissement ; modifier (note, commentaire) ou supprimer : le nombre d'avis et la moyenne de la fiche suivent.
-- **Notifications** (`notifications`) : toutes, ou non lues ; marquer comme lue, tout marquer comme lu, supprimer (les siennes).
-- **Mon profil** (`profil`) : civilité, prénom, nom, nationalité, date de naissance, téléphone (WhatsApp), e-mail (facultatif ; identifiant s'il est donné), résidence avec la sélection géographique (région, département, arrondissement, quartier), photo.
-- **Paramètres** (`parametres`) : changer le mot de passe (actuel vérifié ; 8 caractères, une majuscule, un chiffre, un caractère spécial), langue, supprimer le compte (mot de passe demandé).
-- Après une préinscription ou une inscription envoyée par un compte connecté : « Voir mon dossier dans Mon espace ».
-- Un visiteur qui ouvre `/mon-espace` est mené à la connexion ; un compte école, à son espace professionnel.
-
----
-
-## 10. Espace professionnel École — `/pro/ecole`
-
-Un seul espace pour les **IPES, CFP et Autres**. Cadre : barre du haut (logo, « Espace professionnel – IPES », cloche, aide, compte) et **barre latérale bleu nuit** : établissement (photo, nom, « Établissement vérifié »), **6 menus**, bouton « Assistance YIBOLO ».
+Un seul espace pour les IPES, CFP et Autres. Cadre : barre du haut du site, menu de l'établissement dans une carte de 240 px (photo, nom, type, « Établissement vérifié », « Voir ma page publique », 6 menus) ; tiroir sur téléphone.
 
 | Menu | Adresse | Contenu |
 |---|---|---|
-| **Tableau de bord** | `/pro/ecole` | « Bienvenue sur votre espace professionnel », chiffres (formations, filières, avis, photos / vidéos), complétude du profil, **informations à gérer** (Présentation, Conditions d'admission, Calendrier académique, Débouchés, Contact & localisation), actions rapides |
-| **Profil de l'établissement** | `/pro/ecole/profil/:onglet?` | Informations générales (bannière, année de création en liste, statut et visibilité, chiffres clés) · **Coordonnées** (`coordonnees`, numéros au format « +237 690 12 34 56 », site web ; enregistré sans site web : fenêtre « Pas encore de site web ? » (« Plus tard » · « Être contacté ») ; aperçu de la page publique) · **Agrément & documents** (`agrement` : accords de création et accords d’ouverture, remplis sur la page, chacun avec son document ; NIU et son certificat) · **Médias** (`medias` : logo, photos, vidéo) |
-| **Formations** › Gérer les formations | `/pro/ecole/formations` | tableau : formation, filière, diplôme, durée, prochaine rentrée, statut (**Publiée**, **Brouillon**), actions (« Publier » un brouillon, « Dépublier ») ; filtres, tri, pagination |
-| **Formations** › Créer une formation | `/pro/ecole/formations/nouvelle` · `…/:id/modifier` | nom composé automatiquement (« Diplôme Spécialité – option … », affiché en direct) ; 3 blocs : Informations générales (Diplôme, Secteur, Domaine, Spécialité par filière, Option, Niveau requis), Organisation (Durée, Jour / Soir, Date limite d’inscription), Description ; « Enregistrer et continuer » (publiée tout de suite, sans validation par YIBOLO), « Enregistrer en brouillon », « Aperçu », « Annuler » |
-| **Contenus et informations** | `/pro/ecole/contenus/:onglet?` | Présentation · **Actualités** (`actualites`, nouvelle actualité, page « Voir ma publication » `…/actualites/:id`) · **Documents** à télécharger (`documents` : liste de contrôle, une ligne par document attendu — brochure, dossier de candidature, pièces à fournir, règlement intérieur, calendrier — « Importer » ou « Remplacer », progression ; puis « Autres documents » ; publié tout de suite) · **FAQ** (`faq`, ajouter une question) |
-| **Statistiques** | `/pro/ecole/statistiques` | période (7 jours, 30 jours, 6 mois), évolution des visites, sources des visites, formations les plus consultées, dernières activités, export PDF (message) |
-| **Paramètres** | `/pro/ecole/parametres/:section?` | Compte et accès · Sécurité (mot de passe avec 4 critères, 2FA, sessions, activité) · Notifications · Préférences · **Utilisateurs** (`utilisateurs`, rôles, « Inviter un utilisateur » `…/utilisateurs/inviter`) · À propos |
+| **Tableau de bord** | `/pro/ecole` | chiffres clés, « À faire », complétude du profil, aperçu de la page publique, raccourcis |
+| **Profil de l'établissement** | `/pro/ecole/profil/:onglet?` | Informations générales · Coordonnées (`coordonnees`, site web ; sans site : fenêtre « Pas encore de site web ? ») · Agrément & documents (`agrement` : accords de création et d'ouverture, NIU) · Médias (`medias` : logo, photos, vidéos) |
+| **Formations** › Gérer | `/pro/ecole/formations` | tableau (formation, filière, diplôme, durée, prochaine rentrée, statut Publiée / Brouillon, actions), recherche, filière, tri, puces de statut, pagination |
+| **Formations** › Créer | `/pro/ecole/formations/nouvelle` · `…/:id/modifier` | nom composé à partir de la nomenclature (diplôme, secteur, domaine, spécialité, option), organisation, description ; progression, « Bon à savoir », aperçu ; « Enregistrer et continuer » (publiée) ou « Enregistrer en brouillon » |
+| **Contenus et informations** | `/pro/ecole/contenus/:onglet?` | Présentation · Actualités (`actualites`, publication, page « Voir ma publication ») · Documents (`documents`, liste de contrôle des documents attendus, importer, remplacer) · FAQ (`faq`, catégories, ajouter une question) |
+| **Statistiques** | `/pro/ecole/statistiques` | période (7 jours, 30 jours, 6 mois), vues, téléchargements, note, évolution des visites, sources, formations les plus consultées, dernières activités, export PDF (impression) ; tout est mesuré (table `evenements`) |
+| **Paramètres** | `/pro/ecole/parametres/:onglet?` | Compte · Sécurité (`securite`) · Notifications · Préférences · Utilisateurs (`utilisateurs`, « Inviter un utilisateur ») · À propos (`a-propos`) |
 
-Dans la barre latérale, **Formations** et **Contenus et informations** ont des sous-menus (comme sur la maquette) : Gérer les formations / Créer une formation ; Contenus & actualités / Documents à télécharger / FAQ.
+---
+
+## 10. Pages masquées
+
+Masquées le 2026-11-25 à la demande du porteur du projet (code gardé, sans adresse ; à refaire d'après le canevas si elles reviennent) : **préinscription** à une formation (4 étapes), **inscription en auto-école** (3 étapes) et sa modification, **Mon espace** (Aperçu, Mes préinscriptions, Mes permis, Mes avis) et ses dossiers.
 
 ---
 
 ## 11. Consultation et Emploi — `/consultation`, `/emploi`
 
-Page « **Consultation — bientôt disponible** » (ou Emploi) : « Cette démonstration couvre l'univers École… », bouton « Explorer les écoles ».
-
-**À venir (maquette : « CONSULTATION », environ 72 captures) :** espace professionnel du consultant en **11 menus** : Tableau de bord, Mon profil (Aperçu, Expertises, Services & Tarifs, Expériences, Avis, Documents ; « Ajouter une expertise » en 4 étapes : Détail, Compétences, Justificatifs, Validation), Mes services, Agenda et rendez-vous, Salle de consultation, Demande de prestation, Mes clients (planifier une prestation en 4 étapes : Cadrage, Planning, Ressources, Validation ; message, document, dossier complet, rejoindre la salle), Revenus et paiements, Avis & réputation, Statistiques, Paramètres ; puis l'espace public. Rien n'est commencé.
+Page « bientôt disponible », avec « Explorer les écoles ». **À venir (maquette : « CONSULTATION ») :** espace professionnel du consultant en 11 menus (Tableau de bord, Mon profil, Mes services, Agenda et rendez-vous, Salle de consultation, Demande de prestation, Mes clients, Revenus et paiements, Avis & réputation, Statistiques, Paramètres), puis l'espace public. Rien n'est commencé ; à confirmer par le porteur du projet.
 
 ---
 
-## 12. Écrans d'erreur
+## 12. Écrans d'erreur et états
 
-- **Adresse inconnue** : page « 404 — Page introuvable » dans le cadre public, avec « Retour à l'accueil ».
-- **Page qui plante** : « Une erreur est survenue » (recharger, retour à l'accueil), dans le cadre, menu conservé.
-- **Page qui ne peut pas se télécharger** (réseau coupé) : « Pas de connexion internet », avec « Réessayer ».
-- **Identifiant inconnu** (établissement, formation, auto-école) : la page affiche **le premier élément des données** au lieu d'un message « introuvable » (voir [DECISIONS.md › À faire plus tard](DECISIONS.md#2-à-faire-plus-tard)).
+- **Adresse inconnue** et **identifiant inconnu** (établissement, formation, auto-école, permis) : « Page introuvable », avec un retour.
+- **Page qui plante** : « Une erreur est survenue » dans le cadre, menu conservé.
+- **Page qui ne se télécharge pas** : « Pas de connexion internet », avec « Réessayer » ; bandeau en bas de l'écran quand la connexion est coupée.
+- **Bloc de données en erreur** : « Réessayer » à la place du bloc ; **liste vide** : message et action (« Réinitialiser les filtres »).
+- **Chargement** : squelettes de la même forme que le contenu.
 
 ---
 
 ## 13. Ce qui est simulé
 
-- Les **envois** (préinscription, inscription, avis, formation, actualité, paramètres, invitation) affichent un message de réussite ; **rien n'est enregistré**, sauf les favoris, la session, la langue et le brouillon d'inscription en auto-école.
-- Toutes les actions sont réelles : vidéo (lecteur), carte (Google Maps), WhatsApp (wa.me), partager (lien), dupliquer / publier / dépublier / supprimer (base), export PDF (impression), fichiers joints (base).
-- Les chiffres (1 248 établissements, 532 IPES, 286 avis…) sont **ceux de la maquette**, pas des calculs.
-- Les notifications sont fixes (3 dans la cloche, 5 dans Paramètres › Notifications).
+- **Pas de serveur** : tout est enregistré dans la base du navigateur (IndexedDB) ; vider les données du site remet les données de départ.
+- **Code par SMS** : affiché à l'écran.
+- Toutes les actions sont réelles : vidéo (lecteur), carte (Google Maps), WhatsApp (wa.me), partage (feuille du téléphone ou lien copié), fichiers joints (enregistrés dans la base), export PDF (impression).

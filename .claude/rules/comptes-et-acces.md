@@ -8,7 +8,7 @@
 | `cfp` | CFP du BTP | `cfp-btp` | `/accueil` |
 | `autre` | Centre Linguistique | `langues` | `/accueil` |
 
-- **Tous les comptes arrivent sur l'accueil connecté** (`account.home` = `/accueil`, `useSession`) ; une école ouvre son espace pro avec « Mon espace professionnel » (menu du compte). Pas de « Mes favoris » pour une école.
+- **Tous les comptes arrivent sur l'accueil connecté** (`account.home` = `/accueil`, `useSession`) ; une école ouvre son espace pro depuis le menu du compte ou « École ». « Mes favoris » est réservé à la personne physique.
 - **Un compte = un espace.** Pas de changement de rôle : on change de compte en se déconnectant puis en se reconnectant.
 - Session : `useSession()` (`modules/compte/auth/hooks/useSession.tsx`) garde l'identifiant du compte sous `yibolo:compte` ; le compte est lu dans la base. À la première visite : **visiteur non connecté**.
 - L'établissement de l'espace pro : `useMonEcole()` (celui du compte ; l'IPC par défaut).
@@ -32,7 +32,7 @@
 | Pages publiques (annuaires, fiches, préinscription, inscription en auto-école, avis, favoris) | ouvertes à tous |
 | « Se déconnecter » | → `/connexion` |
 
-- Le menu du compte montre « Mon espace professionnel » seulement aux comptes école ; « Mon espace » et « Mon profil » seulement à l'utilisateur. « Donner un avis » est dans Mon espace › Mes avis (« À évaluer »).
+- Menu du compte (canevas « Menu du compte ouvert ») : en tête, le nom et « Voir mon profil » (personne) ou « Voir ma page publique » (école). Personne : Mes favoris · Paramètres · Aide et contact · Se déconnecter. École : Profil de l'établissement · Statistiques · Paramètres (de l'espace pro) · Aide et contact · Se déconnecter. On donne un avis depuis l'onglet Avis d'une fiche (« Donner mon avis »).
 - Il n'y a pas de vraie sécurité (pas encore d'API) : ces gardes servent la démonstration. Ne pas ajouter de logique d'authentification réelle.
 
 ## Espace pro : compte et sécurité
@@ -40,8 +40,8 @@
 - Paramètres › Sécurité : vrai changement de mot de passe (mot de passe actuel vérifié), double authentification enregistrée, fermeture d'une session (`sessionsActives`), activité ajoutée à `activiteSecurite`.
 - « Assistance YIBOLO » et « Contacter le support » : demande enregistrée (`demandesAssistance`).
 
-## Mon espace (personne physique)
-- `/mon-espace/:onglet?` : Aperçu · Mes préinscriptions · Mes permis · Mes avis (voir [SPECIFICATIONS.md](../../docs/SPECIFICATIONS.md) § 9 bis). Pages à part, ouvertes depuis le menu du compte ou la cloche : `/profil` (photo enregistrée dès qu'elle est choisie, nouveau numéro confirmé par code), `/parametres` (notifications par sujet et par canal, mot de passe, langue, suppression), `/notifications` (à la manière de Facebook : Toutes / Non lues, Nouvelles / Plus tôt).
+## Compte de la personne physique
+- **Mon espace** (`/mon-espace` : Aperçu · Mes préinscriptions · Mes permis · Mes avis) est **masqué** depuis le 2026-11-25 (code gardé, sans adresse), comme la préinscription et l'inscription en auto-école. Pages ouvertes, depuis le menu du compte ou la cloche : `/profil` (photo enregistrée dès qu'elle est choisie, nouveau numéro confirmé par code), `/parametres` (notifications par sujet et par canal, mot de passe, langue, suppression), `/notifications` (à la manière de Facebook : Toutes / Non lues, Nouvelles / Plus tôt).
 - Réservé au rôle `utilisateur` : un visiteur va à `/connexion`, un compte école à son espace pro.
 - Annuler un dossier, modifier ou supprimer un avis tient les compteurs à jour (`modules/compte/mon-espace/espaceActions.ts`).
 
@@ -49,7 +49,7 @@
 - Personne physique : Profil → Vous → Votre accès → Code ; le compte est enregistré à l'envoi du code (`telephoneVerifie: false`) et connecté au bon code. École : Profil → Infos → Code → Documents (pièces, obligatoires) → espace pro, sans validation.
 - Code OTP : `modules/compte/auth/components/VerificationCode.tsx` (6 cases, renvoi après 60 s, `authOtp.ts`).
 - Code jamais saisi : la connexion affiche « Confirmez votre numéro » (nouveau code) ; puis la personne entre, l'école reprend `/inscription` à l'étape des pièces (`state.reprise`).
-- Lieu : `SelectionGeographique` (région → département → arrondissement → quartier).
+- Lieu : `ChampsLieu` (région → département → arrondissement → quartier).
 
 ## Formations : pas de validation
 - Une formation enregistrée par l'établissement est **publiée tout de suite** (« Publiée ») ou gardée en « Brouillon » ; le statut « En attente » n'existe plus (décision du 2026-11-27). Une pièce d'agrément ajoutée est « Validé » tout de suite.

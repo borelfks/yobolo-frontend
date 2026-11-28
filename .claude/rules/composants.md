@@ -42,10 +42,22 @@
 | Champ de formulaire | `Champ` (libellé, astérisque, « (facultatif) », aide ou erreur), `ChampTexte` (48 px), `ChampTelephone` (+237), `ChampMotDePasse` (Afficher / Masquer), `JaugeMotDePasse`, `CaseACocher`, `ListeDeroulante` (`Formulaire.tsx`) |
 | Message dans un formulaire · étapes · pièce à joindre | `Encadre` (`info`, `succes`, `erreur`) · `BarreEtapes` · `PieceAJoindre` (`Formulaire.tsx`) |
 
+## Métier partagé de l'univers École (`modules/ecole/etablissements/components/`)
+| Besoin | Composant |
+|---|---|
+| Fil d'Ariane · carte de section · titre de carte | `Ariane` · `Carte` · `TitreCarte` (`Bases.tsx`) |
+| Favoris · note courte · « Établissement vérifié » · puces à choix unique | `CoeurFavori`, `BoutonFavori` · `NoteCourte` · `MentionVerifie` · `RangeePuces` (`Bases.tsx`) |
+| En-tête de fiche (couverture, logo, onglets) · grille fiche + colonne · partager | `EnteteFiche` · `GrilleFiche` · `BoutonPartager` (`fiche/Fiche.tsx`) |
+| Galerie | `TuilePhoto`, `TuileVideo` (`fiche/Fiche.tsx`) |
+| Listes (IPES, CFP, Autres, auto-écoles) | `EnteteListe`, `RangeePilules`, `FiltreListe`, `FiltreBascule`, `BarreResultats`, `MenuTri`, `PaginationListe` (`liste/`), `VignetteEcole`, `GrilleVignettes` (`Vignette.tsx`) |
+| Avis (`modules/ecole/avis/components/`) | `ResumeAvis`, `ArticleAvis`, `ActionAvis`, `ReponseAvis`, `AucunAvis`, `Etoiles`, fenêtre `ModaleAvis` |
+
+Une auto-école ou un permis réutilise ces composants (`EnteteFiche`, `GrilleFiche`, `RangeePuces`…) plutôt que d'en recopier.
+
 ## Champs métier partagés (`src/shared/forms/`, propres à ce dépôt)
 | Besoin | Composant |
 |---|---|
-| Lieu (région → département → arrondissement → quartier), canevas | `ChampsLieu` (`ChampsLieu.tsx`) ; l'ancien `SelectionGeographique` sert encore aux écrans pas refaits |
+| Lieu (région → département → arrondissement → quartier), canevas | `ChampsLieu` (`ChampsLieu.tsx`) ; l'ancien `SelectionGeographique` ne sert plus qu'aux pages masquées |
 | Accords de création et d'ouverture | `ListeAccords`, `ChampsAccord` (`Accords.tsx`) |
 
 ## Cadres (`src/app/layouts/`)

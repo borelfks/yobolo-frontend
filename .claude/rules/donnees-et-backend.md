@@ -36,10 +36,14 @@
 ## Chiffres : calculés à partir de la base (décision du 2026-11-25 : « je veux les vraies données »)
 - **Aucun chiffre de l'univers École n'est recopié de la maquette.** Tout est calculé dans `src/data/hooks.ts` à partir des lignes : note et nombre d'avis d'un établissement ou d'une auto-école (moyenne de ses avis), répartition des étoiles et notes par critère, nombre de formations publiées, nombre d'établissements par type (annuaire, onglets), par région et par ville (`useEtablissementsParLieu`), domaines et diplômes (formations publiées qui y mènent), nombre de photos.
 - Les hooks rendent les objets avec leurs chiffres (`useEtablissements`, `useAutoEcoles`, `useTypesEcole`, `useTuilesAnnuaire`, `useDomaines`, `useDiplomes`, `useRepartitionEtablissement`, `useRepartitionAutoEcole`) : un écran n'écrit jamais un chiffre dans la base, il écrit la ligne (un avis, une formation) et le chiffre suit seul.
-- Sans avis : « Pas encore d'avis » (`PasEncoreDAvis`), jamais « 0/5 ». Un domaine, un diplôme, une région ou une ville sans établissement ni formation ne s'affiche pas.
+- Sans avis : « Pas encore d'avis » (`NoteCourte`, `AucunAvis`), jamais « 0/5 ». Un domaine, un diplôme, une région ou une ville sans établissement ni formation ne s'affiche pas.
 - Un chiffre que la base ne connaît pas ne s'affiche pas (ex. nombre de candidats « formés » d'une auto-école, masqué).
-- **Espace pro** : vues des fiches et des formations, provenance et téléchargements sont **mesurés** (table `evenements`, `mesurer` / `useMesureALaVue`, `src/shared/utils/mesures.ts`) ; `useStatistiques` calcule tout sur la période. Une vue faite par l'établissement lui-même ne compte pas. Plus de `compteurs.ts`.
+- **Espace pro** : vues des fiches et des formations, provenance et téléchargements sont **mesurés** (table `evenements`, `mesurer` / `useMesureALaVue`, `src/shared/utils/mesures.ts`) ; `useStatistiques` calcule tout sur la période (date-fns). Une vue faite par l'établissement lui-même ne compte pas.
 - Aucun contenu « pour tous » (`etablissementId: '*'`) dans la base de départ : chaque fiche ne montre que ce qui lui appartient.
+
+## Écrire une date dans la base
+- Horodatage technique (`le`, `envoyeeLe`…) : `new Date().toISOString()`.
+- Date lisible gardée dans une donnée (« 27 nov. 2026 ») : `dateDesDonnees()`, **toujours en français** (voir [dates-et-nombres.md](dates-et-nombres.md)).
 
 ## Changer une donnée de départ
 1. Modifier `src/data/fausses-donnees/<table>.json` (une ligne = un élément).
@@ -57,7 +61,7 @@ Le panneau est retiré de l'interface (décision du 2026-11-25). L'export et l'i
 |---|---|
 | `yibolo:compte` | identifiant du compte connecté avec « Se souvenir de moi » (sinon dans le stockage de la visite, `sessionStorage`) |
 | `yibolo:avis-utiles` | avis marqués « Utile » par ce navigateur (le nombre est dans la base) |
-| `yibolo:inscription-v2:<auto-école>:<permis>` | brouillon d'inscription en auto-école (avant l'envoi) |
+| `yibolo:inscription-v2:<auto-école>:<permis>` | brouillon d'inscription en auto-école (page masquée) |
 | `yibolo:langue` | langue choisie |
 
 La copie des fausses données est dans l'IndexedDB du navigateur (base `yibolo`, clé `fausses-donnees`). Vider les données du navigateur la remet à zéro.

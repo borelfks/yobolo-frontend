@@ -42,5 +42,5 @@
 
 ## Formats
 - Montants : `fcfa(450000)` → « 450 000 FCFA ». Nombres : `num()`. Notes : `num(4.7)` → « 4,7 ».
-- Dates : `shortDate()` ; les dates des données de démo (« 06 oct. 2026 », « Il y a 3 jours ») sont du texte recopié de la maquette.
+- Dates : `formaterDate()` et `dateRelative()` (date-fns, voir [dates-et-nombres.md](dates-et-nombres.md)) ; les dates des données de démo (« 06 oct. 2026 », « Il y a 3 jours ») sont du texte recopié de la maquette, affiché traduit (`demoDate`).
 - Plus de `toLocaleString('fr-FR')` dans le code : il ignore la langue choisie.

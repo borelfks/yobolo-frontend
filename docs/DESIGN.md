@@ -1,155 +1,66 @@
-# YIBOLO — Design
+# DESIGN — YIBOLO (front et admin)
 
-> Comment l'application doit **avoir l'air**, et avec quelles briques la construire.
-> Règles détaillées pour coder : [.claude/rules/design.md](../.claude/rules/design.md) et [.claude/rules/composants.md](../.claude/rules/composants.md). Ce que fait l'app : [SPECIFICATIONS.md](SPECIFICATIONS.md).
-
----
+La référence est le **canevas YIBOLO** : chaque écran a sa planche à **1440 px** (ordinateur) et à **390 px** (téléphone). Ce document décrit le système qui permet de le reproduire à l'identique ; la page **/design-system** (développement) montre tous les composants, avec leurs variantes et leurs états. yibolo-admin utilise le même système.
 
 ## 1. Principes
-
-- **Identique à la maquette.** Le modèle unique est la maquette Word du client (`C:\Users\USER\Documents\yibolo\NOUVEAU DESIGN YIBOLO.docx`, environ 150 captures). Chaque écran reproduit **sa** capture : mise en page, photos, textes, chiffres, couleurs, icônes.
-  - **Photos** : découpées dans les captures de la maquette, rangées dans `public/images/maquette/`.
-  - **Textes et chiffres** : recopiés mot pour mot de la capture (« 1 248 établissements », « 4,7 (286 avis) »…).
-  - **Contradictions de la maquette gardées** : si deux captures se contredisent (prix d'un permis dans la liste et sur sa page, mode de cours d'une formation), chaque écran garde **le chiffre de sa propre capture**.
-  - On ne « modernise » pas, on n'harmonise pas, on ne corrige pas la maquette sans l'accord du porteur du projet.
-- **Ordinateur d'abord, comme la maquette** (captures en largeur d'ordinateur, environ 1440 px). Chaque écran reste **utilisable sur téléphone** (390 px), sans défilement horizontal.
-- **Univers bleu YIBOLO** : bleu vif pour les actions, bleu nuit pour les bandeaux et la barre latérale, jaune pour « Rechercher » et « Préinscrire ».
-- **Une chose = un composant.** Avant de dessiner un élément, on cherche s'il existe déjà (§ 6).
-
----
+1. **Identique au canevas** : mise en page, textes, couleurs, espacements, icônes. Ce que le canevas ne montre pas (états, erreurs) suit les blocs existants.
+2. **Incohérence entre deux planches** : on garde la version cohérente (la plus fréquente, ou celle du composant partagé) et on le signale (décision du 2026-11-27).
+3. **Jetons seulement** (`src/app/styles/theme.css`, noms shadcn) : jamais `[#…]`, `text-[…px]` ni `style={{ color }}`. Une valeur du canevas qui manque devient un jeton.
+4. **Toujours en composants**, à 4 niveaux : briques shadcn → blocs → composants métier → pages qui assemblent (voir `.claude/rules/composants.md`).
+5. **Pas de mode sombre.** Animations rares et courtes, toujours avec `motion-reduce:`.
+6. La **landing** (`/`) est une copie gelée de yibolo-client : elle garde ses valeurs (`.theme-client`, police Geist).
 
 ## 2. Couleurs (jetons)
-
-Les jetons sont dans [src/app/styles/theme.css](../src/app/styles/theme.css) (bloc `@theme` de Tailwind v4), repris de la maquette, et utilisables en classes (`bg-brand-600`, `text-navy-900`, `border-line`…).
-
-| Jeton | Valeur | Usage |
+| Rôle | Jeton | Valeur |
 |---|---|---|
-| `brand-50` / `brand-100` / `brand-200` | `#eef4ff` / `#dbe7ff` / `#bfd3ff` | fonds et contours bleus clairs, survols |
-| `brand-500` | `#2f6bff` | contour du focus, accents |
-| `brand-600` | `#1f55e6` | **bouton principal**, onglet actif, liens, icônes |
-| `brand-700` | `#1a45c2` | survol du bouton principal, prix |
-| `navy-700` / `navy-800` | `#163a9c` / `#0f2c7a` | menu actif des pages publiques, bandeau de recherche, logo |
-| `navy-900` / `navy-950` | `#0a1f5c` / `#071645` | titres, texte fort, fonds très sombres |
-| `sun-300` / `sun-400` / `sun-500` | `#fde68a` / `#fcd34d` / `#f5c400` | bouton jaune **« Rechercher »**, « Préinscrire », soulignement du titre de l'accueil |
-| `page` | `#f4f7fc` | fond des pages |
-| `ink` | `#0f1d3d` | texte principal |
-| `muted` | `#5b6885` | texte secondaire |
-| `line` | `#e3e9f4` | bordure des cartes |
+| Fond des pages | `background` | #F4F6FA |
+| Cartes, menus | `card`, `popover` | #FFFFFF |
+| Texte principal | `foreground` | #0B1B3F |
+| Texte secondaire | `foreground-soft` | #3C4660 |
+| Texte d'appoint | `muted-foreground` | #4A5670 |
+| Texte en retrait | `subtle-foreground` | #66718A |
+| Bordures · bordures fortes | `border` · `border-strong` | #E0E4EC · #C9D0DD |
+| Bordure des champs | `input` | #9AA5BA |
+| Bleu YIBOLO · survol | `primary` · `primary-hover` | #1F55E6 · #1843B8 |
+| Bleus pâles | `primary-strong`, `primary-soft`, `primary-tint`, `primary-wash`, `primary-line` | #1843B8, #EEF3FD, #E8EFFD, #F3F7FF, #DCE6FC |
+| Vert (publié, vérifié, puce active) | `success` (+ `-bright`, `-soft`, `-wash`, `-line`) | #0F7A55 |
+| Rouge (erreur, suppression) | `destructive` (+ `-hover`, `-soft`, `-wash`, `-line`) | #D92D4B |
+| Ambre (attention, étoiles) | `warning` (+ `-bright`, `-strong`, `-deep`, `-soft`) | #E0A500 |
+| Tons (badges, pastilles) | `tone-violet`, `tone-teal`, `tone-pink`, `tone-orange` (+ `-soft`) | |
+| Graphiques | `chart-1` … `chart-5`, `chart-grid` | bleu, vert, ambre, violet, bleu canard |
+| Barre du haut, pied de page | `surface-search`, `footer-foreground` | #EDF2FA, #C9D3E6 |
+| Logo (celui de la landing) | `marque`, `marque-texte`, `marque-devise` | #1D4ED8, #18181B, #5F5F66 |
 
-**Dégradés** (dans `src/app/styles/globals.css`) : `.bg-navy-gradient` (carte bleu nuit des Paramètres), `.bg-ai-gradient` (carte `AiCard`, violet clair), `.bg-hero-gradient` (défini, pas utilisé aujourd'hui). La barre latérale de l'espace pro, le bandeau de l'accueil et le cadre de connexion ont leur propre dégradé écrit dans le composant.
+## 3. Texte
+- Police **Plus Jakarta Sans** (hébergée) ; le logo et la landing utilisent **Geist**.
+- Tailles : courant 14 px (`text-sm`), appoint 13 px (`text-meta`), boutons et onglets 15 px / 700 (`text-ui`), en-têtes de tableau 12 px capitales.
+- Tailles du canevas en jetons : `text-micro` 10 · `text-legende` 11 · `text-intro` 17 · `text-titre-sm` 22 · `text-titre-md` 26 · `text-titre` 28 (titre de page, 800) · `text-titre-lg` 30 · `text-titre-xl` 32 · `text-titre-2xl` 34 · `text-chiffre` 44 · `text-chiffre-xl` 56. Une taille ajoutée se déclare aussi dans `src/shared/utils/cn.ts`.
 
-**Couleurs de sens** (palette Tailwind, comme sur la maquette) :
-- vert `emerald` : « Établissement vérifié », « Agréée », réussite, « Publiée » ;
-- orange / `amber` : « En attente », attention ; **étoiles** en `amber-400` ;
-- rouge `rose` : erreurs, suppression, compteur de la cloche ;
-- violet, ciel, rose, sarcelle : pastilles de filières et tuiles d'icônes (`Badge`, `IconTile`, `tilePalette`).
+## 4. Formes, ombres, largeurs
+- **Boutons en pilule** : 40 px (32, 36, 44 selon l'usage). **Champs** 44 à 48 px, arrondis à 6 px. **Cartes** arrondies à 10 px, bordure, sans ombre. **Badges** 24 px. **Puces** 32 px (actives en vert ou en bleu nuit selon l'usage). **Onglets** 48 px, soulignés de 3 px.
+- **Ombres** : `shadow-raised`, `shadow-thumb` (bouton sur photo), `shadow-card-hover` (vignette survolée), `shadow-floating` (menus), `shadow-dialog` (fenêtres), `shadow-bar` (barre du haut), `shadow-account`, `shadow-drawer`, `shadow-panel`, `shadow-search`.
+- **Largeurs** : pages publiques `max-w-page` (1128 px), barre du haut et pied de page `max-w-bar` (1240 px), espace pro `max-w-pro` (1280 px).
+- **Téléphone (390 px)** : cartes sur toute la largeur avec un filet en haut et en bas ; rangées de puces qui défilent de côté ; jamais de défilement horizontal de la page.
 
-**Valeurs écrites à la main.** Pour coller à la maquette, le code contient encore environ 240 couleurs écrites à la main (`[#c9d4ea]` pour la bordure des champs, `[#eef3fc]` pour les fonds bleu très clair…) et environ 600 tailles de texte en pixels. On **ne les ajoute plus** : une nouvelle couleur devient un jeton de `theme.css`. Les remplacer par des jetons est noté dans [DECISIONS.md › À faire plus tard](DECISIONS.md#2-à-faire-plus-tard), à faire **écran par écran** avec une capture avant/après.
+## 5. Cadres
+| Cadre | Description |
+|---|---|
+| Barre du haut (`Entete`) | 68 px : logo, recherche, univers en onglets (Accueil · École · Consultation · Emploi), langue, cloche, menu du compte ; sur téléphone, barre puis rangée des univers |
+| Pied de page (`PiedDePage`) | bleu nuit : logo et devise, Aide et contact · Conditions générales, copyright |
+| Espace pro (`ProLayout`) | menu de l'établissement dans une carte de 240 px (tiroir sur téléphone), page à droite |
+| Connexion (`CadreConnexion`) | formulaire de 400 px à gauche, photo et points de la marque à droite (ordinateur) |
+| Pages de compte (`CadreCompte`) | menu de 240 px (puces sur téléphone), page à droite |
 
-**Pas de mode sombre** : la maquette n'en a pas (`color-scheme: light`).
+## 6. Composants
+- **Briques** (`src/shared/shadcn/`) : Button, Badge, ToggleGroup, champs (Input, Textarea, Select, Checkbox, RadioGroup, Switch, Command), Tabs, Breadcrumb, Pagination, DropdownMenu, Dialog, AlertDialog, Sheet, Tooltip, Popover, Card, Table, Separator, Avatar, Progress, Skeleton, Chart, Accordion, ScrollArea, Toggle, sonner.
+- **Blocs** (`src/shared/blocs/`) : chargement (Spinner, PageSpinner, SpinnerOverlay), squelettes, états (MessagePage, EmptyState, ErrorState), ChargementDonnees, BandeauHorsLigne, formulaire (Champ, ChampTexte, ChampTelephone, ChampMotDePasse, JaugeMotDePasse, CaseACocher, ListeDeroulante, Encadre, BarreEtapes, PieceAJoindre), logo (MarqueYibolo, SymboleYibolo), ChoixLangue, CadreConnexion, CadreCompte, VisionneuseMedias.
+- **Métier de l'univers École** : Ariane, Carte, NoteCourte, CoeurFavori, BoutonFavori, RangeePuces, EnteteFiche, GrilleFiche, TuilePhoto, TuileVideo, listes (EnteteListe, FiltreListe, BarreResultats, PaginationListe, VignetteEcole), avis (ResumeAvis, ArticleAvis, ModaleAvis).
+- Tableau complet « quel composant pour quoi » : `.claude/rules/composants.md`.
 
----
+## 7. États
+Chaque écran prévoit : chargement (squelette de la même forme), vide (`EmptyState` avec une action), erreur (`ErrorState` avec « Réessayer »), accès refusé et 404 (`MessagePage`), hors connexion (`BandeauHorsLigne`), messages éphémères (sonner). Voir `.claude/rules/erreurs-et-etats.md`.
 
-## 3. Typographie
-
-- Police **Plus Jakarta Sans** (variable, graisses 200 à 800), **hébergée dans le projet** : `src/assets/fonts/` (sous-ensembles latin et latin étendu, `woff2`), déclarée dans `globals.css` et posée par le jeton `--font-sans`. Licence SIL Open Font License 1.1 (usage commercial autorisé). Aucun appel à Google Fonts.
-- Titres (`h1` à `h4`) : gras, interlettrage serré. Les tailles suivent la capture (ex. titre de l'accueil 33 px sur ordinateur, titres de section 21 à 26 px).
-- Nombres et prix : `num()` et `fcfa()` (`src/shared/utils/format.ts`) : « 450 000 FCFA » en français, « 450,000 FCFA » en anglais. Notes : « 4,7 » / « 4.7 ».
-- Guillemets français « … » et apostrophe typographique ’ dans les textes français, comme la maquette.
-
----
-
-## 4. Formes, espaces, ombres
-
-- **Cartes** : `Card` = arrondi 16 px (`rounded-2xl`), bordure `border-line`, fond blanc, ombre très légère. Les cartes de l'espace pro utilisent `proCard` (`modules/ecole/espace-pro/proStyles.ts`).
-- **Grands blocs** : bandeau de l'accueil 22 px, cadre de connexion 28 px, carte d'inscription 26 px (valeurs de la maquette).
-- **Boutons** : `Button` arrondi 12 px (`rounded-xl`) ; beaucoup de boutons de la maquette sont **en pilule** (`rounded-full`), principal bleu plein, secondaire contour bleu.
-- **Champs** : hauteur 40 à 48 px selon l'écran, arrondi 8 à 12 px, bordure `#c9d4ea`, focus bleu (`focus:border-brand-500`, anneau `brand-100`).
-- **Pastilles, badges, avatars** : ronds.
-- **Largeurs** : pages publiques jusqu'à **1320 px** (`max-w-[1320px]`), marges de 20 px ; espace pro : barre latérale de **250 px** + contenu.
-
----
-
-## 5. Mise en page
-
-### Pages publiques (`PublicLayout`)
-- **Barre du haut** (68 px, blanche, collée en haut) : logo YIBOLO, menu **Accueil · École · Consultation · Emploi** (pilule bleu nuit sur la rubrique active), puis « Se connecter » / « Créer un compte » ou la cloche et le menu du compte. Sur téléphone, le menu s'ouvre avec ☰.
-- **Bandeaux** (`Hero`) : fond bleu, icône, titre, sous-titre, photo à droite avec un arc jaune, atouts en blanc.
-- **Fil d'Ariane** (`Breadcrumb`) en haut des pages de l'univers École : « École › IPES › Institut Professionnel du Centre (IPC) › Aperçu ».
-- **Onglets en blocs** (`LinkTabs`) sous le bandeau : chaque onglet a son adresse.
-- **Pied de page** : la partie basse de celui de l'accueil (logo et devise, Aide · Conditions, copyright), fond `navy-900`, texte blanc ; sans la vague ni la phrase « Yibolo, plus qu’une plateforme… ».
-
-### Espace professionnel (`ProLayout`)
-- **Barre du haut** (56 px) : logo, pastille « Espace professionnel – IPES » (ou CFP, Autre), cloche, aide « ? », menu du compte.
-- **Barre latérale bleu nuit** (250 px, fixe) : l'établissement (photo, nom, « Établissement vérifié »), les 6 menus (le menu actif en bleu plein), les **sous-menus** de Formations et de Contenus (pastille claire sur le sous-menu actif), bouton « Assistance YIBOLO » en bas. Sur téléphone, elle s'ouvre en tiroir avec ☰.
-- **En-tête de page** (`ProHeader`) : fil d'Ariane, icône, titre, sous-titre, actions (ex. voir la page publique).
-
-### Connexion et inscription (`AuthLayout`)
-- **Connexion** (`AuthShell`) : mise en page de la connexion de yibolo-client, **aux couleurs de l'application** (bleu `brand-600`, titres `navy-900`, Plus Jakarta Sans, photo voilée de bleu nuit) : formulaire à gauche sur le fond des pages `page` (logo, « Retour à l'accueil », langue ; champs avec libellés), grande photo à droite (`/images/accueil/ecoles.jpg`) avec la phrase de la marque et les 4 atouts. Sur téléphone et tablette, le formulaire seul (décision du 2026-11-24).
-- **Inscription** (`AuthCard`) : carte blanche centrée sur fond bleu très clair, logo et « Créer un compte », étapes numérotées.
-
----
-
-## 6. Composants (les seuls à utiliser)
-
-| Besoin | Composant | Où |
-|---|---|---|
-| Bouton (ou lien en forme de bouton avec `to`) | `Button` (`primary`, `navy`, `sun`, `success`, `violet`, `outline`, `neutral`, `soft`, `ghost`, `danger`, `danger-outline`, `white` ; tailles `xs`, `sm`, `md`, `lg`, `icon`) | `shared/ui/Button.tsx` |
-| Badge, statut | `Badge` (tons `blue`, `navy`, `green`, `orange`, `amber`, `violet`, `red`, `gray`, `sky`, `pink`, `teal`, `white`, `solidGreen`, `solidSun`), `StatusBadge` | `shared/ui/Badge.tsx` |
-| Établissement vérifié · type d'école | `VerifiedBadge`, `TypeBadge` | `modules/ecole/etablissements/components/EcoleBlocks.tsx` |
-| Auto-école agréée · permis | `AgreeeBadge`, `PermisPill` | `modules/ecole/auto-ecoles/components/AutoEcoleBlocks.tsx` |
-| Carte | `Card`, `CardHeader`, `Section`, `NumberedBlock` | `shared/ui/Card.tsx` |
-| Bandeau de page publique | `Hero`, `HeroFeatures` | `shared/ui/Hero.tsx` |
-| Fil d'Ariane | `Breadcrumb` | `shared/ui/Breadcrumb.tsx` |
-| Onglets | `LinkTabs` (dans l'adresse), `Tabs` (état local), `FilterPills` | `shared/ui/Tabs.tsx` |
-| Étapes | `Stepper`, `ArrowSteps` | `shared/ui/Stepper.tsx` |
-| Étoiles, note | `Stars`, `Rating`, `StarInput` | `shared/ui/StarRating.tsx` |
-| Note moyenne + répartition · un avis | `RatingSummary`, `ReviewItem`, `MoreButton` | `modules/ecole/avis/components/ReviewBlocks.tsx` |
-| Favori | `FavoriteButton` (cœur) ; `FavoriteModal` (choix du dossier, auto-écoles) | `shared/ui/FavoriteButton.tsx`, `AutoEcoleBlocks.tsx` |
-| Chiffres, blocs divers | `Kpi`, `KpiGrid`, `PageTitle`, `BackLink`, `AiCard`, `Tip`, `Checklist`, `InfoRow`, `FileRow`, `IconBtn`, `QuickAction`, `FormFooter`, `IconTile`, `EmptyNote` | `shared/ui/Blocks.tsx` |
-| Graphiques | `AreaTrend`, `MultiLine`, `Bars`, `Donut` (recharts) | `shared/ui/Charts.tsx` |
-| Progression | `Progress`, `Ring` | `shared/ui/Progress.tsx` |
-| Recherche | `SearchField` (double libellé), `SearchPanel`, `InlineSearch` | `shared/ui/SearchField.tsx`, `modules/ecole/etablissements/components/` |
-| Listes de l'univers École | `EcoleCard`, `FormationRow`, `ResultsHeader`, `FilterPanel`, `CountList`, `MapBox`, `SidePanel`, `IconCountList`, `ArrowDot` | `modules/ecole/etablissements/components/` |
-| En-tête d'une auto-école | `AEHeader` | `modules/ecole/auto-ecoles/components/AutoEcoleBlocks.tsx` |
-| Espace pro | `ProHeader`, `ProCard`, `ProFooter`, `ProLabel` ; classes `proCard`, `proInput` | `modules/ecole/espace-pro/components/ProBlocks.tsx`, `modules/ecole/espace-pro/proStyles.ts` |
-| Fenêtre | `Modal` | `shared/ui/Modal.tsx` |
-| Pagination | `Pagination` | `shared/ui/Pagination.tsx` |
-| Avatar · image | `Avatar` · `Img` | `shared/ui/` |
-| Champs | `Label`, `Field`, `Input`, `Select`, `Textarea`, `RichText`, `Checkbox`, `Radio`, `Switch`, `Segmented`, `ChoiceCard`, `Dropzone`, `ChipsInput`, `PhoneInput` | `shared/forms/Fields.tsx` |
-| Logo YIBOLO | `Logo`, `LogoMark` | `shared/ui/Logo.tsx` |
-| Choix de la langue | `LanguageSwitcher` | `shared/ui/LanguageSwitcher.tsx` |
-| Chargement · erreurs | `PageLoader` ; `ErrorBoundary`, `ErrorScreen`, `OfflineScreen` | `shared/ui/`, `shared/errors/` |
-| Message éphémère | `toast` (sonner) | `Toaster` dans `app/App.tsx` |
-
-Les morceaux des grandes pages sont dans des sous-dossiers : `modules/ecole/etablissements/components/listing/` (onglets de l'annuaire par type), `profile/` (onglets de la fiche établissement), `training/` (détail d'une formation), `modules/ecole/auto-ecoles/components/profile/` (onglets de la fiche auto-école). Ce découpage est récent (2026-11-21) : compléter ce tableau si un de ces morceaux devient réutilisable.
-
-**Messages (toasts)** : en haut à droite, couleurs de leur sens (`richColors`), avec une croix pour fermer. Une action de démonstration non réalisée affiche un message qui finit par « (démo) ».
-
-**Icônes** : lucide-react uniquement. Une icône décorative a `aria-hidden` ; un bouton qui n'a qu'une icône a un `aria-label`.
-
----
-
-## 7. Images
-
-- **Photos de la maquette** : `public/images/maquette/` (environ 120 fichiers : accueil, établissements, formations, régions, auto-écoles, véhicules, avatars, actualités…). Nom en minuscules avec tirets, préfixé par l'écran (`ae-…` auto-école, `aeav-…` avis d'auto-école, `region-…`, `actu-…`).
-- Les **photos de personnes** de la maquette (avatars, témoignages, photo de la connexion) sont **gardées** : elles font partie de la maquette du client.
-- Quelques images de démonstration viennent encore d'internet (`photo()` → picsum.photos, `portrait()` → randomuser.me) pour les comptes CFP et Autre et les utilisateurs de l'espace pro.
-- **Logo YIBOLO** : celui de l'accueil (repris de yibolo-client) : carré bleu avec le « Y » en coche, « Yibolo », devise « Apprendre · Évoluer · Réussir » (décision du 2026-11-24). Fichiers : `src/assets/brand/` (voir son `README.md`). Dans l'interface, il est dessiné par `Logo` (`light` sur fond sombre). Favicon : `public/favicon.svg` ; icônes d'application : `public/icons/` ; manifeste : `public/site.webmanifest`.
-- Chaque image a un `alt` qui la décrit ; une image décorative a `alt=""`.
-
----
-
-## 8. Mouvement
-
-- Peu d'animations : survols (ombre, léger déplacement des tuiles, flèche qui avance), ouverture des menus.
-- À respecter : « réduire les animations » (`motion-reduce`) pour toute nouvelle animation.
-
----
-
-## 9. Accessibilité
-
-- Une étiquette pour chaque champ (visible, ou `aria-label` quand la maquette n'en montre pas). L'erreur est sous le champ.
-- Focus visible : contour bleu `brand-500` (`:focus-visible` dans `globals.css`).
-- `lang` de la page suit la langue choisie (`fr` / `en`).
-- Le statut est écrit en toutes lettres, pas seulement par la couleur (« Publiée », « En attente », « Établissement vérifié »).
+## 8. Images et logo
+- Photos découpées du canevas et de la maquette dans `public/images/maquette/` ; vidéos légères dans `public/videos/`.
+- Logo : **celui de la landing**, partout (barre du haut, pied de page, connexion ; front et admin) : carré bleu de 24 px, « Yibolo » en Geist, devise « Apprendre · Évoluer · Réussir » dessous à partir de `sm`.
+- Icônes : lucide-react uniquement.

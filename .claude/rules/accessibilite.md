@@ -2,7 +2,7 @@
 
 1. Chaque champ a une **étiquette** : visible, ou `aria-label` quand la maquette n'en montre pas (ex. connexion : « Email ou téléphone »). L'erreur est sous le champ.
 2. Un bouton qui n'a qu'une icône a un **`aria-label`** traduit (« Menu », « Plus d'actions », « Voir », « Supprimer »). Les icônes décoratives ont `aria-hidden`.
-3. **Clavier :** tout est utilisable au clavier ; le focus est visible (contour bleu `brand-500`, défini dans `globals.css`). Pas de `outline-none` sans remplacement.
+3. **Clavier :** tout est utilisable au clavier ; le focus est visible (contour bleu de 2 px, défini dans `globals.css`). Pas de `outline-none` sans remplacement.
 4. **Contrastes :** pas de gris clair sur fond gris ; texte blanc seulement sur bleu, bleu nuit ou couleur pleine.
 5. **Zones de toucher** d'au moins 40 px sur téléphone (boutons d'icône `size-10`).
 6. Statut et rôle **par le texte**, pas seulement par la couleur (« Publiée », « En attente », « Établissement vérifié »).
@@ -10,3 +10,6 @@
 8. `aria-current="page"` sur le menu et l'onglet actifs (fourni par `LienActif`) ; un lien simple (`Lien`) ne le porte que sur son adresse exacte.
 9. L'attribut `lang` de la page suit la langue choisie (`src/i18n/index.ts`).
 10. Respecter « réduire les animations ». Images : voir [images-et-medias.md](images-et-medias.md).
+11. **Titres** : un seul `h1` par page (invisible, `sr-only`, si la planche n'en montre pas, comme la page École) ; pas de saut de niveau (`h1` → `h2` → `h3`) : le nombre de résultats d'une liste et « Avis des apprenants » sont des `h2`.
+12. **Zones** : une page a une seule zone `aside` sans nom ; s'il y en a plusieurs, chacune a un `aria-label` traduit (colonnes de l'accueil). Un tableau ne contient que des lignes (l'état vide se place après).
+13. **Contrôle** : audit axe-core sur les pages touchées (voir [verification.md](verification.md)).

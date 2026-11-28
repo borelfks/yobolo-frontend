@@ -11,9 +11,10 @@
 
 ## Périmètre (décision du 2026-11-17)
 - **Réalisé : l'univers École.**
-  - **IPES, CFP, Autres** : même gabarit (annuaire en 6 onglets, fiche, formation, préinscription). Le type vient de l'adresse (`/ecoles/ipes|cfp|autres`) et de `modules/ecole/etablissements/schoolTypes.ts` (chiffres dans la table `typesEcole`).
-  - **Auto-écoles** : écrans propres (liste, fiche en 6 onglets, permis A à D, inscription en 3 étapes).
+  - **IPES, CFP, Autres** : même gabarit (page École, liste avec filtres, fiche en 5 onglets, formation). Le type vient de l'adresse (`/ecoles/ipes|cfp|autres`) et de `modules/ecole/etablissements/schoolTypes.ts` (chiffres dans la table `typesEcole`).
+  - **Auto-écoles** : liste (même gabarit, filtres Permis et Ville, tuiles « Les permis »), fiche en 6 onglets, page d'un permis en 5 onglets.
   - **Espace professionnel** : **un seul**, partagé par les IPES, CFP et Autres (`/pro/ecole`). Le compte choisit l'établissement (`useMonEcole`).
+- **Masqué** (décision du 2026-11-25, code gardé sans adresse, à refaire d'après le canevas s'il revient) : préinscription à une formation, inscription en auto-école et sa modification, Mon espace et ses dossiers.
 - **Pas réalisé : Consultation et Emploi** (et Métiers) : page « bientôt disponible » (`HorsPerimetre`). Ne pas les commencer sans accord.
 
 ## Deux espaces totalement différents (principe de la maquette)
@@ -28,4 +29,4 @@
 
 ## Argent
 - Montants en **FCFA**, entiers, écrits avec `fcfa()` : « 450 000 FCFA ».
-- **Plus aucune mention des frais de formation** des établissements (décision du 2026-11-27). Seuls les tarifs des auto-écoles (prix des permis) sont **affichés**, jamais payés dans l'application.
+- **Plus aucune mention des frais de formation** des établissements (décision du 2026-11-27). Seuls les tarifs des auto-écoles (prix des permis) sont **affichés**, jamais payés dans l'application ; **un seul prix par permis** (`prix` de la table `permis`, décision du 2026-11-28).

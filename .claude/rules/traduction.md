@@ -8,7 +8,7 @@
 - **Français par défaut** et langue de référence ; anglais britannique (comme au Cameroun).
 - Pas de détection de la langue du navigateur : à la première visite, c'est le français.
 - Le choix est gardé dans le navigateur sous la clé **`yibolo:langue`** ; l'attribut `lang` de la page suit la langue.
-- Sélecteur : `LanguageSwitcher` (`src/shared/ui/LanguageSwitcher.tsx`) : un globe et le code de la langue active (« FR »), qui ouvre un menu Français / English avec une coche. Il est dans l'en-tête public, la barre du haut de l'espace pro et les écrans de connexion ; Paramètres › Préférences propose aussi le choix.
+- Sélecteur : le bloc `ChoixLangue` (`src/shared/blocs/ChoixLangue.tsx`, identique dans l'admin) : un globe et le code de la langue active (« FR »), qui ouvre un menu Français / English avec une coche ; `auth` sur les écrans de connexion, `compact` (globe seul) sur téléphone. Il est dans la barre du haut (`Entete`) et les écrans de connexion ; les paramètres du compte proposent aussi le choix. La landing garde son propre `LanguageSwitcher` (gelée).
 
 ## Où sont les textes : à côté de leur domaine, jamais centralisés
 | Namespace | Fichiers de textes | Code concerné |
@@ -16,12 +16,13 @@
 | `common` | `src/shared/locales/{fr,en}.json` | `src/shared/**` |
 | `layout` | `src/app/layouts/locales/{fr,en}.json` | `src/app/**` (cadres, menus, 404) |
 | `landing` | `src/modules/landing/locales/` | accueil, « bientôt disponible » |
-| `auth` | `src/modules/compte/auth/locales/` | connexion, inscription |
+| `auth` | `src/modules/compte/auth/locales/` | connexion, inscription, mot de passe oublié |
 | `schools` | `src/modules/ecole/etablissements/locales/` | annuaires, fiche établissement, formation, préinscription |
 | `driving-schools` | `src/modules/ecole/auto-ecoles/locales/` | auto-écoles, permis ; l'inscription est sous la clé `enrollment` |
-| `reviews` | `src/modules/ecole/avis/locales/` | donner un avis |
+| `reviews` | `src/modules/ecole/avis/locales/` | blocs d'avis, « Donner mon avis » |
 | `favorites` | `src/modules/compte/favoris/locales/` | mes favoris |
-| `espace` | `src/modules/compte/mon-espace/locales/` | Mon espace (personne physique) |
+| `espace` | `src/modules/compte/mon-espace/locales/` | profil, paramètres, notifications de la personne (et Mon espace, masqué) |
+| `accueil` | `src/modules/communaute/accueil/locales/` | accueil connecté, publications, commentaires |
 | `pages` | `src/modules/pages/locales/` | Aide et contact, Conditions générales |
 | `pro` | `src/modules/ecole/espace-pro/locales/` | espace pro ; contenus, publication, paramètres, invitation sous la clé `content` |
 
@@ -40,7 +41,7 @@
 8. `t` s'appelle pendant l'affichage : une liste définie hors du composant garde des **clés** ou des identifiants, résolus dans le composant.
 9. Clés dynamiques construites à partir d'un type littéral (`'A' | 'B'`), pas d'une `string` quelconque.
 10. Valeurs fixes des données affichées comme libellés (mode « Jour/Soir », statut « Publiée », nom d'un permis, rôle…) : traduites à l'affichage par une clé construite à partir de la valeur ; on ne modifie pas les fausses données (`src/data/fausses-donnees/`) pour traduire.
-11. Nombres et dates : `num()`, `fcfa()`, `shortDate()` de `src/shared/utils/format.ts`, jamais `toLocaleString('fr-FR')`.
+11. Nombres : `num()`, `fcfa()` (`src/shared/utils/format.ts`) ; dates : `formaterDate()`, `dateRelative()` (`src/shared/utils/dates.ts`, date-fns) ; jamais `toLocaleString('fr-FR')` ni `toLocaleDateString` (voir [dates-et-nombres.md](dates-et-nombres.md)).
 12. Les adresses ne se traduisent pas et viennent de `ROUTES`.
 13. Vérifier : `npm run i18n:check` (mêmes clés en fr et en dans chaque `locales/`), `npx tsc -b`, `npm run lint`, puis l'écran dans les deux langues.
 
