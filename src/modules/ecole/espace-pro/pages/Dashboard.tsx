@@ -1,163 +1,105 @@
-import { Lien } from '@/shared/ui/Lien'
-import { Trans, useTranslation } from 'react-i18next'
-import { ArrowRight, BadgeCheck, BookOpen, Briefcase, Building2, CalendarDays, ExternalLink, Eye, GraduationCap, ImagePlus, Images, Layers, MapPin, Megaphone, MessageSquareText, PencilLine, Phone, Plus, Rocket, ShieldCheck, Zap } from 'lucide-react'
-import { ecoleUrl } from '@/modules/ecole/etablissements/schoolLinks'
-import { Button } from '@/shared/ui/Button'
-import { Card, Section } from '@/shared/ui/Card'
-import { Img } from '@/shared/ui/Img'
-import { Rating } from '@/shared/ui/StarRating'
-import { Ring } from '@/shared/ui/Progress'
-import { Stepper } from '@/shared/ui/Stepper'
-import { IconTile, Kpi, KpiGrid, PageTitle, QuickAction } from '@/shared/ui/Blocks'
+import { useTranslation } from 'react-i18next'
+import { Image, MessageCircle, Pencil } from 'lucide-react'
 import { useMonEcole } from '@/modules/compte/auth/hooks/useSession'
-import { ROUTES } from '@/shared/utils/routes'
-import { CheckCircle2, Circle } from 'lucide-react'
+import { ecoleUrl } from '@/modules/ecole/etablissements/schoolLinks'
 import { useAvisEtablissement, useDocuments, useFaq, useMedias } from '@/data/hooks'
-import { etatDuProfil, ETAPES_PROFIL, INFOS_A_GERER, type EtapeProfil } from '@/modules/ecole/espace-pro/proStats'
-// Préinscription masquée (demande du porteur du projet, 2026-11-25) : import { Badge } from '@/shared/ui/Badge'
+import { ChargementDonnees } from '@/shared/blocs/ChargementDonnees'
+import { Button } from '@/shared/shadcn/button'
+import { Lien } from '@/shared/ui/Lien'
+import { num } from '@/shared/utils/format'
+import { ROUTES } from '@/shared/utils/routes'
+import { BandeauChiffres, CartePro, SquelettePro } from '@/modules/ecole/espace-pro/components/BlocsPro'
+import { ActionsRapides, ApercuPagePublique, CarteAFaire, CarteCompletude, CarteInfos, type Tache } from '@/modules/ecole/espace-pro/components/tableau/BlocsTableau'
+import { useFormationsEcole } from '@/modules/ecole/espace-pro/hooks/useFormationsEcole'
+import { etatDuProfil, type EtapeProfil, type InfoAGerer } from '@/modules/ecole/espace-pro/proStats'
 
+/** Où compléter chaque étape du profil et chaque information à gérer. */
+const VERS_ETAPE: Record<EtapeProfil, string> = {
+  profile: ROUTES.pro.profile(),
+  trainings: ROUTES.pro.newTraining,
+  info: ROUTES.pro.contents('faq'),
+  gallery: ROUTES.pro.profile('medias'),
+  optimisation: ROUTES.pro.profile('medias'),
+}
+const VERS_INFO: Record<InfoAGerer, string> = {
+  presentation: ROUTES.pro.contents(),
+  admission: ROUTES.pro.contents('faq'),
+  calendar: ROUTES.pro.contents('documents'),
+  careers: ROUTES.pro.trainings,
+  contact: ROUTES.pro.profile('coordonnees'),
+}
+
+/** Tableau de bord de l'espace pro (canevas « Tableau de bord ») : la colonne principale et, à droite, l'aperçu et les actions rapides. */
 export function Dashboard() {
-  const { t } = useTranslation('pro')
-  const { ecole } = useMonEcole()
-  // Ce que l'établissement a réellement publié : ses photos, ses documents, sa FAQ.
-  const medias = useMedias(ecole.id).length
-  const etat = etatDuProfil({ ecole, medias, documents: useDocuments(ecole.id).length, faq: useFaq(ecole.id).length })
-  // Les avis de sa fiche qui attendent encore une réponse.
-  const sansReponse = useAvisEtablissement(ecole.id).filter((a) => !a.reponse).length
-  // Les préinscriptions envoyées par les candidats (les plus récentes d'abord).
-  // Préinscription masquée (demande du porteur du projet, 2026-11-25) :
-  // const recues = [...usePreinscriptionsRecues(ecole.id)].sort((a, b) => b.envoyeeLe.localeCompare(a.envoyeeLe))
-  // Préinscription masquée (demande du porteur du projet, 2026-11-25) : const toutes = useFormations()
-  const apparence = {
-    presentation: { icon: <Building2 />, tone: 'blue' as const, to: ROUTES.pro.contents() },
-    admission: { icon: <ShieldCheck />, tone: 'violet' as const, to: ROUTES.pro.contents('faq') },
-    calendar: { icon: <CalendarDays />, tone: 'sky' as const, to: ROUTES.pro.contents('documents') },
-    careers: { icon: <Briefcase />, tone: 'violet' as const, to: ROUTES.pro.trainings },
-    contact: { icon: <Phone />, tone: 'blue' as const, to: ROUTES.pro.profile('coordonnees') },
-  }
-  const infos = INFOS_A_GERER.map((id) => ({ id, fait: etat.infos[id], ...apparence[id] }))
-  // Où compléter chaque étape du profil.
-  const versEtape: Record<EtapeProfil, string> = {
-    profile: ROUTES.pro.profile(),
-    trainings: ROUTES.pro.newTraining,
-    info: ROUTES.pro.contents('faq'),
-    gallery: ROUTES.pro.profile('medias'),
-    optimisation: ROUTES.pro.profile('medias'),
-  }
   return (
-    <div className="space-y-6">
-      <PageTitle
-        title={t('dashboard.title')}
-        subtitle={t('dashboard.subtitle')}
-        actions={
-          <Button to={ecoleUrl(ecole)} variant="outline" size="lg">
-            <Eye />
-            {t('dashboard.viewPublicPage')}
-            <ExternalLink />
-          </Button>
-        }
-      />
-      <KpiGrid>
-        <Kpi icon={<GraduationCap />} label={t('dashboard.kpis.trainings')} value={ecole.formations} tone="blue" />
-        <Kpi icon={<Layers />} label={t('dashboard.kpis.fields')} value={(ecole.principales ?? ecole.filieres).length} tone="green" />
-        <Kpi icon={<Images />} label={t('dashboard.kpis.media')} value={medias} tone="violet" />
-        <Kpi icon={<MessageSquareText />} label={t('dashboard.kpis.reviews')} value={ecole.avis} tone="amber" extra={ecole.avis > 0 ? <Rating value={ecole.note} className="text-sm" /> : undefined} />
-      </KpiGrid>
-      <div className="grid gap-6 xl:grid-cols-[1fr_340px]">
-        <div className="space-y-6">
-          <Card className="p-5">
-            <div className="flex flex-col gap-5 md:flex-row md:items-center">
-              <Ring value={etat.completude} size={104} />
-              <div className="flex-1">
-                <h2 className="text-xl font-bold text-navy-900">{t('dashboard.completion.title')}</h2>
-                <p className="text-sm text-muted-foreground">{t(etat.restantes === 0 ? 'dashboard.completion.textComplete' : 'dashboard.completion.text')}</p>
-                <Stepper
-                  steps={ETAPES_PROFIL.map((e) => t(`dashboard.completion.steps.${e}`))}
-                  current={etat.prochaine ? ETAPES_PROFIL.indexOf(etat.prochaine) : ETAPES_PROFIL.length}
-                  tone="green"
-                  className="mt-4"
-                />
-              </div>
+    <ChargementDonnees fallback={<SquelettePro cartes={4} colonne />}>
+      <Tableau />
+    </ChargementDonnees>
+  )
+}
+
+function Tableau() {
+  const { t } = useTranslation('pro', { keyPrefix: 'tableau' })
+  const { ecole } = useMonEcole()
+  const { lignes } = useFormationsEcole()
+  const medias = useMedias(ecole.id).length
+  const avis = useAvisEtablissement(ecole.id)
+  const etat = etatDuProfil({ ecole, medias, documents: useDocuments(ecole.id).length, faq: useFaq(ecole.id).length })
+  const sansReponse = avis.filter((a) => !a.reponse)
+  const brouillons = lignes.filter((f) => f.statut === 'Brouillon')
+  const publiees = lignes.length - brouillons.length
+  const filieres = ecole.principales ?? ecole.filieres
+  const pagePublique = ecoleUrl(ecole)
+  const pageAvis = ecoleUrl(ecole, 'avis')
+
+  // Ce qui attend l'établissement, calculé à partir de la base.
+  const taches: Tache[] = []
+  if (sansReponse.length > 0) {
+    const noms = sansReponse.slice(0, 3).map((a) => a.nom)
+    taches.push({ id: 'avis', icone: MessageCircle, ton: 'violet', titre: t('aFaire.avis.titre', { count: sansReponse.length }), texte: t('aFaire.avis.texte', { count: noms.length, noms: noms.join(', ') }), action: t('aFaire.avis.action'), to: pageAvis, principale: true })
+  }
+  if (brouillons.length > 0) {
+    taches.push({ id: 'brouillons', icone: Pencil, ton: 'gris', titre: t('aFaire.brouillons.titre', { count: brouillons.length }), texte: t('aFaire.brouillons.texte', { count: brouillons.length, nom: brouillons[0]!.nom }), action: t('aFaire.brouillons.action'), to: ROUTES.pro.editTraining(brouillons[0]!.id) })
+  }
+  if (medias === 0) {
+    taches.push({ id: 'galerie', icone: Image, ton: 'bleu', titre: t('aFaire.galerie.titre'), texte: t('aFaire.galerie.texte'), action: t('aFaire.galerie.action'), to: ROUTES.pro.profile('medias') })
+  }
+
+  return (
+    <div className="flex flex-col gap-2 lg:grid lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start lg:gap-6">
+      <div className="flex min-w-0 flex-col gap-2">
+        <CartePro>
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div className="flex min-w-0 flex-[1_1_300px] flex-col gap-1">
+              <h1 className="text-[22px] font-extrabold tracking-[-0.01em] text-foreground lg:text-2xl">{t('titre')}</h1>
+              <p className="text-sm text-muted-foreground">{t('sousTitre')}</p>
             </div>
-            {etat.prochaine && (
-              <div className="mt-5 flex flex-wrap items-center gap-3 rounded-2xl bg-emerald-50 p-3 text-sm">
-                <Rocket className="size-5 text-emerald-600" />
-                <span className="flex-1">
-                  <Trans t={t} i18nKey="dashboard.completion.remaining" values={{ count: etat.restantes, etape: t(`dashboard.completion.steps.${etat.prochaine}`) }} components={{ b: <b /> }} />
-                </span>
-                <Button to={versEtape[etat.prochaine]} variant="outline" size="sm">{t('dashboard.completion.finish')} <ArrowRight /></Button>
-              </div>
-            )}
-          </Card>
-          {/* Préinscription masquée (demande du porteur du projet, 2026-11-25) :
-          <Card className="p-5">
-            <h2 className="flex items-center gap-2.5 text-lg font-bold text-navy-900">
-              <GraduationCap className="size-5 text-brand-600" />
-              {t('dashboard.applications.title', { count: recues.length })}
-            </h2>
-            {recues.length === 0 ? (
-              <p className="mt-3 rounded-xl bg-[#f3f6fc] px-4 py-3 text-sm text-muted-foreground">{t('dashboard.applications.none')}</p>
-            ) : (
-              <ul className="mt-3 divide-y divide-line">
-                {recues.slice(0, 5).map((p) => (
-                  <li key={p.id} className="flex flex-wrap items-center gap-x-3 gap-y-1 py-2.5 text-sm">
-                    <b className="text-navy-900">{[p.donnees.prenom, p.donnees.nom].filter(Boolean).join(' ') || t('dashboard.applications.anonymous')}</b>
-                    <span className="min-w-0 basis-full break-words text-muted-foreground sm:basis-auto sm:flex-1">{toutes.find((f) => f.id === p.formationId)?.nom ?? '—'}</span>
-                    <span className="shrink-0 text-xs text-muted-foreground">{shortDate(new Date(p.envoyeeLe), { day: '2-digit', month: 'short', year: 'numeric' })}</span>
-                    <Badge tone="green">{t('dashboard.applications.received')}</Badge>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </Card>
-          */}
-          <Section title={t('dashboard.infos.title')} icon={<Layers />}>
-            <div className="grid gap-3 md:grid-cols-2">
-              {infos.map((i) => (
-                <Lien key={i.id} to={i.to} className="flex items-center gap-3 rounded-2xl border border-line p-3 transition-colors hover:bg-brand-50">
-                  <IconTile icon={i.icon} tone={i.tone} />
-                  <div className="min-w-0 flex-1">
-                    <p className="text-sm font-bold text-navy-900">{t(`dashboard.infos.${i.id}.label`)}</p>
-                    <p className="truncate text-xs text-muted-foreground">{t(`dashboard.infos.${i.id}.text`)}</p>
-                  </div>
-                  {i.fait ? (
-                    <CheckCircle2 className="size-5 text-emerald-500" aria-label={t('dashboard.infos.done')} />
-                  ) : (
-                    <Circle className="size-5 text-slate-300" aria-label={t('dashboard.infos.todo')} />
-                  )}
-                  <ArrowRight className="size-4 text-muted-foreground" />
-                </Lien>
-              ))}
-            </div>
-          </Section>
-        </div>
-        <div className="space-y-6">
-          <Card className="overflow-hidden">
-            <div className="flex items-center justify-between bg-brand-50 px-5 py-3">
-              <p className="flex items-center gap-2 font-bold text-navy-900"><Eye className="size-5 text-brand-600" /> {t('dashboard.preview.title')}</p>
-              <Lien to={ecoleUrl(ecole)} aria-label={t('dashboard.preview.open')}><ExternalLink className="size-4 text-brand-600" /></Lien>
-            </div>
-            <div className="flex gap-4 p-5">
-              <Img src={ecole.image} alt={ecole.nom} className="size-24 rounded-xl" />
-              <div className="space-y-1.5">
-                <p className="font-bold text-navy-900">{ecole.nom}</p>
-                <Rating value={ecole.note} count={ecole.avis} />
-                <p className="flex items-center gap-1 text-xs text-muted-foreground"><MapPin className="size-3.5" />{ecole.ville} – {ecole.quartier}</p>
-                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-600 px-2.5 py-0.5 text-xs font-semibold text-white"><BadgeCheck className="size-3.5" />{t('dashboard.preview.verified')}</span>
-              </div>
-            </div>
-          </Card>
-          <Section title={t('dashboard.quick.title')} icon={<Zap />}>
-            <div className="space-y-2.5">
-              <QuickAction tone="primary" icon={<Plus />} label={t('dashboard.quick.newTraining')} to={ROUTES.pro.newTraining} />
-              <QuickAction icon={<ImagePlus />} label={t('dashboard.quick.addMedia')} to={ROUTES.pro.profile('medias')} />
-              <QuickAction icon={<Megaphone />} label={<Trans t={t} i18nKey="dashboard.quick.replyReviews" values={{ count: sansReponse }} components={{ red: <span className="text-rose-500" /> }} />} to={`${ecoleUrl(ecole)}/avis`} />
-              <QuickAction icon={<PencilLine />} label={t('dashboard.quick.updateInfo')} to={ROUTES.pro.profile()} />
-              <QuickAction icon={<BookOpen />} label={t('dashboard.quick.publishNews')} to={ROUTES.pro.contents('actualites')} />
-            </div>
-          </Section>
-        </div>
+            <Button asChild className="max-lg:w-full">
+              <Lien to={ROUTES.pro.newTraining}>{t('creer')}</Lien>
+            </Button>
+          </div>
+          <BandeauChiffres
+            colonnes={4}
+            colonnesMobile={2}
+            chiffres={[
+              { nom: t('chiffres.formations'), valeur: num(lignes.length), detail: `${t('chiffres.publiees', { count: publiees })} · ${t('chiffres.brouillons', { count: brouillons.length })}`, to: ROUTES.pro.trainings },
+              { nom: t('chiffres.filieres'), valeur: num(filieres.length), detail: filieres.length ? `${filieres.slice(0, 2).join(', ')}${filieres.length > 2 ? '…' : ''}` : undefined, to: ROUTES.pro.trainings },
+              { nom: t('chiffres.medias'), valeur: num(medias), detail: t('chiffres.mediasDetail'), to: ROUTES.pro.profile('medias') },
+              { nom: t('chiffres.avis'), valeur: num(avis.length), detail: avis.length ? t('chiffres.avisDetail', { note: num(ecole.note), count: sansReponse.length }) : t('chiffres.sansAvis'), to: pageAvis },
+            ]}
+          />
+        </CartePro>
+        <CarteAFaire taches={taches} />
+        <CarteCompletude {...etat} versProchaine={etat.prochaine ? VERS_ETAPE[etat.prochaine] : undefined} />
+        <CarteInfos infos={etat.infos} liens={VERS_INFO} />
       </div>
+      <aside className="flex min-w-0 flex-col gap-2 lg:sticky lg:top-[84px]">
+        <ApercuPagePublique ecole={ecole} pagePublique={pagePublique} />
+        <ActionsRapides
+          sansReponse={sansReponse.length}
+          liens={{ creer: ROUTES.pro.newTraining, medias: ROUTES.pro.profile('medias'), avis: pageAvis, infos: ROUTES.pro.profile(), actu: `${ROUTES.pro.contents('actualites')}?nouvelle=1`, stats: ROUTES.pro.statistics }}
+        />
+      </aside>
     </div>
   )
 }

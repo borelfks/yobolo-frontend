@@ -1,88 +1,111 @@
-import { useState } from 'react'
+import { useId, useMemo, useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
+import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 import { toast } from 'sonner'
-import { Info, Send, UserPlus } from 'lucide-react'
-import { Button } from '@/shared/ui/Button'
-import { Card, Section } from '@/shared/ui/Card'
-import { Breadcrumb } from '@/shared/ui/Breadcrumb'
-import { Field, Input, PhoneInput, Radio, Select } from '@/shared/forms/Fields'
-import { FormFooter, PageTitle, Tip } from '@/shared/ui/Blocks'
-import { ROUTES } from '@/shared/utils/routes'
 import { useMonEcole } from '@/modules/compte/auth/hooks/useSession'
-import { numeroPropre } from '@/modules/compte/auth/authOtp'
+import { numeroPropre, numeroValide } from '@/modules/compte/auth/authOtp'
 import { data } from '@/data'
 import { useRoles } from '@/data/hooks'
+import { ChargementDonnees } from '@/shared/blocs/ChargementDonnees'
+import { Champ } from '@/shared/blocs/Formulaire'
+import { Button } from '@/shared/shadcn/button'
+import { Input } from '@/shared/shadcn/input'
+import { RadioGroup, RadioGroupCard } from '@/shared/shadcn/radio-group'
+import { Lien } from '@/shared/ui/Lien'
+import { ROUTES } from '@/shared/utils/routes'
+import { ChampIndicatif, CartePro, Conseil, EntetePro, PiedFormulaire, SquelettePro } from '@/modules/ecole/espace-pro/components/BlocsPro'
+import { cleRole } from '@/modules/ecole/espace-pro/proRoles'
 
-/** Rôles des données de démo → clé de traduction. */
-const ROLE_KEYS: Record<string, 'admin' | 'academicLead' | 'communication' | 'secretariat' | 'readOnly' | undefined> = {
-  Administrateur: 'admin',
-  'Responsable pédagogique': 'academicLead',
-  Communication: 'communication',
-  Secrétariat: 'secretariat',
-  Consultation: 'readOnly',
+/** 7.6 Inviter un utilisateur : la personne (nom, téléphone, e-mail facultatif) et son rôle ; l'invitation est enregistrée « En attente ». */
+export function InviterUtilisateur() {
+  const { t } = useTranslation('pro', { keyPrefix: 'inviter' })
+  return (
+    <div className="flex flex-col gap-2">
+      <EntetePro
+        miettes={[
+          { label: t('miettes.parametres'), to: ROUTES.pro.settings() },
+          { label: t('miettes.utilisateurs'), to: ROUTES.pro.settings('utilisateurs') },
+          { label: t('titre') },
+        ]}
+        titre={t('titre')}
+        sousTitre={t('sousTitre')}
+      />
+      <ChargementDonnees fallback={<SquelettePro cartes={2} entete={false} />}>
+        <FormulaireInvitation />
+      </ChargementDonnees>
+    </div>
+  )
 }
 
-export function InviterUtilisateur() {
-  const roles = useRoles()
-  const { t } = useTranslation('pro', { keyPrefix: 'content' })
+function FormulaireInvitation() {
+  const { t } = useTranslation('pro', { keyPrefix: 'inviter' })
+  const { t: tp } = useTranslation('pro')
+  const id = useId()
   const navigate = useNavigate()
-  const [role, setRole] = useState('Responsable pédagogique')
-  const [nom, setNom] = useState('')
-  const [telephone, setTelephone] = useState('')
-  const [email, setEmail] = useState('')
   const { ecole } = useMonEcole()
-  const roleName = (r: string) => {
-    const key = ROLE_KEYS[r]
-    return key ? t(`roles.${key}.name`) : r
+  const roles = useRoles()
+  const [role, setRole] = useState('Responsable pédagogique')
+  const schema = useMemo(
+    () =>
+      z.object({
+        nom: z.string().trim().min(2, t('erreurs.nom')),
+        telephone: z.string().refine(numeroValide, t('erreurs.telephone')),
+        email: z.union([z.literal(''), z.string().trim().email(t('erreurs.email'))]),
+      }),
+    [t],
+  )
+  const { register, handleSubmit, formState } = useForm({ resolver: zodResolver(schema), defaultValues: { nom: '', telephone: '', email: '' } })
+  const { errors, isSubmitting } = formState
+  const nomRole = (nom: string, defaut: string, champ: 'nom' | 'aide') => {
+    const cle = cleRole(nom)
+    return cle ? tp(`roles.${cle}.${champ}`) : defaut
   }
-  const roleDescription = (r: { nom: string; description: string }) => {
-    const key = ROLE_KEYS[r.nom]
-    return key ? t(`roles.${key}.description`) : r.description
-  }
+  const envoyer = handleSubmit(async (v) => {
+    // Invitation pas encore acceptée : « En attente », pas encore de connexion.
+    await data.create('utilisateurs', { etablissementId: ecole.id, nom: v.nom.trim(), role, telephone: numeroPropre(v.telephone), email: v.email.trim(), statut: 'En attente', connexion: '—', avatar: '' }, 'utilisateur')
+    toast.success(t('envoyee', { nom: v.nom.trim(), role: nomRole(role, role, 'nom') }))
+    void navigate({ href: ROUTES.pro.settings('utilisateurs') })
+  })
   return (
-    <div className="space-y-5">
-      <Breadcrumb items={[{ label: t('invite.crumbs.settings'), to: ROUTES.pro.settings() }, { label: t('invite.crumbs.users'), to: ROUTES.pro.settings('utilisateurs') }, { label: t('invite.crumbs.current') }]} />
-      <PageTitle icon={<UserPlus />} title={t('invite.title')} subtitle={t('invite.subtitle')} />
-      <div className="grid gap-6 xl:grid-cols-[1fr_380px]">
-        <Card className="space-y-4 p-5">
-          <Field label={t('invite.name')} required><Input value={nom} onChange={(e) => setNom(e.target.value)} placeholder={t('invite.namePlaceholder')} /></Field>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Field label={t('invite.phone')} required><PhoneInput value={telephone} onChange={(e) => setTelephone(e.target.value)} /></Field>
-            <Field label={t('invite.email')}><Input type="email" placeholder={t('invite.emailPlaceholder')} value={email} onChange={(e) => setEmail(e.target.value)} /></Field>
-          </div>
-          <Field label={t('invite.role')} required><Select options={roles.map((r) => ({ value: r.nom, label: roleName(r.nom) }))} value={role} onChange={(e) => setRole(e.target.value)} /></Field>
-          <Tip icon={<Info />}>{t('invite.tip')}</Tip>
-          <FormFooter>
-            <Button variant="neutral" onClick={() => navigate({ href: ROUTES.pro.settings('utilisateurs') })}>{t('invite.cancel')}</Button>
-            <Button
-              onClick={async () => {
-                if (nom.trim().length < 2) return toast.error(t('invite.nameRequired'))
-                // Invitation pas encore acceptée : « En attente » (statut connu des badges), pas encore de connexion.
-                await data.create(
-                  'utilisateurs',
-                  { etablissementId: ecole.id, nom: nom.trim(), role, telephone: telephone.trim() ? numeroPropre(telephone) : '', email: email.trim(), statut: 'En attente', connexion: '—', avatar: '' },
-                  'utilisateur',
-                )
-                toast.success(t('invite.sent', { name: nom, role: roleName(role) }))
-                navigate({ href: ROUTES.pro.settings('utilisateurs') })
-              }}
-            >
-              <Send />
-              {t('invite.send')}
-            </Button>
-          </FormFooter>
-        </Card>
-        <Section title={t('invite.rolesTitle')}>
-          <div className="space-y-3">
-            {roles.map((r) => (
-              <div key={r.nom} className={`rounded-xl border p-3 ${role === r.nom ? 'border-brand-600 bg-brand-50' : 'border-line'}`}>
-                <Radio name="role" label={roleName(r.nom)} description={roleDescription(r)} checked={role === r.nom} onChange={() => setRole(r.nom)} />
-              </div>
-            ))}
-          </div>
-        </Section>
-      </div>
-    </div>
+    <form onSubmit={(e) => void envoyer(e)} noValidate className="flex flex-col gap-2">
+      <CartePro titre={t('personne')}>
+        <div className="grid gap-3.5 lg:grid-cols-2">
+          <Champ id={`${id}-nom`} label={t('nom')} requis erreur={errors.nom?.message}>
+            <Input id={`${id}-nom`} placeholder={t('nomExemple')} aria-invalid={!!errors.nom || undefined} {...register('nom')} />
+          </Champ>
+          <Champ id={`${id}-tel`} label={t('telephone')} requis erreur={errors.telephone?.message}>
+            <ChampIndicatif id={`${id}-tel`} placeholder={t('telephoneExemple')} aria-invalid={!!errors.telephone || undefined} {...register('telephone')} />
+          </Champ>
+          <Champ id={`${id}-email`} label={t('email')} facultatif erreur={errors.email?.message}>
+            <Input id={`${id}-email`} type="email" placeholder={t('emailExemple')} aria-invalid={!!errors.email || undefined} {...register('email')} />
+          </Champ>
+        </div>
+      </CartePro>
+      <CartePro titre={t('role')}>
+        <RadioGroup value={role} onValueChange={setRole} aria-label={t('role')} className="gap-2">
+          {roles.map((r) => (
+            <RadioGroupCard key={r.id} value={r.nom} className="gap-3 px-3.5 py-3">
+              <span className="grid size-5 shrink-0 place-items-center rounded-full border-2 border-input group-data-[state=checked]:border-[6px] group-data-[state=checked]:border-primary" aria-hidden />
+              <span className="flex flex-col gap-0.5">
+                <b className="text-ui">{nomRole(r.nom, r.nom, 'nom')}</b>
+                <span className="text-xs font-medium text-muted-foreground">{nomRole(r.nom, r.description, 'aide')}</span>
+              </span>
+            </RadioGroupCard>
+          ))}
+        </RadioGroup>
+        <Conseil titre={t('bonASavoir')}>{t('bonASavoirTexte')}</Conseil>
+      </CartePro>
+      <PiedFormulaire>
+        <Button asChild variant="outline">
+          <Lien to={ROUTES.pro.settings('utilisateurs')}>{tp('commun.annuler')}</Lien>
+        </Button>
+        <Button type="submit" loading={isSubmitting}>
+          {t('envoyer')}
+        </Button>
+      </PiedFormulaire>
+    </form>
   )
 }

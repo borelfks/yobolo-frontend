@@ -1,309 +1,408 @@
 {
-  "header": {
-    "viewPublicPage": "Voir ma page publique"
+  "commun": {
+    "espacePro": "Espace pro",
+    "onglets": "Onglets",
+    "conseil": "Conseil",
+    "verifie": "Établissement vérifié",
+    "note": "★ {{note}} ({{count}} avis)",
+    "pasDAvis": "Pas encore d’avis",
+    "voirPagePublique": "Voir ma page publique",
+    "enregistre": "Modifications enregistrées",
+    "annule": "Modifications annulées",
+    "annuler": "Annuler",
+    "enregistrer": "Enregistrer",
+    "enregistrerModifications": "Enregistrer les modifications",
+    "modifier": "Modifier",
+    "supprimer": "Supprimer",
+    "voir": "Voir",
+    "publier": "Publier",
+    "brouillon": "Brouillon",
+    "importer": "Importer",
+    "remplacer": "Remplacer",
+    "duree_one": "{{count}} mois",
+    "duree_other": "{{count}} mois",
+    "statuts": {
+      "publiee": "Publiée",
+      "publie": "Publié",
+      "brouillon": "Brouillon",
+      "actif": "Actif",
+      "inactif": "Inactif",
+      "enAttente": "En attente"
+    }
   },
-  "footer": {
-    "cancel": "Annuler",
-    "cancelled": "Modifications annulées",
-    "saveDraft": "Enregistrer en brouillon",
-    "draftSaved": "Brouillon enregistré",
-    "publish": "Enregistrer et publier",
-    "published": "Modifications enregistrées et publiées"
-  },
-  "status": {
-    "published": "Publiée",
-    "draft": "Brouillon"
-  },
-  "duration_one": "{{count}} mois",
-  "duration_other": "{{count}} mois",
-  "dashboard": {
-    "title": "Bienvenue sur votre espace professionnel",
-    "subtitle": "Gérez et actualisez toutes les informations de votre établissement sur YIBOLO.",
-    "viewPublicPage": "Voir ma page publique",
-    "kpis": {
-      "trainings": "Formations",
-      "fields": "Filières",
-      "media": "Photos / Vidéos",
-      "reviews": "Avis reçus"
+  "roles": {
+    "admin": {
+      "nom": "Administrateur",
+      "aide": "Accès complet à l’espace et aux paramètres"
     },
-    "completion": {
-      "title": "Complétude de votre profil",
-      "text": "Complétez votre page pour qu’elle donne envie aux candidats.",
-      "steps": {
+    "pedagogie": {
+      "nom": "Responsable pédagogique",
+      "aide": "Formations et programmes"
+    },
+    "communication": {
+      "nom": "Communication",
+      "aide": "Actualités, événements, médias"
+    },
+    "secretariat": {
+      "nom": "Secrétariat",
+      "aide": "Documents et informations pratiques"
+    },
+    "lecture": {
+      "nom": "Consultation",
+      "aide": "Lecture seule"
+    }
+  },
+  "tableau": {
+    "titre": "Bienvenue sur votre espace professionnel",
+    "sousTitre": "Gérez et actualisez toutes les informations de votre établissement sur YIBOLO.",
+    "creer": "+ Créer une formation",
+    "chiffres": {
+      "formations": "Formations",
+      "publiees_one": "{{count}} publiée",
+      "publiees_other": "{{count}} publiées",
+      "brouillons_one": "{{count}} brouillon",
+      "brouillons_other": "{{count}} brouillons",
+      "filieres": "Filières",
+      "medias": "Photos / Vidéos",
+      "mediasDetail": "Dans votre galerie",
+      "avis": "Avis reçus",
+      "avisDetail_one": "★ {{note}} · {{count}} sans réponse",
+      "avisDetail_other": "★ {{note}} · {{count}} sans réponse",
+      "sansAvis": "Pas encore d’avis"
+    },
+    "aFaire": {
+      "titre": "À faire",
+      "nombre_one": "{{count}} action",
+      "nombre_other": "{{count}} actions",
+      "vide": "Tout est à jour : rien à faire pour l’instant.",
+      "avis": {
+        "titre_one": "{{count}} avis attend votre réponse",
+        "titre_other": "{{count}} avis attendent votre réponse",
+        "texte_one": "{{noms}} a donné son avis sur votre établissement.",
+        "texte_other": "{{noms}} ont donné leur avis sur votre établissement.",
+        "action": "Répondre"
+      },
+      "brouillons": {
+        "titre_one": "{{count}} formation en brouillon",
+        "titre_other": "{{count}} formations en brouillon",
+        "texte_one": "{{nom}} n’est pas encore publiée.",
+        "texte_other": "{{nom}} et d’autres formations ne sont pas encore publiées.",
+        "action": "Terminer"
+      },
+      "galerie": {
+        "titre": "Ajoutez des photos à votre galerie",
+        "texte": "Les établissements avec une galerie complète reçoivent plus de visites.",
+        "action": "Ajouter"
+      }
+    },
+    "completude": {
+      "titre": "Complétude de votre profil",
+      "texte": "Complétez votre page pour qu’elle donne envie aux candidats.",
+      "pourcent": "{{pct}} %",
+      "aria": "Complétude du profil",
+      "etapes": {
         "profile": "Profil",
         "trainings": "Formations",
         "info": "Informations",
         "gallery": "Galerie",
         "optimisation": "Optimisation"
       },
-      "finish": "Finaliser",
-      "textComplete": "Votre page est complète.",
-      "remaining_one": "Plus que <b>1 étape</b> pour un profil complet : {{etape}}.",
-      "remaining_other": "Encore <b>{{count}} étapes</b> pour un profil complet ; la prochaine : {{etape}}."
+      "faite": "(terminée)",
+      "aFaire": "(à faire)",
+      "reste_one": "Encore <b>{{count}} étape</b> pour un profil complet ; la prochaine : {{etape}}.",
+      "reste_other": "Encore <b>{{count}} étapes</b> pour un profil complet ; la prochaine : {{etape}}.",
+      "complet": "Votre profil est complet.",
+      "finaliser": "Finaliser"
     },
     "infos": {
-      "title": "Informations à gérer",
-      "presentation": {
-        "label": "Présentation",
-        "text": "Décrivez votre établissement"
-      },
-      "admission": {
-        "label": "Conditions d’admission",
-        "text": "Définissez les critères et pièces"
-      },
-      "calendar": {
-        "label": "Calendrier académique",
-        "text": "Indiquez la rentrée et les dates clés"
-      },
-      "careers": {
-        "label": "Débouchés",
-        "text": "Listez les métiers et secteurs"
-      },
-      "contact": {
-        "label": "Contact & localisation",
-        "text": "Vos coordonnées et adresse"
-      },
-      "done": "Renseigné",
-      "todo": "À compléter"
+      "titre": "Informations à gérer",
+      "renseigne": "Renseigné",
+      "aCompleter": "À compléter",
+      "items": {
+        "presentation": {
+          "nom": "Présentation",
+          "texte": "Décrivez votre établissement"
+        },
+        "admission": {
+          "nom": "Conditions d’admission",
+          "texte": "Définissez les critères et pièces"
+        },
+        "calendar": {
+          "nom": "Calendrier académique",
+          "texte": "Indiquez la rentrée et les dates clés"
+        },
+        "careers": {
+          "nom": "Débouchés",
+          "texte": "Listez les métiers et secteurs"
+        },
+        "contact": {
+          "nom": "Contact & localisation",
+          "texte": "Vos coordonnées et adresse"
+        }
+      }
     },
-    "preview": {
-      "title": "Aperçu de votre page publique",
-      "open": "Ouvrir la page publique",
-      "verified": "Établissement vérifié"
+    "apercu": {
+      "titre": "Aperçu de votre page publique",
+      "plus": "+{{count}}",
+      "formations_one": "{{count}} formation",
+      "formations_other": "{{count}} formations",
+      "rentree": "Rentrée le {{date}}"
     },
-    "quick": {
-      "title": "Actions rapides",
-      "newTraining": "Créer une formation",
-      "addMedia": "Ajouter des photos / vidéos",
-      "replyReviews": "Répondre aux avis <red>({{count}})</red>",
-      "updateInfo": "Mettre à jour les informations",
-      "publishNews": "Publier une actualité"
-    },
-    "applications": {
-      "title_one": "Préinscription reçue ({{count}})",
-      "title_other": "Préinscriptions reçues ({{count}})",
-      "none": "Aucune préinscription reçue pour le moment.",
-      "anonymous": "Candidat",
-      "received": "Reçue"
+    "rapides": {
+      "titre": "Actions rapides",
+      "creer": "Créer une formation",
+      "medias": "Ajouter des photos / vidéos",
+      "avis": "Répondre aux avis ({{count}})",
+      "infos": "Mettre à jour les informations",
+      "actu": "Publier une actualité",
+      "stats": "Voir les statistiques"
     }
   },
   "profil": {
-    "crumb": "Profil de l’établissement",
-    "tabs": {
+    "titre": "Profil de l’établissement",
+    "sousTitre": "Renseignez et mettez à jour les informations de votre établissement.",
+    "onglets": {
       "general": "Informations générales",
-      "contact": "Coordonnées",
-      "accreditation": "Agrément & documents",
-      "media": "Médias (logo, photos)"
+      "coordonnees": "Coordonnées",
+      "agrement": "Agrément & documents",
+      "medias": "Médias (logo, photos)"
     },
-    "pages": {
-      "general": {
-        "title": "Profil de l’établissement",
-        "subtitle": "Renseignez et mettez à jour les informations principales de votre établissement."
-      },
-      "contact": {
-        "title": "Coordonnées",
-        "subtitle": "Renseignez les informations de contact et de localisation de votre établissement."
-      },
-      "accreditation": {
-        "title": "Agrément & documents",
-        "subtitle": "Vos accords de création et d’ouverture et votre NIU, chacun avec son document."
-      },
-      "media": {
-        "title": "Médias (logo, photos, vidéos)",
-        "subtitle": "Ajoutez et gérez les visuels de votre établissement."
-      }
+    "erreurs": {
+      "nom": "Indiquez le nom de l’établissement.",
+      "telephone": "Indiquez un numéro à 9 chiffres, sans le 0 du début (ex. 690 12 34 56).",
+      "email": "Indiquez une adresse e-mail valide (ex. contact@ecole.cm).",
+      "niu": "Indiquez le numéro de contribuable (NIU).",
+      "corriger": "Corrigez les champs en rouge avant d’enregistrer."
     },
-    "banner": {
-      "tagline": "Formations professionnelles et diplômes reconnus",
-      "rating_one": "{{note}}/5 ({{count}} avis)",
-      "rating_other": "{{note}}/5 ({{count}} avis)",
-      "change": "Changer la bannière",
-      "changed": "Bannière mise à jour"
+    "banniere": {
+      "alt": "Bannière",
+      "changer": "Changer la bannière",
+      "logoAlt": "Logo",
+      "devise": "Formations professionnelles et diplômes reconnus",
+      "note": "★ {{note}}/5 ({{count}} avis)"
     },
-    "types": {
-      "ipes": "IPES (Institut Privé d’Enseignement Supérieur)",
-      "cfp": "CFP (Centre de Formation Professionnelle)",
-      "other": "Autre établissement de formation"
+    "siteWeb": {
+      "titre": "Vous n’avez pas encore de site web ?",
+      "texte": "YIBOLO peut le créer pour vous.",
+      "action": "Être contacté",
+      "plusTard": "Plus tard",
+      "envoyee": "Demande envoyée : l’équipe YIBOLO vous contactera.",
+      "sujet": "Création d’un site web",
+      "message": "Nous n’avons pas de site web et souhaitons que YIBOLO le crée pour nous."
     },
     "general": {
-      "title": "Informations générales",
-      "name": "Nom de l’établissement",
-      "acronym": "Sigle",
+      "titre": "Informations générales",
+      "nom": "Nom de l’établissement",
+      "sigle": "Sigle",
       "type": "Type d’établissement",
-      "founded": "Année de création",
-      "foundedPick": "Choisir l’année",
-      "presentation": "Présentation (courte)"
+      "types": {
+        "ipes": "IPES (Institut Privé d’Enseignement Supérieur)",
+        "cfp": "CFP (Centre de Formation Professionnelle)",
+        "autre": "Autre établissement de formation"
+      },
+      "annee": "Année de création",
+      "choisirAnnee": "Choisir l’année",
+      "presentation": "Présentation (courte)",
+      "caracteres": "{{n}} / {{max}} caractères",
+      "statut": {
+        "titre": "Statut et visibilité",
+        "verifie": "Établissement vérifié",
+        "verifieAide": "Vos documents ont été contrôlés et validés par YIBOLO.",
+        "conforme": "✓ Conforme",
+        "publier": "Publier sur YIBOLO",
+        "publierAide": "Votre page est visible dans l’annuaire et dans les recherches."
+      },
+      "chiffres": {
+        "titre": "Chiffres clés (optionnel)",
+        "formations": "Formations",
+        "filieres": "Filières",
+        "aide": "Calculés à partir de vos formations : ils se mettent à jour tout seuls."
+      }
     },
-    "visibility": {
-      "title": "Statut et visibilité",
-      "verified": "Établissement vérifié",
-      "publish": "Publier sur YIBOLO"
-    },
-    "figures": {
-      "title": "Chiffres clés (optionnel)",
-      "trainings": "Formations",
-      "fields": "Filières"
-    },
-    "contact": {
-      "title": "Informations de contact",
-      "region": "Région",
-      "city": "Ville",
-      "neighbourhood": "Quartier",
-      "locality": "Lieu-dit",
-      "address": "Adresse complète",
-      "phone": "Téléphone principal",
-      "phone2": "Téléphone secondaire",
-      "optional": "(optionnel)",
+    "coordonnees": {
+      "titre": "Informations de contact",
+      "lieu": "Localisation",
+      "lieuAide": "La ville est déduite de l’arrondissement.",
+      "lieuDit": "Lieu-dit",
+      "adresse": "Adresse complète",
+      "telephone": "Téléphone principal",
+      "whatsapp": "Ce numéro est aussi notre numéro WhatsApp",
+      "telephone2": "Téléphone secondaire",
+      "telephoneExemple": "6XX XX XX XX",
       "email": "E-mail",
-      "website": "Site web",
-      "websitePlaceholder": "Ex. : www.monecole.cm",
-      "phonePlaceholder": "+237 6XX XX XX XX",
-      "noWebsite": {
-        "title": "Vous n’avez pas encore de site web ?",
-        "text": "YIBOLO peut le créer pour vous.",
-        "cta": "Être contacté",
-        "later": "Plus tard",
-        "sent": "Demande envoyée : l’équipe YIBOLO vous contactera.",
-        "subject": "Création d’un site web",
-        "message": "Nous n’avons pas de site web et souhaitons que YIBOLO le crée pour nous."
-      },
-      "preview": "Aperçu des coordonnées (page publique)",
-      "map": "Plan d’accès"
+      "site": "Site web",
+      "siteExemple": "Ex. : www.monecole.cm",
+      "apercu": {
+        "titre": "Aperçu des coordonnées (page publique)",
+        "adresse": "Adresse",
+        "telephone": "Téléphone",
+        "telephoneWhatsapp": "Téléphone et WhatsApp",
+        "email": "E-mail",
+        "site": "Site web",
+        "plan": "Plan d’accès",
+        "planAria": "Plan d’accès : {{lieu}}",
+        "googleMaps": "Ouvrir dans Google Maps →"
+      }
     },
-    "accreditation": {
-      "title": "Accords de création et d’ouverture",
+    "agrement": {
+      "titre": "Accords de création et d’ouverture",
       "intro": "Chaque accord est délivré par une autorité (MINESUP, MINEFOP…) et a son document. Ajoutez-en autant que nécessaire.",
-      "niuTitle": "Identifiant fiscal",
-      "taxNumber": "Numéro de contribuable (NIU)",
-      "niuExample": "Ex. : M123456789012",
-      "niuMissing": "Certificat du NIU manquant",
-      "verified": "Établissement vérifié",
-      "verifiedText": "Vos documents ont été contrôlés et validés par YIBOLO.",
-      "compliant": "✓ Conforme",
-      "fixErrors": "Corrigez les champs en rouge avant d’enregistrer."
+      "erreurs": "Complétez les accords en rouge avant d’enregistrer.",
+      "pasDeFichier": "Aucun fichier n’est joint à ce document.",
+      "tropLourd": "Ce fichier dépasse 3 Mo : choisissez un fichier plus léger.",
+      "certificatEnvoye": "{{name}} est enregistré.",
+      "verifie": "Établissement vérifié",
+      "verifieTexte": "Vos documents ont été contrôlés et validés par YIBOLO.",
+      "conforme": "✓ Conforme",
+      "niu": {
+        "titre": "Identifiant fiscal",
+        "numero": "Numéro de contribuable (NIU)",
+        "exemple": "Ex. : M120812345678P",
+        "certificat": "Certificat du NIU"
+      }
     },
-    "documents": {
-      "items": {
-        "niu": "Certificat du NIU"
-      },
-      "view": "Voir",
-      "sent": "{{name}} ajouté",
-      "fileSize": "Fichier · {{size}}",
-      "noFile": "Ce document n’est pas encore disponible au téléchargement.",
-      "tooBig": "Fichier trop lourd : 3 Mo au maximum."
-    },
-    "media": {
-      "cover": "Bannière de couverture",
-      "coverAlt": "Bannière",
-      "editCover": "Modifier la bannière",
+    "medias": {
+      "visuels": "Bannière et logo",
+      "banniere": "Bannière de couverture",
+      "banniereAlt": "Bannière",
+      "banniereFormat": "JPG ou PNG · 1 600 × 400 px conseillé",
+      "modifierBanniere": "Modifier la bannière",
+      "banniereChangee": "La bannière est enregistrée.",
       "logo": "Logo de l’établissement",
       "logoAlt": "Logo",
-      "editLogo": "Modifier le logo",
-      "changeLogo": "Changer le logo",
       "logoFormat": "Format : PNG ou JPG",
-      "logoSize": "Taille recommandée : 500 × 500 px",
-      "gallery": "Galerie médias",
-      "filters": {
-        "all": "Toutes (12)",
-        "photos": "Photos (10)",
-        "videos": "Vidéos (2)"
+      "logoTaille": "Taille recommandée : 500 × 500 px",
+      "changerLogo": "Changer le logo",
+      "logoChange": "Le logo est enregistré.",
+      "tropLourd": "Ce fichier est trop lourd : 2 Mo au plus pour une photo, 3 Mo pour une vidéo.",
+      "galerie": "Galerie médias",
+      "filtrer": "Filtrer la galerie",
+      "filtres": {
+        "toutes": "Toutes ({{n}})",
+        "photos": "Photos ({{n}})",
+        "videos": "Vidéos ({{n}})"
       },
+      "aucun": "Aucun média ici pour l’instant : ajoutez vos photos et vidéos ci-dessous.",
+      "voirVideo": "Voir la vidéo",
+      "voirPhoto": "Voir la photo",
       "video": "Vidéo",
       "photo": "Photo",
-      "add": "Ajouter des photos ou vidéos",
-      "drop": "Glissez-déposez vos fichiers ici ou cliquez pour sélectionner",
-      "images": "Images : JPG, PNG (Max. 10 Mo)",
-      "videos": "Vidéos : MP4 (Max. 100 Mo)",
-      "added": "{{name}} ajouté",
-      "optionsLabel": "Options du média",
-      "view": "Agrandir",
-      "delete": "Supprimer",
-      "deleted": "Média supprimé",
-      "none": "Aucun média pour le moment.",
-      "tooBig": "Fichier trop lourd (photo : 2 Mo, vidéo : 3 Mo au maximum).",
-      "logoChanged": "Logo mis à jour",
-      "coverChanged": "Image de couverture mise à jour"
+      "options": "Options du média",
+      "voir": "Voir",
+      "supprimer": "Supprimer",
+      "supprime": "Le média est supprimé.",
+      "ajouter": "Ajouter des photos ou vidéos",
+      "deposer": "Glissez-déposez vos fichiers ici ou cliquez pour sélectionner",
+      "formats": "Images : JPG, PNG (max. 2 Mo) · Vidéos : MP4 (max. 3 Mo)",
+      "ajoute": "{{name}} est ajouté à la galerie."
     }
   },
   "formations": {
-    "crumb": "Formations",
-    "title": "Gérer les formations",
-    "subtitle": "Consultez, modifiez et suivez toutes les formations de votre établissement.",
-    "create": "Créer une formation",
-    "kpis": {
-      "total": "Formations",
-      "published": "Publiées",
-      "draft": "Brouillon"
+    "miette": "Formations",
+    "titre": "Gérer les formations",
+    "sousTitre": "Consultez, modifiez et suivez toutes les formations de votre établissement.",
+    "creer": "+ Créer une formation",
+    "vide": {
+      "titre": "Aucune formation pour l’instant",
+      "texte": "Créez votre première formation : elle sera publiée dès son enregistrement."
     },
-    "search": "Rechercher une formation...",
-    "filters": {
-      "field": "Filière",
-      "status": "Statut",
-      "allMasc": "Tous",
-      "allFem": "Toutes",
-      "value": "{{label}} : {{value}}",
-      "sort": "Trier par : Plus récente"
+    "chiffres": {
+      "toutes": "Formations",
+      "publiees": "Publiées",
+      "brouillons": "Brouillon"
     },
-    "table": {
-      "selectAll": "Tout sélectionner",
-      "training": "Formation",
-      "field": "Filière",
-      "diploma": "Diplôme",
-      "duration": "Durée",
-      "nextIntake": "Date limite d’inscription",
-      "status": "Statut",
-      "actions": "Actions",
-      "select": "Sélectionner {{name}}",
-      "code": "Code : {{code}}",
-      "edit": "Modifier",
-      "more": "Plus d'actions"
+    "recherche": "Rechercher une formation...",
+    "rechercheAria": "Rechercher une formation",
+    "filiere": "Filière",
+    "filiereToutes": "Filière : Toutes",
+    "filiereValeur": "Filière : {{filiere}}",
+    "trier": "Trier",
+    "tris": {
+      "recent": "Trier par : Plus récente",
+      "nom": "Trier par : Nom (A → Z)",
+      "rentree": "Trier par : Prochaine rentrée"
     },
-    "count": "{{shown}} sur {{total}} formations",
-    "prev": "Page précédente",
-    "next": "Page suivante",
+    "statutAria": "Statut",
+    "statuts": {
+      "toutes": "Toutes ({{n}})",
+      "publiees": "Publiées ({{n}})",
+      "brouillons": "Brouillons ({{n}})"
+    },
+    "aucune": "Aucune formation ne correspond à ces critères.",
+    "reinitialiser": "Réinitialiser les filtres",
     "menu": {
-      "view": "Voir la page publique",
-      "duplicate": "Dupliquer",
-      "publish": "Publier",
-      "unpublish": "Dépublier (brouillon)",
-      "delete": "Supprimer",
-      "copySuffix": " (copie)",
-      "duplicated": "« {{name}} » créée en brouillon",
-      "unpublished": "« {{name}} » repassée en brouillon",
-      "deleted": "« {{name}} » supprimée",
-      "published": "« {{name}} » publiée"
+      "voir": "Voir la page publique",
+      "dupliquer": "Dupliquer",
+      "publier": "Publier",
+      "depublier": "Dépublier (brouillon)",
+      "supprimer": "Supprimer",
+      "copie": "{{name}} (copie)",
+      "dupliquee": "« {{name}} » est créée en brouillon.",
+      "publiee": "« {{name}} » est publiée.",
+      "depubliee": "« {{name}} » est repassée en brouillon.",
+      "supprimee": "« {{name}} » est supprimée."
+    },
+    "tableau": {
+      "aria": "Formations de l’établissement",
+      "formation": "Formation",
+      "filiere": "Filière",
+      "diplome": "Diplôme",
+      "duree": "Durée",
+      "rentree": "Prochaine rentrée",
+      "rentreeCourt": "Rentrée",
+      "statut": "Statut",
+      "actions": "Actions",
+      "code": "Code : {{code}}",
+      "modifier": "Modifier {{name}}",
+      "plus": "Plus d’actions pour {{name}}"
+    },
+    "pagination": {
+      "texte_one": "{{debut}} – {{fin}} sur {{total}} formation",
+      "texte_other": "{{debut}} – {{fin}} sur {{total}} formations",
+      "aucun": "Aucun résultat",
+      "aria": "Pagination",
+      "precedent": "Précédent",
+      "suivant": "Suivant",
+      "precedenteAria": "Page précédente",
+      "suivanteAria": "Page suivante",
+      "page": "Page {{n}}"
     }
   },
   "creer": {
-    "crumb": "Formations",
-    "editTitle": "Modifier une formation",
-    "createTitle": "Créer une formation",
-    "editSubtitle": "Mettez à jour les informations de votre formation.",
-    "createSubtitle": "Renseignez les informations de votre nouvelle formation.",
-    "blocks": {
+    "miette": "Formations",
+    "titre": "Créer une formation",
+    "titreModifier": "Modifier la formation",
+    "sousTitre": "Renseignez les informations de votre nouvelle formation.",
+    "sousTitreModifier": "Mettez à jour les informations de votre formation.",
+    "nom": {
+      "label": "Votre formation s’affichera ainsi",
+      "vide": "Choisissez le diplôme, le secteur, le domaine et la spécialité : le nom de la formation se compose tout seul."
+    },
+    "blocs": {
       "general": "Informations générales",
       "organisation": "Organisation de la formation",
       "description": "Description (aperçu)"
     },
-    "fields": {
-      "diploma": "Diplôme",
-      "sector": "Secteur",
-      "domain": "Domaine",
-      "speciality": "Spécialité",
+    "champs": {
+      "diplome": "Diplôme",
+      "secteur": "Secteur",
+      "domaine": "Domaine",
+      "specialite": "Spécialité",
       "option": "Option",
-      "level": "Niveau requis",
-      "duration": "Durée",
-      "mode": "Type de cours",
-      "deadline": "Date limite d’inscription",
-      "presentation": "Présentation courte de la formation",
-      "choose": "Choisir",
-      "optional": "Facultatif",
-      "noOption": "Aucune option pour cette spécialité",
-      "sectorFirst": "Choisissez d’abord le secteur",
-      "domainFirst": "Choisissez d’abord le domaine",
-      "fieldGroup": "Filière : {{name}}"
+      "niveau": "Niveau requis",
+      "choisir": "Choisir",
+      "secteurDabord": "Choisissez d’abord le secteur",
+      "domaineDabord": "Choisissez d’abord le domaine",
+      "groupeFiliere": "Filière : {{nom}}",
+      "sansOption": "Aucune option",
+      "aucuneOption": "Aucune option pour cette spécialité",
+      "facultatif": "Facultatif",
+      "duree": "Durée",
+      "dateLimite": "Date limite d’inscription",
+      "typeCours": "Type de cours",
+      "presentation": "Présentation courte de la formation"
     },
-    "levels": {
+    "niveaux": {
       "none": "Aucun",
       "probatoire": "Probatoire",
       "bac": "Baccalauréat",
@@ -311,75 +410,274 @@
       "licence": "Licence"
     },
     "modes": {
-      "day": "Jour",
-      "evening": "Soir"
+      "jour": "Jour",
+      "soir": "Soir"
     },
-    "progress": {
-      "title": "Progression de création",
-      "percent": "{{pct}} %",
-      "general": "Informations générales",
-      "organisation": "Organisation de la formation",
-      "description": "Description (aperçu)",
-      "done": "Fait",
-      "todo": "À faire"
+    "erreurs": {
+      "specialite": "Choisissez la spécialité : elle donne son nom à la formation.",
+      "diplome": "Choisissez le diplôme.",
+      "duree": "Choisissez la durée.",
+      "dateLimite": "Indiquez la date limite d’inscription.",
+      "modes": "Choisissez au moins un type de cours.",
+      "description": "Écrivez une présentation d’au moins 10 caractères.",
+      "corriger": "Corrigez les champs en rouge avant d’enregistrer."
     },
-    "tips": {
-      "title": "Bon à savoir",
-      "required": "Les champs marqués d’un <red>*</red> sont obligatoires.",
-      "accurate": "Renseignez des informations exactes et à jour.",
-      "published": "La formation est publiée dès que vous l’enregistrez."
-    },
+    "publiee": "La formation est enregistrée et publiée.",
+    "brouillon": "La formation est enregistrée en brouillon.",
     "actions": {
-      "saveContinue": "Enregistrer et continuer",
-      "saveDraft": "Enregistrer en brouillon",
-      "draftSaved": "Brouillon enregistré",
-      "preview": "Aperçu",
-      "cancel": "Annuler",
-      "published": "Formation publiée"
+      "apercu": "Aperçu",
+      "brouillon": "Enregistrer en brouillon",
+      "continuer": "Enregistrer et continuer"
     },
-    "preview": {
-      "title": "Aperçu de la fiche formation",
-      "untitled": "Formation sans intitulé",
-      "diploma": "Diplôme",
-      "field": "Secteur › Domaine › Filière",
-      "duration": "Durée",
-      "months_one": "{{count}} mois",
-      "months_other": "{{count}} mois",
-      "mode": "Cours",
-      "deadline": "Date limite d’inscription"
+    "progression": {
+      "titre": "Progression de création",
+      "pourcent": "{{pct}} %",
+      "faite": "(terminée)",
+      "aFaire": "(à faire)"
     },
-    "name": {
-      "label": "Votre formation s’affichera ainsi",
-      "empty": "Choisissez le diplôme, le secteur, le domaine et la spécialité : le nom de la formation se compose tout seul."
+    "bonASavoir": {
+      "titre": "Bon à savoir",
+      "requis": "Les champs marqués d’un <req>*</req> sont obligatoires.",
+      "exact": "Renseignez des informations exactes et à jour.",
+      "publiee": "La formation est publiée dès que vous l’enregistrez."
     },
-    "errors": {
-      "incomplete": "Complétez les champs obligatoires avant de publier.",
-      "noSpeciality": "Choisissez au moins la spécialité pour enregistrer le brouillon."
+    "apercu": {
+      "titre": "Aperçu de la fiche formation",
+      "sansNom": "Formation sans nom",
+      "diplome": "Diplôme",
+      "filiere": "Filière",
+      "duree": "Durée",
+      "cours": "Cours",
+      "dateLimite": "Date limite d’inscription"
     }
   },
-  "stats": {
-    "crumb": "Profil de l’établissement",
-    "title": "Statistiques",
-    "subtitle": "Suivez la performance de votre établissement sur YIBOLO.",
-    "period": {
-      "label": "Période",
-      "last30": "Derniers 30 jours",
-      "last7": "Derniers 7 jours",
-      "last6m": "Derniers 6 mois"
+  "contenus": {
+    "titre": "Contenus et informations",
+    "sousTitre": "Gérez la présentation, les actualités et les documents de votre établissement.",
+    "onglets": {
+      "presentation": "Présentation",
+      "actualites": "Actualités",
+      "documents": "Documents",
+      "faq": "FAQ"
     },
-    "export": "Exporter (PDF)",
+    "ongletNombre": "{{nom}} ({{n}})",
+    "categories": {
+      "admission": "Rentrée / Admission",
+      "event": "Événement",
+      "training": "Formation",
+      "results": "Résultats"
+    },
+    "presentation": {
+      "titre": "Présentation de l’établissement",
+      "description": "Décrivez votre établissement, sa mission, sa vision et ses atouts.",
+      "titreLabel": "Titre de la présentation",
+      "titreDefaut": "À propos de {{sigle}}",
+      "titreDefautVoyelle": "À propos de l’{{sigle}}",
+      "contenuLabel": "Contenu de la présentation",
+      "miseEnForme": "Mise en forme",
+      "outils": {
+        "gras": "Gras",
+        "italique": "Italique",
+        "liste": "Liste à puces",
+        "lien": "Lien"
+      },
+      "lienTexte": "texte du lien",
+      "requis": "Indiquez le titre et le contenu de la présentation.",
+      "publiee": "La présentation est publiée.",
+      "brouillon": "La présentation est enregistrée en brouillon.",
+      "conseil": "Rédigez un texte clair et concis (300 à 500 caractères) mettant en avant votre mission, vos formations et vos atouts.",
+      "actualites": "Dernières actualités",
+      "aucuneActualite": "Aucune actualité publiée pour l’instant.",
+      "publieeLe": "Publiée le {{date}}",
+      "nouvelleActualite": "+ Nouvelle actualité",
+      "documents": "Documents à télécharger",
+      "documentsDetail_one": "Documents publiés · {{count}} brouillon",
+      "documentsDetail_other": "Documents publiés · {{count}} brouillons",
+      "gererDocuments": "Gérer les documents →",
+      "faq": "FAQ",
+      "faqDetail": "Questions / réponses",
+      "gererFaq": "Gérer la FAQ →"
+    },
+    "actualites": {
+      "titre": "Actualités ({{n}})",
+      "nouvelle": "+ Nouvelle actualité",
+      "conseil": "Publiez au moins une actualité par mois : les pages actives remontent dans les recherches YIBOLO.",
+      "vide": "Aucune actualité pour l’instant.",
+      "copie": "{{titre}} (copie)",
+      "dupliquee": "L’actualité est dupliquée en brouillon.",
+      "publiee": "L’actualité est publiée.",
+      "depubliee": "L’actualité est repassée en brouillon.",
+      "supprimee": "L’actualité est supprimée.",
+      "publieeLe": "Publiée le {{date}}",
+      "nonVisible": "Brouillon · pas encore visible",
+      "plus": "Plus d’actions pour {{titre}}",
+      "dupliquer": "Dupliquer",
+      "depublier": "Dépublier (brouillon)"
+    },
+    "fenetre": {
+      "titreNouvelle": "Nouvelle actualité",
+      "titreModifier": "Modifier l’actualité",
+      "titre": "Titre",
+      "titreExemple": "Ex. Journée portes ouvertes",
+      "titreRequis": "Indiquez le titre de l’actualité.",
+      "categorie": "Catégorie",
+      "dateLimite": "Date limite",
+      "texte": "Texte",
+      "image": "Ajouter une image",
+      "imageFormats": "JPG ou PNG, 2 Mo au maximum",
+      "imageTropLourde": "Cette image dépasse 2 Mo : choisissez une image plus légère.",
+      "publiee": "L’actualité est publiée.",
+      "brouillonEnregistre": "L’actualité est enregistrée en brouillon."
+    },
+    "documents": {
+      "titre": "Documents à télécharger",
+      "intro": "Les documents publiés s’affichent sur votre page. Importez chaque document sur sa ligne : vous savez toujours ce qui manque.",
+      "progression": "{{faits}} sur {{total}} documents ajoutés",
+      "types": {
+        "brochure": {
+          "titre": "Brochure",
+          "texte": "La présentation de l’établissement et de ses formations."
+        },
+        "admission": {
+          "titre": "Dossier de candidature",
+          "texte": "La fiche à remplir pour se porter candidat."
+        },
+        "pieces": {
+          "titre": "Pièces à fournir",
+          "texte": "La liste des documents demandés aux candidats."
+        },
+        "rules": {
+          "titre": "Règlement intérieur",
+          "texte": "Les règles de vie et de scolarité."
+        },
+        "calendar": {
+          "titre": "Calendrier académique",
+          "texte": "Rentrée, examens, vacances."
+        }
+      },
+      "present": "Ajouté",
+      "manquant": "Pas encore ajouté",
+      "tropLourd": "Ce fichier dépasse 3 Mo : choisissez un fichier plus léger.",
+      "remplace": "« {{name}} » remplace l’ancien document.",
+      "ajoute": "« {{name}} » est publié.",
+      "supprime": "« {{name}} » est supprimé.",
+      "publie": "« {{name}} » est publié.",
+      "depublie": "« {{name}} » est repassé en brouillon.",
+      "renomme": "Le document s’appelle désormais « {{name}} ».",
+      "voirAria": "Voir {{name}}",
+      "actionsAria": "Actions pour {{name}}",
+      "depublier": "Dépublier (brouillon)",
+      "renommer": "Renommer",
+      "nouveauNom": "Nouveau nom",
+      "autres": {
+        "titre": "Autres documents",
+        "texte": "Tout autre document utile aux candidats (bourses, tenue, transport…).",
+        "ajouter": "Ajouter un autre document",
+        "un": "Autre document"
+      },
+      "formats": "PDF, Word, Excel ou image · 3 Mo max.",
+      "apercu": {
+        "type": "Type",
+        "format": "Format",
+        "taille": "Taille",
+        "date": "Date",
+        "telecharger": "Télécharger",
+        "sansFichier": "Aucun fichier n’est joint à ce document."
+      }
+    },
+    "faq": {
+      "categoriesTitre": "Catégories",
+      "categories": {
+        "toutes": "Toutes",
+        "admission": "Admission",
+        "formation": "Formation",
+        "diplomes": "Diplômes"
+      },
+      "nombre_one": "{{count}} question",
+      "nombre_other": "{{count}} questions",
+      "ajouter": "+ Ajouter une question",
+      "recherche": "Rechercher une question...",
+      "rechercheAria": "Rechercher une question",
+      "vide": "Aucune question pour l’instant : ajoutez les questions que les candidats posent souvent.",
+      "aucune": "Aucune question ne correspond à votre recherche.",
+      "ajoutee": "La question est publiée.",
+      "modifiee": "La question est modifiée.",
+      "supprimee": "La question est supprimée.",
+      "form": {
+        "titreAjouter": "Ajouter une question",
+        "titreModifier": "Modifier la question",
+        "question": "Question",
+        "categorie": "Catégorie",
+        "reponse": "Réponse",
+        "questionRequise": "Écrivez la question.",
+        "reponseRequise": "Écrivez la réponse."
+      }
+    }
+  },
+  "publication": {
+    "titre": "Voir ma publication",
+    "sousTitre": "Votre actualité telle que les visiteurs la voient.",
+    "miettes": {
+      "contenus": "Contenus",
+      "actualites": "Actualités"
+    },
+    "badge": "Actualité",
+    "publieeLe": "Publié le {{date}}",
+    "nonPubliee": "Brouillon · pas encore visible",
+    "dateLimite": "Date limite : {{date}}",
+    "filieres": "Filières concernées",
+    "details": "Détails",
+    "categorie": "Catégorie",
+    "date": "Date",
+    "statut": "Statut",
+    "actions": {
+      "titre": "Actions rapides",
+      "copier": "Copier le lien public",
+      "ouvrir": "Ouvrir dans un nouvel onglet",
+      "supprimer": "Supprimer la publication"
+    },
+    "lienCopie": "Lien copié.",
+    "lienNonCopie": "Le lien n’a pas pu être copié.",
+    "supprimee": "La publication est supprimée.",
+    "conseil": "Partagez vos actualités sur vos réseaux sociaux pour attirer plus de candidats."
+  },
+  "statistiques": {
+    "titre": "Statistiques",
+    "sousTitre": "Suivez la performance de votre établissement sur YIBOLO.",
+    "exporter": "Exporter (PDF)",
+    "periodeAria": "Période",
+    "periodes": {
+      "j7": "7 jours",
+      "j30": "30 jours",
+      "m6": "6 mois"
+    },
     "kpis": {
-      "views": "Vues de votre page",
-      "downloads": "Téléchargements",
-      "rating_one": "Note ({{count}} avis)",
-      "rating_other": "Note ({{count}} avis)",
-      "outOf5": "{{note}} / 5",
-      "trend": "+{{value}} %"
+      "vues": "Vues de votre page",
+      "telechargements": "Téléchargements",
+      "note_one": "Note ({{count}} avis)",
+      "note_other": "Note ({{count}} avis)",
+      "sur5": "{{note}} / 5",
+      "hausse": "+{{n}} % par rapport à la période précédente",
+      "baisse": "−{{n}} % par rapport à la période précédente",
+      "sansComparaison": "Rien à comparer sur la période précédente",
+      "sansReponse_one": "{{count}} avis sans réponse",
+      "sansReponse_other": "{{count}} avis sans réponse",
+      "pasDAvis": "Pas encore d’avis"
     },
-    "visits": "Évolution des visites",
+    "courbe": {
+      "titre": "Évolution des visites",
+      "parJour": "Vues par jour",
+      "parSemaine": "Vues par semaine",
+      "jour": "Jour",
+      "semaine": "Semaine",
+      "semaineDu": "Semaine du {{date}}",
+      "vues": "Vues",
+      "afficher": "Afficher le tableau des données",
+      "masquer": "Masquer le tableau des données"
+    },
+    "pourcent": "{{n}} %",
     "sources": {
-      "title": "Sources des visites",
-      "center": "{{total}} Visites",
+      "titre": "Sources des visites",
       "annuaire": "Annuaire",
       "recherche": "Recherche",
       "favoris": "Favoris",
@@ -387,476 +685,251 @@
       "direct": "Lien direct"
     },
     "top": {
-      "title": "Formations les plus consultées",
-      "views_one": "{{views}} vue",
-      "views_other": "{{views}} vues",
-      "all": "Voir toutes les formations"
+      "titre": "Formations les plus consultées",
+      "vues_one": "{{n}} vue",
+      "vues_other": "{{n}} vues",
+      "toutes": "Voir toutes les formations →"
     },
-    "activity": {
-      "title": "Dernières activités",
-      "today": "aujourd’hui, {{time}}",
-      "yesterday": "hier, {{time}}",
-      "downloads_one": "{{count}} téléchargement de document",
+    "activites": {
+      "titre": "Dernières activités",
+      "downloads_one": "{{count}} téléchargement de documents",
       "downloads_other": "{{count}} téléchargements de documents",
       "reviews_one": "{{count}} nouvel avis (note moyenne : {{note}}/5)",
-      "reviews_other": "{{count}} nouveaux avis (note moyenne : {{note}}/5)"
+      "reviews_other": "{{count}} nouveaux avis (note moyenne : {{note}}/5)",
+      "today": "aujourd’hui, {{heure}}",
+      "yesterday": "hier, {{heure}}"
     },
-    "empty": {
-      "visits": "Aucune visite de votre page sur cette période.",
-      "sources": "Les provenances apparaîtront dès la première visite.",
-      "top": "Aucune de vos formations n’a été consultée sur cette période.",
-      "activity": "Aucune activité aujourd’hui ni hier."
+    "vides": {
+      "visites": "Aucune visite sur cette période : les vues de votre page s’afficheront ici.",
+      "sources": "Les sources s’afficheront dès les premières visites.",
+      "top": "Aucune formation consultée sur cette période.",
+      "activites": "Aucune activité aujourd’hui ni hier."
     }
   },
-  "content": {
-    "status": {
-      "publishedF": "Publiée",
-      "published": "Publié",
-      "draft": "Brouillon"
+  "parametres": {
+    "titre": "Paramètres",
+    "sousTitre": "Gérez votre compte, la sécurité et les préférences de publication.",
+    "onglets": {
+      "compte": "Compte et accès",
+      "securite": "Sécurité",
+      "notifications": "Notifications",
+      "preferences": "Préférences",
+      "utilisateurs": "Utilisateurs",
+      "aPropos": "À propos"
     },
-    "contents": {
-      "title": "Contenus et informations",
-      "subtitle": "Gérez la présentation, les actualités et les documents de votre établissement.",
-      "tabs": {
-        "presentation": "Présentation",
-        "news": "Actualités",
-        "documents": "Documents",
-        "faq": "FAQ"
-      },
-      "actions": {
-        "edit": "Modifier",
-        "more": "Plus d'actions",
-        "view": "Voir",
-        "cancel": "Annuler",
-        "draft": "Brouillon",
-        "publish": "Publier"
-      },
-      "tip": "Conseil",
-      "newsList": {
-        "duplicate": "Dupliquer",
-        "publish": "Publier",
-        "unpublish": "Dépublier (brouillon)",
-        "delete": "Supprimer",
-        "copySuffix": " (copie)",
-        "duplicated": "Actualité dupliquée en brouillon",
-        "published": "Actualité publiée",
-        "unpublished": "Actualité repassée en brouillon",
-        "deleted": "Actualité supprimée"
-      },
-      "presentation": {
-        "cardTitle": "Présentation de l’établissement",
-        "cardSubtitle": "Décrivez votre établissement, sa mission, sa vision et ses atouts.",
-        "titleLabel": "Titre de la présentation",
-        "contentLabel": "Contenu de la présentation",
-        "defaultTitle": "À propos de l’{{sigle}}",
-        "defaultText": "Établissement de formation supérieure qui forme des professionnels opérationnels et compétitifs, adaptés aux besoins des entreprises.",
-        "tipText": "Rédigez un texte clair et concis (300 à 500 caractères) mettant en avant votre mission, vos formations et vos atouts.",
-        "latestNews": "Dernières actualités",
-        "newNews": "Nouvelle actualité",
-        "documentsTitle": "Documents à télécharger",
-        "documentsPublished": "Documents publiés",
-        "faqTitle": "FAQ",
-        "faqCount": "Questions / réponses"
-      },
-      "news": {
-        "title": "Actualités",
-        "newNews": "Nouvelle actualité",
-        "tipText": "Publiez au moins une actualité par mois : les pages actives remontent dans les recherches YIBOLO.",
-        "draftSaved": "Brouillon enregistré",
-        "published": "Actualité publiée",
-        "titleRequired": "Indiquez le titre de l’actualité.",
-        "form": {
-          "title": "Titre",
-          "titlePlaceholder": "Ex. Journée portes ouvertes",
-          "category": "Catégorie",
-          "deadline": "Date limite (optionnel)",
-          "text": "Texte"
-        },
-        "categories": {
-          "admission": "Rentrée / Admission",
-          "event": "Événement",
-          "training": "Formation",
-          "results": "Résultats"
-        }
-      },
-      "documents": {
-        "intro": "Les documents publiés s’affichent sur votre page. Importez chaque document sur sa ligne : vous savez toujours ce qui manque.",
-        "formats": "PDF, Word, Excel ou image · 3 Mo max.",
-        "added": "« {{name}} » ajouté et publié",
-        "view": "Voir « {{name}} »",
-        "tooBig": "Fichier trop lourd : 3 Mo au maximum.",
-        "types": {
-          "brochure": {
-            "title": "Brochure",
-            "desc": "La présentation de l’établissement et de ses formations."
-          },
-          "admission": {
-            "title": "Dossier de candidature",
-            "desc": "La fiche à remplir pour se porter candidat."
-          },
-          "pieces": {
-            "title": "Pièces à fournir",
-            "desc": "La liste des documents demandés aux candidats."
-          },
-          "rules": {
-            "title": "Règlement intérieur",
-            "desc": "Les règles de vie et de scolarité."
-          },
-          "calendar": {
-            "title": "Calendrier académique",
-            "desc": "Rentrée, examens, vacances."
-          }
-        },
-        "preview": {
-          "type": "Type",
-          "format": "Format",
-          "size": "Taille",
-          "date": "Ajouté le",
-          "status": "Statut",
-          "download": "Télécharger",
-          "noFile": "Ce document n’est pas encore disponible au téléchargement."
-        },
-        "menu": {
-          "publish": "Publier",
-          "unpublish": "Dépublier (brouillon)",
-          "rename": "Renommer",
-          "delete": "Supprimer",
-          "newName": "Nouveau nom",
-          "cancel": "Annuler",
-          "save": "Enregistrer",
-          "published": "« {{name}} » publié",
-          "unpublished": "« {{name}} » repassé en brouillon",
-          "renamed": "Document renommé : « {{name}} »",
-          "deleted": "« {{name}} » supprimé",
-          "actions": "Actions pour « {{name}} »"
-        },
-        "title": "Documents à télécharger",
-        "progress": "{{done}} sur {{total}} documents ajoutés",
-        "missing": "Pas encore ajouté",
-        "present": "Ajouté",
-        "import": "Importer",
-        "replace": "Remplacer",
-        "replaced": "« {{name}} » remplacé",
-        "others": {
-          "title": "Autres documents",
-          "desc": "Tout autre document utile aux candidats (bourses, tenue, transport…).",
-          "add": "Ajouter un autre document",
-          "one": "Autre document"
-        },
-        "status": {
-          "published": "Publié",
-          "draft": "Brouillon"
-        }
-      },
-      "faq": {
-        "categoriesTitle": "Catégories",
-        "count_one": "{{count}} questions",
-        "count_other": "{{count}} questions",
-        "add": "Ajouter une question",
-        "searchPlaceholder": "Rechercher une question...",
-        "categoryAria": "Catégorie",
-        "added": "Question ajoutée",
-        "updated": "Question modifiée",
-        "required": "Indiquez la question et la réponse.",
-        "form": {
-          "question": "Question",
-          "category": "Catégorie",
-          "answer": "Réponse"
-        },
-        "categories": {
-          "all": "Toutes",
-          "admission": "Admission",
-          "training": "Formation",
-          "diplomas": "Diplômes"
-        }
-      }
-    },
-    "publication": {
-      "crumbs": {
-        "contents": "Contenus",
-        "news": "Actualités",
-        "current": "Voir ma publication"
-      },
-      "badge": "Actualité",
-      "publishedOn": "Publié le {{date}}",
-      "views_one": "{{count}} vues",
-      "views_other": "{{count}} vues",
-      "body": "{{school}} ouvre les préinscriptions pour l’année académique 2026 – 2027. Les candidats peuvent déposer leur dossier en ligne sur YIBOLO ou directement au secrétariat. Les places sont limitées dans certaines filières : ne tardez pas !",
-      "fields": "Filières concernées",
-      "deadline": "<b>Date limite d’inscription :</b> {{date}}",
-      "signUp": "S’inscrire maintenant",
-      "details": {
-        "title": "Détails",
-        "category": "Catégorie",
-        "date": "Date",
-        "views": "Vues",
-        "shares": "Partages"
-      },
-      "quickActions": {
-        "title": "Actions rapides",
-        "edit": "Modifier",
-        "copyLink": "Copier le lien public",
-        "linkCopied": "Lien copié",
-        "openNewTab": "Ouvrir dans un nouvel onglet",
-        "delete": "Supprimer la publication",
-        "deleted": "Publication supprimée"
-      },
-      "tipTitle": "Conseil",
-      "tipText": "Partagez vos actualités sur vos réseaux sociaux pour attirer plus de candidats."
-    },
-    "roles": {
-      "admin": {
-        "name": "Administrateur",
-        "description": "Accès complet à l’espace et aux paramètres"
-      },
-      "academicLead": {
-        "name": "Responsable pédagogique",
-        "description": "Formations, programmes, candidatures"
-      },
-      "communication": {
-        "name": "Communication",
-        "description": "Actualités, événements, médias"
-      },
-      "secretariat": {
-        "name": "Secrétariat",
-        "description": "Préinscriptions, dossiers des apprenants"
-      },
-      "readOnly": {
-        "name": "Consultation",
-        "description": "Lecture seule"
-      }
-    },
-    "settings": {
-      "crumbs": {
-        "profile": "Profil de l’établissement",
-        "settings": "Paramètres"
-      },
-      "title": "Paramètres",
-      "subtitle": "Gérez votre compte, la sécurité et les préférences de publication.",
-      "sections": {
-        "account": "Compte et accès",
-        "security": "Sécurité",
-        "notifications": "Notifications",
-        "preferences": "Préférences",
-        "users": "Utilisateurs",
-        "about": "À propos"
-      },
-      "cancel": "Annuler",
-      "cancelled": "Modifications annulées",
-      "save": "Enregistrer les modifications",
-      "saved": "Modifications enregistrées",
-      "tipTitle": "Conseil",
-      "account": {
-        "title": "Compte et accès",
-        "subtitle": "Informations de connexion et gestion de votre compte.",
-        "name": "Nom et prénom",
-        "phone": "Téléphone",
-        "email": "E-mail",
-        "role": "Rôle",
-        "changePhoto": "Changer la photo",
-        "securityTitle": "Sécurité du compte",
-        "changePassword": "Modifier le mot de passe",
-        "changePasswordHint": "Mettez à jour votre mot de passe régulièrement.",
-        "twoFactor": "Authentification à deux facteurs (2FA)",
-        "twoFactorHint": "Renforcez la sécurité de votre compte.",
-        "publishingTitle": "Préférences de publication",
-        "autoPublish": "Publication automatique des contenus validés",
-        "autoPublishHint": "Publier mes actualités et documents sur YIBOLO dès validation.",
-        "notificationsTitle": "Notifications",
-        "notificationsSubtitle": "Choisissez les alertes que vous souhaitez recevoir.",
-        "alerts": {
-          "applications": "Nouvelles candidatures / préinscriptions",
-          "reviews": "Commentaires et avis",
-          "reminders": "Rappels (rentrée, expirations, documents)"
-        },
-        "photoUpdated": "Photo mise à jour",
-        "photoTooBig": "Image trop lourde : 2 Mo au maximum."
-      },
-      "security": {
-        "changePassword": "Modifier le mot de passe",
-        "currentPassword": "Mot de passe actuel",
-        "newPassword": "Nouveau mot de passe",
-        "confirmPassword": "Confirmer le mot de passe",
-        "rules": {
-          "length": "8 caractères minimum",
-          "uppercase": "Une majuscule",
-          "digit": "Un chiffre",
-          "special": "Un caractère spécial"
-        },
-        "invalidPassword": "Le mot de passe ne respecte pas tous les critères.",
-        "passwordUpdated": "Mot de passe mis à jour",
-        "update": "Mettre à jour",
-        "twoFactorTitle": "Double authentification (2FA)",
-        "phoneCode": "Code par téléphone",
-        "enabled": "Activée",
-        "sessionsTitle": "Sessions actives",
-        "currentSession": "Session actuelle",
-        "activityTitle": "Activité de sécurité récente",
-        "wrongCurrent": "Le mot de passe actuel n’est pas le bon.",
-        "mismatch": "Les deux nouveaux mots de passe ne sont pas identiques.",
-        "twoFactorOn": "Double authentification activée",
-        "twoFactorOff": "Double authentification désactivée",
-        "disabled": "Désactivée",
-        "events": {
-          "connexion": "Connexion réussie",
-          "echec": "Tentative échouée",
-          "motDePasse": "Mot de passe modifié"
-        },
-        "noActivity": "Aucune activité enregistrée pour le moment."
-      },
-      "notifications": {
-        "title": "Notifications",
-        "markAllRead": "Tout marquer comme lu",
-        "allMarkedRead": "Tout est marqué comme lu",
-        "tabs": {
-          "all": "Toutes",
-          "unread": "Non lues",
-          "read": "Lues"
-        },
-        "unread": "Non lue",
-        "settingsTitle": "Paramètres de notifications",
-        "switches": {
-          "applications": "Candidatures / Préinscriptions",
-          "downloads": "Téléchargements de documents",
-          "reviews": "Avis et commentaires",
-          "reminders": "Rappels et échéances",
-          "news": "Actualités YIBOLO"
-        },
-        "tipText": "Répondez aux candidatures sous 48 h : c’est le premier critère de satisfaction des candidats.",
-        "items": {
-          "candidature": {
-            "title": "Nouvelle candidature",
-            "text": "Grâce Mballa s’est préinscrite en BTS Comptabilité et Gestion.",
-            "date": "Il y a 15 min"
-          },
-          "document": {
-            "title": "Document téléchargé",
-            "text": "La brochure 2026 – 2027 a été téléchargée 12 fois aujourd’hui.",
-            "date": "Il y a 2 h"
-          },
-          "avis": {
-            "title": "Nouvel avis",
-            "text": "Paul N. a laissé un avis 5★ sur votre établissement.",
-            "date": "Il y a 5 h"
-          },
-          "rappel": {
-            "title": "Rappel – Rentrée académique",
-            "text": "La rentrée a lieu dans 15 jours : pensez à mettre à jour le calendrier.",
-            "date": "Hier"
-          }
-        }
-      },
-      "preferences": {
-        "publishingTitle": "Publication des contenus",
-        "autoPublish": "Publication automatique",
-        "autoPublishHint": "Vos contenus sont publiés dès leur validation",
-        "manualPublish": "Publication manuelle",
-        "manualPublishHint": "Vous choisissez le moment de la mise en ligne",
-        "visibilityTitle": "Visibilité de l’établissement",
-        "showContacts": "Afficher les contacts",
-        "showAddress": "Afficher l’adresse",
-        "showReviews": "Afficher les avis",
-        "languageTitle": "Langue de l’interface",
-        "themeTitle": "Thème d’affichage",
-        "themes": {
-          "clair": "Clair",
-          "sombre": "Sombre",
-          "systeme": "Système"
-        },
-        "darkSoon": "Le thème sombre arrive dans une prochaine version."
-      },
-      "users": {
-        "kpis": {
-          "users": "Utilisateurs",
-          "active": "Comptes actifs",
-          "inactive": "Compte inactif"
-        },
-        "invite": "Inviter un utilisateur",
-        "searchPlaceholder": "Rechercher un utilisateur…",
-        "roleAria": "Rôle",
-        "statusAria": "Statut",
-        "allRoles": "Tous les rôles",
-        "allStatuses": "Tous les statuts",
-        "statuses": {
-          "active": "Actif",
-          "inactive": "Inactif"
-        },
-        "table": {
-          "user": "Utilisateur",
-          "role": "Rôle",
-          "contact": "Contact",
-          "status": "Statut",
-          "lastLogin": "Dernière connexion"
-        },
-        "you": "Vous",
-        "actions": "Actions",
-        "lastLogins": {
-          "0": "Aujourd’hui, 09:12",
-          "1": "Hier, 17:40",
-          "2": "12 nov. 2026",
-          "3": "10 nov. 2026",
-          "4": "02 oct. 2026"
-        },
-        "menu": {
-          "setRole": "Rôle : {{role}}",
-          "roleChanged": "{{name}} est maintenant « {{role}} »",
-          "deactivate": "Désactiver",
-          "deactivated": "{{name}} est désactivé",
-          "activate": "Activer",
-          "activated": "{{name}} est activé",
-          "resend": "Renvoyer l’invitation",
-          "resent": "Invitation renvoyée à {{email}}",
-          "invitedOn": "Invité le {{date}}",
-          "remove": "Retirer de l’espace",
-          "removed": "{{name}} n’a plus accès à l’espace"
-        }
-      },
-      "about": {
-        "tagline": "La plateforme qui connecte la formation, l’expertise, l’emploi et le financement en Afrique centrale.",
-        "pillars": "Formez-vous · Consultez des experts · Recrutez · Trouvez un financement",
-        "missionTitle": "Notre mission",
-        "missionText": "Rendre visible chaque établissement de qualité et aider chaque apprenant à trouver la formation qui lui ouvrira un métier.",
-        "valuesTitle": "Nos valeurs",
-        "values": {
-          "professionalism": "Professionnalisme",
-          "reliability": "Fiabilité",
-          "inclusion": "Inclusion",
-          "innovation": "Innovation"
-        },
-        "supportTitle": "Assistance",
-        "contactSupport": "Contacter le support",
-        "helpCenter": "Centre d’aide (FAQ)",
-        "documentsTitle": "Documents utiles",
-        "documents": {
-          "terms": "Conditions générales d’utilisation",
-          "sales": "Conditions générales de vente",
-          "privacy": "Politique de confidentialité"
-        },
-        "version": "Version <b>{{version}}</b>",
-        "upToDate": "À jour",
-        "lastUpdate": "Dernière mise à jour : {{date}}"
-      }
-    },
-    "invite": {
-      "crumbs": {
-        "settings": "Paramètres",
-        "users": "Utilisateurs",
-        "current": "Inviter un utilisateur"
-      },
-      "title": "Inviter un utilisateur",
-      "subtitle": "Donnez accès à votre espace à un membre de votre équipe.",
-      "name": "Nom et prénom",
-      "namePlaceholder": "Ex. Claire Ndongo",
-      "phone": "Téléphone",
-      "email": "E-mail (optionnel)",
-      "emailPlaceholder": "prenom.nom@ecole.cm",
+    "compte": {
+      "titre": "Compte et accès",
+      "description": "Informations de connexion et gestion de votre compte.",
+      "photoAlt": "Photo de {{nom}}",
+      "changerPhoto": "Changer la photo",
+      "photoFormat": "JPG ou PNG, 2 Mo au maximum.",
+      "photoTropLourde": "Cette photo dépasse 2 Mo : choisissez une photo plus légère.",
+      "photoChangee": "La photo est enregistrée.",
+      "nom": "Nom et prénom",
+      "telephone": "Téléphone",
+      "email": "E-mail",
       "role": "Rôle",
-      "tip": "L’invitation est envoyée par e-mail ou SMS. La personne crée son mot de passe en suivant le lien reçu.",
-      "cancel": "Annuler",
-      "send": "Envoyer l’invitation",
-      "nameRequired": "Indiquez le nom de la personne invitée.",
-      "sent": "Invitation envoyée à {{name}} ({{role}})",
-      "rolesTitle": "Rôles disponibles"
+      "erreurs": {
+        "nom": "Indiquez votre nom et votre prénom.",
+        "telephone": "Indiquez un numéro à 9 chiffres, sans le 0 du début (ex. 690 12 34 56).",
+        "email": "Indiquez une adresse e-mail valide."
+      },
+      "securite": "Sécurité du compte",
+      "motDePasse": "Modifier le mot de passe",
+      "motDePasseAide": "Mettez à jour votre mot de passe régulièrement.",
+      "deuxFacteurs": "Authentification à deux facteurs (2FA)",
+      "deuxFacteursAide": "Renforcez la sécurité de votre compte."
+    },
+    "securite": {
+      "motDePasse": "Modifier le mot de passe",
+      "actuel": "Mot de passe actuel",
+      "nouveau": "Nouveau mot de passe",
+      "confirmation": "Confirmer le mot de passe",
+      "regles": {
+        "longueur": "8 caractères minimum",
+        "majuscule": "Une majuscule",
+        "chiffre": "Un chiffre",
+        "special": "Un caractère spécial"
+      },
+      "mettreAJour": "Mettre à jour",
+      "erreurs": {
+        "actuel": "Indiquez votre mot de passe actuel.",
+        "nouveau": "Le nouveau mot de passe doit respecter les 4 règles ci-dessous.",
+        "confirmation": "Les deux mots de passe ne sont pas identiques.",
+        "incorrect": "Le mot de passe actuel est incorrect."
+      },
+      "motDePasseChange": "Votre mot de passe est modifié.",
+      "deuxFacteursTitre": "Double authentification (2FA)",
+      "codeTelephone": "Code par téléphone",
+      "codeTelephoneAide": "Un code est envoyé au {{numero}} à chaque connexion.",
+      "activee": "Activée",
+      "desactivee": "Désactivée",
+      "deuxFacteursActive": "La double authentification est activée.",
+      "deuxFacteursDesactive": "La double authentification est désactivée.",
+      "sessions": "Sessions actives",
+      "cetAppareil": "Cet appareil, ce navigateur",
+      "sessionActuelle": "Session actuelle",
+      "activite": "Activité de sécurité récente",
+      "aucuneActivite": "Aucune activité enregistrée pour l’instant.",
+      "evenements": {
+        "connexion": "Connexion réussie",
+        "echec": "Tentative échouée",
+        "motDePasse": "Mot de passe modifié"
+      }
+    },
+    "notifications": {
+      "titre": "Notifications",
+      "toutLire": "Tout marquer comme lu",
+      "toutesLues": "Toutes les notifications sont lues.",
+      "filtrer": "Filtrer",
+      "filtres": {
+        "toutes": "Toutes ({{n}})",
+        "nonLues": "Non lues ({{n}})",
+        "lues": "Lues ({{n}})"
+      },
+      "vide": "Aucune notification ici.",
+      "nonLue": "Non lue",
+      "reglages": "Paramètres de notifications",
+      "alertes": {
+        "downloads": {
+          "titre": "Téléchargements de documents",
+          "aide": "Quand vos documents sont téléchargés."
+        },
+        "reviews": {
+          "titre": "Avis et commentaires",
+          "aide": "Quand un visiteur donne son avis sur votre établissement."
+        },
+        "reminders": {
+          "titre": "Rappels et échéances",
+          "aide": "Rentrée et documents qui expirent."
+        },
+        "news": {
+          "titre": "Actualités YIBOLO",
+          "aide": "Nouvelles fonctions et informations importantes."
+        }
+      },
+      "alerteActivee": "Notification activée.",
+      "alerteDesactivee": "Notification désactivée."
+    },
+    "preferences": {
+      "publication": "Publication des contenus",
+      "modes": {
+        "automatique": {
+          "titre": "Publication automatique",
+          "aide": "Vos contenus sont publiés dès leur validation"
+        },
+        "manuelle": {
+          "titre": "Publication manuelle",
+          "aide": "Vous choisissez le moment de la mise en ligne"
+        }
+      },
+      "visibilite": "Visibilité de l’établissement",
+      "visibilites": {
+        "contacts": {
+          "titre": "Afficher les contacts",
+          "aide": "Téléphone, WhatsApp et e-mail sur votre fiche."
+        },
+        "adresse": {
+          "titre": "Afficher l’adresse",
+          "aide": "Adresse et plan d’accès."
+        },
+        "avis": {
+          "titre": "Afficher les avis",
+          "aide": "La note et les avis des visiteurs."
+        }
+      },
+      "langue": "Langue de l’interface"
+    },
+    "utilisateurs": {
+      "titre": "Utilisateurs",
+      "chiffres": {
+        "utilisateurs": "Utilisateurs",
+        "actifs": "Comptes actifs",
+        "inactifs": "Comptes inactifs"
+      },
+      "recherche": "Rechercher un utilisateur…",
+      "rechercheAria": "Rechercher un utilisateur",
+      "role": "Rôle",
+      "statut": "Statut",
+      "tousRoles": "Tous les rôles",
+      "tousStatuts": "Tous les statuts",
+      "inviter": "+ Inviter un utilisateur",
+      "colonnes": {
+        "utilisateur": "Utilisateur",
+        "role": "Rôle",
+        "contact": "Contact",
+        "statut": "Statut",
+        "connexion": "Dernière connexion",
+        "actions": "Actions"
+      },
+      "aucun": "Aucun utilisateur ne correspond à ces critères.",
+      "vous": "Vous",
+      "actionsAria": "Actions pour {{nom}}",
+      "changerRoleTitre": "Changer le rôle de {{nom}}",
+      "menu": {
+        "monCompte": "Modifier mon compte",
+        "changerRole": "Changer de rôle",
+        "desactiver": "Désactiver",
+        "activer": "Activer",
+        "renvoyer": "Renvoyer l’invitation",
+        "retirer": "Retirer de l’espace",
+        "desactive": "Le compte de {{nom}} est désactivé.",
+        "active": "Le compte de {{nom}} est activé.",
+        "inviteLe": "Invité le {{date}}",
+        "renvoyee": "Invitation renvoyée à {{contact}}.",
+        "retire": "{{nom}} est retiré de l’espace.",
+        "roleChange": "{{nom}} est désormais : {{role}}."
+      }
+    },
+    "aPropos": {
+      "accroche": "La plateforme qui connecte la formation, l’expertise, l’emploi et le financement en Afrique centrale.",
+      "piliers": "Formez-vous · Consultez des experts · Recrutez · Trouvez un financement",
+      "mission": "Notre mission",
+      "missionTexte": "Rendre visible chaque établissement de qualité et aider chaque apprenant à trouver la formation qui lui ouvrira un métier.",
+      "valeurs": "Nos valeurs",
+      "listeValeurs": {
+        "professionnalisme": "Professionnalisme",
+        "fiabilite": "Fiabilité",
+        "inclusion": "Inclusion",
+        "innovation": "Innovation"
+      },
+      "assistance": "Assistance",
+      "contacter": "Contacter le support",
+      "centreAide": "Centre d’aide (FAQ)",
+      "documents": "Documents utiles",
+      "listeDocuments": {
+        "cgu": "Conditions générales d’utilisation",
+        "cgv": "Conditions générales de vente",
+        "confidentialite": "Politique de confidentialité"
+      },
+      "version": "Version",
+      "aJour": "À jour",
+      "miseAJour": "Dernière mise à jour : {{date}}"
+    }
+  },
+  "inviter": {
+    "titre": "Inviter un utilisateur",
+    "sousTitre": "Donnez accès à votre espace à un membre de votre équipe.",
+    "miettes": {
+      "parametres": "Paramètres",
+      "utilisateurs": "Utilisateurs"
+    },
+    "personne": "La personne invitée",
+    "nom": "Nom et prénom",
+    "nomExemple": "Ex. Claire Ndongo",
+    "telephone": "Téléphone",
+    "telephoneExemple": "6XX XX XX XX",
+    "email": "E-mail",
+    "emailExemple": "prenom.nom@ecole.cm",
+    "role": "Rôle",
+    "bonASavoir": "Bon à savoir",
+    "bonASavoirTexte": "L’invitation est envoyée par e-mail ou SMS. La personne crée son mot de passe en suivant le lien reçu.",
+    "envoyer": "Envoyer l’invitation",
+    "envoyee": "Invitation envoyée à {{nom}} ({{role}}).",
+    "erreurs": {
+      "nom": "Indiquez le nom et le prénom (2 caractères au moins).",
+      "telephone": "Indiquez un numéro à 9 chiffres, sans le 0 du début (ex. 690 12 34 56).",
+      "email": "Indiquez une adresse e-mail valide, ou laissez le champ vide."
     }
   }
 }

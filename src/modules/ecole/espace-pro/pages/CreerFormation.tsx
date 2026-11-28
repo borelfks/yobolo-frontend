@@ -1,118 +1,99 @@
-import { useState, type ReactNode } from 'react'
+import { useId, useState } from 'react'
 import { useNavigate, useParams } from '@tanstack/react-router'
 import { toast } from 'sonner'
 import { Trans, useTranslation } from 'react-i18next'
-import { Calendar, Check, ChartNoAxesColumnIncreasing, ChevronDown, CircleCheck, Eye, GraduationCap, Lightbulb, Save, Sparkles, X } from 'lucide-react'
-import { ProHeader, ProLabel } from '@/modules/ecole/espace-pro/components/ProBlocks'
-import { Img } from '@/shared/ui/Img'
-import { Modal } from '@/shared/ui/Modal'
-import { proCard, proInput } from '@/modules/ecole/espace-pro/proStyles'
+import { Sparkles } from 'lucide-react'
 import { useMonEcole } from '@/modules/compte/auth/hooks/useSession'
-import { IMAGE_FORMATION, NIVEAUX, PREFIXE_FORMATION_CREEE, codeFormation, modeCours, nomFormation, prefixer, sousCles, texte } from '@/modules/ecole/espace-pro/proData'
-import { data, newId } from '@/data'
-import { useDiplomes, useFormations, useFormationsPro, useNomenclature, useParametres } from '@/data/hooks'
 import { isTypeSlug, slugOfType } from '@/modules/ecole/etablissements/schoolTypes'
-import type { ElementNomenclature, Formation, FormationPro, StatutPublication } from '@/shared/types'
-import { cn } from '@/shared/utils/cn'
+import { data, newId } from '@/data'
+import { useDiplomes, useNomenclature, useParametres } from '@/data/hooks'
+import { ChargementDonnees } from '@/shared/blocs/ChargementDonnees'
+import { Champ, ListeDeroulante } from '@/shared/blocs/Formulaire'
+import { Button } from '@/shared/shadcn/button'
+import { Dialog, DialogContent, DialogTitle } from '@/shared/shadcn/dialog'
+import { Input } from '@/shared/shadcn/input'
+import { Textarea } from '@/shared/shadcn/textarea'
+import { ToggleGroup, ToggleGroupItem } from '@/shared/shadcn/toggle-group'
+import { Lien } from '@/shared/ui/Lien'
 import { shortDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
+import type { ElementNomenclature, Formation, StatutPublication } from '@/shared/types'
+import { CartePro, EntetePro, PiedFormulaire, SquelettePro } from '@/modules/ecole/espace-pro/components/BlocsPro'
+import { ApercuFiche, ChoixNomenclature, ProgressionCreation, TitreNumerote, type Choix } from '@/modules/ecole/espace-pro/components/formations/FormulaireFormation'
+import { useFormationsEcole } from '@/modules/ecole/espace-pro/hooks/useFormationsEcole'
+import { IMAGE_FORMATION, NIVEAUX, PREFIXE_FORMATION_CREEE, codeFormation, modeCours, nomFormation, prefixer, sousCles, texte } from '@/modules/ecole/espace-pro/proData'
 
 /** Valeurs fixes des listes : enregistrées telles quelles, affichées via une clé de traduction. */
-const LEVELS = ['none', 'probatoire', 'bac', 'btsHnd', 'licence'] as const
-const DURATIONS = ['3', '6', '9', '12', '18', '24', '36']
+const NIVEAUX_CLES = ['none', 'probatoire', 'bac', 'btsHnd', 'licence'] as const
+type Niveau = (typeof NIVEAUX_CLES)[number]
+const DUREES = ['3', '6', '9', '12', '18', '24', '36']
 const MODES = ['Jour', 'Soir'] as const
-const MODE_KEYS = { Jour: 'day', Soir: 'evening' } as const
-const CHECKS = ['general', 'organisation', 'description'] as const
-const DATE_LONGUE = { day: '2-digit', month: 'long', year: 'numeric' } as const
-
-type Choix = { value: string; label: string }
+const CLES_MODES = { Jour: 'jour', Soir: 'soir' } as const
+const SANS_OPTION = 'aucune'
+const DATE_LONGUE = { day: 'numeric', month: 'long', year: 'numeric' } as const
 
 /** L'heure d'enregistrement (ISO). */
 const maintenant = () => new Date().toISOString()
 
-function Block({ n, title, children }: { n: number; title: string; children: ReactNode }) {
+/** 4.2 Créer (ou modifier) une formation : nomenclature en cascade, nom composé, organisation, description. */
+export function CreerFormation() {
+  const { t } = useTranslation('pro', { keyPrefix: 'creer' })
+  const { id } = useParams({ strict: false })
+  const titre = id ? t('titreModifier') : t('titre')
   return (
-    <div className="border-b border-line px-5 py-4 last:border-0">
-      <h2 className="mb-3 flex items-center gap-3 text-[20px] font-bold text-navy-900">
-        <span className="grid size-8 place-items-center rounded-full bg-brand-600 text-[16px] text-white">{n}</span>
-        {title}
-      </h2>
-      {children}
+    <div className="flex flex-col gap-2">
+      <EntetePro miettes={[{ label: t('miette'), to: ROUTES.pro.trainings }, { label: titre }]} titre={titre} sousTitre={id ? t('sousTitreModifier') : t('sousTitre')} />
+      <ChargementDonnees fallback={<SquelettePro cartes={3} colonne entete={false} />}>
+        <FormulaireFormation key={id ?? 'nouvelle'} id={id} />
+      </ChargementDonnees>
     </div>
   )
 }
 
-/**
- * Une liste déroulante : la valeur choisie s'affiche dans le champ (en entier sur deux lignes au plus),
- * la vraie liste du navigateur s'ouvre au clic. `groupes` : options regroupées (spécialités par filière).
- */
-function Liste({ id, value, onChange, choix, groupes, vide, disabled }: { id?: string; value: string; onChange: (v: string) => void; choix?: Choix[]; groupes?: { titre: string; choix: Choix[] }[]; vide: string; disabled?: boolean }) {
-  const tous = choix ?? groupes?.flatMap((g) => g.choix) ?? []
-  const libelle = tous.find((c) => c.value === value)?.label
-  return (
-    <span className={cn('relative flex min-h-10 items-center gap-2.5 rounded-lg border border-[#c9d4ea] bg-white px-3.5 py-1.5 text-[15px] focus-within:border-brand-500 focus-within:ring-3 focus-within:ring-brand-100', disabled && 'bg-slate-50')}>
-      <span className={cn('line-clamp-2 flex-1 leading-snug', libelle ? 'text-navy-900' : 'text-ink/60')}>{libelle ?? vide}</span>
-      <ChevronDown className="size-5 shrink-0" aria-hidden />
-      <select id={id} value={value} disabled={disabled} onChange={(e) => onChange(e.target.value)} className="absolute inset-0 cursor-pointer opacity-0 disabled:cursor-not-allowed">
-        <option value="">{vide}</option>
-        {choix?.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}
-        {groupes?.map((g) => (
-          <optgroup key={g.titre} label={g.titre}>
-            {g.choix.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}
-          </optgroup>
-        ))}
-      </select>
-    </span>
-  )
-}
-
-export function CreerFormation() {
-  const { t } = useTranslation('pro')
-  const { id } = useParams({ strict: false })
+function FormulaireFormation({ id }: { id?: string }) {
+  const { t } = useTranslation('pro', { keyPrefix: 'creer' })
+  const { t: tp } = useTranslation('pro')
+  const uid = useId()
   const navigate = useNavigate()
   const { ecole } = useMonEcole()
-  const toutes = useFormations()
-  const lignes = useFormationsPro(ecole.id)
+  const { lignes, toutes } = useFormationsEcole()
   const reglages = useParametres(ecole.id)
   const nomenclature = useNomenclature()
   const element = (eid?: string) => nomenclature.find((x) => x.id === eid)
   const enfants = (parentId: string | undefined, niveau: ElementNomenclature['niveau']) => nomenclature.filter((x) => x.niveau === niveau && (!parentId || x.parentId === parentId))
-  // En édition : la formation enregistrée, sinon la ligne du tableau « Gérer les formations » (img11).
+
+  // En édition : la fiche enregistrée, sinon la ligne du tableau « Gérer les formations ».
   const formation = id ? toutes.find((f) => f.id === id) : undefined
   const ligne = id ? lignes.find((f) => f.id === id) : undefined
-  // Une ligne sans fiche ne connaît pas le mode : ce champ reste à remplir.
-  const edit = formation ?? (ligne ? { ...ligne, dureeMois: Number.parseInt(ligne.duree, 10) || 0, mode: 'Jour & Soir' as const, specialiteId: undefined, optionId: undefined, dateLimite: undefined } : null)
-  // Champs que la fiche ne garde pas (ou pas au format du formulaire) : réglages `formation.<id>.*`, sinon vides.
+  const edit = formation ?? (ligne ? { ...ligne, dureeMois: Number.parseInt(ligne.duree, 10) || 0, mode: 'Jour & Soir' as const, specialiteId: undefined, optionId: undefined } : null)
+  // Champs que la fiche ne garde pas au format du formulaire : réglages `formation.<id>.*`.
   const saisis = id ? sousCles(`formation.${id}`, reglages) : {}
-  // Les diplômes proposés : ceux du type de l'établissement, dans la base.
+  // Les diplômes proposés : ceux du type de l'établissement.
   const slug = slugOfType(ecole.type)
   const diplomes = useDiplomes(isTypeSlug(slug) ? slug : 'autres').map((d) => d.nom)
-  // La nomenclature : en édition, on remonte de la spécialité au secteur.
   const specDepart = element(edit?.specialiteId)
   const filiereDepart = element(specDepart?.parentId)
   const domaineDepart = element(filiereDepart?.parentId)
+
   const [diplome, setDiplome] = useState(edit?.diplome ?? diplomes[0] ?? '')
   const [secteur, setSecteur] = useState(domaineDepart?.parentId ?? '')
   const [domaine, setDomaine] = useState(domaineDepart?.id ?? '')
   const [specialite, setSpecialite] = useState(specDepart?.id ?? '')
   const [option, setOption] = useState(edit?.optionId ?? '')
-  const [niveau, setNiveau] = useState<(typeof LEVELS)[number]>(() => LEVELS.find((l) => l === saisis.niveau) ?? 'bac')
+  const [niveau, setNiveau] = useState<Niveau>(() => NIVEAUX_CLES.find((l) => l === saisis.niveau) ?? 'bac')
   const [duree, setDuree] = useState(edit?.dureeMois ? String(edit.dureeMois) : '')
   const [modes, setModes] = useState<string[]>(() => {
     const m = saisis.modes
-    if (typeof m === 'string') return m ? m.split(',').filter((x) => x === 'Jour' || x === 'Soir') : []
+    if (typeof m === 'string') return m.split(',').filter((x) => x === 'Jour' || x === 'Soir')
     return edit ? (edit.mode === 'Jour & Soir' ? ['Jour', 'Soir'] : [edit.mode]) : ['Jour', 'Soir']
   })
-  // En édition, les champs reprennent la formation enregistrée (sinon, enregistrer sans les retaper les viderait).
   const [dateLimite, setDateLimite] = useState(() => texte(saisis, 'dateLimite', edit?.dateLimite ?? ''))
   const [description, setDescription] = useState(() => texte(saisis, 'description', formation?.description ?? ''))
+  const [erreurs, setErreurs] = useState<Record<string, string>>({})
   const [apercu, setApercu] = useState(false)
+  const [enCours, setEnCours] = useState<StatutPublication | null>(null)
 
-  // Les listes, en cascade : secteur › domaine › spécialité (regroupées par filière) › option.
-  const choix = (xs: ElementNomenclature[]) => xs.map((x) => ({ value: x.id, label: x.nom }))
-  const secteurs = choix(enfants(undefined, 'secteur'))
-  const domaines = secteur ? choix(enfants(secteur, 'domaine')) : []
-  const groupesSpecialites = domaine ? enfants(domaine, 'filiere').map((f) => ({ titre: t('creer.fields.fieldGroup', { name: f.nom }), choix: choix(enfants(f.id, 'specialite')) })) : []
+  const choix = (xs: ElementNomenclature[]): Choix[] => xs.map((x) => ({ value: x.id, label: x.nom }))
   const options = specialite ? choix(enfants(specialite, 'option')) : []
   const spec = element(specialite)
   const filiere = element(spec?.parentId)
@@ -120,11 +101,17 @@ export function CreerFormation() {
   // Le nom de la formation : composé à partir du diplôme, de la spécialité et de l'option.
   const nom = spec ? nomFormation(diplome, spec.nom, opt?.nom) : (edit?.nom ?? '')
   const chemin = [element(secteur)?.nom, element(domaine)?.nom, filiere?.nom].filter(Boolean).join(' › ')
+  const faits = { general: !!diplome && !!spec, organisation: !!duree && modes.length > 0 && !!dateLimite, description: description.trim().length >= 10 }
+  const libelleDuree = (d: string) => tp('commun.duree', { count: Number(d) })
+  const apercuLignes: [string, string][] = [
+    [t('apercu.diplome'), diplome || '—'],
+    [t('apercu.filiere'), filiere?.nom ?? edit?.filiere ?? '—'],
+    [t('apercu.duree'), duree ? libelleDuree(duree) : '—'],
+    [t('apercu.cours'), modes.length ? MODES.filter((m) => modes.includes(m)).map((m) => t(`modes.${CLES_MODES[m]}`)).join(' & ') : '—'],
+    [t('apercu.dateLimite'), dateLimite ? shortDate(dateLimite, DATE_LONGUE) : '—'],
+  ]
 
-  /**
-   * Enregistre la formation (fiche) et sa ligne du tableau « Gérer les formations ».
-   * « Publiée » tout de suite (pas de validation par YIBOLO) ; sinon « Brouillon ».
-   */
+  /** Enregistre la fiche et sa ligne du tableau. « Publiée » tout de suite (pas de validation par YIBOLO) ; sinon « Brouillon ». */
   const enregistrer = async (statut: StatutPublication) => {
     const fid = id ?? newId(PREFIXE_FORMATION_CREEE)
     const code = edit?.code ?? codeFormation(nom, diplome)
@@ -150,149 +137,139 @@ export function CreerFormation() {
       publieeLe: statut === 'Publiée' ? (formation?.publieeLe ?? maintenant()) : formation?.publieeLe,
     }
     await data.put('formations', fiche)
-    const champs = { nom, code, filiere: nomFiliere, diplome, duree: `${duree} mois`, dateLimite: dateLimite || undefined, statut }
+    const champs = { nom, code, filiere: nomFiliere, diplome, duree: duree ? `${duree} mois` : '', dateLimite: dateLimite || undefined, statut }
     if (ligne) await data.update('formationsPro', fid, champs)
-    else await data.create('formationsPro', { id: fid, etablissementId: ecole.id, ton: 'blue', rentree: '—', ...champs } satisfies FormationPro)
-    await data.put('parametres', {
-      id: ecole.id,
-      valeurs: { ...reglages, ...prefixer(`formation.${fid}`, { niveau, modes: modes.join(','), dateLimite, description }) },
-    })
+    else await data.create('formationsPro', { id: fid, etablissementId: ecole.id, ton: 'blue', rentree: '—', ...champs })
+    await data.put('parametres', { id: ecole.id, valeurs: { ...reglages, ...prefixer(`formation.${fid}`, { niveau, modes: modes.join(','), dateLimite, description }) } })
   }
-  const done: Record<(typeof CHECKS)[number], boolean> = {
-    general: !!diplome && !!spec,
-    organisation: !!duree && modes.length > 0 && dateLimite !== '',
-    description: description.trim().length >= 10,
-  }
-  const checks = CHECKS.map((c) => ({ id: c, ok: done[c] }))
-  const pct = Math.round((checks.filter((c) => c.ok).length / checks.length) * 100)
-  const toggleMode = (m: string) => setModes(modes.includes(m) ? modes.filter((x) => x !== m) : [...modes, m])
+
   // Publier demande tout le formulaire ; un brouillon demande au moins la spécialité (le nom).
-  const publier = async () => {
-    if (checks.some((c) => !c.ok)) return void toast.error(t('creer.errors.incomplete'))
-    await enregistrer('Publiée')
-    toast.success(t('creer.actions.published'))
-    navigate({ href: ROUTES.pro.trainings })
+  const envoyer = async (statut: StatutPublication) => {
+    const e: Record<string, string> = {}
+    if (!spec && !nom) e.specialite = t('erreurs.specialite')
+    if (statut === 'Publiée') {
+      if (!diplome) e.diplome = t('erreurs.diplome')
+      if (!spec) e.specialite = t('erreurs.specialite')
+      if (!duree) e.duree = t('erreurs.duree')
+      if (!dateLimite) e.dateLimite = t('erreurs.dateLimite')
+      if (modes.length === 0) e.modes = t('erreurs.modes')
+      if (description.trim().length < 10) e.description = t('erreurs.description')
+    }
+    setErreurs(e)
+    if (Object.keys(e).length > 0) return void toast.error(t('erreurs.corriger'))
+    setEnCours(statut)
+    try {
+      await enregistrer(statut)
+      toast.success(t(statut === 'Publiée' ? 'publiee' : 'brouillon'))
+      void navigate({ href: ROUTES.pro.trainings })
+    } finally {
+      setEnCours(null)
+    }
   }
-  const brouillon = async () => {
-    if (!nom) return void toast.error(t('creer.errors.noSpeciality'))
-    await enregistrer('Brouillon')
-    toast.success(t('creer.actions.draftSaved'))
-    navigate({ href: ROUTES.pro.trainings })
-  }
-  const side = 'flex h-11 w-full items-center justify-center gap-2.5 rounded-full text-[16px] font-semibold'
+
+  const liste = (cle: string, label: string, requis: boolean, valeur: string, onChange: (v: string) => void, groupes: { titre?: string; choix: Choix[] }[], vide: string) => (
+    <Champ id={`${uid}-${cle}`} label={label} requis={requis} erreur={erreurs[cle]}>
+      <ChoixNomenclature id={`${uid}-${cle}`} valeur={valeur} onChange={onChange} groupes={groupes} vide={vide} invalide={!!erreurs[cle]} />
+    </Champ>
+  )
+
   return (
-    <div className="space-y-3.5">
-      <ProHeader
-        crumbs={[{ label: t('creer.crumb'), to: ROUTES.pro.trainings }, { label: edit ? t('creer.editTitle') : t('creer.createTitle') }]}
-        icon={<GraduationCap />}
-        title={edit ? t('creer.editTitle') : t('creer.createTitle')}
-        subtitle={edit ? t('creer.editSubtitle') : t('creer.createSubtitle')}
-        actions={<span />}
-      />
-      <div className="grid gap-4 xl:grid-cols-[1fr_336px]">
-        <div className={proCard}>
-          {/* Le nom affiché, composé à partir des choix */}
-          <div className="border-b border-line px-5 py-4" aria-live="polite">
-            <p className="flex items-center gap-2 text-[13.5px] font-semibold text-brand-700"><Sparkles className="size-4" aria-hidden />{t('creer.name.label')}</p>
-            {nom ? (
-              <>
-                <p className="mt-1 text-[20px] leading-snug font-bold text-navy-900">{nom}</p>
-                {chemin && <p className="mt-0.5 text-[13.5px] text-muted-foreground">{chemin}</p>}
-              </>
-            ) : (
-              <p className="mt-1 text-[15px] text-muted-foreground">{t('creer.name.empty')}</p>
-            )}
+    <div className="flex flex-col gap-2 lg:grid lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start lg:gap-4">
+      <div className="flex min-w-0 flex-col gap-2">
+        <section aria-live="polite" className="flex flex-col gap-1.5 border-y border-border bg-card p-5 lg:rounded-lg lg:border">
+          <span className="flex items-center gap-1.5 text-meta font-bold text-primary">
+            <Sparkles className="size-4" aria-hidden />
+            {t('nom.label')}
+          </span>
+          {spec || nom ? (
+            <>
+              <b className="text-xl leading-snug text-foreground">{nom}</b>
+              {chemin && <span className="text-meta text-muted-foreground">{chemin}</span>}
+            </>
+          ) : (
+            <span className="text-sm text-muted-foreground">{t('nom.vide')}</span>
+          )}
+        </section>
+        <CartePro titre={<TitreNumerote n={1}>{t('blocs.general')}</TitreNumerote>}>
+          <div className="grid gap-3.5 lg:grid-cols-2">
+            {liste('diplome', t('champs.diplome'), true, diplome, setDiplome, [{ choix: diplomes.map((d) => ({ value: d, label: d })) }], t('champs.choisir'))}
+            {liste('secteur', t('champs.secteur'), true, secteur, (v) => (setSecteur(v), setDomaine(''), setSpecialite(''), setOption('')), [{ choix: choix(enfants(undefined, 'secteur')) }], t('champs.choisir'))}
+            {liste('domaine', t('champs.domaine'), true, domaine, (v) => (setDomaine(v), setSpecialite(''), setOption('')), [{ choix: secteur ? choix(enfants(secteur, 'domaine')) : [] }], secteur ? t('champs.choisir') : t('champs.secteurDabord'))}
+            {liste('specialite', t('champs.specialite'), true, specialite, (v) => (setSpecialite(v), setOption('')), domaine ? enfants(domaine, 'filiere').map((f) => ({ titre: t('champs.groupeFiliere', { nom: f.nom }), choix: choix(enfants(f.id, 'specialite')) })) : [], domaine ? t('champs.choisir') : t('champs.domaineDabord'))}
+            {liste('option', t('champs.option'), false, option, (v) => setOption(v === SANS_OPTION ? '' : v), [{ choix: options.length ? [{ value: SANS_OPTION, label: t('champs.sansOption') }, ...options] : [] }], specialite && options.length === 0 ? t('champs.aucuneOption') : t('champs.facultatif'))}
+            {liste('niveau', t('champs.niveau'), true, niveau, (v) => setNiveau(NIVEAUX_CLES.find((l) => l === v) ?? 'bac'), [{ choix: NIVEAUX_CLES.map((l) => ({ value: l, label: t(`niveaux.${l}`) })) }], t('champs.choisir'))}
           </div>
-          <Block n={1} title={t('creer.blocks.general')}>
-            <div className="grid gap-x-5 gap-y-3 md:grid-cols-2">
-              <label><ProLabel required>{t('creer.fields.diploma')}</ProLabel><Liste value={diplome} onChange={setDiplome} choix={diplomes.map((d) => ({ value: d, label: d }))} vide={t('creer.fields.choose')} /></label>
-              <label><ProLabel required>{t('creer.fields.sector')}</ProLabel><Liste value={secteur} onChange={(v) => (setSecteur(v), setDomaine(''), setSpecialite(''), setOption(''))} choix={secteurs} vide={t('creer.fields.choose')} /></label>
-              <label><ProLabel required>{t('creer.fields.domain')}</ProLabel><Liste value={domaine} onChange={(v) => (setDomaine(v), setSpecialite(''), setOption(''))} choix={domaines} disabled={!secteur} vide={secteur ? t('creer.fields.choose') : t('creer.fields.sectorFirst')} /></label>
-              <label><ProLabel required>{t('creer.fields.speciality')}</ProLabel><Liste value={specialite} onChange={(v) => (setSpecialite(v), setOption(''))} groupes={groupesSpecialites} disabled={!domaine} vide={domaine ? t('creer.fields.choose') : t('creer.fields.domainFirst')} /></label>
-              <label><ProLabel>{t('creer.fields.option')}</ProLabel><Liste value={option} onChange={setOption} choix={options} disabled={options.length === 0} vide={specialite && options.length === 0 ? t('creer.fields.noOption') : t('creer.fields.optional')} /></label>
-              <label><ProLabel required>{t('creer.fields.level')}</ProLabel><Liste value={niveau} onChange={(v) => setNiveau(LEVELS.find((l) => l === v) ?? 'bac')} choix={LEVELS.map((l) => ({ value: l, label: t(`creer.levels.${l}`) }))} vide={t('creer.fields.choose')} /></label>
-            </div>
-          </Block>
-          <Block n={2} title={t('creer.blocks.organisation')}>
-            <div className="grid gap-x-5 gap-y-3 md:grid-cols-[0.8fr_1fr_1.1fr]">
-              <label><ProLabel required>{t('creer.fields.duration')}</ProLabel><Liste value={duree} onChange={setDuree} choix={DURATIONS.map((d) => ({ value: d, label: t('duration', { count: Number(d) }) }))} vide={t('creer.fields.choose')} /></label>
-              <div>
-                <ProLabel required>{t('creer.fields.mode')}</ProLabel>
-                <div className="flex h-10 items-center gap-5 text-[15px] text-navy-900">
-                  {MODES.map((m) => (
-                    <label key={m} className="flex cursor-pointer items-center gap-2">
-                      <input type="checkbox" checked={modes.includes(m)} onChange={() => toggleMode(m)} className="size-5 accent-brand-600" />
-                      {t(`creer.modes.${MODE_KEYS[m]}`)}
-                    </label>
-                  ))}
-                </div>
-              </div>
-              <label>
-                <ProLabel required>{t('creer.fields.deadline')}</ProLabel>
-                <span className="relative block">
-                  <Calendar className="pointer-events-none absolute top-1/2 left-3 size-5 -translate-y-1/2 text-navy-800" aria-hidden />
-                  <input type="date" className={cn(proInput, 'pl-10')} value={dateLimite} onChange={(e) => setDateLimite(e.target.value)} />
-                </span>
-              </label>
-            </div>
-          </Block>
-          <Block n={3} title={t('creer.blocks.description')}>
-            <label>
-              <ProLabel required>{t('creer.fields.presentation')}</ProLabel>
-              <span className="relative block">
-                <textarea rows={3} maxLength={300} value={description} onChange={(e) => setDescription(e.target.value)} className="w-full resize-none rounded-lg border border-[#c9d4ea] px-3.5 py-2.5 text-[15px] text-ink outline-none focus:border-brand-500" />
-              </span>
-              <span className="mt-1 block text-right text-[13px] text-ink/70">{description.length} / 300</span>
-            </label>
-          </Block>
-        </div>
-        <aside className="space-y-4">
-          <div className={cn(proCard, 'p-4')}>
-            <h2 className="flex items-center gap-2.5 text-[20px] font-bold text-navy-900"><ChartNoAxesColumnIncreasing className="size-7 text-brand-600" />{t('creer.progress.title')}</h2>
-            <div className="mt-3 flex items-center gap-3">
-              <span className="h-3 flex-1 overflow-hidden rounded-full bg-[#e6ecf7]"><span className="block h-full rounded-full bg-emerald-600" style={{ width: `${pct}%` }} /></span>
-              <b className="text-[15px] text-navy-900">{t('creer.progress.percent', { pct })}</b>
-            </div>
-            <ul className="mt-3 space-y-2">
-              {checks.map((c) => (
-                <li key={c.id} className="flex items-center gap-3 text-[15px] text-navy-900">
-                  {c.ok ? <CircleCheck className="size-5 fill-emerald-600 text-white" aria-label={t('creer.progress.done')} /> : <span className="size-5 rounded-full border-2 border-brand-600" aria-label={t('creer.progress.todo')} />}
-                  {t(`creer.progress.${c.id}`)}
-                </li>
+        </CartePro>
+        <CartePro titre={<TitreNumerote n={2}>{t('blocs.organisation')}</TitreNumerote>}>
+          <div className="grid gap-3.5 lg:grid-cols-2">
+            <Champ id={`${uid}-duree`} label={t('champs.duree')} requis erreur={erreurs.duree}>
+              <ListeDeroulante id={`${uid}-duree`} valeur={duree} onChange={setDuree} placeholder={t('champs.choisir')} invalide={!!erreurs.duree} options={DUREES.map((d) => ({ value: d, label: libelleDuree(d) }))} />
+            </Champ>
+            <Champ id={`${uid}-date`} label={t('champs.dateLimite')} requis erreur={erreurs.dateLimite}>
+              <Input id={`${uid}-date`} type="date" value={dateLimite} onChange={(e) => setDateLimite(e.target.value)} aria-invalid={!!erreurs.dateLimite || undefined} />
+            </Champ>
+          </div>
+          <fieldset className="flex flex-col gap-2">
+            <legend className="mb-2 text-sm font-bold text-foreground">
+              {t('champs.typeCours')} <span className="text-destructive">*</span>
+            </legend>
+            <ToggleGroup type="multiple" variant="outline" size="lg" value={modes} onValueChange={setModes} className="flex-wrap">
+              {MODES.map((m) => (
+                <ToggleGroupItem key={m} value={m}>
+                  {t(`modes.${CLES_MODES[m]}`)}
+                </ToggleGroupItem>
               ))}
-            </ul>
-          </div>
-          <div className="rounded-2xl border border-amber-100 bg-[#fff6e3] p-4">
-            <h2 className="flex items-center gap-2.5 text-[20px] font-bold text-navy-900"><Lightbulb className="size-7 fill-amber-300 text-amber-500" />{t('creer.tips.title')}</h2>
-            <ul className="mt-2 list-disc space-y-1 pl-9 text-[14.5px] text-navy-900 marker:text-amber-500">
-              <li><Trans t={t} i18nKey="creer.tips.required" components={{ red: <span className="text-rose-500" /> }} /></li>
-              <li>{t('creer.tips.accurate')}</li>
-              <li>{t('creer.tips.published')}</li>
-            </ul>
-          </div>
-          <div className={cn(proCard, 'space-y-2.5 p-3')}>
-            <button type="button" onClick={() => void publier()} className={cn(side, 'bg-brand-600 text-white hover:bg-brand-700')}><Check className="size-5" strokeWidth={3} />{t('creer.actions.saveContinue')}</button>
-            <button type="button" onClick={() => void brouillon()} className={cn(side, 'border-2 border-brand-600/60 text-navy-800 hover:bg-brand-50')}><Save className="size-5" />{t('creer.actions.saveDraft')}</button>
-            <button type="button" onClick={() => setApercu(true)} className={cn(side, 'border-2 border-brand-600/60 text-navy-800 hover:bg-brand-50')}><Eye className="size-5" />{t('creer.actions.preview')}</button>
-            <button type="button" onClick={() => navigate({ href: ROUTES.pro.trainings })} className={cn(side, 'border-2 border-brand-600/60 text-navy-800 hover:bg-brand-50')}><X className="size-5" />{t('creer.actions.cancel')}</button>
-          </div>
-        </aside>
+            </ToggleGroup>
+            {erreurs.modes && <p className="text-xs font-semibold text-destructive">{erreurs.modes}</p>}
+          </fieldset>
+        </CartePro>
+        <CartePro titre={<TitreNumerote n={3}>{t('blocs.description')}</TitreNumerote>}>
+          <Champ id={`${uid}-desc`} label={t('champs.presentation')} requis erreur={erreurs.description}>
+            <Textarea id={`${uid}-desc`} rows={4} maxLength={300} value={description} onChange={(e) => setDescription(e.target.value)} aria-invalid={!!erreurs.description || undefined} />
+            <span className="text-right text-xs font-medium text-muted-foreground">{tp('profil.general.caracteres', { n: description.length, max: 300 })}</span>
+          </Champ>
+        </CartePro>
+        <PiedFormulaire>
+          <Button asChild variant="outline">
+            <Lien to={ROUTES.pro.trainings}>{tp('commun.annuler')}</Lien>
+          </Button>
+          <Button variant="outline" onClick={() => setApercu(true)}>
+            {t('actions.apercu')}
+          </Button>
+          <Button variant="secondary" loading={enCours === 'Brouillon'} onClick={() => void envoyer('Brouillon')}>
+            {t('actions.brouillon')}
+          </Button>
+          <Button loading={enCours === 'Publiée'} onClick={() => void envoyer('Publiée')}>
+            {t('actions.continuer')}
+          </Button>
+        </PiedFormulaire>
       </div>
-      <Modal open={apercu} onClose={() => setApercu(false)} title={t('creer.preview.title')} size="lg" icon={<Eye className="mt-0.5 size-5 text-brand-600" />}>
-        <div className="space-y-3">
-          <Img src={formation?.image ?? IMAGE_FORMATION} alt="" className="h-40 w-full rounded-xl" />
-          <p className="text-xl font-bold text-navy-900">{nom || t('creer.preview.untitled')}</p>
-          <p className="text-sm text-muted-foreground">{ecole.nom} · {ecole.ville} – {ecole.quartier}</p>
-          <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 text-[14.5px] text-navy-900">
-            <dt className="font-semibold">{t('creer.preview.diploma')}</dt><dd>{diplome || '—'}</dd>
-            <dt className="font-semibold">{t('creer.preview.field')}</dt><dd>{chemin || '—'}</dd>
-            <dt className="font-semibold">{t('creer.preview.duration')}</dt><dd>{duree ? t('creer.preview.months', { count: Number(duree) }) : '—'}</dd>
-            <dt className="font-semibold">{t('creer.preview.mode')}</dt><dd>{modes.length ? modes.join(' & ') : '—'}</dd>
-            <dt className="font-semibold">{t('creer.preview.deadline')}</dt><dd>{dateLimite ? shortDate(dateLimite, DATE_LONGUE) : '—'}</dd>
-          </dl>
-          {description && <p className="text-sm leading-relaxed text-ink/85">{description}</p>}
-        </div>
-      </Modal>
+      <aside className="flex min-w-0 flex-col gap-2 lg:sticky lg:top-[84px]">
+        <ProgressionCreation
+          etapes={[
+            { nom: t('blocs.general'), faite: faits.general },
+            { nom: t('blocs.organisation'), faite: faits.organisation },
+            { nom: t('blocs.description'), faite: faits.description },
+          ]}
+        />
+        <CartePro titre={t('bonASavoir.titre')} serree>
+          <p className="text-sm text-foreground-soft">
+            <Trans t={t} i18nKey="bonASavoir.requis" components={{ req: <span className="text-destructive" /> }} />
+          </p>
+          <p className="text-sm text-foreground-soft">{t('bonASavoir.exact')}</p>
+          <p className="text-sm text-foreground-soft">{t('bonASavoir.publiee')}</p>
+        </CartePro>
+        <CartePro titre={t('apercu.titre')} serree>
+          <ApercuFiche nom={nom || t('apercu.sansNom')} etablissement={ecole.nom} lignes={apercuLignes} />
+        </CartePro>
+      </aside>
+      <Dialog open={apercu} onOpenChange={setApercu}>
+        <DialogContent className="sm:max-w-md">
+          <DialogTitle>{t('apercu.titre')}</DialogTitle>
+          <ApercuFiche nom={nom || t('apercu.sansNom')} etablissement={ecole.nom} lignes={apercuLignes} />
+          {description && <p className="text-sm leading-relaxed text-foreground-soft">{description}</p>}
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

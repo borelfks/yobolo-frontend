@@ -115,3 +115,21 @@ export const IMAGES_ACTUALITE = {
   results: '/images/maquette/actu-ceremonie.jpg',
 } as const
 
+
+/**
+ * Le formulaire du profil, partagé par ses onglets : la valeur saisie (pas
+ * encore enregistrée), sinon la valeur enregistrée (réglages `profil.*`),
+ * sinon celle de la fiche.
+ */
+export type ProfilForm = {
+  texte: (cle: string, defaut: string) => string
+  oui: (cle: string, defaut: boolean) => boolean
+  changer: (cle: string, v: string | boolean) => void
+  /** Valeur enregistrée seulement (aperçu de la page publique). */
+  enregistre: (cle: string, defaut: string) => string
+  /** Message d'erreur d'un champ, après un essai d'enregistrement. */
+  erreur: (cle: string) => string | undefined
+}
+
+/** « +237 690 12 34 56 » → « 690 12 34 56 » (le « +237 » est dans sa case). */
+export const sansIndicatif = (tel: string) => tel.replace(/^\+?237\s*/, '')
