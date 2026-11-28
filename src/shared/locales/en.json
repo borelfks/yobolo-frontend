@@ -33,22 +33,12 @@
     "signUp": "Create an account"
   },
   "footer": {
-    "tagline": "The platform for training, expertise and employment in Central Africa.",
-    "city": "Yaoundé, Cameroon",
     "columns": {
-      "school": "School",
-      "institutions": "Institutions",
       "account": "My account"
     },
     "links": {
       "ipes": "IPES",
-      "drivingSchools": "Driving schools",
-      "favorites": "My favourites",
-      "proSpace": "IPES professional space",
-      "listSchool": "List my school",
-      "allSchools": "All schools",
-      "signIn": "Sign in",
-      "signUp": "Create an account"
+      "favorites": "My favourites"
     }
   },
   "pro": {

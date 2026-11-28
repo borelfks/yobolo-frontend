@@ -1,4 +1,5 @@
 import { SectionBadges, SectionBoutons, SectionChamps, SectionCouleurs, SectionTexte } from '@/modules/design-system/components/SectionsBase'
+import { SectionCadres, SectionComplements } from '@/modules/design-system/components/SectionsComplements'
 import { SectionFormulaires } from '@/modules/design-system/components/SectionsFormulaires'
 import { SectionChargement, SectionDonnees, SectionEtats, SectionGraphiques, SectionNavigation, SectionSurfaces } from '@/modules/design-system/components/SectionsBlocs'
 
@@ -11,10 +12,12 @@ const SOMMAIRE = [
   ['formulaires', 'Marque et formulaires'],
   ['navigation', 'Navigation'],
   ['surfaces', 'Menus et fenêtres'],
+  ['complements', 'Cartes, bulles et listes'],
   ['donnees', 'Tableau'],
   ['graphiques', 'Graphiques'],
   ['chargement', 'Chargement'],
   ['etats', 'États et erreurs'],
+  ['cadres', 'Cadres et médias'],
 ] as const
 
 /**
@@ -54,10 +57,12 @@ export function DesignSystem() {
           <SectionFormulaires />
           <SectionNavigation />
           <SectionSurfaces />
+          <SectionComplements />
           <SectionDonnees />
           <SectionGraphiques />
           <SectionChargement />
           <SectionEtats />
+          <SectionCadres />
         </main>
       </div>
     </div>

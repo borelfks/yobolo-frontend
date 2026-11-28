@@ -36,45 +36,23 @@
     "jourSoir": "Jour & Soir"
   },
   "blocks": {
-    "verified": "Établissement vérifié",
     "search": "Rechercher",
-    "allHint": "Toutes",
     "card": {
       "reviews_one": "({{count}} avis)",
       "reviews_other": "({{count}} avis)",
       "seeTrainings": "Voir les formations",
       "seeProfile": "Voir le profil"
     },
-    "formationRow": {
-      "dayAndEvening": "Jour & soir",
-      "months_one": "{{count}} mois",
-      "months_other": "{{count}} mois",
-      "seeDetails": "Voir les détails"
-    },
     "results": {
-      "sortBy": "Trier par :",
-      "sortByLabel": "Trier par",
       "sort": {
-        "pertinence": "Pertinence",
-        "bestRated": "Mieux notés",
-        "newest": "Plus récents"
+        "pertinence": "Pertinence"
       }
-    },
-    "resetFilters": "Réinitialiser les filtres",
-    "map": {
-      "see": "Voir sur la carte →"
     }
   },
   "hub": {
     "title": "Écoles & Centres de formation",
     "subtitle": "Trouvez l’établissement adapté à votre projet de formation et de carrière.",
-    "features": {
-      "verified": "Établissements vérifiés",
-      "certified": "Formations certifiantes",
-      "everywhere": "Partout au Cameroun"
-    },
     "tiles": {
-      "all": "Toutes les écoles",
       "ipes": "IPES",
       "cfp": "CFP",
       "autoEcoles": "Auto-écoles",
@@ -86,10 +64,7 @@
       "locationHint": "Région, ville, quartier",
       "type": "Type d’école",
       "typeHint": "IPES, CFP, Auto-école, Autre"
-    },
-    "found": "{{n}} établissements trouvés",
-    "empty": "Aucun établissement ne correspond à cette recherche.",
-    "paginationDynamic": "Affichage de {{from}} à {{to}} sur {{total}} établissements"
+    }
   },
   "listing": {
     "crumb": "École",
@@ -135,7 +110,6 @@
       "placeholderListe": "Rechercher {{item}}, une formation…",
       "placeholder": "Rechercher {{item}}, une formation..."
     },
-    "found": "{{n}} {{pluriel}} trouvés",
     "liste": {
       "empty": "Aucun établissement ne correspond à « {{q}} ».",
       "pagination": "Affichage de 1 à {{shown}} sur {{total}}"
@@ -194,16 +168,8 @@
   },
   "shared": {
     "school": "École",
-    "verified": "Établissement vérifié",
-    "ratingCount_one": "({{count}} avis)",
-    "ratingCount_other": "({{count}} avis)",
-    "preRegisterNow": "Préinscrire maintenant",
-    "inFavorites": "Dans vos favoris",
-    "addToFavorites": "Ajouter aux favoris",
     "months_one": "{{count}} mois",
     "months_other": "{{count}} mois",
-    "sortBy": "Trier par :",
-    "sortByAria": "Trier par",
     "types": {
       "ipes": "IPES",
       "cfp": "CFP",
@@ -394,7 +360,6 @@
       "admission": "Conditions d’admission",
       "debouches": "Débouchés"
     },
-    "breadcrumbFormations": "Formations",
     "badge": "Formation",
     "aside": {
       "contact": "Contacter l’établissement",

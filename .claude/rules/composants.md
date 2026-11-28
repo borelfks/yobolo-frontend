@@ -35,6 +35,9 @@
 | Page message (404, erreur, hors connexion, accès refusé) | `MessagePage` |
 | Bandeau hors connexion | `BandeauHorsLigne` (déjà posé) |
 | Logo | `MarqueYibolo` : **exactement le logo de la landing** (carré bleu 24 px, « Yibolo » en Geist, devise « Apprendre · Évoluer · Réussir » dessous à partir de `sm` ; `surFonce` sur fond sombre, `suffixe` pour un badge), `SymboleYibolo` (`Marque.tsx`, jetons `marque`). Le même dans yibolo-admin ; seule la landing gelée garde sa copie `LandingLogo` |
+| Cadre de connexion (formulaire à gauche, photo à droite ; front et admin) | `CadreConnexion` (`logo`, `retour` facultatif, `photo`, `titre`, `points`) |
+| Pages de compte (menu de 240 px, puces sur téléphone) | `CadreCompte`, `CarteCompte` (`danger`), `EnTeteCompte`, `PucesCompte` (`CadreCompte.tsx`) |
+| Photos et vidéos en grand | `VisionneuseMedias` (`Visionneuse.tsx`) |
 | Langue | `ChoixLangue` (`auth` : écrans de connexion ; `compact` : globe seul) |
 | Champ de formulaire | `Champ` (libellé, astérisque, « (facultatif) », aide ou erreur), `ChampTexte` (48 px), `ChampTelephone` (+237), `ChampMotDePasse` (Afficher / Masquer), `JaugeMotDePasse`, `CaseACocher`, `ListeDeroulante` (`Formulaire.tsx`) |
 | Message dans un formulaire · étapes · pièce à joindre | `Encadre` (`info`, `succes`, `erreur`) · `BarreEtapes` · `PieceAJoindre` (`Formulaire.tsx`) |
@@ -55,7 +58,7 @@
 | Connexion · inscription et mot de passe oublié | `AuthShell` · `CadreAuth` + `CarteAuth` ; dans `modules/compte/auth/components/` : `TitreAuth`, `ChoixProfil`, `ChoixTypeEtablissement`, `NavigationEtapes`, `VerificationCode` |
 | Aide et contact | `BandeauAide`, `ThemesAide`, `QuestionsAide`, `ContactAide`, `CartePage` (`modules/pages/components/Aide.tsx`) |
 
-Anciens composants (`src/shared/ui/`, `src/shared/forms/`) : servent encore aux écrans pas refaits ; on ne s'en sert plus pour un écran neuf ; on les supprime quand plus rien ne les importe.
+Anciens composants (`src/shared/ui/`, `src/shared/forms/`) : tous les écrans visibles sont refaits (2026-11-28) ; ce qui reste sert aux pages **masquées** (préinscription, inscription en auto-école, Mon espace, décision du 2026-11-25) ou aux liens (`Lien`, `LienActif`, `Vague` de la landing). On ne s'en sert plus pour un écran neuf ; on les supprime quand plus rien ne les importe.
 
 ## Créer un composant
 1. Chercher dans ce fichier et sur /design-system.

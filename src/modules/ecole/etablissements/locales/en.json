@@ -36,45 +36,23 @@
     "jourSoir": "Day & Evening"
   },
   "blocks": {
-    "verified": "Verified institution",
     "search": "Search",
-    "allHint": "All",
     "card": {
       "reviews_one": "({{count}} review)",
       "reviews_other": "({{count}} reviews)",
       "seeTrainings": "See programmes",
       "seeProfile": "See profile"
     },
-    "formationRow": {
-      "dayAndEvening": "Day & evening",
-      "months_one": "{{count}} month",
-      "months_other": "{{count}} months",
-      "seeDetails": "See details"
-    },
     "results": {
-      "sortBy": "Sort by:",
-      "sortByLabel": "Sort by",
       "sort": {
-        "pertinence": "Relevance",
-        "bestRated": "Top rated",
-        "newest": "Most recent"
+        "pertinence": "Relevance"
       }
-    },
-    "resetFilters": "Reset filters",
-    "map": {
-      "see": "See on the map →"
     }
   },
   "hub": {
     "title": "Schools & Training Centres",
     "subtitle": "Find the institution suited to your training and career plans.",
-    "features": {
-      "verified": "Verified institutions",
-      "certified": "Certified programmes",
-      "everywhere": "All over Cameroon"
-    },
     "tiles": {
-      "all": "All schools",
       "ipes": "IPES",
       "cfp": "CFP",
       "autoEcoles": "Driving schools",
@@ -86,10 +64,7 @@
       "locationHint": "Region, city, neighbourhood",
       "type": "School type",
       "typeHint": "IPES, CFP, Driving school, Other"
-    },
-    "found": "{{n}} institutions found",
-    "empty": "No institution matches this search.",
-    "paginationDynamic": "Showing {{from}} to {{to}} of {{total}} institutions"
+    }
   },
   "listing": {
     "crumb": "Schools",
@@ -135,7 +110,6 @@
       "placeholderListe": "Search for {{item}}, a programme…",
       "placeholder": "Search for {{item}}, a programme..."
     },
-    "found": "{{n}} {{pluriel}} found",
     "liste": {
       "empty": "No institution matches “{{q}}”.",
       "pagination": "Showing 1 to {{shown}} of {{total}}"
@@ -194,16 +168,8 @@
   },
   "shared": {
     "school": "School",
-    "verified": "Verified institution",
-    "ratingCount_one": "({{count}} review)",
-    "ratingCount_other": "({{count}} reviews)",
-    "preRegisterNow": "Pre-register now",
-    "inFavorites": "In your favourites",
-    "addToFavorites": "Add to favourites",
     "months_one": "{{count}} month",
     "months_other": "{{count}} months",
-    "sortBy": "Sort by:",
-    "sortByAria": "Sort by",
     "types": {
       "ipes": "IPES",
       "cfp": "CFP",
@@ -394,7 +360,6 @@
       "admission": "Admission requirements",
       "debouches": "Career prospects"
     },
-    "breadcrumbFormations": "Programmes",
     "badge": "Programme",
     "aside": {
       "contact": "Contact the institution",
