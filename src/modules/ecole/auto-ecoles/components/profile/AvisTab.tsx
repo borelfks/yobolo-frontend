@@ -15,7 +15,7 @@ import { Modal } from '@/shared/ui/Modal'
 import { data } from '@/data'
 import { partager } from '@/shared/utils/liens'
 import { useSession } from '@/modules/compte/auth/hooks/useSession'
-import { ModaleAvis } from '@/modules/ecole/etablissements/components/ModaleAvis'
+import { ModaleAvis } from '@/modules/ecole/avis/components/ModaleAvis'
 
 const critereIcons = [CircleGauge, Users, CalendarDays, Building2, Handshake]
 
@@ -83,7 +83,7 @@ export function AvisTab({ id }: { id: string }) {
           <PencilLine className="size-6" />
           {t('profile.reviews.give')}
         </button>
-        <ModaleAvis genre="auto-ecole" id={a.id} open={donnerAvis} onClose={() => setDonnerAvis(false)} />
+        <ModaleAvis genre="auto-ecole" id={a.id} nom={a.nom} open={donnerAvis} onClose={() => setDonnerAvis(false)} />
       </div>
       <div className={cn(card, 'space-y-3 p-4')}>
         <div className="flex flex-wrap items-center justify-between gap-2">

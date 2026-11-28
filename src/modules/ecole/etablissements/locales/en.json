@@ -436,8 +436,8 @@
       "yearLabel": "year ({{range}})",
       "units_one": "{{count}} teaching unit",
       "units_other": "{{count}} teaching units",
-      "hours_one": "≈ {{count}} hour",
-      "hours_other": "≈ {{count}} hours",
+      "hours_one": "≈ {{n}} hour",
+      "hours_other": "≈ {{n}} hours",
       "aucun": "The detailed programme has not been published by the institution yet."
     },
     "admission": {
@@ -611,5 +611,224 @@
       "texte": "Your {{training}} application was sent to {{school}}.",
       "quand": "Just now"
     }
+  },
+  "ui": {
+    "ariane": {
+      "ecole": "School"
+    },
+    "favori": {
+      "ajouter": "Add to favourites",
+      "dans": "In my favourites"
+    },
+    "verifie": "Verified institution",
+    "trier": "Sort by:",
+    "precedent": "Previous",
+    "suivant": "Next",
+    "precedentAria": "Previous page",
+    "suivantAria": "Next page",
+    "pageAria": "Page {{n}}",
+    "plage": "{{debut}} – {{fin}} of {{total}} {{unite}}",
+    "toutEffacer": "Clear all",
+    "reinitialiser": "Reset filters",
+    "partager": "Share",
+    "lienCopie": "Link copied",
+    "partageImpossible": "The link could not be copied.",
+    "filtre": {
+      "nombre": "{{titre}} · {{n}}",
+      "effacer": "Clear",
+      "afficher": "Show {{resultats}}",
+      "aucuneOption": "No results for “{{q}}”.",
+      "fermer": "Close"
+    },
+    "genresCourts": {
+      "ipes": "IPES",
+      "cfp": "CFP",
+      "autres": "Others"
+    }
+  },
+  "vignette": {
+    "formations_one": "{{count}} programme",
+    "formations_other": "{{count}} programmes",
+    "permis": "Licences {{codes}}",
+    "rentreeLe": "Intake on {{date}}",
+    "rentreeChaqueMois": "Intake every month",
+    "depuis": "Since {{annee}}"
+  },
+  "ecole": {
+    "recherche": "Institution or programme",
+    "ville": "City",
+    "toutesVilles": "All cities",
+    "rechercher": "Search",
+    "titres": {
+      "ipes": "IPES",
+      "cfp": "CFP",
+      "autres": "Other institutions",
+      "auto": "Driving schools"
+    },
+    "sousEtablissements_one": "{{count}} institution · {{formations}}",
+    "sousEtablissements_other": "{{count}} institutions · {{formations}}",
+    "sousAuto_one": "{{count}} driving school · licences {{de}} to {{a}}",
+    "sousAuto_other": "{{count}} driving schools · licences {{de}} to {{a}}",
+    "resultats_one": "{{count}} result out of {{total}}",
+    "resultats_other": "{{count}} results out of {{total}}",
+    "voir": {
+      "ipes_one": "See the IPES",
+      "ipes_other": "See the {{count}} IPES",
+      "cfp_one": "See the CFP",
+      "cfp_other": "See the {{count}} CFP",
+      "autres_one": "See the other institution",
+      "autres_other": "See the {{count}} other institutions",
+      "auto_one": "See the driving school",
+      "auto_other": "See the {{count}} driving schools"
+    },
+    "vide": "No institution matches “{{q}}”.",
+    "effacer": "Clear the search"
+  },
+  "liste": {
+    "typesAria": "Type of institution",
+    "genres": {
+      "ipes": "IPES ({{n}})",
+      "cfp": "CFP ({{n}})",
+      "autres": "Others ({{n}})",
+      "auto": "Driving schools ({{n}})"
+    },
+    "titres": {
+      "ipes": "IPES",
+      "cfp": "CFP",
+      "autres": "Other institutions"
+    },
+    "intros": {
+      "ipes": "Private higher education institutes: BTS, bachelor’s and master’s degrees.",
+      "cfp": "Vocational training centres: a trade in a few months.",
+      "autres": "Languages, IT, sewing: courses for everyone."
+    },
+    "filtres": {
+      "ville": "City",
+      "diplome": "Diploma",
+      "domaine": "Field",
+      "cours": "Classes"
+    },
+    "chercher": {
+      "ville": "Search for a city",
+      "diplome": "Search for a diploma",
+      "domaine": "Search for a field"
+    },
+    "cours": {
+      "jour": "Day classes",
+      "soir": "Evening classes"
+    },
+    "tris": {
+      "pertinence": "Relevance",
+      "notes": "Best rated",
+      "formations": "Most programmes",
+      "nom": "Name"
+    },
+    "etablissements_one": "{{count}} institution",
+    "etablissements_other": "{{count}} institutions",
+    "unite_one": "institution",
+    "unite_other": "institutions",
+    "vide": "No institution matches these criteria."
+  },
+  "fiche": {
+    "ongletsAria": "Profile sections",
+    "onglets": {
+      "apercu": "Overview",
+      "formations": "Programmes ({{n}})",
+      "informations": "Information",
+      "avis": "Reviews ({{n}})",
+      "galerie": "Gallery"
+    },
+    "logoAlt": "{{nom}} logo",
+    "contacter": "Contact",
+    "cours": {
+      "jourEtSoir": "Day and evening",
+      "jour": "Day",
+      "soir": "Evening"
+    },
+    "apercu": {
+      "video": "Discover {{nom}} in 1 minute",
+      "presentation": "Presentation",
+      "atouts": {
+        "professional": "Career-focused programmes",
+        "experts": "Supervision by experts",
+        "internships": "Internships and job placement"
+      },
+      "infosCles": "Key information",
+      "cles": {
+        "formations": "Programmes",
+        "filieres": "Fields of study",
+        "diplomes": "Diplomas",
+        "cours": "Classes",
+        "localisation": "Location"
+      },
+      "principales": "Our main fields of study",
+      "actualite": "News"
+    },
+    "formations": {
+      "titre": "Our programmes ({{n}})",
+      "duree": "Duration",
+      "chercher": "Search for a programme...",
+      "chercherAria": "Search for a programme",
+      "diplome": "Diploma",
+      "cours": "Classes",
+      "tous": "All",
+      "voir": "See the details →",
+      "aucune": "No programme matches these filters."
+    },
+    "infos": {
+      "sommaire": "Sections"
+    },
+    "avis": {
+      "profils": {
+        "tous": "All ({{n}})",
+        "etudiants": "Students ({{n}})",
+        "anciens": "Former students ({{n}})",
+        "entreprises": "Companies ({{n}})"
+      },
+      "nombre_one": "{{count}} review",
+      "nombre_other": "{{count}} reviews",
+      "titre": "Learner reviews ({{n}})",
+      "tris": {
+        "recents": "Most recent",
+        "mieuxNotes": "Best rated",
+        "utiles": "Most helpful"
+      },
+      "utile": "Helpful review",
+      "aucunProfil": "No reviews from this profile yet.",
+      "invitation": "Did you study here? Be the first to give your review."
+    },
+    "galerie": {
+      "titre": "Institution gallery",
+      "intro": "Discover our campus, facilities and student life in pictures.",
+      "nombre": "Photos and videos of the institution ({{n}})",
+      "vide": "The institution has not published its gallery yet."
+    },
+    "aside": {
+      "contacter": "Contact the institution",
+      "appeler": "Call",
+      "whatsapp": "WhatsApp",
+      "autres": {
+        "ipes": "Other IPES",
+        "cfp": "Other CFP",
+        "autres": "Other institutions"
+      },
+      "voirListe": {
+        "ipes_one": "See the IPES →",
+        "ipes_other": "See the {{count}} IPES →",
+        "cfp_one": "See the CFP →",
+        "cfp_other": "See the {{count}} CFP →",
+        "autres_one": "See the institution →",
+        "autres_other": "See the {{count}} institutions →"
+      }
+    }
+  },
+  "formation": {
+    "ongletsAria": "Programme sections",
+    "domaine": "Field",
+    "heuresCourt": "{{n}} h",
+    "aPropos": "About the institution",
+    "voirFiche": "See the profile",
+    "autres": "Other programmes of the institution",
+    "debouchesVide": "The institution has not published the career prospects yet."
   }
 }

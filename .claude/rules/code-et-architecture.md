@@ -53,9 +53,11 @@ modules/ecole/etablissements/
 - **`shared/` n'importe jamais `app/` ni `modules/`** (il peut importer `@/data`). **`src/data/` n'importe ni `app/` ni `modules/`** ; ses fausses données sont dans `src/data/fausses-donnees/`. **Aucune donnée écrite dans le code** (voir [donnees-et-backend.md](donnees-et-backend.md)).
 - **Sens des dépendances entre parties** (constaté le 2026-11-21, chemins du 2026-11-27) :
 
-  `compte/auth` → `ecole/etablissements` → `ecole/auto-ecoles` → `ecole/avis` → (`compte/favoris`, `ecole/espace-pro`, `landing`, `communaute/accueil`, `compte/mon-espace`)
+  `compte/auth` → `ecole/avis` → `ecole/etablissements` → `ecole/auto-ecoles` → (`compte/favoris`, `ecole/espace-pro`, `landing`, `communaute/accueil`, `compte/mon-espace`)
 
-  Une partie n'importe que celles placées **avant** elle ; jamais l'inverse, et pas d'import entre celles du dernier groupe. Aujourd'hui : `ecole/avis` utilise `ecole/auto-ecoles` (`AEHeader`), `compte/favoris` utilise `ecole/etablissements`, `ecole/espace-pro` utilise `compte/auth` et `ecole/etablissements`, `compte/mon-espace` utilise `compte/auth` et `ecole/etablissements`. Si un besoin va dans l'autre sens, la chose est mal rangée : la mettre dans `shared/`.
+  (2026-11-28 : `ecole/avis` passe avant les établissements : ses blocs et la fenêtre « Donner mon avis » ne dépendent que de la session ; l'ancienne page `DonnerAvis`, masquée, est supprimée.)
+
+  Une partie n'importe que celles placées **avant** elle ; jamais l'inverse, et pas d'import entre celles du dernier groupe. Aujourd'hui : `ecole/etablissements` et `ecole/auto-ecoles` utilisent `ecole/avis` (blocs d'avis, `ModaleAvis`), `compte/favoris` utilise `ecole/etablissements`, `ecole/espace-pro` utilise `compte/auth` et `ecole/etablissements`, `compte/mon-espace` utilise `compte/auth` et `ecole/etablissements`. Si un besoin va dans l'autre sens, la chose est mal rangée : la mettre dans `shared/`.
 - `app/` peut importer `modules/compte/auth` (session) ; les pages de connexion importent `app/layouts/AuthLayout`.
 - Pas de sous-dossiers `services/` ou `utils/` dans une partie : ses fichiers de logique sont à sa racine, préfixés par son nom (`autoEcoleRules.ts`, `schoolLinks.tsx`, `proStyles.ts`).
 - Une page de plus d'environ 500 lignes se découpe dans `components/<sous-dossier>/` de sa partie.

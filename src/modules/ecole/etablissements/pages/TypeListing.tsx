@@ -1,74 +1,156 @@
 import { Navigate, useParams } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { Building2, CalendarDays, FileBadge, GraduationCap, Layers, MapPin } from 'lucide-react'
-import { Hero } from '@/shared/ui/Hero'
-import { LinkTabs } from '@/shared/ui/Tabs'
-import { DiplomesTab } from '@/modules/ecole/etablissements/components/listing/DiplomesTab'
-import { FilieresTab } from '@/modules/ecole/etablissements/components/listing/FilieresTab'
-import { FormationsTab } from '@/modules/ecole/etablissements/components/listing/FormationsTab'
-import { ListeTab } from '@/modules/ecole/etablissements/components/listing/ListeTab'
-import { RegionsTab } from '@/modules/ecole/etablissements/components/listing/RegionsTab'
-import { VillesTab } from '@/modules/ecole/etablissements/components/listing/VillesTab'
-import { isTypeSlug } from '@/modules/ecole/etablissements/schoolTypes'
-import { useTypesEcole } from '@/data/hooks'
+import { EmptyState } from '@/shared/blocs/Etats'
+import { ChargementDonnees } from '@/shared/blocs/ChargementDonnees'
+import { Button } from '@/shared/shadcn/button'
+import { useParametresRecherche } from '@/shared/hooks/useParametresRecherche'
+import { pageDe } from '@/shared/utils/pages'
 import { ROUTES } from '@/shared/utils/routes'
+import { Ariane } from '@/modules/ecole/etablissements/components/Bases'
+import { EnteteListe, RangeePilules } from '@/modules/ecole/etablissements/components/liste/EnteteListe'
+import { FiltreBascule, FiltreListe } from '@/modules/ecole/etablissements/components/liste/FiltreListe'
+import { BarreResultats, PaginationListe } from '@/modules/ecole/etablissements/components/liste/Resultats'
+import { GrilleVignettes, SquelettePageListe, VignetteEcole } from '@/modules/ecole/etablissements/components/Vignette'
+import { useEcolesResumees } from '@/modules/ecole/etablissements/hooks/useEcolesResumees'
+import {
+  FILTRES_ETABLISSEMENTS,
+  lireSelection,
+  optionsDuFiltre,
+  PAR_PAGE,
+  parmi,
+  passeFiltres,
+  TRIS_ETABLISSEMENTS,
+  trierEtablissements,
+  valeursEtablissement,
+  type FiltreEtablissement,
+  type GenreEcole,
+} from '@/modules/ecole/etablissements/schoolListing'
+import { isTypeSlug } from '@/modules/ecole/etablissements/schoolTypes'
+import type { TypeSlug } from '@/shared/types'
 
-const heroImages: Record<string, string> = {
-  '': '/images/maquette/ipes-hero.jpg',
-  filieres: '/images/maquette/hero-filieres.jpg',
-  diplomes: '/images/maquette/hero-diplomes.jpg',
-  regions: '/images/maquette/hero-regions.jpg',
-  villes: '/images/maquette/hero-villes.jpg',
-  cours: '/images/maquette/ipes-hero.jpg',
+/**
+ * Liste d'un type d'établissement (planches « IPES / CFP / Autres : liste ») :
+ * un seul gabarit. En-tête (titre, types, filtres Ville, Diplôme, Domaine,
+ * Cours, Établissement vérifié), nombre de résultats et tri, vignettes,
+ * pagination. Filtres, tri et page sont dans l'adresse.
+ */
+export function TypeListing() {
+  const { type, tab } = useParams({ strict: false })
+  if (!isTypeSlug(type)) return <Navigate to={ROUTES.schools} replace />
+  // Les anciens onglets (filières, diplômes, régions…) n'existent plus : la liste les remplace.
+  if (tab) return <Navigate to={ROUTES.schoolType(type)} replace />
+  return (
+    <div className="mx-auto flex w-full max-w-page flex-col gap-2 pb-4 sm:gap-3 sm:px-4 sm:pt-4 sm:pb-10">
+      <ChargementDonnees fallback={<SquelettePageListe />}>
+        <ListeType type={type} />
+      </ChargementDonnees>
+    </div>
+  )
 }
 
-export function TypeListing() {
-  const { type, tab = '' } = useParams({ strict: false })
+function ListeType({ type }: { type: TypeSlug }) {
   const { t } = useTranslation('schools')
-  const typesEcole = useTypesEcole()
-  if (!isTypeSlug(type)) return <Navigate to={ROUTES.schools} replace />
-  const cfg = typesEcole.find((x) => x.id === type)!
-  const court = t(`types.${type}.court`)
-  const long = t(`types.${type}.long`)
-  const pluriel = t(`types.${type}.pluriel`)
-  const base = ROUTES.schoolType(type)
-  const tabs = [
-    { value: '', label: t('listing.tabs.liste', { court, n: cfg.count }), icon: <GraduationCap /> },
-    { value: 'filieres', label: t('listing.tabs.filieres'), icon: <Layers /> },
-    { value: 'diplomes', label: t('listing.tabs.diplomes'), icon: <FileBadge /> },
-    { value: 'regions', label: t('listing.tabs.regions'), icon: <MapPin /> },
-    { value: 'villes', label: t('listing.tabs.villes'), icon: <Building2 /> },
-    { value: 'cours', label: t('listing.tabs.cours'), icon: <CalendarDays /> },
-  ]
-  // Un onglet qui n'existe plus (comme l'ancien « Frais ») ramène à la liste.
-  if (tab && !tabs.some((x) => x.value === tab)) return <Navigate to={base} replace />
-  const titles: Record<string, [string, string | undefined, string]> = {
-    '': [court, long, t('listing.titles.liste.subtitle')],
-    filieres: [t('listing.titles.filieres.title', { pluriel }), undefined, t('listing.titles.filieres.subtitle', { long })],
-    diplomes: [t('listing.titles.diplomes.title', { pluriel }), undefined, t('listing.titles.diplomes.subtitle')],
-    regions: [t('listing.titles.regions.title', { court }), undefined, t('listing.titles.regions.subtitle', { pluriel })],
-    villes: [t('listing.titles.villes.title', { court }), undefined, t('listing.titles.villes.subtitle', { pluriel })],
-    cours: [t('listing.titles.cours.title', { court }), undefined, t('listing.titles.cours.subtitle')],
-  }
-  const [title, title2, subtitle] = titles[tab] ?? titles['']
-  const tabIcon = tabs.find((x) => x.value === tab)?.icon
+  const ecoles = useEcolesResumees()
+  const [params, setParams] = useParametresRecherche()
+  const selection = lireSelection(params, FILTRES_ETABLISSEMENTS)
+  const verifie = params.get('verifie') === '1'
+  const q = (params.get('q') ?? '').trim().toLowerCase()
+  const tri = parmi(params.get('tri'), TRIS_ETABLISSEMENTS)
+  const tous = ecoles.filter((e) => e.genre === type)
+  const nombres = Object.fromEntries((['ipes', 'cfp', 'autres', 'auto'] as GenreEcole[]).map((g) => [g, ecoles.filter((e) => e.genre === g).length])) as Record<GenreEcole, number>
+  const passe = (e: (typeof tous)[number], sauf?: FiltreEtablissement) =>
+    passeFiltres((f) => valeursEtablissement(e, f), selection, FILTRES_ETABLISSEMENTS, sauf) &&
+    (!verifie || e.verifie) &&
+    (!q || [e.nom, e.sigle, e.quartier, e.ville, ...e.formations.flatMap((f) => [f.nom, f.domaine ?? ''])].join(' ').toLowerCase().includes(q))
+  const liste = trierEtablissements(tous.filter((e) => passe(e)), tri)
+  const { page, pages, elements } = pageDe(liste, Number(params.get('page') ?? 1), PAR_PAGE)
+  const resultats = t('liste.etablissements', { count: liste.length })
+
+  const modifier = (maj: (p: URLSearchParams) => void) =>
+    setParams((p) => {
+      maj(p)
+      p.delete('page')
+      return p
+    })
+  const cocher = (f: FiltreEtablissement, valeurs: string[]) =>
+    modifier((p) => {
+      p.delete(f)
+      valeurs.forEach((v) => p.append(f, v))
+    })
+  const toutEffacer = () => modifier((p) => [...FILTRES_ETABLISSEMENTS, 'verifie', 'q'].forEach((k) => p.delete(k)))
+  const aFiltres = FILTRES_ETABLISSEMENTS.some((f) => selection[f].length > 0) || verifie || Boolean(q)
+
+  const libelleOption = (f: FiltreEtablissement, v: string) => (f === 'cours' ? t(`liste.cours.${v as 'jour' | 'soir'}`) : v)
+  const options = (f: FiltreEtablissement) =>
+    optionsDuFiltre(tous, f, valeursEtablissement, (e) => passe(e, f))
+      .map((o) => ({ ...o, libelle: libelleOption(f, o.valeur) }))
+      .sort((a, b) => (f === 'cours' ? a.valeur.localeCompare(b.valeur) : b.nombre - a.nombre || a.libelle.localeCompare(b.libelle)))
+
   return (
-    <div className="mx-auto max-w-[1320px] space-y-4 px-5 py-4">
-      <Hero
-        crumbs={[{ label: t('listing.crumb'), to: ROUTES.schools }, { label: court, to: base }, ...(tab ? [{ label: tabs.find((x) => x.value === tab)?.label as string }] : [])]}
-        icon={tabIcon}
-        image={heroImages[tab] ?? '/images/maquette/ipes-hero.jpg'}
-        title={title}
-        title2={title2}
-        subtitle={subtitle}
+    <>
+      <Ariane items={[{ label: t('ui.ariane.ecole'), to: ROUTES.schools }, { label: t(`liste.titres.${type}`) }]} />
+      <EnteteListe
+        titre={t(`liste.titres.${type}`)}
+        intro={t(`liste.intros.${type}`)}
+        genre={type}
+        nombres={nombres}
+        filtres={
+          <RangeePilules>
+            {FILTRES_ETABLISSEMENTS.map((f) => (
+              <FiltreListe
+                key={f}
+                titre={t(`liste.filtres.${f}`)}
+                options={options(f)}
+                coches={selection[f]}
+                onChange={(v) => cocher(f, v)}
+                recherche={f === 'cours' ? undefined : t(`liste.chercher.${f}`)}
+                resultats={resultats}
+              />
+            ))}
+            <FiltreBascule libelle={t('ui.verifie')} actif={verifie} onChange={(on) => modifier((p) => (on ? p.set('verifie', '1') : p.delete('verifie')))} />
+            {aFiltres && (
+              <Button variant="link" className="flex-none px-1.5" onClick={toutEffacer}>
+                {t('ui.toutEffacer')}
+              </Button>
+            )}
+          </RangeePilules>
+        }
       />
-      <LinkTabs items={tabs} base={base} variant="block" />
-      {tab === '' && <ListeTab type={type} />}
-      {tab === 'filieres' && <FilieresTab type={type} />}
-      {tab === 'diplomes' && <DiplomesTab type={type} />}
-      {tab === 'regions' && <RegionsTab type={type} />}
-      {tab === 'villes' && <VillesTab type={type} />}
-      {tab === 'cours' && <FormationsTab type={type} />}
-    </div>
+      <BarreResultats
+        texte={resultats}
+        tri={{
+          valeur: tri,
+          options: TRIS_ETABLISSEMENTS.map((v) => ({ valeur: v, libelle: t(`liste.tris.${v}`) })),
+          onChange: (v) => modifier((p) => (v === 'pertinence' ? p.delete('tri') : p.set('tri', v))),
+        }}
+      />
+      {liste.length === 0 ? (
+        <EmptyState
+          titre={t('liste.vide')}
+          className="rounded-none border-x-0 sm:rounded-lg sm:border-x"
+          action={
+            <Button variant="secondary" onClick={toutEffacer}>
+              {t('ui.reinitialiser')}
+            </Button>
+          }
+        />
+      ) : (
+        <>
+          <GrilleVignettes>
+            {elements.map((e) => (
+              <VignetteEcole key={e.id} ecole={e} />
+            ))}
+          </GrilleVignettes>
+          <PaginationListe
+            page={page}
+            pages={pages}
+            total={liste.length}
+            parPage={PAR_PAGE}
+            unite={t('liste.unite', { count: liste.length })}
+            onPage={(n) => setParams((p) => (n > 1 ? p.set('page', String(n)) : p.delete('page'), p))}
+          />
+        </>
+      )}
+    </>
   )
 }

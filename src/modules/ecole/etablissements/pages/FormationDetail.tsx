@@ -1,101 +1,105 @@
 import { Navigate, useParams } from '@tanstack/react-router'
-import { Lien } from '@/shared/ui/Lien'
 import { useTranslation } from 'react-i18next'
-import { CalendarDays, GraduationCap, Landmark, List, MapPin, Users } from 'lucide-react'
-import { Breadcrumb } from '@/shared/ui/Breadcrumb'
-import { Img } from '@/shared/ui/Img'
-import { ecoleUrl } from '@/modules/ecole/etablissements/schoolLinks'
-import { FormationAside } from '@/modules/ecole/etablissements/components/training/FormationAside'
-import { DetailsTab } from '@/modules/ecole/etablissements/components/training/DetailsTab'
-import { ProgrammeTab } from '@/modules/ecole/etablissements/components/training/ProgrammeTab'
-import { AdmissionTab } from '@/modules/ecole/etablissements/components/training/AdmissionTab'
-import { DebouchesTab } from '@/modules/ecole/etablissements/components/training/DebouchesTab'
-import { isTypeSlug, slugOfType } from '@/modules/ecole/etablissements/schoolTypes'
-import { useEtablissement, useFormation } from '@/data/hooks'
+import { useEtablissement, useFormation, useFormations, useProgramme } from '@/data/hooks'
 import { useSession } from '@/modules/compte/auth/hooks/useSession'
+import { ChargementDonnees } from '@/shared/blocs/ChargementDonnees'
+import { Badge } from '@/shared/shadcn/badge'
+import { Button } from '@/shared/shadcn/button'
+import { tabTriggerClasses } from '@/shared/shadcn/tabs'
 import { useMesureALaVue } from '@/shared/hooks/useMesureALaVue'
-import { cn } from '@/shared/utils/cn'
+import { Lien } from '@/shared/ui/Lien'
+import { LienActif } from '@/shared/ui/LienActif'
+import { demoDate } from '@/shared/utils/format'
 import { ROUTES } from '@/shared/utils/routes'
+import { Ariane, BoutonFavori, Carte } from '@/modules/ecole/etablissements/components/Bases'
+import { GrilleFiche, SqueletteFiche } from '@/modules/ecole/etablissements/components/fiche/Fiche'
+import { AdmissionFormation, AsideFormation, DebouchesFormation, DetailsFormation, EtablissementDeFormation, FaitsFormation, ProgrammeFormation } from '@/modules/ecole/etablissements/components/formation/Formation'
+import { modeKey } from '@/modules/ecole/etablissements/schoolLinks'
+import { slugOfType } from '@/modules/ecole/etablissements/schoolTypes'
 
-/** Photo d'en-tête propre à certaines formations (maquette img39). */
+const ONGLETS = ['', 'programme', 'admission', 'debouches'] as const
+type Onglet = (typeof ONGLETS)[number]
+const NOMS: Record<Onglet, 'details' | 'programme' | 'admission' | 'debouches'> = { '': 'details', programme: 'programme', admission: 'admission', debouches: 'debouches' }
 
+/**
+ * Détail d'une formation (planches « BTS Comptabilité & Gestion »,
+ * « Électricité Bâtiment », « Anglais Général ») : un seul gabarit. En-tête
+ * (photo, établissement, nom, badges, faits, Contacter, favori), 4 onglets
+ * dans l'adresse (Détails, Programme, Conditions d’admission, Débouchés),
+ * colonne de droite (rentrée, établissement, autres formations).
+ */
 export function FormationDetail() {
+  const { id = '', tab = '' } = useParams({ strict: false })
+  return (
+    <div className="mx-auto flex w-full max-w-page flex-col gap-2 pb-4 sm:gap-3 sm:px-4 sm:pt-4 sm:pb-10">
+      <ChargementDonnees fallback={<SqueletteFiche />}>
+        <DetailFormation id={id} tab={tab} />
+      </ChargementDonnees>
+    </div>
+  )
+}
+
+function DetailFormation({ id, tab }: { id: string; tab: string }) {
   const { t } = useTranslation('schools')
-  const { id, tab = '' } = useParams({ strict: false })
   const f = useFormation(id)
   const e = useEtablissement(f.etablissementId)
+  const semestres = useProgramme(f.id)
+  const autres = useFormations().filter((x) => x.etablissementId === e.id && x.id !== f.id && x.statut === 'Publiée')
   const { account } = useSession()
   // Une vue de la formation, pour les statistiques de l'établissement.
   useMesureALaVue(account?.ecoleId === e.id ? null : { type: 'vueFormation', etablissementId: e.id, formationId: f.id }, `formation-${f.id}`)
-  const slug = slugOfType(e.type)
   const base = ROUTES.training(f.id)
-  const tabs = [
-    { value: '', label: t('formationDetail.tabs.details'), icon: <List /> },
-    { value: 'programme', label: t('formationDetail.tabs.programme'), icon: <GraduationCap /> },
-    { value: 'admission', label: t('formationDetail.tabs.admission'), icon: <CalendarDays /> },
-    { value: 'debouches', label: t('formationDetail.tabs.debouches'), icon: <Users /> },
-  ]
-  // Un onglet qui n'existe plus (comme l'ancien « Frais & paiement ») ramène aux détails.
-  if (tab && !tabs.some((x) => x.value === tab)) return <Navigate to={base} replace />
-  const current = tabs.find((x) => x.value === tab) ?? tabs[0]
+  if (!(ONGLETS as readonly string[]).includes(tab)) return <Navigate to={base} replace />
+  const onglet = tab as Onglet
+  const slug = slugOfType(e.type)
+  const fiche = slug === 'auto-ecoles' ? ROUTES.drivingSchool(e.id) : ROUTES.school(slug, e.id)
+  const contact = slug === 'auto-ecoles' ? fiche : `${ROUTES.school(slug, e.id, 'informations')}#info-contact`
+  const typeNom = slug === 'auto-ecoles' ? '' : t(`ui.genresCourts.${slug}`)
+  const infos = `${typeNom} · ${e.ville}, ${e.quartier}`
+  const cours = t(`modes.${modeKey[f.mode]}`)
+  // Objectifs et débouchés : publiés avec le programme détaillé de la formation.
+  const detaille = semestres.length > 0
   return (
-    <div className="mx-auto max-w-[1320px] space-y-3.5 px-5 py-4">
-      <Breadcrumb
-        className="-mt-1"
-        items={[
-          { label: t('shared.school'), to: ROUTES.schools },
-          { label: isTypeSlug(slug) ? t(`shared.types.${slug}`) : t('shared.school'), to: ROUTES.schoolType(slug) },
-          { label: e.nom, to: ecoleUrl(e) },
-          { label: t('formationDetail.breadcrumbFormations'), to: ROUTES.school(slug, e.id, 'formations') },
-          ...(tab ? [{ label: f.nom, to: base }] : []),
-          { label: current.label },
-        ]}
-      />
-      <section className="relative overflow-hidden rounded-[18px] bg-[linear-gradient(100deg,#0a2a86_0%,#1238a8_60%,#1a47c4_100%)] text-white">
-        <Img src="/images/maquette/formation-hero.jpg" alt="" className="absolute inset-y-0 right-0 hidden h-full w-[33%] object-left md:block" />
-        <div className="relative flex flex-col gap-6 p-2.5 md:flex-row md:items-center">
-          <Img src={f.photoEntete ?? f.image} alt={f.nom} className="h-[115px] w-full rounded-xl md:w-[235px]" />
-          <div className="space-y-2 pb-2 md:pb-0">
-            <span className="inline-block rounded-full bg-brand-500 px-3.5 py-0.5 text-[15px] font-semibold">{t('formationDetail.badge')}</span>
-            <h1 className="text-[26px] font-extrabold md:text-[32px]">{f.nom}</h1>
-            <p className="flex flex-wrap items-center gap-x-5 text-[17px]">
-              <span className="inline-flex items-center gap-2">
-                <Landmark className="size-5" />
-                {e.nom}
-              </span>
-              <span className="h-6 w-px bg-white/40" />
-              <span className="inline-flex items-center gap-2">
-                <MapPin className="size-5 fill-white/90 text-navy-800" />
-                {e.ville} – {e.quartier}
-              </span>
-            </p>
+    <>
+      <Ariane items={[{ label: t('ui.ariane.ecole'), to: ROUTES.schools }, ...(slug === 'auto-ecoles' ? [] : [{ label: typeNom, to: ROUTES.schoolType(slug) }]), { label: e.sigle || e.nom, to: fiche }, { label: f.nom }]} />
+      <GrilleFiche aside={<AsideFormation f={f} e={e} infos={infos} autres={autres} contact={contact} fiche={fiche} />}>
+        <section className="flex flex-col overflow-hidden border-y border-border bg-card sm:rounded-lg sm:border">
+          <img src={f.photoEntete ?? f.image} alt="" className="h-[170px] w-full bg-border object-cover sm:h-[240px]" />
+          <div className="flex flex-col gap-3 px-5 pt-[18px] pb-5">
+            <Lien to={fiche} className="text-foreground no-underline hover:[&_b]:text-primary hover:[&_b]:underline">
+              <EtablissementDeFormation e={e} infos={infos} />
+            </Lien>
+            <h1 className="text-2xl leading-[1.2] font-extrabold tracking-[-0.01em] text-foreground sm:text-[28px]">{f.nom}</h1>
+            <div className="flex flex-wrap gap-1.5">
+              <Badge variant="blue">{f.diplome}</Badge>
+              <Badge variant="gray">{cours}</Badge>
+              <Badge variant="green">{t('vignette.rentreeLe', { date: demoDate(f.rentree) })}</Badge>
+            </div>
+            <FaitsFormation f={f} />
+            <div className="flex flex-wrap gap-2 pt-1">
+              <Button asChild>
+                <Lien to={contact}>{t('formationDetail.aside.contact')}</Lien>
+              </Button>
+              <BoutonFavori id={f.id} kind="formation" />
+            </div>
           </div>
-        </div>
-      </section>
-      <div className="grid gap-4 lg:grid-cols-[1fr_330px]">
-        <div className="min-w-0 space-y-3.5">
-          <nav className="flex flex-wrap gap-2.5">
-            {tabs.map((x, i) => (
-              <Lien
-                key={x.value}
-                to={i === 0 ? base : ROUTES.training(f.id, x.value)}
-                className={cn(
-                  'inline-flex h-11 flex-1 items-center justify-center gap-2.5 rounded-xl px-4 text-[15px] font-semibold whitespace-nowrap [&_svg]:size-5',
-                  tab === x.value ? 'bg-brand-600 text-white shadow-md shadow-brand-600/30' : 'bg-[#eaf0fb] text-navy-900 hover:bg-brand-100',
-                )}
-              >
-                {x.icon}
-                {x.label}
-              </Lien>
+        </section>
+        <Carte className="gap-0 overflow-hidden p-0">
+          <nav aria-label={t('formation.ongletsAria')} className="flex gap-[22px] overflow-x-auto border-b border-border px-5 [scrollbar-width:none] sm:flex-wrap">
+            {ONGLETS.map((o) => (
+              <LienActif key={o} to={o ? ROUTES.training(f.id, o) : base} end={o === ''} className={tabTriggerClasses}>
+                {t(`formationDetail.tabs.${NOMS[o]}`)}
+              </LienActif>
             ))}
           </nav>
-          {tab === '' && <DetailsTab f={f} />}
-          {tab === 'programme' && <ProgrammeTab f={f} />}
-          {tab === 'admission' && <AdmissionTab f={f} />}
-          {tab === 'debouches' && <DebouchesTab f={f} />}
-        </div>
-        <FormationAside f={f} showRentree={tab !== 'programme'} />
-      </div>
-    </div>
+          <div className="flex flex-col gap-3.5 p-5">
+            {onglet === '' && <DetailsFormation f={f} cours={cours} detaille={detaille} />}
+            {onglet === 'programme' && <ProgrammeFormation f={f} cours={cours} semestres={semestres} />}
+            {onglet === 'admission' && <AdmissionFormation f={f} />}
+            {onglet === 'debouches' && <DebouchesFormation f={f} detaille={detaille} />}
+          </div>
+        </Carte>
+      </GrilleFiche>
+    </>
   )
 }

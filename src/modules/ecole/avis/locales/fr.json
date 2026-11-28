@@ -66,29 +66,20 @@
       "confirmAutoEcole": "Confirmez avoir suivi une formation dans cette auto-école.",
       "confirmEcole": "Confirmez avoir suivi une formation dans cet établissement.",
       "merci": "Merci ! Votre avis sera publié après vérification par YIBOLO.",
-      "echec": "Votre avis n’a pas pu être enregistré. Réessayez."
+      "echec": "Votre avis n’a pas pu être enregistré. Réessayez.",
+      "note": "Choisissez une note de 1 à 5 étoiles."
     },
     "notification": {
       "titre": "Nouvel avis",
       "texte": "{{name}} a laissé un avis {{note}}★ sur votre établissement."
-    }
+    },
+    "compteur": "{{n}} / 500"
   },
-  "blocks": {
+  "blocs": {
     "noteGlobale": "Note globale",
-    "basee_one": "Basée sur {{total}} avis vérifiés",
-    "basee_other": "Basée sur {{total}} avis vérifiés",
+    "surCinq": "{{note}} sur 5",
     "pourcentage": "{{value}} %",
     "donnerAvis": "Donner mon avis",
-    "avisVerifie": "Avis vérifié",
-    "roles": {
-      "etudiant": "Étudiant",
-      "etudiante": "Étudiante",
-      "ancienEtudiant": "Ancien étudiant",
-      "ancienneEtudiante": "Ancienne étudiante",
-      "entreprise": "Entreprise"
-    },
-    "toasts": {
-      "merciRetour": "Merci pour votre retour"
-    }
+    "aucun": "Pas encore d’avis"
   }
 }

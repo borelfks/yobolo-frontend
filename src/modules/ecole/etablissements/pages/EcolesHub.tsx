@@ -1,149 +1,105 @@
-import { useState } from 'react'
-import { Lien } from '@/shared/ui/Lien'
 import { useTranslation } from 'react-i18next'
-import { Car, GraduationCap, LayoutGrid, MapPin, School, ShieldCheck, Star, Users } from 'lucide-react'
-import { EcoleCard, ResultsHeader, SearchPanel } from '@/modules/ecole/etablissements/components/EcoleBlocks'
-import { Hero, HeroFeatures } from '@/shared/ui/Hero'
-import { Pagination } from '@/shared/ui/Pagination'
-import { useAutoEcoles, useEtablissements, useFormations, useRegions, useTuilesAnnuaire } from '@/data/hooks'
-import { filtrerEtablissements, TRIS, trierEtablissements, type Criteres, type Tri } from '@/modules/ecole/etablissements/schoolSearch'
-import { Card } from '@/shared/ui/Card'
-import { pageDe } from '@/shared/utils/pages'
-import type { Etablissement } from '@/shared/types'
-import { cn } from '@/shared/utils/cn'
-import { num } from '@/shared/utils/format'
+import { ChargementDonnees } from '@/shared/blocs/ChargementDonnees'
+import { SkeletonZone } from '@/shared/blocs/Squelettes'
+import { Skeleton } from '@/shared/shadcn/skeleton'
+import { RechercheEcole, RangeeEcole, VideEcole } from '@/modules/ecole/etablissements/components/Ecole'
+import { SqueletteVignettes } from '@/modules/ecole/etablissements/components/Vignette'
+import { useEcolesResumees } from '@/modules/ecole/etablissements/hooks/useEcolesResumees'
+import { parPertinence, type GenreEcole } from '@/modules/ecole/etablissements/schoolListing'
+import { useParametresRecherche } from '@/shared/hooks/useParametresRecherche'
 import { ROUTES } from '@/shared/utils/routes'
-import { schoolTypeKey } from '@/modules/ecole/etablissements/schoolLinks'
 
-const tiles: Record<string, { icon: typeof GraduationCap; circle: string; labelKey: 'all' | 'ipes' | 'cfp' | 'autoEcoles' | 'autres'; to: string }> = {
-  toutes: { icon: School, circle: '', labelKey: 'all', to: ROUTES.schools },
-  IPES: { icon: GraduationCap, circle: 'bg-[#e3ecff] text-brand-600', labelKey: 'ipes', to: ROUTES.schoolType('ipes') },
-  CFP: { icon: Users, circle: 'bg-[#eee6ff] text-violet-600', labelKey: 'cfp', to: ROUTES.schoolType('cfp') },
-  'Auto-école': { icon: Car, circle: 'bg-orange-500 text-white', labelKey: 'autoEcoles', to: ROUTES.drivingSchools },
-  Autre: { icon: LayoutGrid, circle: 'bg-[#f1e6ff] text-violet-600', labelKey: 'autres', to: ROUTES.schoolType('autres') },
+const RANGEES: { genre: GenreEcole; lien: string }[] = [
+  { genre: 'ipes', lien: ROUTES.schoolType('ipes') },
+  { genre: 'cfp', lien: ROUTES.schoolType('cfp') },
+  { genre: 'autres', lien: ROUTES.schoolType('autres') },
+  { genre: 'auto', lien: ROUTES.drivingSchools },
+]
+
+/**
+ * École (planches « École ») : la recherche (établissement ou formation, ville)
+ * puis une rangée par type : IPES, CFP, Autres établissements, Auto-écoles,
+ * avec leurs 4 premières vignettes ; une recherche montre tous les résultats.
+ * Recherche et ville sont dans l'adresse (`?q=…&ville=…`).
+ */
+export function EcolesHub() {
+  return (
+    <div className="mx-auto flex w-full max-w-page flex-col gap-2 pb-4 sm:gap-4 sm:px-4 sm:pt-6 sm:pb-10">
+      <ChargementDonnees fallback={<SquelettePageEcole />}>
+        <ContenuEcole />
+      </ChargementDonnees>
+    </div>
+  )
 }
 
-/** Valeurs du filtre « Type d’école » (libellés traduits à l'affichage). */
-const typeOptions = ['IPES', 'CFP', 'Auto-école', 'Autre'] as const
-/** Cartes par page. */
-const PAR_PAGE = 12
-
-export function EcolesHub() {
+function ContenuEcole() {
   const { t } = useTranslation('schools')
-  const [q, setQ] = useState('')
-  const etablissements = useEtablissements()
-  const autoEcoles = useAutoEcoles()
-  const tuiles = useTuilesAnnuaire()
-  const regions = useRegions()
-  const formations = useFormations()
-  const [criteres, setCriteres] = useState<Criteres>({})
-  const [tri, setTri] = useState<Tri>('pertinence')
-  const [page, setPage] = useState(1)
-  const recherche = Boolean(q || Object.values(criteres).some(Boolean))
-  const list = trierEtablissements(filtrerEtablissements(etablissements, q, criteres, formations), tri)
-  // Les cartes mises en avant (champ « vedette » de la base), établissements et
-  // auto-écoles mêlés, dans leur ordre ; puis le reste de l'annuaire.
-  const autoEcolesVedettes: Etablissement[] = autoEcoles
-    .filter((a) => a.vedette !== undefined)
-    .map((a) => ({
-      id: a.id,
-      nom: a.nom,
-      sigle: '',
-      type: 'Auto-école',
-      region: a.region,
-      ville: a.ville,
-      quartier: a.quartier,
-      note: a.note,
-      avis: a.avis,
-      image: a.image,
-      filieres: a.permis.map((c) => `Permis ${c}`),
-      formations: a.permis.length,
-      description: '',
-      telephone: a.telephone,
-      email: a.email,
-      rentree: '',
-      vedette: a.vedette,
-    }))
-  const vedettes = [...etablissements.filter((e) => e.vedette !== undefined), ...autoEcolesVedettes].sort((a, b) => a.vedette! - b.vedette!)
-  // Sans recherche ni tri : les cartes mises en avant d'abord ; sinon, les résultats (les auto-écoles mises en avant suivent le critère « type »).
-  const cards =
-    !recherche && tri === 'pertinence'
-      ? [...vedettes, ...etablissements.filter((e) => e.vedette === undefined)]
-      : criteres.type === 'Auto-école'
-        ? autoEcolesVedettes.filter((a) => (!criteres.region || a.region === criteres.region) && (!q || a.nom.toLowerCase().includes(q.toLowerCase())))
-        : list
-  const { pages, page: courante, elements } = pageDe(cards, page, PAR_PAGE)
+  const ecoles = useEcolesResumees()
+  const [params, setParams] = useParametresRecherche()
+  const q = params.get('q') ?? ''
+  const ville = params.get('ville') ?? ''
+  const changer = (cle: 'q' | 'ville', valeur: string) =>
+    setParams(
+      (p) => {
+        if (valeur) p.set(cle, valeur)
+        else p.delete(cle)
+        return p
+      },
+      { replace: true },
+    )
+  const rq = q.trim().toLowerCase()
+  const cherche = Boolean(rq || ville)
+  const passe = (e: (typeof ecoles)[number]) =>
+    (!ville || e.ville === ville) && (!rq || [e.nom, e.sigle, e.quartier, ...e.formations.flatMap((f) => [f.nom, f.domaine ?? '', f.diplome])].join(' ').toLowerCase().includes(rq))
+  const villes = [...new Set(ecoles.map((e) => e.ville))].sort((a, b) => a.localeCompare(b))
+  const rangees = RANGEES.map((r) => {
+    const tous = ecoles.filter((e) => e.genre === r.genre)
+    const trouves = tous.filter(passe).sort(parPertinence)
+    return { ...r, tous, trouves }
+  })
   return (
-    <div className="mx-auto max-w-[1320px] space-y-5 px-5 py-4">
-      <Hero
-        icon={<GraduationCap />}
-        iconBox={false}
-        image="/images/maquette/ecoles-hero.jpg"
-        title={t('hub.title')}
-        subtitle={t('hub.subtitle')}
-      >
-        <HeroFeatures
-          items={[
-            { icon: <ShieldCheck className="fill-white text-navy-800" />, label: t('hub.features.verified') },
-            { icon: <Star className="fill-white" />, label: t('hub.features.certified') },
-            { icon: <MapPin className="fill-white text-navy-800" />, label: t('hub.features.everywhere') },
-          ]}
+    <>
+      <RechercheEcole q={q} ville={ville} villes={villes} onQ={(v) => changer('q', v)} onVille={(v) => changer('ville', v)} />
+      {rangees.map((r) => r.trouves.length > 0 && <RangeeEcole key={r.genre} genre={r.genre} lien={r.lien} tous={r.tous} montres={cherche ? r.trouves : r.trouves.slice(0, 4)} cherche={cherche} />)}
+      {rangees.every((r) => r.trouves.length === 0) && (
+        <VideEcole
+          titre={t('ecole.vide', { q: q.trim() || ville })}
+          onEffacer={() =>
+            setParams(
+              (p) => {
+                p.delete('q')
+                p.delete('ville')
+                return p
+              },
+              { replace: true },
+            )
+          }
         />
-      </Hero>
+      )}
+    </>
+  )
+}
 
-      <section className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-5">
-        {tuiles.map((tile, i) => {
-          const s = tiles[tile.id]!
-          return (
-            <Lien
-              key={tile.id}
-              to={s.to}
-              className={cn(
-                'flex min-h-[68px] items-center gap-3.5 rounded-2xl px-4 py-2 shadow-[0_2px_10px_rgba(15,29,61,0.07)] transition-all hover:-translate-y-0.5',
-                i === 0 ? 'bg-brand-600 text-white' : 'border border-line bg-white',
-              )}
-            >
-              {i === 0 ? (
-                <s.icon className="size-8 shrink-0" />
-              ) : (
-                <span className={cn('grid size-12 shrink-0 place-items-center rounded-full', s.circle)}>
-                  <s.icon className="size-6" />
-                </span>
-              )}
-              <span className="min-w-0 leading-tight">
-                <span className={cn('block text-[17px] font-bold', i === 0 ? 'text-white' : 'text-navy-950')}>{t(`hub.tiles.${s.labelKey}`)}</span>
-                <span className={cn('text-[16px]', i === 0 ? 'text-white/90' : 'text-ink/80')}>({num(tile.count)})</span>
-              </span>
-            </Lien>
-          )
-        })}
-      </section>
-
-      <SearchPanel
-        title={t('hub.search.title')}
-        fields={[
-          { name: 'region', placeholder: t('hub.search.location'), hint: t('hub.search.locationHint'), options: regions.map((r) => r.nom), icon: <MapPin /> },
-          { name: 'type', placeholder: t('hub.search.type'), hint: t('hub.search.typeHint'), options: typeOptions.map((o) => t(`schoolTypes.${schoolTypeKey[o]}`)), icon: <GraduationCap /> },
-        ]}
-        onSearch={(texte, c) => {
-          // Le type est choisi par son libellé traduit : on retrouve sa valeur.
-          const type = typeOptions.find((o) => t(`schoolTypes.${schoolTypeKey[o]}`) === c.type) ?? ''
-          setQ(texte)
-          setCriteres({ region: c.region, type })
-          setPage(1)
-        }}
-      />
-
-      <section className="space-y-4">
-        <ResultsHeader title={t('hub.found', { n: num(recherche ? cards.length : (tuiles.find((x) => x.id === 'toutes')?.count ?? cards.length)) })} tri={TRIS.indexOf(tri)} onTri={(i) => (setTri(TRIS[i]!), setPage(1))} />
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {elements.map((e) => (
-            <EcoleCard key={e.id} e={e} />
-          ))}
+/** Squelette de la page École : la recherche puis deux rangées de vignettes. */
+function SquelettePageEcole() {
+  return (
+    <SkeletonZone className="gap-2 sm:gap-4">
+      <div className="flex flex-wrap gap-2.5 border-b border-border bg-card px-4 py-3.5 sm:rounded-lg sm:border sm:p-4">
+        <Skeleton className="h-11 flex-[1_1_220px]" />
+        <Skeleton className="h-11 flex-[1_1_180px]" />
+        <Skeleton className="h-11 w-full rounded-full sm:w-32" />
+      </div>
+      {[0, 1].map((i) => (
+        <div key={i} className="flex flex-col gap-3.5 border-y border-border bg-card py-4 sm:rounded-lg sm:border">
+          <div className="flex flex-col gap-2 px-4">
+            <Skeleton className="h-5 w-24" />
+            <Skeleton className="h-3.5 w-56" />
+          </div>
+          <div className="sm:px-4">
+            <SqueletteVignettes />
+          </div>
         </div>
-        {cards.length === 0 && <Card className="p-8 text-center text-sm text-muted-foreground">{t('hub.empty')}</Card>}
-        <Pagination label={t('hub.paginationDynamic', { from: cards.length ? (courante - 1) * PAR_PAGE + 1 : 0, to: (courante - 1) * PAR_PAGE + elements.length, total: cards.length })} pages={pages} page={courante} onChange={setPage} />
-      </section>
-    </div>
+      ))}
+    </SkeletonZone>
   )
 }

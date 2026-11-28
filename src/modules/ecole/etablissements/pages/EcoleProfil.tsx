@@ -1,81 +1,111 @@
-import { useParams } from '@tanstack/react-router'
+import { Navigate, useParams } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { CircleCheck, FileText, GraduationCap, Image as ImageIcon, List, MapPin, Star } from 'lucide-react'
-import { Breadcrumb } from '@/shared/ui/Breadcrumb'
-import { Img } from '@/shared/ui/Img'
-import { LinkTabs } from '@/shared/ui/Tabs'
-import { ApercuTab } from '@/modules/ecole/etablissements/components/profile/ApercuTab'
-import { FormationsTab } from '@/modules/ecole/etablissements/components/profile/FormationsTab'
-import { InformationsTab } from '@/modules/ecole/etablissements/components/profile/InformationsTab'
-import { AvisTab } from '@/modules/ecole/etablissements/components/profile/AvisTab'
-import { GalerieTab } from '@/modules/ecole/etablissements/components/profile/GalerieTab'
-import { isTypeSlug, slugOfType } from '@/modules/ecole/etablissements/schoolTypes'
 import { useEtablissement } from '@/data/hooks'
 import { useSession } from '@/modules/compte/auth/hooks/useSession'
+import { ChargementDonnees } from '@/shared/blocs/ChargementDonnees'
+import { Badge } from '@/shared/shadcn/badge'
+import { Button } from '@/shared/shadcn/button'
 import { useMesureALaVue } from '@/shared/hooks/useMesureALaVue'
-import { num } from '@/shared/utils/format'
+import { Lien } from '@/shared/ui/Lien'
 import { ROUTES } from '@/shared/utils/routes'
-import { PasEncoreDAvis } from '@/shared/ui/StarRating'
+import { ShieldCheck } from 'lucide-react'
+import { Ariane, BoutonFavori, NoteCourte } from '@/modules/ecole/etablissements/components/Bases'
+import { AutresEtablissements, ContactEtablissement } from '@/modules/ecole/etablissements/components/fiche/AsideEtablissement'
+import { AvisEtablissement } from '@/modules/ecole/etablissements/components/fiche/AvisEtablissement'
+import { BoutonPartager, EnteteFiche, GrilleFiche, SqueletteFiche } from '@/modules/ecole/etablissements/components/fiche/Fiche'
+import { ApercuEtablissement, FormationsEtablissement, GalerieEtablissement, InformationsEtablissement } from '@/modules/ecole/etablissements/components/fiche/OngletsEtablissement'
+import { useEcolesResumees } from '@/modules/ecole/etablissements/hooks/useEcolesResumees'
+import { slugOfType } from '@/modules/ecole/etablissements/schoolTypes'
 
+const ONGLETS = ['', 'formations', 'informations', 'avis', 'galerie'] as const
+type Onglet = (typeof ONGLETS)[number]
+
+/**
+ * Fiche d'un établissement (planches « Fiche IPC / CFP de Nkoabang / Centre
+ * de Langues Global ») : un seul gabarit. En-tête (couverture, logo, nom,
+ * badges, Contacter, favori, partager), 5 onglets dans l'adresse (Aperçu,
+ * Formations, Informations, Avis, Galerie), colonne de contact à droite.
+ */
 export function EcoleProfil() {
+  const { id = '', tab = '' } = useParams({ strict: false })
+  return (
+    <div className="mx-auto flex w-full max-w-page flex-col gap-2 pb-4 sm:gap-3 sm:px-4 sm:pt-4 sm:pb-10">
+      <ChargementDonnees fallback={<SqueletteFiche />}>
+        <FicheEtablissement id={id} tab={tab} />
+      </ChargementDonnees>
+    </div>
+  )
+}
+
+function FicheEtablissement({ id, tab }: { id: string; tab: string }) {
   const { t } = useTranslation('schools')
-  const { id, tab = '' } = useParams({ strict: false })
   const e = useEtablissement(id)
+  const ecoles = useEcolesResumees()
   const { account } = useSession()
-  // Une vue de la fiche, pour les statistiques de l'établissement.
+  // Une vue de la fiche, pour les statistiques de l'établissement (pas celle de l'établissement lui-même).
   useMesureALaVue(account?.ecoleId === e.id ? null : { type: 'vue', etablissementId: e.id }, `vue-${e.id}`)
   const slug = slugOfType(e.type)
+  if (slug === 'auto-ecoles') return <Navigate to={ROUTES.drivingSchool(e.id)} replace />
   const base = ROUTES.school(slug, e.id)
-  const typeLabel = isTypeSlug(slug) ? t(`shared.types.${slug}`) : t('shared.school')
-  const tabs = [
-    { value: '', label: t('ecoleProfil.tabs.apercu'), icon: <List /> },
-    { value: 'formations', label: t('ecoleProfil.tabs.formations', { n: e.formations }), icon: <GraduationCap /> },
-    { value: 'informations', label: t('ecoleProfil.tabs.informations'), icon: <FileText /> },
-    { value: 'avis', label: t('ecoleProfil.tabs.avis', { n: e.avis }), icon: <Star /> },
-    { value: 'galerie', label: t('ecoleProfil.tabs.galerie'), icon: <ImageIcon /> },
-  ]
-  const current = tabs.find((x) => x.value === tab) ?? tabs[0]
+  if (!(ONGLETS as readonly string[]).includes(tab)) return <Navigate to={base} replace />
+  const onglet = tab as Onglet
+  const resume = ecoles.find((x) => x.id === e.id)
+  const formations = resume?.formations ?? []
+  const memeType = ecoles.filter((x) => x.genre === slug)
+  const typeNom = t(`ui.genresCourts.${slug}`)
+  const lien = (o: Onglet) => ROUTES.school(slug, e.id, o || undefined)
   return (
-    <div className="mx-auto max-w-[1320px] space-y-4 px-5 py-4">
-      <Breadcrumb items={[{ label: t('shared.school'), to: ROUTES.schools }, { label: typeLabel, to: ROUTES.schoolType(slug) }, { label: e.nom, to: base }, { label: current.label.replace(/ \(\d+\)$/, '') }]} className="-mt-1" />
-      <section className="relative overflow-hidden rounded-[18px] bg-[linear-gradient(100deg,#0a2a86_0%,#1238a8_60%,#1a47c4_100%)] text-white">
-        <Img src="/images/maquette/fiche-hero.jpg" alt="" className="absolute inset-y-0 right-0 hidden h-full w-[32%] object-left md:block" />
-        <div className="relative flex flex-col gap-5 p-2.5 md:flex-row md:items-center">
-          <Img src={e.photoFiche ?? e.image} alt={e.nom} className="h-[86px] w-full rounded-xl md:w-[210px]" />
-          <div className="space-y-3 pb-2 md:pb-0">
-            <div className="flex flex-wrap items-center gap-3">
-              <h1 className="text-[22px] font-bold md:text-[27px]">{e.nom}</h1>
-              <span className="inline-flex items-center gap-1 rounded-full bg-emerald-600 px-2.5 py-0.5 text-[12.5px] font-semibold">
-                <CircleCheck className="size-4 fill-white text-emerald-600" />
-                {t('shared.verified')}
-              </span>
-            </div>
-            <p className="flex flex-wrap items-center gap-x-4 text-[16px]">
-              <span className="inline-flex items-center gap-1.5">
-                <Star className="size-5 fill-amber-400 text-amber-400" />
-                {e.avis > 0 ? (
-                  <>
-                    <b>{num(e.note)}</b>/5 {t('shared.ratingCount', { count: e.avis })}
-                  </>
-                ) : (
-                  <PasEncoreDAvis />
-                )}
-              </span>
-              <span className="h-5 w-px bg-white/40" />
-              <span className="inline-flex items-center gap-1.5">
-                <MapPin className="size-5 fill-white/90 text-navy-800" />
-                {e.ville} – {e.quartier}
-              </span>
-            </p>
-          </div>
-        </div>
-      </section>
-      <LinkTabs items={tabs} base={base} variant="block" className="[&>a]:flex-none [&>a]:min-w-[166px] [&>a]:text-[15px] [&>a]:h-10" />
-      {tab === '' && <ApercuTab id={e.id} />}
-      {tab === 'formations' && <FormationsTab id={e.id} />}
-      {tab === 'informations' && <InformationsTab id={e.id} />}
-      {tab === 'avis' && <AvisTab id={e.id} />}
-      {tab === 'galerie' && <GalerieTab id={e.id} />}
-    </div>
+    <>
+      <Ariane items={[{ label: t('ui.ariane.ecole'), to: ROUTES.schools }, { label: typeNom, to: ROUTES.schoolType(slug) }, { label: e.sigle || e.nom }]} />
+      <EnteteFiche
+        couverture={e.couverture ?? e.photoFiche ?? e.image}
+        logo={e.logo ?? e.vignette}
+        logoAlt={t('fiche.logoAlt', { nom: e.sigle || e.nom })}
+        nom={e.nom}
+        sousTitre={`${typeNom} · ${e.ville}, ${e.quartier}`}
+        meta={
+          <>
+            {resume?.verifie && (
+              <Badge variant="green">
+                <ShieldCheck aria-hidden />
+                {t('ui.verifie')}
+              </Badge>
+            )}
+            <NoteCourte note={e.note} nbAvis={e.avis} />
+            <span className="text-muted-foreground">{t('vignette.formations', { count: formations.length })}</span>
+          </>
+        }
+        actions={
+          <>
+            <Button asChild>
+              <Lien to={`${lien('informations')}#info-contact`}>{t('fiche.contacter')}</Lien>
+            </Button>
+            <BoutonFavori id={e.id} kind="etablissement" />
+            <BoutonPartager titre={e.nom} />
+          </>
+        }
+        onglets={[
+          { to: base, label: t('fiche.onglets.apercu'), fin: true },
+          { to: lien('formations'), label: t('fiche.onglets.formations', { n: formations.length }) },
+          { to: lien('informations'), label: t('fiche.onglets.informations') },
+          { to: lien('avis'), label: t('fiche.onglets.avis', { n: e.avis }) },
+          { to: lien('galerie'), label: t('fiche.onglets.galerie') },
+        ]}
+      />
+      <GrilleFiche
+        aside={
+          <>
+            <ContactEtablissement e={e} />
+            {memeType.length > 1 && <AutresEtablissements type={slug} autres={memeType.filter((x) => x.id !== e.id).slice(0, 3)} total={memeType.length} />}
+          </>
+        }
+      >
+        {onglet === '' && <ApercuEtablissement e={e} formations={formations} ongletFormations={lien('formations')} />}
+        {onglet === 'formations' && <FormationsEtablissement formations={formations} />}
+        {onglet === 'informations' && <InformationsEtablissement e={e} formations={formations} />}
+        {onglet === 'avis' && <AvisEtablissement e={e} />}
+        {onglet === 'galerie' && <GalerieEtablissement e={e} />}
+      </GrilleFiche>
+    </>
   )
 }

@@ -436,8 +436,8 @@
       "yearLabel": "année ({{range}})",
       "units_one": "{{count}} unités d’enseignement",
       "units_other": "{{count}} unités d’enseignement",
-      "hours_one": "≈ {{count}} heures",
-      "hours_other": "≈ {{count}} heures",
+      "hours_one": "≈ {{n}} heures",
+      "hours_other": "≈ {{n}} heures",
       "aucun": "Le programme détaillé n’a pas encore été publié par l’établissement."
     },
     "admission": {
@@ -611,5 +611,224 @@
       "texte": "Votre dossier {{training}} a été envoyé à {{school}}.",
       "quand": "À l’instant"
     }
+  },
+  "ui": {
+    "ariane": {
+      "ecole": "École"
+    },
+    "favori": {
+      "ajouter": "Ajouter aux favoris",
+      "dans": "Dans mes favoris"
+    },
+    "verifie": "Établissement vérifié",
+    "trier": "Trier par :",
+    "precedent": "Précédent",
+    "suivant": "Suivant",
+    "precedentAria": "Page précédente",
+    "suivantAria": "Page suivante",
+    "pageAria": "Page {{n}}",
+    "plage": "{{debut}} – {{fin}} sur {{total}} {{unite}}",
+    "toutEffacer": "Tout effacer",
+    "reinitialiser": "Réinitialiser les filtres",
+    "partager": "Partager",
+    "lienCopie": "Lien copié",
+    "partageImpossible": "Le lien n’a pas pu être copié.",
+    "filtre": {
+      "nombre": "{{titre}} · {{n}}",
+      "effacer": "Effacer",
+      "afficher": "Afficher {{resultats}}",
+      "aucuneOption": "Aucun résultat pour « {{q}} ».",
+      "fermer": "Fermer"
+    },
+    "genresCourts": {
+      "ipes": "IPES",
+      "cfp": "CFP",
+      "autres": "Autres"
+    }
+  },
+  "vignette": {
+    "formations_one": "{{count}} formation",
+    "formations_other": "{{count}} formations",
+    "permis": "Permis {{codes}}",
+    "rentreeLe": "Rentrée le {{date}}",
+    "rentreeChaqueMois": "Rentrée chaque mois",
+    "depuis": "Depuis {{annee}}"
+  },
+  "ecole": {
+    "recherche": "Établissement ou formation",
+    "ville": "Ville",
+    "toutesVilles": "Toutes les villes",
+    "rechercher": "Rechercher",
+    "titres": {
+      "ipes": "IPES",
+      "cfp": "CFP",
+      "autres": "Autres établissements",
+      "auto": "Auto-écoles"
+    },
+    "sousEtablissements_one": "{{count}} établissement · {{formations}}",
+    "sousEtablissements_other": "{{count}} établissements · {{formations}}",
+    "sousAuto_one": "{{count}} auto-école · permis {{de}} à {{a}}",
+    "sousAuto_other": "{{count}} auto-écoles · permis {{de}} à {{a}}",
+    "resultats_one": "{{count}} résultat sur {{total}}",
+    "resultats_other": "{{count}} résultats sur {{total}}",
+    "voir": {
+      "ipes_one": "Voir l’IPES",
+      "ipes_other": "Voir les {{count}} IPES",
+      "cfp_one": "Voir le CFP",
+      "cfp_other": "Voir les {{count}} CFP",
+      "autres_one": "Voir l’autre établissement",
+      "autres_other": "Voir les {{count}} autres établissements",
+      "auto_one": "Voir l’auto-école",
+      "auto_other": "Voir les {{count}} auto-écoles"
+    },
+    "vide": "Aucun établissement ne correspond à « {{q}} ».",
+    "effacer": "Effacer la recherche"
+  },
+  "liste": {
+    "typesAria": "Type d’établissement",
+    "genres": {
+      "ipes": "IPES ({{n}})",
+      "cfp": "CFP ({{n}})",
+      "autres": "Autres ({{n}})",
+      "auto": "Auto-écoles ({{n}})"
+    },
+    "titres": {
+      "ipes": "IPES",
+      "cfp": "CFP",
+      "autres": "Autres établissements"
+    },
+    "intros": {
+      "ipes": "Instituts privés d’enseignement supérieur : BTS, licence et master.",
+      "cfp": "Centres de formation professionnelle : un métier en quelques mois.",
+      "autres": "Langues, informatique, couture : des cours pour tous."
+    },
+    "filtres": {
+      "ville": "Ville",
+      "diplome": "Diplôme",
+      "domaine": "Domaine",
+      "cours": "Cours"
+    },
+    "chercher": {
+      "ville": "Chercher une ville",
+      "diplome": "Chercher un diplôme",
+      "domaine": "Chercher un domaine"
+    },
+    "cours": {
+      "jour": "Cours du jour",
+      "soir": "Cours du soir"
+    },
+    "tris": {
+      "pertinence": "Pertinence",
+      "notes": "Les mieux notés",
+      "formations": "Le plus de formations",
+      "nom": "Nom"
+    },
+    "etablissements_one": "{{count}} établissement",
+    "etablissements_other": "{{count}} établissements",
+    "unite_one": "établissement",
+    "unite_other": "établissements",
+    "vide": "Aucun établissement ne correspond à ces critères."
+  },
+  "fiche": {
+    "ongletsAria": "Rubriques de la fiche",
+    "onglets": {
+      "apercu": "Aperçu",
+      "formations": "Formations ({{n}})",
+      "informations": "Informations",
+      "avis": "Avis ({{n}})",
+      "galerie": "Galerie"
+    },
+    "logoAlt": "Logo de {{nom}}",
+    "contacter": "Contacter",
+    "cours": {
+      "jourEtSoir": "Jour et soir",
+      "jour": "Jour",
+      "soir": "Soir"
+    },
+    "apercu": {
+      "video": "Découvrir {{nom}} en 1 minute",
+      "presentation": "Présentation",
+      "atouts": {
+        "professional": "Formations professionnalisantes",
+        "experts": "Encadrement par des experts",
+        "internships": "Stages et insertion professionnelle"
+      },
+      "infosCles": "Informations clés",
+      "cles": {
+        "formations": "Formations",
+        "filieres": "Filières",
+        "diplomes": "Diplômes",
+        "cours": "Cours",
+        "localisation": "Localisation"
+      },
+      "principales": "Nos principales filières",
+      "actualite": "Actualité"
+    },
+    "formations": {
+      "titre": "Nos formations ({{n}})",
+      "duree": "Durée",
+      "chercher": "Rechercher une formation...",
+      "chercherAria": "Rechercher une formation",
+      "diplome": "Diplôme",
+      "cours": "Cours",
+      "tous": "Tous",
+      "voir": "Voir les détails →",
+      "aucune": "Aucune formation ne correspond à ces filtres."
+    },
+    "infos": {
+      "sommaire": "Rubriques"
+    },
+    "avis": {
+      "profils": {
+        "tous": "Tous ({{n}})",
+        "etudiants": "Étudiants ({{n}})",
+        "anciens": "Anciens étudiants ({{n}})",
+        "entreprises": "Entreprises ({{n}})"
+      },
+      "nombre_one": "{{count}} avis",
+      "nombre_other": "{{count}} avis",
+      "titre": "Avis des apprenants ({{n}})",
+      "tris": {
+        "recents": "Les plus récents",
+        "mieuxNotes": "Les mieux notés",
+        "utiles": "Les plus utiles"
+      },
+      "utile": "Avis utile",
+      "aucunProfil": "Aucun avis pour ce profil pour le moment.",
+      "invitation": "Vous avez étudié ici ? Soyez le premier à donner votre avis."
+    },
+    "galerie": {
+      "titre": "Galerie de l’établissement",
+      "intro": "Découvrez en images notre campus, nos infrastructures et la vie étudiante.",
+      "nombre": "Photos et vidéos de l’établissement ({{n}})",
+      "vide": "La galerie n’a pas encore été publiée par l’établissement."
+    },
+    "aside": {
+      "contacter": "Contacter l’établissement",
+      "appeler": "Appeler",
+      "whatsapp": "WhatsApp",
+      "autres": {
+        "ipes": "Autres IPES",
+        "cfp": "Autres CFP",
+        "autres": "Autres établissements"
+      },
+      "voirListe": {
+        "ipes_one": "Voir l’IPES →",
+        "ipes_other": "Voir les {{count}} IPES →",
+        "cfp_one": "Voir le CFP →",
+        "cfp_other": "Voir les {{count}} CFP →",
+        "autres_one": "Voir l’établissement →",
+        "autres_other": "Voir les {{count}} établissements →"
+      }
+    }
+  },
+  "formation": {
+    "ongletsAria": "Rubriques de la formation",
+    "domaine": "Domaine",
+    "heuresCourt": "{{n}} h",
+    "aPropos": "À propos de l’établissement",
+    "voirFiche": "Voir la fiche",
+    "autres": "Autres formations de l’établissement",
+    "debouchesVide": "Les débouchés n’ont pas encore été publiés par l’établissement."
   }
 }

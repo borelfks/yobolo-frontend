@@ -66,29 +66,20 @@
       "confirmAutoEcole": "Please confirm that you trained at this driving school.",
       "confirmEcole": "Please confirm that you trained at this institution.",
       "merci": "Thank you! Your review will be published once checked by YIBOLO.",
-      "echec": "Your review could not be saved. Try again."
+      "echec": "Your review could not be saved. Try again.",
+      "note": "Choose a rating from 1 to 5 stars."
     },
     "notification": {
       "titre": "New review",
       "texte": "{{name}} left a {{note}}★ review on your institution."
-    }
-  },
-  "blocks": {
-    "noteGlobale": "Overall rating",
-    "basee_one": "Based on {{total}} verified review",
-    "basee_other": "Based on {{total}} verified reviews",
-    "pourcentage": "{{value}}%",
-    "donnerAvis": "Write a review",
-    "avisVerifie": "Verified review",
-    "roles": {
-      "etudiant": "Student",
-      "etudiante": "Student",
-      "ancienEtudiant": "Former student",
-      "ancienneEtudiante": "Former student",
-      "entreprise": "Company"
     },
-    "toasts": {
-      "merciRetour": "Thank you for your feedback"
-    }
+    "compteur": "{{n}} / 500"
+  },
+  "blocs": {
+    "noteGlobale": "Overall rating",
+    "surCinq": "{{note}} out of 5",
+    "pourcentage": "{{value}}%",
+    "donnerAvis": "Give my review",
+    "aucun": "No reviews yet"
   }
 }
