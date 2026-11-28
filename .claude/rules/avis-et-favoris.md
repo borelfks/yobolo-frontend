@@ -14,7 +14,7 @@
 
 ## Favoris
 1. Ce qu'on peut garder (`FavoriteKind`) : une **formation**, un **établissement**, une **auto-école**, un **permis**.
-2. Ajouter / retirer : `FavoriteButton` (cœur) ou « Ajouter aux favoris » ; côté auto-école, la fenêtre `FavoriteModal` propose un **dossier** (facultatif).
+2. Ajouter / retirer : le cœur des vignettes (`CoeurFavori`) ou « Ajouter aux favoris » des fiches (`BoutonFavori`, `modules/ecole/etablissements/components/Bases.tsx`), y compris pour une auto-école et un permis ; le dossier est choisi selon le genre (plus de fenêtre `FavoriteModal`).
 3. Dossiers : **Mes formations**, **Mes établissements**, **À comparer**.
 4. Messages : « Ajouté à vos favoris » (avec le dossier), « Retiré de vos favoris », « Tous vos favoris ont été supprimés ».
 5. Page **Mes favoris** (`/favoris`) : filtres Tous les favoris · Formations · Établissements, avec leur nombre ; retirer un favori ; tout supprimer.

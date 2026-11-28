@@ -9,8 +9,6 @@
     "places_other": "{{count}} places",
     "enrol": "Enrol",
     "enrolNow": "Enrol now",
-    "addToFavorites": "Add to favourites",
-    "inFavorites": "In your favourites",
     "crumbs": {
       "school": "School",
       "drivingSchools": "Driving schools",
@@ -56,7 +54,6 @@
       "monFri": "Mon – Fri"
     },
     "hours": "{{from}}:00 – {{to}}:00",
-    "daysHours": "{{days}}: {{hours}}",
     "duration_one": "≈ {{count}} month",
     "duration_other": "≈ {{count}} months"
   },
@@ -69,20 +66,6 @@
   "header": {
     "logoAlt": "{{name}} logo",
     "trained": "{{value}} learners trained"
-  },
-  "favoriteModal": {
-    "title": "Add to favourites",
-    "textTraining": "Save this programme to find it again easily.",
-    "textSchool": "Save this driving school to find it again easily.",
-    "close": "Close",
-    "chooseFolder": "Choose a folder (optional)",
-    "cancel": "Cancel",
-    "add": "Add to favourites",
-    "folders": {
-      "myTrainings": "My programmes",
-      "myInstitutions": "My institutions",
-      "toCompare": "To compare"
-    }
   },
   "liste": {
     "titre": "Driving schools",
@@ -282,16 +265,6 @@
     "nextSessions": "Next sessions – Licence {{code}}",
     "noSession": "No session scheduled at the moment. Enrol now: the driving school will offer you the next date.",
     "startsOn": "Starts on {{date}}",
-    "quickContact": "Quick contact",
-    "practicalInfo": "Practical information",
-    "info": {
-      "avgDuration": "Average duration",
-      "classes": "Classes",
-      "classesValue": "Day / Evening / Weekend",
-      "place": "Training location",
-      "contact": "Contact",
-      "whatsapp": "WhatsApp"
-    },
     "content": {
       "A": {
         "subtitle": "Full programme to ride a motorcycle safely.",
@@ -426,7 +399,8 @@
           "Support up to the exam"
         ]
       }
-    }
+    },
+    "ageMin": "From age {{age}}"
   },
   "enrollment": {
     "permis": {

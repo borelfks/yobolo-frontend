@@ -63,7 +63,7 @@ export function TitreCarte({ children, className, id, niveau = 2 }: { children: 
 }
 
 /** Le dossier où ranger un favori. */
-const dossier = (kind: FavoriteKind) => (kind === 'formation' ? 'Mes formations' : 'Mes établissements')
+const dossier = (kind: FavoriteKind) => (kind === 'formation' || kind === 'permis' ? 'Mes formations' : 'Mes établissements')
 
 /** Le cœur rond posé sur la photo d'une vignette : ajoute ou retire des favoris. */
 export function CoeurFavori({ id, kind, className }: { id: string; kind: FavoriteKind; className?: string }) {

@@ -1,12 +1,10 @@
-import { useState, type ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Breadcrumb, type Crumb } from '@/shared/ui/Breadcrumb'
 import { Img } from '@/shared/ui/Img'
-import { useFavorites } from '@/shared/hooks/useFavorites'
-import { useAutoEcole, usePermisCatalogue } from '@/data/hooks'
-import type { PermisCode } from '@/shared/types'
-import { fcfa, num } from '@/shared/utils/format'
-import { Building2, Car, ChevronDown, CircleCheck, Coins, Folder, Heart, MapPin, Star, X } from 'lucide-react'
+import { useAutoEcole } from '@/data/hooks'
+import { num } from '@/shared/utils/format'
+import { Car, CircleCheck, MapPin, Star } from 'lucide-react'
 import { PasEncoreDAvis } from '@/shared/ui/StarRating'
 
 /** En-tête bleu nuit d'une auto-école (logo carré, nom, note, apprenants formés). */
@@ -82,79 +80,5 @@ export function AEHeader({
         </div>
       </section>
     </>
-  )
-}
-
-const defaultFolders = { 'Mes formations': 'myTrainings', 'Mes établissements': 'myInstitutions', 'À comparer': 'toCompare' } as const
-
-/** Modale « Ajouter aux favoris » avec choix du dossier (img72). */
-export function FavoriteModal({ open, onClose, aeId, code }: { open: boolean; onClose: () => void; aeId: string; code?: PermisCode }) {
-  const permisCatalogue = usePermisCatalogue()
-  const { t } = useTranslation('driving-schools')
-  const { add, folders } = useFavorites()
-  const [folder, setFolder] = useState('Mes formations')
-  const a = useAutoEcole(aeId)
-  const p = code ? permisCatalogue[code] : null
-  /** Les dossiers par défaut sont traduits ; ceux créés par l'utilisateur restent tels quels. */
-  const folderLabel = (f: string) => {
-    const key = defaultFolders[f as keyof typeof defaultFolders]
-    return key ? t(`favoriteModal.folders.${key}`) : f
-  }
-  if (!open) return null
-  return (
-    <div className="fixed inset-0 z-50 grid place-items-center bg-[#c9d3e6]/70 p-4 backdrop-blur-[2px]" onClick={onClose}>
-      <div role="dialog" aria-modal="true" aria-label={t('favoriteModal.title')} className="w-full max-w-[650px] rounded-3xl bg-white p-6 shadow-2xl" onClick={(e) => e.stopPropagation()}>
-        <div className="flex items-start gap-4">
-          <span className="grid size-16 shrink-0 place-items-center rounded-full bg-[#e3ebfb] text-brand-600">
-            <Heart className="size-8" />
-          </span>
-          <div className="flex-1">
-            <h2 className="text-[26px] font-bold text-navy-900">{t('favoriteModal.title')}</h2>
-            <p className="text-[15px] text-navy-900">{p ? t('favoriteModal.textTraining') : t('favoriteModal.textSchool')}</p>
-          </div>
-          <button type="button" aria-label={t('favoriteModal.close')} onClick={onClose} className="grid size-9 place-items-center rounded-full text-navy-900 hover:bg-slate-100">
-            <X className="size-6" />
-          </button>
-        </div>
-        <div className="mt-4 flex items-center gap-4 rounded-2xl bg-[#eef3fc] p-3">
-          <Img src={p ? `/images/maquette/permis-pres-${p.code === 'E' ? 'C' : p.code}.jpg` : a.image} alt="" className="h-[112px] w-[200px] rounded-xl" />
-          <div className="space-y-1.5 text-[15px] text-navy-900">
-            <p className="text-[20px] font-bold">{p ? t('common.licenceTitle', { code: p.code, name: t(`permis.${p.code}.name`) }) : a.nom}</p>
-            <p className="flex items-center gap-2"><Building2 className="size-5 text-brand-600" />{a.nom}</p>
-            <p className="flex items-center gap-2"><MapPin className="size-5 text-brand-600" />{a.ville} – {a.quartier}</p>
-            {p && <p className="flex items-center gap-2 text-[19px] font-extrabold text-brand-700"><Coins className="size-5" />{fcfa(p.prix)}</p>}
-          </div>
-        </div>
-        <p className="mt-5 mb-2 flex items-center gap-2 text-[16px] font-semibold text-navy-900"><Folder className="size-5 text-brand-600" />{t('favoriteModal.chooseFolder')}</p>
-        <label className="relative flex h-12 items-center gap-3 rounded-xl border border-[#c9d4ea] px-4 text-[16px] text-navy-900">
-          <Folder className="size-5 text-brand-600" />
-          <span className="flex-1">{folderLabel(folder)}</span>
-          <ChevronDown className="size-5" />
-          <select value={folder} onChange={(e) => setFolder(e.target.value)} className="absolute inset-0 cursor-pointer opacity-0">
-            {folders.map((f) => (
-              <option key={f} value={f}>
-                {folderLabel(f)}
-              </option>
-            ))}
-          </select>
-        </label>
-        <div className="mt-6 grid grid-cols-2 gap-5">
-          <button type="button" onClick={onClose} className="h-12 rounded-full border-2 border-brand-600/60 text-[17px] font-semibold text-navy-800 hover:bg-brand-50">
-            {t('favoriteModal.cancel')}
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              add(p ? `${aeId}:${p.code}` : aeId, p ? 'permis' : 'auto-ecole', folder)
-              onClose()
-            }}
-            className="inline-flex h-12 items-center justify-center gap-2.5 rounded-full bg-brand-600 text-[17px] font-semibold text-white hover:bg-brand-700"
-          >
-            <Heart className="size-5" />
-            {t('favoriteModal.add')}
-          </button>
-        </div>
-      </div>
-    </div>
   )
 }

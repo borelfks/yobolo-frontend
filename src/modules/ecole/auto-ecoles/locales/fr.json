@@ -9,8 +9,6 @@
     "places_other": "{{count}} places",
     "enrol": "S’inscrire",
     "enrolNow": "S’inscrire maintenant",
-    "addToFavorites": "Ajouter aux favoris",
-    "inFavorites": "Dans vos favoris",
     "crumbs": {
       "school": "École",
       "drivingSchools": "Auto-Écoles",
@@ -56,7 +54,6 @@
       "monFri": "Lun – Ven"
     },
     "hours": "{{from}}h – {{to}}h",
-    "daysHours": "{{days}} : {{hours}}",
     "duration_one": "≈ {{count}} mois",
     "duration_other": "≈ {{count}} mois"
   },
@@ -69,20 +66,6 @@
   "header": {
     "logoAlt": "Logo {{name}}",
     "trained": "{{value}} apprenants formés"
-  },
-  "favoriteModal": {
-    "title": "Ajouter aux favoris",
-    "textTraining": "Enregistrez cette formation pour la retrouver facilement.",
-    "textSchool": "Enregistrez cette auto-école pour la retrouver facilement.",
-    "close": "Fermer",
-    "chooseFolder": "Choisir un dossier (facultatif)",
-    "cancel": "Annuler",
-    "add": "Ajouter aux favoris",
-    "folders": {
-      "myTrainings": "Mes formations",
-      "myInstitutions": "Mes établissements",
-      "toCompare": "À comparer"
-    }
   },
   "liste": {
     "titre": "Auto-écoles",
@@ -282,16 +265,6 @@
     "nextSessions": "Prochaines sessions – Permis {{code}}",
     "noSession": "Aucune session programmée pour le moment. Inscrivez-vous : l’auto-école vous proposera la prochaine date.",
     "startsOn": "Début le {{date}}",
-    "quickContact": "Contact rapide",
-    "practicalInfo": "Informations pratiques",
-    "info": {
-      "avgDuration": "Durée moyenne",
-      "classes": "Cours",
-      "classesValue": "Jour / Soir / Week-end",
-      "place": "Lieu de formation",
-      "contact": "Contact",
-      "whatsapp": "WhatsApp"
-    },
     "content": {
       "A": {
         "subtitle": "Formation complète pour conduire une motocyclette en toute sécurité.",
@@ -426,7 +399,8 @@
           "Accompagnement à l’examen"
         ]
       }
-    }
+    },
+    "ageMin": "Dès {{age}} ans"
   },
   "enrollment": {
     "permis": {

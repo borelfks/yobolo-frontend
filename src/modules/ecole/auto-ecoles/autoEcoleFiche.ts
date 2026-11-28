@@ -13,6 +13,10 @@ type T = TFunction<'driving-schools'>
 export const ONGLETS_AUTO_ECOLE = ['', 'formations', 'tarifs', 'planning', 'galerie', 'avis'] as const
 export type OngletAutoEcole = (typeof ONGLETS_AUTO_ECOLE)[number]
 
+/** Les onglets de la page d'un permis (le premier n'a pas de segment d'adresse). */
+export const ONGLETS_PERMIS = ['', 'programme', 'conditions', 'tarifs', 'planning'] as const
+export type OngletPermis = (typeof ONGLETS_PERMIS)[number]
+
 /** L'ordre des permis à l'affichage. */
 export const ORDRE_PERMIS: PermisCode[] = ['A', 'B', 'C', 'D', 'E']
 
